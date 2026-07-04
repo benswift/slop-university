@@ -85,6 +85,49 @@ On the faithful path the ANU package defaults to the university wordmark;
 `config: (lockup: "anu-socy")` selects the combined ANU + School of Cybernetics
 lockup instead (an editorial call the skill surfaces).
 
+## Highlight cards and icon lookup
+
+The brand package exports `slop-highlight-card(icon-name, title, body)` --- a
+gold Iconoir glyph above a centred bold title and a body paragraph, designed for
+use inside a `#grid`. The Iconoir collection (~1,700 line-icons) is
+auto-provided inside `slop(...)`; pass a bare name (`"flask"`) or
+fully-qualified Iconify name (`"iconoir:flask"`, `"mdi:home"`). The calling
+preset declares the card count and what each card represents; the grid shape
+follows the count:
+
+**3 cards** --- single row of 3:
+
+```typst
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 0.8em,
+  row-gutter: 0.8em,
+  slop-highlight-card("flask", "<title>")[<1-2 sentence body>],
+  slop-highlight-card("graduation-cap", "<title>")[<1-2 sentence body>],
+  slop-highlight-card("community", "<title>")[<1-2 sentence body>],
+)
+```
+
+**4 cards** --- 2×2 (same grid, `columns: (1fr, 1fr)`, four cards).
+
+**5 cards** --- 3 on top, 2 centred below. Render as two stacked grids
+(`#v(0.8em)` between): a 3-column grid then a 2-column grid --- the template
+doesn't ship a centred-row helper. Counts above 5 read messy and aren't used.
+
+**Finding valid icon names.** Once the card titles and bodies are drafted, pull
+keyword stems out of each card's actual language and grep the bundled Iconoir
+JSON for matches. Don't guess names from iconoir.com --- some listed there
+aren't in the bundled JSON (e.g. `handshake`):
+
+```bash
+jq -r '.icons | keys[]' \
+  ~/.local/share/typst/packages/local/university-typst-template/0.1.0/assets/iconoir.json \
+  | grep -iE '<stems-from-this-card>'
+```
+
+Pick one match per card that fits its actual content, not a generic theme.
+Verifying against the JSON before writing is cheaper than a failed compile.
+
 ## Page-break discipline
 
 - **Preset (satirical) path: emit no manual `#pagebreak()` at all.** The
@@ -165,9 +208,10 @@ preset's one-page fit check).
 
 ### Parity-fix workflow (compile step) --- preset-driven runs
 
-1. Compile: `typst compile output/<typ-file> output/pdf/<group>/<pdf-file>`
-   (create `output/pdf/<group>/` if it doesn't exist --- `<group>` is the
-   caller's pdf subfolder per `output-naming.md`).
+1. Compile exactly as the calling skill's compile step specifies --- preset runs
+   pass `--root .` (their image/chart paths are root-relative). Create
+   `output/pdf/<group>/` if it doesn't exist --- `<group>` is the caller's pdf
+   subfolder per `output-naming.md`.
 2. Read page count: `pdfinfo output/pdf/<group>/<pdf-file> | grep Pages`.
 3. If even, ship. If odd, insert the spare inline figure at a natural break
    (between sections), generate the spare image, recompile. Re-check parity.

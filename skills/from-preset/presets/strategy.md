@@ -1,10 +1,10 @@
 ---
 name: strategy
 description:
-  Slop University Strategic Plan 2026-2031 --- forward-looking institutional voice,
-  steering-driven topic, pillar/KPI/phase scaffolding. The flagship preset;
-  output should be indistinguishable from a real plan to a tea-room reader and
-  recognisably institutional at a glance.
+  Slop University Strategic Plan 2026-2031 --- forward-looking institutional
+  voice, steering-driven topic, pillar/KPI/phase scaffolding. The flagship
+  preset; output should be indistinguishable from a real plan to a tea-room
+  reader and recognisably institutional at a glance.
 ---
 
 # Strategy preset
@@ -16,25 +16,25 @@ reader and recognisably institutional at a glance.
 Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
 - `../genre.md` for voice doctrine and steering rules
-- `../../_shared/typst-layout.md` for template import, metadata, back
-  cover, parity-fix workflow
+- `../../_shared/typst-layout.md` for template import, metadata, back cover,
+  parity-fix workflow
 - `../../_shared/image-workflow.md` for parallel image generation
 - `../../_shared/output-naming.md` for slug, seed, output paths
 
 ## Doc identity
 
-| Field                      | Value                                                      |
-| -------------------------- | ---------------------------------------------------------- |
-| Canonical name             | Slop University Strategic Plan 2026-2031                               |
-| Cover title                | `Slop University Strategic Plan 2026-2031`                             |
-| Cover subtitle             | varies between runs                                        |
-| Period covered             | 2026-2031 (fixed)                                          |
-| Cover lockup               | `slop` (the Slop University lockup, via the brand package) |
-| Back-cover lockup          | `slop` (`#slop-back-cover(config: (bleed: 3mm))`)          |
-| Filename prefix            | `slop-strategy`                                                  |
-| Page-count range           | 16-20, even                                                |
-| Register                   | future-tense (will, shall, by 2031)                        |
-| PDF metadata title formula | `This Slop University Strategy Does Not Exist: <steering verbatim>`    |
+| Field                      | Value                                                               |
+| -------------------------- | ------------------------------------------------------------------- |
+| Canonical name             | Slop University Strategic Plan 2026-2031                            |
+| Cover title                | `Slop University Strategic Plan 2026-2031`                          |
+| Cover subtitle             | varies between runs                                                 |
+| Period covered             | 2026-2031 (fixed)                                                   |
+| Cover lockup               | `slop` (the Slop University lockup, via the brand package)          |
+| Back-cover lockup          | `slop` (`#slop-back-cover(config: (bleed: 3mm))`)                   |
+| Filename prefix            | `slop-strategy`                                                     |
+| Page-count range           | 16-20, even                                                         |
+| Register                   | future-tense (will, shall, by 2031)                                 |
+| PDF metadata title formula | `This Slop University Strategy Does Not Exist: <steering verbatim>` |
 
 The PDF metadata title is the deliberate satirical tell --- not visible on
 rendered pages. No other metadata fields populated (no author, description,
@@ -60,7 +60,7 @@ initiatives, charts --- bends to the prompt.
 
 | Section                                     | Length          | Notes                                                                                                                                                                                                                                       |
 | ------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cover                                       | 1 page          | Title, period, Slop University lockup, hero image                                                                                                                                                                                                       |
+| Cover                                       | 1 page          | Title, period, Slop University lockup, hero image                                                                                                                                                                                           |
 | (Optional) Chancellor's message             | ~150 words      | Only if rolled in planning                                                                                                                                                                                                                  |
 | Foreword from the VC                        | ~250 words      | Heading drawn from the Foreword reservoir. Touchstones: national interest, research excellence, education, place                                                                                                                            |
 | Executive summary                           | ~400 words      | Heading is fixed. The pillars-on-one-page move; render the pillars as a `#grid` of `slop-highlight-card`s (one per pillar; grid shape follows the pillar count --- see "Per-run variation rolls › Structural counts")                       |
@@ -216,19 +216,17 @@ verbatim every run.
 Numbers should be specific enough to feel real and vague enough to be
 unfalsifiable.
 
-## Variation between runs
+## Never vary
 
-| Always vary                                                          | Never vary                                                                      |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Pillar count (3-5) and pillar names                                  | Document title (`Slop University Strategic Plan 2026-2031`)                                 |
-| Initiative count per pillar (2-5) and phrasing                       | Cover and contents (position)                                                   |
-| KPI count per pillar (2-4) and targets (within plausible bands)      | "Executive summary" heading                                                     |
-| Section names (Foreword onwards --- drawn from reservoirs)           | Genre voice and tone (institutional, future-tense-heavy)                        |
-| Implementation-phase count (3-5) and verb-set (drawn from reservoir) | Steering doctrine (voice preservation; see `../genre.md`)                       |
-| Optional sections (0-3 per run, rolled at ~30% each)                 | Image workflow (cover + 4-5 inline + parity fix)                                |
-| Pillar-internal scaffolding labels (one set per run)                 | Hard-infrastructure off-limits set (see `../genre.md` › Off-limits to steering) |
-| VC foreword opening, hero image, strategic-context framing           | Length envelope (16-20 pages, even)                                             |
-| Random seed                                                          |                                                                                 |
+Everything in "Per-run variation rolls" varies per run. These don't, ever:
+
+- document title (`Slop University Strategic Plan 2026-2031`)
+- cover and contents (position); the "Executive summary" heading
+- genre voice and tone (institutional, future-tense-heavy; steering doctrine per
+  `../genre.md`)
+- image workflow (cover + 4-5 inline + parity fix)
+- hard-infrastructure off-limits set (`../genre.md` › Off-limits to steering)
+- length envelope (16-20 pages, even)
 
 ## Imagery (preset specifics for image-workflow.md)
 
@@ -246,8 +244,8 @@ Read these before generating:
   the shape of the show-rule call; do NOT copy its import block or content (this
   preset imports the slop brand package, not the ANU one).
 - **Genre PDF**: `~/.nb/home/anu-corporate-plan-2026-v5.pdf` --- a real
-  university corporate plan, for tone, layout conventions, sentence rhythm
-  (tone reference only --- imagery follows the two-ink house style, not its
+  university corporate plan, for tone, layout conventions, sentence rhythm (tone
+  reference only --- imagery follows the two-ink house style, not its
   photography).
 - **Layout core source**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0` --- for
@@ -264,101 +262,25 @@ Get out of its way. **Page-break discipline:** see
 **Figure placement:**
 
 - 1 cover image, passed as
-  `cover: read("/output/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none)` to
-  the `slop()` call.
+  `cover: read("/output/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none)`
+  to the `slop()` call.
 - 4-5 inline landscape figures via
-  `#figure(image("/output/slop-strategy-<slug>-<seed>-images/inline-N.jpg"))`. The template's
-  `show figure.where(kind: image)` rule already extends them to the right page
-  edge (full-bleed-right). No template tweaks needed.
+  `#figure(image("/output/slop-strategy-<slug>-<seed>-images/inline-N.jpg"))`.
+  The template's `show figure.where(kind: image)` rule already extends them to
+  the right page edge (full-bleed-right). No template tweaks needed.
 - Place inline figures **within** sections --- between paragraphs, or at the
   natural end of a section's text --- not at section boundaries with forced
   breaks around them. Text flows above and below the figure on the same page.
 
 **Highlight cards (executive summary):**
 
-The brand package exports `slop-highlight-card(icon-name, title, body)` --- a
-gold Iconoir glyph above a centred bold title and a body paragraph, designed for
-use inside a `#grid`. The Iconoir collection (~1,700 line-icons) is
-auto-provided inside `slop(...)`; pass a bare name (`"flask"`) or
-fully-qualified Iconify name (`"iconoir:flask"`, `"mdi:home"`).
-
-**Required usage:** in the executive summary, after a short opening paragraph
-naming the pillars, render them as a card grid --- one card per pillar. Card
-count tracks the rolled pillar count (3, 4, or 5), and the grid shape follows
-the patterns shown below. Each card title is the pillar name (no "Pillar N:"
-prefix); each body is a 1-2 sentence summary. Pick one Iconoir glyph per pillar
-that matches its theme.
-
-**Finding valid icon names.** Once the pillars and their bodies are drafted,
-pull a few keyword stems out of each pillar's actual language and grep the
-bundled Iconoir JSON for matches. Don't guess names from iconoir.com --- some
-listed there aren't in the bundled JSON (e.g. `handshake`):
-
-```bash
-jq -r '.icons | keys[]' \
-  ~/.local/share/typst/packages/local/university-typst-template/0.1.0/assets/iconoir.json \
-  | grep -iE '<stems-from-this-pillar>'
-```
-
-Pick one match per pillar that fits the pillar's actual content, not a generic
-theme. Verifying against the JSON before writing is cheaper than a failed
-compile.
-
-Card grid usage. Pick the layout that matches the rolled pillar count:
-
-**3 pillars** --- single row of 3:
-
-```typst
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  slop-highlight-card("flask", "Pillar 1 name")[1-2 sentence summary.],
-  slop-highlight-card("graduation-cap", "Pillar 2 name")[1-2 sentence summary.],
-  slop-highlight-card("community", "Pillar 3 name")[1-2 sentence summary.],
-)
-```
-
-**4 pillars** --- 2×2:
-
-```typst
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  slop-highlight-card("flask", "Pillar 1 name")[1-2 sentence summary.],
-  slop-highlight-card("graduation-cap", "Pillar 2 name")[1-2 sentence summary.],
-  slop-highlight-card("community", "Pillar 3 name")[1-2 sentence summary.],
-  slop-highlight-card("leaf", "Pillar 4 name")[1-2 sentence summary.],
-)
-```
-
-**5 pillars** --- 3 on top, 2 centred below. Render as two stacked grids (the
-template doesn't ship a centred-row helper, so build it by hand):
-
-```typst
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  slop-highlight-card("flask", "Pillar 1 name")[1-2 sentence summary.],
-  slop-highlight-card("graduation-cap", "Pillar 2 name")[1-2 sentence summary.],
-  slop-highlight-card("community", "Pillar 3 name")[1-2 sentence summary.],
-)
-
-#v(0.8em)
-
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  // 5-card layout: bottom row is two cards centred under the top three
-  // (the surrounding page width takes care of the visual centring; no
-  // padding needed on a 1fr/1fr inside the same content block).
-  slop-highlight-card("leaf", "Pillar 4 name")[1-2 sentence summary.],
-  slop-highlight-card("globe", "Pillar 5 name")[1-2 sentence summary.],
-)
-```
+In the executive summary, after a short opening paragraph naming the pillars,
+render them as a card grid --- one card per pillar. Card count tracks the rolled
+pillar count (3, 4, or 5). Each card title is the pillar name (no "Pillar N:"
+prefix); each body is a 1-2 sentence summary; pick one Iconoir glyph per pillar
+that matches its actual content. The card helper, grid shapes per count, and the
+icon-name lookup procedure live in `../../_shared/typst-layout.md` › "Highlight
+cards and icon lookup".
 
 **Skeleton** (working pattern; see `../../_shared/typst-layout.md` for the
 import / metadata / back-cover patterns; no manual page breaks):

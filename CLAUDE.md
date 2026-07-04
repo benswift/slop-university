@@ -15,16 +15,11 @@ workflows.
 Two slash commands:
 
 - `/from-preset <preset-name> <steering>` → `skills/from-preset/SKILL.md` ---
-  generate a fake doc from a named preset blueprint. Currently available:
-  `strategy` (Slop University Strategic Plan 2026-2031), `impact-report`
-  (School of Continuous Improvement Impact Report 2021-2026),
-  `research-poster` (a single-page A3 research poster, landscape or portrait
-  per a per-run layout roll), and `paper` (an A4 two-column research paper
-  with a verified real bibliography). Drop a new file in
-  `skills/from-preset/presets/<name>.md` to add another. Each preset declares
-  a **format** --- `booklet` (multi-page portrait; strategy, impact-report),
-  `poster` (single-page; research-poster, which rolls A3 landscape or
-  portrait), or `paper` (A4 two-column, 4-8 pages).
+  generate a fake doc from a named preset blueprint. The registry is
+  `skills/from-preset/presets/` (currently `strategy`, `impact-report`,
+  `research-poster`, `paper`); each blueprint declares its own format
+  (`booklet`, `poster`, or `paper`), identity, and title policy. Drop a new file
+  in to add another (authoring guide: `skills/from-preset/presets/README.md`).
 - `/from-source <source>` → `skills/from-source/SKILL.md` --- typeset a URL or
   local file (`.docx`, `.odt`, `.md`, `.html`, `.typ`, `.txt`) faithfully into
   the ANU template. No rewriting; small editorial calls for heading hierarchy /
@@ -65,29 +60,14 @@ Slop University is a persistent fiction: its people, schools, and units live in
   through verbatim. Small editorial calls (heading levels when ambiguous, lockup
   choice, cover-image theme) are allowed and surfaced in the run's text output.
   See `skills/from-source/SKILL.md`.
-- Each booklet preset declares its own fixed title (in its blueprint's "Doc
-  identity" table):
-  - `strategy`: "Slop University Strategic Plan 2026-2031" (period fixed)
-  - `impact-report`: "School of Continuous Improvement Impact Report" (period
-    2021-2026, fixed)
-  - `research-poster` and `paper`: the visible title is **steering-derived**
-    (the fabricated project's name) --- a poster's or paper's title _is_ its
-    content. The satirical formula lives only in the PDF metadata title, as it
-    does for the booklet presets.
-- Output filename uses a path-specific prefix + `<slug>-<seed>`:
-  - Strategy preset: `slop-strategy-<slug>-<seed>`
-  - Impact-report preset: `slop-impact-<slug>-<seed>`
-  - Research-poster preset: `slop-poster-<slug>-<seed>`
-  - Paper preset: `slop-paper-<slug>-<seed>`
-  - from-source: `source-<slug>-<seed>`
-  - The final PDF is foldered by preset: `output/pdf/<preset>/` (`strategy`,
-    `impact-report`, `research-poster`, `paper`, `from-source`);
-    intermediates stay flat in `output/`.
-  - `<slug>` is the first three words of the steering prompt (preset path) or
-    the source document's title (faithful path), slugified. `<seed>` is a
-    6-character random alphanumeric. See `skills/_shared/output-naming.md`.
-- People: the roster rule (see "The institutional canon" above and `genre.md` ›
-  People and attribution). Roster researchers only; never real people.
+- Titles: each preset's blueprint ("Doc identity" table) declares its title
+  policy --- the booklets fix their cover titles; `research-poster` and `paper`
+  derive the visible title from the steering prompt (a poster's or paper's title
+  _is_ its content). The satirical formula lives only in the PDF metadata title,
+  for every preset.
+- Output filenames (prefix, slug, seed, and the per-preset `output/pdf/<group>/`
+  folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
+  declare their own prefix and group.
 - Never include footers, watermarks, or other "this is satire" signals on the
   rendered pages of a preset run. The PDF metadata title is the deliberate
   exception (per each preset's "Doc identity"). The booklets and posters must
@@ -119,7 +99,7 @@ Slop University is a persistent fiction: its people, schools, and units live in
   (`references/*.avif`, local-only, not redistributed) serve only the faithful
   path --- see `skills/_shared/image-workflow.md` for the two regimes and the
   style-canon promotion mechanism.
-- Chart workflow (impact-report and research-poster presets): native
+- Chart workflow (any preset whose blueprint declares charts): native
   [gribouille](https://m.canouil.dev/gribouille) charts. Theme + palettes +
   scale helpers come from the brand package (`slop-theme`, `slop-categorical`,
   `slop-colour` / `slop-fill` --- no theme file to copy); worked `*.typ`

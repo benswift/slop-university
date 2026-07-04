@@ -46,9 +46,9 @@ typst).
    > `inline-N.jpg` for inlines, `feature.jpg` for a poster feature). Report the
    > output path or any errors. Do nothing else.
 
-   Pass the aspect ratio explicitly: `16:9` for a cover or a wide inline/body
-   image, `9:16` for a tall poster feature image (`1:1`/`3:4` are also
-   available). The parent owns this choice along with the references.
+   Pass the aspect ratio explicitly --- `16:9`, `9:16`, `1:1`, and `3:4` are
+   available. The calling preset declares which ratio each image slot uses; the
+   parent owns this choice along with the references.
 
    **Generate cover and feature/hero images at `--resolution 4K`** --- the
    model's largest, and the right choice at A3/booklet scale; it's slower than

@@ -1,8 +1,8 @@
 # Shared: output filename conventions
 
 Cross-cutting naming rule for documents written to `output/`. The calling skill
-supplies the **prefix** (e.g. `anu2026`, `socy-impact`, `source`) and the
-**source string** from which the slug is derived (a steering prompt, or a source
+supplies the **prefix** (e.g. `slop-strategy`, `source`) and the **source
+string** from which the slug is derived (a steering prompt, or a source
 document's title); this file defines how the slug and seed are produced and how
 the output paths are assembled.
 
@@ -28,8 +28,8 @@ The `<group>` subfolder and its `<prefix>` are fixed per calling path:
 | `paper`           | `paper`                   | `slop-paper`    |
 | `from-source`     | `from-source`             | `source`        |
 
-A preset blueprint may declare its own prefix and group inline (the private
-`anu-*` variants do); a blueprint-declared value overrides this table.
+A preset blueprint may declare its own prefix and group inline; a
+blueprint-declared value overrides this table.
 
 ## Slug derivation
 

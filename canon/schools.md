@@ -36,9 +36,11 @@ impact-report blueprint's Terminology section; the canonical names are here):
 - **Capability Sprints** (short-course / executive education line; named Sprints
   include _Leading with Metrics_, _Reading the Dashboard_, _Stewarding
   Indicators_, _Deciding Under Measurement_, _Improving Improvement_)
-- named initiatives: the Indicator Commons, the Living Dashboard, Evaluation of
-  Evaluation (EoE), the Impact Pathway Atlas, the Review Cadence Observatory,
-  Improvement Grand Rounds (seminar series), Demo Quarter (Masters showcase)
+- named initiatives: the Indicator Commons (shared indicator library), the
+  Living Dashboard (the School's always-on self-measurement wall), Evaluation of
+  Evaluation (EoE --- the meta-review program), the Impact Pathway Atlas, the
+  Review Cadence Observatory, Improvement Grand Rounds (seminar series), Demo
+  Quarter (quarterly Masters-program showcase)
 
 ## History
 

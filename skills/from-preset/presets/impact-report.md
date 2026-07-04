@@ -267,9 +267,8 @@ alternatives.
   (Higher Degree by Research) is fine for aggregate counts on stat cards but
   rarely in prose.
 - **Capability Sprints**: the School's short-course / executive education line.
-  Named Sprint titles include _Leading with Metrics_, _Reading the Dashboard_,
-  _Stewarding Indicators_, _Deciding Under Measurement_, and _Improving
-  Improvement_. The umbrella category "microcredentials" is also used.
+  The named Sprint titles are canon (`canon/schools.md` › Programs and named
+  initiatives). The umbrella category "microcredentials" is also used.
 
 ### The School itself
 
@@ -301,23 +300,14 @@ alternatives.
 
 ### Named projects, centres, initiatives
 
-Worth surfacing if the run's variation lands a relevant impact area:
-
-- **the Adaptive Metrics Lab** (the School's flagship lab --- see
-  `canon/schools.md`)
-- **the Indicator Commons** (shared indicator library)
-- **the Living Dashboard** (the School's always-on self-measurement wall)
-- **Evaluation of Evaluation (EoE)** (the meta-review program)
-- **the Impact Pathway Atlas**
-- **the Review Cadence Observatory**
-- **Improvement Grand Rounds** (the seminar series)
-- **Demo Quarter** (the quarterly Masters-program showcase)
-
-Don't invent additional project names that mimic these patterns; reuse these or
-stay generic --- describe the work in functional terms ("a multi-year program of
-work", "a curriculum collaboration", "a residency strand") rather than coining a
-new fabricated project name mid-run. If a new named initiative is genuinely
-needed, it belongs in the canon first.
+The canonical list (the Adaptive Metrics Lab plus the named initiatives) lives
+in `canon/schools.md` › Labs and Programs; surface entries from it when the
+run's variation lands a relevant impact area. Don't invent additional project
+names that mimic those patterns; reuse the canon or stay generic --- describe
+the work in functional terms ("a multi-year program of work", "a curriculum
+collaboration", "a residency strand") rather than coining a new fabricated
+project name mid-run. If a new named initiative is genuinely needed, it belongs
+in the canon first.
 
 ### Research themes
 
@@ -607,52 +597,11 @@ Imports include `slop-inline-figure` for charts. The skeleton:
 
 ### Highlight cards (At a glance)
 
-The template exports `slop-highlight-card(icon-name, title, body)` --- a gold
-Iconoir glyph above a centred bold title and a body paragraph, designed for use
-inside a `#grid`. Card count is 3 or 4 (per persona --- see "Per-run variation
-rolls › Structural counts"); grid shape follows the rolled count. Higher counts
-read messy and aren't used.
-
-**3 metrics** --- 1×3 (single row):
-
-```typst
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  slop-highlight-card("graduation-cap", "<m1 title>")[<framing>],
-  slop-highlight-card("flask", "<m2 title>")[<framing>],
-  slop-highlight-card("community", "<m3 title>")[<framing>],
-)
-```
-
-**4 metrics** --- 2×2:
-
-```typst
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  slop-highlight-card("graduation-cap", "<m1 title>")[<framing>],
-  slop-highlight-card("flask", "<m2 title>")[<framing>],
-  slop-highlight-card("community", "<m3 title>")[<framing>],
-  slop-highlight-card("globe", "<m4 title>")[<framing>],
-)
-```
-
-**Finding valid icon names.** Once the metrics and their framings are drafted,
-pull keyword stems out of each metric's actual language and grep the bundled
-Iconoir JSON for matches. Don't guess names from iconoir.com --- some listed
-there aren't in the bundled JSON:
-
-```bash
-jq -r '.icons | keys[]' \
-  ~/.local/share/typst/packages/local/university-typst-template/0.1.0/assets/iconoir.json \
-  | grep -iE '<stems-from-this-metric>'
-```
-
-Pick one match per metric that fits its actual content, not a generic theme.
-Verifying against the JSON before writing is cheaper than a failed compile.
+One card per headline metric. Card count is 3 or 4 (per persona --- see "Per-run
+variation rolls › Structural counts"); each card title is the metric, each body
+its framing, each icon matched to the metric's actual language. The card helper,
+grid shapes per count, and the icon-name lookup procedure live in
+`../../_shared/typst-layout.md` › "Highlight cards and icon lookup".
 
 ### Inline figures and charts
 
@@ -689,8 +638,8 @@ the body, right-aligned:
 ]
 ```
 
-(When the core template's rule learns to render `it.attribution`, revert to
-the `attribution:` parameter.)
+(When the core template's rule learns to render `it.attribution`, revert to the
+`attribution:` parameter.)
 
 Attributions name partner-archetype roles (described, never a real or invented
 proper-noun organisation) or roster researchers with their canonical title.

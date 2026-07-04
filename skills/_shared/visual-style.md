@@ -83,13 +83,10 @@ Curation bar for adding an image (seed or promoted from a run):
 - no resemblance to a real person, and no recognisable real building or place
 - carries print grain / texture (a too-clean vector look is off-style)
 
-Encode additions to AVIF per the references recipe: resize to 1280px on the long
-edge, then `avifenc -j 4 -s 6 --min 0 --max 63 -a end-usage=q -a cq-level=28`
-(~100 KB).
-
 The canon grows from real runs: promote the best generated images back into
-`references/slop-style/` over time (the promotion mechanism lives in
-`image-workflow.md`), so the institution accretes its own visual world.
+`references/slop-style/` over time (the promotion mechanism, including the
+resize + `avifenc` encode recipe, lives in `image-workflow.md`), so the
+institution accretes its own visual world.
 
 ## Off-limits
 

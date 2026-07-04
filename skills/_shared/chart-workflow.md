@@ -1,9 +1,9 @@
 # Shared: chart workflow (native gribouille, inline)
 
-Cross-cutting chart doctrine for presets that render charts (currently
-`impact-report` and `research-poster`). The calling preset cross-refs this file
-in its chart-generation step and supplies: (a) the chart-folder path (used as
-`{chart-folder}` below --- e.g. `output/slop-impact-<slug>-<seed>-charts` or
+Cross-cutting chart doctrine for any preset whose blueprint declares charts (the
+blueprint's chart section is authoritative). The calling preset cross-refs this
+file in its chart-generation step and supplies: (a) the chart-folder path (used
+as `{chart-folder}` below --- e.g. `output/slop-impact-<slug>-<seed>-charts` or
 `output/slop-poster-<slug>-<seed>-charts`), (b) the chart count and the type for
 each chart (drawn from the menu in "Chart types" below), and (c) where each
 chart embeds in the typst source.
@@ -165,8 +165,8 @@ collide:
 ```
 
 Import paths are project-root-relative (leading slash + the `output/` prefix ---
-e.g. `/output/slop-poster-<slug>-<seed>-charts/chart-1.typ`), matching how images
-are referenced elsewhere; the document is compiled with
+e.g. `/output/slop-poster-<slug>-<seed>-charts/chart-1.typ`), matching how
+images are referenced elsewhere; the document is compiled with
 `typst compile --root .`.
 
 ## Common failure modes

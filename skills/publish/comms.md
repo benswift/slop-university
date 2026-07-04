@@ -1,9 +1,9 @@
 # The comms register (press releases and news posts)
 
-The third voice family in the project, distinct from both the booklet
-corporate-plan voice and the paper/poster academic voice: **institutional
-media-release**. It is the voice of a university media office announcing
-research it is proud of and does not entirely understand.
+A voice family of its own, distinct from both the booklet corporate-plan voice
+and the paper/poster academic voice: **institutional media-release**. It is the
+voice of a university media office announcing research it is proud of and does
+not entirely understand.
 
 Defers to `../from-preset/genre.md` for the floor (vague nouns, bridging verbs,
 hedging at the edges, no exclamation marks, no manifesto register) and to

@@ -147,9 +147,9 @@ researchers' actual claims. Cite generously in Introduction and Related work;
 
 ## Voice (methods-section deadpan)
 
-The paper register is the project's fourth voice (strategy = future-tense;
-impact report = past-tense reflective; poster = telegraphic academic-present).
-It defers to `../genre.md` for the floor and specialises:
+The paper register is **methods-section deadpan** --- fuller-sentence
+academic-present, where the poster's variant is telegraphic. It defers to
+`../genre.md` for the floor and specialises:
 
 - **Hedged contributions.** "We observe consistent improvements in most
   settings"; "our results suggest the approach may generalise". The

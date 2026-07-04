@@ -1,11 +1,11 @@
 ---
 name: research-poster
 description:
-  Slop University research poster --- a single-page A3 (landscape or
-  portrait), light-mode, chart-heavy academic poster describing a
-  plausible-but-fake research project. Steering-driven topic in straight
-  academic-present voice; fabricated charts in the slop brand colours are the
-  visual spine. Poster format (no cover, contents, or back cover).
+  Slop University research poster --- a single-page A3 (landscape or portrait),
+  light-mode, chart-heavy academic poster describing a plausible-but-fake
+  research project. Steering-driven topic in straight academic-present voice;
+  fabricated charts in the slop brand colours are the visual spine. Poster
+  format (no cover, contents, or back cover).
 ---
 
 # Research-poster preset
@@ -36,17 +36,17 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
 | Field                      | Value                                                                                                                                                  |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Canonical name             | Slop University research poster                                                                                                              |
+| Canonical name             | Slop University research poster                                                                                                                        |
 | Format                     | **poster** (single-page A3, light theme; orientation set by the layout roll)                                                                           |
 | Visible title              | the fabricated project's title --- **steering-driven** (see note below)                                                                                |
-| Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                                                 |
+| Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                             |
 | Paper / orientation        | `a3`; set by the layout roll --- feature-right = `page-settings: (flipped: true)` (landscape); feature-top = portrait (no `flipped`)                   |
 | Theme                      | `light`                                                                                                                                                |
 | Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-lockup` (auto masthead hidden) |
-| Filename prefix            | `slop-poster`                                                                                                                                           |
+| Filename prefix            | `slop-poster`                                                                                                                                          |
 | Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                           |
 | Register                   | academic-present (present-tense findings, past-tense methods, hedged)                                                                                  |
-| PDF metadata title formula | `This Slop University Research Poster Does Not Exist: <steering verbatim>`                                                                                         |
+| PDF metadata title formula | `This Slop University Research Poster Does Not Exist: <steering verbatim>`                                                                             |
 
 **Title is steering-driven (unlike the booklet presets).** `strategy` and
 `impact-report` lock a fixed cover title and let steering drive only the
@@ -59,9 +59,9 @@ rendered page.
 **Roster authors only.** The title band carries a small author line naming 2-3
 researchers from the persistent roster (`canon/roster.yml`, with the lead
 author's school from `canon/schools.md`) --- the flip of the old
-never-name-anyone rule: fictional people, named consistently across outputs,
-are part of the institution's verisimilitude. No other person is named anywhere
-on the poster. The `slop` lockup and the `logos: ("studio",)` margin wordmark
+never-name-anyone rule: fictional people, named consistently across outputs, are
+part of the institution's verisimilitude. No other person is named anywhere on
+the poster. The `slop` lockup and the `logos: ("studio",)` margin wordmark
 ("Office of Research Outputs") carry the institutional attribution. Fabricated
 reference citations use generic, clearly-fictional surnames --- never a real
 researcher --- though 1-2 self-citations by roster authors are welcome (see
@@ -189,8 +189,8 @@ text + body image take the left cell. Styling and the render pipeline are in
 ### Attribution (roster + canon)
 
 Authors are **2-3 researchers from `canon/roster.yml`** --- roll which ones per
-run (a plausible mix of ranks; the lead author's school supplies the school
-name in the author line). Labs, when a lab is named at all, come from
+run (a plausible mix of ranks; the lead author's school supplies the school name
+in the author line). Labs, when a lab is named at all, come from
 `canon/schools.md` (Trajectory Analytics Group, Adaptive Metrics Lab) --- never
 invent a new unit inside a run. Institutional attribution is carried by the
 masthead: the `slop` lockup (top-left) gives the Slop University wordmark, and
@@ -199,30 +199,12 @@ rotated in the bottom-left margin. Beyond the author line, no person is named
 anywhere (ethics lines, acknowledgements, and hero quotes stay aggregate and
 anonymous).
 
-### Concept images (two per poster)
+### Concept images
 
-Generate **two** images per poster --- the brief is images _and_ charts:
-
-- **`feature.jpg`** --- the hero, **4K**. Aspect is set by the layout roll:
-  **9:16** (`--aspect-ratio 9:16`, **tall**) for **feature-right** (full-bleeds
-  the right third) or **16:9** (`--aspect-ratio 16:9`, **wide**) for
-  **feature-top** (full-bleeds the top band). Either way it carries gradient
-  scrim(s) + a white overlay and is `place`d out of flow, so it never affects
-  column fit.
-- **`inline-1.jpg`** --- a wide field image. **Wide, 21:9**
-  (`--aspect-ratio 21:9`); **2K is fine** (it is shown only a column wide).
-  In-flow at the foot of the left grid cell as a `height: 1fr` block, cropped
-  (`fit: cover`, centre) to fill the cell's leftover height exactly --- so it
-  pads the left column out to balance the right. No caption (the hero quote
-  carries the text).
-
-Both depict the project's apparatus, fieldwork, or setting in the two-ink
-house style (a tagged bird on a walkway, an instrumented common room, a
-sensor-fitted car park --- as risograph illustration, never photography),
-generated per `../../_shared/image-workflow.md` with the prompt formula from
-`../../_shared/visual-style.md` and 3-5 references from
-`references/slop-style/`. Pick scenes that read as the project's field site or
-apparatus.
+Two per poster --- the hero `feature.jpg` (aspect set by the Layout roll) and
+the wide field image `inline-1.jpg`. Counts, aspects, resolutions, and placement
+live in "Imagery (preset specifics)" below; the only rolled element is the scene
+content, which should read as the project's field site or apparatus.
 
 ### Footer furniture
 
@@ -230,16 +212,15 @@ Fill the trailing column (and vary the foot between runs) with 1-2 small items
 after the references --- real poster apparatus, played deadpan:
 
 - **Acknowledgements / funding** --- aggregate only ("we thank the staff of the
-  monitored common rooms"; "supported by a School of Continuous Improvement
-  seed grant" --- schools from `canon/schools.md`); no person names beyond the
-  author line.
+  monitored common rooms"; "supported by a School of Continuous Improvement seed
+  grant" --- schools from `canon/schools.md`); no person names beyond the author
+  line.
 - **Ethics / data statement** --- often the funniest line on the poster, played
   straight ("animal ethics approval 2025/047; no birds harmed"; "de-identified
   occupancy only; no number plates retained"; "thresholds pre-registered").
 - **Contact line**, optionally with a QR: import `slop-qr-code` and place
-  `slop-qr-code("https://slop.university/", width: 2.3cm)`
-  beside a short contact line; the QR is theme-aware and fills the column foot
-  nicely.
+  `slop-qr-code("https://slop.university/", width: 2.3cm)` beside a short
+  contact line; the QR is theme-aware and fills the column foot nicely.
 
 Keep furniture small (8-9pt); if the foot would overflow, compress it to a
 single line.
@@ -257,12 +238,11 @@ unfalsifiable (commitment-shaped metrics can be more specific):
 
 ## Voice (academic-present register)
 
-The poster's register is the third voice in this project (strategy =
-future-tense; impact report = past-tense reflective; poster = academic-present).
-It defers to `../genre.md` for the steering philosophy ---
-institutional/academic voice wrapping an unhinged topic, hedges at the edges, no
-exclamation marks, no first-person passion, no manifesto register --- and
-specialises it for a research poster:
+The poster's register is **academic-present** (distinct from the booklets'
+future-tense and past-tense-reflective registers). It defers to `../genre.md`
+for the steering philosophy --- institutional/academic voice wrapping an
+unhinged topic, hedges at the edges, no exclamation marks, no first-person
+passion, no manifesto register --- and specialises it for a research poster:
 
 - **Telegraphic, not prose.** A poster is scanned, not read. Write short
   declarative fragments; bullet the Aims and Methods; frame Background as the
@@ -335,26 +315,34 @@ satisfyingly full list. They also carry the project's only real names-risk, so:
 - **No cover image** (poster format --- the `slop(...)` call omits `cover:`).
 - **`feature.jpg`** (always) --- the hero, generated per
   `../../_shared/image-workflow.md` (house-style prompt formula, 3-5
-  `references/slop-style/` refs, dispatched to a subagent). Aspect set by the layout roll: **9:16** (`--aspect-ratio 9:16`,
-  tall) for **feature-right** (full-bleeds the right third with a scrim + hero
-  quote) or **16:9** (`--aspect-ratio 16:9`, wide) for **feature-top**
-  (full-bleeds the top band with scrims + the overlaid masthead/title). `place`d
-  out of flow, so it never affects column fit.
+  `references/slop-style/` refs, dispatched to a subagent). Aspect set by the
+  layout roll: **9:16** (`--aspect-ratio 9:16`, tall) for **feature-right**
+  (full-bleeds the right third with a scrim + hero quote) or **16:9**
+  (`--aspect-ratio 16:9`, wide) for **feature-top** (full-bleeds the top band
+  with scrims + the overlaid masthead/title). `place`d out of flow, so it never
+  affects column fit.
 - **`inline-1.jpg`** (always) --- the wide field image. **21:9**
-  (`--aspect-ratio 21:9`), **2K** is fine; placed in-flow at the foot of the
-  left grid cell as a `height: 1fr` block, cropped (`fit: cover`) to fill the
-  cell's leftover height (see the skeleton and "Concept images"). Being a `1fr`
-  block it can't overflow, and being in its own cell it can't overlap the text.
+  (`--aspect-ratio 21:9`), **2K** is fine (shown only a column wide); placed
+  in-flow at the foot of the left grid cell as a `height: 1fr` block, cropped
+  (`fit: cover`, centre) to fill the cell's leftover height --- it pads the left
+  column out to balance the right. No caption (the hero quote carries the text).
+  Being a `1fr` block it can't overflow, and being in its own cell it can't
+  overlap the text.
+- Both images depict the project's apparatus, fieldwork, or setting in the
+  two-ink house style (a tagged bird on a walkway, an instrumented common room,
+  a sensor-fitted car park --- as risograph illustration, never photography),
+  with the prompt formula from `../../_shared/visual-style.md` and 3-5
+  references from `references/slop-style/`.
 - No parity-fix spare --- the poster is single-page; there is no parity to fix.
 
 ## Chart workflow
 
 Charts are the poster's emphasis. Follow `../../_shared/chart-workflow.md` for
 the full pipeline (author a gribouille `#plot` at
-`output/slop-poster-<slug>-<seed>-charts/chart-N.typ`, import it into the poster,
-render inline) and the brand styling rules (lines/scatter = brand categorical
-pair; bars = single-hue tint ramp; parts-of-a-whole = gold-tint normalised
-stacked bar; legends top/bottom). Poster specifics:
+`output/slop-poster-<slug>-<seed>-charts/chart-N.typ`, import it into the
+poster, render inline) and the brand styling rules (lines/scatter = brand
+categorical pair; bars = single-hue tint ramp; parts-of-a-whole = gold-tint
+normalised stacked bar; legends top/bottom). Poster specifics:
 
 - 1 chart (a 2nd only if the prose stays lean), leading the right grid cell,
   alongside the two concept images.
@@ -649,68 +637,13 @@ height) and is placed directly with `#body`.
   ])
 }))
 
-// ── Body: two equal columns filling the page below the band. The `body` definition
-//    is IDENTICAL to Skeleton A (set rules, both cells, the `1fr` image, the fill
-//    probe, the pinned footer). The title lives in the hero band (out of flow), so
-//    the body grid is the first in-flow content and its `rows: 1fr` resolves against
-//    the correct height --- no outer wrapper is needed; place it directly with `#body`. ──
-#let body = {
-  set text(size: 10pt)
-  set par(leading: 0.54em)
-  set block(spacing: 0.7em)
-  grid(
-    columns: (1fr, 1fr),
-    rows: 1fr,
-    gutter: 1.0cm,
-    [
-      == Background
-      <30-45 words --- the gap, ideally framed as a question>
-
-      == Aims
-      - <terse aim>
-      - <terse aim>
-      - <terse aim>
-
-      == Methods
-      - <terse bullet: n · instrument · sampling · duration>
-      - <terse bullet: model / method>
-      - <terse bullet: key control --- pre-registered, held constant>
-
-      == Results
-      <one or two punchy, hedged sentences>
-
-      #v(0.5em)
-      #block(width: 100%, height: 1fr, clip: true,
-        image("/output/slop-poster-<slug>-<seed>-images/inline-1.jpg", width: 100%, height: 100%, fit: "cover"))
-    ],
-    [
-      #chartfig(
-        chart-1,
-        [<falsifiable, slightly-whacked claim with a checkable figure/date>],
-      )
-
-      == Discussion & conclusions
-      <2-3 punchy, hedged lines, then a "Next:" fragment>
-
-      == References
-      #block[
-        #set text(size: 8pt)
-        + <Fabricated, A., & Generic, B. (2024). Title. Journal of Cybernetic Systems, 12(3), 45--67.>
-        + <...>
-        + <...>
-        + <...>
-      ]
-
-      // Fill probe: bracket the `#v(1fr)` gap (see Skeleton A and "Compile and
-      // one-page fit"). Inline + 0pt --- never shifts layout.
-      #box(width: 100%, height: 0pt)<fill-top>
-      #v(1fr)
-      #text(size: 8.5pt, fill: slop-colors.grey-4)[<deadpan ethics / data line>]<fill-bot>
-      #v(0.35em)
-      #text(size: 8.5pt, fill: slop-colors.grey-4)[Office of Research Outputs · slop.university]
-    ],
-  )
-}
+// ── Body: two equal columns filling the page below the band. Write Skeleton A's
+//    `#let body = { … }` block here VERBATIM (set rules, both cells, the `1fr`
+//    image, the fill probe, the pinned footer) --- it is identical in both
+//    skeletons. The title lives in the hero band (out of flow), so the body grid
+//    is the first in-flow content and its `rows: 1fr` resolves against the
+//    correct height --- no outer wrapper is needed; place it directly: ──
+#let body = { /* Skeleton A's body block, verbatim */ }
 
 #body
 ```
@@ -766,9 +699,9 @@ poster lands on one page first time.
   bottom-left.** The QR (to slop.university) anchors the top-right the
   full-width rule would otherwise frame as empty; the rotated "Office of
   Research Outputs" margin wordmark (`logos: ("studio",)`) carries the
-  producing-unit attribution. The QR is **placed manually** over the
-  feature image's top-right (the config `"qr-url"` would render in the page
-  background, _behind_ the full-bleed feature image, so it isn't used here).
+  producing-unit attribution. The QR is **placed manually** over the feature
+  image's top-right (the config `"qr-url"` would render in the page background,
+  _behind_ the full-bleed feature image, so it isn't used here).
 - **(feature-top) The hero band is reserved by an oversized `top` margin, then
   `place`d flush to the page edge with negative `dx/dy`.** Keep `m-top` ≈
   `band-h` + the band→body gap so the body never flows under the band --- this
@@ -847,10 +780,8 @@ The poster replaces the booklet parity-fix with a one-page check:
    page once the prose is terse (~150 words). The body image is free (it absorbs
    slack); the budget is really each grid cell's text + chart + references +
    footer. **feature-top** has slightly less body height (the hero band takes
-   ~152mm) but the same content fits; its risk is the opposite one --- the right
-   column _under_-filling, which the step-3 probe quantifies. If the band
-   exceeds the threshold, lengthen the discussion, add a reference, or enlarge
-   the chart so both columns reach the foot with no slack band above the footer.
+   ~152mm) but the same content fits; its risk is the opposite one ---
+   under-fill, which step 3 owns.
 
 ## Pre-ship checklist (preset-specific)
 
@@ -867,10 +798,9 @@ items:
       white lockup + QR overlaid on the hero band (auto masthead hidden)
 - [ ] No `cover:`, no `#outline()`, no Acknowledgement of Country, no
       `#slop-back-cover()`, no `#pagebreak()` anywhere
-- [ ] Visible title is the fabricated project name (steering-driven); the
-      author line names **2-3 roster researchers** with the lead author's
-      school (`canon/roster.yml` / `canon/schools.md`); no other person named
-      anywhere
+- [ ] Visible title is the fabricated project name (steering-driven); the author
+      line names **2-3 roster researchers** with the lead author's school
+      (`canon/roster.yml` / `canon/schools.md`); no other person named anywhere
 - [ ] Layout matches the roll. feature-right: a tall (9:16) image full-bleeds
       the right third with a scrim + white hero quote; title + 2-column body in
       the left two-thirds (right margin reserved). feature-top: a wide (16:9)
@@ -878,12 +808,12 @@ items:
       masthead, title, subtitle, and gold rule; 2-column body fills the page
       below
 - [ ] Section names drawn from the reservoirs
-- [ ] Two house-style images (`references/slop-style/` refs): the 4K feature (9:16 for
-      feature-right / 16:9 for feature-top) and the wide (21:9, 2K) body image
-      as a `height: 1fr` block (`fit: cover`) filling the left grid cell's foot;
-      plus one full-width chart (a 2nd only with room) leading the right cell,
-      via `chartfig`, none bleeding past the column; chart captions carry the
-      falsifiable claim
+- [ ] Two house-style images (`references/slop-style/` refs): the 4K feature
+      (9:16 for feature-right / 16:9 for feature-top) and the wide (21:9, 2K)
+      body image as a `height: 1fr` block (`fit: cover`) filling the left grid
+      cell's foot; plus one full-width chart (a 2nd only with room) leading the
+      right cell, via `chartfig`, none bleeding past the column; chart captions
+      carry the falsifiable claim
 - [ ] Both grid columns balanced and full to the page foot (the `1fr` body image
       and the `#v(1fr)` footer pin do this; fill-probe band ≲ 40 mm per step 3
       of "Compile and one-page fit"); the deadpan ethics / data footer line is
@@ -891,20 +821,19 @@ items:
 - [ ] Charts use brand styling per `../../_shared/chart-workflow.md` (no rainbow
       bars; legends top/bottom) and **fill the column** (responsive `layout`,
       wide-short aspect --- no side padding)
-- [ ] 4-6 fabricated references, generic and clearly-fictional; no real
-      names (roster self-citations welcome); titles/venues lean knowingly
-      on-theme
+- [ ] 4-6 fabricated references, generic and clearly-fictional; no real names
+      (roster self-citations welcome); titles/venues lean knowingly on-theme
 - [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs) in the
       academic-present register (past-tense methods, hedged findings); no
       exclamation marks, no satire signals on the page
 - [ ] PDF metadata title is
-      `This Slop University Research Poster Does Not Exist: <steering     verbatim>`; no
-      other metadata fields populated
+      `This Slop University Research Poster Does Not Exist: <steering     verbatim>`;
+      no other metadata fields populated
 
 ## Common failure modes (preset-specific)
 
-- **Spills to a second page**: see "Compile and one-page fit" --- trim a
-  section, drop a chart, or go 3 → 2 columns.
+- **Spills to a second page**: follow step 4 of "Compile and one-page fit"
+  (tighten prose, shorten the chart plot; never trim the references).
 - **Chart bleeds into the gutter / next column**: a chart (or image) was
   embedded with a bare `#figure(image(...))` or `slop-inline-figure`. Use the
   `chartfig` helper (a plain image).
@@ -926,17 +855,13 @@ items:
   `m-top` is out of step with the band height. Keep `m-top` ≈ `band-h` + the
   band→body gap; too small and the body flows under the band, too large and a
   white strip opens between them.
-- **Right column underfills** (a slack band above the footer): the opposite of
-  an overflow, and the most common blemish on **feature-top** (its hero band
-  leaves less body height). The step-3 fill probe quantifies it --- if the band
-  is ≳ 40 mm, lengthen the discussion, add a reference, or enlarge the chart so
-  both columns reach the foot (see "Compile and one-page fit"). Fill it, don't
-  hide it.
+- **Right column underfills** (a slack band above the footer): most common on
+  **feature-top**. Step 3 of "Compile and one-page fit" quantifies and fixes it.
+  Fill it, don't hide it.
 - **Footer missing / clipped off the bottom edge** (feature-right): the title
-  and body weren't wrapped in the outer `#grid(rows: (auto, 1fr))`, so the body
-  grid's `rows: 1fr` resolved against the full page height, overshot the foot,
-  and carried the `#v(1fr)`-pinned footer off-page. A big empty band with **no
-  footer at all** is the tell. Wrap them (see the gotcha and Skeleton A).
+  and body weren't wrapped in the outer `#grid(rows: (auto, 1fr))`. A big empty
+  band with **no footer at all** is the tell --- see the outer-grid gotcha and
+  Skeleton A.
 
 ## What this preset is not
 

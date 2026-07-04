@@ -27,23 +27,18 @@ The slash command argument splits on the first whitespace:
   allowed to drive; `genre.md` defines the voice floor.
 
 Example: `/from-preset strategy lean into sovereign capability` → preset =
-`strategy`, steering = `lean into sovereign capability`.
-
-Preset names resolve in two steps: check `presets/<name>.md` first, then fall
-back to `private/*/presets/<name>.md` (local-only, gitignored preset overlays
---- documented in `CLAUDE.local.md` where present; absent in most clones). If
-neither exists, list the available presets back to the user and stop. Don't
-guess.
+`strategy`, steering = `lean into sovereign capability`. Workflow step 1 defines
+how the name resolves.
 
 ## Available presets
 
-Run `ls skills/from-preset/presets/` (and `ls private/*/presets/` if present)
-to discover what's currently defined. As of this writing: `strategy.md`,
+Run `ls skills/from-preset/presets/` (and `ls private/*/presets/` if present) to
+discover what's currently defined. As of this writing: `strategy.md`,
 `impact-report.md`, `research-poster.md`, and `paper.md` in `presets/`.
 
 Each preset is a single self-contained markdown file. To add a new one, drop a
-`presets/<name>.md` file shaped like the existing ones --- see "Adding a new
-preset" at the bottom.
+`presets/<name>.md` file shaped like the existing ones --- the authoring guide
+is `presets/README.md` (not needed for generation runs).
 
 ## Document format
 
@@ -80,14 +75,15 @@ each step.
    - Split the slash-command argument on the first whitespace into
      `<preset-name>` and `<steering>`.
    - Resolve `<preset-name>` to `presets/<preset-name>.md`, falling back to
-     `private/*/presets/<preset-name>.md`. If neither exists, stop and list
-     available presets.
+     `private/*/presets/<preset-name>.md` (local-only, gitignored preset
+     overlays --- documented in `CLAUDE.local.md` where present; absent in most
+     clones). If neither exists, stop and list available presets. Don't guess.
    - Derive `<slug>` and `<seed>` from `<steering>` per
      `../_shared/output-naming.md`.
 
 2. **Read references** (in order):
-   - the resolved blueprint (`presets/<preset-name>.md`, or the private
-     overlay fallback)
+   - the resolved blueprint (`presets/<preset-name>.md`, or the private overlay
+     fallback)
    - `genre.md` --- voice doctrine and steering rules (a private-overlay
      blueprint may point at a sibling doctrine snapshot instead --- follow the
      blueprint)
@@ -133,9 +129,9 @@ each step.
    using the preset's image-folder path, prompt count, and thematic shape (the
    preset's "Imagery (preset specifics)" section).
 
-6. **Generate charts in parallel** (only if the preset declares charts ---
-   `impact-report`, `research-poster`). Follow `../_shared/chart-workflow.md`;
-   the preset supplies the chart-folder path and the per-chart count and types.
+6. **Generate charts in parallel** (only if the preset's blueprint declares
+   charts). Follow `../_shared/chart-workflow.md`; the preset supplies the
+   chart-folder path and the per-chart count and types.
 
 7. **Compile and check page fit.**
    - Compile invocation:
@@ -154,8 +150,8 @@ each step.
      preset's declared range. If odd, insert the spare inline figure at a
      natural break, generate the spare image, recompile.
    - _(poster format)_ the count must be exactly **1**. If it spills to a second
-     page, trim the longest section, drop a chart to the smaller end of its
-     range, or switch 3 columns → 2; recompile. Never add a page break.
+     page, follow the preset's one-page fit procedure (trim, then drop a chart
+     to the smaller end of its range); recompile. Never add a page break.
 
 8. **Stop.** Generated outputs are gitignored. Don't commit; don't tag the run.
 
@@ -212,48 +208,6 @@ format.
   preset's one-page fit step.
 
 Preset-specific failure modes live in each preset's blueprint.
-
-## Adding a new preset
-
-The directory `presets/` is the registry; drop a file in and it's available. The
-new file must be a self-contained markdown blueprint declaring (at minimum):
-
-- Frontmatter with `name` and `description`
-- A "Doc identity" section: canonical name, **format** (`booklet` or `poster`),
-  cover/visible title, period, cover lockup, filename prefix, page-count range
-  (or "single page" for posters), register, PDF metadata title formula
-- A "Structural skeleton" table: section list with lengths and notes
-- A "Per-run variation rolls" section: any reservoirs, structural counts,
-  optional-section rules, personas the preset uses
-- An "Imagery (preset specifics)" section: image-folder path, prompt count and
-  shape, any thematic constraints on the prompts
-- A "Style references" section: typst examples, genre PDFs, template helpers to
-  read before generating
-- A "Typst structure" section: the skeleton code block plus any preset-specific
-  helpers (highlight cards, inline figures, charts, pull-quotes)
-- A "Pre-ship checklist (preset-specific)" section: items beyond the generic
-  checklist above
-- A "Common failure modes (preset-specific)" section: bland-output signals,
-  terminology slips, etc.
-
-Optional sections to add if the preset needs them:
-
-- "Terminology" --- if the preset relies on a specific institutional vocabulary
-  (the impact-report preset has a large one)
-- "Voice-preserving commitment shapes" --- doc-specific elaborations on the
-  general menu in `genre.md`
-- "Chart workflow" --- a short section pointing at
-  `../_shared/chart-workflow.md` if the preset generates charts (see
-  `impact-report.md` and `research-poster.md`)
-- Any other section the preset needs that doesn't fit elsewhere
-
-Existing presets are the worked examples; copy the closest and edit.
-`presets/strategy.md` and `presets/impact-report.md` are `booklet`-format (the
-latter also a worked chart example); `presets/research-poster.md` is the
-`poster`-format worked example. A poster-format preset overrides the
-booklet-shaped workflow steps (4, 6, 7) and checklist items in its own blueprint
---- see how `research-poster.md` handles the single-page layout, the omitted
-back cover, and the one-page fit check.
 
 ## What this skill is not
 

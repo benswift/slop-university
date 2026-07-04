@@ -15,10 +15,10 @@ preset instead.
 These are the voice the joke depends on. Reproduce them straight; do not
 editorialise.
 
-- **Future tense as default** (strategy) / **past-tense reflective** (impact
-  report) / **academic-present** (research poster --- past-tense methods, hedged
-  present-tense findings): "we will" / "we have" / "results suggest"; the
-  register is fixed per doc type
+- **The preset's declared register, held throughout** --- e.g. future tense ("we
+  will") for a strategy, past-tense reflective ("we have") for an impact report,
+  academic-present ("results suggest") for a poster or paper. Each blueprint's
+  Register row is authoritative; the register is fixed per doc type
 - **Vague nouns in load-bearing positions**: capability, ecosystem, trajectory,
   alignment, posture, footprint, fabric, settings
 - **Bridging verbs**: enable, catalyse, underpin, anchor, amplify, mobilise,
@@ -48,19 +48,9 @@ specific falsifiable commitments at the centre.
 
 ## Voice is the floor
 
-The genre voice (the "language moves" list above) is preserved without
-exception. Specifically:
-
-- Future-tense default (strategy) / past-tense reflective (impact report)
-- Vague nouns in load-bearing positions, even when the underlying claim is
-  specific
-- Bridging verbs
-- Transformations between adjacent abstractions
-- Noun stacks
-- Hedges remain in the wrapping language even when the wrapped claim is unhinged
-- No exclamation marks (singles, very sparingly, only in genuine rhetorical use)
-- No first-person passion, exhortation, or activist verbs
-- No manifesto / rant register
+The genre voice (the "language moves" list above) is preserved without exception
+--- every move on that list holds even when the wrapped claim is unhinged. The
+steering prompt opens up content, never register.
 
 ## Voice-preserving commitment shapes
 
@@ -114,9 +104,9 @@ at the edges: _across the institution_) while making a structural, falsifiable,
 surprising commitment. This register repeats throughout the document rather than
 being confined to one slot.
 
-The impact-report and research-poster presets carry doc-specific shapes inline
-(charts and metrics are commitment vectors in both; the poster also specialises
-the voice into an academic-present register).
+Presets carry doc-specific shapes inline in their own blueprints (charts and
+metrics are commitment vectors wherever a preset declares them; the academic
+presets specialise the voice into an academic-present register).
 
 ## People and attribution (the roster rule)
 
