@@ -13,7 +13,15 @@ export default defineConfig({
   },
   ignorePatterns: ["**/*.astro", "dist/"],
   plugins: ["typescript", "import", "unicorn"],
+  jsPlugins: [
+    "@e18e/eslint-plugin",
+    "eslint-plugin-no-only-tests",
+    "eslint-plugin-perfectionist",
+    "eslint-plugin-unused-imports",
+  ],
   rules: {
     eqeqeq: ["error", "always", { null: "ignore" }],
+    "no-only-tests/no-only-tests": "error",
+    "unused-imports/no-unused-imports": "error",
   },
 });

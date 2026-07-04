@@ -58,5 +58,6 @@ pipeline's main job). New pages go in `src/content/pages/` (rendered by the
 ## Checks
 
 Before any publish commit:
-`pnpm typecheck && pnpm lint && pnpm lint:css && pnpm build` all green, from
-this directory. A failed build means no publish --- never commit a red state.
+`pnpm typecheck && pnpm lint && pnpm lint:css && pnpm test && pnpm build` all
+green, from this directory. A failed build means no publish --- never commit a
+red state.

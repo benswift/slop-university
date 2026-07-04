@@ -1,81 +1,88 @@
 ---
+import { getCollection } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import type { TopLevelSpec } from "vega-lite";
+import {
+  academicFte,
+  chartSvg,
+  countBy,
+  cumulativeByYear,
+  perFteByYear,
+  vlConfig,
+} from "../lib/performance";
 import { siteConfig } from "../site-config";
-import { academicFte, countBy, readLedger, vlConfig } from "../lib/performance";
 
-const runs = readLedger();
+const outputs = await getCollection("outputs");
+const dates = outputs.map((o) => o.data.date);
 const fte = academicFte();
 
-const byYear = countBy(runs, (r) => String(new Date(r.date).getFullYear())).sort((a, b) =>
-  a.key.localeCompare(b.key),
-);
-// Cumulative outputs climb monotonically, as the sector expects.
-let cumulative = 0;
-const cumulativeByYear = byYear.map(({ key, count }) => {
-  cumulative += count;
-  return { year: key, outputs: cumulative };
-});
-const bySchool = countBy(runs, (r) => r.school);
-const perFte = byYear.map(({ key, count }) => ({
-  year: key,
-  perFte: Number((count / fte).toFixed(2)),
-}));
+const bySchool = countBy(outputs, (o) => o.data.school ?? "Slop University");
 
-const config = vlConfig();
-const specs = {
-  "rp-by-year": {
-    $schema: "https://vega.github.io/schema/vega-lite/v6.json",
-    description: "Cumulative research outputs by year",
-    data: { values: cumulativeByYear },
-    mark: { type: "line", point: true },
-    encoding: {
-      x: { field: "year", type: "ordinal", title: "Year" },
-      y: {
-        field: "outputs",
-        type: "quantitative",
-        title: "Cumulative outputs",
-        axis: { tickMinStep: 1 },
+const width = 640;
+const charts: { title: string; label: string; spec: TopLevelSpec }[] = [
+  {
+    title: "Outputs over time",
+    label: "Cumulative research outputs by year",
+    spec: {
+      data: { values: cumulativeByYear(dates) },
+      mark: { type: "line", point: true },
+      encoding: {
+        x: { field: "year", type: "ordinal", title: "Year" },
+        y: {
+          field: "outputs",
+          type: "quantitative",
+          title: "Cumulative outputs",
+          axis: { tickMinStep: 1 },
+        },
       },
+      width,
+      height: 220,
+      config: vlConfig,
     },
-    width: "container",
-    height: 220,
-    config,
   },
-  "rp-by-school": {
-    $schema: "https://vega.github.io/schema/vega-lite/v6.json",
-    description: "Research outputs by school",
-    data: { values: bySchool },
-    mark: "bar",
-    encoding: {
-      y: { field: "key", type: "nominal", title: null, sort: "-x" },
-      x: { field: "count", type: "quantitative", title: "Outputs", axis: { tickMinStep: 1 } },
+  {
+    title: "Outputs by school",
+    label: "Research outputs by school",
+    spec: {
+      data: { values: bySchool },
+      mark: "bar",
+      encoding: {
+        y: { field: "key", type: "nominal", title: null, sort: "-x" },
+        x: { field: "count", type: "quantitative", title: "Outputs", axis: { tickMinStep: 1 } },
+      },
+      width,
+      height: 160,
+      config: vlConfig,
     },
-    width: "container",
-    height: 160,
-    config,
   },
-  "rp-per-fte": {
-    $schema: "https://vega.github.io/schema/vega-lite/v6.json",
-    description: "Research outputs per academic FTE",
-    data: { values: perFte },
-    mark: "bar",
-    encoding: {
-      x: { field: "year", type: "ordinal", title: "Year" },
-      y: { field: "perFte", type: "quantitative", title: "Outputs per academic FTE" },
+  {
+    title: "Output intensity",
+    label: "Research outputs per academic FTE",
+    spec: {
+      data: { values: perFteByYear(dates, fte) },
+      mark: "bar",
+      encoding: {
+        x: { field: "year", type: "ordinal", title: "Year" },
+        y: { field: "perFte", type: "quantitative", title: "Outputs per academic FTE" },
+      },
+      width,
+      height: 220,
+      config: vlConfig,
     },
-    width: "container",
-    height: 220,
-    config,
   },
-};
+];
+
+const rendered = await Promise.all(
+  charts.map(async (chart) => ({ ...chart, svg: await chartSvg(chart.spec) })),
+);
 
 const stats = [
-  { label: "Research outputs", value: runs.length },
-  { label: "DOIs minted", value: new Set(runs.map((r) => r.doi)).size },
+  { label: "Research outputs", value: outputs.length },
+  { label: "DOIs minted", value: new Set(outputs.map((o) => o.data.doi)).size },
   { label: "Academic FTE", value: fte },
   {
     label: "Outputs per academic FTE",
-    value: fte > 0 ? (runs.length / fte).toFixed(2) : "—",
+    value: fte > 0 ? (outputs.length / fte).toFixed(2) : "—",
   },
 ];
 ---
@@ -87,8 +94,7 @@ const stats = [
 >
   <p class="lead">
     The University measures what matters. These indicators are generated
-    directly from the research repository's publication ledger and are updated
-    with every deposit.
+    directly from the research repository and are updated with every deposit.
   </p>
 
   <dl class="stat-row">
@@ -102,31 +108,15 @@ const stats = [
     }
   </dl>
 
-  <h2>Outputs over time</h2>
-  <div class="chart" id="rp-by-year" role="img" aria-label="Cumulative research outputs by year"></div>
-
-  <h2>Outputs by school</h2>
-  <div class="chart" id="rp-by-school" role="img" aria-label="Research outputs by school"></div>
-
-  <h2>Output intensity</h2>
-  <div class="chart" id="rp-per-fte" role="img" aria-label="Research outputs per academic FTE"></div>
-
-  <script type="application/json" id="rp-specs" set:html={JSON.stringify(specs)} />
-</ContentLayout>
-
-<script>
-  import vegaEmbed from "vega-embed";
-
-  const specsEl = document.getElementById("rp-specs");
-  if (specsEl?.textContent) {
-    const specs = JSON.parse(specsEl.textContent) as Record<string, object>;
-    for (const [id, spec] of Object.entries(specs)) {
-      if (document.getElementById(id)) {
-        vegaEmbed(`#${id}`, spec, { actions: false, renderer: "svg" });
-      }
-    }
+  {
+    rendered.map((chart) => (
+      <>
+        <h2>{chart.title}</h2>
+        <div class="chart" role="img" aria-label={chart.label} set:html={chart.svg} />
+      </>
+    ))
   }
-</script>
+</ContentLayout>
 
 <style>
   .stat-row {
@@ -156,5 +146,10 @@ const stats = [
   .chart {
     width: 100%;
     margin-block: var(--at-spacing-md) var(--at-spacing-xl);
+  }
+
+  .chart :global(svg) {
+    width: 100%;
+    height: auto;
   }
 </style>

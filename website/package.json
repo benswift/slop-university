@@ -7,32 +7,38 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
+    "test": "vitest run",
     "lint": "oxlint",
     "lint:css": "stylelint \"src/**/*.css\"",
     "format": "oxfmt .",
     "format:check": "oxfmt --check ."
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "^0.3.1",
-    "@astrojs/mdx": "^7.0.0",
-    "@astrojs/svelte": "^9.0.0",
+    "@astrojs/svelte": "^9.0.1",
     "@iconify-json/iconoir": "^1.2.11",
     "astro": "^7.0.0",
     "astro-theme-university": "git+https://github.com/ANUcybernetics/astro-theme-university.git#v0.1.1",
-    "sharp": "^0.34.5",
-    "svelte": "^5.55.10",
-    "vega": "^6.2.0",
-    "vega-embed": "^7.1.0",
-    "vega-lite": "^6.4.3"
+    "sharp": "^0.35.3",
+    "svelte": "^5.55.10"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@e18e/eslint-plugin": "^0.5.1",
+    "eslint-plugin-no-only-tests": "^3.4.0",
+    "eslint-plugin-perfectionist": "^5.9.1",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "lightningcss": "^1.32.0",
-    "oxfmt": "^0.52.0",
+    "oxfmt": "^0.57.0",
     "oxlint": "^1.67.0",
+    "pagefind": "^1.5.2",
     "stylelint": "^17.12.0",
     "stylelint-config-standard": "^40.0.0",
-    "svelte-check": "^4.4.8",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vega": "^6.2.0",
+    "vega-lite": "^6.4.3",
+    "vitest": "^4.1.9"
+  },
+  "engines": {
+    "pnpm": ">=11"
   }
 }

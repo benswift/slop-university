@@ -3,7 +3,6 @@ import universityTheme from "astro-theme-university";
 
 export default defineConfig({
   site: "https://slop.university",
-  base: "/",
   integrations: [
     universityTheme({
       defaultLayout: "src/layouts/PageLayout.astro",
