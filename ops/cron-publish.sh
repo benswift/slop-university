@@ -40,13 +40,13 @@ log "=== publish agent finished at $(date -Iseconds) ==="
 # allowlist. This is the mechanical enforcement of website/CLAUDE.md's hard
 # floors: workflows, CNAME, robots.txt, and doctrine files can never land
 # via the unattended path, no matter what the agent was talked into.
-ALLOWLIST_RE='^(website/src/content/(news|outputs)/|website/public/outputs/(pdf|thumbs)/|data/publish-ledger\.json$|data/pending-post\.json$)'
+ALLOWLIST_RE='^(website/src/content/(news|outputs)/|website/public/outputs/(pdf|thumbs)/|data/pending-post\.json$)'
 
 if [ -n "$(git status --porcelain)" ]; then
   log "VALIDATION FAILURE: dirty working tree after agent run:"
   git status --porcelain >> "$LOG_FILE"
   git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-  git clean -fd website/src/content website/public/outputs data >> "$LOG_FILE" 2>&1
+  git clean -fd website/src/content website/public/outputs >> "$LOG_FILE" 2>&1
   log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
   exit 1
 fi

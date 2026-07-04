@@ -51,11 +51,12 @@ absurd-but-plausible research angle on that theme, in the register of the poster
 preset's steering examples. The one line you compose is the only thing that
 flows downstream; discard the scraped material entirely.
 
-**Ledger dedup.** Read `data/publish-ledger.json` and compare the candidate
-topic against previous runs' `topic` fields. If it substantially overlaps any
-prior topic (same subject matter, not just same broad theme), compose a
-different angle. Also vary the discourse theme itself across consecutive runs
-where the feeds allow.
+**Dedup.** Compare the candidate topic against the `topic` field of every
+existing outputs entry (`website/src/content/outputs/*.yml` --- the canonical
+record of published artefacts). If it substantially overlaps any prior topic
+(same subject matter, not just same broad theme), compose a different angle.
+Also vary the discourse theme itself across consecutive runs where the feeds
+allow.
 
 ## 2. Roll a preset
 
@@ -114,40 +115,19 @@ verifiable numbers). Then:
   `avifenc -j 4 -s 6 --min 0 --max 63 -a end-usage=q -a cq-level=28` →
   `website/public/outputs/thumbs/<run-id>.avif`.
 
-## 7. Update the ledger
+The outputs entry is the canonical record of the run: the dedup check reads the
+collection, and the research-performance page charts it.
 
-Append a record to `data/publish-ledger.json` (create the file as `{"runs": []}`
-if absent):
-
-```json
-{
-  "date": "<ISO datetime>",
-  "topic": "<the composed steering line>",
-  "preset": "<preset>",
-  "seed": "<seed>",
-  "doi": "10.5555/slop.<seed>",
-  "output": "<run-id>",
-  "title": "<artefact title>",
-  "authors": ["<roster names>"],
-  "school": "<school>",
-  "pdf": "website/public/outputs/pdf/<run-id>.pdf",
-  "news": "website/src/content/news/<date>-<slug>.md"
-}
-```
-
-The ledger is the canonical outputs manifest: the dedup check reads it, and the
-research-performance page will chart it. Keep it valid JSON.
-
-## 8. Verify the site
+## 7. Verify the site
 
 From `website/`:
-`mise exec -- pnpm typecheck && mise exec -- pnpm lint && mise exec -- pnpm run lint:css && mise exec -- pnpm build`
+`mise exec -- pnpm typecheck && mise exec -- pnpm lint && mise exec -- pnpm run lint:css && mise exec -- pnpm test && mise exec -- pnpm build`
 --- all green. If the content-layer cache serves a stale collection,
 `rm -rf node_modules/.astro .astro` and rebuild. A red build = no publish:
-revert the staged website/, data/ changes (`git checkout -- website data`,
-remove the new untracked files) and exit non-zero.
+revert the staged website/ changes (`git checkout -- website`, remove the new
+untracked files) and exit non-zero.
 
-## 9. Commit --- never push
+## 8. Commit --- never push
 
 Stage exactly this run's files (by name, never `git add -A`):
 
@@ -155,7 +135,6 @@ Stage exactly this run's files (by name, never `git add -A`):
 - `website/src/content/outputs/<run-id>.yml`
 - `website/public/outputs/pdf/<run-id>.pdf`
 - `website/public/outputs/thumbs/<run-id>.avif`
-- `data/publish-ledger.json`
 
 Commit message: `publish: <preset> — <topic slug> (<doi>)`. One commit, on
 `main`. **Do not push** --- the wrapper validates and pushes. Do not touch
