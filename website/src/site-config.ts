@@ -20,6 +20,7 @@ export const siteConfig = defineSiteConfig({
   links: [
     { text: "News", href: "/" },
     { text: "Research outputs", href: "/outputs/" },
+    { text: "Research performance", href: "/research-performance/" },
   ],
 
   // Outputs are CC BY 4.0 — the open-access repository default; reuse
