@@ -49,31 +49,34 @@ export function perFteByYear(dates: Date[], fte: number): { year: string; perFte
 }
 
 // The slop palette for Vega-Lite --- theme colours, never library defaults.
-const chartTheme = {
-  gold: "#b97d1c",
-  ink: "#1a1a1a",
-  grey: "#6b6154",
-  grid: "#e4ddd0",
-  font: "Public Sans, sans-serif",
-};
+// Charts are static SVG baked at build time, so each spec renders twice (a
+// light and a dark variant) and CSS shows the one matching the site theme.
+const gold = "#b97d1c";
 
-export const vlConfig = {
-  background: "transparent",
-  font: chartTheme.font,
-  axis: {
-    labelColor: chartTheme.grey,
-    titleColor: chartTheme.grey,
-    gridColor: chartTheme.grid,
-    domainColor: chartTheme.grid,
-    tickColor: chartTheme.grid,
-    labelFontSize: 12,
-    titleFontSize: 12,
-  },
-  view: { stroke: null },
-  bar: { color: chartTheme.gold },
-  line: { color: chartTheme.gold, strokeWidth: 2.5 },
-  point: { color: chartTheme.gold, filled: true },
-};
+export function vlConfig(mode: "light" | "dark") {
+  const grey = mode === "dark" ? "#a39887" : "#6b6154";
+  const grid = mode === "dark" ? "#3d3831" : "#e4ddd0";
+  return {
+    background: "transparent",
+    font: "Public Sans, sans-serif",
+    axis: {
+      labelColor: grey,
+      titleColor: grey,
+      gridColor: grid,
+      domainColor: grid,
+      tickColor: grid,
+      labelFontSize: 12,
+      titleFontSize: 12,
+      // 0 disables truncation; headless width estimates over-truncate the
+      // school names otherwise.
+      labelLimit: 0,
+    },
+    view: { stroke: null },
+    bar: { color: gold },
+    line: { color: gold, strokeWidth: 2.5 },
+    point: { color: gold, filled: true },
+  };
+}
 
 // Charts are compiled to static SVG at build time; no Vega runtime reaches
 // the client. width/height become a viewBox so the SVG scales fluidly.

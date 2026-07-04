@@ -37,7 +37,6 @@ const charts: { title: string; label: string; spec: TopLevelSpec }[] = [
       },
       width,
       height: 220,
-      config: vlConfig,
     },
   },
   {
@@ -52,7 +51,6 @@ const charts: { title: string; label: string; spec: TopLevelSpec }[] = [
       },
       width,
       height: 160,
-      config: vlConfig,
     },
   },
   {
@@ -67,13 +65,18 @@ const charts: { title: string; label: string; spec: TopLevelSpec }[] = [
       },
       width,
       height: 220,
-      config: vlConfig,
     },
   },
 ];
 
+// Each chart renders twice --- the site theme is a client-side toggle, so
+// both variants ship and CSS displays the matching one (no chart JS).
 const rendered = await Promise.all(
-  charts.map(async (chart) => ({ ...chart, svg: await chartSvg(chart.spec) })),
+  charts.map(async (chart) => ({
+    ...chart,
+    light: await chartSvg({ ...chart.spec, config: vlConfig("light") }),
+    dark: await chartSvg({ ...chart.spec, config: vlConfig("dark") }),
+  })),
 );
 
 const stats = [
@@ -112,7 +115,8 @@ const stats = [
     rendered.map((chart) => (
       <>
         <h2>{chart.title}</h2>
-        <div class="chart" role="img" aria-label={chart.label} set:html={chart.svg} />
+        <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
+        <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
       </>
     ))
   }
@@ -151,5 +155,29 @@ const stats = [
   .chart :global(svg) {
     width: 100%;
     height: auto;
+  }
+
+  /* The theme toggle stamps data-theme on <html>; prefers-color-scheme covers
+     the no-JS case where no attribute is ever set. */
+  .chart-dark {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-light {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .chart-light {
+      display: none;
+    }
+
+    :root:not([data-theme]) .chart-dark {
+      display: block;
+    }
   }
 </style>

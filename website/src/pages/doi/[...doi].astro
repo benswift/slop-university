@@ -26,7 +26,7 @@ const { target, title } = Astro.props;
     <link rel="canonical" href={new URL(target, Astro.site)} />
     <meta name="robots" content="noindex" />
   </head>
-  <body>
+  <body data-pagefind-ignore>
     <p>Resolving to <a href={target}>{title}</a>…</p>
   </body>
 </html>
