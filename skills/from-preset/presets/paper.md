@@ -112,7 +112,15 @@ Per-run `references.bib` harvested from genuine literature:
    correctly attributed. Never fabricate an entry, never pad with an unverified
    one; 15 verified beats 25 mixed.
 4. Write `output/slop-paper-<slug>-<seed>.bib` and load it with
-   `#bibliography("/output/slop-paper-<slug>-<seed>.bib", style: "ieee")`.
+   `#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References",
+   style: "ieee")`. (The whole `output/` tree is gitignored, the per-run bib
+   included.)
+
+   **arXiv entry form**: typst's BibTeX conversion drops `eprint` /
+   `archivePrefix` (the entry renders as a bare title + year), and a `url`
+   field suppresses the year. Write arXiv entries as
+   `@article{key, author = {...}, title = {...}, year = {...},
+   journal = {arXiv preprint arXiv:<id>}}`.
 
 **Citation honesty rule**: prose claims about a cited work must be true of that
 work ("resource-allocation mechanisms have been studied extensively @real2019"
@@ -188,8 +196,21 @@ span the title block + abstract across both with
 #set text(size: 9.5pt)
 #set par(justify: true)
 
+// Level-1 headings at paper scale: the template's booklet-display rule (26pt
+// gold) is a function-style show rule, so a show-set won't override it ---
+// replace it outright.
+#show heading.where(level: 1): it => block(
+  above: 1.4em,
+  below: 0.7em,
+  text(size: 13pt, weight: "bold", fill: slop-colors.primary, it.body),
+)
+
 // ── Title block + abstract, spanning both columns ──
 #place(top + center, scope: "parent", float: true, clearance: 1.6em)[
+  // The template's first-page header spacer shifts flowed content but NOT
+  // top-placed parent-scope floats --- without this the title collides with
+  // the lockup.
+  #v(2.4cm)
   #set align(center)
   #text(size: 17pt, weight: "medium")[<Paper title --- steering-derived>]
   #v(0.5em)
@@ -232,8 +253,11 @@ span the title block + abstract across both with
 = Conclusion
 <...>
 
-#bibliography("/output/slop-paper-<slug>-<seed>.bib", style: "ieee")
+#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References", style: "ieee")
 ```
+
+(`title: "References"` matters --- the default heading is "Bibliography", and
+"References" is the load-bearing genre convention.)
 
 Structural reference: the ANU layer's worked example at
 `~/projects/anu-typst-template/packages/anu-typst-template/0.3.0/examples/paper.typ`

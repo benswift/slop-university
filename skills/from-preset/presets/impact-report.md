@@ -215,8 +215,9 @@ for the run's vignettes and pull-quote attributions.
 Selection rules:
 
 - 4-6 archetypes total
-- no more than 2 from any one category (government / cultural / university /
-  international / industry / consortia)
+- no more than 2 from any one category --- the categories are the six list
+  headers under "Common external partners" (government / cultural /
+  universities-domestic / universities-international / industry / consortia)
 - at least 3 categories represented
 - mix salient and obscure within the set --- if "a national statistics agency"
   is in, balance with a less evocative choice like "a benchmarking consortium"
@@ -671,20 +672,25 @@ Verifying against the JSON before writing is cheaper than a failed compile.
 
 ### Pull-quotes
 
-Use `#quote(block: true, attribution: [...])[...]` --- typst's block-quote form
-(the template's `show quote.where(block: true)` rule sets the type/spacing).
-Markdown-style `> ...` does NOT render as a block quote in typst; it shows up as
-a literal greater-than character. Example:
+Use `#quote(block: true)` --- typst's block-quote form (the template's
+`show quote.where(block: true)` rule sets the type/spacing). Markdown-style
+`> ...` does NOT render as a block quote in typst; it shows up as a literal
+greater-than character.
+
+**Known template bug**: the core template's block-quote show rule renders only
+the body and silently drops `attribution:` --- so carry the attribution inside
+the body, right-aligned:
 
 ```typst
-#quote(
-  block: true,
-  attribution: [Deputy Secretary, a federal infrastructure department],
-)[
+#quote(block: true)[
   "Working with the School over three years gave us the methodology
   vocabulary we now use across the department."
+  #align(right)[--- Deputy Secretary, a federal infrastructure department]
 ]
 ```
+
+(When the core template's rule learns to render `it.attribution`, revert to
+the `attribution:` parameter.)
 
 Attributions name partner-archetype roles (described, never a real or invented
 proper-noun organisation) or roster researchers with their canonical title.

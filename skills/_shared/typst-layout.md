@@ -39,20 +39,27 @@ Faithful path:
 ## Document metadata
 
 Set the PDF title via `#set document(title: ...)`. **Title only ---** no author,
-no description, no keywords, no date. Keep the metadata anonymous; the booklet
-must read straight on the rendered pages.
+no description, no keywords, no date (typst stamps a CreationDate by default;
+`date: none` suppresses it). Keep the metadata anonymous; the booklet must read
+straight on the rendered pages.
 
 ```typst
 #set document(
   title: "<title shape per the calling skill>",
+  date: none,
 )
 ```
 
-The caller defines the title shape. Presets typically embed the steering prompt
-in a satirical formula (e.g. strategy: "This ANU Strategy Does Not Exist:
-<steering verbatim>"; impact report: "This SOCY Impact Report Does Not Exist:
-<steering verbatim>"). The from-source skill uses the source document's actual
-title verbatim.
+The caller defines the title shape. Presets embed the steering prompt in a
+satirical formula (e.g. strategy: "This Slop University Strategy Does Not Exist:
+<steering verbatim>"; impact report: "This Slop University Impact Report Does
+Not Exist: <steering verbatim>"). The from-source skill uses the source
+document's actual title verbatim.
+
+## Prose gotchas
+
+- **Escape `$` in body text** (`\$600 million`) --- a bare `$` opens typst math
+  mode and the compile error points somewhere unhelpful.
 
 ## The show-rule call
 

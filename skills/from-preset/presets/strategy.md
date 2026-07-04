@@ -264,10 +264,10 @@ Get out of its way. **Page-break discipline:** see
 **Figure placement:**
 
 - 1 cover image, passed as
-  `cover: read("/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none)` to
+  `cover: read("/output/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none)` to
   the `slop()` call.
 - 4-5 inline landscape figures via
-  `#figure(image("/slop-strategy-<slug>-<seed>-images/inline-N.jpg"))`. The template's
+  `#figure(image("/output/slop-strategy-<slug>-<seed>-images/inline-N.jpg"))`. The template's
   `show figure.where(kind: image)` rule already extends them to the right page
   edge (full-bleed-right). No template tweaks needed.
 - Place inline figures **within** sections --- between paragraphs, or at the
@@ -373,7 +373,7 @@ import / metadata / back-cover patterns; no manual page breaks):
 #show: slop.with(
   title: "Slop University Strategic Plan 2026-2031",
   subtitle: "<varies between runs>",
-  cover: read("/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none),
+  cover: read("/output/slop-strategy-<slug>-<seed>-images/cover.jpg", encoding: none),
   config: (bleed: 3mm),  // 3mm print bleed (trimmed, saddle-stitched booklet); slop branding comes with the package
 )
 
@@ -381,7 +381,7 @@ import / metadata / back-cover patterns; no manual page breaks):
 
 = Foreword from the Vice-Chancellor
 [paragraphs...]
-#figure(image("/slop-strategy-<slug>-<seed>-images/inline-1.jpg"))
+#figure(image("/output/slop-strategy-<slug>-<seed>-images/inline-1.jpg"))
 [more paragraphs, or signature]
 
 = Executive summary
@@ -394,7 +394,7 @@ import / metadata / back-cover patterns; no manual page breaks):
 
 = Strategic context
 [paragraphs...]
-#figure(image("/slop-strategy-<slug>-<seed>-images/inline-2.jpg"))
+#figure(image("/output/slop-strategy-<slug>-<seed>-images/inline-2.jpg"))
 [more paragraphs]
 
 [...and so on through the rest of the skeleton]

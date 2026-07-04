@@ -3,8 +3,8 @@
 Cross-cutting chart doctrine for presets that render charts (currently
 `impact-report` and `research-poster`). The calling preset cross-refs this file
 in its chart-generation step and supplies: (a) the chart-folder path (used as
-`{chart-folder}` below --- e.g. `output/socy-impact-<slug>-<seed>-charts` or
-`output/anu-poster-<slug>-<seed>-charts`), (b) the chart count and the type for
+`{chart-folder}` below --- e.g. `output/slop-impact-<slug>-<seed>-charts` or
+`output/slop-poster-<slug>-<seed>-charts`), (b) the chart count and the type for
 each chart (drawn from the menu in "Chart types" below), and (c) where each
 chart embeds in the typst source.
 
@@ -165,7 +165,7 @@ collide:
 ```
 
 Import paths are project-root-relative (leading slash + the `output/` prefix ---
-e.g. `/output/anu-poster-<slug>-<seed>-charts/chart-1.typ`), matching how images
+e.g. `/output/slop-poster-<slug>-<seed>-charts/chart-1.typ`), matching how images
 are referenced elsewhere; the document is compiled with
 `typst compile --root .`.
 
@@ -180,6 +180,9 @@ are referenced elsewhere; the document is compiled with
 - **Year axis shows `2,024`**: a quantitative year picks up thousands
   separators. Format it plainly with
   `scale-x-continuous(labels: format-number(big-mark: "", digits: 0))`.
+- **Two legends appear** (scatter/line with both `colour` and `fill` mapped):
+  suppress the duplicate in `guides` --- e.g.
+  `guides(colour: guide-legend(...), fill: none)`.
 - **Categorical x-axis in the wrong order** (months, quarters, ordinal stages):
   gribouille sorts string categories alphabetically, so a March-to-August series
   plots Apr/Aug/Jul/Jun/Mar/May. Pin the order with
