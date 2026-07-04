@@ -1,8 +1,8 @@
 import type { SiteConfig } from "astro-theme-university/types";
 import { defineSiteConfig } from "astro-theme-university/types";
 import slopCrest from "./assets/branding/slop-crest.svg";
-import slopLogo from "./assets/branding/slop-secondary-horizontal-gold-black.svg";
-import slopLogoDark from "./assets/branding/slop-secondary-horizontal-gold-white.svg";
+import slopLogo from "./assets/branding/slop-horizontal-gold-black.svg";
+import slopLogoDark from "./assets/branding/slop-horizontal-gold-white.svg";
 
 // The Slop University branding preset — the web mirror of the
 // slop-university-brand typst package. Spread into the site config (and from

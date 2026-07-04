@@ -19,11 +19,15 @@ The lockup ships inside `brand/slop-university-brand/0.1.0/` --- a typst package
 over `university-typst-template`, the de-branded layout core (in the
 `anu-typst-template` repo under `packages/`). The brand package owns the palette
 (built from the lockup gold via `make-palette`, ink pinned to `#1a1a1a`), the
-four lockup SVGs, the masthead placement geometry, and the gribouille chart
-values (`slop-theme`, `slop-categorical`, `slop-ordinal`, `slop-gold-tints`,
-`slop-colour` / `slop-fill`). Generated documents import the brand package only;
-nothing slop-branded lives in the ANU template from 0.3.0 (the frozen 0.2.0
-still carries the old `lockup: "slop"` branch so pre-split outputs re-compile).
+two lockup SVGs (one horizontal mark, black/white wordmark ink; masthead and
+back cover share the artwork), the masthead placement geometry, and the
+gribouille chart values (`slop-theme`, `slop-categorical`, `slop-ordinal`,
+`slop-gold-tints`, `slop-colour` / `slop-fill`). Generated documents import the
+brand package only. The same two SVGs are installed into
+`website/src/assets/branding/` for the site's logo/logoDark (build-all.sh keeps
+the copies in sync); `slop-crest.svg` there is a **hand-derived crest-only cut**
+of the lockup art (favicon) --- lockup-gen.typ doesn't produce it, so if the
+crest curve ever changes, re-derive it by hand from the new lockup.
 
 This directory keeps the _generator_ toolchain.
 
@@ -31,11 +35,10 @@ This directory keeps the _generator_ toolchain.
 
 - `lockup-gen.typ` --- the generator. Crest drawn natively as one gold-stroke
   `curve` (so it exports as vector, not a rasterised embed); wordmark is Public
-  Sans, outlined to paths by typst's SVG export. `--input variant=black|white`.
-- `svgo.config.mjs` --- svgo config; **keeps the viewBox** (see file comment ---
-  losing it breaks masthead placement).
-- `build-all.sh` --- canonical entry point: compiles both variants, runs svgo,
-  and installs the four SVGs into the brand package's `logos/`.
+  Sans, outlined to paths by typst's SVG export (which carries the viewBox the
+  masthead placement depends on). `--input variant=black|white`.
+- `build-all.sh` --- canonical entry point: compiles both variants and installs
+  them into the brand package's `logos/` and the website's branding assets.
 
 ## Regenerating
 
@@ -46,7 +49,9 @@ This directory keeps the _generator_ toolchain.
 Needs Public Sans (`$PUBLIC_SANS_PATH`, default
 `~/.local/share/fonts/PublicSans-static`) and writes into the brand package
 logos dir (`$SLOP_BRAND_LOGOS`, default
-`../../brand/slop-university-brand/0.1.0/logos`). Both env vars are overridable.
+`../../brand/slop-university-brand/0.1.0/logos`) and the website branding dir
+(`$SLOP_WEB_BRANDING`, default `../../website/src/assets/branding`). All env
+vars are overridable.
 
 ## Masthead placement (the `slop` lockup entry in the brand package)
 
@@ -66,7 +71,6 @@ pale block behind the wordmark --- revisit with a compact (stacked or
 crest-only) masthead variant if that case matters.
 
 These values live as data in the brand package's lockup entry (`mast-width`,
-`mast-dx`, `mast-align`, `back-width`); masthead (`slop-secondary`) + back cover
-(`slop-primary`). All three satirical presets brand with the slop package; the
-faithful from-source path keeps the genuine `anu` / `anu-socy` via
-`@local/anu-typst-template`.
+`mast-dx`, `mast-align`); masthead and back cover share the one artwork. The
+satirical presets brand with the slop package; the faithful from-source path
+keeps the genuine `anu` / `anu-socy` via `@local/anu-typst-template`.

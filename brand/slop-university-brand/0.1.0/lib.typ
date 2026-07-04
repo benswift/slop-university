@@ -5,8 +5,8 @@
 // derives from any real institution's marks.
 #import "@local/university-typst-template:0.1.0" as _uni
 #import "@local/university-typst-template:0.1.0": (
-  blockquote, chart-colour, chart-fill, chart-theme, greyscale-ordinal, icon,
-  inline-figure, make-palette, make-rule,
+  chart-colour, chart-fill, chart-theme, greyscale-ordinal, inline-figure,
+  make-palette,
 )
 
 // The two inks (plus paper) of the house style: lockup gold and ink black.
@@ -15,13 +15,12 @@
 
 // Palette derived from the lockup gold; dark-grey is pinned to the house ink
 // so chart ink and dark-theme surfaces sit on the two-ink register. `gold`
-// and `ink` are the names the doctrine uses, aliased onto the semantic keys.
+// is the name the doctrine uses, aliased onto the semantic key.
 #let slop-colors = (
   make-palette(slop-gold)
     + (
       dark-grey: slop-ink,
       gold: slop-gold,
-      ink: slop-ink,
     )
 )
 
@@ -53,6 +52,12 @@
 // NOTES.md): viewBox 0 0 285.658 56.693, so at 1.64cm the crest axis sits
 // 0.656cm in from the left edge; left-aligned art gives dx = 1.9132 - 0.656
 // = 1.2564cm, and the ~8.3cm-wide one-line wordmark needs an 8.7cm mask.
+// The lockup is one horizontal mark; masthead and back cover share the
+// artwork.
+#let _art = (
+  black: _logo("slop-horizontal-gold-black"),
+  white: _logo("slop-horizontal-gold-white"),
+)
 #let slop-brand = (
   name: "Slop University",
   fonts: (
@@ -60,22 +65,14 @@
     code: ("Monaspace Argon", "DejaVu Sans Mono"),
   ),
   colors: slop-colors,
-  spot-colors: (:),
   default-lockup: "slop",
   lockups: (
     slop: (
-      masthead: (
-        black: _logo("slop-secondary-horizontal-gold-black"),
-        white: _logo("slop-secondary-horizontal-gold-white"),
-      ),
-      primary: (
-        black: _logo("slop-primary-horizontal-gold-black"),
-        white: _logo("slop-primary-horizontal-gold-white"),
-      ),
+      masthead: _art,
+      primary: _art,
       mast-width: 8.7cm,
       mast-dx: 1.2564cm,
       mast-align: left,
-      back-width: 10cm,
     ),
   ),
   ornaments: (
@@ -83,11 +80,10 @@
   ),
 )
 
-// The core API with the slop brand applied. Same shape as the ANU layer's
-// exports, slop-prefixed.
+// The core API with the slop brand applied, slop-prefixed. Only the helpers
+// the presets actually use are exported; grow this list with the presets.
 #let slop = _uni.university.with(brand: slop-brand)
 #let slop-back-cover = _uni.back-cover.with(brand: slop-brand)
-#let slop-feature-page = _uni.feature-page.with(brand: slop-brand)
 #let slop-highlight-card = _uni.highlight-card.with(brand: slop-brand)
 #let slop-qr-code = _uni.qr-code.with(brand: slop-brand)
 #let slop-inline-figure = inline-figure
@@ -100,9 +96,6 @@
   variant: variant,
   height: height,
 )
-
-// Brand thematic break; pandoc's typst output for markdown `---` calls this.
-#let horizontalrule = make-rule(slop-brand)
 
 // --- Gribouille chart styling ---
 
