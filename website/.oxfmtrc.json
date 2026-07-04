@@ -1,0 +1,4 @@
+{
+  "ignorePatterns": ["dist/", ".astro/"],
+  "overrides": [{ "files": ["**/*.md", "**/*.mdx"], "options": { "printWidth": 80 } }]
+}

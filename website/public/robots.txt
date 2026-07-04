@@ -1,0 +1,5 @@
+# Output PDFs are excluded from indexing so that fabricated documents citing
+# real literature can never feed citation databases (Google Scholar respects
+# this). The rationale is documented on /colophon/.
+User-agent: *
+Disallow: /outputs/pdf/

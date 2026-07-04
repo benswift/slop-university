@@ -1,0 +1,186 @@
+---
+import { getCollection } from "astro:content";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { bibtex, presetLabels } from "../../lib/outputs";
+
+export async function getStaticPaths() {
+  const outputs = await getCollection("outputs");
+  return outputs.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const data = entry.data;
+const citation = bibtex(entry.id, data);
+const doiUrl = `https://slop.university/doi/${data.doi}`;
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+---
+
+<ContentLayout title={data.title} description={data.summary} {...siteConfig}>
+  <p class="lead">{data.summary}</p>
+
+  <div class="record">
+    <div class="record-main">
+      <table class="metadata">
+        <tbody>
+          {
+            data.authors.length > 0 && (
+              <tr>
+                <th scope="row">Authors</th>
+                <td>{data.authors.join(", ")}</td>
+              </tr>
+            )
+          }
+          {
+            data.school && (
+              <tr>
+                <th scope="row">School</th>
+                <td>{data.school}</td>
+              </tr>
+            )
+          }
+          <tr>
+            <th scope="row">Output type</th>
+            <td>{presetLabels[data.preset]}</td>
+          </tr>
+          <tr>
+            <th scope="row">Published</th>
+            <td>
+              <time datetime={data.date.toISOString()}>{dateFormat.format(data.date)}</time>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">DOI</th>
+            <td><a href={doiUrl}>{data.doi}</a></td>
+          </tr>
+          {
+            data.pages && (
+              <tr>
+                <th scope="row">Pages</th>
+                <td>{data.pages}</td>
+              </tr>
+            )
+          }
+          <tr>
+            <th scope="row">Version</th>
+            <td>{data.version}</td>
+          </tr>
+          <tr>
+            <th scope="row">Licence</th>
+            <td>
+              <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <a class="download" href={data.pdf}>Download PDF</a>
+      </p>
+
+      <section class="cite-as" aria-labelledby="cite-as-heading">
+        <h2 id="cite-as-heading">Cite as</h2>
+        <pre><code>{citation}</code></pre>
+        <button type="button" data-citation={citation}>Copy BibTeX</button>
+      </section>
+    </div>
+
+    {
+      data.thumbnail && (
+        <a class="record-thumb" href={data.pdf}>
+          <img src={data.thumbnail} alt={`First page of ${data.title}`} loading="lazy" />
+        </a>
+      )
+    }
+  </div>
+</ContentLayout>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-citation]")) {
+    button.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(button.dataset.citation ?? "");
+      const label = button.textContent;
+      button.textContent = "Copied";
+      setTimeout(() => {
+        button.textContent = label;
+      }, 1500);
+    });
+  }
+</script>
+
+<style>
+  .record {
+    display: grid;
+    grid-template-columns: 1fr 14rem;
+    gap: var(--at-spacing-xl);
+    align-items: start;
+  }
+
+  .record-thumb img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--at-divider);
+    box-shadow: var(--at-shadow-md);
+  }
+
+  .metadata th {
+    text-align: start;
+    padding-inline-end: var(--at-spacing-lg);
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
+  .download {
+    font-weight: 600;
+  }
+
+  .cite-as {
+    border: 1px solid var(--at-divider);
+    background: var(--at-bg-alt);
+    padding: var(--at-spacing-md) var(--at-spacing-lg);
+  }
+
+  .cite-as h2 {
+    margin-block-start: 0;
+    font-size: var(--at-font-size-h4);
+  }
+
+  .cite-as pre {
+    overflow-x: auto;
+    font-size: var(--at-font-size-sm);
+  }
+
+  .cite-as button {
+    font: inherit;
+    font-size: var(--at-font-size-sm);
+    padding: var(--at-spacing-xs) var(--at-spacing-md);
+    border: 1px solid var(--at-primary);
+    border-radius: var(--at-border-radius);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .cite-as button:hover {
+    background: var(--at-accent-soft, rgb(185 125 28 / 10%));
+  }
+
+  @media (width <= 48rem) {
+    .record {
+      grid-template-columns: 1fr;
+    }
+
+    .record-thumb {
+      order: -1;
+      max-width: 12rem;
+    }
+  }
+</style>

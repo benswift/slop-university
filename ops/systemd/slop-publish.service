@@ -1,0 +1,12 @@
+[Unit]
+Description=Slop University: autonomous publish run (scan, generate, commit; wrapper validates and pushes)
+Documentation=file:///home/ben/projects/slop-university/ops/cron-publish.sh
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ben/projects/slop-university
+Environment=PATH=/home/ben/.local/share/mise/shims:/home/ben/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/ben/projects/slop-university/ops/cron-publish.sh
+TimeoutStartSec=2h

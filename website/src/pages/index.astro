@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import Hero from "astro-theme-university/components/Hero.astro";
+import heroImage from "../assets/images/hero.avif";
+import { siteConfig } from "../site-config";
+
+const news = (await getCollection("news")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+---
+
+<BaseLayout title={siteConfig.name} {...siteConfig}>
+  <Hero slot="hero" title="Slop University" image={heroImage} imageAlt="" />
+  <p class="lead">
+    Research-led, metrics-forward, and continuously improving. News from the
+    Office of Research Outputs.
+  </p>
+
+  {
+    news.length === 0 && (
+      <p>
+        Announcements of new research outputs appear here as they are
+        published.
+      </p>
+    )
+  }
+
+  <div class="news-feed">
+    {
+      news.map((entry) => (
+        <article class="news-item">
+          <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
+          <h2>
+            <a href={`/news/${entry.id}/`}>{entry.data.title}</a>
+          </h2>
+          {entry.data.description && <p>{entry.data.description}</p>}
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .news-feed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--at-spacing-xl);
+    margin-block-start: var(--at-spacing-xl);
+  }
+
+  .news-item time {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  .news-item h2 {
+    margin-block: var(--at-spacing-xs) var(--at-spacing-sm);
+  }
+
+  .news-item p {
+    margin-block: 0;
+  }
+</style>

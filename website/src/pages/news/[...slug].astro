@@ -1,0 +1,53 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+
+export async function getStaticPaths() {
+  const news = await getCollection("news");
+  return news.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const output = entry.data.output ? await getEntry("outputs", entry.data.output) : undefined;
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+---
+
+<ContentLayout title={entry.data.title} description={entry.data.description} {...siteConfig}>
+  <p class="dateline">
+    <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
+  </p>
+  <Content />
+  {
+    output && (
+      <p class="output-link">
+        <a href={`/outputs/${output.id}/`}>
+          Read the output: <cite>{output.data.title}</cite>
+        </a>{" "}
+        (doi:{output.data.doi})
+      </p>
+    )
+  }
+</ContentLayout>
+
+<style>
+  .dateline {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  .output-link {
+    padding: var(--at-spacing-md);
+    border: 1px solid var(--at-divider);
+    background: var(--at-bg-alt);
+  }
+</style>

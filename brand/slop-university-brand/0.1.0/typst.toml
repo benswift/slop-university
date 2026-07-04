@@ -1,0 +1,8 @@
+[package]
+name = "slop-university-brand"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Ben Swift"]
+license = "MIT"
+description = "The Slop University brand as a data package over university-typst-template: palette, lockup artwork + placement geometry, and gribouille chart values for the slop.university document firehose."
+compiler = "0.15.0"

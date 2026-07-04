@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { presetLabels } from "../../lib/outputs";
+
+const outputs = (await getCollection("outputs")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", {
+  month: "long",
+  year: "numeric",
+});
+---
+
+<ContentLayout
+  title="Research outputs"
+  description="The published research outputs of Slop University."
+  {...siteConfig}
+>
+  <p class="lead">
+    All research outputs of the University are published open access under CC
+    BY 4.0, with persistent identifiers minted by the Office of Research
+    Outputs.
+  </p>
+
+  {
+    outputs.length === 0 && (
+      <p>The repository is awaiting its first deposit.</p>
+    )
+  }
+
+  <div class="output-list">
+    {
+      outputs.map((entry) => (
+        <article class="output-item">
+          {entry.data.thumbnail && (
+            // Duplicates the title link for pointer users only; removed from
+            // the accessibility tree so the card exposes a single named link.
+            <a href={`/outputs/${entry.id}/`} aria-hidden="true" tabindex="-1">
+              <img src={entry.data.thumbnail} alt="" loading="lazy" />
+            </a>
+          )}
+          <div>
+            <h2>
+              <a href={`/outputs/${entry.id}/`}>{entry.data.title}</a>
+            </h2>
+            <p class="meta">
+              {entry.data.authors.join(", ")}
+              {entry.data.authors.length > 0 && " · "}
+              {presetLabels[entry.data.preset]} ·{" "}
+              {dateFormat.format(entry.data.date)} · doi:{entry.data.doi}
+            </p>
+            <p>{entry.data.summary}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</ContentLayout>
+
+<style>
+  .output-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--at-spacing-xl);
+    margin-block-start: var(--at-spacing-xl);
+  }
+
+  .output-item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--at-spacing-lg);
+    align-items: start;
+  }
+
+  .output-item img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--at-divider);
+    box-shadow: var(--at-shadow-sm);
+  }
+
+  .output-item h2 {
+    margin-block: 0 var(--at-spacing-xs);
+    font-size: var(--at-font-size-h3);
+  }
+
+  .output-item .meta {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+    margin-block: 0 var(--at-spacing-sm);
+  }
+
+  @media (width <= 40rem) {
+    .output-item {
+      grid-template-columns: 1fr;
+    }
+
+    .output-item img {
+      max-width: 12rem;
+    }
+  }
+</style>

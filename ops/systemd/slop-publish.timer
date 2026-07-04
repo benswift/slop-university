@@ -1,0 +1,12 @@
+[Unit]
+Description=Trigger a Slop University publish run Mon/Wed/Fri 03:00 local
+Requires=slop-publish.service
+
+[Timer]
+OnCalendar=Mon,Wed,Fri 03:00
+RandomizedDelaySec=30min
+Persistent=true
+Unit=slop-publish.service
+
+[Install]
+WantedBy=timers.target

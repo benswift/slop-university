@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+
+// The University's own DOI resolver. Identifiers are minted under the
+// reserved test prefix 10.5555, so doi.org will never resolve them ---
+// resolution happens here, on infrastructure the institution runs itself
+// (the rationale is on /colophon/). Each minted DOI redirects to its
+// output's landing page.
+export async function getStaticPaths() {
+  const outputs = await getCollection("outputs");
+  return outputs.map((entry) => ({
+    params: { doi: entry.data.doi },
+    props: { target: `/outputs/${entry.id}/`, title: entry.data.title },
+  }));
+}
+
+const { target, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>Resolving to <a href={target}>{title}</a>…</p>
+  </body>
+</html>
