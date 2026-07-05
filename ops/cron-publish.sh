@@ -37,26 +37,32 @@ BASE_REF="$(git rev-parse HEAD)"
 log "=== publish agent finished at $(date -Iseconds) ==="
 
 # --- Validate: every file the agent's commits touched must fall inside the
-# allowlist. This is the mechanical enforcement of website/CLAUDE.md's hard
-# floors: workflows, CNAME, robots.txt, and doctrine files can never land
-# via the unattended path, no matter what the agent was talked into.
-ALLOWLIST_RE='^(website/src/content/(news|outputs)/|website/public/outputs/(pdf|thumbs)/|data/pending-post\.json$)'
+# allowlist AND outside the denylist. This is the mechanical enforcement of
+# website/CLAUDE.md's hard floors: workflows, CNAME, robots.txt, site-config,
+# and doctrine files can never land via the unattended path, no matter what the
+# agent was talked into. The allowlist covers the gap-driven tick's whole
+# surface: research outputs (news + outputs + PDFs/thumbs), grown pages, and
+# the canon it edits (roster, schools, headshots). The denylist carves the one
+# out-of-fiction page (colophon) back out of the otherwise-allowed pages/ dir.
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/public/outputs/(pdf|thumbs)/|canon/(roster\.yml|schools\.yml|headshots/)|data/pending-post\.json$)'
+DENYLIST_RE='(^|/)colophon\.md$'
 
 if [ -n "$(git status --porcelain)" ]; then
   log "VALIDATION FAILURE: dirty working tree after agent run:"
   git status --porcelain >> "$LOG_FILE"
   git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-  git clean -fd website/src/content website/public/outputs >> "$LOG_FILE" 2>&1
+  git clean -fd website/src/content website/public/outputs canon/headshots >> "$LOG_FILE" 2>&1
   log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
   exit 1
 fi
 
 CHANGED="$(git diff --name-only "${BASE_REF}"..HEAD)"
 if [ -n "$CHANGED" ]; then
+  DENIED="$(echo "$CHANGED" | grep -E "$DENYLIST_RE" || true)"
   VIOLATIONS="$(echo "$CHANGED" | grep -Ev "$ALLOWLIST_RE" || true)"
-  if [ -n "$VIOLATIONS" ]; then
+  if [ -n "$DENIED" ] || [ -n "$VIOLATIONS" ]; then
     log "VALIDATION FAILURE: publish commit touches disallowed paths:"
-    echo "$VIOLATIONS" >> "$LOG_FILE"
+    { echo "$DENIED"; echo "$VIOLATIONS"; } | grep -v '^$' >> "$LOG_FILE" || true
     git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
     log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
     exit 1

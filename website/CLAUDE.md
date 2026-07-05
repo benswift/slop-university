@@ -10,8 +10,10 @@ which grows this site over time.
 
 ## publish commit against a path allowlist; violating paths are reset)
 
-- **Never edit** `.github/workflows/`, `public/CNAME`, `public/robots.txt`, or
-  the doctrine files (this file, the repo `CLAUDE.md`, `skills/`).
+- **Never edit** `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
+  `src/site-config.ts` (nav and branding), `canon/schools.md` (the org
+  doctrine), or the doctrine files (this file, the repo `CLAUDE.md`, `skills/`).
+  The wrapper's allowlist excludes all of these.
 - **Reads straight.** No watermark, footer, disclaimer, or "this is satire"
   signal on any page. The one out-of-fiction page is `/colophon/`
   (`src/content/pages/colophon.md`) --- never edit it, never link it from
@@ -28,11 +30,22 @@ which grows this site over time.
 
 ## What the agent may grow
 
-Everything else: researcher profile pages (from the roster, with their
-`canon/headshots/` portraits), school and department pages, an about page, the
-research-performance dashboard, news posts and output entries (the /publish
-pipeline's main job). New pages go in `src/content/pages/` (rendered by the
-`[...slug].astro` route) or as new routes under `src/pages/`.
+The `/publish` tick is gap-driven (see `skills/publish/SKILL.md`): each run
+fills one gap. Its editable surface is exactly the wrapper's allowlist:
+
+- **The canon it renders from** --- `canon/roster.yml` (refine a bio; add a
+  collision-checked researcher with a house-style `canon/headshots/` portrait)
+  and `canon/schools.yml` (write a unit's blurb; add a collision-checked org
+  unit). The People and Schools pages are generated from these collections, so
+  editing the canon _is_ how those pages grow --- there are no per-researcher or
+  per-school files to author.
+- **Grown pages** --- `src/content/pages/` (rendered by `[...slug].astro`), e.g.
+  the About page. Never `colophon.md` (the wrapper's denylist rejects it).
+- **Research outputs** --- news posts and output entries (the tick's default
+  action).
+
+The research-performance dashboard and the page routes under `src/pages/` are
+built by hand (like this pass), not grown by the tick.
 
 - All imagery follows the two-ink house style
   (`skills/_shared/visual-style.md`), generated via `references/slop-style/`. No
@@ -45,6 +58,13 @@ pipeline's main job). New pages go in `src/content/pages/` (rendered by the
 
 ## Content model
 
+- `people` and `schools` collections load the canon **in place** from
+  `../canon/roster.yml` and `../canon/schools.yml` (see `src/content.config.ts`;
+  the schema is the shape enforcement). There are no people/school files under
+  `src/` --- editing the canon is how those pages change. Headshots resolve from
+  `canon/headshots/` via `src/lib/headshots.ts`. The content test
+  (`src/content/content.test.ts`) enforces the seams: output authors and schools
+  must exist in the canon.
 - `src/content/outputs/*.yml` --- one entry per published artefact (title,
   authors, preset, school, date, doi, summary, topic, pdf, thumbnail, pages,
   version). PDFs land in `public/outputs/pdf/`, thumbnails in
