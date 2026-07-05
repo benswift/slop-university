@@ -38,4 +38,24 @@ named or depicted, and no real institution's marks appear anywhere.
 The outputs are published under CC BY 4.0, like the open-access research they
 resemble. If you choose to cite one, the machinery will happily count it.
 
+## Citing the work
+
+Every DOI the University mints for its own outputs is fake --- reserved-test
+prefix `10.5555`, resolving only through this site. The artwork itself has
+exactly one real, citable identifier, and this is the anchor that makes the
+piece a genuine work rather than one more fabricated proxy: it is archived on
+Zenodo with a permanent DOI.
+
+The DOI [`10.5281/zenodo.21199776`](https://doi.org/10.5281/zenodo.21199776) is
+a _concept_ DOI: it always resolves to the latest archived version, so a
+citation stays current as the living work gains new releases. Cite it as:
+
+> Swift, B. (2026). _Slop University_ [Software].
+> https://doi.org/10.5281/zenodo.21199776
+
+A machine-readable
+[`CITATION.cff`](https://github.com/benswift/slop-university/blob/main/CITATION.cff)
+in the repository generates the equivalent BibTeX or other formats, and the
+Zenodo record exports them directly.
+
 Contact: outputs@slop.university
