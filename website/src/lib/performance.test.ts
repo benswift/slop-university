@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { academicFte, chartSvg, countBy, cumulativeByYear, perFteByYear } from "./performance";
+import { academicFte, chartSvg, countBy, cumulativeByYear } from "./performance";
 
 describe("countBy", () => {
   it("counts occurrences per key", () => {
@@ -18,13 +18,6 @@ describe("cumulativeByYear", () => {
       { year: "2026", outputs: 1 },
       { year: "2027", outputs: 3 },
     ]);
-  });
-});
-
-describe("perFteByYear", () => {
-  it("divides yearly counts by FTE, rounded to 2 places", () => {
-    const dates = [new Date("2026-01-01"), new Date("2026-06-01")];
-    expect(perFteByYear(dates, 3)).toEqual([{ year: "2026", perFte: 0.67 }]);
   });
 });
 

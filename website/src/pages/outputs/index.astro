@@ -1,8 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
 import { presetLabels } from "../../lib/outputs";
+import { academicFte, chartSvg, cumulativeByYear, vlConfig } from "../../lib/performance";
 
 const outputs = (await getCollection("outputs")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -12,6 +14,40 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   month: "long",
   year: "numeric",
 });
+
+const fte = academicFte();
+const stats = [
+  { label: "Research outputs", value: outputs.length },
+  { label: "DOIs minted", value: new Set(outputs.map((o) => o.data.doi)).size },
+  {
+    label: "Outputs per academic FTE",
+    value: fte > 0 ? (outputs.length / fte).toFixed(2) : "—",
+  },
+];
+
+// One chart carries the trend line --- and the whole build-time Vega-Lite
+// pipeline (static SVG, light/dark bake, slop palette) as a live reference for
+// when the dashboard grows back. Renders twice; CSS shows the matching theme.
+const spec: TopLevelSpec = {
+  data: { values: cumulativeByYear(outputs.map((o) => o.data.date)) },
+  mark: { type: "line", point: true },
+  encoding: {
+    x: { field: "year", type: "ordinal", title: "Year" },
+    y: {
+      field: "outputs",
+      type: "quantitative",
+      title: "Cumulative outputs",
+      axis: { tickMinStep: 1 },
+    },
+  },
+  width: 640,
+  height: 220,
+};
+const chart = {
+  label: "Cumulative research outputs by year",
+  light: await chartSvg({ ...spec, config: vlConfig("light") }),
+  dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
+};
 ---
 
 <ContentLayout
@@ -24,6 +60,21 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     BY 4.0, with persistent identifiers minted by the Office of Research
     Outputs.
   </p>
+
+  <dl class="stat-row">
+    {
+      stats.map((stat) => (
+        <div class="stat">
+          <dd>{stat.value}</dd>
+          <dt>{stat.label}</dt>
+        </div>
+      ))
+    }
+  </dl>
+
+  <h2>Outputs over time</h2>
+  <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
+  <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
 
   {
     outputs.length === 0 && (
@@ -61,6 +112,64 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 </ContentLayout>
 
 <style>
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--at-spacing-lg);
+    margin-block: var(--at-spacing-xl);
+  }
+
+  .stat {
+    border-block-start: 2px solid var(--at-primary);
+    padding-block-start: var(--at-spacing-sm);
+  }
+
+  .stat dd {
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .stat dt {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  .chart {
+    width: 100%;
+    margin-block: var(--at-spacing-md) var(--at-spacing-xl);
+  }
+
+  .chart :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* The theme toggle stamps data-theme on <html>; prefers-color-scheme covers
+     the no-JS case where no attribute is ever set. */
+  .chart-dark {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-light {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .chart-light {
+      display: none;
+    }
+
+    :root:not([data-theme]) .chart-dark {
+      display: block;
+    }
+  }
+
   .output-list {
     display: flex;
     flex-direction: column;

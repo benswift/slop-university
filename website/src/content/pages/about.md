@@ -20,9 +20,8 @@ Research produced under the University's name is published open access and
 carries a persistent identifier minted by the Office of Research Outputs. The
 University holds that the value of research is realised only when it is
 findable, citable, and put to use, and it organises its scholarly communication
-accordingly. Its [research outputs](/outputs/) and the
-[performance record](/research-performance/) that tracks them are available in
-full on this site.
+accordingly. Its [research outputs](/outputs/), and the performance indicators
+that track them, are available in full on this site.
 
 The University's [researchers](/people/) work across its schools and groups on a
 shared programme: to make the institution legible to itself, and to close the

@@ -5,9 +5,9 @@ import { compile, type TopLevelSpec } from "vega-lite";
 
 // The outputs content collection is the canonical record of published
 // artefacts; the roster supplies the academic FTE denominator. Both are read
-// at build time --- this page carries no hand-maintained data. The roster is
-// resolved from the working directory (builds run from website/), because
-// import.meta.url points into dist/.prerender at build time.
+// at build time --- the outputs page carries no hand-maintained data. The
+// roster is resolved from the working directory (builds run from website/),
+// because import.meta.url points into dist/.prerender at build time.
 const rosterPath = resolve(process.cwd(), "../canon/roster.yml");
 
 export function academicFte(): number {
@@ -41,13 +41,6 @@ export function cumulativeByYear(dates: Date[]): { year: string; outputs: number
   });
 }
 
-export function perFteByYear(dates: Date[], fte: number): { year: string; perFte: number }[] {
-  return outputsByYear(dates).map(({ key, count }) => ({
-    year: key,
-    perFte: Number((count / fte).toFixed(2)),
-  }));
-}
-
 // The slop palette for Vega-Lite --- theme colours, never library defaults.
 // Charts are static SVG baked at build time, so each spec renders twice (a
 // light and a dark variant) and CSS shows the one matching the site theme.
@@ -68,7 +61,7 @@ export function vlConfig(mode: "light" | "dark") {
       labelFontSize: 12,
       titleFontSize: 12,
       // 0 disables truncation; headless width estimates over-truncate the
-      // school names otherwise.
+      // labels otherwise.
       labelLimit: 0,
     },
     view: { stroke: null },
