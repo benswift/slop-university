@@ -1,6 +1,7 @@
 ---
 title: About the University
 description: Slop University — its schools, its research, and its purpose.
+heroImage: ./_heroes/about.avif
 ---
 
 Slop University is a research university organised around a single conviction:
