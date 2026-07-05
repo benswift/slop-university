@@ -41,17 +41,22 @@ log "=== publish agent finished at $(date -Iseconds) ==="
 # website/CLAUDE.md's hard floors: workflows, CNAME, robots.txt, site-config,
 # and doctrine files can never land via the unattended path, no matter what the
 # agent was talked into. The allowlist covers the gap-driven tick's whole
-# surface: research outputs (news + outputs + PDFs/thumbs), grown pages, and
-# the canon it edits (roster, schools, headshots). The denylist carves the one
-# out-of-fiction page (colophon) back out of the otherwise-allowed pages/ dir.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/public/outputs/(pdf|thumbs)/|canon/(roster\.yml|schools\.yml|headshots/)|data/pending-post\.json$)'
+# surface: research outputs (news + outputs + PDFs, plus each output's
+# pipeline-optimised thumbnail and hero under src/assets/{outputs/thumbs,
+# heroes/outputs}), grown pages, and the canon it edits (roster, schools,
+# headshots, and canon/heroes for headshot-derived profile heroes). Note the
+# tick may only touch heroes UNDER outputs/ --- the hand-built index and
+# homepage heroes elsewhere in src/assets/heroes are deliberately excluded. The
+# denylist carves the one out-of-fiction page (colophon) back out of the
+# otherwise-allowed pages/ dir.
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/src/assets/(outputs/thumbs|heroes/outputs)/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/)|data/pending-post\.json$)'
 DENYLIST_RE='(^|/)colophon\.md$'
 
 if [ -n "$(git status --porcelain)" ]; then
   log "VALIDATION FAILURE: dirty working tree after agent run:"
   git status --porcelain >> "$LOG_FILE"
   git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-  git clean -fd website/src/content website/public/outputs canon/headshots >> "$LOG_FILE" 2>&1
+  git clean -fd website/src/content website/src/assets website/public/outputs canon/headshots canon/heroes >> "$LOG_FILE" 2>&1
   log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
   exit 1
 fi
