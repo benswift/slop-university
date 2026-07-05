@@ -1,0 +1,97 @@
+# The institutional canon: schools and units (structured, renderable).
+#
+# This is the SOURCE OF TRUTH for every school, unit, lab, program, and named
+# initiative of Slop University. The website's `schools` content collection
+# loads this file directly (website/src/content.config.ts); every generated
+# artefact, press release, and site page draws its org names from here.
+#
+# The authoring doctrine --- naming register, the "no faculties" rule, the
+# collision-check requirement, history --- lives in the sibling schools.md.
+# Add an org unit HERE first (name-collision checked); never invent one inside
+# a run.
+#
+# `id` is the URL slug and the stable reference key. `school:` on a lab,
+# program, or initiative is the parent school's id.
+
+schools:
+  - id: emergent-priorities
+    name: School of Emergent Priorities
+    blurb: >-
+      The research-strategy school. Home of the Trajectory Analytics Group. Its
+      outputs favour foresight, alignment, and anticipatory framings.
+  - id: continuous-improvement
+    name: School of Continuous Improvement
+    blurb: >-
+      The measurement-and-process school. Home of the Adaptive Metrics Lab. Its
+      outputs favour evaluation, optimisation, and capability framings.
+
+units:
+  - id: office-of-research-outputs
+    name: Office of Research Outputs
+    blurb: >-
+      The producing unit credited (rotated margin wordmark) on every research
+      poster and paper: the university's organ for the manufacture of
+      research-shaped objects, named without comment. Not a school; roster
+      researchers are never affiliated to it.
+
+labs:
+  - id: trajectory-analytics-group
+    name: Trajectory Analytics Group
+    school: emergent-priorities
+  - id: adaptive-metrics-lab
+    name: Adaptive Metrics Lab
+    school: continuous-improvement
+
+programs:
+  - id: master-of-applied-measurement
+    name: Master of Applied Measurement
+    acronym: MAM
+    school: continuous-improvement
+    blurb: >-
+      The School of Continuous Improvement's flagship Masters program. The
+      acronym "MAM" is used only in space-constrained contexts.
+  - id: capability-sprints
+    name: Capability Sprints
+    school: continuous-improvement
+    blurb: >-
+      The short-course and executive-education line. Named Sprints include
+      Leading with Metrics, Reading the Dashboard, Stewarding Indicators,
+      Deciding Under Measurement, and Improving Improvement.
+
+initiatives:
+  - id: indicator-commons
+    name: Indicator Commons
+    school: continuous-improvement
+    blurb: The shared indicator library.
+  - id: living-dashboard
+    name: Living Dashboard
+    school: continuous-improvement
+    blurb: The School's always-on self-measurement wall.
+  - id: evaluation-of-evaluation
+    name: Evaluation of Evaluation
+    acronym: EoE
+    school: continuous-improvement
+    blurb: The meta-review program.
+  - id: impact-pathway-atlas
+    name: Impact Pathway Atlas
+    school: continuous-improvement
+  - id: review-cadence-observatory
+    name: Review Cadence Observatory
+    school: continuous-improvement
+  - id: improvement-grand-rounds
+    name: Improvement Grand Rounds
+    school: continuous-improvement
+    blurb: The School's seminar series.
+  - id: demo-quarter
+    name: Demo Quarter
+    school: continuous-improvement
+    blurb: The quarterly Masters-program showcase.
+
+history:
+  - id: institute-for-measurable-outcomes
+    name: Institute for Measurable Outcomes
+    school: continuous-improvement
+    blurb: >-
+      The School of Continuous Improvement's predecessor institution; the School
+      traces its origins to it. Historical references only; never conflate with
+      the School.
