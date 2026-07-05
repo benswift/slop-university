@@ -30,7 +30,7 @@ BASE_REF="$(git rev-parse HEAD)"
 # redeploys whatever previously passed validation.
 /home/ben/.local/bin/claude \
   --dangerously-skip-permissions \
-  --effort max \
+  --model claude-sonnet-5 \
   -p "/publish" \
   >> "$LOG_FILE" 2>&1 || log "publish agent failed (continuing)"
 
