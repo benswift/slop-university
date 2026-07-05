@@ -1,0 +1,118 @@
+---
+import { Image } from "astro:assets";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
+import { headshot } from "../../lib/headshots";
+
+export async function getStaticPaths() {
+  const people = await getPeople();
+  return people.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const person = entry.data;
+const portrait = headshot(entry.id);
+
+const schools = await getSchools();
+const schoolId = schoolIdByName(schools, person.school);
+const outputs = await outputsByAuthor(person.name);
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
+---
+
+<ContentLayout title={person.name} description={person.title} {...siteConfig}>
+  <div class="profile">
+    {
+      portrait && (
+        <Image
+          class="portrait"
+          src={portrait}
+          alt={`Portrait of ${person.name}`}
+          width={480}
+          height={480}
+        />
+      )
+    }
+    <div class="profile-body">
+      <p class="title">{person.title}</p>
+      <p class="school">
+        {
+          schoolId ? (
+            <a href={`/schools/${schoolId}/`}>{person.school}</a>
+          ) : (
+            person.school
+          )
+        }
+      </p>
+      {person.web && (
+        <p class="web"><a href={person.web}>{person.web}</a></p>
+      )}
+      <p>{person.bio}</p>
+    </div>
+  </div>
+
+  {
+    outputs.length > 0 && (
+      <section class="outputs" aria-labelledby="outputs-heading">
+        <h2 id="outputs-heading">Research outputs</h2>
+        <ul role="list">
+          {outputs.map((o) => (
+            <li>
+              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+              <span class="meta"> · {dateFormat.format(o.data.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</ContentLayout>
+
+<style>
+  .profile {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: var(--at-spacing-xl);
+    align-items: start;
+  }
+
+  .portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--at-divider);
+    box-shadow: var(--at-shadow-md);
+  }
+
+  .profile-body .title {
+    font-size: var(--at-font-size-h4);
+    font-weight: 600;
+    margin-block: 0 var(--at-spacing-xs);
+  }
+
+  .profile-body .school {
+    color: var(--at-text-muted);
+    margin-block: 0 var(--at-spacing-md);
+  }
+
+  .outputs {
+    margin-block-start: var(--at-spacing-2xl);
+  }
+
+  .outputs .meta {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  @media (width <= 40rem) {
+    .profile {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait {
+      max-width: 12rem;
+    }
+  }
+</style>

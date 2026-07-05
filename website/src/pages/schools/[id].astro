@@ -1,0 +1,99 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { getPeople, getSchools, outputsBySchool, researchersOf } from "../../lib/canon";
+
+export async function getStaticPaths() {
+  const schools = await getSchools();
+  return schools
+    .filter((s) => s.data.kind === "school")
+    .map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const school = entry.data;
+
+const schools = await getSchools();
+const people = await getPeople();
+const researchers = researchersOf(people, school.name);
+const outputs = await outputsBySchool(school.name);
+
+// Child org units of this school (labs, programs, initiatives, history).
+const children = schools.filter((s) => s.data.school === entry.id);
+const childKinds = [
+  { kind: "lab", heading: "Research groups" },
+  { kind: "program", heading: "Programs" },
+  { kind: "initiative", heading: "Initiatives" },
+  { kind: "history", heading: "History" },
+].filter((k) => children.some((c) => c.data.kind === k.kind));
+
+const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
+---
+
+<ContentLayout title={school.name} description={school.blurb} {...siteConfig}>
+  {school.blurb && <p class="lead">{school.blurb}</p>}
+
+  {
+    researchers.length > 0 && (
+      <section aria-labelledby="people-heading">
+        <h2 id="people-heading">People</h2>
+        <ul role="list">
+          {researchers.map((p) => (
+            <li>
+              <a href={`/people/${p.id}/`}>{p.data.name}</a>
+              <span class="meta"> — {p.data.title}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    childKinds.map((k) => (
+      <section>
+        <h2>{k.heading}</h2>
+        <ul role="list">
+          {children
+            .filter((c) => c.data.kind === k.kind)
+            .map((c) => (
+              <li>
+                <span class="org-name">
+                  {c.data.name}
+                  {c.data.acronym && ` (${c.data.acronym})`}
+                </span>
+                {c.data.blurb && <span class="meta"> — {c.data.blurb}</span>}
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  {
+    outputs.length > 0 && (
+      <section aria-labelledby="outputs-heading">
+        <h2 id="outputs-heading">Research outputs</h2>
+        <ul role="list">
+          {outputs.map((o) => (
+            <li>
+              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+              <span class="meta"> · {dateFormat.format(o.data.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</ContentLayout>
+
+<style>
+  section {
+    margin-block-start: var(--at-spacing-xl);
+  }
+
+  .meta {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+</style>

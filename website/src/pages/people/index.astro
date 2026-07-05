@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { getPeople } from "../../lib/canon";
+import { headshot } from "../../lib/headshots";
+
+const people = await getPeople();
+---
+
+<ContentLayout
+  title="People"
+  description="The researchers of Slop University."
+  {...siteConfig}
+>
+  <p class="lead">
+    The University's researchers, across its schools and research groups.
+  </p>
+
+  <ul class="people-grid" role="list">
+    {
+      people.map((person) => {
+        const portrait = headshot(person.id);
+        return (
+          <li class="person-card">
+            <a href={`/people/${person.id}/`}>
+              {portrait && (
+                <Image
+                  src={portrait}
+                  alt={`Portrait of ${person.data.name}`}
+                  width={320}
+                  height={320}
+                  loading="lazy"
+                />
+              )}
+              <span class="name">{person.data.name}</span>
+            </a>
+            <span class="title">{person.data.title}</span>
+            <span class="school">{person.data.school}</span>
+          </li>
+        );
+      })
+    }
+  </ul>
+</ContentLayout>
+
+<style>
+  .people-grid {
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--at-spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: var(--at-spacing-xl);
+  }
+
+  .person-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--at-spacing-xs);
+  }
+
+  .person-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .person-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--at-divider);
+    box-shadow: var(--at-shadow-sm);
+    margin-block-end: var(--at-spacing-sm);
+  }
+
+  .person-card .name {
+    font-weight: 600;
+    font-size: var(--at-font-size-h4);
+  }
+
+  .person-card a:hover .name {
+    color: var(--at-primary);
+  }
+
+  .person-card .title {
+    font-size: var(--at-font-size-sm);
+  }
+
+  .person-card .school {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+</style>

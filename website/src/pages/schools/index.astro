@@ -1,0 +1,101 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { siteConfig } from "../../site-config";
+import { getPeople, getSchools, researchersOf } from "../../lib/canon";
+
+const schools = await getSchools();
+const people = await getPeople();
+
+const byKind = (kind: string) => schools.filter((s) => s.data.kind === kind);
+const topLevel = byKind("school");
+
+// The trailing sections group the rest of the org chart by kind, in the order
+// they read on an org chart: groups, then units, then teaching, then standing
+// initiatives, then history.
+const otherSections = [
+  { kind: "lab", heading: "Research groups" },
+  { kind: "unit", heading: "University units" },
+  { kind: "program", heading: "Programs" },
+  { kind: "initiative", heading: "Initiatives" },
+  { kind: "history", heading: "History" },
+].filter((s) => byKind(s.kind).length > 0);
+---
+
+<ContentLayout
+  title="Schools"
+  description="The schools, units, and research groups of Slop University."
+  {...siteConfig}
+>
+  <p class="lead">
+    Slop University's schools sit directly under the University. Each is home to
+    the research groups and programs listed below.
+  </p>
+
+  <ul class="school-grid" role="list">
+    {
+      topLevel.map((school) => {
+        const count = researchersOf(people, school.data.name).length;
+        return (
+          <li class="school-card">
+            <h2>
+              <a href={`/schools/${school.id}/`}>{school.data.name}</a>
+            </h2>
+            {school.data.blurb && <p>{school.data.blurb}</p>}
+            <p class="count">
+              {count} {count === 1 ? "researcher" : "researchers"}
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    otherSections.map((section) => (
+      <section class="org-section">
+        <h2>{section.heading}</h2>
+        <ul role="list">
+          {byKind(section.kind).map((entry) => (
+            <li>
+              <span class="org-name">
+                {entry.data.name}
+                {entry.data.acronym && ` (${entry.data.acronym})`}
+              </span>
+              {entry.data.blurb && <span class="org-blurb"> — {entry.data.blurb}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</ContentLayout>
+
+<style>
+  .school-grid {
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--at-spacing-xl);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: var(--at-spacing-xl);
+  }
+
+  .school-card h2 {
+    margin-block: 0 var(--at-spacing-sm);
+    font-size: var(--at-font-size-h3);
+  }
+
+  .school-card .count {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+    margin-block-end: 0;
+  }
+
+  .org-section {
+    margin-block-start: var(--at-spacing-2xl);
+  }
+
+  .org-section .org-blurb {
+    color: var(--at-text-muted);
+  }
+</style>
