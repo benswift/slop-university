@@ -107,7 +107,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     {
       thumb && (
         <a class="record-thumb" href={data.pdf}>
-          <Image src={thumb} alt={`First page of ${data.title}`} loading="lazy" />
+          <Image
+            src={thumb}
+            alt={`First page of ${data.title}`}
+            widths={[224, 448]}
+            sizes="(max-width: 48rem) 12rem, 14rem"
+            loading="lazy"
+          />
         </a>
       )
     }

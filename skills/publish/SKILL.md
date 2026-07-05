@@ -157,12 +157,16 @@ verifiable numbers). Then:
 ### Stage assets into website/
 
 - Copy the final PDF → `website/public/outputs/pdf/<run-id>.pdf`.
-- Thumbnail --- the PDF's first page, optimised through `astro:assets`, so it
-  lives under `src/`, not `public/`:
-  `typst compile --root . --pages 1 --format png --ppi 72 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
-  resize to 640px on the long edge (ffmpeg `scale`), then
+- Thumbnail --- the PDF's first page, rasterised here at publish time (the image
+  pipeline resizes rasters but cannot render a PDF), then optimised through
+  `astro:assets`, so it lives under `src/`, not `public/`:
+  `typst compile --root . --pages 1 --format png --ppi 144 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
+  then shrink the long edge to at most ~1200px (never upscale --- this only
+  normalises a large poster page; a booklet page already sits under it), then
   `avifenc -j 4 -s 6 --min 0 --max 63 -a end-usage=q -a cq-level=28` →
-  `website/src/assets/outputs/thumbs/<run-id>.avif`.
+  `website/src/assets/outputs/thumbs/<run-id>.avif`. Display sizes are the
+  pipeline's job (the landing page renders a responsive `<Image>`); this asset
+  is the source, not a hand-sized thumbnail.
 - Hero --- a landscape 16:9 banner in the two-ink house style, reused on the
   output landing page, its outputs-listing card, and the announcing news post (a
   news post has no image of its own; it inherits its output's hero). Author the
