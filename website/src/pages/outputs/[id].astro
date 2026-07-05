@@ -1,8 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, presetLabels } from "../../lib/outputs";
+import { outputHero } from "../../lib/heroes";
+import { thumbnail } from "../../lib/thumbnails";
 
 export async function getStaticPaths() {
   const outputs = await getCollection("outputs");
@@ -14,6 +17,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const data = entry.data;
+const hero = outputHero(entry.id);
+const thumb = thumbnail(entry.id);
 const citation = bibtex(entry.id, data);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
 
@@ -24,7 +29,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 });
 ---
 
-<ContentLayout title={data.title} description={data.summary} {...siteConfig}>
+<ContentLayout
+  title={data.title}
+  description={data.summary}
+  heroImage={hero}
+  heroImageAlt={hero ? `Illustration for ${data.title}` : undefined}
+  {...siteConfig}
+>
   <p class="lead">{data.summary}</p>
 
   <div class="record">
@@ -94,9 +105,9 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     </div>
 
     {
-      data.thumbnail && (
+      thumb && (
         <a class="record-thumb" href={data.pdf}>
-          <img src={data.thumbnail} alt={`First page of ${data.title}`} loading="lazy" />
+          <Image src={thumb} alt={`First page of ${data.title}`} loading="lazy" />
         </a>
       )
     }

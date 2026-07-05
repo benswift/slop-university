@@ -50,6 +50,24 @@ built by hand (like this pass), not grown by the tick.
 - All imagery follows the two-ink house style
   (`skills/_shared/visual-style.md`), generated via `references/slop-style/`. No
   stock photos, no off-style one-offs.
+- **Every image goes through the Astro pipeline (`astro:assets`).** Import from
+  `src/` (or resolve via an `import.meta.glob` helper) and render with `<Image>`
+  or a theme component (`Hero`, `Card`) --- never a raw `<img src>` at a
+  `public/` path. `public/` holds only the download PDFs.
+- **Every page carries a hero.** Heroes are landscape 16:9, resolved by id/name
+  and rendered by the theme via `ContentLayout heroImage=` (or `Hero` directly).
+  Resolvers live in `src/lib/heroes.ts`: `pageHero(name)` for standalone/index
+  pages (`src/assets/heroes/<name>.avif`), `outputHero(id)` for outputs
+  (`src/assets/heroes/outputs/<id>.avif`, reused on the announcing news post),
+  and `personHero(id)` / `schoolHero(id)` for canon profiles
+  (`canon/heroes/{people,schools}/<id>.avif`, generated with the headshot as a
+  reference so the researcher appears in a landscape scene). A missing hero
+  resolves to `undefined` and the page falls back to a plain `<h1>`, so pages
+  render before their art exists.
+- Longer pages may break up the text with the occasional inline image. In
+  markdown, reference it by a **relative** path (`![alt](./foo.avif)`) so it
+  routes through the pipeline --- never an absolute `public/` path or a remote
+  URL.
 - Any chart on a web page is Vega-Lite in the theme colours (`--at-primary`
   gold, ink, greys) --- never library-default palettes. Generated PDFs keep
   using gribouille; that pipeline is unchanged.
@@ -66,10 +84,13 @@ built by hand (like this pass), not grown by the tick.
   (`src/content/content.test.ts`) enforces the seams: output authors and schools
   must exist in the canon.
 - `src/content/outputs/*.yml` --- one entry per published artefact (title,
-  authors, preset, school, date, doi, summary, topic, pdf, thumbnail, pages,
-  version). PDFs land in `public/outputs/pdf/`, thumbnails in
-  `public/outputs/thumbs/`. `robots.txt` disallows `/outputs/pdf/` --- that's
-  load-bearing (it keeps fabricated citations out of Google Scholar).
+  authors, preset, school, date, doi, summary, topic, pdf, pages, version). Only
+  the PDF lives in `public/` (`public/outputs/pdf/`); `robots.txt` disallows
+  `/outputs/pdf/`, which is load-bearing (it keeps fabricated citations out of
+  Google Scholar). The first-page thumbnail and the landscape hero are pipeline
+  assets under `src/assets/outputs/thumbs/<id>.avif` and
+  `src/assets/heroes/outputs/<id>.avif`, resolved by basename === entry id (no
+  yml field), via `src/lib/thumbnails.ts` and `src/lib/heroes.ts`.
 - `src/content/news/*.md` --- press releases; frontmatter `output:` references
   the outputs entry id.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are

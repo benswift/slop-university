@@ -4,6 +4,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
 import { headshot } from "../../lib/headshots";
+import { personHero } from "../../lib/heroes";
 
 export async function getStaticPaths() {
   const people = await getPeople();
@@ -12,7 +13,11 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const person = entry.data;
+const hero = personHero(entry.id);
 const portrait = headshot(entry.id);
+// The landscape hero already shows the researcher; fall back to the square
+// headshot in the body only until that hero has been generated.
+const showPortrait = !hero && portrait;
 
 const schools = await getSchools();
 const schoolId = schoolIdByName(schools, person.school);
@@ -21,10 +26,16 @@ const outputs = await outputsByAuthor(person.name);
 const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
 
-<ContentLayout title={person.name} description={person.title} {...siteConfig}>
-  <div class="profile">
+<ContentLayout
+  title={person.name}
+  description={person.title}
+  heroImage={hero}
+  heroImageAlt={hero ? `Portrait of ${person.name}` : undefined}
+  {...siteConfig}
+>
+  <div class:list={["profile", { framed: showPortrait }]}>
     {
-      portrait && (
+      showPortrait && (
         <Image
           class="portrait"
           src={portrait}
@@ -70,7 +81,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
 </ContentLayout>
 
 <style>
-  .profile {
+  .profile.framed {
     display: grid;
     grid-template-columns: 12rem 1fr;
     gap: var(--at-spacing-xl);
@@ -107,7 +118,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   }
 
   @media (width <= 40rem) {
-    .profile {
+    .profile.framed {
       grid-template-columns: 1fr;
     }
 

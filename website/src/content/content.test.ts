@@ -49,12 +49,21 @@ describe("news entries", () => {
 });
 
 describe("outputs entries", () => {
-  it("point at artefacts that exist under public/", () => {
+  it("point at a PDF that exists under public/", () => {
     for (const id of outputIds) {
       const entry = readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8");
-      for (const match of entry.matchAll(/^(?:pdf|thumbnail):\s*(\/\S+)\s*$/gm)) {
+      for (const match of entry.matchAll(/^pdf:\s*(\/\S+)\s*$/gm)) {
         expect(existsSync(join(publicDir, match[1])), `${id}: ${match[1]}`).toBe(true);
       }
+    }
+  });
+
+  it("have a first-page thumbnail on disk (optimised via src/, not public/)", () => {
+    // The publish pipeline writes each output's thumbnail to
+    // src/assets/outputs/thumbs/<id>.avif so astro:assets optimises it.
+    for (const id of outputIds) {
+      const thumb = join(contentDir, "..", "assets", "outputs", "thumbs", `${id}.avif`);
+      expect(existsSync(thumb), `${id} thumbnail`).toBe(true);
     }
   });
 

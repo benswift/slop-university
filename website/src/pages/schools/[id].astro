@@ -2,6 +2,7 @@
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsBySchool, researchersOf } from "../../lib/canon";
+import { schoolHero } from "../../lib/heroes";
 
 export async function getStaticPaths() {
   const schools = await getSchools();
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const school = entry.data;
+const hero = schoolHero(entry.id);
 
 const schools = await getSchools();
 const people = await getPeople();
@@ -30,7 +32,13 @@ const childKinds = [
 const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
 
-<ContentLayout title={school.name} description={school.blurb} {...siteConfig}>
+<ContentLayout
+  title={school.name}
+  description={school.blurb}
+  heroImage={hero}
+  heroImageAlt={hero ? `Illustration for the ${school.name}` : undefined}
+  {...siteConfig}
+>
   {school.blurb && <p class="lead">{school.blurb}</p>}
 
   {

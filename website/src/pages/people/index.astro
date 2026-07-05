@@ -4,6 +4,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople } from "../../lib/canon";
 import { headshot } from "../../lib/headshots";
+import { pageHero } from "../../lib/heroes";
 
 const people = await getPeople();
 ---
@@ -11,6 +12,8 @@ const people = await getPeople();
 <ContentLayout
   title="People"
   description="The researchers of Slop University."
+  heroImage={pageHero("people")}
+  heroImageAlt={pageHero("people") ? "The researchers of Slop University" : undefined}
   {...siteConfig}
 >
   <p class="lead">

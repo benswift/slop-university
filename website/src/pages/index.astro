@@ -2,8 +2,11 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
+import Card from "astro-theme-university/components/Card.astro";
+import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import heroImage from "../assets/images/hero.avif";
 import { siteConfig } from "../site-config";
+import { outputHero } from "../lib/heroes";
 
 const news = (await getCollection("news")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -32,39 +35,32 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     )
   }
 
-  <div class="news-feed">
+  <CardGrid columns={2}>
     {
       news.map((entry) => (
-        <article class="news-item">
-          <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
-          <h2>
-            <a href={`/news/${entry.id}/`}>{entry.data.title}</a>
-          </h2>
+        <Card
+          title={entry.data.title}
+          href={`/news/${entry.id}/`}
+          image={entry.data.output ? outputHero(entry.data.output) : undefined}
+          imageAlt=""
+          headingLevel="h2"
+        >
+          <p class="news-date">
+            <time datetime={entry.data.date.toISOString()}>
+              {dateFormat.format(entry.data.date)}
+            </time>
+          </p>
           {entry.data.description && <p>{entry.data.description}</p>}
-        </article>
+        </Card>
       ))
     }
-  </div>
+  </CardGrid>
 </BaseLayout>
 
 <style>
-  .news-feed {
-    display: flex;
-    flex-direction: column;
-    gap: var(--at-spacing-xl);
-    margin-block-start: var(--at-spacing-xl);
-  }
-
-  .news-item time {
+  .news-date {
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);
-  }
-
-  .news-item h2 {
-    margin-block: var(--at-spacing-xs) var(--at-spacing-sm);
-  }
-
-  .news-item p {
-    margin-block: 0;
+    margin-block: 0 var(--at-spacing-xs);
   }
 </style>

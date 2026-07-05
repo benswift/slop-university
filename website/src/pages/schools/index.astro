@@ -1,7 +1,10 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import Card from "astro-theme-university/components/Card.astro";
+import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, researchersOf } from "../../lib/canon";
+import { pageHero, schoolHero } from "../../lib/heroes";
 
 const schools = await getSchools();
 const people = await getPeople();
@@ -24,6 +27,8 @@ const otherSections = [
 <ContentLayout
   title="Schools"
   description="The schools, units, and research groups of Slop University."
+  heroImage={pageHero("schools")}
+  heroImageAlt={pageHero("schools") ? "The schools of Slop University" : undefined}
   {...siteConfig}
 >
   <p class="lead">
@@ -31,24 +36,27 @@ const otherSections = [
     the research groups and programs listed below.
   </p>
 
-  <ul class="school-grid" role="list">
+  <CardGrid columns={2}>
     {
       topLevel.map((school) => {
         const count = researchersOf(people, school.data.name).length;
         return (
-          <li class="school-card">
-            <h2>
-              <a href={`/schools/${school.id}/`}>{school.data.name}</a>
-            </h2>
+          <Card
+            title={school.data.name}
+            href={`/schools/${school.id}/`}
+            image={schoolHero(school.id)}
+            imageAlt=""
+            headingLevel="h2"
+          >
             {school.data.blurb && <p>{school.data.blurb}</p>}
             <p class="count">
               {count} {count === 1 ? "researcher" : "researchers"}
             </p>
-          </li>
+          </Card>
         );
       })
     }
-  </ul>
+  </CardGrid>
 
   {
     otherSections.map((section) => (
@@ -71,21 +79,7 @@ const otherSections = [
 </ContentLayout>
 
 <style>
-  .school-grid {
-    list-style: none;
-    padding: 0;
-    margin-block-start: var(--at-spacing-xl);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-    gap: var(--at-spacing-xl);
-  }
-
-  .school-card h2 {
-    margin-block: 0 var(--at-spacing-sm);
-    font-size: var(--at-font-size-h3);
-  }
-
-  .school-card .count {
+  .count {
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);
     margin-block-end: 0;

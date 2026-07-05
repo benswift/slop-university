@@ -150,24 +150,37 @@ verifiable numbers). Then:
   `school` (the lead author's school), `date`, `doi`, `summary` (1-2 sentence
   abstract of the fictional work, institutional register --- not the press
   release's standfirst), `topic` (the steering line), `pdf`
-  (`/outputs/pdf/<run-id>.pdf`), `thumbnail` (`/outputs/thumbs/<run-id>.avif`),
-  `pages` (from pdfinfo), `version: "1.0"`.
+  (`/outputs/pdf/<run-id>.pdf`), `pages` (from pdfinfo), `version: "1.0"`. The
+  thumbnail and hero carry no yml field --- they resolve by matching a file
+  basename to the entry id (see below).
 
 ### Stage assets into website/
 
 - Copy the final PDF → `website/public/outputs/pdf/<run-id>.pdf`.
-- Thumbnail:
+- Thumbnail --- the PDF's first page, optimised through `astro:assets`, so it
+  lives under `src/`, not `public/`:
   `typst compile --root . --pages 1 --format png --ppi 72 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
   resize to 640px on the long edge (ffmpeg `scale`), then
   `avifenc -j 4 -s 6 --min 0 --max 63 -a end-usage=q -a cq-level=28` →
-  `website/public/outputs/thumbs/<run-id>.avif`.
+  `website/src/assets/outputs/thumbs/<run-id>.avif`.
+- Hero --- a landscape 16:9 banner in the two-ink house style, reused on the
+  output landing page, its outputs-listing card, and the announcing news post (a
+  news post has no image of its own; it inherits its output's hero). Author the
+  prompt per `skills/_shared/visual-style.md` and pick refs per
+  `skills/_shared/image-workflow.md`; generate at `--aspect-ratio 16:9`
+  `--resolution 4K`, encode to AVIF →
+  `website/src/assets/heroes/outputs/<run-id>.avif`.
+
+Both the thumbnail and the hero resolve by basename === the output id
+(`src/lib/thumbnails.ts`, `src/lib/heroes.ts`), the same convention as
+`canon/headshots/`.
 
 The outputs entry is the canonical record of the run: the dedup check reads the
-collection, the research-performance page charts it, and the People/Schools
-pages join on its `authors` and `school`.
+collection, the outputs page charts it, and the People/Schools pages join on its
+`authors` and `school`.
 
 **Files this action commits:** the news post, the outputs entry, the PDF, the
-thumbnail (see §4).
+first-page thumbnail, and the output hero (see §4).
 
 ---
 
@@ -253,7 +266,8 @@ the action:
 - **2A:** `website/src/content/news/<date>-<slug>.md`,
   `website/src/content/outputs/<run-id>.yml`,
   `website/public/outputs/pdf/<run-id>.pdf`,
-  `website/public/outputs/thumbs/<run-id>.avif`.
+  `website/src/assets/outputs/thumbs/<run-id>.avif`,
+  `website/src/assets/heroes/outputs/<run-id>.avif`.
 - **2B / 2F:** `canon/roster.yml` or `canon/schools.yml`.
 - **2C:** `canon/schools.yml`.
 - **2D:** the one page under `website/src/content/pages/`.

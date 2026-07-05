@@ -73,7 +73,6 @@ const outputs = defineCollection({
     summary: z.string(),
     topic: z.string(),
     pdf: z.string(),
-    thumbnail: z.string().optional(),
     pages: z.number().optional(),
     version: z.string().default("1.0"),
   }),
