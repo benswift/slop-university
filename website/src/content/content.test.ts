@@ -20,8 +20,17 @@ const outputs = outputIds.map(
   (id) => parseYaml(readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8")) as {
     authors?: string[];
     school?: string;
+    doi?: string;
+    date?: string;
   },
 );
+
+// Output publication dates by id, for the news-precedes-output check below.
+// The yaml core schema keeps `date:` as an ISO string, so dates compare
+// lexicographically.
+const outputDateById = new Map(outputIds.map((id, i) => [id, outputs[i].date]));
+
+const newsFiles = readdirSync(join(contentDir, "news")).filter((f) => /\.mdx?$/.test(f));
 
 const repoRoot = join(process.cwd(), "..");
 const researchers = (
@@ -53,10 +62,35 @@ const schoolIdByName = nameToId(schoolDoc.schools ?? []);
 
 describe("news entries", () => {
   it("reference an existing outputs entry", () => {
-    for (const file of readdirSync(join(contentDir, "news"))) {
+    for (const file of newsFiles) {
       const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
       const ref = frontmatter.match(/^output:\s*(\S+)\s*$/m);
       if (ref) expect(outputIds).toContain(ref[1]);
+    }
+  });
+
+  it("carry a filename date prefix that matches the frontmatter date", () => {
+    for (const file of newsFiles) {
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      const date = frontmatter.match(/^date:\s*"?(\d{4}-\d{2}-\d{2})"?\s*$/m)?.[1];
+      expect(date, `${file} frontmatter date`).toBe(file.slice(0, 10));
+    }
+  });
+
+  it("announce no earlier than the output they reference", () => {
+    for (const file of newsFiles) {
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      const ref = frontmatter.match(/^output:\s*(\S+)\s*$/m);
+      if (!ref) continue;
+      const newsDate = frontmatter.match(/^date:\s*"?(\d{4}-\d{2}-\d{2})"?\s*$/m)?.[1];
+      const outputDate = outputDateById.get(ref[1]);
+      expect(newsDate, `${file} frontmatter date`).toBeDefined();
+      expect(outputDate, `${ref[1]} date`).toBeDefined();
+      if (!newsDate || !outputDate) continue;
+      expect(
+        newsDate >= outputDate,
+        `${file} (${newsDate}) predates its output ${ref[1]} (${outputDate})`,
+      ).toBe(true);
     }
   });
 });
@@ -78,6 +112,14 @@ describe("outputs entries", () => {
       const thumb = join(contentDir, "..", "assets", "outputs", "thumbs", `${id}.avif`);
       expect(existsSync(thumb), `${id} thumbnail`).toBe(true);
     }
+  });
+
+  it("mint a unique DOI per entry", () => {
+    const dois = outputs.map((o, i) => {
+      expect(o.doi, `${outputIds[i]} doi`).toBeDefined();
+      return o.doi;
+    });
+    expect(new Set(dois).size).toBe(dois.length);
   });
 
   it("credit only roster researchers", () => {

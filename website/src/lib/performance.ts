@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { parse, View } from "vega";
 import { compile, type TopLevelSpec } from "vega-lite";
+import { parse as parseYaml } from "yaml";
 
 // The outputs content collection is the canonical record of published
 // artefacts; the roster supplies the academic FTE denominator. Both are read
@@ -11,10 +12,11 @@ import { compile, type TopLevelSpec } from "vega-lite";
 const rosterPath = resolve(process.cwd(), "../canon/roster.yml");
 
 export function academicFte(): number {
-  // One entry per `- id:` line; the roster is small and flat, so a line count
-  // beats a YAML-parser dependency.
-  const roster = readFileSync(rosterPath, "utf8");
-  return roster.split("\n").filter((line) => /^\s*-\s+id:/.test(line)).length;
+  // One FTE per roster researcher --- the same parse the people collection
+  // loader does (see content.config.ts), so the denominator can't drift on a
+  // formatting change the way a line-count regex could.
+  const roster = parseYaml(readFileSync(rosterPath, "utf8")) as { researchers: unknown[] };
+  return roster.researchers.length;
 }
 
 export function countBy<T>(items: T[], key: (item: T) => string): { key: string; count: number }[] {
