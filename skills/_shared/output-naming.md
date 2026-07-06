@@ -26,6 +26,7 @@ The `<group>` subfolder and its `<prefix>` are fixed per calling path:
 | `impact-report`   | `impact-report`           | `slop-impact`   |
 | `research-poster` | `research-poster`         | `slop-poster`   |
 | `paper`           | `paper`                   | `slop-paper`    |
+| `brochure`        | `brochure`                | `slop-brochure` |
 | `from-source`     | `from-source`             | `source`        |
 
 A preset blueprint may declare its own prefix and group inline; a

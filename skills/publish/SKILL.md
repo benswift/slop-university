@@ -107,11 +107,36 @@ allow.
 
 ### Roll a preset
 
-MVP: hard-code `research-poster`. (Booklet presets join the roll --- uniform
-among enabled presets --- once opened up here; the enabled list is this section,
-so nothing joins the pool by accident.)
+The enabled list is this section, so nothing joins the pool by accident. Each
+enabled preset carries a target share of 2A output volume:
 
-Enabled presets: `research-poster`.
+| Preset            | Format  | Target share |
+| ----------------- | ------- | ------------ |
+| `research-poster` | poster  | 45%          |
+| `paper`           | paper   | 45%          |
+| `brochure`        | booklet | 8%           |
+| `impact-report`   | booklet | 1%           |
+| `strategy`        | booklet | 1%           |
+
+**Selection is deterministic apportionment, not a random draw** --- the same
+gap-driven logic as the phase-1 ladder, applied to preset mix. Read the `preset`
+field of every existing outputs entry (`website/src/content/outputs/*.yml`) and
+count how many each enabled preset already has; let `N` be the total. For each
+enabled preset compute its _deficit_ = `share × (N + 1) − count`, and pick the
+preset with the largest deficit (tie → higher target share, then
+`research-poster`). This tracks the target mix without an RNG and self-corrects
+after any run that aborts. Booklets total ~10% of 2A runs --- `brochure` around
+one run in twelve, `impact-report` and `strategy` near-vanishing at ~1% each
+(they're the heaviest to generate); posters and papers split the rest evenly.
+
+**Fixed-title booklets need disambiguation.** `impact-report` and `strategy` fix
+their _cover_ titles (`Impact Report 2021–2026`, `Strategic Plan 2026–2031`), so
+a run of either must not use the cover title as its outputs-entry `title` --- it
+would collide with every prior booklet of that preset on the listing. Derive the
+entry's `title`/`subtitle` from the run's steering line and cover subtitle so
+each reads distinctly in the outputs collection (the cover itself stays fixed
+per the blueprint). `brochure` needs no such handling --- its cover title is
+already steering-derived (like the poster and paper), so it varies per run.
 
 ### Generate
 

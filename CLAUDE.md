@@ -17,9 +17,10 @@ Two slash commands:
 - `/from-preset <preset-name> <steering>` → `skills/from-preset/SKILL.md` ---
   generate a fake doc from a named preset blueprint. The registry is
   `skills/from-preset/presets/` (currently `strategy`, `impact-report`,
-  `research-poster`, `paper`); each blueprint declares its own format
-  (`booklet`, `poster`, or `paper`), identity, and title policy. Drop a new file
-  in to add another (authoring guide: `skills/from-preset/presets/README.md`).
+  `research-poster`, `paper`, `brochure`); each blueprint declares its own
+  format (`booklet`, `poster`, or `paper`), identity, and title policy. Drop a
+  new file in to add another (authoring guide:
+  `skills/from-preset/presets/README.md`).
 - `/from-source <source>` → `skills/from-source/SKILL.md` --- typeset a URL or
   local file (`.docx`, `.odt`, `.md`, `.html`, `.typ`, `.txt`) faithfully into
   the ANU template. No rewriting; small editorial calls for heading hierarchy /
@@ -61,10 +62,11 @@ Slop University is a persistent fiction: its people, schools, and units live in
   choice, cover-image theme) are allowed and surfaced in the run's text output.
   See `skills/from-source/SKILL.md`.
 - Titles: each preset's blueprint ("Doc identity" table) declares its title
-  policy --- the booklets fix their cover titles; `research-poster` and `paper`
-  derive the visible title from the steering prompt (a poster's or paper's title
-  _is_ its content). The satirical formula lives only in the PDF metadata title,
-  for every preset.
+  policy --- the `strategy` and `impact-report` booklets fix their cover titles;
+  `research-poster`, `paper`, and the `brochure` booklet derive the visible
+  title from the steering prompt (a poster's, paper's, or brochure campaign's
+  title _is_ its content). The satirical formula lives only in the PDF metadata
+  title, for every preset.
 - Output filenames (prefix, slug, seed, and the per-preset `output/pdf/<group>/`
   folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
   declare their own prefix and group.
