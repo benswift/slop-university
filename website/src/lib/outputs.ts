@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
   "research-poster": "Research poster",
   paper: "Research paper",
+  brochure: "Brochure",
   strategy: "Strategic plan",
   "impact-report": "Impact report",
 };

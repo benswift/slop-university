@@ -67,7 +67,7 @@ const outputs = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     authors: z.array(z.string()).default([]),
-    preset: z.enum(["research-poster", "paper", "strategy", "impact-report"]),
+    preset: z.enum(["research-poster", "paper", "brochure", "strategy", "impact-report"]),
     school: z.string().optional(),
     date: z.coerce.date(),
     doi: z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/),
