@@ -61,10 +61,15 @@ already coherent.
    check + house-style headshot for a researcher); take one only when the gap is
    clear, and no more than roughly one run in five.
 5. **Otherwise the department is coherent** → Action **2A** (new research
-   output). This remains the majority action.
+   output), _unless_ the account is due for a social post → Action **2G** (post
+   to socials). 2A remains the majority action; 2G displaces it only when the
+   `@slop.university` Bluesky account has been quiet for ~20 hours and no post
+   is already staged (the precise gate lives in `../post-to-bluesky/SKILL.md`).
+   On the hourly cron this lands 2G roughly once a day; every other coherent run
+   is 2A.
 
 Whichever rung you land on, do **only** that one action. Record which action you
-chose --- the commit message names it.
+chose --- the commit message names it (2G makes no commit; see below).
 
 **Imbalance steering (applies when 2A is chosen).** If the outputs are lopsided
 --- one school has two or more attributed outputs than another, or a roster
@@ -277,6 +282,24 @@ add the record to the right section of `canon/schools.yml` (`labs`, `programs`,
 
 **Files:** `canon/schools.yml`.
 
+## 2G. Post to socials (no commit)
+
+Compose one post for the `@slop.university` Bluesky account about an existing,
+already-live aspect of the department --- an older output worth resurfacing, a
+researcher, a school, or the institution --- and stage it as
+`data/pending-post.json`. Follow `../post-to-bluesky/SKILL.md` in full: it
+carries the due-ness gate (skip if a post is already staged or the account
+posted within ~20 hours), the subject choice, the comms-register compose rules,
+and the staged-file schema.
+
+This action **holds no live credentials and makes no commit**. The staged file
+is gitignored; the cron wrapper runs `ops/post-to-bluesky.py` after its
+validated push and is the only thing that posts. Verify (§3) and commit (§4) do
+not apply --- once the file is written and the choice logged, the run is done.
+
+**Files:** `data/pending-post.json` (gitignored working-tree only; never
+committed).
+
 ---
 
 ## 3. Verify the site
@@ -317,8 +340,10 @@ wrapper resets commits that do.
 ## Post-MVP (not yet enabled)
 
 - Bluesky scan (authenticated `app.bsky.feed.searchPosts`) alongside RSS.
-- Social brag: compose the announcement post (comms register) into
-  `data/pending-post.json` for the wrapper to publish after a validated push.
+- Companion brag: a 2A run also stages a post announcing its _new_ output
+  (currently 2G only resurfaces existing aspects, as a standalone action).
+- Image or link-card embeds on staged posts (the poster is text + link facet for
+  now).
 - Preset roll opened to booklets and the paper preset.
 - Standalone pages for labs, programs, and initiatives (currently rendered
   inline on their school's page).

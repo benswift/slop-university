@@ -8,6 +8,10 @@
 # logfiles from cron runs
 logs/
 
+# the staged social post (data/pending-post.json) is a working-tree handoff from
+# the /publish agent to the cron wrapper's Bluesky poster --- never committed
+data/
+
 # generated outputs are kept locally only, not committed (everything under
 # output/ --- .typ, .bib, images, charts, pdf, overviews)
 output/

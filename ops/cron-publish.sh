@@ -77,7 +77,7 @@ log "=== publish agent finished at $(date -Iseconds) ==="
 # homepage heroes elsewhere in src/assets/heroes are deliberately excluded. The
 # denylist carves the one out-of-fiction page (colophon) back out of the
 # otherwise-allowed pages/ dir.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/src/assets/(outputs/thumbs|heroes/outputs)/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/)|data/pending-post\.json$)'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/src/assets/(outputs/thumbs|heroes/outputs)/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$'
 
 if [ -n "$(git status --porcelain)" ]; then
@@ -105,5 +105,23 @@ fi
 # failed-generation run.
 log "=== push at $(date -Iseconds) ==="
 git push >> "$LOG_FILE" 2>&1 || log "push failed"
+
+# --- Publish the staged social post, if the agent composed one this run.
+# data/pending-post.json is a gitignored working-tree artefact, never committed:
+# the agent COMPOSES it, this wrapper POSTS it --- the same trust split as "the
+# agent commits, the wrapper pushes". The SLOPU_TOKEN credential lives only in
+# this wrapper's mise env, never in the unattended, feed-reading agent's. Posted only
+# on success; a failure leaves the file staged for the next run to retry (the
+# poster dedups, so a lost-response retry can't double-post). A 2G run references
+# already-live content, so posting is valid even if this run's own push failed.
+if [ -f "${PROJECT_DIR}/data/pending-post.json" ]; then
+  log "=== posting staged social update at $(date -Iseconds) ==="
+  if uv run "${PROJECT_DIR}/ops/post-to-bluesky.py" >> "$LOG_FILE" 2>&1; then
+    rm -f "${PROJECT_DIR}/data/pending-post.json"
+    log "posted and cleared data/pending-post.json"
+  else
+    log "social post failed; leaving data/pending-post.json staged for retry"
+  fi
+fi
 
 log "=== run finished at $(date -Iseconds) ==="
