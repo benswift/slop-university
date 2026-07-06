@@ -55,6 +55,13 @@ labs:
       whole-of-university dashboards.
 
 programs:
+  - id: master-of-priority-studies
+    name: Master of Priority Studies
+    school: emergent-priorities
+    blurb: >-
+      The School of Emergent Priorities' flagship Masters program, preparing
+      graduates to sense, sequence, and steward priorities across
+      institutional settings.
   - id: master-of-applied-measurement
     name: Master of Applied Measurement
     acronym: MAM
@@ -71,6 +78,20 @@ programs:
       Deciding Under Measurement, and Improving Improvement.
 
 initiatives:
+  - id: horizon-register
+    name: Horizon Register
+    school: emergent-priorities
+    blurb: The School's rolling account of priorities on approach.
+  - id: strategic-drift-survey
+    name: Strategic Drift Survey
+    school: emergent-priorities
+    blurb: >-
+      The annual instrument tracking the distance between stated and enacted
+      priorities.
+  - id: futures-in-committee
+    name: Futures in Committee
+    school: emergent-priorities
+    blurb: The School's seminar series.
   - id: indicator-commons
     name: Indicator Commons
     school: continuous-improvement
