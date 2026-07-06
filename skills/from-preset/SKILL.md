@@ -59,10 +59,11 @@ booklet-shaped workflow steps and checklist items apply.
   flagged inline below; the preset's blueprint carries the details.
 - **`paper`** (`paper`) --- an A4 two-column conference-style paper: no cover,
   contents, or back cover; multi-page (4-8) with **no parity requirement**; a
-  verified real bibliography step unique to this format. Treat the poster-format
-  workflow tags as applying (no booklet furniture), except the page-fit check:
-  the paper's own blueprint replaces the one-page rule with its 4-8 page range
-  and bibliography verification.
+  verified real bibliography step (the poster verifies its shorter references
+  list the same way). Treat the poster-format workflow tags as applying (no
+  booklet furniture), except the page-fit check: the paper's own blueprint
+  replaces the one-page rule with its 4-8 page range and bibliography
+  verification.
 
 When a step or checklist item is format-specific, it's tagged "(booklet format)"
 or "(poster format)".

@@ -115,10 +115,12 @@ signatory, project lead --- comes from the persistent roster in
 `canon/roster.yml`, with their canonical title and school. Never a real person,
 never a name invented inside a run. Where a document genuinely shouldn't name
 anyone (aggregate acknowledgements, external-partner vignettes), attribution
-stays institutional, drawn from `canon/schools.md`. Fabricated _reference-list_
-citations may still use generic invented surnames (a poster's or paper's
-bibliography isn't roster territory --- though the paper preset cites real
-literature instead; see its blueprint).
+stays institutional, drawn from `canon/schools.md`. _Reference-list_ citations
+are the exception in the other direction: both academic presets cite **real,
+verified literature** (the paper's bibliography and the poster's references list
+alike --- every entry resolves via DOI or arXiv; see each blueprint), so a cited
+work's real authors are the one place outside real names legitimately appear.
+Never fabricate a citation.
 
 ## Bad steering (voice cracks)
 

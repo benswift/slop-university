@@ -73,10 +73,10 @@ author's school from `canon/schools.md`) --- the flip of the old
 never-name-anyone rule: fictional people, named consistently across outputs, are
 part of the institution's verisimilitude. No other person is named anywhere on
 the poster. The `slop` lockup and the `logos: ("studio",)` margin wordmark
-("Office of Research Outputs") carry the institutional attribution. Fabricated
-reference citations use generic, clearly-fictional surnames --- never a real
-researcher --- though 1-2 self-citations by roster authors are welcome (see
-"References").
+("Office of Research Outputs") carry the institutional attribution. Reference
+citations are real, verified literature (see "References") --- the one place
+outside real names appear, as authors of their own real work, correctly
+attributed; never a fabricated entry.
 
 ## Inputs
 
@@ -115,7 +115,7 @@ where the feature image and title sit (the "Placement" column below describes
 | Methods                   | column flow                                  | ~3 terse bullets (n · instrument · sampling · duration; model; key control)                                                                                                |
 | Results                   | left cell                                    | one or two hedged sentences; the chart leads the right cell, with a caption stating a falsifiable claim                                                                    |
 | Discussion / conclusions  | column flow                                  | ~2-3 punchy, hedged lines + a "Next:" fragment                                                                                                                             |
-| References                | column flow (end)                            | 4-6 fabricated, clearly-fictional citations in small (~8pt) text --- lean in                                                                                               |
+| References                | column flow (end)                            | 4-6 real, verified citations (DOI/arXiv-checked) in small (~8pt) text                                                                                                      |
 | Footer line               | column flow (end)                            | one deadpan acknowledgements / ethics / data line (never a person)                                                                                                         |
 
 Total body prose: ~150 words at 10pt --- the poster is telegraphic (fragments
@@ -300,25 +300,36 @@ All stay in academic register --- still hedged at the edges, still procedural
 --- while committing to something specific, structural, and checkable that real
 posters hedge away from.
 
-## References
+## References --- real, verified (hard requirement)
 
-A fabricated references list (4-6 entries) in small (~8pt) text. **Lean into
-it** --- the fake citations are part of the joke and a reliable source of
-pleasure; the deadpan-but-faintly-absurd title or venue is where the genre shows
-through. At 8pt they cost little space, so a punchy body leaves room for a
-satisfyingly full list. They also carry the project's only real names-risk, so:
+A **real** references list (4-6 entries) in small (~8pt) text: genuine adjacent
+literature, every entry verified to resolve. This is the same rule the `paper`
+preset enforces (`paper.md` › "Bibliography --- real references, verified"),
+scaled to a poster's short list. The costume of research is worn straight ---
+the apparatus is real, so it holds up to a close read rather than rewarding one
+with a wink.
 
-- Use **generic, clearly-fabricated surnames** --- never a real AI/ML/systems
-  researcher. 1-2 **self-citations by the poster's roster authors** (earlier
-  fictional venues, plausible years) are welcome --- the institution citing
-  itself is exactly the genre.
-- Invent plausible venue names, then let one or two tilt knowingly on-theme
-  ("Journal of Cybernetic Systems", "Studies in More-than-Human Systems", "The
-  moral economy of the tea room"). A glance reads them as real; a close read
-  rewards.
-- Vary year (2018-2025), volume, and page ranges so the list looks lived-in.
-- Don't cite a real paper. Roughly 4-6 entries --- a poster's list is short, but
-  a full one sells the costume.
+- **Harvest** 4-6 candidates from the fabricated topic's real adjacent fields
+  (web search the topic's serious neighbours --- e.g. corvid foraging telemetry
+  → animal-movement ecology, sensor networks, multi-agent resource allocation).
+- **Verify every entry** before it enters the list --- each must pass one of:
+  - **DOI check**:
+    `curl -sI -o /dev/null -w '%{http_code}' https://doi.org/<doi>` returns
+    2xx/3xx.
+  - **arXiv check**: `curl -s 'https://export.arxiv.org/api/query?id_list=<id>'`
+    returns an entry whose title matches.
+
+  Drop anything that 404s or mismatches. Never fabricate an entry, never pad
+  with an unverified one.
+
+- **Copy fields accurately**: real authors, real title, real venue, real year,
+  and the verified DOI or arXiv id --- render it in the entry so a reader can
+  resolve it. These are the one place outside real names appear, as authors of
+  their own real work, correctly attributed.
+- **Citation honesty**: neither the list nor the prose may claim something a
+  cited work doesn't support. The fictional project borrows the field's
+  legitimacy; it never puts words in a real researcher's mouth.
+- Roughly 4-6 entries --- a poster's list is short; verified beats full.
 
 ## Imagery (preset specifics for image-workflow.md)
 
@@ -514,10 +525,10 @@ an identical two-column body grid --- only the page setup and the feature image
       == References
       #block[
         #set text(size: 8pt)
-        // 4-6 fabricated citations --- lean in: invented authors, fun-but-deadpan fake
-        // titles and venues are part of the joke, and at 8pt they cost little. Never a
-        // real name; roster self-citations welcome.
-        + <Fabricated, A., & Generic, B. (2024). Title. Journal of Cybernetic Systems, 12(3), 45--67.>
+        // 4-6 REAL, verified citations (DOI resolves or arXiv id matches --- see the
+        // "References" section). Real authors, title, venue, year; render the DOI/arXiv
+        // id so a reader can resolve it. Never a fabricated entry.
+        + <Real, A., & Author, B. (2023). Real title. Real Venue, 12(3), 45--67. doi:10.xxxx/yyyy>
         + <...>
         + <...>
         + <...>
@@ -835,8 +846,8 @@ items:
 - [ ] Charts use brand styling per `../../_shared/chart-workflow.md` (no rainbow
       bars; legends top/bottom) and **fill the column** (responsive `layout`,
       wide-short aspect --- no side padding)
-- [ ] 4-6 fabricated references, generic and clearly-fictional; no real names
-      (roster self-citations welcome); titles/venues lean knowingly on-theme
+- [ ] 4-6 **real, verified** references (each DOI resolves or arXiv id matches);
+      real authors/titles/venues, DOI or arXiv id rendered; no fabricated entry
 - [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs) in the
       academic-present register (past-tense methods, hedged findings); no
       exclamation marks, no satire signals on the page
@@ -882,8 +893,9 @@ items:
 - Not a booklet. No cover, contents, Acknowledgement of Country, back cover, or
   even-page parity --- those are the `format: booklet` path. This is
   `format: poster`.
-- Not a real research poster. The project, data, charts, and citations are
-  generative fiction.
+- Not a real research poster. The project, data, and charts are generative
+  fiction --- but the cited references are real, verified literature (that is
+  the point).
 - Not a place for new chart or genre conventions. Chart mechanics belong in
   `../../_shared/chart-workflow.md`; cross-preset voice doctrine belongs in
   `../genre.md`.
