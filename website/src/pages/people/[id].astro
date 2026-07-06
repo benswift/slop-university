@@ -23,6 +23,14 @@ const schools = await getSchools();
 const schoolId = schoolIdByName(schools, person.school);
 const outputs = await outputsByAuthor(person.name);
 
+// Research indicators, computed straight from the outputs collection ---
+// deterministic dashboard-ware, nothing invented. Collaboration breadth is
+// the distinct co-authors credited alongside this researcher.
+const coAuthors = new Set(
+  outputs.flatMap((o) => o.data.authors).filter((name) => name !== person.name),
+);
+const activeSince = Math.min(...outputs.map((o) => o.data.date.getFullYear()));
+
 const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
 
@@ -62,6 +70,32 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
       <p>{person.bio}</p>
     </div>
   </div>
+
+  {
+    outputs.length > 0 && (
+      <section class="indicators" aria-labelledby="indicators-heading">
+        <h2 id="indicators-heading">Research indicators</h2>
+        <table class="metadata">
+          <tbody>
+            <tr>
+              <th scope="row">Research outputs</th>
+              <td>{outputs.length}</td>
+            </tr>
+            <tr>
+              <th scope="row">Collaboration breadth</th>
+              <td>
+                {coAuthors.size} co-author{coAuthors.size === 1 ? "" : "s"}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Active since</th>
+              <td>{activeSince}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    )
+  }
 
   {
     outputs.length > 0 && (
@@ -106,6 +140,17 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   .profile-body .school {
     color: var(--at-text-muted);
     margin-block: 0 var(--at-spacing-md);
+  }
+
+  .indicators {
+    margin-block-start: var(--at-spacing-2xl);
+  }
+
+  .metadata th {
+    text-align: start;
+    padding-inline-end: var(--at-spacing-lg);
+    white-space: nowrap;
+    vertical-align: top;
   }
 
   .outputs {
