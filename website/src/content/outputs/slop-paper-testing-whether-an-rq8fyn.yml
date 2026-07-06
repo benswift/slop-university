@@ -1,0 +1,22 @@
+title: "The Unread Diff"
+subtitle: "Code-Review Assistant Precision, the Diff-Attention Index, and Whether the Two Curves Stay Coupled"
+authors:
+  - Casimir Beng
+  - Verity Marris
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-06
+doi: 10.5555/slop.rq8fyn
+summary: >-
+  A 16-month, four-release deployment tracking an AI code-review assistant's
+  bug-flagging precision (rising from 61% to 84% against a seeded-defect
+  benchmark) against a diff-attention index built from reviewer dwell-time and
+  comment-density telemetry, which declined by roughly a third over the same
+  period (r = -0.82, n = 64 team-weeks). Hiding the assistant's confidence
+  score changed the index by 0.3 points (n.s.), and defect-escape rate on
+  architecturally complex changes rose from 2.1% to 4.8% across the same
+  releases even as overall escape rate held flat.
+topic: testing whether an AI code-review assistant that keeps getting more accurate at flagging real bugs is also quietly training engineers to read the diff less closely, and whether the two trends stay in lockstep or drift apart over a deployment
+pdf: /outputs/pdf/slop-paper-testing-whether-an-rq8fyn.pdf
+pages: 5
+version: "1.0"
