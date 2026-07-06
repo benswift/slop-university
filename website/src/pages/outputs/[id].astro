@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
+import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, fullTitle, presetLabels } from "../../lib/outputs";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
@@ -46,6 +47,14 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 ---
 
 <BaseLayout title={full} description={data.summary} {...siteConfig}>
+  <OpenGraph
+    slot="head"
+    title={full}
+    description={data.summary}
+    type="article"
+    image={hero ?? thumb}
+    imageAlt={hero ? `Illustration for ${full}` : thumb ? `First page of ${full}` : undefined}
+  />
   {
     hero ? (
       <Hero

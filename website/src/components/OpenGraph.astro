@@ -1,0 +1,35 @@
+---
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import { siteConfig } from "../site-config";
+
+// Per-page OpenGraph and Twitter card meta, injected through the layouts'
+// named head slot. Deliberately no citation_* (Highwire) meta: robots.txt
+// disallows /outputs/pdf/ to keep fabricated citations out of scholarly
+// indexers, and scholarly head meta would work against that.
+interface Props {
+  title: string;
+  description?: string;
+  /** og:type; use "article" for outputs and news, "profile" for people. */
+  type?: "website" | "article" | "profile";
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const { title, description, type = "website", image, imageAlt } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Card scrapers largely don't decode AVIF; serve the card as JPEG.
+const card = image ? await getImage({ src: image, width: 1200, format: "jpeg" }) : undefined;
+---
+
+<link rel="canonical" href={canonical.href} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:url" content={canonical.href} />
+<meta property="og:site_name" content={siteConfig.name} />
+{card && <meta property="og:image" content={new URL(card.src, Astro.site).href} />}
+{card && <meta property="og:image:width" content={String(card.attributes.width)} />}
+{card && <meta property="og:image:height" content={String(card.attributes.height)} />}
+{card && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+<meta name="twitter:card" content={card ? "summary_large_image" : "summary"} />

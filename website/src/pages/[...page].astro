@@ -7,6 +7,7 @@ import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import heroImage from "../assets/images/hero.avif";
+import OpenGraph from "../components/OpenGraph.astro";
 import { siteConfig } from "../site-config";
 import { outputHero } from "../lib/heroes";
 
@@ -32,6 +33,12 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 ---
 
 <BaseLayout title={title} {...siteConfig}>
+  <OpenGraph
+    slot="head"
+    title={title}
+    description="Research-led, metrics-forward, and continuously improving. News from the Office of Research Outputs."
+    image={heroImage}
+  />
   <link
     slot="head"
     rel="alternate"

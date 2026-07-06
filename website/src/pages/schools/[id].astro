@@ -1,5 +1,6 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsBySchool, researchersOf } from "../../lib/canon";
 import { schoolHero } from "../../lib/heroes";
@@ -39,6 +40,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   heroImageAlt={hero ? `Illustration for the ${school.name}` : undefined}
   {...siteConfig}
 >
+  <OpenGraph
+    slot="head"
+    title={school.name}
+    description={school.blurb}
+    image={hero}
+    imageAlt={hero ? `Illustration for the ${school.name}` : undefined}
+  />
   {school.blurb && <p class="lead">{school.blurb}</p>}
 
   {

@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { outputHero } from "../../lib/heroes";
 import { fullTitle } from "../../lib/outputs";
@@ -33,6 +34,14 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   heroImageAlt={hero ? entry.data.title : undefined}
   {...siteConfig}
 >
+  <OpenGraph
+    slot="head"
+    title={entry.data.title}
+    description={entry.data.description}
+    type="article"
+    image={hero}
+    imageAlt={hero ? entry.data.title : undefined}
+  />
   <p class="dateline">
     <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
   </p>
