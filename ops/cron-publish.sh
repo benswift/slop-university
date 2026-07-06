@@ -24,6 +24,35 @@ log "=== publish run started at $(date -Iseconds) ==="
 # this run produced, whether or not origin is reachable.
 BASE_REF="$(git rev-parse HEAD)"
 
+# Preserve, never destroy, on a validation abort. Any commits this run left on
+# top of BASE_REF are rescued onto a local `publish-rescue/<ts>` branch, and any
+# uncommitted work is stashed, before main is reset back to BASE_REF. This keeps
+# legitimate work recoverable — a human's unpushed commit that happens to touch
+# a non-allowlisted path, or a valid output commit stacked above it — instead of
+# `git reset --hard`-ing it into the reflog-only void. Recover with
+# `git branch --list 'publish-rescue/*'` and `git stash list`. Rescue branches
+# are local-only (git push only pushes main) and left for manual cleanup.
+rescue_and_abort() {
+  local ts; ts="$(date +%Y%m%d-%H%M%S)"
+  if [ "$(git rev-parse HEAD)" != "$BASE_REF" ]; then
+    if git branch "publish-rescue/${ts}" HEAD >> "$LOG_FILE" 2>&1; then
+      log "preserved commits ${BASE_REF}..HEAD on branch publish-rescue/${ts}"
+    else
+      log "WARNING: could not create rescue branch publish-rescue/${ts}"
+    fi
+  fi
+  if [ -n "$(git status --porcelain)" ]; then
+    if git stash push -u -m "publish-rescue ${ts}" >> "$LOG_FILE" 2>&1; then
+      log "stashed uncommitted work as 'publish-rescue ${ts}' (see: git stash list)"
+    else
+      log "WARNING: could not stash uncommitted work"
+    fi
+  fi
+  git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1 || log "WARNING: reset to ${BASE_REF} failed"
+  log "=== reset main to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
+  exit 1
+}
+
 # The publish agent generates one output, stages it into website/, verifies
 # the site builds, and commits — it never pushes (that's this wrapper's job,
 # after validation). A failed generation is tolerated: the push below still
@@ -54,10 +83,7 @@ DENYLIST_RE='(^|/)colophon\.md$'
 if [ -n "$(git status --porcelain)" ]; then
   log "VALIDATION FAILURE: dirty working tree after agent run:"
   git status --porcelain >> "$LOG_FILE"
-  git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-  git clean -fd website/src/content website/src/assets website/public/outputs canon/headshots canon/heroes >> "$LOG_FILE" 2>&1
-  log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
-  exit 1
+  rescue_and_abort
 fi
 
 CHANGED="$(git diff --name-only "${BASE_REF}"..HEAD)"
@@ -67,9 +93,7 @@ if [ -n "$CHANGED" ]; then
   if [ -n "$DENIED" ] || [ -n "$VIOLATIONS" ]; then
     log "VALIDATION FAILURE: publish commit touches disallowed paths:"
     { echo "$DENIED"; echo "$VIOLATIONS"; } | grep -v '^$' >> "$LOG_FILE" || true
-    git reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-    log "=== reset to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
-    exit 1
+    rescue_and_abort
   fi
   log "validated $(echo "$CHANGED" | wc -l) changed path(s) against allowlist"
 else
