@@ -1,0 +1,24 @@
+title: "The Vagueness Dividend"
+subtitle: "Ticket-Triage Accuracy, Submission Effort, and Whether the Loop Ever Closes"
+authors:
+  - Casimir Beng
+  - Osei Vandermeer
+  - Anneke Tolan
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-06
+doi: 10.5555/slop.nr1eac
+summary: >-
+  An 18-desk, 14-week deployment comparing a rule-based helpdesk ticket-triage
+  baseline against an adaptive classifier retrained on confirmed routings,
+  instrumented with a purpose-built Ticket Specificity Index. Submitted-ticket
+  specificity held steady under the baseline and declined by roughly a third
+  as the adaptive classifier's routing accuracy rose from 74% to 89%
+  (R² = 0.81 across desk-weeks); a transparency ablation intended to
+  counteract the decline changed staff clarification effort by less than
+  0.2 minutes per ticket, and an extended-window check suggests the decline
+  plateaus rather than continuing unchecked.
+topic: whether a more accurate helpdesk ticket-triage classifier trains staff to submit vaguer tickets, and whether the loop between machine inference and human effort ever closes
+pdf: /outputs/pdf/slop-paper-whether-a-more-nr1eac.pdf
+pages: 5
+version: "1.0"
