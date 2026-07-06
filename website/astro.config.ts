@@ -1,3 +1,4 @@
+import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import universityTheme from "astro-theme-university";
 
@@ -8,5 +9,6 @@ export default defineConfig({
       defaultLayout: "src/layouts/PageLayout.astro",
       brandCss: "/src/styles/slop.css",
     }),
+    sitemap(),
   ],
 });

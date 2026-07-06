@@ -34,6 +34,9 @@ export const siteConfig = defineSiteConfig({
     email: "outputs@slop.university",
   },
 
-  // The one out-of-fiction page on the site.
-  legalLinks: [{ text: "About this project", href: "/colophon/" }],
+  // The one out-of-fiction page on the site, plus the news feed.
+  legalLinks: [
+    { text: "About this project", href: "/colophon/" },
+    { text: "RSS", href: "/rss.xml" },
+  ],
 });
