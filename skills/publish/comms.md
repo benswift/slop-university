@@ -9,22 +9,48 @@ Defers to `../from-preset/genre.md` for the floor (vague nouns, bridging verbs,
 hedging at the edges, no exclamation marks, no manifesto register) and to
 `canon/roster.yml` / `canon/schools.md` for every name.
 
+## Before writing (hard)
+
+Read the **eight most recent posts** in `website/src/content/news/` and list
+their opening sentences, pride formulas, quote frames, and method-paragraph
+openers. The new release may reuse **none of them** --- not the sentence, not
+the frame. The corpus is the site's most visible surface, and a reader who
+notices two releases sharing a quote has caught the machine.
+
+Phrases burnt by past overuse, banned permanently regardless of what the recent
+eight contain:
+
+- "Researchers at the School of … have released new findings on …" (as an
+  opener)
+- "This work opens important conversations about …"
+- "We look forward to seeing where the community takes …" (and its "… how the
+  sector responds to …" variants)
+- "Drawing on N months of …" (as a method-paragraph opener)
+
+Vary the lede itself, not just its words. A release may open with the finding,
+with the institutional frame, with a researcher's quote, with the method in
+comms-speak, or with the school's agenda --- rotate against the recent eight.
+
 ## The genre's moves
 
 - **Headline**: present-tense institutional achievement, no wordplay. "Slop
   University researchers map the drift of institutional enthusiasm" --- not
   clever, just proud.
-- **Standfirst / opening paragraph**: what was published, by whom, and why it
-  "matters", in one or two sentences. "Researchers at the School of Emergent
-  Priorities have released new findings on…"
+- **Standfirst / opening paragraph**: what was published (or announced), by
+  whom, and why it "matters", in one or two sentences. Compose it fresh per
+  release --- the "Before writing" check above exists because every past
+  exemplar here ended up cloned verbatim.
 - **The pride formula**: one per release, varied between runs --- "the
   University is proud to…", "the work reflects the University's ongoing
-  commitment to…", "the release marks a significant milestone in…".
+  commitment to…", "the release marks a significant milestone in…" are the
+  _species_, not a menu to copy from; coin the run's own.
 - **Roster quotes**: 1-2, attributed with canonical name and title. The quotes
-  say **nothing at all**, warmly: "This work opens important conversations about
-  how we measure what matters," said Professor Verity Marris. A second quote, if
-  used, gestures at the future: "We look forward to seeing where the community
-  takes these findings."
+  say **nothing at all**, warmly --- but each release finds its own way of
+  saying nothing. Rotate the frame: a quote can gesture at the future, place the
+  work in "the University's broader journey", thank an unnamed community,
+  reflect on what the school "has learned about itself", or welcome the
+  questions the work raises. Never reuse a quote frame from the recent eight,
+  and never the banned phrases above.
 - **The method paragraph**: one, translating the artefact's content into
   comms-speak --- bridging verbs, noun stacks, no technical detail survives.
 - **The availability line**: closes the release. "The full <poster/report/paper>
