@@ -79,7 +79,11 @@ each step.
    - Resolve `<preset-name>` to `presets/<preset-name>.md`, falling back to
      `private/*/presets/<preset-name>.md` (local-only, gitignored preset
      overlays --- documented in `CLAUDE.local.md` where present; absent in most
-     clones). If neither exists, stop and list available presets. Don't guess.
+     clones). **If the `SLOPU_PUBLIC_ONLY` env var is set** (the cron wrapper
+     sets it for every unattended run), skip the `private/` fallback entirely
+     and read nothing under `private/` --- a preset that only resolves there is
+     treated as nonexistent. If nothing resolves, stop and list available
+     presets. Don't guess.
    - Derive `<slug>` and `<seed>` from `<steering>` per
      `../_shared/output-naming.md`.
 
