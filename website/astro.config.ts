@@ -6,8 +6,10 @@ export default defineConfig({
   site: "https://slop.university",
   integrations: [
     universityTheme({
+      name: "Slop University",
       defaultLayout: "src/layouts/PageLayout.astro",
       brandCss: "/src/styles/slop.css",
+      llmsTxt: true,
     }),
     sitemap(),
   ],
