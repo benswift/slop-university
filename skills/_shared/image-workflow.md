@@ -40,7 +40,7 @@ typst).
    creative decisions. Sample prompt:
 
    > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>', `--jpg`,
-   > `--resolution 4K`, `--aspect-ratio <AR>`, and
+   > `--resolution <RES>`, `--aspect-ratio <AR>`, and
    > `--input-image <ref1> ... <refN>`. Output to
    > `output/{image-folder}/<name>.jpg` (use `cover.jpg` for the cover,
    > `inline-N.jpg` for inlines, `feature.jpg` for a poster feature). Report the
@@ -50,12 +50,24 @@ typst).
    available. The calling preset declares which ratio each image slot uses; the
    parent owns this choice along with the references.
 
-   **Generate cover and feature/hero images at `--resolution 4K`** --- the
-   model's largest, and the right choice at A3/booklet scale; it's slower than
-   1K/2K but the detail matters, so don't downscale the hero to save time. A
-   small _secondary_ image (e.g. the research poster's wide body strip, shown
-   only a column wide) can be `2K` --- it never fills the page, so 4K would be
-   wasted.
+   **Pass `--resolution` per slot --- it is a deliberate choice, not a
+   default.** The script's own default is `4K`, but don't lean on it: fill the
+   `<RES>` slot for every image from the calling preset's declared size. The
+   rule of thumb, by how the image actually lands on the page:
+
+   - **`4K`** for anything that fills or full-bleeds a page --- booklet/poster
+     **covers**, the poster **feature/hero**, and the publish **web hero**
+     (whose 4K source feeds a responsive `<Image>`). At A3/booklet scale the
+     detail matters; it's slower than 1K/2K but don't downscale the hero to save
+     time.
+   - **`2K`** for anything shown at part-page size --- an inline figure within a
+     booklet text column or a landscape strip between paragraphs, or the
+     research poster's wide body strip. 2K is ~2048px on the long edge (~250 dpi
+     across a full A4 width, higher when narrower), which covers a part-page
+     figure; 4K there is ~500 dpi, wasted pixels and wasted generation time.
+
+   If a slot's declared resolution is missing, default it to `2K` for inlines
+   and `4K` for covers/heroes/features rather than maxing everything to `4K`.
 
    `ben:styled-image-gen` calls Replicate, which needs `REPLICATE_API_TOKEN`.
    It's provided by the mise environment, so run the generation under mise (e.g.

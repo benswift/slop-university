@@ -233,6 +233,9 @@ Everything in "Per-run variation rolls" varies per run. These don't, ever:
 - Image folder: `output/slop-strategy-<slug>-<seed>-images/`
 - Prompts: 1 cover (3:4 portrait) + 4 inline (16:9 landscape); reserve a 5th
   inline prompt as the parity-fix spare (don't generate yet).
+- Resolution: cover at `--resolution 4K` (it full-bleeds the A4 cover); inlines
+  at `--resolution 2K` --- they land as part-page full-bleed-right figures, so
+  2K is ample and 4K would just be wasted pixels and generation time.
 - Image prompts can carry thematic overlays freely.
 
 ## Style references

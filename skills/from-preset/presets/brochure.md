@@ -208,6 +208,9 @@ and at most one.
 - Prompts: 1 cover (3:4 portrait) + 4 inline (16:9 landscape); reserve a 5th
   inline as the parity-fix spare. All in the two-ink house style
   (`../../_shared/visual-style.md`), steered by `references/slop-style/`.
+- Resolution: cover at `--resolution 4K` (it full-bleeds the A4 cover); inlines
+  at `--resolution 2K` --- they land as part-page feature-section figures, so 2K
+  is ample and 4K would just be wasted pixels and generation time.
 - Cover image should be the run's most aspirational, campaign-worthy scene ---
   the brochure's hero. Inline scenes match their feature (a lab, a public
   lecture, a fieldwork moment, a reading room), keyed to the campaign theme.
