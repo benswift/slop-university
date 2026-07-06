@@ -32,11 +32,24 @@ const researchers = (
 
 const schoolDoc = parseYaml(readFileSync(join(canonDir, "schools.yml"), "utf8")) as Record<
   string,
-  { name: string }[]
+  { id: string; name: string }[]
 >;
 const schoolNames = new Set((schoolDoc.schools ?? []).map((s) => s.name));
 const allOrgNames = new Set(Object.values(schoolDoc).flat().map((o) => o.name));
 const researcherNames = new Set(researchers.map((r) => r.name));
+
+// Name → URL-slug maps, mirroring the render-time resolvers in lib/canon.ts
+// (personIdByName, schoolIdByName). The output landing page links each author
+// to /people/<id>/ and the school to /schools/<id>/; these maps let the tests
+// below prove every such cross-link resolves to exactly one canon page rather
+// than silently degrading to plain text on a name mismatch or an id rename.
+function nameToId(records: { id: string; name: string }[]): Map<string, string[]> {
+  const map = new Map<string, string[]>();
+  for (const r of records) map.set(r.name, [...(map.get(r.name) ?? []), r.id]);
+  return map;
+}
+const researcherIdByName = nameToId(researchers);
+const schoolIdByName = nameToId(schoolDoc.schools ?? []);
 
 describe("news entries", () => {
   it("reference an existing outputs entry", () => {
@@ -78,6 +91,22 @@ describe("outputs entries", () => {
   it("name a school that exists in the canon", () => {
     for (const output of outputs) {
       if (output.school) expect(schoolNames, output.school).toContain(output.school);
+    }
+  });
+
+  it("credit authors that each resolve to exactly one /people/ page", () => {
+    for (const output of outputs) {
+      for (const author of output.authors ?? []) {
+        expect(researcherIdByName.get(author), `author "${author}" → /people/`).toHaveLength(1);
+      }
+    }
+  });
+
+  it("name a school that resolves to exactly one /schools/ page", () => {
+    for (const output of outputs) {
+      if (output.school) {
+        expect(schoolIdByName.get(output.school), `${output.school} → /schools/`).toHaveLength(1);
+      }
     }
   });
 });

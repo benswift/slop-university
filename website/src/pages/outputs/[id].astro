@@ -5,6 +5,7 @@ import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, fullTitle, presetLabels } from "../../lib/outputs";
+import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
 import { outputHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
 
@@ -22,6 +23,15 @@ const hero = outputHero(entry.id);
 const thumb = thumbnail(entry.id);
 const citation = bibtex(entry.id, data);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
+
+// Resolve each credited author and the attributed school to their canon page.
+// The content test guarantees these names all resolve, so the links never
+// dangle; the plain-text fallback is belt-and-braces for a page rendered
+// before the test runs.
+const people = await getPeople();
+const schools = await getSchools();
+const authors = data.authors.map((name) => ({ name, id: personIdByName(people, name) }));
+const schoolId = data.school ? schoolIdByName(schools, data.school) : undefined;
 
 // Hero h1 carries only the punchy title; the subtitle rides underneath as a
 // deck. The full title stays in the document <title> for the citable record.
@@ -58,10 +68,21 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
       <table class="metadata">
         <tbody>
           {
-            data.authors.length > 0 && (
+            authors.length > 0 && (
               <tr>
                 <th scope="row">Authors</th>
-                <td>{data.authors.join(", ")}</td>
+                <td>
+                  {authors.map((author, i) => (
+                    <>
+                      {i > 0 && ", "}
+                      {author.id ? (
+                        <a href={`/people/${author.id}/`}>{author.name}</a>
+                      ) : (
+                        author.name
+                      )}
+                    </>
+                  ))}
+                </td>
               </tr>
             )
           }
@@ -69,7 +90,9 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
             data.school && (
               <tr>
                 <th scope="row">School</th>
-                <td>{data.school}</td>
+                <td>
+                  {schoolId ? <a href={`/schools/${schoolId}/`}>{data.school}</a> : data.school}
+                </td>
               </tr>
             )
           }

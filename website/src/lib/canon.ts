@@ -28,6 +28,11 @@ export function schoolIdByName(schools: School[], name: string): string | undefi
   return schools.find((s) => s.data.kind === "school" && s.data.name === name)?.id;
 }
 
+/** The id (URL slug) of the researcher with this full name, if any. */
+export function personIdByName(people: Person[], name: string): string | undefined {
+  return people.find((p) => p.data.name === name)?.id;
+}
+
 /** Researchers affiliated to a school (matched on the school's full name). */
 export function researchersOf(people: Person[], schoolName: string): Person[] {
   return people.filter((p) => p.data.school === schoolName);
