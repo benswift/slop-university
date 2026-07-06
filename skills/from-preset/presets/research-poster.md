@@ -56,6 +56,17 @@ academic-poster register). The PDF metadata title still uses the fixed satirical
 formula above; that remains the only satirical tell and is not visible on the
 rendered page.
 
+**Split the title at the colon.** Academic poster titles love the
+`Punchy phrase: descriptive gloss` shape --- e.g.
+`Reading the Drift Before the Workaround: Forecasting Exam-Integrity Vulnerability from Capability Trajectories`.
+Don't set the whole thing as the title band's title and _then_ invent a separate
+subtitle underneath --- that stacks two long lines and reads as a title plus its
+own subtitle plus a third descriptive line. Instead, when the title contains a
+colon, the part **before** the colon becomes the visible title (the big
+gold/white line) and the part **after** becomes the subtitle line. Only when the
+title has no colon do you write a fresh one-line subtitle / research question.
+Keep the title to ≤2 lines and the subtitle to one.
+
 **Roster authors only.** The title band carries a small author line naming 2-3
 researchers from the persistent roster (`canon/roster.yml`, with the lead
 author's school from `canon/schools.md`) --- the flip of the old
@@ -535,9 +546,9 @@ an identical two-column body grid --- only the page setup and the feature image
   rows: (auto, 1fr),
   [
     #v(2.6cm)
-    #text(size: 32pt, weight: "regular", fill: slop-colors.gold)[<Project title --- steering-driven>]
+    #text(size: 32pt, weight: "regular", fill: slop-colors.gold)[<Project title --- steering-driven; part before the colon>]
     #v(0.15em)
-    #text(size: 15pt)[<one-line descriptive subtitle / research question>]
+    #text(size: 15pt)[<part after the colon, else a one-line research question>]
     #v(0.4em)
     #text(size: 11pt, fill: slop-colors.grey-4)[<2-3 roster authors, middot-separated> --- <lead author's school>]
     #v(0.35cm)
@@ -626,9 +637,9 @@ height) and is placed directly with `#body`.
     slop-qr-code("https://slop.university/", width: 2.4cm))
   // title block over the bottom scrim --- WHITE (gold lives only in the rule)
   place(bottom + left, dx: 2.2cm, dy: -11mm, box(width: 250mm)[
-    #text(fill: white, size: 44pt, weight: "regular")[<Project title --- steering-driven>]
+    #text(fill: white, size: 44pt, weight: "regular")[<Project title --- steering-driven; part before the colon>]
     #v(0.25em)
-    #text(fill: rgb("#ececec"), size: 16pt)[<one-line descriptive subtitle / research question>]
+    #text(fill: rgb("#ececec"), size: 16pt)[<part after the colon, else a one-line research question>]
     #v(0.35em)
     #text(fill: rgb("#e0e0e0"), size: 11.5pt)[<2-3 roster authors, middot-separated> --- <lead author's school>]
     #v(0.55em)
@@ -798,9 +809,12 @@ items:
       white lockup + QR overlaid on the hero band (auto masthead hidden)
 - [ ] No `cover:`, no `#outline()`, no Acknowledgement of Country, no
       `#slop-back-cover()`, no `#pagebreak()` anywhere
-- [ ] Visible title is the fabricated project name (steering-driven); the author
-      line names **2-3 roster researchers** with the lead author's school
-      (`canon/roster.yml` / `canon/schools.md`); no other person named anywhere
+- [ ] Visible title is the fabricated project name (steering-driven); if it
+      carries a colon, the part before is the title band's title and the part
+      after is the subtitle (not the whole string as title plus a third invented
+      line); the author line names **2-3 roster researchers** with the lead
+      author's school (`canon/roster.yml` / `canon/schools.md`); no other person
+      named anywhere
 - [ ] Layout matches the roll. feature-right: a tall (9:16) image full-bleeds
       the right third with a scrim + white hero quote; title + 2-column body in
       the left two-thirds (right margin reserved). feature-top: a wide (16:9)
