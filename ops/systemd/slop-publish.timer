@@ -1,9 +1,9 @@
 [Unit]
-Description=Trigger a Slop University publish run every 6 hours
+Description=Trigger a Slop University publish run every hour
 
 [Timer]
-OnCalendar=*-*-* 00/6:00
-RandomizedDelaySec=15min
+OnCalendar=*-*-* *:00
+RandomizedDelaySec=5min
 Persistent=true
 Unit=slop-publish.service
 
