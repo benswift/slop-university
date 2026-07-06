@@ -146,13 +146,16 @@ verifiable numbers). Then:
   (one-sentence standfirst), `output` (the outputs entry id, which is the run
   id). Body: the press release.
 - **Outputs entry** → `website/src/content/outputs/<run-id>.yml` with: `title`
-  (the artefact's visible title), `authors` (the roster authors used), `preset`,
-  `school` (the lead author's school), `date`, `doi`, `summary` (1-2 sentence
-  abstract of the fictional work, institutional register --- not the press
-  release's standfirst), `topic` (the steering line), `pdf`
-  (`/outputs/pdf/<run-id>.pdf`), `pages` (from pdfinfo), `version: "1.0"`. The
-  thumbnail and hero carry no yml field --- they resolve by matching a file
-  basename to the entry id (see below).
+  (the artefact's main title --- the punchy part before the colon; it becomes
+  the hero heading and listing card), `subtitle` (optional; the explanatory part
+  after the colon, shown as a deck under the heading --- split an academic
+  "Main: Subtitle" title here rather than storing the whole string in `title`),
+  `authors` (the roster authors used), `preset`, `school` (the lead author's
+  school), `date`, `doi`, `summary` (1-2 sentence abstract of the fictional
+  work, institutional register --- not the press release's standfirst), `topic`
+  (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pages` (from
+  pdfinfo), `version: "1.0"`. The thumbnail and hero carry no yml field --- they
+  resolve by matching a file basename to the entry id (see below).
 
 ### Stage assets into website/
 

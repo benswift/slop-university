@@ -7,6 +7,14 @@ export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], 
   "impact-report": "Impact report",
 };
 
+// Titles are stored split: `title` is the punchy head (the hero h1 and listing
+// card), `subtitle` the optional explanatory deck. Rejoin them with ": " for
+// the places that want the whole academic title --- the citation, the document
+// <title>, the DOI resolver, the announcing news post.
+export function fullTitle(entry: Pick<CollectionEntry<"outputs">["data"], "title" | "subtitle">): string {
+  return entry.subtitle ? `${entry.title}: ${entry.subtitle}` : entry.title;
+}
+
 // The BibTeX rendered in every landing page's "Cite as" box. A human pasting
 // this citation is exercising exactly the agency the piece contests.
 export function bibtex(id: string, entry: CollectionEntry<"outputs">["data"]): string {
@@ -15,7 +23,7 @@ export function bibtex(id: string, entry: CollectionEntry<"outputs">["data"]): s
   return [
     `@misc{slop_${seed},`,
     `  author       = {${author}},`,
-    `  title        = {${entry.title}},`,
+    `  title        = {${fullTitle(entry)}},`,
     `  year         = {${entry.date.getFullYear()}},`,
     `  publisher    = {Slop University},`,
     `  doi          = {${entry.doi}},`,

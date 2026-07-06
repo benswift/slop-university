@@ -65,6 +65,7 @@ const outputs = defineCollection({
   loader: glob({ pattern: "**/*.yml", base: "src/content/outputs" }),
   schema: z.object({
     title: z.string(),
+    subtitle: z.string().optional(),
     authors: z.array(z.string()).default([]),
     preset: z.enum(["research-poster", "paper", "strategy", "impact-report"]),
     school: z.string().optional(),

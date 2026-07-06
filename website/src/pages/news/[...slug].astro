@@ -3,6 +3,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { outputHero } from "../../lib/heroes";
+import { fullTitle } from "../../lib/outputs";
 
 export async function getStaticPaths() {
   const news = await getCollection("news");
@@ -40,7 +41,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     output && (
       <p class="output-link">
         <a href={`/outputs/${output.id}/`}>
-          Read the output: <cite>{output.data.title}</cite>
+          Read the output: <cite>{fullTitle(output.data)}</cite>
         </a>{" "}
         (doi:{output.data.doi})
       </p>

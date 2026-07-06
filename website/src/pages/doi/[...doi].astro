@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { fullTitle } from "../../lib/outputs";
 
 // The University's own DOI resolver. Identifiers are minted under the
 // reserved test prefix 10.5555, so doi.org will never resolve them ---
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
   const outputs = await getCollection("outputs");
   return outputs.map((entry) => ({
     params: { doi: entry.data.doi },
-    props: { target: `/outputs/${entry.id}/`, title: entry.data.title },
+    props: { target: `/outputs/${entry.id}/`, title: fullTitle(entry.data) },
   }));
 }
 

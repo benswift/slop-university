@@ -1,9 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import Hero from "astro-theme-university/components/Hero.astro";
 import { siteConfig } from "../../site-config";
-import { bibtex, presetLabels } from "../../lib/outputs";
+import { bibtex, fullTitle, presetLabels } from "../../lib/outputs";
 import { outputHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
 
@@ -22,6 +23,11 @@ const thumb = thumbnail(entry.id);
 const citation = bibtex(entry.id, data);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
 
+// Hero h1 carries only the punchy title; the subtitle rides underneath as a
+// deck. The full title stays in the document <title> for the citable record.
+const full = fullTitle(data);
+const transitionName = `card-title-${Astro.url.pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-")}`;
+
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
   month: "long",
@@ -29,13 +35,22 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 });
 ---
 
-<ContentLayout
-  title={data.title}
-  description={data.summary}
-  heroImage={hero}
-  heroImageAlt={hero ? `Illustration for ${data.title}` : undefined}
-  {...siteConfig}
->
+<BaseLayout title={full} description={data.summary} {...siteConfig}>
+  {
+    hero ? (
+      <Hero
+        slot="hero"
+        title={data.title}
+        image={hero}
+        imageAlt={`Illustration for ${full}`}
+        transitionName={transitionName}
+      />
+    ) : (
+      <h1 transition:name={transitionName}>{data.title}</h1>
+    )
+  }
+
+  {data.subtitle && <p class="deck">{data.subtitle}</p>}
   <p class="lead">{data.summary}</p>
 
   <div class="record">
@@ -109,7 +124,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
         <a class="record-thumb" href={data.pdf}>
           <Image
             src={thumb}
-            alt={`First page of ${data.title}`}
+            alt={`First page of ${full}`}
             widths={[224, 448]}
             sizes="(max-width: 48rem) 12rem, 14rem"
             loading="lazy"
@@ -118,7 +133,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
       )
     }
   </div>
-</ContentLayout>
+</BaseLayout>
 
 <script>
   for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-citation]")) {
@@ -134,6 +149,18 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 </script>
 
 <style>
+  /* The title's subtitle, sitting under the punchy hero head. Reads as a
+     deck: larger than body copy, lighter than the h1, distinct from the .lead
+     summary that follows it. */
+  .deck {
+    margin-block: calc(-1 * var(--at-spacing-sm)) var(--at-spacing-md);
+    font-size: var(--at-font-size-h4);
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--at-text-muted, inherit);
+    text-wrap: balance;
+  }
+
   .record {
     display: grid;
     grid-template-columns: 1fr 14rem;
