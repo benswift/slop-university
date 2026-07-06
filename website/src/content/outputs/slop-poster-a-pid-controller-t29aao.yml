@@ -1,0 +1,20 @@
+title: "Two Setpoints, One Controller: Weekly Enrolment Offers Under a Cap and a Growth Target on Different Clocks"
+authors:
+  - Casimir Beng
+  - Osei Vandermeer
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-07-06
+doi: 10.5555/slop.t29aao
+summary: >-
+  A 14-month deployment of a discrete-time PID controller managing weekly
+  enrolment offers against an admissions cap and a growth target set on
+  separate committee cycles. Oscillation half-life rose with setpoint-update
+  lag (r = 0.74, n = 6 cohorts), stabilising at a median 2.8 weeks when both
+  cycles aligned and lengthening to 9.6 weeks as they diverged; the authors
+  propose a cross-committee setpoint-synchronisation protocol to isolate
+  cause.
+topic: a PID controller for weekly enrolment offers, torn between the admissions cap and a growth target set by a different committee, and why it oscillates when the two setpoints update on different clocks
+pdf: /outputs/pdf/slop-poster-a-pid-controller-t29aao.pdf
+pages: 1
+version: "1.0"
