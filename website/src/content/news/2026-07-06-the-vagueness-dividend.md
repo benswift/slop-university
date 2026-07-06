@@ -1,7 +1,10 @@
 ---
 title:
-  Slop University researchers trace a feedback loop between ticket accuracy and
-  ticket effort
+  Slop University researchers trace a loop between triage accuracy and vaguer
+  tickets
+subtitle:
+  As a helpdesk classifier gets better at reading tickets, staff write less into
+  them, and the loop may never settle
 date: 2026-07-06
 description:
   New findings from the School of Continuous Improvement examine whether a more

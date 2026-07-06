@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers examine how closely engineers still read code once
-  an automated reviewer gets better at flagging bugs
+title: Slop University researchers ask how closely engineers still read the code
+subtitle:
+  Reviewer attention to changes, tracked against a rising-accuracy AI
+  code-review assistant across four releases
 date: 2026-07-06
 description:
   New findings from the School of Continuous Improvement track reviewer

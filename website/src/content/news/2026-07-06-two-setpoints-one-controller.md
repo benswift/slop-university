@@ -1,6 +1,8 @@
 ---
-title:
-  Slop University researchers test whether one controller can serve two masters
+title: Slop University researchers test one controller against two targets
+subtitle:
+  What happens when a single control loop must hold an admissions cap and a
+  growth target set on different committee calendars
 date: 2026-07-06
 description:
   New findings from the School of Continuous Improvement examine what happens

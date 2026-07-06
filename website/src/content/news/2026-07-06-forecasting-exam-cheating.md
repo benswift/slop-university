@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers forecast exam-integrity workarounds before they
-  emerge
+title: Slop University researchers forecast exam workarounds before they emerge
+subtitle:
+  A tool's own capability curve flags an assessment-integrity gap weeks ahead of
+  the first reported workaround
 date: 2026-07-06
 description:
   New findings from the School of Emergent Priorities suggest a tool's own

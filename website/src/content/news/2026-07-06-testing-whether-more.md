@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers link lecture-capture sophistication to weaker
-  recall
+title: Slop University researchers link slicker lecture capture to weaker recall
+subtitle:
+  As the capture system grows more capable, students remember less of what was
+  taught
 date: 2026-07-06
 description:
   New findings from the School of Continuous Improvement suggest that as

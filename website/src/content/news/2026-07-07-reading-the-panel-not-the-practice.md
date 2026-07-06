@@ -1,7 +1,10 @@
 ---
 title:
-  Slop University researchers find staff learn what a review panel wants to see
-  well before their practice shifts
+  Slop University researchers find staff read the panel before the practice
+  moves
+subtitle:
+  Across three stages of its own review cycle, staff quickly learn what a panel
+  notices while the practice underneath barely shifts
 date: 2026-07-07
 description:
   New findings from the School of Continuous Improvement follow staff through

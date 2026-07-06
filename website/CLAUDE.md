@@ -95,7 +95,11 @@ built by hand (like this pass), not grown by the tick.
   `src/assets/heroes/outputs/<id>.avif`, resolved by basename === entry id (no
   yml field), via `src/lib/thumbnails.ts` and `src/lib/heroes.ts`.
 - `src/content/news/*.md` --- press releases; frontmatter `output:` references
-  the outputs entry id.
+  the outputs entry id. `title` is the punchy headline (hero h1 and listing
+  card); the optional `subtitle` renders as a deck beneath the hero (mirroring
+  the output landing page), carrying the specificity the headline trims.
+  `description` is the card body and social/meta text --- not shown on the post
+  itself.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
   generated from the outputs collection --- no per-output page authoring.
 

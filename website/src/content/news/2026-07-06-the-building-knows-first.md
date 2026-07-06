@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers forecast building underuse before facilities
-  notices
+title: Slop University researchers see a building empty before facilities does
+subtitle:
+  Desk-booking and swipe-card data flag a building's quiet decline weeks ahead
+  of the facilities review
 date: 2026-07-06
 description:
   New findings from the School of Emergent Priorities suggest desk-booking and

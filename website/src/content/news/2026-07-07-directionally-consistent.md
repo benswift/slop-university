@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers test whether an in-house finding travels to a new
-  setting, and trace what happens when it doesn't
+title: Slop University researchers test whether an in-house finding travels
+subtitle:
+  A capability-practice pattern fails to reappear in a third setting, then takes
+  on a life of its own in the dashboard
 date: 2026-07-07
 description:
   New findings from the School of Emergent Priorities test whether a

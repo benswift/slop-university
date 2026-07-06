@@ -1,7 +1,8 @@
 ---
-title:
-  Slop University researchers examine why a more capable library search system
-  hasn't delivered more successful searches
+title: Slop University researchers ask why a smarter library search finds less
+subtitle:
+  Four ranking-model upgrades to the discovery portal, measured against whether
+  patrons actually found what they came for
 date: 2026-07-06
 description:
   New findings from the School of Emergent Priorities compare four backend

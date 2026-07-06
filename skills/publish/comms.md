@@ -35,7 +35,16 @@ comms-speak, or with the school's agenda --- rotate against the recent eight.
 
 - **Headline**: present-tense institutional achievement, no wordplay. "Slop
   University researchers map the drift of institutional enthusiasm" --- not
-  clever, just proud.
+  clever, just proud. Keep it punchy: one claim, ideally under ~80 characters.
+  The trimmed specificity (the setting, the mechanism, the qualifier) goes in
+  the deck, not a longer headline.
+- **Deck (`subtitle`)**: an optional one-line standfirst under the headline, set
+  in the `subtitle` frontmatter field. It carries what the punchy headline drops
+  --- the study's setting, the mechanism, or the qualifying clause --- in a
+  single line that reads as an elaboration of the head, not a summary of the
+  release (that's the `description`, which stays card- and meta-only). No em
+  dashes in the frontmatter value. The site renders it as a deck beneath the
+  hero, matching the output landing page.
 - **Standfirst / opening paragraph**: what was published (or announced), by
   whom, and why it "matters", in one or two sentences. Compose it fresh per
   release --- the "Before writing" check above exists because every past

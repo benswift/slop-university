@@ -1,6 +1,9 @@
 ---
 title:
-  Slop University researchers link dashboard uptake to how staff picture a trend
+  Slop University researchers link dashboard uptake to how staff read a trend
+subtitle:
+  Engagement with the Living Dashboard tracks how readily staff picture a rise
+  from a sparkline
 date: 2026-07-06
 description:
   New findings from the School of Emergent Priorities suggest a department's

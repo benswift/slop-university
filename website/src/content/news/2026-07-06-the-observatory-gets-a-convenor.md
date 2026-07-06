@@ -1,6 +1,8 @@
 ---
-title:
-  Slop University names inaugural convenor for the Review Cadence Observatory
+title: Slop University names the Review Cadence Observatory's first convenor
+subtitle:
+  Dr Osei Vandermeer will lead the initiative tracking when the University's
+  review cycles fall out of step
 date: 2026-07-06
 description:
   Dr Osei Vandermeer has been appointed to lead the School of Continuous
