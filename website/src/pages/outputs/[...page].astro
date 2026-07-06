@@ -1,8 +1,10 @@
 ---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
+import Pagination from "astro-theme-university/components/Pagination.astro";
 import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
 import { presetLabels } from "../../lib/outputs";
@@ -10,22 +12,37 @@ import { academicFte, chartSvg, cumulativeByYear, vlConfig } from "../../lib/per
 import { outputHero, pageHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
 
-const outputs = (await getCollection("outputs")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+// Rest-param pagination: page 1 renders at /outputs/, later pages at
+// /outputs/2/, ... Output ids are never bare numbers, so this can't collide
+// with the /outputs/[id]/ landing pages.
+export const getStaticPaths = (async ({ paginate }) => {
+  const outputs = (await getCollection("outputs")).toSorted(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return paginate(outputs, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const firstPage = page.currentPage === 1;
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
   month: "long",
   year: "numeric",
 });
 
+// The dashboard (stat tiles + trend chart) summarises the whole collection,
+// so it renders on page 1 only; later pages carry just the card grid.
+const allOutputs = firstPage ? await getCollection("outputs") : [];
+
 const fte = academicFte();
 const stats = [
-  { label: "Research outputs", value: outputs.length },
-  { label: "DOIs minted", value: new Set(outputs.map((o) => o.data.doi)).size },
+  { label: "Research outputs", value: allOutputs.length },
+  { label: "DOIs minted", value: new Set(allOutputs.map((o) => o.data.doi)).size },
   {
     label: "Outputs per academic FTE",
-    value: fte > 0 ? (outputs.length / fte).toFixed(2) : "—",
+    value: fte > 0 ? (allOutputs.length / fte).toFixed(2) : "—",
   },
 ];
 
@@ -33,7 +50,7 @@ const stats = [
 // pipeline (static SVG, light/dark bake, slop palette) as a live reference for
 // when the dashboard grows back. Renders twice; CSS shows the matching theme.
 const spec: TopLevelSpec = {
-  data: { values: cumulativeByYear(outputs.map((o) => o.data.date)) },
+  data: { values: cumulativeByYear(allOutputs.map((o) => o.data.date)) },
   mark: { type: "line", point: true },
   encoding: {
     x: { field: "year", type: "ordinal", title: "Year" },
@@ -47,11 +64,13 @@ const spec: TopLevelSpec = {
   width: 640,
   height: 220,
 };
-const chart = {
-  label: "Cumulative research outputs by year",
-  light: await chartSvg({ ...spec, config: vlConfig("light") }),
-  dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
-};
+const chart = firstPage
+  ? {
+      label: "Cumulative research outputs by year",
+      light: await chartSvg({ ...spec, config: vlConfig("light") }),
+      dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
+    }
+  : undefined;
 ---
 
 <ContentLayout
@@ -67,31 +86,39 @@ const chart = {
     persistent identifiers minted by the Office of Research Outputs.
   </p>
 
-  <dl class="stat-row">
-    {
-      stats.map((stat) => (
-        <div class="stat">
-          <dd>{stat.value}</dd>
-          <dt>{stat.label}</dt>
-        </div>
-      ))
-    }
-  </dl>
+  {
+    firstPage && (
+      <dl class="stat-row">
+        {stats.map((stat) => (
+          <div class="stat">
+            <dd>{stat.value}</dd>
+            <dt>{stat.label}</dt>
+          </div>
+        ))}
+      </dl>
+    )
+  }
 
-  <h2>Outputs over time</h2>
-  <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
-  <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
+  {
+    chart && (
+      <>
+        <h2>Outputs over time</h2>
+        <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
+        <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
+      </>
+    )
+  }
 
   <h2>Published outputs</h2>
   {
-    outputs.length === 0 && (
+    page.total === 0 && (
       <p>The repository is awaiting its first deposit.</p>
     )
   }
 
   <CardGrid columns={2}>
     {
-      outputs.map((entry) => (
+      page.data.map((entry) => (
         <Card
           title={entry.data.title}
           href={`/outputs/${entry.id}/`}
@@ -109,6 +136,8 @@ const chart = {
       ))
     }
   </CardGrid>
+
+  {page.lastPage > 1 && <Pagination page={page} />}
 </ContentLayout>
 
 <style>

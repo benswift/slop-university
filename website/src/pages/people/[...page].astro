@@ -1,12 +1,24 @@
 ---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import Pagination from "astro-theme-university/components/Pagination.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople } from "../../lib/canon";
 import { headshot } from "../../lib/headshots";
 import { pageHero } from "../../lib/heroes";
 
-const people = await getPeople();
+// Rest-param pagination: page 1 renders at /people/, later pages at
+// /people/2/, ... Roster ids are never bare numbers, so this can't collide
+// with the /people/[id]/ profile pages.
+export const getStaticPaths = (async ({ paginate }) => {
+  const people = await getPeople();
+  return paginate(people, { pageSize: 24 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
 ---
 
 <ContentLayout
@@ -22,7 +34,7 @@ const people = await getPeople();
 
   <ul class="people-grid" role="list">
     {
-      people.map((person) => {
+      page.data.map((person) => {
         const portrait = headshot(person.id);
         return (
           <li class="person-card">
@@ -45,6 +57,8 @@ const people = await getPeople();
       })
     }
   </ul>
+
+  {page.lastPage > 1 && <Pagination page={page} />}
 </ContentLayout>
 
 <style>
