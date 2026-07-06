@@ -1,0 +1,21 @@
+title: "Findable, Not Found"
+subtitle: "Backend Relevance-Model Capability and the Retrieval Gap in the Library Discovery System"
+authors:
+  - Verity Marris
+  - Petra Umbile
+preset: paper
+school: School of Emergent Priorities
+date: 2026-07-06
+doi: 10.5555/slop.lwklbz
+summary: >-
+  A 20-month, four-release deployment tracking a university library discovery
+  portal's offline relevance quality (nDCG@10, rising from 0.54 to 0.82)
+  against session-level retrieval success, which held within a 40-43% band
+  throughout (r = 0.14, n.s.). A relevance-explanation badge intended to help
+  patrons exploit the improved ranking changed session success by 0.6
+  percentage points (n.s.), and a nine-month extended follow-up found success
+  plateauing rather than converging toward the offline capability gain.
+topic: testing whether upgrading the library's discovery-search relevance model without touching its query interface widened the gap between what the system can find and what patrons actually retrieve
+pdf: /outputs/pdf/slop-paper-testing-whether-upgrading-lwklbz.pdf
+pages: 5
+version: "1.0"
