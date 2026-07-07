@@ -1,0 +1,174 @@
+---
+import { getCollection } from "astro:content";
+import { fullTitle } from "../../lib/outputs";
+import { thumbnail } from "../../lib/thumbnails";
+
+// Chromeless, fullscreen e-signage view of the most recent research poster in a
+// given orientation. Built for a kiosk browser (the 8K landscape panel today at
+// /signage/landscape; a future portrait screen at /signage/portrait): no site
+// chrome, no theme layout --- just the poster, letterboxed on black. The actual
+// PDF page is rendered to a canvas at device resolution via PDF.js, so the
+// vector text stays crisp at any display size.
+//
+// Because the site is static, "latest" is resolved at build time; the /publish
+// tick rebuilds on each new output, and the page reloads itself on an interval
+// so a fresh deploy swaps the poster in unattended.
+//
+// Orientation isn't in the content schema, but the first-page thumbnail is
+// rendered from the PDF page, so its dimensions carry the true orientation. A
+// poster without a thumbnail is skipped (orientation unknowable) rather than
+// risk showing it in the wrong-shaped frame.
+export function getStaticPaths() {
+  return [{ params: { orientation: "landscape" } }, { params: { orientation: "portrait" } }];
+}
+
+const { orientation } = Astro.params;
+const isLandscape = orientation === "landscape";
+
+const posters = (await getCollection("outputs"))
+  .filter((entry) => entry.data.preset === "research-poster")
+  .map((entry) => ({ entry, thumb: thumbnail(entry.id) }))
+  .filter(({ thumb }) => thumb && (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
+  .sort((a, b) => b.entry.data.date.getTime() - a.entry.data.date.getTime());
+
+// If no poster matches this orientation yet, degrade to a quiet placeholder
+// rather than throwing --- an empty orientation must never fail the whole
+// unattended site build.
+const latest = posters[0];
+const pdfUrl = latest?.entry.data.pdf;
+const thumb = latest?.thumb;
+const title = latest ? fullTitle(latest.entry.data) : "Slop University";
+
+// Refresh the whole page hourly to pick up new deploys.
+const RELOAD_MS = 60 * 60 * 1000;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} --- Slop University signage</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+
+      /* Kiosk: no cursor, no text selection, no touch callouts. */
+      body {
+        cursor: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      #stage {
+        display: grid;
+        place-items: center;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      /* Both the canvas and the fallback image occupy the same cell and fit
+         within the viewport preserving the poster's aspect ratio. */
+      #poster,
+      #fallback {
+        max-width: 100vw;
+        max-height: 100vh;
+        object-fit: contain;
+      }
+
+      #poster[hidden],
+      #fallback[hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="stage" aria-label={`Research poster: ${title}`} data-pdf={pdfUrl} data-reload-ms={RELOAD_MS}>
+      <canvas id="poster" hidden></canvas>
+      {
+        thumb && (
+          <img id="fallback" src={thumb.src} alt={`Poster: ${title}`} width={thumb.width} height={thumb.height} />
+        )
+      }
+    </main>
+
+    <script>
+      // A bundled module script (no `define:vars`, which would force a
+      // non-module inline script and leave these bare imports unresolved at
+      // runtime). Build-time config rides in on `#stage` data attributes.
+      import * as pdfjs from "pdfjs-dist";
+      import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+
+      pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+
+      const stage = document.getElementById("stage");
+      const pdfUrl = stage?.dataset.pdf;
+      const reloadMs = Number(stage?.dataset.reloadMs) || 0;
+
+      // Reload on an interval so a new deploy's poster appears without anyone
+      // touching the display.
+      if (reloadMs) setTimeout(() => location.reload(), reloadMs);
+
+      const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
+      const fallback = document.getElementById("fallback");
+
+      async function main() {
+        // Bind to a non-null local so the nested render() closure keeps the
+        // narrowing (placeholder page has no canvas / no pdf: nothing to do).
+        if (!pdfUrl || !canvas) return;
+        const el = canvas;
+
+        const pdf = await pdfjs.getDocument({ url: pdfUrl }).promise;
+        const page = await pdf.getPage(1);
+
+        function render() {
+          const view = page.getViewport({ scale: 1 });
+          // Fit the page within the viewport, preserving aspect ratio.
+          const fit = Math.min(innerWidth / view.width, innerHeight / view.height);
+          // Render at device resolution for crisp text on high-DPI / 8K panels,
+          // capped so the canvas buffer stays within sane memory limits.
+          const dpr = Math.min(window.devicePixelRatio || 1, 3);
+          const MAX_DIM = 8192;
+          const rawScale = fit * dpr;
+          const scale = Math.min(rawScale, MAX_DIM / view.width, MAX_DIM / view.height);
+          const vp = page.getViewport({ scale });
+
+          el.width = Math.round(vp.width);
+          el.height = Math.round(vp.height);
+          // CSS size in layout px (buffer is dpr-scaled above).
+          el.style.width = `${vp.width / dpr}px`;
+          el.style.height = `${vp.height / dpr}px`;
+
+          return page.render({ canvas: el, viewport: vp }).promise;
+        }
+
+        await render();
+        el.hidden = false;
+        if (fallback) fallback.hidden = true;
+
+        // Re-render on resize/rotate (debounced) so the poster stays crisp if
+        // the panel's mode changes.
+        let t: ReturnType<typeof setTimeout>;
+        addEventListener("resize", () => {
+          clearTimeout(t);
+          t = setTimeout(render, 250);
+        });
+      }
+
+      main().catch((err) => {
+        // Leave the fallback thumbnail on screen; log for the kiosk console.
+        console.error("signage: PDF render failed, showing thumbnail fallback", err);
+      });
+    </script>
+  </body>
+</html>
