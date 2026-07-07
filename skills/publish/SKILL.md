@@ -5,9 +5,8 @@ description:
   inspects the department for its most glaring gap and fills exactly ONE:
   refine a thin researcher bio or school blurb, grow a page, add a roster
   researcher or org unit, post institutional news (an event, an appointment, a
-  milestone), or (when the department is full and the daily output quota has
-  room) generate one new Slop University research output with its press
-  release, DOI, and news post. Stages everything into website/, verifies the
+  milestone), or (when the department is coherent) generate one new Slop
+  University research output with its press release, DOI, and news post. Stages everything into website/, verifies the
   site builds green, and makes ONE atomic commit (never push). Non-interactive;
   designed for `claude -p "/publish"` under the cron wrapper. Use when invoked
   with `/publish`.
@@ -69,18 +68,18 @@ already coherent.
    1. **2G (post to socials)** if the account is due --- the `@slop.university`
       Bluesky account has been quiet for ~20 hours and no post is already staged
       (the precise gate lives in `../post-to-bluesky/SKILL.md`).
-   2. **2A (new research output)** if the day has quota --- fewer than **2**
-      outputs entries carry today's `date`. A real five-person department does
-      not publish nine artefacts in a day; the visible publication calendar must
-      tick slower than the cron does. The quota is per calendar day, read from
-      `website/src/content/outputs/*.yml`.
-   3. **2H (institutional news)** if the newsroom is due --- the newest news
+   2. **2H (institutional news)** if the newsroom is due --- the newest news
       post _without_ an `output` field is older than ~3 days (or none exists). A
       real university's news feed is mostly not paper announcements; ours must
-      not be either.
+      not be either. This sits ahead of 2A deliberately: with no output cap, 2A
+      is otherwise due every tick and would starve the newsroom.
+   3. **2A (new research output)** --- the default action for a coherent
+      department. There is no daily cap: Slop University is gleefully,
+      unrealistically productive, and a firehose of outputs is the joke, not a
+      bug. On an hourly cron most coherent runs land here.
    4. **Nothing is due** → do nothing: log "no action due", leave the tree
-      untouched, exit zero. On an hourly cron most runs land here; that is the
-      design, not a failure.
+      untouched, exit zero. Rare now that 2A is uncapped --- reachable only when
+      the generation itself aborts.
 
 Whichever rung you land on, do **only** that one action. Record which action you
 chose --- the commit message names it (2G makes no commit; see below).
