@@ -131,38 +131,23 @@ const RELOAD_MS = 60 * 60 * 1000;
         const pdf = await pdfjs.getDocument({ url: pdfUrl }).promise;
         const page = await pdf.getPage(1);
 
-        function render() {
-          const view = page.getViewport({ scale: 1 });
-          // Fit the page within the viewport, preserving aspect ratio.
-          const fit = Math.min(innerWidth / view.width, innerHeight / view.height);
-          // Render at device resolution for crisp text on high-DPI / 8K panels,
-          // capped so the canvas buffer stays within sane memory limits.
-          const dpr = Math.min(window.devicePixelRatio || 1, 3);
-          const MAX_DIM = 8192;
-          const rawScale = fit * dpr;
-          const scale = Math.min(rawScale, MAX_DIM / view.width, MAX_DIM / view.height);
-          const vp = page.getViewport({ scale });
+        // Render the page once into a fixed high-resolution canvas buffer, then
+        // let CSS (`max-width/height: 100vw/vh` on a centred grid) letterbox it
+        // to whatever the panel is. This keeps the fit logic in CSS — dpr- and
+        // resolution-independent, so it fills correctly on a 1080p test monitor
+        // or a native-8K panel alike, with no viewport math to get wrong. The
+        // buffer's long edge targets ~5.2k px: crisp when a landscape A3 fills
+        // an 8K panel's height (~6.1k px wide), well under the 8192 canvas cap.
+        const base = page.getViewport({ scale: 1 });
+        const TARGET = 5200;
+        const scale = Math.min(TARGET / base.width, TARGET / base.height, 8192 / base.width, 8192 / base.height);
+        const vp = page.getViewport({ scale });
+        el.width = Math.round(vp.width);
+        el.height = Math.round(vp.height);
+        await page.render({ canvas: el, viewport: vp }).promise;
 
-          el.width = Math.round(vp.width);
-          el.height = Math.round(vp.height);
-          // CSS size in layout px (buffer is dpr-scaled above).
-          el.style.width = `${vp.width / dpr}px`;
-          el.style.height = `${vp.height / dpr}px`;
-
-          return page.render({ canvas: el, viewport: vp }).promise;
-        }
-
-        await render();
         el.hidden = false;
         if (fallback) fallback.hidden = true;
-
-        // Re-render on resize/rotate (debounced) so the poster stays crisp if
-        // the panel's mode changes.
-        let t: ReturnType<typeof setTimeout>;
-        addEventListener("resize", () => {
-          clearTimeout(t);
-          t = setTimeout(render, 250);
-        });
       }
 
       main().catch((err) => {
