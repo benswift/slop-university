@@ -5,6 +5,13 @@
 # ///
 """Publish the staged social post (data/pending-post.json) to Bluesky.
 
+When `link` is present the script also builds an app.bsky.embed.external link
+card --- Bluesky does not unfurl links server-side, so without this a linked post
+renders as bare text. The card's title/description/image come from the target
+page's OpenGraph meta (slop.university emits og:image as JPEG on every output,
+news, and profile page); card assembly is fail-open, so a fetch/parse failure
+still posts the faceted link, just without the preview.
+
 The trust-boundary counterpart to the /publish agent. The unattended agent,
 which ingests untrusted RSS, only ever COMPOSES a post into
 data/pending-post.json (a gitignored working-tree file it cannot push). This
@@ -36,6 +43,7 @@ guard means a lost-response retry can't double-post.
 from __future__ import annotations
 
 import datetime as dt
+import html
 import json
 import os
 import re
@@ -55,6 +63,9 @@ DEDUP_WINDOW_MIN = 24 * 60
 MAX_CHARS = (
     300  # Bluesky's post length cap (graphemes; chars is a close, conservative proxy)
 )
+# Bluesky rejects image blobs at/above 1,000,000 bytes; over this we post the
+# card without a thumbnail (title + description still render) rather than fail.
+MAX_BLOB_BYTES = 1_000_000
 
 
 def fail(msg: str):
@@ -97,6 +108,82 @@ def link_facet(text: str, url: str) -> tuple[str, list[dict]]:
         "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}],
     }
     return text, [facet]
+
+
+_META_RE = re.compile(r"<meta\b[^>]*>", re.IGNORECASE)
+_ATTR_RE = re.compile(r'(\w[\w:-]*)\s*=\s*"([^"]*)"')
+
+
+def _parse_og(page: str) -> dict[str, str]:
+    """Map og:*/twitter:* meta properties to their (HTML-unescaped) content."""
+    og: dict[str, str] = {}
+    for tag in _META_RE.findall(page):
+        attrs = dict(_ATTR_RE.findall(tag))
+        key = attrs.get("property") or attrs.get("name")
+        content = attrs.get("content")
+        if key and content is not None:
+            og[key.lower()] = html.unescape(content)
+    return og
+
+
+def upload_blob(session: dict, data: bytes, mime: str) -> dict | None:
+    """uploadBlob and return the blob ref, or None (fail-open) on any failure."""
+    try:
+        resp = httpx.post(
+            f"{session['pds']}/xrpc/com.atproto.repo.uploadBlob",
+            headers={
+                "Authorization": f"Bearer {session['jwt']}",
+                "Content-Type": mime,
+            },
+            content=data,
+            timeout=TIMEOUT,
+        )
+        if resp.status_code != 200:
+            return None
+        return resp.json().get("blob")
+    except Exception:
+        return None
+
+
+def external_embed(session: dict, url: str) -> dict | None:
+    """Build an app.bsky.embed.external card from `url`'s OpenGraph meta.
+
+    Fail-open: any fetch/parse/upload failure returns None so the post still
+    goes out as a faceted link, just without the preview card. Bluesky does not
+    fetch OG tags itself --- the card only exists if we assemble it here.
+    """
+    try:
+        resp = httpx.get(url, follow_redirects=True, timeout=TIMEOUT)
+        if resp.status_code != 200:
+            return None
+        og = _parse_og(resp.text)
+    except Exception:
+        return None
+
+    title = og.get("og:title") or og.get("twitter:title")
+    if not title:
+        return None  # no card worth showing without at least a title
+    external: dict = {
+        "uri": url,
+        "title": title,
+        "description": og.get("og:description") or og.get("twitter:description") or "",
+    }
+
+    img_url = og.get("og:image") or og.get("twitter:image")
+    if img_url:
+        try:
+            img = httpx.get(img_url, follow_redirects=True, timeout=TIMEOUT)
+        except Exception:
+            img = None
+        if img is not None and img.status_code == 200:
+            data = img.content
+            mime = img.headers.get("content-type", "image/jpeg").split(";")[0].strip()
+            if data and len(data) < MAX_BLOB_BYTES and mime.startswith("image/"):
+                blob = upload_blob(session, data, mime)
+                if blob:
+                    external["thumb"] = blob
+
+    return {"$type": "app.bsky.embed.external", "external": external}
 
 
 def recent_duplicate(session: dict, text: str) -> str | None:
@@ -168,6 +255,14 @@ def main() -> None:
     }
     if facets:
         record["facets"] = facets
+    if link:
+        embed = external_embed(session, link)
+        if embed:
+            record["embed"] = embed
+            thumb = "with thumbnail" if "thumb" in embed["external"] else "no thumbnail"
+            print(f"attached link card ({thumb})")
+        else:
+            print("could not build link card; posting bare link", file=sys.stderr)
     body = {
         "repo": session["did"],
         "collection": "app.bsky.feed.post",
