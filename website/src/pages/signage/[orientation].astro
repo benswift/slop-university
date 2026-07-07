@@ -106,8 +106,15 @@ const RELOAD_MS = 60 * 60 * 1000;
       // A bundled module script (no `define:vars`, which would force a
       // non-module inline script and leave these bare imports unresolved at
       // runtime). Build-time config rides in on `#stage` data attributes.
-      import * as pdfjs from "pdfjs-dist";
-      import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+      //
+      // Use pdf.js's *legacy* build: it transpiles + polyfills for older
+      // engines (both main thread and worker). The Raspberry Pi signage kiosk
+      // runs Chromium 136, which lacks Map.prototype.getOrInsertComputed (V8
+      // ~13.9 / Chrome ~137); the default build calls it during render and
+      // throws, silently falling back to the thumbnail. The legacy build ships
+      // its own polyfill, so the poster actually renders there.
+      import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
+      import workerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
 
       pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
