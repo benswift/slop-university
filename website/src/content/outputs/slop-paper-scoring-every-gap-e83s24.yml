@@ -1,0 +1,23 @@
+title: "No Signal, Full Marks"
+subtitle: "How the Focus Hour Compliance Index Reads Telemetry Silence as Full Compliance"
+authors:
+  - Renke Sabel
+  - Osei Vandermeer
+  - Casimir Beng
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-08
+doi: 10.5555/slop.e83s24
+summary: >-
+  A fourteen-week systems-side audit of the badge-and-lock telemetry behind
+  the School of Continuous Improvement's Focus Hour Compliance Index finds
+  its two highest weekly readings both fall in weeks of complete gateway
+  outage, traced to an ingestion-layer default that scores a missing
+  reading as full compliance. An alternative index that excludes rather
+  than imputes missing weeks leaves the semester's median statistically
+  unchanged, indicating the default sets the measure's visible ceiling
+  rather than tracking staff behaviour.
+topic: scoring every gap in the badge-and-lock telemetry that verifies the University's mandatory no-device Focus Hour as full compliance, so the weeks the monitoring system itself goes dark produce the cleanest compliance figures on record
+pdf: /outputs/pdf/slop-paper-scoring-every-gap-e83s24.pdf
+pages: 5
+version: "1.0"
