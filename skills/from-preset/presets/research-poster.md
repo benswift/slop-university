@@ -134,13 +134,16 @@ the chart pipeline are off-limits to variation; they're fixed.
 
 ### Layout (roll: feature-right / feature-top)
 
-Roll one of two layouts per run (50/50). Both carry the **same content** --- the
-same sections, the same single chart, the same `1fr` field image, a QR, and a
-bottom-pinned footer --- and differ only in orientation and where the feature
-image and title sit. Roll the layout **first**, before the other rolls: it sets
-the feature image's aspect ratio and which of the two skeletons in "Typst
-structure" you write. Everything downstream (sections, chart, references, voice,
-one-page fit) is identical across the two.
+Roll one of two layouts per run, weighted **75% feature-right (landscape) / 25%
+feature-top (portrait)** --- roll 1-4 and take 1-3 as landscape, 4 as portrait.
+Landscape is favoured because that's what the department's e-signage displays it
+on; the portrait quarter keeps the genre varied. Both carry the **same content**
+--- the same sections, the same single chart, the same `1fr` field image, a QR,
+and a bottom-pinned footer --- and differ only in orientation and where the
+feature image and title sit. Roll the layout **first**, before the other rolls:
+it sets the feature image's aspect ratio and which of the two skeletons in
+"Typst structure" you write. Everything downstream (sections, chart, references,
+voice, one-page fit) is identical across the two.
 
 - **feature-right (A3 landscape).** A tall image full-bleeds the right ~third of
   the page (reserved via the page `margin: (right: 150mm, …)` and a `place`d
