@@ -345,8 +345,8 @@ already-live aspect of the department --- an older output worth resurfacing, a
 researcher, a school, or the institution --- and stage it as
 `data/pending-post.json`. Follow `../post-to-bluesky/SKILL.md` in full: it
 carries the due-ness gate (skip if a post is already staged or the account
-posted within ~20 hours), the subject choice, the comms-register compose rules,
-and the staged-file schema.
+posted within ~20 hours), the subject choice, the click-through hook compose
+rules, and the staged-file schema.
 
 This action **holds no live credentials and makes no commit**. The staged file
 is gitignored; the cron wrapper runs `ops/post-to-bluesky.py` after its
@@ -434,7 +434,5 @@ wrapper resets commits that do.
 
 - Companion brag: a 2A run also stages a post announcing its _new_ output
   (currently 2G only resurfaces existing aspects, as a standalone action).
-- Image or link-card embeds on staged posts (the poster is text + link facet for
-  now).
 - Standalone pages for labs, programs, and initiatives (currently rendered
   inline on their school's page).

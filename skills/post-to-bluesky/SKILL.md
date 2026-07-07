@@ -3,7 +3,7 @@ name: post-to-bluesky
 description:
   Compose one Bluesky post about an existing aspect of Slop University --- a
   recent output, a researcher, a school, or the institution itself --- into
-  data/pending-post.json, in the comms register and linking to a live
+  data/pending-post.json, in a click-through hook voice and linking to a live
   slop.university URL. This skill only COMPOSES; the cron wrapper posts it live
   after a validated push (the agent never holds credentials). Invoked by the
   /publish ladder's 2G rung when the department is coherent and the account has
@@ -68,28 +68,50 @@ than the newest one, which its own announcement already covered.
 
 ## Compose the post
 
-The register is `../publish/comms.md` (institutional media-release), which
-defers to `../from-preset/genre.md` for the floor. A social post is the comms
-voice compressed to a single line: proud, warm, saying little of substance, no
-wink. All the hard rules carry over:
+The register builds on `../publish/comms.md` (institutional media-release),
+which defers to `../from-preset/genre.md` for the floor --- but the social
+account is its own surface, and it is the one place the department writes for
+the scroll. Unlike a news-release headline (`comms.md`: "not clever, just
+proud"), a post's whole job is to make someone stop and tap through. Lean
+click-baity.
 
+The link now renders a card --- title, description, and image pulled from the
+page's OpenGraph meta --- so the card carries the _what_. That frees the text to
+be pure hook: don't summarise the thing, bait the tap.
+
+- **Lead with a curiosity gap.** Open on the counterintuitive puzzle, the
+  question, the "what happens when...", the tension the work sits on --- not a
+  description of it. Say enough to intrigue, not enough to satisfy without the
+  click.
+- **Front-load the hook, not the letterhead.** The interesting idea comes first;
+  the school or researcher name can wait for the second clause or the card.
+  Don't open with "Slop University's School of X..." when the idea is the draw.
+- **Direct address earns the tap.** "You'd assume the two targets never
+  interact" reads as a hook, not a wink. A rhetorical question is fair game.
+
+The deadpan is load-bearing --- it is _how_ the satire reads straight --- so the
+hard floors hold even in hook mode. The clickbait is curiosity and framing,
+never punctuation or hype:
+
+- **No exclamation marks, no hype superlatives.** `novel`/`significant` stays
+  the ceiling; no `groundbreaking`, `world-first`, `shocking`,
+  `you won't believe`. A post that reaches for those has stopped being deadpan.
+- **No verifiable claims** --- no grant dollars, rankings, dated targets,
+  partner names, or invented statistics ("a 40% jump" is out even as bait).
+  Significance asserted without a checkable referent (the hedged-commitment
+  discipline in `comms.md`).
+- **No satire signals** --- reads straight. A curiosity hook is fine; a knowing
+  wink at the fiction is not.
 - **Roster names only** (`canon/roster.yml`), canonical name and title; never a
   real person, never a name invented in this run. Org units from
   `canon/schools.yml` only.
-- **No verifiable claims** --- no grant dollars, rankings, dated targets, or
-  partner names. Significance asserted without a checkable referent (per the
-  hedged-commitment discipline in `comms.md`).
-- **No satire signals** --- reads straight. The joke is the genre, not a wink in
-  the post.
-- **No exclamation marks**; `novel`/`significant` is the ceiling; no
-  `groundbreaking`/`world-first`.
 - **Don't reuse phrasing** from recent posts (you just read the feed) or from
   the output's own news post.
 
 Length: **at most ~280 characters** including the URL, so it fits Bluesky's
-300-grapheme cap with margin. One clear idea. Write the post text; you may place
-the URL inline where it reads naturally, or leave it out of the text and let the
-`link` field append it.
+300-grapheme cap with margin. One sharp idea, teased not told. Write the post
+text; you may place the URL inline where it reads naturally, or leave it out of
+the text and let the `link` field append it (the card renders either way).
 
 ## Write the staged file
 
@@ -97,7 +119,7 @@ Write `data/pending-post.json` (create `data/` if absent):
 
 ```json
 {
-  "text": "Slop University's School of Emergent Priorities maps how institutional enthusiasm drifts once a strategy is signed. New from the department's research repository:",
+  "text": "Sign the strategy, and watch the enthusiasm for it quietly evaporate --- long after anyone remembers why it was signed. The School of Emergent Priorities has been mapping exactly where it goes.",
   "link": "https://slop.university/outputs/anu-poster-enthusiasm-drift-xxxx",
   "subject": "outputs/anu-poster-enthusiasm-drift-xxxx"
 }
