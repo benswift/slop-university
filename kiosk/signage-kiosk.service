@@ -1,0 +1,16 @@
+[Unit]
+Description=Slop University e-signage Chromium kiosk (latest landscape poster)
+After=graphical-session.target
+Requires=graphical-session.target
+
+[Service]
+Type=simple
+Environment="WAYLAND_DISPLAY=wayland-0"
+# Wait for the Wayland compositor's socket before launching Chromium.
+ExecStartPre=/bin/bash -c 'while [ ! -S "/run/user/$(id -u)/${WAYLAND_DISPLAY}" ]; do sleep 0.5; done'
+ExecStart=/usr/local/bin/signage-kiosk-launch
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

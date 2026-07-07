@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+  labwc config for the signage kiosk session (~/.config/labwc/rc.xml).
+
+  The window rule forces the Chromium kiosk window (matched on its `app_id`,
+  which is the launcher's `--class=signage-kiosk`) fullscreen on a specific
+  output. Direct client-side fullscreen placement isn't reliable on labwc, so
+  we toggle off, move to the target output, then toggle fullscreen on.
+
+  Set `output` to the HDMI connector the display is plugged into. Check the
+  connected output with `wlr-randr` or:
+    for d in /sys/class/drm/card*-HDMI-A-*; do echo "$d: $(cat $d/status)"; done
+-->
+<labwc_config>
+  <core>
+    <decoration>no</decoration>
+    <gap>0</gap>
+  </core>
+  <keyboard>
+    <keybind key="Super-q">
+      <action name="Exit"/>
+    </keybind>
+  </keyboard>
+  <windowRules>
+    <windowRule identifier="signage-kiosk" matchOnce="true">
+      <action name="ToggleFullscreen"/>
+      <action name="MoveToOutput" output="HDMI-A-2"/>
+      <action name="ToggleFullscreen"/>
+    </windowRule>
+  </windowRules>
+</labwc_config>

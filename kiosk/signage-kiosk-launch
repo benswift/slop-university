@@ -1,0 +1,37 @@
+#!/bin/bash
+# Slop University e-signage kiosk: a single fullscreen Chromium window showing
+# the latest landscape research poster. The page
+# (https://slop.university/signage/landscape) renders the poster PDF to a canvas
+# and self-reloads hourly to pick up new posters; systemd restarts this unit if
+# Chromium dies. Install at /usr/local/bin/signage-kiosk-launch.
+set -u
+
+SIGNAGE_URL="https://slop.university/signage/landscape/"
+
+pkill -f "chromium.*--user-data-dir=/tmp/chromium_signage" || true
+rm -rf /tmp/chromium_signage
+sleep 1
+
+# --password-store=basic keeps Chromium off the system keyring; without it,
+# recent Chromium (>= ~149) pops a "create a new keyring" dialog over the kiosk
+# because the auto-login session has no keyring password.
+chromium-browser \
+    --kiosk \
+    --noerrdialogs \
+    --disable-infobars \
+    --disable-translate \
+    --disable-pinch \
+    --disable-component-update \
+    --no-first-run \
+    --check-for-update-interval=31536000 \
+    --enable-features=OverlayScrollbar \
+    --ozone-platform=wayland \
+    --autoplay-policy=no-user-gesture-required \
+    --password-store=basic \
+    --class=signage-kiosk \
+    --user-data-dir=/tmp/chromium_signage \
+    --remote-debugging-port=9222 \
+    "$SIGNAGE_URL" >/dev/null 2>&1 &
+
+# Exit if Chromium dies so systemd restarts the unit.
+wait -n

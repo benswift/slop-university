@@ -1,0 +1,6 @@
+[Unit]
+Description=Restart Slop University signage kiosk (clears browser memory creep)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl --user restart signage-kiosk.service
