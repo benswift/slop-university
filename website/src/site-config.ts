@@ -10,6 +10,10 @@ import slopLogoDark from "./assets/branding/slop-horizontal-gold-white.svg";
 export const slopBranding: Partial<SiteConfig> = {
   logo: slopLogo,
   logoDark: slopLogoDark,
+  // On narrow viewports the wide horizontal lockup wraps the nav bar, so the
+  // theme swaps to the crest below 640px. The gold outline reads on both the
+  // cream and dark backgrounds, so a single mark serves both themes.
+  logoCompact: slopCrest,
   favicon: slopCrest,
 };
 
