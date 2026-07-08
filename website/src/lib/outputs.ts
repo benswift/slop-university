@@ -8,6 +8,16 @@ export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], 
   "impact-report": "Impact report",
 };
 
+// iconoir glyph per preset, for the type badge on output cards. Names must be
+// valid iconoir icons (the theme's Icon component adds the `iconoir:` prefix).
+export const presetIcons: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+  "research-poster": "presentation",
+  paper: "journal-page",
+  brochure: "book",
+  strategy: "strategy",
+  "impact-report": "reports",
+};
+
 // Titles are stored split: `title` is the punchy head (the hero h1 and listing
 // card), `subtitle` the optional explanatory deck. Rejoin them with ": " for
 // the places that want the whole academic title --- the citation, the document

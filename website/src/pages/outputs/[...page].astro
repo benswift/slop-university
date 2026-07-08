@@ -4,10 +4,11 @@ import { getCollection } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
+import Icon from "astro-theme-university/components/Icon.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
-import { presetLabels } from "../../lib/outputs";
+import { presetIcons, presetLabels } from "../../lib/outputs";
 import { academicFte, chartSvg, cumulativeByYear, vlConfig } from "../../lib/performance";
 import { outputHero, pageHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
@@ -119,20 +120,25 @@ const chart = firstPage
   <CardGrid columns={2}>
     {
       page.data.map((entry) => (
-        <Card
-          title={entry.data.title}
-          href={`/outputs/${entry.id}/`}
-          image={outputHero(entry.id) ?? thumbnail(entry.id)}
-          imageAlt=""
-        >
+        <div class="output-card">
+          <span class="type-badge" title={presetLabels[entry.data.preset]}>
+            <Icon name={presetIcons[entry.data.preset]} size={16} />
+            <span>{presetLabels[entry.data.preset]}</span>
+          </span>
+          <Card
+            title={entry.data.title}
+            href={`/outputs/${entry.id}/`}
+            image={outputHero(entry.id) ?? thumbnail(entry.id)}
+            imageAlt=""
+          >
           <p class="meta">
             {entry.data.authors.join(", ")}
             {entry.data.authors.length > 0 && " · "}
-            {presetLabels[entry.data.preset]} ·{" "}
             {dateFormat.format(entry.data.date)} · doi:{entry.data.doi}
           </p>
           <p>{entry.data.summary}</p>
-        </Card>
+          </Card>
+        </div>
       ))
     }
   </CardGrid>
@@ -203,5 +209,37 @@ const chart = firstPage
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);
     margin-block: 0 var(--at-spacing-sm);
+  }
+
+  /* The badge sits in the card's top-right corner. The card itself is an
+     anchor in normal flow, so a relatively-positioned wrapper gives the badge
+     something to anchor to; pointer-events: none lets clicks fall through to
+     the link underneath. */
+  .output-card {
+    position: relative;
+  }
+
+  .type-badge {
+    position: absolute;
+    inset-block-start: var(--at-spacing-sm);
+    inset-inline-end: var(--at-spacing-sm);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.3em 0.6em;
+    border-radius: 999px;
+    background: var(--at-primary);
+    color: var(--at-white);
+    font-size: var(--at-font-size-sm);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  }
+
+  .type-badge svg {
+    flex-shrink: 0;
   }
 </style>
