@@ -12,16 +12,26 @@ describe("cumulativeByDay", () => {
         item("2026-07-06", "papers"),
       ]),
     ).toEqual([
-      { date: "2026-07-04", series: "papers", outputs: 1 },
-      { date: "2026-07-06", series: "posters", outputs: 1 },
-      { date: "2026-07-06", series: "papers", outputs: 2 },
+      { date: "2026-07-04", series: "papers", total: 1 },
+      { date: "2026-07-06", series: "posters", total: 1 },
+      { date: "2026-07-06", series: "papers", total: 2 },
     ]);
   });
 
   it("emits one point per day, carrying the day's final total", () => {
     const sameDay = [item("2026-07-08", "papers"), item("2026-07-08", "papers")];
-    expect(cumulativeByDay(sameDay)).toEqual([
-      { date: "2026-07-08", series: "papers", outputs: 2 },
+    expect(cumulativeByDay(sameDay)).toEqual([{ date: "2026-07-08", series: "papers", total: 2 }]);
+  });
+
+  it("accumulates item values when given, for the funding series", () => {
+    expect(
+      cumulativeByDay([
+        { ...item("2026-07-04", "funding"), value: 48750 },
+        { ...item("2026-07-06", "funding"), value: 1200 },
+      ]),
+    ).toEqual([
+      { date: "2026-07-04", series: "funding", total: 48750 },
+      { date: "2026-07-06", series: "funding", total: 49950 },
     ]);
   });
 

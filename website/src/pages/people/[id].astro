@@ -4,6 +4,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
+import { formatAud, getSchemes, grantsByGrantee, schemeById } from "../../lib/grants";
 import { headshot } from "../../lib/headshots";
 import { personHero } from "../../lib/heroes";
 
@@ -23,14 +24,18 @@ const showPortrait = !hero && portrait;
 const schools = await getSchools();
 const schoolId = schoolIdByName(schools, person.school);
 const outputs = await outputsByAuthor(person.name);
+const grants = await grantsByGrantee(person.name);
+const schemes = grants.length > 0 ? await getSchemes() : [];
 
-// Research indicators, computed straight from the outputs collection ---
-// deterministic dashboard-ware, nothing invented. Collaboration breadth is
-// the distinct co-authors credited alongside this researcher.
+// Research indicators, computed straight from the outputs and grants
+// collections --- deterministic dashboard-ware, nothing invented.
+// Collaboration breadth is the distinct co-authors credited alongside this
+// researcher; research income is the sum of their held grants and prizes.
 const coAuthors = new Set(
   outputs.flatMap((o) => o.data.authors).filter((name) => name !== person.name),
 );
 const activeSince = Math.min(...outputs.map((o) => o.data.date.getFullYear()));
+const income = grants.reduce((sum, g) => sum + g.data.value, 0);
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
@@ -81,25 +86,35 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   </div>
 
   {
-    outputs.length > 0 && (
+    (outputs.length > 0 || income > 0) && (
       <section class="indicators" aria-labelledby="indicators-heading">
         <h2 id="indicators-heading">Research indicators</h2>
         <table class="metadata">
           <tbody>
-            <tr>
-              <th scope="row">Research outputs</th>
-              <td>{outputs.length}</td>
-            </tr>
-            <tr>
-              <th scope="row">Collaboration breadth</th>
-              <td>
-                {coAuthors.size} co-author{coAuthors.size === 1 ? "" : "s"}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Active since</th>
-              <td>{activeSince}</td>
-            </tr>
+            {outputs.length > 0 && (
+              <>
+                <tr>
+                  <th scope="row">Research outputs</th>
+                  <td>{outputs.length}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Collaboration breadth</th>
+                  <td>
+                    {coAuthors.size} co-author{coAuthors.size === 1 ? "" : "s"}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Active since</th>
+                  <td>{activeSince}</td>
+                </tr>
+              </>
+            )}
+            {income > 0 && (
+              <tr>
+                <th scope="row">Research income</th>
+                <td>{formatAud(income)}</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
@@ -115,6 +130,26 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
             <li>
               <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
               <span class="meta"> · {dateFormat.format(o.data.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    grants.length > 0 && (
+      <section class="grants" aria-labelledby="grants-heading">
+        <h2 id="grants-heading">Grants and awards</h2>
+        <ul role="list">
+          {grants.map((g) => (
+            <li>
+              {g.data.name}
+              <span class="meta">
+                {" "}
+                · {schemeById(schemes, g.data.scheme)?.data.name} · {formatAud(g.data.value)} ·{" "}
+                {dateFormat.format(g.data.date)}
+              </span>
             </li>
           ))}
         </ul>
@@ -162,11 +197,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
     vertical-align: top;
   }
 
-  .outputs {
+  .outputs,
+  .grants {
     margin-block-start: var(--at-spacing-2xl);
   }
 
-  .outputs .meta {
+  .outputs .meta,
+  .grants .meta {
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);
   }

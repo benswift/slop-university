@@ -3,6 +3,8 @@ import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
+import { getPeople, personIdByName } from "../../lib/canon";
+import { formatAud, getSchemes, schemeById } from "../../lib/grants";
 import { outputHero } from "../../lib/heroes";
 import { fullTitle } from "../../lib/outputs";
 
@@ -19,6 +21,16 @@ const { Content } = await render(entry);
 const output = entry.data.output ? await getEntry("outputs", entry.data.output) : undefined;
 // A press release shares the hero of the output it announces.
 const hero = output ? outputHero(output.id) : undefined;
+
+// A grant announcement closes with the award's details --- the news post is
+// the award's public record (grants have no landing page of their own).
+const grant = entry.data.grant ? await getEntry("grants", entry.data.grant) : undefined;
+const scheme = grant ? schemeById(await getSchemes(), grant.data.scheme) : undefined;
+const people = grant ? await getPeople() : [];
+const grantees = (grant?.data.grantees ?? []).map((name) => ({
+  name,
+  id: personIdByName(people, name),
+}));
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
@@ -54,6 +66,20 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
           Read the output: <cite>{fullTitle(output.data)}</cite>
         </a>{" "}
         (doi:{output.data.doi})
+      </p>
+    )
+  }
+  {
+    grant && (
+      <p class="output-link">
+        {scheme?.data.name ?? grant.data.scheme}: <cite>{grant.data.name}</cite> ·{" "}
+        {formatAud(grant.data.value)} · awarded to{" "}
+        {grantees.map((grantee, i) => (
+          <>
+            {i > 0 && ", "}
+            {grantee.id ? <a href={`/people/${grantee.id}/`}>{grantee.name}</a> : grantee.name}
+          </>
+        ))}
       </p>
     )
   }

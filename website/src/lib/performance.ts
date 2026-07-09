@@ -22,7 +22,7 @@ export function academicFte(): number {
 export interface SeriesPoint {
   date: string;
   series: string;
-  outputs: number;
+  total: number;
 }
 
 // Dates come out of the collection as UTC midnight (a date-only yml scalar), so
@@ -30,18 +30,24 @@ export interface SeriesPoint {
 // previous day whenever the build machine sits west of Greenwich.
 const day = (d: Date): string => d.toISOString().slice(0, 10);
 
-// One cumulative point per day a series published, each series climbing
-// monotonically on its own count --- the spec draws the flat stretches between
-// a series' publication days, so days it sits out need no point of their own.
-export function cumulativeByDay(items: { date: Date; series: string }[]): SeriesPoint[] {
+// One cumulative point per day a series moved, each series climbing
+// monotonically on its own running total --- one count per item by default, or
+// the item's `value` (grant dollars) when given. The spec draws the flat
+// stretches between a series' active days, so days it sits out need no point
+// of their own.
+export function cumulativeByDay(
+  items: { date: Date; series: string; value?: number }[],
+): SeriesPoint[] {
   const running = new Map<string, number>();
-  // Keyed by day and series: a second output on the same day updates the point
+  // Keyed by day and series: a second item on the same day updates the point
   // in place, leaving the day's final cumulative total at its first position.
   const points = new Map<string, SeriesPoint>();
-  for (const { date, series } of items.toSorted((a, b) => a.date.valueOf() - b.date.valueOf())) {
-    const outputs = (running.get(series) ?? 0) + 1;
-    running.set(series, outputs);
-    points.set(`${day(date)} ${series}`, { date: day(date), series, outputs });
+  for (const { date, series, value } of items.toSorted(
+    (a, b) => a.date.valueOf() - b.date.valueOf(),
+  )) {
+    const total = (running.get(series) ?? 0) + (value ?? 1);
+    running.set(series, total);
+    points.set(`${day(date)} ${series}`, { date: day(date), series, total });
   }
   return [...points.values()];
 }

@@ -8,6 +8,7 @@ import Icon from "astro-theme-university/components/Icon.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
+import { formatAud, formatAudCompact } from "../../lib/grants";
 import { presetBadgeLabels, presetIcons, presetLabels, presetSeries, seriesOrder } from "../../lib/outputs";
 import { academicFte, chartSvg, cumulativeByDay, vlConfig } from "../../lib/performance";
 import { outputHero, pageHero } from "../../lib/heroes";
@@ -33,9 +34,11 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   year: "numeric",
 });
 
-// The dashboard (stat tiles + trend chart) summarises the whole collection,
+// The dashboard (stat tiles + trend charts) summarises the whole collection,
 // so it renders on page 1 only; later pages carry just the card grid.
 const allOutputs = firstPage ? await getCollection("outputs") : [];
+const allGrants = firstPage ? await getCollection("grants") : [];
+const totalFunding = allGrants.reduce((sum, g) => sum + g.data.value, 0);
 
 const fte = academicFte();
 const stats = [
@@ -45,16 +48,27 @@ const stats = [
     label: "Outputs per academic FTE",
     value: fte > 0 ? (allOutputs.length / fte).toFixed(2) : "—",
   },
+  // The funding tiles arrive with the first award --- the repository predates
+  // the university discovering research income.
+  ...(totalFunding > 0
+    ? [
+        { label: "Funding awarded", value: formatAudCompact(totalFunding) },
+        {
+          label: "Research income per academic FTE",
+          value: fte > 0 ? formatAud(totalFunding / fte) : "—",
+        },
+      ]
+    : []),
 ];
 
-// One chart carries the trend lines --- and the whole build-time Vega-Lite
-// pipeline (static SVG, light/dark bake, slop palette) as a live reference for
-// when the dashboard grows back. Renders twice; CSS shows the matching theme.
+// The trend charts carry the whole build-time Vega-Lite pipeline (static SVG,
+// light/dark bake, slop palette). Each renders twice; CSS shows the matching
+// theme.
 //
 // The repository deposits daily, so the x axis is a day-resolution UTC scale
-// (matching how the collection stores its dates); step-after holds each series
-// flat between its own deposits rather than sloping between them, which is what
-// a cumulative count actually does.
+// (matching how the collections store their dates); step-after holds each
+// series flat between its own deposits rather than sloping between them, which
+// is what a cumulative total actually does.
 const spec: TopLevelSpec = {
   data: {
     values: cumulativeByDay(
@@ -74,7 +88,7 @@ const spec: TopLevelSpec = {
       axis: { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 },
     },
     y: {
-      field: "outputs",
+      field: "total",
       type: "quantitative",
       title: "Cumulative outputs",
       axis: { tickMinStep: 1 },
@@ -105,6 +119,44 @@ const chart =
         label: "Cumulative research outputs by day, split by output type",
         light: await chartSvg({ ...spec, config: vlConfig("light") }),
         dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
+      }
+    : undefined;
+
+// Awarded funding climbs on the same day axis, in dollars rather than counts
+// --- different units, so it gets its own chart rather than a second y axis.
+// A single series takes the config's gold line, no legend needed.
+const fundingSpec: TopLevelSpec = {
+  data: {
+    values: cumulativeByDay(
+      allGrants.map((g) => ({ date: g.data.date, series: "funding", value: g.data.value })),
+    ),
+  },
+  mark: { type: "line", point: true, interpolate: "step-after" },
+  encoding: {
+    // The same day-resolution UTC x axis as the outputs chart above.
+    x: {
+      field: "date",
+      type: "temporal",
+      scale: { type: "utc" },
+      title: "Date",
+      axis: { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 },
+    },
+    y: {
+      field: "total",
+      type: "quantitative",
+      title: "Cumulative funding (A$)",
+      axis: { format: "$,.0f" },
+    },
+  },
+  width: 640,
+  height: 220,
+};
+const fundingChart =
+  firstPage && allGrants.length > 0
+    ? {
+        label: "Cumulative research funding awarded by day",
+        light: await chartSvg({ ...fundingSpec, config: vlConfig("light") }),
+        dark: await chartSvg({ ...fundingSpec, config: vlConfig("dark") }),
       }
     : undefined;
 ---
@@ -141,6 +193,26 @@ const chart =
         <h2>Outputs over time</h2>
         <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
         <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
+      </>
+    )
+  }
+
+  {
+    fundingChart && (
+      <>
+        <h2>Funding over time</h2>
+        <div
+          class="chart chart-light"
+          role="img"
+          aria-label={fundingChart.label}
+          set:html={fundingChart.light}
+        />
+        <div
+          class="chart chart-dark"
+          role="img"
+          aria-label={fundingChart.label}
+          set:html={fundingChart.dark}
+        />
       </>
     )
   }

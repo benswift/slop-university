@@ -6,6 +6,7 @@ import Hero from "astro-theme-university/components/Hero.astro";
 import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
+import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
 import { outputHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
@@ -34,6 +35,18 @@ const people = await getPeople();
 const schools = await getSchools();
 const authors = data.authors.map((name) => ({ name, id: personIdByName(people, name) }));
 const schoolId = data.school ? schoolIdByName(schools, data.school) : undefined;
+
+// Funding acknowledgement: each attached grant, resolved to its canon scheme.
+// The content test guarantees the references hold, like the author links above.
+const allGrants = data.grants.length > 0 ? await getGrants() : [];
+const schemes = data.grants.length > 0 ? await getSchemes() : [];
+const funding = data.grants
+  .map((id) => allGrants.find((g) => g.id === id))
+  .filter((g) => g !== undefined)
+  .map((g) => ({
+    grant: g,
+    scheme: schemeById(schemes, g.data.scheme),
+  }));
 
 // Hero h1 carries only the punchy title; the subtitle rides underneath as a
 // deck. The full title stays in the document <title> for the citable record.
@@ -110,6 +123,21 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
             <th scope="row">Output type</th>
             <td>{presetLabels[data.preset]}</td>
           </tr>
+          {
+            funding.length > 0 && (
+              <tr>
+                <th scope="row">Funding</th>
+                <td>
+                  {funding.map(({ grant, scheme }) => (
+                    <span class="funding-line">
+                      {scheme?.data.name ?? grant.data.scheme}: {grant.data.name} (
+                      {formatAud(grant.data.value)})
+                    </span>
+                  ))}
+                </td>
+              </tr>
+            )
+          }
           <tr>
             <th scope="row">Published</th>
             <td>
@@ -213,6 +241,11 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     padding-inline-end: var(--at-spacing-lg);
     white-space: nowrap;
     vertical-align: top;
+  }
+
+  /* One acknowledgement per line when an output holds several grants. */
+  .funding-line {
+    display: block;
   }
 
   .download {
