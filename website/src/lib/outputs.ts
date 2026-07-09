@@ -44,3 +44,58 @@ export function bibtex(id: string, entry: CollectionEntry<"outputs">["data"]): s
     `}`,
   ].join("\n");
 }
+
+export type BibtexTokenKind = "type" | "key" | "field" | "value" | "punct" | "plain";
+
+export interface BibtexToken {
+  kind: BibtexTokenKind;
+  text: string;
+}
+
+// `@misc{slop_sn9kzr,`
+const ENTRY_LINE = /^(@\w+)(\{)(.+)(,)$/;
+// `  author       = {Casimir Beng},`
+const FIELD_LINE = /^(\s+)(\w+)(\s*)(=)(\s*)(\{)(.*)(\},?)$/;
+
+// Colour the citation without shipping a highlighter: `bibtex()` above emits a
+// known shape, so tokenise it back apart and let the template wrap each token in
+// a span. The `plain` tokens (indentation, newlines) carry no span, and the
+// concatenated token text is byte-identical to the input --- the copy button
+// hands the browser that same plain string, not this DOM.
+export function bibtexTokens(citation: string): BibtexToken[] {
+  const tokens: BibtexToken[] = [];
+  const push = (kind: BibtexTokenKind, text: string) => text && tokens.push({ kind, text });
+
+  citation.split("\n").forEach((line, i) => {
+    if (i > 0) push("plain", "\n");
+
+    const entry = ENTRY_LINE.exec(line);
+    if (entry) {
+      const [, type, brace, key, comma] = entry;
+      push("type", type);
+      push("punct", brace);
+      push("key", key);
+      push("punct", comma);
+      return;
+    }
+
+    const field = FIELD_LINE.exec(line);
+    if (field) {
+      const [, indent, name, preGap, equals, postGap, open, value, close] = field;
+      push("plain", indent);
+      push("field", name);
+      push("plain", preGap);
+      push("punct", equals);
+      push("plain", postGap);
+      push("punct", open);
+      push("value", value);
+      push("punct", close);
+      return;
+    }
+
+    // The closing brace, and anything a future field shape throws at us.
+    push("punct", line);
+  });
+
+  return tokens;
+}

@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import { describe, expect, it } from "vitest";
-import { bibtex, fullTitle, presetLabels } from "./outputs";
+import { bibtex, bibtexTokens, fullTitle, presetLabels } from "./outputs";
 
 const entry: CollectionEntry<"outputs">["data"] = {
   title: "The Queue as Leading Indicator",
@@ -39,6 +39,30 @@ describe("bibtex", () => {
     expect(cite).toContain(
       "title        = {The Queue as Leading Indicator: Coffee-Cart Waiting Times and Global-Ranking Trajectory},",
     );
+  });
+});
+
+describe("bibtexTokens", () => {
+  const citation = bibtex("slop-poster-x", entry);
+  const tokens = bibtexTokens(citation);
+
+  it("reassembles the citation verbatim", () => {
+    expect(tokens.map((t) => t.text).join("")).toBe(citation);
+  });
+
+  it("picks out the entry type and cite key", () => {
+    expect(tokens).toContainEqual({ kind: "type", text: "@misc" });
+    expect(tokens).toContainEqual({ kind: "key", text: "slop_sn9kzr" });
+  });
+
+  it("splits each field into a name and a braced value", () => {
+    expect(tokens).toContainEqual({ kind: "field", text: "doi" });
+    expect(tokens).toContainEqual({ kind: "value", text: "10.5555/slop.sn9kzr" });
+  });
+
+  it("leaves a value containing an equals sign or comma intact", () => {
+    const tricky = bibtex("slop-poster-x", { ...entry, title: "A = B, mostly" });
+    expect(bibtexTokens(tricky)).toContainEqual({ kind: "value", text: "A = B, mostly" });
   });
 });
 

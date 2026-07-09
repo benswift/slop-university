@@ -5,7 +5,7 @@ import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
 import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
-import { bibtex, fullTitle, presetLabels } from "../../lib/outputs";
+import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
 import { outputHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
@@ -23,6 +23,7 @@ const data = entry.data;
 const hero = outputHero(entry.id);
 const thumb = thumbnail(entry.id);
 const citation = bibtex(entry.id, data);
+const citationTokens = bibtexTokens(citation);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
 
 // Resolve each credited author and the attributed school to their canon page.
@@ -146,7 +147,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 
       <section class="cite-as" aria-labelledby="cite-as-heading">
         <h2 id="cite-as-heading">Cite as</h2>
-        <pre><code>{citation}</code></pre>
+        <pre><code>{citationTokens.map((t) => (t.kind === "plain" ? t.text : <span class={t.kind}>{t.text}</span>))}</code></pre>
         <button type="button" data-citation={citation}>Copy BibTeX</button>
       </section>
     </div>
@@ -219,9 +220,40 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   }
 
   .cite-as {
+    /* Two inks for the citation's syntax: the accent carries the structure
+       (@misc, the field names), the bronze the cite key. Both are darkened in
+       light mode and lifted in dark, the way the theme derives --at-link, so
+       gold-on-cream still clears contrast. */
+    --cite-accent: light-dark(oklch(from var(--at-primary) calc(l - 0.1) c h), var(--at-primary));
+    --cite-key: light-dark(
+      var(--at-secondary),
+      oklch(from var(--at-secondary) calc(l + 0.28) c h)
+    );
+
     border: 1px solid var(--at-divider);
     background: var(--at-bg-alt);
     padding: var(--at-spacing-md) var(--at-spacing-lg);
+  }
+
+  .cite-as .type {
+    color: var(--cite-accent);
+    font-weight: 600;
+  }
+
+  .cite-as .field {
+    color: var(--cite-accent);
+  }
+
+  .cite-as .key {
+    color: var(--cite-key);
+  }
+
+  .cite-as .value {
+    color: var(--at-text);
+  }
+
+  .cite-as .punct {
+    color: var(--at-text-muted);
   }
 
   .cite-as h2 {
