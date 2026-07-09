@@ -1,0 +1,153 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { fullTitle, presetLabels, presetReadLabels } from "../lib/outputs";
+import { thumbnail } from "../lib/thumbnails";
+
+// The jump-straight-to-the-document callout, carried at the top of both places
+// a reader meets an output: its landing page and the news post announcing it.
+// The PDF's first page is the whole persuasion --- a reader recognises a poster
+// or a paper from its shape before they read a word of the record around it.
+//
+// One link target, twice over: the thumbnail is a decorative second door to the
+// same PDF (hidden from assistive tech and the tab order, so the callout offers
+// a single stop), and the heading is the real one. `showRecord` adds the way
+// back to the landing page --- omitted on the landing page itself.
+interface Props {
+  id: string;
+  data: CollectionEntry<"outputs">["data"];
+  showRecord?: boolean;
+}
+
+const { id, data, showRecord = false } = Astro.props;
+const thumb = thumbnail(id);
+const full = fullTitle(data);
+---
+
+<aside class="callout">
+  {
+    thumb && (
+      <a class="callout-thumb" href={data.pdf} tabindex="-1" aria-hidden="true">
+        <Image src={thumb} alt="" widths={[180, 360]} sizes="9rem" loading="lazy" />
+      </a>
+    )
+  }
+  <div class="callout-body">
+    <p class="callout-kicker">{presetLabels[data.preset]}</p>
+    <h2 class="callout-action">
+      <a href={data.pdf}>{presetReadLabels[data.preset]}</a>
+    </h2>
+    {showRecord && <p class="callout-title">{full}</p>}
+    <p class="callout-meta">
+      PDF{data.pages && <> · {data.pages} pages</>}
+      {
+        showRecord && (
+          <>
+            {" · "}
+            <a href={`/outputs/${id}/`}>Full record and citation</a>
+          </>
+        )
+      }
+    </p>
+  </div>
+</aside>
+
+<style>
+  /* Reads as a printed compliments slip laid on the page: the two inks, a
+     hairline rule, and the document itself standing proud of it. No accent
+     rule down the side --- that treatment belongs to the pull-quote in a news
+     post's body, and the two must not read as the same kind of thing. The
+     whole card lifts when either door to the PDF is hovered --- :has() keeps
+     that affordance without wrapping the card in an anchor (which would
+     swallow text selection and nest the record link inside the PDF link). */
+  .callout {
+    display: flex;
+    gap: var(--at-spacing-lg);
+    align-items: center;
+    margin-block: var(--at-spacing-lg) var(--at-spacing-xl);
+    padding: var(--at-spacing-lg);
+    border: 1px solid var(--at-divider);
+    background: var(--at-bg-alt);
+    transition: box-shadow 150ms ease, transform 150ms ease;
+  }
+
+  .callout:has(.callout-action a:hover, .callout-thumb:hover) {
+    box-shadow: var(--at-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .callout {
+      transition: none;
+    }
+
+    .callout:has(.callout-action a:hover, .callout-thumb:hover) {
+      transform: none;
+    }
+  }
+
+  .callout-thumb {
+    flex: none;
+    width: 9rem;
+    line-height: 0;
+  }
+
+  .callout-thumb img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--at-divider);
+    box-shadow: var(--at-shadow-md);
+  }
+
+  .callout-body {
+    min-width: 0;
+  }
+
+  .callout-kicker {
+    margin-block: 0 var(--at-spacing-xs);
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .callout-action {
+    margin-block: 0;
+    font-size: var(--at-font-size-h4);
+    line-height: 1.2;
+  }
+
+  .callout-action a {
+    text-decoration: none;
+  }
+
+  .callout-action a:hover {
+    text-decoration: underline;
+  }
+
+  .callout-title {
+    margin-block: var(--at-spacing-xs) 0;
+    color: var(--at-text-secondary);
+    text-wrap: pretty;
+  }
+
+  .callout-meta {
+    margin-block: var(--at-spacing-sm) 0;
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  /* Stacked on a phone the thumbnail leads, the way it does in the record
+     grid --- the document's shape is the fastest thing to recognise. */
+  @media (width <= 36rem) {
+    .callout {
+      flex-direction: column;
+      align-items: start;
+      gap: var(--at-spacing-md);
+    }
+
+    .callout-thumb {
+      width: 7rem;
+    }
+  }
+</style>

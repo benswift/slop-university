@@ -1,9 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
 import OpenGraph from "../../components/OpenGraph.astro";
+import OutputCallout from "../../components/OutputCallout.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
@@ -86,114 +86,94 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   {data.subtitle && <p class="deck">{data.subtitle}</p>}
   <p class="lead">{data.summary}</p>
 
-  <div class="record">
-    <div class="record-main">
-      <table class="metadata">
-        <tbody>
-          {
-            authors.length > 0 && (
-              <tr>
-                <th scope="row">Authors</th>
-                <td>
-                  {authors.map((author, i) => (
-                    <>
-                      {i > 0 && ", "}
-                      {author.id ? (
-                        <a href={`/people/${author.id}/`}>{author.name}</a>
-                      ) : (
-                        author.name
-                      )}
-                    </>
-                  ))}
-                </td>
-              </tr>
-            )
-          }
-          {
-            data.school && (
-              <tr>
-                <th scope="row">School</th>
-                <td>
-                  {schoolId ? <a href={`/schools/${schoolId}/`}>{data.school}</a> : data.school}
-                </td>
-              </tr>
-            )
-          }
+  <OutputCallout id={entry.id} data={data} />
+
+  <table class="metadata">
+    <tbody>
+      {
+        authors.length > 0 && (
           <tr>
-            <th scope="row">Output type</th>
-            <td>{presetLabels[data.preset]}</td>
-          </tr>
-          {
-            funding.length > 0 && (
-              <tr>
-                <th scope="row">Funding</th>
-                <td>
-                  {funding.map(({ grant, scheme }) => (
-                    <span class="funding-line">
-                      {scheme?.data.name ?? grant.data.scheme}: {grant.data.name} (
-                      {formatAud(grant.data.value)})
-                    </span>
-                  ))}
-                </td>
-              </tr>
-            )
-          }
-          <tr>
-            <th scope="row">Published</th>
+            <th scope="row">Authors</th>
             <td>
-              <time datetime={data.date.toISOString()}>{dateFormat.format(data.date)}</time>
+              {authors.map((author, i) => (
+                <>
+                  {i > 0 && ", "}
+                  {author.id ? (
+                    <a href={`/people/${author.id}/`}>{author.name}</a>
+                  ) : (
+                    author.name
+                  )}
+                </>
+              ))}
             </td>
           </tr>
+        )
+      }
+      {
+        data.school && (
           <tr>
-            <th scope="row">DOI</th>
-            <td><a href={doiUrl}>{data.doi}</a></td>
-          </tr>
-          {
-            data.pages && (
-              <tr>
-                <th scope="row">Pages</th>
-                <td>{data.pages}</td>
-              </tr>
-            )
-          }
-          <tr>
-            <th scope="row">Version</th>
-            <td>{data.version}</td>
-          </tr>
-          <tr>
-            <th scope="row">Licence</th>
+            <th scope="row">School</th>
             <td>
-              <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+              {schoolId ? <a href={`/schools/${schoolId}/`}>{data.school}</a> : data.school}
             </td>
           </tr>
-        </tbody>
-      </table>
+        )
+      }
+      <tr>
+        <th scope="row">Output type</th>
+        <td>{presetLabels[data.preset]}</td>
+      </tr>
+      {
+        funding.length > 0 && (
+          <tr>
+            <th scope="row">Funding</th>
+            <td>
+              {funding.map(({ grant, scheme }) => (
+                <span class="funding-line">
+                  {scheme?.data.name ?? grant.data.scheme}: {grant.data.name} (
+                  {formatAud(grant.data.value)})
+                </span>
+              ))}
+            </td>
+          </tr>
+        )
+      }
+      <tr>
+        <th scope="row">Published</th>
+        <td>
+          <time datetime={data.date.toISOString()}>{dateFormat.format(data.date)}</time>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">DOI</th>
+        <td><a href={doiUrl}>{data.doi}</a></td>
+      </tr>
+      {
+        data.pages && (
+          <tr>
+            <th scope="row">Pages</th>
+            <td>{data.pages}</td>
+          </tr>
+        )
+      }
+      <tr>
+        <th scope="row">Version</th>
+        <td>{data.version}</td>
+      </tr>
+      <tr>
+        <th scope="row">Licence</th>
+        <td>
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      <p>
-        <a class="download" href={data.pdf}>Download PDF</a>
-      </p>
-
-      <section class="cite-as" aria-labelledby="cite-as-heading">
-        <h2 id="cite-as-heading">Cite as</h2>
-        <pre><code>{citationTokens.map((t) => (t.kind === "plain" ? t.text : <span class={t.kind}>{t.text}</span>))}</code></pre>
-        <button type="button" data-citation={citation}>Copy BibTeX</button>
-      </section>
-    </div>
-
-    {
-      thumb && (
-        <a class="record-thumb" href={data.pdf}>
-          <Image
-            src={thumb}
-            alt={`First page of ${full}`}
-            widths={[224, 448]}
-            sizes="(max-width: 48rem) 12rem, 14rem"
-            loading="lazy"
-          />
-        </a>
-      )
-    }
-  </div>
+  <section class="cite-as" aria-labelledby="cite-as-heading">
+    <h2 id="cite-as-heading">Cite as</h2>
+    <pre><code>{citationTokens.map((t) => (t.kind === "plain" ? t.text : <span class={t.kind}>{t.text}</span>))}</code></pre>
+    <button type="button" data-citation={citation}>Copy BibTeX</button>
+  </section>
 </BaseLayout>
 
 <script>
@@ -222,20 +202,6 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     text-wrap: balance;
   }
 
-  .record {
-    display: grid;
-    grid-template-columns: 1fr 14rem;
-    gap: var(--at-spacing-xl);
-    align-items: start;
-  }
-
-  .record-thumb img {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--at-divider);
-    box-shadow: var(--at-shadow-md);
-  }
-
   .metadata th {
     text-align: start;
     padding-inline-end: var(--at-spacing-lg);
@@ -246,10 +212,6 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   /* One acknowledgement per line when an output holds several grants. */
   .funding-line {
     display: block;
-  }
-
-  .download {
-    font-weight: 600;
   }
 
   .cite-as {
@@ -316,14 +278,4 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     background: var(--at-accent-soft, rgb(185 125 28 / 10%));
   }
 
-  @media (width <= 48rem) {
-    .record {
-      grid-template-columns: 1fr;
-    }
-
-    .record-thumb {
-      order: -1;
-      max-width: 12rem;
-    }
-  }
 </style>
