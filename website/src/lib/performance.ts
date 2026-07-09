@@ -52,6 +52,118 @@ export function cumulativeByDay(
   return [...points.values()];
 }
 
+// The repository deposits daily, so the x axis is a day-resolution UTC scale
+// (matching how the collections store their dates). tickMinStep is in
+// scale-domain units --- one day of milliseconds --- so a short range can't
+// sprout sub-day ticks, and a long one still gets however many day-aligned
+// ticks Vega thinks fit.
+const dayAxis = { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 };
+
+// step-after holds each series flat between its own deposits rather than
+// sloping between them, which is what a cumulative total actually does.
+const cumulativeLine = { type: "line", point: true, interpolate: "step-after" } as const;
+
+// Outputs (counts) and funding (dollars) can't share a y axis, so they stack as
+// two panels of one concat spec resolving x as a *shared* scale: one union
+// domain, one set of ticks, and `align: "all"` puts both plot areas on the same
+// grid however wide each panel's y-axis labels turn out to be. The funding
+// panel only appears once there's an award to draw.
+//
+// Kept here rather than inline in the page: the two-panel spec is enough of a
+// union type to blow out TS's inference inside .astro frontmatter.
+export function performanceSpec(
+  outputs: { date: Date; series: string }[],
+  grants: { date: Date; value: number }[],
+  seriesDomain: readonly string[],
+): TopLevelSpec {
+  // Funding is awarded rarely --- often a single deposit, landing wherever it
+  // falls on the outputs axis. Seeding the series at zero on the first output's
+  // day makes the line climb from the axis origin instead of hanging in space
+  // as one detached point. cumulativeByDay adds `value`, so a zero contributes
+  // no dollars; it only pins the series' start.
+  const firstDay = outputs.reduce<Date | undefined>(
+    (earliest, o) => (!earliest || o.date < earliest ? o.date : earliest),
+    undefined,
+  );
+  const funding = [
+    ...(firstDay ? [{ date: firstDay, series: "funding", value: 0 }] : []),
+    ...grants.map((g) => ({ date: g.date, series: "funding", value: g.value })),
+  ];
+
+  const outputsPanel = {
+    data: { values: cumulativeByDay(outputs) },
+    mark: cumulativeLine,
+    encoding: {
+      // With a shared scale the "Date" title belongs under the bottom panel,
+      // so the outputs panel only carries one when it stands alone.
+      x: {
+        field: "date",
+        type: "temporal" as const,
+        scale: { type: "utc" as const },
+        title: grants.length > 0 ? null : "Date",
+        axis: dayAxis,
+      },
+      y: {
+        field: "total",
+        type: "quantitative" as const,
+        title: "Cumulative outputs",
+        scale: { zero: true },
+        axis: { tickMinStep: 1 },
+      },
+      // Colour and dash encode the same field with the same (null) title, so
+      // Vega-Lite merges them into a single legend.
+      color: {
+        field: "series",
+        type: "nominal" as const,
+        title: null,
+        scale: { domain: [...seriesDomain] },
+        legend: { orient: "top-left" as const },
+      },
+      strokeDash: {
+        field: "series",
+        type: "nominal" as const,
+        title: null,
+        // Vega's default dashes are too fine to read at this stroke width.
+        scale: { domain: [...seriesDomain], range: [[1, 0], [6, 3], [2, 2]] },
+      },
+    },
+    width: 640,
+    height: 200,
+  };
+
+  // A single series takes the config's gold line, so it needs no legend.
+  const fundingPanel = {
+    data: { values: cumulativeByDay(funding) },
+    mark: cumulativeLine,
+    encoding: {
+      x: {
+        field: "date",
+        type: "temporal" as const,
+        scale: { type: "utc" as const },
+        title: "Date",
+        axis: dayAxis,
+      },
+      y: {
+        field: "total",
+        type: "quantitative" as const,
+        title: "Cumulative funding (A$)",
+        scale: { zero: true },
+        axis: { format: "$,.0f" },
+      },
+    },
+    width: 640,
+    height: 200,
+  };
+
+  return {
+    concat: grants.length > 0 ? [outputsPanel, fundingPanel] : [outputsPanel],
+    columns: 1,
+    align: "all",
+    spacing: 32,
+    resolve: { scale: { x: "shared" } },
+  };
+}
+
 // The slop palette for Vega-Lite --- theme colours, never library defaults.
 // Charts are static SVG baked at build time, so each spec renders twice (a
 // light and a dark variant) and CSS shows the one matching the site theme.

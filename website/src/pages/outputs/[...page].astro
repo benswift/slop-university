@@ -6,11 +6,10 @@ import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import Icon from "astro-theme-university/components/Icon.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
-import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
 import { formatAud, formatAudCompact } from "../../lib/grants";
 import { presetBadgeLabels, presetIcons, presetLabels, presetSeries, seriesOrder } from "../../lib/outputs";
-import { academicFte, chartSvg, cumulativeByDay, vlConfig } from "../../lib/performance";
+import { academicFte, chartSvg, performanceSpec, vlConfig } from "../../lib/performance";
 import { outputHero, pageHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
 
@@ -62,122 +61,20 @@ const stats = [
 
 // The trend chart carries the whole build-time Vega-Lite pipeline (static SVG,
 // light/dark bake, slop palette). It renders twice; CSS shows the matching
-// theme.
-//
-// Outputs (counts) and funding (dollars) can't share a y axis, so they're
-// stacked as two panels of one concat spec resolving x as a *shared* scale:
-// one union domain, one set of ticks, and `align: "all"` puts both plot areas
-// on the same grid however wide each y axis's labels turn out to be. The
-// funding panel only appears once there's an award to draw.
-const hasFunding = allGrants.length > 0;
-
-// Funding is awarded rarely --- often a single deposit, sitting wherever it
-// falls on the outputs axis. Seeding the series at zero on the first output's
-// day makes the line climb from the axis origin instead of hanging in space as
-// one detached point. cumulativeByDay adds `value`, so a zero contributes no
-// dollars; it only pins the series' start.
-const firstOutputDay = allOutputs.reduce<Date | undefined>(
-  (earliest, o) => (!earliest || o.data.date < earliest ? o.data.date : earliest),
-  undefined,
+// theme. Outputs and funding stack as two panels sharing one day axis --- see
+// performanceSpec.
+const spec = performanceSpec(
+  allOutputs.map((o) => ({ date: o.data.date, series: presetSeries[o.data.preset] })),
+  allGrants.map((g) => ({ date: g.data.date, value: g.data.value })),
+  seriesOrder,
 );
-const fundingSeries = [
-  ...(firstOutputDay ? [{ date: firstOutputDay, series: "funding", value: 0 }] : []),
-  ...allGrants.map((g) => ({ date: g.data.date, series: "funding", value: g.data.value })),
-];
-
-// The repository deposits daily, so the x axis is a day-resolution UTC scale
-// (matching how the collections store their dates); step-after holds each
-// series flat between its own deposits rather than sloping between them, which
-// is what a cumulative total actually does.
-//
-// tickMinStep is in scale-domain units --- one day of milliseconds --- so a
-// short range can't sprout sub-day ticks, and a long one still gets however
-// many day-aligned ticks Vega thinks fit.
-const dateAxis = { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 };
-const spec: TopLevelSpec = {
-  concat: [
-    {
-      data: {
-        values: cumulativeByDay(
-          allOutputs.map((o) => ({ date: o.data.date, series: presetSeries[o.data.preset] })),
-        ),
-      },
-      mark: { type: "line", point: true, interpolate: "step-after" },
-      encoding: {
-        // The shared scale draws one "Date" title, under the bottom panel.
-        x: {
-          field: "date",
-          type: "temporal",
-          scale: { type: "utc" },
-          title: hasFunding ? null : "Date",
-          axis: dateAxis,
-        },
-        y: {
-          field: "total",
-          type: "quantitative",
-          title: "Cumulative outputs",
-          scale: { zero: true },
-          axis: { tickMinStep: 1 },
-        },
-        // Colour and dash encode the same field with the same (null) title, so
-        // Vega-Lite merges them into a single legend.
-        color: {
-          field: "series",
-          type: "nominal",
-          title: null,
-          scale: { domain: [...seriesOrder] },
-          legend: { orient: "top-left" },
-        },
-        strokeDash: {
-          field: "series",
-          type: "nominal",
-          title: null,
-          // Vega's default dashes are too fine to read at this stroke width.
-          scale: { domain: [...seriesOrder], range: [[1, 0], [6, 3], [2, 2]] },
-        },
-      },
-      width: 640,
-      height: 200,
-    },
-    // A single series takes the config's gold line, no legend needed.
-    ...(hasFunding
-      ? [
-          {
-            data: { values: cumulativeByDay(fundingSeries) },
-            mark: { type: "line" as const, point: true, interpolate: "step-after" as const },
-            encoding: {
-              x: {
-                field: "date",
-                type: "temporal" as const,
-                scale: { type: "utc" as const },
-                title: "Date",
-                axis: dateAxis,
-              },
-              y: {
-                field: "total",
-                type: "quantitative" as const,
-                title: "Cumulative funding (A$)",
-                scale: { zero: true },
-                axis: { format: "$,.0f" },
-              },
-            },
-            width: 640,
-            height: 200,
-          },
-        ]
-      : []),
-  ],
-  columns: 1,
-  align: "all",
-  spacing: 32,
-  resolve: { scale: { x: "shared" } },
-};
 const chart =
   firstPage && allOutputs.length > 0
     ? {
-        label: hasFunding
-          ? "Cumulative research outputs by day split by output type, above cumulative research funding awarded on the same day axis"
-          : "Cumulative research outputs by day, split by output type",
+        label:
+          allGrants.length > 0
+            ? "Cumulative research outputs by day split by output type, above cumulative research funding awarded on the same day axis"
+            : "Cumulative research outputs by day, split by output type",
         light: await chartSvg({ ...spec, config: vlConfig("light") }),
         dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
       }
