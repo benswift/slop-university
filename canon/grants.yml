@@ -1,0 +1,49 @@
+# The institutional canon: funding schemes and prizes (structured, renderable).
+#
+# This is the SOURCE OF TRUTH for every internal grant scheme, award, and prize
+# of Slop University. The website's `grantSchemes` content collection loads
+# this file directly (website/src/content.config.ts); every awarded grant
+# (website/src/content/grants/*.yml) references a scheme here by id. Add a
+# scheme HERE first; never invent one inside a run. Adding a scheme is a HUMAN
+# action --- the publish tick awards from existing schemes only (its wrapper
+# allowlist does not include this file).
+#
+# Admission procedure (mirrors roster.yml):
+# 1. Name-collision check (hard): web search the scheme name; no real funding
+#    scheme, fellowship, or prize may share it. Real funder names and scheme
+#    families (ARC, NHMRC, Horizon, Discovery, Laureate, ...) are off-limits
+#    even as echoes.
+# 2. The funder is an org unit from canon/schools.yml, by full name --- all
+#    funding is internal. The university granting itself money and counting it
+#    as research income is the point; no external funder, real or invented,
+#    ever appears.
+# 3. Naming register per canon/schools.md: a vague noun in a load-bearing
+#    position; reads straight, no winks.
+#
+# `id` is the stable reference key. `kind` is grant | award | prize.
+
+schemes:
+  - id: indicator-stewardship-seed-fund
+    name: Indicator Stewardship Seed Fund
+    kind: grant
+    funder: School of Continuous Improvement
+    blurb: >-
+      Seed grants for the care, calibration, and succession planning of the
+      University's indicators. Rounds favour proposals that leave an indicator
+      better stewarded than they found it.
+  - id: anticipatory-capability-fund
+    name: Anticipatory Capability Fund
+    kind: grant
+    funder: School of Emergent Priorities
+    blurb: >-
+      Project grants for work that strengthens the University's capacity to
+      meet a priority before it arrives. Proposals are assessed on readiness,
+      alignment, and time-to-anticipation.
+  - id: deposit-of-the-quarter-prize
+    name: Deposit of the Quarter Prize
+    kind: prize
+    funder: Office of Research Outputs
+    blurb: >-
+      Recognises the quarter's most exemplary contribution to the research
+      repository, judged on completeness of metadata and timeliness of
+      deposit.
