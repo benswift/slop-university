@@ -56,6 +56,36 @@ const schools = defineCollection({
   }),
 });
 
+// Funding schemes --- canon/grants.yml, an array nested under `schemes:`.
+// The scheme (the recurring apparatus) is canon and never invented in a run;
+// the award events instantiating it live in the grants collection below.
+const grantSchemes = defineCollection({
+  loader: file("../canon/grants.yml", {
+    parser: (text) => parseYaml(text).schemes,
+  }),
+  schema: z.object({
+    name: z.string(),
+    kind: z.enum(["grant", "award", "prize"]),
+    funder: z.string(), // full org unit name from canon/schools.yml
+    blurb: z.string(),
+  }),
+});
+
+// One entry per awarded grant or prize. Written by the /publish pipeline and
+// announced via news (frontmatter `grant:`) --- there are no per-grant pages;
+// the data renders on people profiles and the outputs dashboard.
+const grants = defineCollection({
+  loader: glob({ pattern: "**/*.yml", base: "src/content/grants" }),
+  schema: z.object({
+    name: z.string(), // the funded project's title, or the prize citation
+    scheme: z.string(), // grantSchemes entry id
+    date: z.coerce.date(),
+    grantees: z.array(z.string()).min(1), // roster names, as in outputs.authors
+    value: z.number().int().positive(), // whole australian dollars
+    summary: z.string(),
+  }),
+});
+
 // Free-form pages (colophon, about, agent-grown pages).
 const pages = definePageCollection({ passthrough: true });
 
@@ -76,10 +106,12 @@ const outputs = defineCollection({
     pdf: z.string(),
     pages: z.number().optional(),
     version: z.string().default("1.0"),
+    grants: z.array(z.string()).default([]), // grants entry ids funding this work
   }),
 });
 
-// Press releases; each references its output by collection id.
+// Press releases; each references its output (or awarded grant) by
+// collection id.
 const news = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/news" }),
   schema: z.object({
@@ -88,7 +120,8 @@ const news = defineCollection({
     date: z.coerce.date(),
     description: z.string().optional(),
     output: z.string().optional(),
+    grant: z.string().optional(),
   }),
 });
 
-export const collections = { pages, people, schools, outputs, news };
+export const collections = { pages, people, schools, outputs, news, grants, grantSchemes };

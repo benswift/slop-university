@@ -22,8 +22,24 @@ const outputs = outputIds.map(
     school?: string;
     doi?: string;
     date?: string;
+    grants?: string[];
   },
 );
+
+const grantIds = readdirSync(join(contentDir, "grants"))
+  .filter((f) => f.endsWith(".yml"))
+  .map((f) => f.replace(/\.yml$/, ""));
+
+const grants = grantIds.map(
+  (id) => parseYaml(readFileSync(join(contentDir, "grants", `${id}.yml`), "utf8")) as {
+    scheme?: string;
+    date?: string;
+    grantees?: string[];
+    value?: number;
+  },
+);
+
+const grantDateById = new Map(grantIds.map((id, i) => [id, grants[i].date]));
 
 // Output publication dates by id, for the news-precedes-output check below.
 // The yaml core schema keeps `date:` as an ISO string, so dates compare
@@ -43,6 +59,13 @@ const schoolDoc = parseYaml(readFileSync(join(canonDir, "schools.yml"), "utf8"))
   string,
   { id: string; name: string }[]
 >;
+
+const schemes = (
+  parseYaml(readFileSync(join(canonDir, "grants.yml"), "utf8")) as {
+    schemes: { id: string; name: string; funder: string }[];
+  }
+).schemes;
+const schemeIds = new Set(schemes.map((s) => s.id));
 const schoolNames = new Set((schoolDoc.schools ?? []).map((s) => s.name));
 const allOrgNames = new Set(Object.values(schoolDoc).flat().map((o) => o.name));
 const researcherNames = new Set(researchers.map((r) => r.name));
@@ -90,6 +113,31 @@ describe("news entries", () => {
       expect(
         newsDate >= outputDate,
         `${file} (${newsDate}) predates its output ${ref[1]} (${outputDate})`,
+      ).toBe(true);
+    }
+  });
+
+  it("reference an existing grant entry", () => {
+    for (const file of newsFiles) {
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      const ref = frontmatter.match(/^grant:\s*(\S+)\s*$/m);
+      if (ref) expect(grantIds).toContain(ref[1]);
+    }
+  });
+
+  it("announce no earlier than the grant they reference", () => {
+    for (const file of newsFiles) {
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      const ref = frontmatter.match(/^grant:\s*(\S+)\s*$/m);
+      if (!ref) continue;
+      const newsDate = frontmatter.match(/^date:\s*"?(\d{4}-\d{2}-\d{2})"?\s*$/m)?.[1];
+      const grantDate = grantDateById.get(ref[1]);
+      expect(newsDate, `${file} frontmatter date`).toBeDefined();
+      expect(grantDate, `${ref[1]} date`).toBeDefined();
+      if (!newsDate || !grantDate) continue;
+      expect(
+        newsDate >= grantDate,
+        `${file} (${newsDate}) predates its grant ${ref[1]} (${grantDate})`,
       ).toBe(true);
     }
   });
@@ -151,6 +199,66 @@ describe("outputs entries", () => {
       }
     }
   });
+
+  it("attach only grants that exist", () => {
+    for (const output of outputs) {
+      for (const grant of output.grants ?? []) {
+        expect(grantIds, `attached grant "${grant}"`).toContain(grant);
+      }
+    }
+  });
+
+  it("postdate every grant they attach", () => {
+    outputs.forEach((output, i) => {
+      for (const grant of output.grants ?? []) {
+        const grantDate = grantDateById.get(grant);
+        if (!output.date || !grantDate) continue;
+        expect(
+          output.date >= grantDate,
+          `${outputIds[i]} (${output.date}) predates its grant ${grant} (${grantDate})`,
+        ).toBe(true);
+      }
+    });
+  });
+});
+
+describe("grant entries", () => {
+  it("reference a scheme defined in canon/grants.yml", () => {
+    grants.forEach((grant, i) => {
+      expect(grant.scheme, `${grantIds[i]} scheme`).toBeDefined();
+      if (grant.scheme) expect(schemeIds, `${grantIds[i]} scheme`).toContain(grant.scheme);
+    });
+  });
+
+  it("name grantees that each resolve to exactly one /people/ page", () => {
+    for (const grant of grants) {
+      for (const grantee of grant.grantees ?? []) {
+        expect(researcherIdByName.get(grantee), `grantee "${grantee}" → /people/`).toHaveLength(1);
+      }
+    }
+  });
+
+  it("carry a filename date prefix that matches the frontmatter date", () => {
+    grantIds.forEach((id, i) => {
+      expect(grants[i].date, `${id} date`).toBe(id.slice(0, 10));
+    });
+  });
+
+  it("record a positive whole-dollar value", () => {
+    grants.forEach((grant, i) => {
+      expect(Number.isInteger(grant.value) && (grant.value ?? 0) > 0, `${grantIds[i]} value`).toBe(
+        true,
+      );
+    });
+  });
+});
+
+describe("grant schemes", () => {
+  it("are funded by an org unit that exists in the canon", () => {
+    for (const scheme of schemes) {
+      expect(allOrgNames, `${scheme.name} funder "${scheme.funder}"`).toContain(scheme.funder);
+    }
+  });
 });
 
 describe("roster", () => {
@@ -166,7 +274,3 @@ describe("roster", () => {
     }
   });
 });
-
-// Keep allOrgNames referenced (units/labs/etc. are canon we may cross-check as
-// the site grows); the assertion above already covers schools specifically.
-void allOrgNames;

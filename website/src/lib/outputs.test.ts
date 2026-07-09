@@ -13,6 +13,7 @@ const entry: CollectionEntry<"outputs">["data"] = {
   topic: "coffee-cart queue lengths",
   pdf: "/outputs/pdf/slop-poster-x.pdf",
   version: "1.0",
+  grants: [],
 };
 
 describe("bibtex", () => {
