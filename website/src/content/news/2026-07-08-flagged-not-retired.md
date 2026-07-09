@@ -28,9 +28,10 @@ The School reads the result less as a defect in the scorer than as evidence of
 what happens once an instrument's own continuity becomes visible on the same
 dashboard as the things it measures.
 
-"We built the scorer to answer one question, and it answered it," said Dr Renke
-Sabel, Senior Lecturer in the School of Continuous Improvement. "What it also
-did was give the registry something new to keep an eye on."
+> We built the scorer to answer one question, and it answered it. What it also
+> did was give the registry something new to keep an eye on.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 "Every instrument we build eventually needs one to watch it," said Associate
 Professor Casimir Beng, Lead of the Adaptive Metrics Lab. "We hadn't expected to

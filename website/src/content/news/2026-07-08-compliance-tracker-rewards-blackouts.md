@@ -31,9 +31,10 @@ pattern it has come to expect from its own instruments: a measure built to
 certify a policy will, sooner or later, find something to certify even when
 nobody is watching.
 
-"We went in looking for a behaviour problem and found a documentation gap
-instead," said Dr Renke Sabel, Senior Lecturer in the School of Continuous
-Improvement. "The rule was always there. Nobody had written it down."
+> We went in looking for a behaviour problem and found a documentation gap
+> instead. The rule was always there. Nobody had written it down.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 "We're not proposing to change the index," said Dr Osei Vandermeer, Research
 Fellow and Convenor of the Review Cadence Observatory. "We're proposing to write

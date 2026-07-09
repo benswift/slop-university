@@ -29,10 +29,11 @@ The University places the audit within its wider commitment to instrumenting its
 own rituals as rigorously as it instruments everyone else's, on the view that a
 seminar built to catch a failure is not exempt from being checked for one.
 
-"Convening this seminar for as long as I have, you develop a private theory
-about what it is actually doing," said Dr Ntuli. "This is the first time I have
-checked mine against the roster instead of against my own impression of the
-room."
+> Convening this seminar for as long as I have, you develop a private theory
+> about what it is actually doing. This is the first time I have checked mine
+> against the roster instead of against my own impression of the room.
+>
+> --- Dr Ntuli
 
 "A scheduling gap is a strange thing to be the most reliable finding in a paper
 about failure," said Dr Vandermeer. "We are not yet in a position to say why the

@@ -29,8 +29,10 @@ seven and a half months to resolve, and no reversal minuted after the second
 half of 2024 cites the incident that prompted it. Interviewed separately, the
 chairs named that incident more often than their own minutes did.
 
-"The chairs have not forgotten anything," said Dr Solheim. "The record has. It
-holds the reason that was available when someone finally sat down to write it."
+> The chairs have not forgotten anything. The record has. It holds the reason
+> that was available when someone finally sat down to write it.
+>
+> --- Dr Solheim
 
 The University considers the paperwork of its own decisions a fit subject for
 research, and welcomes the questions this raises about what its archive is for.

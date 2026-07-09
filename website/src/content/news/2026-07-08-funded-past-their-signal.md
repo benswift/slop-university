@@ -28,10 +28,12 @@ The University offers the audit as the sort of work it would rather run on
 itself than wait to have run on it, on an instrument it maintains precisely
 because priorities are prone to outlasting their conditions.
 
-"A sunset clause only works if someone is watching the sun," said Dr Ingrid
-Vasseur, Lecturer and Convenor of Futures in Committee in the School of Emergent
-Priorities. "What we kept finding was a review that read the recommendation
-carefully and never went back to the signal underneath it."
+> A sunset clause only works if someone is watching the sun. What we kept
+> finding was a review that read the recommendation carefully and never went
+> back to the signal underneath it.
+>
+> --- Dr Ingrid Vasseur, Lecturer and Convenor of Futures in Committee in the
+> School of Emergent Priorities
 
 Professor Verity Marris, Director of the Trajectory Analytics Group, placed the
 result in the Group's longer preoccupation with how commitments harden. "The

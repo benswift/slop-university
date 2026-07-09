@@ -28,10 +28,11 @@ The result now sits inside the School's wider practice of testing its own
 instruments as rigorously as it tests anything else, a discipline it treats as
 inseparable from continuous improvement itself.
 
-"The dashboard was built around an assumption we'd never actually tested," said
-Dr Mirela Hanke, Postdoctoral Fellow in the School of Continuous Improvement and
-a co-author of the poster. "Running the comparison felt like the obvious next
-step once we noticed that."
+> The dashboard was built around an assumption we'd never actually tested.
+> Running the comparison felt like the obvious next step once we noticed that.
+>
+> --- Dr Mirela Hanke, Postdoctoral Fellow in the School of Continuous
+> Improvement and a co-author of the poster
 
 Her co-author, Dr Renke Sabel, Senior Lecturer in the School of Continuous
 Improvement, frames it as an open item rather than a closed one: "It's a fair

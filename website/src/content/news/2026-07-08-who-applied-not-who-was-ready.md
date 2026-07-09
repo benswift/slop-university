@@ -12,9 +12,10 @@ description:
 output: slop-paper-exploiting-the-staggered-6tfowf
 ---
 
-"The signature was supposed to tell us something about readiness," said Dr Renke
-Sabel, Senior Lecturer in the School of Continuous Improvement. "What we could
-actually show it changing was who applied."
+> The signature was supposed to tell us something about readiness. What we could
+> actually show it changing was who applied.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 Sabel is a co-author, with Dr Dagny Okafor, of a new paper examining the
 supervisor-endorsement requirement introduced across the University's five

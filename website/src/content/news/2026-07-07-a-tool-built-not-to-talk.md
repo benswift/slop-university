@@ -24,9 +24,10 @@ for this purpose, tracking how often a query's terms touch a CheckPoint
 identifier across the full window. A parallel staff item on whether check-in
 data reaches performance review moved together with a fall in who opted in.
 
-"The pledge is doing exactly what it says in every document we checked," said
-Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab. "It's the
-query log that isn't."
+> The pledge is doing exactly what it says in every document we checked. It's
+> the query log that isn't.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab
 
 "A cadence of audits will tell us more about where a boundary actually sits than
 any single restatement of it," said Dr Osei Vandermeer, Research Fellow and

@@ -31,10 +31,11 @@ brochure is a rarer document: written for a reader outside the buildings, making
 the case that the University's own account of itself should be trusted over
 anyone else's.
 
-"A ranking tells you where you landed. It doesn't say who's allowed to argue
-with the number," said Dr Renke Sabel, Senior Lecturer in the School of
-Continuous Improvement. "The Commons is built so that anyone who wants to argue
-with one of ours can find exactly where to start."
+> A ranking tells you where you landed. It doesn't say who's allowed to argue
+> with the number. The Commons is built so that anyone who wants to argue with
+> one of ours can find exactly where to start.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 "Every one of these instruments started as something we built to check our own
 work," said Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab.

@@ -27,11 +27,12 @@ The University counts the result among the clearer demonstrations of what a
 well-chosen definition can do for two mandates that looked, on paper, like they
 couldn't both be met.
 
-"Forecast demand is now the floor we measure headroom against, and that's a
-defensible choice on its own terms," said Professor Verity Marris, Director of
-the Trajectory Analytics Group in the School of Emergent Priorities. "It's a
-separate question from whether enrolment changed, and we were careful to keep
-the two apart."
+> Forecast demand is now the floor we measure headroom against, and that's a
+> defensible choice on its own terms. It's a separate question from whether
+> enrolment changed, and we were careful to keep the two apart.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "A metric that can absorb a contradiction this cleanly is worth a second look at
 what else it's absorbing," said Associate Professor Casimir Beng, Lead of the

@@ -26,10 +26,11 @@ telemetry record moved only at the margins, and mostly in narratives that
 stopped showing any drafting activity on the portal at all, rather than in
 narratives that kept drafting there.
 
-"None of this works without a telemetry feed the portal has quietly kept for
-years for an entirely different reason," said Associate Professor Casimir Beng,
-Lead of the Adaptive Metrics Lab. "We didn't build anything new; we just finally
-asked it something."
+> None of this works without a telemetry feed the portal has quietly kept for
+> years for an entirely different reason. We didn't build anything new; we just
+> finally asked it something.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab
 
 "Everyone we spoke to already knew exactly why they had moved the drafting off
 the portal," said Dr Anneke Tolan, Senior Research Fellow at the School of

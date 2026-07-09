@@ -34,9 +34,11 @@ An indicator that only ever climbs is not obviously a success, and the School
 would rather say so in its own newsroom than leave the finding for someone else
 to make.
 
-"An indicator survives by never being wrong in a way anyone has to act on," said
-Dr Sabel, Senior Lecturer in the School of Continuous Improvement. "This one has
-never had to be wrong, because nobody ever checks what it's still counting."
+> An indicator survives by never being wrong in a way anyone has to act on. This
+> one has never had to be wrong, because nobody ever checks what it's still
+> counting.
+>
+> --- Dr Sabel, Senior Lecturer in the School of Continuous Improvement
 
 Dr Vandermeer, Research Fellow and Convenor of the Review Cadence Observatory,
 welcomed the comparison. "We talk about closing the loop between what's sensed

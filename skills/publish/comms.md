@@ -60,6 +60,22 @@ comms-speak, or with the school's agenda --- rotate against the recent eight.
   reflect on what the school "has learned about itself", or welcome the
   questions the work raises. Never reuse a quote frame from the recent eight,
   and never the banned phrases above.
+- **The pull-quote**: the **first** quote is set as a markdown blockquote, its
+  attribution on a line of its own; any later quote stays inline in the prose,
+  in quotation marks. Exactly one blockquote per post --- a second turns the
+  release into a pull-quote gallery, and the genre it is imitating runs its
+  quotes inline. The shape:
+
+  ```markdown
+  > A measure everyone trusts and no one has checked is the interesting case.
+  >
+  > --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab
+  ```
+
+  The quote loses its surrounding quotation marks (the blockquote is the
+  quoting), and a speaker's two sentences run together inside the one blockquote
+  rather than splitting around the attribution.
+
 - **The method paragraph**: one, translating the artefact's content into
   comms-speak --- bridging verbs, noun stacks, no technical detail survives.
 - **The availability line**: closes the release. "The full <poster/report/paper>

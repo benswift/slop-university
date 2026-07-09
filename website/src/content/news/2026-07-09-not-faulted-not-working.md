@@ -26,10 +26,11 @@ programme, the School found the two measures moving together while the fleet was
 small and drifting apart as it grew, exactly the kind of divergence the
 University's own audit machinery exists to catch.
 
-"An uptime figure is a claim about a machine. A service figure is a claim about
-the campus it serves. We spent five years learning to ask which one the
-dashboard was actually making," said Joost Nwosu, Postdoctoral Fellow in the
-School of Continuous Improvement.
+> An uptime figure is a claim about a machine. A service figure is a claim about
+> the campus it serves. We spent five years learning to ask which one the
+> dashboard was actually making.
+>
+> --- Joost Nwosu, Postdoctoral Fellow in the School of Continuous Improvement
 
 Dr Dagny Okafor, Lecturer and Convenor of Evaluation of Evaluation, welcomed the
 report's candour about its own instruments: "A School that reviews everyone

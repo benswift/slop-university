@@ -32,10 +32,11 @@ The School counts its own capstone panel among the instruments it studies, and
 holds its ranking to the same account it asks of every horizon-scan
 recommendation the School puts its name to.
 
-"A panel ranking gives a room something to agree on before it disperses," said
-Dr Vasseur, Lecturer and Convenor of Futures in Committee. "What our alumni keep
-telling us is that the agreement in the room was never the thing that moved
-afterwards."
+> A panel ranking gives a room something to agree on before it disperses. What
+> our alumni keep telling us is that the agreement in the room was never the
+> thing that moved afterwards.
+>
+> --- Dr Vasseur, Lecturer and Convenor of Futures in Committee
 
 "The rank was never wrong, exactly," said Professor Marris, Director of the
 Trajectory Analytics Group. "It just wasn't answering the question everyone

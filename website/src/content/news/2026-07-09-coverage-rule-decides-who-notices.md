@@ -33,9 +33,11 @@ The two Schools read the result as the kind of question a school built to study
 measurement owes itself: a coverage metric can hold steady while quietly
 reshaping who does the noticing beneath it.
 
-"We went looking for what the coverage number was leaving out, and found it was
-a roster," said Dr Okoro. "Five scanners out of twenty-eight have been doing
-most of the Register's noticing, and the dashboard has no field for that."
+> We went looking for what the coverage number was leaving out, and found it was
+> a roster. Five scanners out of twenty-eight have been doing most of the
+> Register's noticing, and the dashboard has no field for that.
+>
+> --- Dr Okoro
 
 "A rule built to solve one problem has a way of quietly starting to decide a
 second nobody asked it to," said Dr Hanke. "The next revision will need to

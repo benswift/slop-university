@@ -23,9 +23,11 @@ against an independent audit of whether each meeting's recorded decisions could
 be verified against the original recording. Decision-verifiability fell as
 capability rose, tracking the University's own tool-upgrade schedule closely.
 
-"This work opens important conversations about what a fluent record actually
-preserves," said Dr Anneke Tolan, Senior Research Fellow at the School of
-Emergent Priorities.
+> This work opens important conversations about what a fluent record actually
+> preserves.
+>
+> --- Dr Anneke Tolan, Senior Research Fellow at the School of Emergent
+> Priorities
 
 The University is proud to extend its anticipatory-capability agenda into its
 own governance record, and the authors are careful to note that the association

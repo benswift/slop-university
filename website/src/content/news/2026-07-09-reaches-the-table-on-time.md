@@ -25,10 +25,11 @@ scanning item is routed, redacted, renewed, and eventually decided. It is proud,
 without apology, of an unfashionable proposition: that research earns its keep
 when it arrives in time to be used.
 
-"The line from a signal to a decision is the thing worth holding open, and it is
-the part no ranking ever counts," said Professor Verity Marris, Director of the
-Trajectory Analytics Group. "This brochure is an invitation to help us keep it
-unbroken."
+> The line from a signal to a decision is the thing worth holding open, and it
+> is the part no ranking ever counts. This brochure is an invitation to help us
+> keep it unbroken.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group
 
 Dr Fenna Okoro, Senior Lecturer and Convenor of the Horizon Register in the
 School of Emergent Priorities, spoke to the sensing end of that path. "An

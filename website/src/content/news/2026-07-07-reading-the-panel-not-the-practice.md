@@ -28,9 +28,10 @@ person. The School situates the result inside its longer-running effort to trace
 how a measurement instrument settles into the behaviour of the people it
 measures.
 
-"The review was built to tell us something about practice," said Associate
-Professor Casimir Beng, Lead of the Adaptive Metrics Lab. "What it's told us
-this time is mostly about the review."
+> The review was built to tell us something about practice. What it's told us
+> this time is mostly about the review.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab
 
 "None of what we heard was staff acting in bad faith," said Dr Anneke Tolan,
 Senior Research Fellow at the School of Emergent Priorities. "It's what any of

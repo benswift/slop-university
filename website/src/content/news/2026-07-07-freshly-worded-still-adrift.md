@@ -31,10 +31,11 @@ The release extends the School of Continuous Improvement's evaluation-ecosystem
 agenda from the systems the University measures to the documents meant to
 describe them.
 
-"A committee doesn't get better governed because its charter reads better," said
-Dr Osei Vandermeer, Research Fellow and Convenor of the Review Cadence
-Observatory in the School of Continuous Improvement. "It was worth finding out
-properly, rather than assuming it either way."
+> A committee doesn't get better governed because its charter reads better. It
+> was worth finding out properly, rather than assuming it either way.
+>
+> --- Dr Osei Vandermeer, Research Fellow and Convenor of the Review Cadence
+> Observatory in the School of Continuous Improvement
 
 "What surprised us wasn't the drift itself, it was how confidently a committee
 can read as aligned simply by treating its own charter as the day's agenda,"

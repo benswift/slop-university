@@ -28,9 +28,10 @@ ran highest where a sign reported a fault or restricted access, and lowest,
 alone among the five, where it gave a direction. Directions are the one function
 the Standard's own templates already carry.
 
-"A sign on a fridge is a small piece of infrastructure that nobody signed off,"
-said Dr Nwosu, Postdoctoral Fellow in the School of Continuous Improvement.
-"What we counted is how long the building goes without one."
+> A sign on a fridge is a small piece of infrastructure that nobody signed off.
+> What we counted is how long the building goes without one.
+>
+> --- Dr Nwosu, Postdoctoral Fellow in the School of Continuous Improvement
 
 The University holds that its corridors are a legitimate object of study, and
 the work sits within the School's standing interest in what an institution's own

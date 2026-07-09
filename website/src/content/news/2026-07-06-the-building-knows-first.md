@@ -21,9 +21,11 @@ patterns and badge activity, then measured how far its first alert led
 facilities' quarterly utilisation review. The index consistently anticipated the
 formal finding, with the widest lead recorded in administrative buildings.
 
-"This work opens important conversations about how a building tells you it's
-emptying out, long before anyone runs the numbers," said Dr Petra Umbile, a
-Postdoctoral Fellow in the School of Emergent Priorities.
+> This work opens important conversations about how a building tells you it's
+> emptying out, long before anyone runs the numbers.
+>
+> --- Dr Petra Umbile, a Postdoctoral Fellow in the School of Emergent
+> Priorities
 
 The University is proud to see its anticipatory-capability agenda extend into
 how it manages its own estate.

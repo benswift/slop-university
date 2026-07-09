@@ -30,10 +30,11 @@ For the School of Emergent Priorities, the finding lands inside a question it
 keeps returning to: what a scanning process is actually recording, once the
 record has to fit inside a committee's fixed slot for it.
 
-"A minute is supposed to be a record of what the Committee decided, not a
-cleaner version of what was scanned," said Dr Ingrid Vasseur, Lecturer and
-Convenor of Futures in Committee. "We're looking at whether those are still the
-same document by the time anyone reads it back."
+> A minute is supposed to be a record of what the Committee decided, not a
+> cleaner version of what was scanned. We're looking at whether those are still
+> the same document by the time anyone reads it back.
+>
+> --- Dr Ingrid Vasseur, Lecturer and Convenor of Futures in Committee
 
 "Committees don't set out to remove the hedge," said Dr Anneke Tolan, Senior
 Research Fellow in the School of Emergent Priorities. "It's just the first thing

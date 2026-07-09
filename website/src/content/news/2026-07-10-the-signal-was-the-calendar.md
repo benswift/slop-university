@@ -23,9 +23,10 @@ used against the University's ranking-movement series. Applying the same
 seasonal adjustment to the original coffee-cart figures brought its own
 celebrated correlation down from r = 0.78 to a non-significant r = 0.14.
 
-"We went looking for a second queue that behaved like the first one," said Dr
-Umbile, Postdoctoral Fellow in the School of Emergent Priorities. "What we found
-was how much of the first result the calendar had been doing on its own."
+> We went looking for a second queue that behaved like the first one. What we
+> found was how much of the first result the calendar had been doing on its own.
+>
+> --- Dr Umbile, Postdoctoral Fellow in the School of Emergent Priorities
 
 The University treats the audit as proof that a well-liked figure earns a second
 look as readily as an unfamiliar one, regardless of where it was first reported.

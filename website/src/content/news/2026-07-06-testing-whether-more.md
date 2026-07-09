@@ -23,9 +23,10 @@ automated camera-switching as the strongest correlate of the pattern. The
 release marks a significant milestone in the University's ongoing work on
 measurement systems that improve the things they measure.
 
-"The pattern is a reminder that a system built to capture everything doesn't
-automatically capture what matters," said Associate Professor Casimir Beng, who
-leads the Adaptive Metrics Lab.
+> The pattern is a reminder that a system built to capture everything doesn't
+> automatically capture what matters.
+>
+> --- Associate Professor Casimir Beng, who leads the Adaptive Metrics Lab
 
 The team is careful to note that the relationship describes an association
 rather than an intervention, and that a single well-placed camera can still

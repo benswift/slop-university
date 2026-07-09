@@ -29,10 +29,12 @@ For a University whose recent output has mostly turned its instruments on
 itself, the prospectus is a quieter kind of statement: the first time it has
 described, for a prospective reader, what those instruments are for.
 
-"An application already tells you more about where someone is heading than they
-have usually put into words," said Professor Verity Marris, Director of the
-Trajectory Analytics Group in the School of Emergent Priorities. "Reading it a
-little earlier is mostly a matter of being honest about that."
+> An application already tells you more about where someone is heading than they
+> have usually put into words. Reading it a little earlier is mostly a matter of
+> being honest about that.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "What we kept coming back to was how settling it seems to be, arriving somewhere
 that was already expecting you," said Dr Petra Umbile, Postdoctoral Fellow in

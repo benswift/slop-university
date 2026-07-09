@@ -29,10 +29,12 @@ figure that appeared only in the chart.
 The School of Continuous Improvement frames the study as an early attempt to
 measure not what a review assesses but what quietly moves it.
 
-"A review that certifies how carefully a case was weighed doesn't usually ask
-what did the weighing," said Dr Osei Vandermeer, Research Fellow and Convenor of
-the Review Cadence Observatory. "We wanted to know whether a chart could stand
-in for the case without anyone noticing it had."
+> A review that certifies how carefully a case was weighed doesn't usually ask
+> what did the weighing. We wanted to know whether a chart could stand in for
+> the case without anyone noticing it had.
+>
+> --- Dr Osei Vandermeer, Research Fellow and Convenor of the Review Cadence
+> Observatory
 
 "The honest version of this is that we can't yet tell a panel to ignore a chart
 and trust that it will," said Associate Professor Casimir Beng, Lead of the

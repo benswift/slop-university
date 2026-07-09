@@ -33,9 +33,11 @@ thresholds constant so that display order was the only variable left to move.
 Projected onto the live shortlist, the reversal would have swapped roughly a
 fifth of this year's Demo Quarter slots.
 
-"It says something about how much weight we'd put on the instrument's word,"
-says Dr Dagny Okafor, Lecturer and Convenor of the Evaluation of Evaluation
-program. "We're glad to know it now rather than at the next shortlist."
+> It says something about how much weight we'd put on the instrument's word.
+> We're glad to know it now rather than at the next shortlist.
+>
+> --- Dr Dagny Okafor, Lecturer and Convenor of the Evaluation of Evaluation
+> program
 
 "We'll be watching whether a fixed double-pass changes the picture," says Dr
 Renke Sabel, Senior Lecturer in the School of Continuous Improvement.

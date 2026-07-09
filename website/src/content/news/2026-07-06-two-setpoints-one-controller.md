@@ -22,10 +22,11 @@ pipeline and tracked how consistently it held both targets as the setpoints'
 update cadence was varied. Stability held when the two cycles aligned, and
 loosened as they drifted apart.
 
-"The findings help clarify how much coordination a control system can supply on
-its own, and how much still depends on the calendars set around it," said
-Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab in the School
-of Continuous Improvement.
+> The findings help clarify how much coordination a control system can supply on
+> its own, and how much still depends on the calendars set around it.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab in the
+> School of Continuous Improvement
 
 The University is proud to extend its evaluation-ecosystem agenda into the
 machinery of its own admissions pipeline.

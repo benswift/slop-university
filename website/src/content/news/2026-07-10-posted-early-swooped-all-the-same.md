@@ -29,10 +29,11 @@ many incidents it went on to record.
 The University holds that a doctrine untested against its own campus has not yet
 earned its keep.
 
-"Being early is not the same as being effective, and this is the plainest place
-we have tested the difference," said Associate Professor Lindqvist, School of
-Emergent Priorities. "A forecast that buys nine days doesn't automatically buy
-anything else."
+> Being early is not the same as being effective, and this is the plainest place
+> we have tested the difference. A forecast that buys nine days doesn't
+> automatically buy anything else.
+>
+> --- Associate Professor Lindqvist, School of Emergent Priorities
 
 "The sign still tells Facilities where to send a ladder and a pair of
 secateurs," said Dr Mensah, Postdoctoral Fellow, School of Emergent Priorities.

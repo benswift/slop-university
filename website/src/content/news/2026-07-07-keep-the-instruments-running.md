@@ -23,10 +23,12 @@ calibration: the Trajectory Analytics Group's forecasting feeds, the Adaptive
 Metrics Lab's process indicators, and the Review Cadence Observatory that tracks
 whether either is still on schedule.
 
-"An instrument stops being interesting the moment nobody is still asking whether
-it might be wrong," said Professor Verity Marris, Director of the Trajectory
-Analytics Group in the School of Emergent Priorities. "Keeping that question
-open costs more than building the instrument did in the first place."
+> An instrument stops being interesting the moment nobody is still asking
+> whether it might be wrong. Keeping that question open costs more than building
+> the instrument did in the first place.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 The brochure marks the University's first appeal framed around upkeep rather
 than a single new result, a shift its authors describe as overdue.

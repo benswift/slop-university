@@ -32,10 +32,11 @@ found no measurable difference either way.
 The School counts crediting its own instruments among the processes worth
 putting through the same audit it runs on everyone else's programmes.
 
-"This audit didn't need a comparison group to be worth running; it needed a
-scorecard entry that had already been made," said Dr Hanke, Postdoctoral Fellow
-in the School of Continuous Improvement. "What we learned about ourselves is how
-easily that kind of gap gets filled before there is data to fill it with."
+> This audit didn't need a comparison group to be worth running; it needed a
+> scorecard entry that had already been made. What we learned about ourselves is
+> how easily that kind of gap gets filled before there is data to fill it with.
+>
+> --- Dr Hanke, Postdoctoral Fellow in the School of Continuous Improvement
 
 "Whether the Index revisits its own credit is not something this audit can
 decide," said Dr Ntuli, Lecturer and Convenor of Improvement Grand Rounds. "But

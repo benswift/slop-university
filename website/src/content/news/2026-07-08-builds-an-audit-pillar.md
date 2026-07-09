@@ -27,10 +27,11 @@ continued build-out.
 The University describes the addition as the natural next step for a plan that
 has always asked others to show their work.
 
-"The interesting part isn't the dashboard," said Anneke Tolan, Senior Research
-Fellow in the School of Emergent Priorities, who is advising on how the new
-pillar is received across the University. "It's what changes in a unit once it
-knows the dashboard exists."
+> The interesting part isn't the dashboard. It's what changes in a unit once it
+> knows the dashboard exists.
+>
+> --- Anneke Tolan, Senior Research Fellow in the School of Emergent Priorities,
+> who is advising on how the new pillar is received across the University
 
 "Assurance systems don't usually get asked to justify themselves," said Dagny
 Okafor, Lecturer and Convenor of the School of Continuous Improvement's

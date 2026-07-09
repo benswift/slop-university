@@ -30,9 +30,10 @@ it barely moved the number.
 The School reads the finding as consistent with its broader interest in how an
 instrument earns cooperation rather than merely deserving it.
 
-"People aren't rating the tool," said Associate Professor Casimir Beng, Lead of
-the Adaptive Metrics Lab, who led the audit. "They're rating how curated it
-feels."
+> People aren't rating the tool. They're rating how curated it feels.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab, who
+> led the audit
 
 "Every one of these assistants was set up separately, by whoever had the
 access-control list to hand at the time," said Dr Renke Sabel, Senior Lecturer

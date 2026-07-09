@@ -27,10 +27,12 @@ For the School of Emergent Priorities, the gap sits alongside a longer-running
 question about how a label outlives the reasoning that assigned it, once
 advising conversations settle into treating the one as shorthand for the other.
 
-"You can hear which one the label is in the first thirty seconds of an advising
-conversation," said Dr Anneke Tolan, Senior Research Fellow in the School of
-Emergent Priorities. "You can go a whole semester and never hear the criteria
-mentioned at all."
+> You can hear which one the label is in the first thirty seconds of an advising
+> conversation. You can go a whole semester and never hear the criteria
+> mentioned at all.
+>
+> --- Dr Anneke Tolan, Senior Research Fellow in the School of Emergent
+> Priorities
 
 "A day-one instrument that's never revisited isn't advisory in anything but
 name," said Professor Verity Marris, Director of the Trajectory Analytics Group

@@ -25,10 +25,11 @@ specificity held steady under the rule-based system and declined as the adaptive
 classifier's accuracy rose, a pattern the team also tested against a
 transparency feature intended to counteract it.
 
-"This work opens important conversations about how a system that gets better at
-reading us changes what we're willing to tell it," said Associate Professor
-Casimir Beng, Lead of the Adaptive Metrics Lab in the School of Continuous
-Improvement.
+> This work opens important conversations about how a system that gets better at
+> reading us changes what we're willing to tell it.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab in the
+> School of Continuous Improvement
 
 The University is proud to extend its evaluation-ecosystem agenda into the
 mechanics of its own service desks.

@@ -25,9 +25,10 @@ a schedule of its own, and the two seldom agreed.
 What did track the self-assessment, closely, was whether a shared photocopier's
 stand-by light was seen lit at the moment of the walkthrough.
 
-"A warden checking a floor at the end of a long day reads the room the room
-gives them," said Dr Nwosu. "The light is the room's evidence. It just isn't the
-meter's."
+> A warden checking a floor at the end of a long day reads the room the room
+> gives them. The light is the room's evidence. It just isn't the meter's.
+>
+> --- Dr Nwosu
 
 Dr Sabel, whose work traces how an institution's indicators persist once
 adopted, called the finding consistent with a pattern the School has followed

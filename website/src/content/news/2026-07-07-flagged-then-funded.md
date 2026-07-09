@@ -22,9 +22,11 @@ status update. Only one tracked the outcome with any consistency: update-volume
 percentile predicted resourcing with moderate-to-strong reliability, while
 novelty percentile performed little above chance.
 
-"The Register was built to tell us what's coming. It's fair to ask what it's
-actually measuring in the meantime," said Professor Verity Marris, Director of
-the Trajectory Analytics Group in the School of Emergent Priorities.
+> The Register was built to tell us what's coming. It's fair to ask what it's
+> actually measuring in the meantime.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "The next version of the Register should be harder to satisfy with a status
 update alone," said Dr Petra Umbile, Postdoctoral Fellow in the School of

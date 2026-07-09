@@ -30,9 +30,10 @@ panel on 61 of the 214 renewals. Across eight renewal cycles the share of
 top-tier permits going to the most thoroughly completed applications rose
 steadily, while the share going to the highest-need quartile held flat.
 
-"We are grateful to the staff who filled in these forms, twice a year, without
-knowing that the care they took was the thing being measured," said Dr Okoro,
-Senior Lecturer and Convenor of the Horizon Register.
+> We are grateful to the staff who filled in these forms, twice a year, without
+> knowing that the care they took was the thing being measured.
+>
+> --- Dr Okoro, Senior Lecturer and Convenor of the Horizon Register
 
 The publication continues a line of work the School has made its own: how a
 stated priority becomes a rank, and a rank becomes a decision.

@@ -29,10 +29,12 @@ majority of pairs; the guesses at authorship landed within chance. The School
 reads the result as confirmation that its compliance tooling has finally caught
 up with the pace of the review calendar it supports.
 
-"What surprised us wasn't that the Loom's entries read well," said Dr Mirela
-Hanke, Postdoctoral Fellow in the School of Continuous Improvement and the
-paper's lead author. "It's that our own panel couldn't tell us, on request,
-which entries were which — only that they preferred one kind."
+> What surprised us wasn't that the Loom's entries read well. It's that our own
+> panel couldn't tell us, on request, which entries were which — only that they
+> preferred one kind.
+>
+> --- Dr Mirela Hanke, Postdoctoral Fellow in the School of Continuous
+> Improvement and the paper's lead author
 
 "A blind trial like this one is exactly the kind of question the Evaluation of
 Evaluation program exists to keep asking," said Dr Dagny Okafor, Lecturer and

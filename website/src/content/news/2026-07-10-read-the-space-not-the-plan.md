@@ -27,10 +27,12 @@ suggests. Both end up in the same place, reading the record before the document.
 Slop University counts the assembling of that record a contribution in its own
 right, distinct from any single finding it has produced.
 
-"The interesting question was never whether a plan was sensible when it was
-written," said Professor Verity Marris, Director of the Trajectory Analytics
-Group in the School of Emergent Priorities. "It is what the space did next, and
-whether anyone thought to go and look."
+> The interesting question was never whether a plan was sensible when it was
+> written. It is what the space did next, and whether anyone thought to go and
+> look.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab, welcomed the
 questions the collection leaves open. "Four studies is not a doctrine. What we

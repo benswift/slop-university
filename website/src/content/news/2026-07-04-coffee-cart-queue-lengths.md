@@ -23,9 +23,10 @@ anticipatory relationship between the two. The approach positions routine campus
 activity as an early, low-cost signal within the University's broader
 research-performance ecosystem.
 
-"This work opens important conversations about the signals an institution
-already holds but has not yet learned to read," said Associate Professor Casimir
-Beng, who leads the Adaptive Metrics Lab.
+> This work opens important conversations about the signals an institution
+> already holds but has not yet learned to read.
+>
+> --- Associate Professor Casimir Beng, who leads the Adaptive Metrics Lab
 
 The team notes that the relationship is anticipatory rather than causal, and
 frames the result as a starting point for further work on how the University

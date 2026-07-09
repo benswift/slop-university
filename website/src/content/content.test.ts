@@ -109,6 +109,17 @@ describe("news entries", () => {
     }
   });
 
+  it("promote at most one quote to a pull-quote blockquote", () => {
+    // comms.md sets the first roster quote as a blockquote and leaves any
+    // later one inline. Two blockquotes turn the release into a pull-quote
+    // gallery, which the genre it imitates never does.
+    for (const file of newsFiles) {
+      const body = readFileSync(join(contentDir, "news", file), "utf8").split(/^---$/m)[2] ?? "";
+      const blocks = body.split(/\n\s*\n/).filter((p) => p.trimStart().startsWith(">"));
+      expect(blocks.length, `${file} pull-quotes`).toBeLessThanOrEqual(1);
+    }
+  });
+
   it("carry a filename date prefix that matches the frontmatter date", () => {
     for (const file of newsFiles) {
       const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");

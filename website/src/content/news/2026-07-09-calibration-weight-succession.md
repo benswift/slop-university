@@ -25,13 +25,15 @@ drift check against a certified external standard, and, the part earlier
 informal arrangements kept skipping, a named successor identified while the
 outgoing custodian is still around to brief them.
 
-"Every indicator we run eventually touches this scale, so the scale itself
-needed the same discipline we ask of everything downstream of it," said
-Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab. Dr Renke
-Sabel, Senior Lecturer in the School of Continuous Improvement, is co-grantee:
-"An indicator that outlives the person who understood it is exactly the pattern
-we've spent years cataloguing elsewhere. It felt overdue to point the same lens
-at our own bench."
+> Every indicator we run eventually touches this scale, so the scale itself
+> needed the same discipline we ask of everything downstream of it.
+>
+> --- Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab
+
+Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement, is
+co-grantee: "An indicator that outlives the person who understood it is exactly
+the pattern we've spent years cataloguing elsewhere. It felt overdue to point
+the same lens at our own bench."
 
 The award reflects the School's ongoing case that stewardship is infrastructure,
 not an afterthought improvised at the point someone resigns.

@@ -21,9 +21,10 @@ of contact for the first time since its founding. The School frames the
 appointment as a natural formalising of a function its own indicator work had
 already been performing, informally, for some time.
 
-"Once tracking cadence is actually someone's job, you start noticing which of
-our own commitments were already keeping better time than others," said Dr Osei
-Vandermeer, the Observatory's new Convenor.
+> Once tracking cadence is actually someone's job, you start noticing which of
+> our own commitments were already keeping better time than others.
+>
+> --- Dr Osei Vandermeer, the Observatory's new Convenor
 
 "The Observatory has quietly shaped how the School understands its own rhythms
 for a while now; it's fitting that it has someone named to keep an eye on it,"

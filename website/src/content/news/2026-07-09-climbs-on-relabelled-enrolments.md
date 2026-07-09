@@ -30,10 +30,11 @@ The University treats a composite index as fair game for the same scrutiny it
 turns on everything else it measures, whichever office the index happens to
 serve.
 
-"An index that has to satisfy two mandates from one number will always find the
-cheaper one to move first," said Dr Renke Sabel, Senior Lecturer in the School
-of Continuous Improvement. "Relabelling a seat is cheaper than opening one, so
-that is the lever the Index found."
+> An index that has to satisfy two mandates from one number will always find the
+> cheaper one to move first. Relabelling a seat is cheaper than opening one, so
+> that is the lever the Index found.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 "We ask this question about every seminar and every review cycle in the School,"
 said Dr Bram Ntuli, Lecturer and Convenor of Improvement Grand Rounds. "It was

@@ -25,10 +25,11 @@ standing in for. Associate Professor Beng's session takes the Adaptive Metrics
 Lab's own dashboards as its first case study, on the view that a school studying
 measurement owes its audience an accounting of its own.
 
-"Every instrument we run started as a proxy for something we cared about more
-directly," said Associate Professor Beng. "The interesting failures happen
-quietly, well after everyone has stopped checking whether the proxy still points
-the same way."
+> Every instrument we run started as a proxy for something we cared about more
+> directly. The interesting failures happen quietly, well after everyone has
+> stopped checking whether the proxy still points the same way.
+>
+> --- Associate Professor Beng
 
 The University regards Grand Rounds as one of the clearest windows onto how the
 School holds itself to its own standard, and this session continues that habit

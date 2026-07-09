@@ -29,10 +29,11 @@ sensor had been doing. Neither test found a difference the other side of noise.
 The School reads a validated null result as exactly the kind of finding its own
 evaluation mandate exists to produce.
 
-"Every occupancy-aware system we operate is going to need this same kind of
-check eventually," said Associate Professor Beng, Lead of the Adaptive Metrics
-Lab. "We'd rather run it ourselves, on our own lawn, than wait for someone else
-to ask."
+> Every occupancy-aware system we operate is going to need this same kind of
+> check eventually. We'd rather run it ourselves, on our own lawn, than wait for
+> someone else to ask.
+>
+> --- Associate Professor Beng, Lead of the Adaptive Metrics Lab
 
 "The interesting number here isn't the correlation, it's the two per cent," said
 Dr Hanke, Postdoctoral Fellow in the School of Continuous Improvement. "That's

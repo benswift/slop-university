@@ -22,9 +22,10 @@ assistant's own defect-flagging accuracy across four consecutive software
 releases. The assistant's accuracy rose steadily over the study period; the
 attention index moved in the opposite direction.
 
-"This work opens important conversations about how we measure what matters once
-a tool starts doing part of the job for us," said Associate Professor Casimir
-Beng, who leads the Adaptive Metrics Lab.
+> This work opens important conversations about how we measure what matters once
+> a tool starts doing part of the job for us.
+>
+> --- Associate Professor Casimir Beng, who leads the Adaptive Metrics Lab
 
 The findings reflect the University's ongoing commitment to instrumenting the
 tools its own staff rely on every day. The team notes that hiding the

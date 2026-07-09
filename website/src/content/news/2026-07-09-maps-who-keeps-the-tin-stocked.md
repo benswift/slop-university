@@ -26,9 +26,11 @@ lock, and a parallel stash kept outside the tin altogether --- distributed
 differently across professional and academic roles depending on how close each
 sits to the supplier relationship.
 
-"A protocol is a commitment with a use-by date nobody wrote on it," said Dr
-Solheim. "The network we found is what happens after that date passes and nobody
-has said so out loud."
+> A protocol is a commitment with a use-by date nobody wrote on it. The network
+> we found is what happens after that date passes and nobody has said so out
+> loud.
+>
+> --- Dr Solheim
 
 The School of Emergent Priorities reads the finding as consistent with its wider
 interest in how a settlement outlives the conditions that justified it, without

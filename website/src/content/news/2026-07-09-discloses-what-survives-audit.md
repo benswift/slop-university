@@ -30,11 +30,13 @@ left the figure unmoved. The School reads the result as a case study in the kind
 of instrument its own agenda exists to examine, turning the scrutiny it built
 for other dashboards on one of its own.
 
-"Interviewing your own subcommittee is an uncomfortable kind of research to
-run," said Dr Okafor, Lecturer and Convenor of the School's Evaluation of
-Evaluation program. "But it's exactly the kind the School exists to do — turn
-the same instruments on ourselves that we would apply to anyone else's
-transparency reporting."
+> Interviewing your own subcommittee is an uncomfortable kind of research to
+> run. But it's exactly the kind the School exists to do — turn the same
+> instruments on ourselves that we would apply to anyone else's transparency
+> reporting.
+>
+> --- Dr Okafor, Lecturer and Convenor of the School's Evaluation of Evaluation
+> program
 
 The method treats the Statement as an audit object rather than a document that
 speaks for itself: transcripts and tracker logs, coded independently and checked

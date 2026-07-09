@@ -26,10 +26,12 @@ the association didn't survive once wording was controlled for.
 The result leaves the School with an instrument audited twice over, and no
 closer to a number it can act on.
 
-"We built the second layer to find out whether the first layer's silence meant
-the drift had actually stopped," said Dr Anneke Tolan, Senior Research Fellow in
-the School of Emergent Priorities. "What it found out is closer to what we
-already knew about how the first layer worked, applied one level up."
+> We built the second layer to find out whether the first layer's silence meant
+> the drift had actually stopped. What it found out is closer to what we already
+> knew about how the first layer worked, applied one level up.
+>
+> --- Dr Anneke Tolan, Senior Research Fellow in the School of Emergent
+> Priorities
 
 "An instrument that stops finding what it was built to find is usually a
 candidate for retirement, not a second layer," said Dr Renke Sabel, Senior

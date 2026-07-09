@@ -24,9 +24,11 @@ holding seniority and prior training constant. Engagement rose with reported
 vividness, and the department reporting the least vivid mental picture returned
 least often.
 
-"This work opens important conversations about how much of what we call
-engagement is really a question of whether the picture lands," said Dr Petra
-Umbile, a Postdoctoral Fellow in the School of Emergent Priorities.
+> This work opens important conversations about how much of what we call
+> engagement is really a question of whether the picture lands.
+>
+> --- Dr Petra Umbile, a Postdoctoral Fellow in the School of Emergent
+> Priorities
 
 The work reflects the University's ongoing commitment to making its own
 instruments legible to everyone asked to read them.

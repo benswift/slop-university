@@ -32,10 +32,11 @@ University's own measurement specialists cannot, on this evidence, hold its
 central assessment instrument steady across the people who take turns drafting
 it.
 
-"We built this design to find out whether the rubric was reading the work or the
-work was reading the rubric committee," said Dr Renke Sabel, Senior Lecturer in
-the School of Continuous Improvement. "It turned out to be the second one, and
-that is not a comfortable thing to learn about your own flagship program."
+> We built this design to find out whether the rubric was reading the work or
+> the work was reading the rubric committee. It turned out to be the second one,
+> and that is not a comfortable thing to learn about your own flagship program.
+>
+> --- Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement
 
 Dr Mirela Hanke, Postdoctoral Fellow in the School of Continuous Improvement,
 recognised the pattern from her own work on the University's dashboards. "An

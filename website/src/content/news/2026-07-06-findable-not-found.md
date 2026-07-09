@@ -23,10 +23,11 @@ queries, with how often a session ended in a patron actually opening a full-text
 item or placing a hold. The offline score nearly doubled across the study
 period; the rate at which searches ended in something found barely moved.
 
-"This work opens important conversations about how much of a system's
-improvement actually reaches the person searching it," said Professor Verity
-Marris, Director of the Trajectory Analytics Group in the School of Emergent
-Priorities.
+> This work opens important conversations about how much of a system's
+> improvement actually reaches the person searching it.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 The release marks a significant milestone in the University's ongoing work to
 understand its research and teaching systems from the inside out.

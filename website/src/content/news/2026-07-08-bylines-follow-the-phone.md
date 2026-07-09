@@ -30,11 +30,13 @@ Both Schools place the finding within a wider effort to reconcile what a stated
 authorship policy promises with what a fixed external deadline quietly ends up
 rewarding instead.
 
-"The policy has always said contribution decides the order, and nobody we spoke
-to thought that was being ignored," said Professor Verity Marris, Director of
-the Trajectory Analytics Group in the School of Emergent Priorities. "What we
-found is a second, faster clock running underneath it, and most people had
-simply stopped noticing which one was actually setting the time."
+> The policy has always said contribution decides the order, and nobody we spoke
+> to thought that was being ignored. What we found is a second, faster clock
+> running underneath it, and most people had simply stopped noticing which one
+> was actually setting the time.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "It's the kind of finding you can only see once you go looking for the thing
 nobody wrote a policy about," said Dr Petra Umbile, Postdoctoral Fellow in the

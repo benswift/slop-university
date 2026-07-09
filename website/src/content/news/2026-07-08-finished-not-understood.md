@@ -31,11 +31,12 @@ completion time not at all.
 The School places the study within a longer effort to ask what its own
 instruments certify when nobody is watching them do it.
 
-"The certificate was only ever a record that someone reached the end of the
-module," said Professor Verity Marris, Director of the Trajectory Analytics
-Group in the School of Emergent Priorities. "We had been reporting it upward as
-though it were a record of something else. This was us checking the size of the
-difference."
+> The certificate was only ever a record that someone reached the end of the
+> module. We had been reporting it upward as though it were a record of
+> something else. This was us checking the size of the difference.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "What a completion rate counts and what leadership reads into it are not the
 same measurement," said Dr Petra Umbile, Postdoctoral Fellow in the School of

@@ -12,10 +12,11 @@ description:
 output: slop-poster-validating-the-role-continuity-odkzun
 ---
 
-"A post that was never formally closed is a post the Classifier has no reason to
-believe was ever open," said Dr Marek Solheim, Lecturer in the School of
-Emergent Priorities. "That is the whole of it. The roles we let lapse quietly
-are the roles that come back as strangers."
+> A post that was never formally closed is a post the Classifier has no reason
+> to believe was ever open. That is the whole of it. The roles we let lapse
+> quietly are the roles that come back as strangers.
+>
+> --- Dr Marek Solheim, Lecturer in the School of Emergent Priorities
 
 Dr Solheim and Dr Mirela Hanke, Postdoctoral Fellow in the School of Continuous
 Improvement, put the University's Role-Continuity Classifier in front of a panel

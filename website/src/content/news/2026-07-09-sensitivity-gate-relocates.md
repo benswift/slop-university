@@ -32,10 +32,11 @@ For a gate introduced to control timing rather than readership, the School of
 Emergent Priorities is treating the result as a distinction worth re-examining
 rather than a failure worth concealing.
 
-"The gate was built to slow down when a scanning item became visible, not to
-decide who eventually knew what was in it," said Dr Okoro, Senior Lecturer and
-Convenor of the Horizon Register. "Those turned out to be two different
-questions, and we had only ever been answering the first one."
+> The gate was built to slow down when a scanning item became visible, not to
+> decide who eventually knew what was in it. Those turned out to be two
+> different questions, and we had only ever been answering the first one.
+>
+> --- Dr Okoro, Senior Lecturer and Convenor of the Horizon Register
 
 "An access list tells you who is allowed to open a file. It has never told us
 who ends up carrying what was in it," said Dr Anneke Tolan, Senior Research

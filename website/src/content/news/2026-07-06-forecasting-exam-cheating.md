@@ -21,8 +21,9 @@ date each tool's first workaround was reported. The drift index consistently led
 the report by several weeks, offering the University a stable early-warning
 window ahead of detection rather than after it.
 
-"This work opens up an earlier point in the policy cycle than we've had before,"
-said Professor Verity Marris, who leads the Trajectory Analytics Group.
+> This work opens up an earlier point in the policy cycle than we've had before.
+>
+> --- Professor Verity Marris, who leads the Trajectory Analytics Group
 
 The team is careful to note that the relationship is anticipatory rather than
 causal, and that a genuinely new class of tool can still surprise the model. The

@@ -31,9 +31,10 @@ from a participant's prior work barely moved either way.
 The School reads the result as exactly the kind of check a self-reported
 efficiency figure ought to invite before its next renewal cycle.
 
-"Once a number is visible, people respond to the number," said Dr Ntuli,
-Lecturer and Convenor of Improvement Grand Rounds. "We just wanted to know what
-they were responding to."
+> Once a number is visible, people respond to the number. We just wanted to know
+> what they were responding to.
+>
+> --- Dr Ntuli, Lecturer and Convenor of Improvement Grand Rounds
 
 "A metric that only reports usage was always going to need a companion," said
 Associate Professor Casimir Beng, Lead of the Adaptive Metrics Lab. "The Lab

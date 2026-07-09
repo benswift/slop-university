@@ -12,9 +12,10 @@ description:
 output: slop-paper-an-agentic-intake-7682cb
 ---
 
-"An item used to wait for someone with a free afternoon," said Dr Anouk Mensah,
-Postdoctoral Fellow in the School of Emergent Priorities. "Now it waits for a
-date the system already set for it at the door."
+> An item used to wait for someone with a free afternoon. Now it waits for a
+> date the system already set for it at the door.
+>
+> --- Dr Anouk Mensah, Postdoctoral Fellow in the School of Emergent Priorities
 
 That system, the Lost Property Ledger, has run at six of the University's
 staffed collection points for fourteen months, replacing the paper logbook that

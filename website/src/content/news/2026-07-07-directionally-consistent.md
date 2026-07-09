@@ -31,10 +31,12 @@ Improvement's own quarterly reporting, where the same figures were
 characterised, cycle over cycle, in steadily warmer terms than the numbers ever
 changed.
 
-"A finding that fails to repeat is still information," said Professor Verity
-Marris, Director of the Trajectory Analytics Group in the School of Emergent
-Priorities. "The interesting part turned out to be what the University did with
-it afterwards, not the replication itself."
+> A finding that fails to repeat is still information. The interesting part
+> turned out to be what the University did with it afterwards, not the
+> replication itself.
+>
+> --- Professor Verity Marris, Director of the Trajectory Analytics Group in the
+> School of Emergent Priorities
 
 "Watching your own reporting cycle get read this closely is not entirely
 comfortable," said Associate Professor Casimir Beng, Lead of the Adaptive

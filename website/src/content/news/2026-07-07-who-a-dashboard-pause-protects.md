@@ -12,10 +12,11 @@ description:
 output: slop-paper-surveying-staff-on-q39tzj
 ---
 
-"The number staff most wanted was never in the survey," said Dr Osei Vandermeer,
-Research Fellow and Convenor of the Review Cadence Observatory in the School of
-Continuous Improvement. "They wanted to know whether being paused meant anything
-at all."
+> The number staff most wanted was never in the survey. They wanted to know
+> whether being paused meant anything at all.
+>
+> --- Dr Osei Vandermeer, Research Fellow and Convenor of the Review Cadence
+> Observatory in the School of Continuous Improvement
 
 New findings from the School of Continuous Improvement compare eighteen
 University initiatives --- nine placed in Improvement-Holding Status, a practice

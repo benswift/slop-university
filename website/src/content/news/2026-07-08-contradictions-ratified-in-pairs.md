@@ -33,11 +33,13 @@ rather do in the open than leave for someone else to notice, on a register it
 keeps precisely because a scanning process accumulates more than any committee
 reads at once.
 
-"The Committee has always adjudicated a signal on its own merits, which is
-exactly what it is asked to do," said Dr Ingrid Vasseur, Lecturer and Convenor
-of Futures in Committee in the School of Emergent Priorities. "What this
-catalogue shows us is how much we were never in a position to see, because the
-two entries were never once put on the table together."
+> The Committee has always adjudicated a signal on its own merits, which is
+> exactly what it is asked to do. What this catalogue shows us is how much we
+> were never in a position to see, because the two entries were never once put
+> on the table together.
+>
+> --- Dr Ingrid Vasseur, Lecturer and Convenor of Futures in Committee in the
+> School of Emergent Priorities
 
 Dr Petra Umbile, Postdoctoral Fellow in the School of Emergent Priorities,
 placed the count within her own work on how a record's categories decide what it
