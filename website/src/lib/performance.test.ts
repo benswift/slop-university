@@ -1,23 +1,33 @@
 import { describe, expect, it } from "vitest";
-import { academicFte, chartSvg, countBy, cumulativeByYear } from "./performance";
+import { academicFte, chartSvg, cumulativeByDay } from "./performance";
 
-describe("countBy", () => {
-  it("counts occurrences per key", () => {
-    const counts = countBy(["a", "b", "a", "a"], (s) => s);
-    expect(counts).toEqual([
-      { key: "a", count: 3 },
-      { key: "b", count: 1 },
+const item = (date: string, series: string) => ({ date: new Date(date), series });
+
+describe("cumulativeByDay", () => {
+  it("accumulates each series independently, in day order", () => {
+    expect(
+      cumulativeByDay([
+        item("2026-07-06", "posters"),
+        item("2026-07-04", "papers"),
+        item("2026-07-06", "papers"),
+      ]),
+    ).toEqual([
+      { date: "2026-07-04", series: "papers", outputs: 1 },
+      { date: "2026-07-06", series: "posters", outputs: 1 },
+      { date: "2026-07-06", series: "papers", outputs: 2 },
     ]);
   });
-});
 
-describe("cumulativeByYear", () => {
-  it("accumulates monotonically over sorted years", () => {
-    const dates = [new Date("2027-03-01"), new Date("2026-07-04"), new Date("2027-11-20")];
-    expect(cumulativeByYear(dates)).toEqual([
-      { year: "2026", outputs: 1 },
-      { year: "2027", outputs: 3 },
+  it("emits one point per day, carrying the day's final total", () => {
+    const sameDay = [item("2026-07-08", "papers"), item("2026-07-08", "papers")];
+    expect(cumulativeByDay(sameDay)).toEqual([
+      { date: "2026-07-08", series: "papers", outputs: 2 },
     ]);
+  });
+
+  it("buckets by UTC day, so a date-only entry can't slip to the day before", () => {
+    const [point] = cumulativeByDay([item("2026-07-04T00:00:00Z", "papers")]);
+    expect(point.date).toBe("2026-07-04");
   });
 });
 

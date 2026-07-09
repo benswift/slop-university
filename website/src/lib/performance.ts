@@ -19,34 +19,46 @@ export function academicFte(): number {
   return roster.researchers.length;
 }
 
-export function countBy<T>(items: T[], key: (item: T) => string): { key: string; count: number }[] {
-  const counts = new Map<string, number>();
-  for (const item of items) {
-    const k = key(item);
-    counts.set(k, (counts.get(k) ?? 0) + 1);
+export interface SeriesPoint {
+  date: string;
+  series: string;
+  outputs: number;
+}
+
+// Dates come out of the collection as UTC midnight (a date-only yml scalar), so
+// bucket them in UTC too: a local-time accessor would slide an output into the
+// previous day whenever the build machine sits west of Greenwich.
+const day = (d: Date): string => d.toISOString().slice(0, 10);
+
+// One cumulative point per day a series published, each series climbing
+// monotonically on its own count --- the spec draws the flat stretches between
+// a series' publication days, so days it sits out need no point of their own.
+export function cumulativeByDay(items: { date: Date; series: string }[]): SeriesPoint[] {
+  const running = new Map<string, number>();
+  // Keyed by day and series: a second output on the same day updates the point
+  // in place, leaving the day's final cumulative total at its first position.
+  const points = new Map<string, SeriesPoint>();
+  for (const { date, series } of items.toSorted((a, b) => a.date.valueOf() - b.date.valueOf())) {
+    const outputs = (running.get(series) ?? 0) + 1;
+    running.set(series, outputs);
+    points.set(`${day(date)} ${series}`, { date: day(date), series, outputs });
   }
-  return [...counts.entries()].map(([k, count]) => ({ key: k, count }));
-}
-
-function outputsByYear(dates: Date[]): { key: string; count: number }[] {
-  return countBy(dates, (d) => String(d.getFullYear())).toSorted((a, b) =>
-    a.key.localeCompare(b.key),
-  );
-}
-
-// Cumulative outputs climb monotonically, as the sector expects.
-export function cumulativeByYear(dates: Date[]): { year: string; outputs: number }[] {
-  let cumulative = 0;
-  return outputsByYear(dates).map(({ key, count }) => {
-    cumulative += count;
-    return { year: key, outputs: cumulative };
-  });
+  return [...points.values()];
 }
 
 // The slop palette for Vega-Lite --- theme colours, never library defaults.
 // Charts are static SVG baked at build time, so each spec renders twice (a
 // light and a dark variant) and CSS shows the one matching the site theme.
 const gold = "#b97d1c";
+
+// Categorical series, in the same two-ink register as the brand package's
+// `slop-categorical`: gold leads, then the ink (inverted to cream on the dark
+// surface, where near-black would vanish), then the warm grey. Series also
+// carry a stroke dash, so the lines stay separable without a third hue.
+const categorical = {
+  light: [gold, "#1a1a1a", "#6b6154"],
+  dark: [gold, "#e4ddd0", "#a39887"],
+};
 
 export function vlConfig(mode: "light" | "dark") {
   const grey = mode === "dark" ? "#a39887" : "#6b6154";
@@ -66,6 +78,8 @@ export function vlConfig(mode: "light" | "dark") {
       // labels otherwise.
       labelLimit: 0,
     },
+    legend: { labelColor: grey, titleColor: grey, labelFontSize: 12, labelLimit: 0 },
+    range: { category: categorical[mode] },
     view: { stroke: null },
     bar: { color: gold },
     line: { color: gold, strokeWidth: 2.5 },

@@ -8,8 +8,8 @@ import Icon from "astro-theme-university/components/Icon.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
-import { presetIcons, presetLabels } from "../../lib/outputs";
-import { academicFte, chartSvg, cumulativeByYear, vlConfig } from "../../lib/performance";
+import { presetIcons, presetLabels, presetSeries, seriesOrder } from "../../lib/outputs";
+import { academicFte, chartSvg, cumulativeByDay, vlConfig } from "../../lib/performance";
 import { outputHero, pageHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
 
@@ -47,31 +47,66 @@ const stats = [
   },
 ];
 
-// One chart carries the trend line --- and the whole build-time Vega-Lite
+// One chart carries the trend lines --- and the whole build-time Vega-Lite
 // pipeline (static SVG, light/dark bake, slop palette) as a live reference for
 // when the dashboard grows back. Renders twice; CSS shows the matching theme.
+//
+// The repository deposits daily, so the x axis is a day-resolution UTC scale
+// (matching how the collection stores its dates); step-after holds each series
+// flat between its own deposits rather than sloping between them, which is what
+// a cumulative count actually does.
 const spec: TopLevelSpec = {
-  data: { values: cumulativeByYear(allOutputs.map((o) => o.data.date)) },
-  mark: { type: "line", point: true },
+  data: {
+    values: cumulativeByDay(
+      allOutputs.map((o) => ({ date: o.data.date, series: presetSeries[o.data.preset] })),
+    ),
+  },
+  mark: { type: "line", point: true, interpolate: "step-after" },
   encoding: {
-    x: { field: "year", type: "ordinal", title: "Year" },
+    x: {
+      field: "date",
+      type: "temporal",
+      scale: { type: "utc" },
+      title: "Date",
+      // tickMinStep is in scale-domain units --- one day of milliseconds ---
+      // so a short range can't sprout sub-day ticks, and a long one still
+      // gets however many day-aligned ticks Vega thinks fit.
+      axis: { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 },
+    },
     y: {
       field: "outputs",
       type: "quantitative",
       title: "Cumulative outputs",
       axis: { tickMinStep: 1 },
     },
+    // Colour and dash encode the same field with the same (null) title, so
+    // Vega-Lite merges them into a single legend.
+    color: {
+      field: "series",
+      type: "nominal",
+      title: null,
+      scale: { domain: [...seriesOrder] },
+      legend: { orient: "top-left" },
+    },
+    strokeDash: {
+      field: "series",
+      type: "nominal",
+      title: null,
+      // Vega's default dashes are too fine to read at this stroke width.
+      scale: { domain: [...seriesOrder], range: [[1, 0], [6, 3], [2, 2]] },
+    },
   },
   width: 640,
   height: 220,
 };
-const chart = firstPage
-  ? {
-      label: "Cumulative research outputs by year",
-      light: await chartSvg({ ...spec, config: vlConfig("light") }),
-      dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
-    }
-  : undefined;
+const chart =
+  firstPage && allOutputs.length > 0
+    ? {
+        label: "Cumulative research outputs by day, split by output type",
+        light: await chartSvg({ ...spec, config: vlConfig("light") }),
+        dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
+      }
+    : undefined;
 ---
 
 <ContentLayout

@@ -8,6 +8,20 @@ export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], 
   "impact-report": "Impact report",
 };
 
+// The trend chart on the outputs index plots one line per series. Papers and
+// posters carry the repository, so they each get a line; the institutional
+// genres are pooled, and any preset added later joins the pool rather than
+// stranding a one-point line on the chart.
+export const seriesOrder = ["Research papers", "Research posters", "Other outputs"] as const;
+
+export const presetSeries: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+  paper: "Research papers",
+  "research-poster": "Research posters",
+  brochure: "Other outputs",
+  strategy: "Other outputs",
+  "impact-report": "Other outputs",
+};
+
 // iconoir glyph per preset, for the type badge on output cards. Names must be
 // valid iconoir icons (the theme's Icon component adds the `iconoir:` prefix).
 export const presetIcons: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
