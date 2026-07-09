@@ -221,13 +221,14 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 
   .cite-as {
     /* Two inks for the citation's syntax: the accent carries the structure
-       (@misc, the field names), the bronze the cite key. Both are darkened in
-       light mode and lifted in dark, the way the theme derives --at-link, so
-       gold-on-cream still clears contrast. */
+       (@misc, the field names), the warm grey the cite key --- far enough off
+       the gold to read as a different thing, where the bronze only read as a
+       duller gold. Both are darkened in light mode and lifted in dark, the way
+       the theme derives --at-link, so gold-on-cream still clears contrast. */
     --cite-accent: light-dark(oklch(from var(--at-primary) calc(l - 0.1) c h), var(--at-primary));
     --cite-key: light-dark(
-      var(--at-secondary),
-      oklch(from var(--at-secondary) calc(l + 0.28) c h)
+      var(--at-tertiary),
+      oklch(from var(--at-tertiary) calc(l + 0.28) c h)
     );
 
     border: 1px solid var(--at-divider);
@@ -246,6 +247,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 
   .cite-as .key {
     color: var(--cite-key);
+    font-weight: 600;
   }
 
   .cite-as .value {
