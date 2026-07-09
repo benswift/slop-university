@@ -163,13 +163,15 @@ fi
 # through unjudged --- the allowlist gates the agent, not the human whose repo
 # this is. The allowlist covers the gap-driven tick's whole surface: research
 # outputs (news + outputs + PDFs, plus each output's pipeline-optimised
-# thumbnail and hero under src/assets/{outputs/thumbs,heroes/outputs}), grown
-# pages, and the canon it edits (roster, schools, headshots, and canon/heroes
-# for headshot-derived profile heroes). Note the tick may only touch heroes
+# thumbnail and hero under src/assets/{outputs/thumbs,heroes/outputs}), grant
+# awards (content/grants/ --- but NOT canon/grants.yml: the tick awards from
+# existing schemes only; adding a scheme is a human action), grown pages, and
+# the canon it edits (roster, schools, headshots, and canon/heroes for
+# headshot-derived profile heroes). Note the tick may only touch heroes
 # UNDER outputs/ --- the hand-built index and homepage heroes elsewhere in
 # src/assets/heroes are deliberately excluded. The denylist carves the one
 # out-of-fiction page (colophon) back out of the otherwise-allowed pages/ dir.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages)/|website/src/assets/(outputs/thumbs|heroes/outputs)/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|website/src/assets/(outputs/thumbs|heroes/outputs)/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
