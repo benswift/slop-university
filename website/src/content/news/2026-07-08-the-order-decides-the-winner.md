@@ -12,34 +12,33 @@ description:
 output: slop-poster-validating-whether-a-ersjnp
 ---
 
-Show a Demo Quarter review panel the same two showcase entries in reverse
-order, and there is roughly a one-in-three chance it changes its mind about
-which one wins.
+Show a Demo Quarter review panel the same two showcase entries in reverse order,
+and there is roughly a one-in-three chance it changes its mind about which one
+wins.
 
-The result comes from a School of Continuous Improvement study led by Dr
-Dagny Okafor, testing the pairwise-comparison instrument the quarterly
-Masters-program showcase has used to shortlist entries since 2025. Rerunning
-286 live comparisons from six cycles with presentation order reversed, the
-team found the instrument's winner held steady only when the original margin
-between entries was already wide; pairs decided by the narrowest margins
-flipped nearly ten times as often as the clearest ones.
+The result comes from a School of Continuous Improvement study led by Dr Dagny
+Okafor, testing the pairwise-comparison instrument the quarterly Masters-program
+showcase has used to shortlist entries since 2025. Rerunning 286 live
+comparisons from six cycles with presentation order reversed, the team found the
+instrument's winner held steady only when the original margin between entries
+was already wide; pairs decided by the narrowest margins flipped nearly ten
+times as often as the clearest ones.
 
-For the School, the audit stands as a marker of the same scrutiny it asks
-every measurement instrument on campus to withstand, including its own.
+For the School, the audit stands as a marker of the same scrutiny it asks every
+measurement instrument on campus to withstand, including its own.
 
 The team paired the instrument's Bradley-Terry ranking model against a
 reversed-order replay of each judgement, holding rater identity and scoring
-thresholds constant so that display order was the only variable left to
-move. Projected onto the live shortlist, the reversal would have swapped
-roughly a fifth of this year's Demo Quarter slots.
+thresholds constant so that display order was the only variable left to move.
+Projected onto the live shortlist, the reversal would have swapped roughly a
+fifth of this year's Demo Quarter slots.
 
-"It says something about how much weight we'd put on the instrument's
-word," says Dr Dagny Okafor, Lecturer and Convenor of the Evaluation of
-Evaluation program. "We're glad to know it now rather than at the next
-shortlist."
+"It says something about how much weight we'd put on the instrument's word,"
+says Dr Dagny Okafor, Lecturer and Convenor of the Evaluation of Evaluation
+program. "We're glad to know it now rather than at the next shortlist."
 
-"We'll be watching whether a fixed double-pass changes the picture," says
-Dr Renke Sabel, Senior Lecturer in the School of Continuous Improvement.
+"We'll be watching whether a fixed double-pass changes the picture," says Dr
+Renke Sabel, Senior Lecturer in the School of Continuous Improvement.
 
-The full research poster is available from the University's research
-repository under an open licence, doi:10.5555/slop.ersjnp.
+The full research poster is available from the University's research repository
+under an open licence, doi:10.5555/slop.ersjnp.

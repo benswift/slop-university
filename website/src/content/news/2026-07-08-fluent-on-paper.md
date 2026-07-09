@@ -11,19 +11,18 @@ description:
 output: slop-poster-comparing-ai-tool-fluency-2rdi9d
 ---
 
-How a research student rates their own command of the University's AI tools,
-and how they perform when actually set a task with them, are two different
+How a research student rates their own command of the University's AI tools, and
+how they perform when actually set a task with them, are two different
 measurements. A new poster from the School of Continuous Improvement reports
 that, across a full postgraduate cohort, the two barely move together.
 
 The study set a single intake a standardised battery of tool tasks, scored
-without reference to how confidently each student had rated themselves after
-the mandatory AI-literacy module, and compared the results. Across 118
-students, self-rated fluency accounted for under two per cent of the variation
-in measured task scores; the certification threshold, the team reports,
-admitted strong and weak performers in much the same proportion. What the
-self-assessment separated cleanly was not task score but how quickly a student
-had finished the module.
+without reference to how confidently each student had rated themselves after the
+mandatory AI-literacy module, and compared the results. Across 118 students,
+self-rated fluency accounted for under two per cent of the variation in measured
+task scores; the certification threshold, the team reports, admitted strong and
+weak performers in much the same proportion. What the self-assessment separated
+cleanly was not task score but how quickly a student had finished the module.
 
 The University presents the work as an instance of the scrutiny it asks of its
 own instruments. "A measure everyone trusts and no one has checked against

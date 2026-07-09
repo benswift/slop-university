@@ -11,11 +11,11 @@ description:
 output: slop-poster-stapling-a-summary-gw64x7
 ---
 
-Give an Evaluation-of-Evaluation panel two copies of the same dossier,
-identical but for a one-page summary chart, and it will score them as though
-they described different cases. That is the finding of a new study from the
-School of Continuous Improvement, which set out to test whether a review built
-to weigh substance can tell substance apart from the way it is presented.
+Give an Evaluation-of-Evaluation panel two copies of the same dossier, identical
+but for a one-page summary chart, and it will score them as though they
+described different cases. That is the finding of a new study from the School of
+Continuous Improvement, which set out to test whether a review built to weigh
+substance can tell substance apart from the way it is presented.
 
 Across three review cycles and fifty-eight panellists, the team paired each
 dossier with a chart-bearing twin and held everything else fixed,

@@ -19,15 +19,15 @@ University's hands as much as the student's.
 The prospectus sets out a practice the School of Emergent Priorities has been
 extending inward: the Horizon Register, built to track the priorities the
 University has on approach, now reads each incoming application the same way,
-weighing it against the trajectories of everyone who came before and returning
-a personalised pathway before orientation week. The document frames this not as
-a service a student requests but as one already underway by the time they
-arrive, calibrated by the same measurement discipline the School of Continuous
+weighing it against the trajectories of everyone who came before and returning a
+personalised pathway before orientation week. The document frames this not as a
+service a student requests but as one already underway by the time they arrive,
+calibrated by the same measurement discipline the School of Continuous
 Improvement applies to the rest of the institution.
 
-For a University whose recent output has mostly turned its instruments on itself,
-the prospectus is a quieter kind of statement: the first time it has described,
-for a prospective reader, what those instruments are for.
+For a University whose recent output has mostly turned its instruments on
+itself, the prospectus is a quieter kind of statement: the first time it has
+described, for a prospective reader, what those instruments are for.
 
 "An application already tells you more about where someone is heading than they
 have usually put into words," said Professor Verity Marris, Director of the
