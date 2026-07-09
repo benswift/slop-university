@@ -274,13 +274,10 @@ const chart =
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
   }
 
-  /* base.css gives every block-level svg the paragraph flow rhythm
-     (`margin-block: 0 1em`). Inside the centred flex row that margin is part of
-     the icon's margin box, so the glyph gets centred an em too high. The svg
-     comes from the Icon component, so it carries no scope attribute of ours ---
-     an unqualified `.type-badge svg` compiles to a selector that never matches. */
+  /* The svg comes from the Icon component, so it carries no scope attribute of
+     ours --- an unqualified `.type-badge svg` compiles to a selector that never
+     matches. */
   .type-badge :global(svg) {
     flex-shrink: 0;
-    margin-block: 0;
   }
 </style>
