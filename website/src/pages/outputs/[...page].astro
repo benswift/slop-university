@@ -60,102 +60,126 @@ const stats = [
     : []),
 ];
 
-// The trend charts carry the whole build-time Vega-Lite pipeline (static SVG,
-// light/dark bake, slop palette). Each renders twice; CSS shows the matching
+// The trend chart carries the whole build-time Vega-Lite pipeline (static SVG,
+// light/dark bake, slop palette). It renders twice; CSS shows the matching
 // theme.
 //
+// Outputs (counts) and funding (dollars) can't share a y axis, so they're
+// stacked as two panels of one concat spec resolving x as a *shared* scale:
+// one union domain, one set of ticks, and `align: "all"` puts both plot areas
+// on the same grid however wide each y axis's labels turn out to be. The
+// funding panel only appears once there's an award to draw.
+const hasFunding = allGrants.length > 0;
+
+// Funding is awarded rarely --- often a single deposit, sitting wherever it
+// falls on the outputs axis. Seeding the series at zero on the first output's
+// day makes the line climb from the axis origin instead of hanging in space as
+// one detached point. cumulativeByDay adds `value`, so a zero contributes no
+// dollars; it only pins the series' start.
+const firstOutputDay = allOutputs.reduce<Date | undefined>(
+  (earliest, o) => (!earliest || o.data.date < earliest ? o.data.date : earliest),
+  undefined,
+);
+const fundingSeries = [
+  ...(firstOutputDay ? [{ date: firstOutputDay, series: "funding", value: 0 }] : []),
+  ...allGrants.map((g) => ({ date: g.data.date, series: "funding", value: g.data.value })),
+];
+
 // The repository deposits daily, so the x axis is a day-resolution UTC scale
 // (matching how the collections store their dates); step-after holds each
 // series flat between its own deposits rather than sloping between them, which
 // is what a cumulative total actually does.
+//
+// tickMinStep is in scale-domain units --- one day of milliseconds --- so a
+// short range can't sprout sub-day ticks, and a long one still gets however
+// many day-aligned ticks Vega thinks fit.
+const dateAxis = { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 };
 const spec: TopLevelSpec = {
-  data: {
-    values: cumulativeByDay(
-      allOutputs.map((o) => ({ date: o.data.date, series: presetSeries[o.data.preset] })),
-    ),
-  },
-  mark: { type: "line", point: true, interpolate: "step-after" },
-  encoding: {
-    x: {
-      field: "date",
-      type: "temporal",
-      scale: { type: "utc" },
-      title: "Date",
-      // tickMinStep is in scale-domain units --- one day of milliseconds ---
-      // so a short range can't sprout sub-day ticks, and a long one still
-      // gets however many day-aligned ticks Vega thinks fit.
-      axis: { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 },
+  concat: [
+    {
+      data: {
+        values: cumulativeByDay(
+          allOutputs.map((o) => ({ date: o.data.date, series: presetSeries[o.data.preset] })),
+        ),
+      },
+      mark: { type: "line", point: true, interpolate: "step-after" },
+      encoding: {
+        // The shared scale draws one "Date" title, under the bottom panel.
+        x: {
+          field: "date",
+          type: "temporal",
+          scale: { type: "utc" },
+          title: hasFunding ? null : "Date",
+          axis: dateAxis,
+        },
+        y: {
+          field: "total",
+          type: "quantitative",
+          title: "Cumulative outputs",
+          scale: { zero: true },
+          axis: { tickMinStep: 1 },
+        },
+        // Colour and dash encode the same field with the same (null) title, so
+        // Vega-Lite merges them into a single legend.
+        color: {
+          field: "series",
+          type: "nominal",
+          title: null,
+          scale: { domain: [...seriesOrder] },
+          legend: { orient: "top-left" },
+        },
+        strokeDash: {
+          field: "series",
+          type: "nominal",
+          title: null,
+          // Vega's default dashes are too fine to read at this stroke width.
+          scale: { domain: [...seriesOrder], range: [[1, 0], [6, 3], [2, 2]] },
+        },
+      },
+      width: 640,
+      height: 200,
     },
-    y: {
-      field: "total",
-      type: "quantitative",
-      title: "Cumulative outputs",
-      axis: { tickMinStep: 1 },
-    },
-    // Colour and dash encode the same field with the same (null) title, so
-    // Vega-Lite merges them into a single legend.
-    color: {
-      field: "series",
-      type: "nominal",
-      title: null,
-      scale: { domain: [...seriesOrder] },
-      legend: { orient: "top-left" },
-    },
-    strokeDash: {
-      field: "series",
-      type: "nominal",
-      title: null,
-      // Vega's default dashes are too fine to read at this stroke width.
-      scale: { domain: [...seriesOrder], range: [[1, 0], [6, 3], [2, 2]] },
-    },
-  },
-  width: 640,
-  height: 220,
+    // A single series takes the config's gold line, no legend needed.
+    ...(hasFunding
+      ? [
+          {
+            data: { values: cumulativeByDay(fundingSeries) },
+            mark: { type: "line" as const, point: true, interpolate: "step-after" as const },
+            encoding: {
+              x: {
+                field: "date",
+                type: "temporal" as const,
+                scale: { type: "utc" as const },
+                title: "Date",
+                axis: dateAxis,
+              },
+              y: {
+                field: "total",
+                type: "quantitative" as const,
+                title: "Cumulative funding (A$)",
+                scale: { zero: true },
+                axis: { format: "$,.0f" },
+              },
+            },
+            width: 640,
+            height: 200,
+          },
+        ]
+      : []),
+  ],
+  columns: 1,
+  align: "all",
+  spacing: 32,
+  resolve: { scale: { x: "shared" } },
 };
 const chart =
   firstPage && allOutputs.length > 0
     ? {
-        label: "Cumulative research outputs by day, split by output type",
+        label: hasFunding
+          ? "Cumulative research outputs by day split by output type, above cumulative research funding awarded on the same day axis"
+          : "Cumulative research outputs by day, split by output type",
         light: await chartSvg({ ...spec, config: vlConfig("light") }),
         dark: await chartSvg({ ...spec, config: vlConfig("dark") }),
-      }
-    : undefined;
-
-// Awarded funding climbs on the same day axis, in dollars rather than counts
-// --- different units, so it gets its own chart rather than a second y axis.
-// A single series takes the config's gold line, no legend needed.
-const fundingSpec: TopLevelSpec = {
-  data: {
-    values: cumulativeByDay(
-      allGrants.map((g) => ({ date: g.data.date, series: "funding", value: g.data.value })),
-    ),
-  },
-  mark: { type: "line", point: true, interpolate: "step-after" },
-  encoding: {
-    // The same day-resolution UTC x axis as the outputs chart above.
-    x: {
-      field: "date",
-      type: "temporal",
-      scale: { type: "utc" },
-      title: "Date",
-      axis: { format: "%d %b", tickMinStep: 24 * 60 * 60 * 1000 },
-    },
-    y: {
-      field: "total",
-      type: "quantitative",
-      title: "Cumulative funding (A$)",
-      axis: { format: "$,.0f" },
-    },
-  },
-  width: 640,
-  height: 220,
-};
-const fundingChart =
-  firstPage && allGrants.length > 0
-    ? {
-        label: "Cumulative research funding awarded by day",
-        light: await chartSvg({ ...fundingSpec, config: vlConfig("light") }),
-        dark: await chartSvg({ ...fundingSpec, config: vlConfig("dark") }),
       }
     : undefined;
 ---
@@ -189,29 +213,9 @@ const fundingChart =
   {
     chart && (
       <>
-        <h2>Outputs over time</h2>
+        <h2>Outputs and funding over time</h2>
         <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
         <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
-      </>
-    )
-  }
-
-  {
-    fundingChart && (
-      <>
-        <h2>Funding over time</h2>
-        <div
-          class="chart chart-light"
-          role="img"
-          aria-label={fundingChart.label}
-          set:html={fundingChart.light}
-        />
-        <div
-          class="chart chart-dark"
-          role="img"
-          aria-label={fundingChart.label}
-          set:html={fundingChart.dark}
-        />
       </>
     )
   }
