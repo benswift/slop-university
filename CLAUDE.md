@@ -51,6 +51,12 @@ Slop University is a persistent fiction: its people, schools, and units live in
   in `canon/headshots/`, eyeballed for accidental real-person likeness.
 - `canon/schools.md` --- school, unit, and lab names. Never invent an org unit
   inside a run; add it to the canon first.
+- `canon/grants.yml` --- the internal funding schemes and prizes (all funders
+  are Slop University bodies; no external funder, real or invented). Never
+  invent a scheme inside a run; award events reference schemes by id and live in
+  `website/src/content/grants/`. Scheme additions require a name-collision check
+  (no real funding scheme, fellowship, or prize may share the name) --- the
+  admission procedure is in the file's header.
 
 ## Conventions
 

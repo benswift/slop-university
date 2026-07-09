@@ -69,13 +69,21 @@ comms-speak, or with the school's agenda --- rotate against the recent eight.
 ## Hedged-commitment discipline (hard)
 
 Media-release voice loves verifiable numbers, and **every one is forbidden**: no
-grant dollars ("$4.2M" → "significant external investment"), no rankings
-("ranked first in the region" → "recognised across the sector"), no dated
-targets, no partner-organisation names (archetype descriptions only, per the
-impact-report doctrine, and rarely needed in a release). Significance is
+external grant dollars ("$4.2M" → "significant external investment"), no
+rankings ("ranked first in the region" → "recognised across the sector"), no
+dated targets, no partner-organisation names (archetype descriptions only, per
+the impact-report doctrine, and rarely needed in a release). Significance is
 asserted without a checkable referent. Numbers from _inside the artefact_ (its
 n, its effect sizes) may be echoed --- they're part of the fiction --- but
 nothing about the institution itself is quantified.
+
+The one carve-out: **internal award values**. A dollar figure attached to a
+grant or prize from a `canon/grants.yml` scheme is fiction-internal --- the
+funder is a Slop University body, so there is no registry to check the amount
+against --- and may be stated exactly ("$48,750 under the Indicator Stewardship
+Seed Fund"). The carve-out covers only amounts recorded in
+`website/src/content/grants/*.yml`; everything else about the institution stays
+unquantified.
 
 ## Rules
 

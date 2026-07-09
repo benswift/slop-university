@@ -20,7 +20,10 @@ which grows this site over time.
   anywhere except the footer's existing "About this project" link.
 - **No verifiable factual claims.** Nothing checkable-and-falsifiable; no
   fabricated regulatory codes (CRICOS etc.); no real organisations named as
-  partners.
+  partners. The one carve-out is **internal award values**: a dollar figure on a
+  grant or prize from a `canon/grants.yml` scheme is fiction-internal (the
+  funder is a Slop University body; there is no registry to check it against)
+  and may be stated exactly.
 - **No real people.** Every named person comes from `canon/roster.yml` (with
   their canonical title and school); every org unit from `canon/schools.md`.
 - **DOIs only under `10.5555/slop.<seed>`**, resolving via the site's own
@@ -43,6 +46,10 @@ fills one gap. Its editable surface is exactly the wrapper's allowlist:
   the About page. Never `colophon.md` (the wrapper's denylist rejects it).
 - **Research outputs** --- news posts and output entries (the tick's default
   action).
+- **Grants and prizes** --- award entries (`website/src/content/grants/`) from
+  the schemes in `canon/grants.yml`, each announced by a news post (the 2I
+  rung). The schemes themselves are human-added only --- `canon/grants.yml` is
+  outside the wrapper's allowlist.
 
 The research-performance dashboard and the page routes under `src/pages/` are
 built by hand (like this pass), not grown by the tick.
@@ -99,7 +106,17 @@ built by hand (like this pass), not grown by the tick.
   card); the optional `subtitle` renders as a deck beneath the hero (mirroring
   the output landing page), carrying the specificity the headline trims.
   `description` is the card body and social/meta text --- not shown on the post
-  itself.
+  itself. A grant announcement instead carries `grant:` (the grants entry id);
+  the post appends the award's details box and is the award's public record.
+- `src/content/grants/*.yml` --- one entry per awarded grant or prize
+  (`<date>-<slug>.yml`: name, scheme, date, grantees, value, summary), each
+  referencing a scheme in `canon/grants.yml` (loaded in place as the
+  `grantSchemes` collection). No per-grant pages: grants render on people
+  profiles ("Grants and awards" + the research-income indicator), on the output
+  landing pages that attach them (outputs frontmatter `grants:` list), and on
+  the outputs dashboard (funding tiles and chart). The content test enforces the
+  seams: grantees resolve to roster pages, schemes exist in the canon, and
+  attached grants exist and predate their outputs.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
   generated from the outputs collection --- no per-output page authoring.
 

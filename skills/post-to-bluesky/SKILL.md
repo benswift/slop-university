@@ -52,13 +52,19 @@ posts were about so the new one covers different ground.
 
 Post about **any existing, already-live aspect** of Slop University --- not this
 run's fresh work (there is none on a 2G run). Read `canon/roster.yml`,
-`canon/schools.yml`, and `website/src/content/outputs/*.yml`, and pick one:
+`canon/schools.yml`, `website/src/content/outputs/*.yml`, and
+`website/src/content/grants/*.yml`, and pick one:
 
 - a **research output** worth resurfacing --- `outputs/<id>`, link
   `https://slop.university/outputs/<id>`
 - a **researcher** --- `people/<id>`, link `https://slop.university/people/<id>`
 - a **school, unit, or lab** --- `schools/<id>`, link
   `https://slop.university/schools/<id>`
+- a **grant or prize** (`website/src/content/grants/*.yml`) --- link its
+  announcing news post, `https://slop.university/news/<news id>` (grants have no
+  landing page of their own). The internal-award-value carve-out in
+  `../publish/comms.md` applies: the exact dollar figure is fair game as hook
+  material.
 - the **institution** in general --- link `https://slop.university`
 
 Favour variety against the recent feed (don't resurface the same output two

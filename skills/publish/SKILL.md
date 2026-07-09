@@ -5,8 +5,9 @@ description:
   inspects the department for its most glaring gap and fills exactly ONE:
   refine a thin researcher bio or school blurb, grow a page, add a roster
   researcher or org unit, post institutional news (an event, an appointment, a
-  milestone), or (when the department is coherent) generate one new Slop
-  University research output with its press release, DOI, and news post. Stages everything into website/, verifies the
+  milestone), award a grant or prize from a canon scheme, or (when the
+  department is coherent) generate one new Slop University research output
+  with its press release, DOI, and news post. Stages everything into website/, verifies the
   site builds green, and makes ONE atomic commit (never push). Non-interactive;
   designed for `claude -p "/publish"` under the cron wrapper. Use when invoked
   with `/publish`.
@@ -36,8 +37,9 @@ mechanically.
   publish commit must contain only this run's changes.
 - On branch `main`.
 - Read `website/CLAUDE.md` (the hard floors), `canon/roster.yml`,
-  `canon/schools.yml`, `canon/schools.md` (the org doctrine), and `comms.md`
-  (sibling file --- the press-release register).
+  `canon/schools.yml`, `canon/schools.md` (the org doctrine), `canon/grants.yml`
+  (the funding schemes), and `comms.md` (sibling file --- the press-release
+  register).
 
 ## 1. Assess the department --- choose ONE action
 
@@ -68,16 +70,21 @@ already coherent.
    1. **2G (post to socials)** if the account is due --- the `@slop.university`
       Bluesky account has been quiet for ~20 hours and no post is already staged
       (the precise gate lives in `../post-to-bluesky/SKILL.md`).
-   2. **2H (institutional news)** if the newsroom is due --- the newest news
+   2. **2I (award a grant or prize)** if funding is due --- the newest grants
+      entry (`website/src/content/grants/*.yml`) is older than ~5 days (or none
+      exists) AND some roster researcher with three or more authored outputs
+      appears in no grant's `grantees`. Recognition lags output; this rung lets
+      it catch up one researcher at a time without starving the rungs below.
+   3. **2H (institutional news)** if the newsroom is due --- the newest news
       post _without_ an `output` field is older than ~3 days (or none exists). A
       real university's news feed is mostly not paper announcements; ours must
       not be either. This sits ahead of 2A deliberately: with no output cap, 2A
       is otherwise due every tick and would starve the newsroom.
-   3. **2A (new research output)** --- the default action for a coherent
+   4. **2A (new research output)** --- the default action for a coherent
       department. There is no daily cap: Slop University is gleefully,
       unrealistically productive, and a firehose of outputs is the joke, not a
       bug. On an hourly cron most coherent runs land here.
-   4. **Nothing is due** → do nothing: log "no action due", leave the tree
+   5. **Nothing is due** → do nothing: log "no action due", leave the tree
       untouched, exit zero. Rare now that 2A is uncapped --- reachable only when
       the generation itself aborts.
 
@@ -281,8 +288,17 @@ verifiable numbers). Then:
   school), `date`, `doi`, `summary` (1-2 sentence abstract of the fictional
   work, institutional register --- not the press release's standfirst), `topic`
   (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pages` (from
-  pdfinfo), `version: "1.0"`. The thumbnail and hero carry no yml field --- they
-  resolve by matching a file basename to the entry id (see below).
+  pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
+  thumbnail and hero carry no yml field --- they resolve by matching a file
+  basename to the entry id (see below).
+- **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
+  `grantees` include one of this output's authors, its `date` precedes the
+  output's, and its remit plausibly covers the topic, list its entry id under
+  `grants:` in the outputs entry --- the landing page renders the funding
+  acknowledgement and the dashboard counts the income. Attach every grant that
+  qualifies (a mundane study propped up by several internal schemes is the genre
+  working); omit the field when none does. Never invent a grant here ---
+  awarding one is action 2I.
 
 ### Stage assets into website/
 
@@ -431,6 +447,41 @@ reads straight, no winks.
 **Files:** the one news post (plus `canon/roster.yml` only for a title-changing
 appointment).
 
+## 2I. Award a grant or prize
+
+An award event: one grant or prize from a canon scheme to roster grantees, plus
+the news post announcing it. Grants are not outputs --- no DOI, no PDF, no
+generated artefact, no hero; the entry and its announcement are the whole
+deposit, and the news post is the award's public record (grants have no landing
+page).
+
+- **Scheme**: choose from `canon/grants.yml` --- never invent one, and never
+  edit that file (adding a scheme is a human action; the wrapper's allowlist
+  excludes it). Favour the scheme awarded least recently.
+- **Grantees**: roster names, led by the researcher who tripped the gate (three
+  or more outputs, unfunded), plus at most one co-grantee whose school fits the
+  scheme's funder.
+- **Name**: the funded project's title (for a grant) or the prize citation (for
+  a prize), in the funder's register. The satire floor from 2A binds: a
+  picturable object under institutional treatment. Dedup against existing grant
+  names and output titles.
+- **Value discipline (hard)**: whole australian dollars, oddly precise --- never
+  a round thousand, never an amount any earlier grant used. Grants land in
+  roughly $7,000-$95,000; prizes in $250-$5,000. A scale comically mismatched to
+  the work's triviality is encouraged. The amount is the one sanctioned class of
+  precise institutional numbers --- an internal scheme has no external registry
+  to falsify it (see the carve-out in `comms.md`).
+- **Grant entry** → `website/src/content/grants/<date>-<slug>.yml` with: `name`,
+  `scheme` (the canon scheme id), `date` (today, ISO --- it must match the
+  filename prefix), `grantees` (roster names), `value`, `summary` (1-2
+  sentences, institutional register: what the money is for).
+- **News post** → `website/src/content/news/<date>-<slug>.md`, comms register
+  per `comms.md`, frontmatter `grant: <grant entry id>` and no `output` field.
+  The release may state the value exactly (the carve-out); the site appends the
+  award's details box from the entry, so the body needn't restate every field.
+
+**Files:** the grant entry and the news post.
+
 ---
 
 ## 3. Verify the site
@@ -460,12 +511,15 @@ the action:
 - **2E:** `canon/roster.yml`, `canon/headshots/<id>.jpg`.
 - **2H:** `website/src/content/news/<date>-<slug>.md` (plus `canon/roster.yml`
   only for a title-changing appointment).
+- **2I:** `website/src/content/grants/<date>-<slug>.yml`,
+  `website/src/content/news/<date>-<slug>.md`.
 
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,
 `publish: bio — Petra Umbile`,
 `publish: school blurb — Trajectory Analytics Group`,
 `publish: news — Improvement Grand Rounds returns for spring`,
+`publish: grant — Indicator Stewardship Seed Fund to Okoro ($48,750)`,
 `publish: roster — add <name>`. One commit, on `main`. **Do not push** --- the
 wrapper validates and pushes. Do not touch `.github/workflows/`, `public/CNAME`,
 `public/robots.txt`, `site-config.ts`, `colophon.md`, or any doctrine file; the
