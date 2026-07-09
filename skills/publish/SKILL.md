@@ -315,8 +315,10 @@ verifiable numbers). Then:
   is the source, not a hand-sized thumbnail.
 - Hero --- a landscape 16:9 banner in the two-ink house style, reused on the
   output landing page, its outputs-listing card, and the announcing news post (a
-  news post has no image of its own; it inherits its output's hero). Author the
-  prompt per `skills/_shared/visual-style.md` and pick refs per
+  post that announces an output has no image of its own; it inherits that
+  output's hero. A post announcing no output --- a grant award or an
+  institutional notice --- carries its own; see 2H and 2I). Author the prompt
+  per `skills/_shared/visual-style.md` and pick refs per
   `skills/_shared/image-workflow.md`; generate at `--aspect-ratio 16:9`
   `--resolution 4K`, encode to AVIF →
   `website/src/assets/heroes/outputs/<run-id>.avif`.
@@ -444,16 +446,21 @@ pathology exhibit (the seminar about dashboards, the award for measurement
 excellence, the consultation about a decision already made) --- but the post
 reads straight, no winks.
 
-**Files:** the one news post (plus `canon/roster.yml` only for a title-changing
-appointment).
+The post announces no output, so it has no output hero to inherit: generate its
+own, per **News heroes** below.
+
+**Files:** the one news post, its hero
+(`website/src/assets/heroes/news/<date>-<slug>.avif`), plus `canon/roster.yml`
+only for a title-changing appointment.
 
 ## 2I. Award a grant or prize
 
 An award event: one grant or prize from a canon scheme to roster grantees, plus
 the news post announcing it. Grants are not outputs --- no DOI, no PDF, no
-generated artefact, no hero; the entry and its announcement are the whole
-deposit, and the news post is the award's public record (grants have no landing
-page).
+generated artefact; the entry and its announcement are the whole deposit, and
+the news post is the award's public record (grants have no landing page). The
+announcement still carries a hero: it announces no output, so there is none to
+inherit, and it generates its own per **News heroes** below.
 
 - **Scheme**: choose from `canon/grants.yml` --- never invent one, and never
   edit that file (adding a scheme is a human action; the wrapper's allowlist
@@ -480,7 +487,30 @@ page).
   The release may state the value exactly (the carve-out); the site appends the
   award's details box from the entry, so the body needn't restate every field.
 
-**Files:** the grant entry and the news post.
+**Files:** the grant entry, the news post, and the post's hero
+(`website/src/assets/heroes/news/<date>-<slug>.avif`).
+
+---
+
+## News heroes (2H and 2I)
+
+A news post that announces an output inherits that output's hero. A post that
+announces none --- a grant award (2I) or an institutional notice (2H) ---
+carries its own, so that every page on the site has one.
+
+Same recipe as the output hero in 2A, keyed by the **news entry id** rather than
+a run id: author the prompt per `skills/_shared/visual-style.md`, pick refs per
+`skills/_shared/image-workflow.md`, generate at `--aspect-ratio 16:9`
+`--resolution 4K`, encode to AVIF →
+`website/src/assets/heroes/news/<date>-<slug>.avif` (basename === the news entry
+id, i.e. the post's filename with `.avif` for `.md`). It resolves through
+`newsHero` in `src/lib/heroes.ts`.
+
+The scene is the post's own subject under the house style's flat two-ink
+treatment --- the apparatus the grant funds, the object the notice concerns ---
+never a portrait of the named researcher (headshots are the canon's job, and a
+hero that tries to depict a specific roster face invites the drift the portrait
+convention exists to prevent).
 
 ---
 
@@ -509,10 +539,12 @@ the action:
 - **2C:** `canon/schools.yml`.
 - **2D:** the one page under `website/src/content/pages/`.
 - **2E:** `canon/roster.yml`, `canon/headshots/<id>.jpg`.
-- **2H:** `website/src/content/news/<date>-<slug>.md` (plus `canon/roster.yml`
+- **2H:** `website/src/content/news/<date>-<slug>.md`,
+  `website/src/assets/heroes/news/<date>-<slug>.avif` (plus `canon/roster.yml`
   only for a title-changing appointment).
 - **2I:** `website/src/content/grants/<date>-<slug>.yml`,
-  `website/src/content/news/<date>-<slug>.md`.
+  `website/src/content/news/<date>-<slug>.md`,
+  `website/src/assets/heroes/news/<date>-<slug>.avif`.
 
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,

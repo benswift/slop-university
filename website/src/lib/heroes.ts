@@ -1,6 +1,6 @@
 import type { ImageMetadata } from "astro";
 
-// Page hero banners, all optimised through astro:assets. Three families, each
+// Page hero banners, all optimised through astro:assets. Four families, each
 // resolved by the entry id (basename === id), mirroring the headshots
 // convention. Heroes are landscape (16:9). A missing hero resolves to
 // undefined and the layout falls back to a plain heading --- so pages render
@@ -8,12 +8,12 @@ import type { ImageMetadata } from "astro";
 //
 // Each glob pattern must be a static string literal, so they all live here.
 //
-//   - output heroes: website content, under src/assets/heroes/outputs/
+//   - output + news heroes: website content, under src/assets/heroes/
 //   - person + school heroes: canon-derived (like canon/headshots/), so they
 //     sit in canon/ and the publish tick can regenerate them
 // Standalone page heroes (index pages etc.), keyed by a stable name:
 // src/assets/heroes/<name>.avif. Non-recursive, so it never collides with the
-// outputs/ subfamily below.
+// outputs/ and news/ subfamilies below.
 const pageHeroes = import.meta.glob<{ default: ImageMetadata }>("../assets/heroes/*.avif", {
   eager: true,
 });
@@ -21,6 +21,9 @@ const outputHeroes = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/heroes/outputs/*.avif",
   { eager: true },
 );
+const newsHeroes = import.meta.glob<{ default: ImageMetadata }>("../assets/heroes/news/*.avif", {
+  eager: true,
+});
 const personHeroes = import.meta.glob<{ default: ImageMetadata }>(
   "../../../canon/heroes/people/*.avif",
   { eager: true },
@@ -46,6 +49,24 @@ export function pageHero(name: string): ImageMetadata | undefined {
 /** Landscape hero for an output landing / listing card, if present. */
 export function outputHero(id: string): ImageMetadata | undefined {
   return resolve(outputHeroes, id);
+}
+
+/**
+ * Landscape hero for a news post that announces no output --- a grant award or
+ * an institutional notice. A post announcing an output inherits that output's
+ * hero instead; use `newsPostHero` rather than choosing between them by hand.
+ */
+export function newsHero(id: string): ImageMetadata | undefined {
+  return resolve(newsHeroes, id);
+}
+
+/**
+ * The hero a news post renders with: its output's, if it announces one, else
+ * its own. Both the post and its listing card resolve through here, so the
+ * two never disagree.
+ */
+export function newsPostHero(id: string, outputId?: string): ImageMetadata | undefined {
+  return outputId ? outputHero(outputId) : newsHero(id);
 }
 
 /** Landscape hero for a researcher's profile, generated from their headshot. */

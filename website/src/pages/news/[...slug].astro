@@ -5,7 +5,7 @@ import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, personIdByName } from "../../lib/canon";
 import { formatAud, getSchemes, schemeById } from "../../lib/grants";
-import { outputHero } from "../../lib/heroes";
+import { newsPostHero } from "../../lib/heroes";
 import { fullTitle } from "../../lib/outputs";
 
 export async function getStaticPaths() {
@@ -19,8 +19,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const output = entry.data.output ? await getEntry("outputs", entry.data.output) : undefined;
-// A press release shares the hero of the output it announces.
-const hero = output ? outputHero(output.id) : undefined;
+// A press release shares the hero of the output it announces; a grant award or
+// an institutional notice carries its own.
+const hero = newsPostHero(entry.id, output?.id);
 
 // A grant announcement closes with the award's details --- the news post is
 // the award's public record (grants have no landing page of their own).

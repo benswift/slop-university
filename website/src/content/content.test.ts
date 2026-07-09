@@ -92,6 +92,23 @@ describe("news entries", () => {
     }
   });
 
+  it("carry a hero: an output post inherits its output's, any other has its own", () => {
+    // Mirrors newsPostHero() in lib/heroes.ts. A post announcing an output
+    // shows that output's hero; a grant award or an institutional notice
+    // announces none, so it must ship src/assets/heroes/news/<id>.avif.
+    const assetsDir = join(contentDir, "..", "assets", "heroes");
+    for (const file of newsFiles) {
+      const id = file.replace(/\.mdx?$/, "");
+      const output = readFileSync(join(contentDir, "news", file), "utf8").match(
+        /^output:\s*(\S+)\s*$/m,
+      )?.[1];
+      const hero = output
+        ? join(assetsDir, "outputs", `${output}.avif`)
+        : join(assetsDir, "news", `${id}.avif`);
+      expect(existsSync(hero), `${id} hero (${hero})`).toBe(true);
+    }
+  });
+
   it("carry a filename date prefix that matches the frontmatter date", () => {
     for (const file of newsFiles) {
       const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");

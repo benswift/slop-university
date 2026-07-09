@@ -9,7 +9,7 @@ import Pagination from "astro-theme-university/components/Pagination.astro";
 import heroImage from "../assets/images/hero.avif";
 import OpenGraph from "../components/OpenGraph.astro";
 import { siteConfig } from "../site-config";
-import { outputHero } from "../lib/heroes";
+import { newsPostHero } from "../lib/heroes";
 
 // Rest-param pagination: page 1 renders at /, later pages at /2, /3, ...
 export const getStaticPaths = (async ({ paginate }) => {
@@ -67,7 +67,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
         <Card
           title={entry.data.title}
           href={`/news/${entry.id}/`}
-          image={entry.data.output ? outputHero(entry.data.output) : undefined}
+          image={newsPostHero(entry.id, entry.data.output)}
           imageAlt=""
           headingLevel="h2"
         >

@@ -66,11 +66,15 @@ built by hand (like this pass), not grown by the tick.
   Resolvers live in `src/lib/heroes.ts`: `pageHero(name)` for standalone/index
   pages (`src/assets/heroes/<name>.avif`), `outputHero(id)` for outputs
   (`src/assets/heroes/outputs/<id>.avif`, reused on the announcing news post),
-  and `personHero(id)` / `schoolHero(id)` for canon profiles
+  `newsHero(id)` for a news post that announces no output --- a grant award or
+  an institutional notice --- (`src/assets/heroes/news/<id>.avif`), and
+  `personHero(id)` / `schoolHero(id)` for canon profiles
   (`canon/heroes/{people,schools}/<id>.avif`, generated with the headshot as a
-  reference so the researcher appears in a landscape scene). A missing hero
-  resolves to `undefined` and the page falls back to a plain `<h1>`, so pages
-  render before their art exists.
+  reference so the researcher appears in a landscape scene). A news post and its
+  listing card both resolve through `newsPostHero(id, outputId)`, which picks
+  between the output's hero and the post's own, so the two never disagree. A
+  missing hero resolves to `undefined` and the page falls back to a plain
+  `<h1>`, so pages render before their art exists.
 - Longer pages may break up the text with the occasional inline image. In
   markdown, reference it by a **relative** path (`![alt](./foo.avif)`) so it
   routes through the pipeline --- never an absolute `public/` path or a remote
@@ -107,7 +111,10 @@ built by hand (like this pass), not grown by the tick.
   the output landing page), carrying the specificity the headline trims.
   `description` is the card body and social/meta text --- not shown on the post
   itself. A grant announcement instead carries `grant:` (the grants entry id);
-  the post appends the award's details box and is the award's public record.
+  the post appends the award's details box and is the award's public record. A
+  post announcing an output shows that output's hero; a post announcing a grant,
+  or announcing nothing (an institutional notice), carries its own at
+  `src/assets/heroes/news/<id>.avif`.
 - `src/content/grants/*.yml` --- one entry per awarded grant or prize
   (`<date>-<slug>.yml`: name, scheme, date, grantees, value, summary), each
   referencing a scheme in `canon/grants.yml` (loaded in place as the
