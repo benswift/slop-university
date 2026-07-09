@@ -1,6 +1,15 @@
 import type { CollectionEntry } from "astro:content";
 import { describe, expect, it } from "vitest";
-import { bibtex, bibtexTokens, fullTitle, presetLabels } from "./outputs";
+import {
+  bibtex,
+  bibtexTokens,
+  fullTitle,
+  presetLabels,
+  seriesFacets,
+  seriesOrder,
+  seriesSlugs,
+  type Preset,
+} from "./outputs";
 
 const entry: CollectionEntry<"outputs">["data"] = {
   title: "The Queue as Leading Indicator",
@@ -88,6 +97,37 @@ describe("presetLabels", () => {
   it("labels every preset the schema allows", () => {
     for (const preset of ["research-poster", "paper", "brochure", "strategy", "impact-report"] as const) {
       expect(presetLabels[preset]).toBeTruthy();
+    }
+  });
+});
+
+const outputs = (...presets: Preset[]) => presets.map((preset) => ({ preset }));
+
+describe("seriesFacets", () => {
+  it("counts each series and keeps them in seriesOrder", () => {
+    expect(seriesFacets(outputs("brochure", "paper", "research-poster", "paper"))).toEqual([
+      { series: "Research papers", slug: "papers", count: 2 },
+      { series: "Research posters", slug: "posters", count: 1 },
+      { series: "Other outputs", slug: "other", count: 1 },
+    ]);
+  });
+
+  it("pools every institutional genre into one facet", () => {
+    expect(seriesFacets(outputs("brochure", "strategy", "impact-report"))).toEqual([
+      { series: "Other outputs", slug: "other", count: 3 },
+    ]);
+  });
+
+  // A facet route is only built where there's something to show, so a pill for
+  // an empty series would link at a 404.
+  it("omits a series with no outputs", () => {
+    expect(seriesFacets(outputs("paper")).map((f) => f.slug)).toEqual(["papers"]);
+    expect(seriesFacets([])).toEqual([]);
+  });
+
+  it("slugs every series the chart plots", () => {
+    for (const series of seriesOrder) {
+      expect(seriesSlugs[series]).toMatch(/^[a-z]+$/);
     }
   });
 });

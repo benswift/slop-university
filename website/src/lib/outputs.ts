@@ -1,6 +1,8 @@
 import type { CollectionEntry } from "astro:content";
 
-export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+export type Preset = CollectionEntry<"outputs">["data"]["preset"];
+
+export const presetLabels: Record<Preset, string> = {
   "research-poster": "Research poster",
   paper: "Research paper",
   brochure: "Brochure",
@@ -11,19 +13,22 @@ export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], 
 // Short forms for the type badge on output cards, where the icon already
 // carries the "research artefact" sense and the pill has to stay narrow. The
 // long labels above still cover the citation note and the metadata table.
-export const presetBadgeLabels: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+export const presetBadgeLabels: Record<Preset, string> = {
   ...presetLabels,
   "research-poster": "Poster",
   paper: "Paper",
 };
 
-// The trend chart on the outputs index plots one line per series. Papers and
-// posters carry the repository, so they each get a line; the institutional
-// genres are pooled, and any preset added later joins the pool rather than
-// stranding a one-point line on the chart.
+// The trend chart on the outputs index plots one line per series, and the type
+// filter facets on those same three series --- a pill and a legend entry always
+// name the same set. Papers and posters carry the repository, so they each get
+// a line; the institutional genres are pooled, and any preset added later joins
+// the pool rather than stranding a one-point line on the chart.
 export const seriesOrder = ["Research papers", "Research posters", "Other outputs"] as const;
 
-export const presetSeries: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+export type OutputSeries = (typeof seriesOrder)[number];
+
+export const presetSeries: Record<Preset, OutputSeries> = {
   paper: "Research papers",
   "research-poster": "Research posters",
   brochure: "Other outputs",
@@ -31,9 +36,42 @@ export const presetSeries: Record<CollectionEntry<"outputs">["data"]["preset"], 
   "impact-report": "Other outputs",
 };
 
+// The URL segment each series filters under: /outputs/type/<slug>/. Slugs are
+// part of the site's public surface (they're linked, crawled, and bookmarked),
+// so they're spelled out here rather than derived from the display label --- a
+// reworded legend entry must not silently move a page.
+export const seriesSlugs: Record<OutputSeries, string> = {
+  "Research papers": "papers",
+  "Research posters": "posters",
+  "Other outputs": "other",
+};
+
+// Cards per page. Shared by the unfiltered index and the facet routes so a
+// filtered view paginates on the same rhythm as the one it was filtered from.
+export const PAGE_SIZE = 12;
+
+export interface SeriesFacet {
+  series: OutputSeries;
+  slug: string;
+  count: number;
+}
+
+// The facets the type filter offers, in `seriesOrder`. A series with no outputs
+// is left out: the facet route is only built where there's something to show,
+// so a pill for an empty series would link at a 404.
+export function seriesFacets(outputs: { preset: Preset }[]): SeriesFacet[] {
+  return seriesOrder
+    .map((series) => ({
+      series,
+      slug: seriesSlugs[series],
+      count: outputs.filter((o) => presetSeries[o.preset] === series).length,
+    }))
+    .filter((facet) => facet.count > 0);
+}
+
 // iconoir glyph per preset, for the type badge on output cards. Names must be
 // valid iconoir icons (the theme's Icon component adds the `iconoir:` prefix).
-export const presetIcons: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+export const presetIcons: Record<Preset, string> = {
   "research-poster": "presentation",
   paper: "journal-page",
   brochure: "book",

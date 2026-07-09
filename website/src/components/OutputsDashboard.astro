@@ -1,0 +1,89 @@
+---
+import { dashboard } from "../lib/dashboard";
+
+// Whole-repository stat tiles and trend charts. Rendered on the first page of
+// every outputs route --- unfiltered or filtered --- and identical on each: the
+// dashboard is the institution's, not the filter's.
+const { stats, chart } = await dashboard();
+---
+
+<dl class="stat-row">
+  {
+    stats.map((stat) => (
+      <div class="stat">
+        <dd>{stat.value}</dd>
+        <dt>{stat.label}</dt>
+      </div>
+    ))
+  }
+</dl>
+
+{
+  chart && (
+    <>
+      <h2>Outputs and funding over time</h2>
+      <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
+      <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
+    </>
+  )
+}
+
+<style>
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--at-spacing-lg);
+    margin-block: var(--at-spacing-xl);
+  }
+
+  .stat {
+    border-block-start: 2px solid var(--at-primary);
+    padding-block-start: var(--at-spacing-sm);
+  }
+
+  .stat dd {
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .stat dt {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+  }
+
+  .chart {
+    width: 100%;
+    margin-block: var(--at-spacing-md) var(--at-spacing-xl);
+  }
+
+  .chart :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* The theme toggle stamps data-theme on <html>; prefers-color-scheme covers
+     the no-JS case where no attribute is ever set. */
+  .chart-dark {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-light {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .chart-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .chart-light {
+      display: none;
+    }
+
+    :root:not([data-theme]) .chart-dark {
+      display: block;
+    }
+  }
+</style>

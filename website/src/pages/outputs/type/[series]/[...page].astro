@@ -1,0 +1,61 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import Pagination from "astro-theme-university/components/Pagination.astro";
+import { siteConfig } from "../../../../site-config";
+import { PAGE_SIZE, presetSeries, seriesFacets } from "../../../../lib/outputs";
+import { pageHero } from "../../../../lib/heroes";
+import OutputCardGrid from "../../../../components/OutputCardGrid.astro";
+import OutputTypeFilter from "../../../../components/OutputTypeFilter.astro";
+import OutputsDashboard from "../../../../components/OutputsDashboard.astro";
+
+// One paginated route family per output type: /outputs/type/papers/,
+// /outputs/type/papers/2/, ... The index is built statically, so filtering has
+// to happen here rather than in the browser --- a client-side toggle could only
+// reach the twelve cards on the page you're standing on. Facets are the three
+// series the trend chart plots, and only non-empty ones are built, so the
+// filter never offers a pill that leads nowhere.
+export const getStaticPaths = (async ({ paginate }) => {
+  const outputs = (await getCollection("outputs")).toSorted(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return seriesFacets(outputs.map((o) => o.data)).flatMap(({ series, slug }) =>
+    paginate(
+      outputs.filter((o) => presetSeries[o.data.preset] === series),
+      { params: { series: slug }, props: { series }, pageSize: PAGE_SIZE },
+    ),
+  );
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page, series } = Astro.props;
+
+// The dashboard is the whole repository's, not the filter's, so it renders
+// unchanged here --- and, as on the unfiltered index, on page 1 only.
+const firstPage = page.currentPage === 1;
+---
+
+<ContentLayout
+  title={series}
+  description={`${series} published by Slop University.`}
+  heroImage={pageHero("outputs")}
+  heroImageAlt={pageHero("outputs") ? "The Slop University research repository" : undefined}
+  {...siteConfig}
+>
+  <p class="lead">
+    All research outputs of the University are published open access under{" "}
+    <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, with
+    persistent identifiers minted by the Office of Research Outputs.
+  </p>
+
+  {firstPage && <OutputsDashboard />}
+
+  <h2>Published outputs</h2>
+
+  <OutputTypeFilter active={series} />
+  <OutputCardGrid entries={page.data} />
+
+  {page.lastPage > 1 && <Pagination page={page} />}
+</ContentLayout>

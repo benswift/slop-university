@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import { seriesFacets, type OutputSeries } from "../lib/outputs";
+
+interface Props {
+  /** The series being filtered on, or undefined on the unfiltered index. */
+  active?: OutputSeries;
+}
+
+const { active } = Astro.props;
+
+// Counts span the whole repository, not the current page, so every pill states
+// how many outputs it would actually show. The filter is a set of links rather
+// than a scripted toggle: the index is statically paginated at build time, so a
+// client-side toggle could only ever hide cards on the page you're standing on
+// --- tick "Research papers" on page 4 and the papers on pages 1--3 stay
+// invisible. Each facet is its own paginated route instead, which costs
+// single-select and buys working pagination, deep links, and no JS.
+const outputs = await getCollection("outputs");
+const facets = seriesFacets(outputs.map((o) => o.data));
+
+// One facet means the filter can only restate the collection; below that,
+// there's nothing to filter at all.
+const show = facets.length > 1;
+---
+
+{
+  show && (
+    <nav class="type-filter" aria-label="Filter outputs by type">
+      <a href="/outputs/" class="pill" aria-current={active ? undefined : "page"}>
+        All <span class="count">{outputs.length}</span>
+      </a>
+      {facets.map((facet) => (
+        <a
+          href={`/outputs/type/${facet.slug}/`}
+          class="pill"
+          aria-current={active === facet.series ? "page" : undefined}
+        >
+          {facet.series} <span class="count">{facet.count}</span>
+        </a>
+      ))}
+    </nav>
+  )
+}
+
+<style>
+  .type-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--at-spacing-sm);
+    margin-block: var(--at-spacing-md) var(--at-spacing-lg);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding: 0.4em 0.9em;
+    border: 1px solid var(--at-border);
+    border-radius: 999px;
+    background: var(--at-bg);
+    color: var(--at-text);
+    font-size: var(--at-font-size-sm);
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .pill:hover {
+    border-color: var(--at-primary);
+    color: var(--at-text);
+  }
+
+  /* The active facet is the one whose page you're on, so aria-current carries
+     both the styling and the semantics --- no duplicate class to keep in sync. */
+  .pill[aria-current="page"] {
+    border-color: var(--at-primary);
+    background: var(--at-primary);
+    color: var(--at-white);
+    font-weight: 600;
+  }
+
+  .count {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pill[aria-current="page"] .count {
+    color: var(--at-white);
+    opacity: 0.75;
+  }
+</style>
