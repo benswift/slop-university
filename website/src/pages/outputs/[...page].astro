@@ -43,7 +43,6 @@ const totalFunding = allGrants.reduce((sum, g) => sum + g.data.value, 0);
 const fte = academicFte();
 const stats = [
   { label: "Research outputs", value: allOutputs.length },
-  { label: "DOIs minted", value: new Set(allOutputs.map((o) => o.data.doi)).size },
   {
     label: "Outputs per academic FTE",
     value: fte > 0 ? (allOutputs.length / fte).toFixed(2) : "—",
