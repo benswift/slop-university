@@ -8,7 +8,7 @@ import Icon from "astro-theme-university/components/Icon.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import type { TopLevelSpec } from "vega-lite";
 import { siteConfig } from "../../site-config";
-import { presetIcons, presetLabels, presetSeries, seriesOrder } from "../../lib/outputs";
+import { presetBadgeLabels, presetIcons, presetLabels, presetSeries, seriesOrder } from "../../lib/outputs";
 import { academicFte, chartSvg, cumulativeByDay, vlConfig } from "../../lib/performance";
 import { outputHero, pageHero } from "../../lib/heroes";
 import { thumbnail } from "../../lib/thumbnails";
@@ -158,7 +158,7 @@ const chart =
         <div class="output-card">
           <span class="type-badge" title={presetLabels[entry.data.preset]}>
             <Icon name={presetIcons[entry.data.preset]} size={16} />
-            <span>{presetLabels[entry.data.preset]}</span>
+            <span>{presetBadgeLabels[entry.data.preset]}</span>
           </span>
           <Card
             title={entry.data.title}
@@ -274,7 +274,13 @@ const chart =
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
   }
 
-  .type-badge svg {
+  /* base.css gives every block-level svg the paragraph flow rhythm
+     (`margin-block: 0 1em`). Inside the centred flex row that margin is part of
+     the icon's margin box, so the glyph gets centred an em too high. The svg
+     comes from the Icon component, so it carries no scope attribute of ours ---
+     an unqualified `.type-badge svg` compiles to a selector that never matches. */
+  .type-badge :global(svg) {
     flex-shrink: 0;
+    margin-block: 0;
   }
 </style>

@@ -8,6 +8,15 @@ export const presetLabels: Record<CollectionEntry<"outputs">["data"]["preset"], 
   "impact-report": "Impact report",
 };
 
+// Short forms for the type badge on output cards, where the icon already
+// carries the "research artefact" sense and the pill has to stay narrow. The
+// long labels above still cover the citation note and the metadata table.
+export const presetBadgeLabels: Record<CollectionEntry<"outputs">["data"]["preset"], string> = {
+  ...presetLabels,
+  "research-poster": "Poster",
+  paper: "Paper",
+};
+
 // The trend chart on the outputs index plots one line per series. Papers and
 // posters carry the repository, so they each get a line; the institutional
 // genres are pooled, and any preset added later joins the pool rather than
