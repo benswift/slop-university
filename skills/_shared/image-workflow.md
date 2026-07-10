@@ -55,19 +55,21 @@ typst).
    `<RES>` slot for every image from the calling preset's declared size. The
    rule of thumb, by how the image actually lands on the page:
 
-   - **`4K`** for anything that fills or full-bleeds a page --- booklet/poster
-     **covers**, the poster **feature/hero**, and the publish **web hero**
-     (whose 4K source feeds a responsive `<Image>`). At A3/booklet scale the
-     detail matters; it's slower than 1K/2K but don't downscale the hero to save
-     time.
+   - **`4K`** for anything that fills or full-bleeds a **printed** page ---
+     booklet/poster **covers** and the poster **feature/hero**. At A3/booklet
+     scale the detail matters; it's slower than 1K/2K but don't downscale a
+     cover to save time.
    - **`2K`** for anything shown at part-page size --- an inline figure within a
      booklet text column or a landscape strip between paragraphs, or the
-     research poster's wide body strip. 2K is ~2048px on the long edge (~250 dpi
-     across a full A4 width, higher when narrower), which covers a part-page
-     figure; 4K there is ~500 dpi, wasted pixels and wasted generation time.
+     research poster's wide body strip --- and for every **web hero** (publish
+     output/news heroes). 2K is ~2048px on the long edge: ~250 dpi across a full
+     A4 width for a part-page figure, and more than the site ever renders (the
+     responsive `<Image>` tops out around 1600 CSS px). 4K there is wasted
+     pixels, generation time, and repo weight.
 
    If a slot's declared resolution is missing, default it to `2K` for inlines
-   and `4K` for covers/heroes/features rather than maxing everything to `4K`.
+   and web heroes, and `4K` for printed covers and features, rather than maxing
+   everything to `4K`.
 
    `ben:styled-image-gen` calls Replicate, which needs `REPLICATE_API_TOKEN`.
    It's provided by the mise environment, so run the generation under mise (e.g.

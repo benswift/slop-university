@@ -320,7 +320,8 @@ verifiable numbers). Then:
   institutional notice --- carries its own; see 2H and 2I). Author the prompt
   per `skills/_shared/visual-style.md` and pick refs per
   `skills/_shared/image-workflow.md`; generate at `--aspect-ratio 16:9`
-  `--resolution 4K`, encode to AVIF →
+  `--resolution 2K` (the site never renders a hero wider than ~1600 CSS px; 2K
+  feeds the responsive `<Image>` with room to spare), encode to AVIF →
   `website/src/assets/heroes/outputs/<run-id>.avif`.
 
 Both the thumbnail and the hero resolve by basename === the output id
@@ -501,7 +502,7 @@ carries its own, so that every page on the site has one.
 Same recipe as the output hero in 2A, keyed by the **news entry id** rather than
 a run id: author the prompt per `skills/_shared/visual-style.md`, pick refs per
 `skills/_shared/image-workflow.md`, generate at `--aspect-ratio 16:9`
-`--resolution 4K`, encode to AVIF →
+`--resolution 2K`, encode to AVIF →
 `website/src/assets/heroes/news/<date>-<slug>.avif` (basename === the news entry
 id, i.e. the post's filename with `.avif` for `.md`). It resolves through
 `newsHero` in `src/lib/heroes.ts`.
