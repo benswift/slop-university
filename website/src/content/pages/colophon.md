@@ -1,6 +1,7 @@
 ---
 title: About this project
 description: What Slop University is, and how it is made.
+heroImage: ./_heroes/colophon.avif
 ---
 
 Slop University is an artwork. It is a fictional institution --- a working
