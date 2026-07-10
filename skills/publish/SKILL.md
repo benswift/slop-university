@@ -31,13 +31,17 @@ The trust boundary: **this skill commits; it never pushes.** The cron wrapper
 (`ops/cron-publish.sh`) validates the commit's diff against a path allowlist
 (and a colophon denylist) before pushing. Doctrine floors live in
 `website/CLAUDE.md` and the repo `CLAUDE.md`; the wrapper enforces them
-mechanically.
+mechanically. Unattended runs happen in a dedicated worktree
+(`../slop-university-press`, branch `press`) that the wrapper resets to the
+newest published state before each tick and pushes to `main` after validation
+--- the human checkout is never touched.
 
 ## 0. Preconditions
 
 - Working tree clean (`git status --porcelain` empty). If not, abort --- a
   publish commit must contain only this run's changes.
-- On branch `main`.
+- On branch `press` (the dedicated publish worktree the cron wrapper prepares)
+  or `main` (a manual run in the main checkout).
 - Read `website/CLAUDE.md` (the hard floors), `canon/roster.yml`,
   `canon/schools.yml`, `canon/schools.md` (the org doctrine), `canon/grants.yml`
   (the funding schemes), and `comms.md` (sibling file --- the press-release
@@ -565,10 +569,10 @@ Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: school blurb — Trajectory Analytics Group`,
 `publish: news — Improvement Grand Rounds returns for spring`,
 `publish: grant — Indicator Stewardship Seed Fund to Okoro ($48,750)`,
-`publish: roster — add <name>`. One commit, on `main`. **Do not push** --- the
-wrapper validates and pushes. Do not touch `.github/workflows/`, `public/CNAME`,
-`public/robots.txt`, `site-config.ts`, `colophon.md`, or any doctrine file; the
-wrapper resets commits that do.
+`publish: roster — add <name>`. One commit, on the current branch. **Do not
+push** --- the wrapper validates and pushes. Do not touch `.github/workflows/`,
+`public/CNAME`, `public/robots.txt`, `site-config.ts`, `colophon.md`, or any
+doctrine file; the wrapper resets commits that do.
 
 ## Post-MVP (not yet enabled)
 

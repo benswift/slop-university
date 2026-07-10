@@ -9,8 +9,10 @@
 logs/
 
 # the staged social post (data/pending-post.json) is a working-tree handoff from
-# the /publish agent to the cron wrapper's Bluesky poster --- never committed
-data/
+# the /publish agent to the cron wrapper's Bluesky poster --- never committed.
+# No trailing slash: in the press worktree data is a SYMLINK to the main
+# checkout's data/, and `data/` (directories only) would leave it untracked
+data
 
 # generated outputs are kept locally only, not committed (everything under
 # output/ --- .typ, .bib, images, charts, pdf, overviews)
