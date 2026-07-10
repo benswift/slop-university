@@ -47,8 +47,9 @@ Slop University is a persistent fiction: its people, schools, and units live in
   bio, headshot). Any named person in any generated artefact comes from here;
   never a real person, never a name invented inside a run. Roster additions
   require a name-collision check (web search incl. the ANU staff directory ---
-  the nearest institution is the likeliest collision) and a house-style headshot
-  in `canon/headshots/`, eyeballed for accidental real-person likeness.
+  the nearest institution is the likeliest collision), a house-style headshot in
+  `canon/headshots/`, and a landscape person hero in `canon/heroes/people/`, all
+  eyeballed for accidental real-person likeness.
 - `canon/schools.md` --- school, unit, and lab names. Never invent an org unit
   inside a run; add it to the canon first.
 - `canon/grants.yml` --- the internal funding schemes and prizes (all funders

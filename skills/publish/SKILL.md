@@ -60,12 +60,16 @@ already coherent.
    several outputs has no narrative beyond its one-line blurb. → Action **2D**
    (grow the page).
 4. **The institution is thin relative to its output volume** --- a mechanical
-   trigger, not a judgement call: the roster has fewer than `ceil(outputs / 4)`
-   researchers, or a school has no lab/group at all. → Action **2E** (add a
-   researcher) or **2F** (add an org unit). These are the heaviest actions
-   (name-collision check + house-style headshot for a researcher); when the
-   trigger fires, take the action --- the roster must grow with the corpus or
-   the fiction thins.
+   trigger, not a judgement call: the roster has fewer than
+   `min(24, ceil(outputs / 12))` researchers, or a school has no lab/group at
+   all. → Action **2E** (add a researcher) or **2F** (add an org unit). These
+   are the heaviest actions (name-collision check + house-style headshot +
+   person hero for a researcher); when the trigger fires, take the action. The
+   divisor and the 24-seat cap are deliberate: the roster grows far more slowly
+   than the corpus and stops growing at 24. A small recurring cast authoring an
+   implausible firehose is the joke --- an ever-expanding cast dilutes it, and
+   every seat adds permanent maintenance surface (headshot, hero, bio depth,
+   grant recognition).
 5. **Otherwise the department is coherent** --- pick the first due action:
    1. **2G (post to socials)** if the account is due --- the `@slop.university`
       Bluesky account has been quiet for ~20 hours and no post is already staged
@@ -380,13 +384,19 @@ and the repo `CLAUDE.md`), in order:
    `canon/headshots/<id>.jpg` (the image workflow; steered by
    `references/slop-style/`), and eyeball it for accidental real-person
    likeness.
-4. Add the entry to `canon/roster.yml` (`id`, `name`, `title`, `school` from
+4. Generate their landscape person hero per the "Person heroes" section of
+   `skills/_shared/visual-style.md` into `canon/heroes/people/<id>.avif` (16:9,
+   2K; the new headshot as the lead reference, scene themed to their research
+   focus), and eyeball it for style compliance (two inks, no baked-in text, no
+   recognisable real place).
+5. Add the entry to `canon/roster.yml` (`id`, `name`, `title`, `school` from
    `canon/schools.yml`, a 2-3 sentence `bio`, `headshot`).
 
-If the collision check is inconclusive or the headshot can't be generated, abort
-the run rather than admit a shaky entry.
+If the collision check is inconclusive, or the headshot or hero can't be
+generated, abort the run rather than admit a shaky entry.
 
-**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`.
+**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
+`canon/heroes/people/<id>.avif`.
 
 ## 2F. Add an org unit (rare)
 

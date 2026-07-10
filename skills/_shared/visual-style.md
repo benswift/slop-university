@@ -68,6 +68,21 @@ and between runs.
   still eyeball every portrait against "could this be read as a specific real
   person?" before it enters the canon; regenerate on any doubt
 
+## Person heroes (roster profile banners)
+
+- every roster researcher also carries a landscape hero
+  (`canon/heroes/people/<id>.avif`, 16:9, generated at 2K): the researcher from
+  their headshot placed in a scene themed to their research focus --- compose
+  the \<scene\> from the bio, pass the headshot as the lead `--input-image` plus
+  2--3 scene-matched refs from `references/slop-style/`
+- generated **once, at admission time, alongside the headshot** --- the site's
+  people pages expect one per profile (a missing hero falls back to a plain
+  heading, but the doctrine is that every page carries a hero)
+- same guards as everywhere: two inks only; no baked-in text (a "tag", "label",
+  or "map" in the scene invites lettering --- keep such props explicitly blank
+  or invented); no recognisable real place; and eyeball against accidental
+  real-person likeness
+
 ## The seed set (`references/slop-style/`)
 
 A curated, fully-generated exemplar set --- no real photos, ever. Minimum
