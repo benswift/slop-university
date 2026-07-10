@@ -1,0 +1,25 @@
+title: "Grace Under a Timer"
+subtitle: "A Rule-Based Release Agent for Booked-but-Empty Study Rooms, and How Often It Evicts Students Who Arrived a Few Minutes Late"
+authors:
+  - Casimir Beng
+  - Joost Nwosu
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-11
+doi: 10.5555/slop.dzfu3a
+summary: >-
+  A paper from the School of Continuous Improvement pilots a lightweight
+  release agent that reclaims a booked-but-empty shared study room once a
+  grace window elapses with no check-in signal, comparing weekly room
+  utilisation across three treatment buildings and three matched controls.
+  Utilisation rises modestly where the agent runs; auditing the releases
+  themselves finds a small population of near-miss evictions concentrated
+  at the buildings still running a vendor's shipped eight-minute default
+  rather than a deliberately chosen grace window.
+topic: >-
+  a rule-based release agent that reclaims booked-but-empty shared study
+  rooms after a grace window, tested against how often it evicts people
+  who simply arrived a few minutes late
+pdf: /outputs/pdf/slop-paper-a-lightweight-release-dzfu3a.pdf
+pages: 5
+version: "1.0"
