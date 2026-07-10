@@ -1,0 +1,170 @@
+---
+// The institution's social feed: the latest posts from @slop.university,
+// fetched client-side from the public Bluesky AppView (CORS-open, no auth).
+// The account posts after each validated push, so the site never knows about
+// posts at build time --- client rendering is the only way the strip stays
+// current on a static site. Progressive enhancement: the header and follow
+// link are static HTML and always render; the post list stays hidden unless
+// the fetch succeeds, so a failed fetch (or no JS) degrades to a plain
+// "follow us" strip rather than a broken section.
+const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
+---
+
+<section class="bsky-feed" aria-labelledby="bsky-feed-heading">
+  <div class="feed-head">
+    <h2 id="bsky-feed-heading">Slop University on Bluesky</h2>
+    <a class="follow" href={BSKY_PROFILE}>Follow @slop.university</a>
+  </div>
+  <ul class="posts" hidden></ul>
+</section>
+
+<script>
+  interface FeedItem {
+    reason?: unknown;
+    post: {
+      uri: string;
+      record: { text: string; createdAt: string };
+      embed?: {
+        $type?: string;
+        external?: { uri: string; title: string };
+      };
+    };
+  }
+
+  const FEED_URL =
+    "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed" +
+    "?actor=slop.university&filter=posts_no_replies&limit=8";
+  const POST_COUNT = 3;
+
+  const dateFormat = new Intl.DateTimeFormat("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  function renderPost(item: FeedItem): HTMLLIElement {
+    const { post } = item;
+
+    // The poster appends the canonical URL on its own trailing line; the
+    // embed card carries the same link, so drop it from the display text.
+    const text = post.record.text.replace(/\s*https:\/\/\S+\s*$/u, "");
+
+    const li = document.createElement("li");
+    const article = document.createElement("article");
+
+    // The timestamp doubles as the permalink to the post itself.
+    const when = new Date(post.record.createdAt);
+    const permalink = document.createElement("a");
+    permalink.className = "permalink";
+    permalink.href = `https://bsky.app/profile/slop.university/post/${post.uri.split("/").pop()}`;
+    const time = document.createElement("time");
+    time.dateTime = when.toISOString();
+    time.textContent = dateFormat.format(when);
+    permalink.append(time);
+
+    const body = document.createElement("p");
+    body.textContent = text;
+
+    article.append(permalink, body);
+
+    const external = post.embed?.external;
+    if (external?.uri && external.title) {
+      const card = document.createElement("a");
+      card.className = "link-card";
+      card.href = external.uri;
+      card.textContent = external.title;
+      article.append(card);
+    }
+
+    li.append(article);
+    return li;
+  }
+
+  async function loadFeed(): Promise<void> {
+    const list = document.querySelector<HTMLUListElement>(".bsky-feed .posts");
+    if (!list) return;
+
+    const resp = await fetch(FEED_URL);
+    if (!resp.ok) return;
+    const data = (await resp.json()) as { feed?: FeedItem[] };
+
+    // Items with a `reason` are reposts; the strip is the account's own voice.
+    const posts = (data.feed ?? [])
+      .filter((item) => !item.reason)
+      .slice(0, POST_COUNT);
+    if (posts.length === 0) return;
+
+    list.replaceChildren(...posts.map(renderPost));
+    list.hidden = false;
+  }
+
+  loadFeed().catch(() => {
+    /* fail quiet: the static header still reads as a follow strip */
+  });
+</script>
+
+<style>
+  .bsky-feed {
+    margin-block-start: var(--at-spacing-2xl);
+  }
+
+  .feed-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--at-spacing-xs) var(--at-spacing-md);
+  }
+
+  .feed-head h2 {
+    margin-block: 0;
+  }
+
+  .follow {
+    font-size: var(--at-font-size-sm);
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--at-spacing-lg);
+    margin-block: var(--at-spacing-lg) 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The tiles are built client-side, so they never carry Astro's scope
+     attribute --- every descendant selector below must be :global(). */
+
+  /* Same register as the dashboard stat tiles: a gold rule, then type. */
+  .posts :global(article) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-block-start: 2px solid var(--at-primary);
+    padding-block-start: var(--at-spacing-sm);
+  }
+
+  .posts :global(.permalink) {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
+    text-decoration: none;
+  }
+
+  .posts :global(.permalink:hover) {
+    text-decoration: underline;
+  }
+
+  .posts :global(p) {
+    margin-block: var(--at-spacing-xs) var(--at-spacing-sm);
+    font-size: var(--at-font-size-sm);
+  }
+
+  /* The post's link card, reduced to its title: the click-through back into
+     the site, pinned to the tile's foot so the row of cards ranges evenly. */
+  .posts :global(.link-card) {
+    margin-block-start: auto;
+    font-size: var(--at-font-size-sm);
+    font-weight: 500;
+  }
+</style>

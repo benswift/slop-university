@@ -7,6 +7,7 @@ import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import heroImage from "../assets/images/hero.avif";
+import BlueskyFeed from "../components/BlueskyFeed.astro";
 import OpenGraph from "../components/OpenGraph.astro";
 import { siteConfig } from "../site-config";
 import { newsPostHero } from "../lib/heroes";
@@ -83,6 +84,8 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   </CardGrid>
 
   {page.lastPage > 1 && <Pagination page={page} />}
+
+  {page.currentPage === 1 && <BlueskyFeed />}
 </BaseLayout>
 
 <style>
