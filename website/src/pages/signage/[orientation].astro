@@ -43,6 +43,18 @@ const title = latest ? fullTitle(latest.entry.data) : "Slop University";
 
 // Refresh the whole page hourly to pick up new deploys.
 const RELOAD_MS = 60 * 60 * 1000;
+
+// A degraded render (no poster, or no backdrop) retries on this much shorter
+// cycle instead. A cold boot on wifi can drop the two largest assets mid-flight
+// --- the clock steps on first NTP sync, tailscaled reads the jump as a wake
+// and rebinds the link, and anything still streaming dies. Waiting a full hour
+// to recover from a blip is the wrong trade for an unattended sign.
+const RETRY_MS = 60 * 1000;
+
+// The poster's aspect ratio, known at build time from the thumbnail. Drives the
+// CSS box so the poster scales up to fill a large panel, not just down to fit a
+// small one --- `max-width`/`max-height` alone would cap it and never enlarge.
+const posterAspect = thumb ? thumb.width / thumb.height : 1;
 ---
 
 <!doctype html>
@@ -94,12 +106,20 @@ const RELOAD_MS = 60 * 60 * 1000;
       }
 
       /* Both the canvas and the fallback image occupy the same cell and fit
-         within the viewport preserving the poster's aspect ratio. A soft
-         shadow lifts the light poster off the dark house field. */
+         the viewport preserving the poster's aspect ratio. A soft shadow lifts
+         the light poster off the dark house field.
+
+         Size the box from the aspect ratio rather than `max-width`/`max-height`:
+         those cap a large intrinsic size down to the viewport but never scale a
+         small one up, so a 5200px canvas buffer would sit letterboxed at 68%
+         width on a 7680px 8K panel. Taking the smaller of the width- and
+         height-bound fit reproduces `object-fit: contain`, but as the element's
+         real box, so the shadow still hugs the poster's edge. */
       #poster,
       #fallback {
-        max-width: 100vw;
-        max-height: 100vh;
+        aspect-ratio: var(--poster-aspect);
+        width: min(100vw, calc(100vh * var(--poster-aspect)));
+        height: auto;
         object-fit: contain;
         box-shadow: 0 0 4vmin rgba(0, 0, 0, 0.55);
       }
@@ -112,7 +132,14 @@ const RELOAD_MS = 60 * 60 * 1000;
   </head>
   <body>
     <Image id="backdrop" src={backdrop} alt="" loading="eager" aria-hidden="true" />
-    <main id="stage" aria-label={`Research poster: ${title}`} data-pdf={pdfUrl} data-reload-ms={RELOAD_MS}>
+    <main
+      id="stage"
+      aria-label={`Research poster: ${title}`}
+      data-pdf={pdfUrl}
+      data-reload-ms={RELOAD_MS}
+      data-retry-ms={RETRY_MS}
+      style={`--poster-aspect: ${posterAspect}`}
+    >
       <canvas id="poster" hidden></canvas>
       {
         thumb && (
@@ -140,45 +167,132 @@ const RELOAD_MS = 60 * 60 * 1000;
       const stage = document.getElementById("stage");
       const pdfUrl = stage?.dataset.pdf;
       const reloadMs = Number(stage?.dataset.reloadMs) || 0;
-
-      // Reload on an interval so a new deploy's poster appears without anyone
-      // touching the display.
-      if (reloadMs) setTimeout(() => location.reload(), reloadMs);
+      const retryMs = Number(stage?.dataset.retryMs) || 0;
 
       const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
       const fallback = document.getElementById("fallback");
+      const backdrop = document.getElementById("backdrop") as HTMLImageElement | null;
 
-      async function main() {
-        // Bind to a non-null local so the nested render() closure keeps the
-        // narrowing (placeholder page has no canvas / no pdf: nothing to do).
-        if (!pdfUrl || !canvas) return;
-        const el = canvas;
+      // Chromium's max canvas dimension. Exceeding it yields a blank canvas.
+      const MAX_CANVAS_PX = 8192;
 
-        const pdf = await pdfjs.getDocument({ url: pdfUrl }).promise;
-        const page = await pdf.getPage(1);
+      const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-        // Render the page once into a fixed high-resolution canvas buffer, then
-        // let CSS (`max-width/height: 100vw/vh` on a centred grid) letterbox it
-        // to whatever the panel is. This keeps the fit logic in CSS — dpr- and
-        // resolution-independent, so it fills correctly on a 1080p test monitor
-        // or a native-8K panel alike, with no viewport math to get wrong. The
-        // buffer's long edge targets ~5.2k px: crisp when a landscape A3 fills
-        // an 8K panel's height (~6.1k px wide), well under the 8192 canvas cap.
+      // Exponential backoff, capped: a boot-time blip clears in seconds, but a
+      // genuinely unreachable origin shouldn't be hammered until the next
+      // whole-page retry comes round.
+      const backoff = (attempt: number) => Math.min(30_000, 500 * 2 ** attempt);
+
+      const settled = (img: HTMLImageElement) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise<void>((r) => {
+              img.addEventListener("load", () => r(), { once: true });
+              img.addEventListener("error", () => r(), { once: true });
+            });
+
+      // `complete` with a zero `naturalWidth` is how a failed decode or a
+      // severed transfer presents. Re-request under a fresh query so we bypass
+      // any cached error entry.
+      const loaded = (img: HTMLImageElement) => img.complete && img.naturalWidth > 0;
+
+      async function keepBackdrop(img: HTMLImageElement, attempts = 6) {
+        const base = img.src;
+        await settled(img);
+        for (let n = 0; n < attempts && !loaded(img); n++) {
+          await sleep(backoff(n));
+          img.src = `${base}${base.includes("?") ? "&" : "?"}retry=${n + 1}`;
+          await settled(img);
+        }
+        if (!loaded(img)) console.error("signage: backdrop failed to load", base);
+        return loaded(img);
+      }
+
+      async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
+        let last: unknown;
+        for (let n = 0; n < attempts; n++) {
+          try {
+            return await fn();
+          } catch (err) {
+            last = err;
+            await sleep(backoff(n));
+          }
+        }
+        throw last;
+      }
+
+      // Render at exactly the device pixels the poster will occupy: the CSS box
+      // is the viewport-fitted rectangle, so multiplying by the device pixel
+      // ratio gives a 1:1 buffer. Crisp on a 1080p test monitor and on a native
+      // 8K panel alike, without a fixed target resolution that is simultaneously
+      // wasteful on the former and too small on the latter.
+      function fitScale(base: { width: number; height: number }) {
+        const dpr = window.devicePixelRatio || 1;
+        const box = Math.min(
+          (stage!.clientWidth || window.innerWidth) / base.width,
+          (stage!.clientHeight || window.innerHeight) / base.height,
+        );
+        return Math.min(box * dpr, MAX_CANVAS_PX / base.width, MAX_CANVAS_PX / base.height);
+      }
+
+      let renderTask: { cancel: () => void; promise: Promise<void> } | null = null;
+
+      async function draw(el: HTMLCanvasElement, page: any) {
+        renderTask?.cancel();
         const base = page.getViewport({ scale: 1 });
-        const TARGET = 5200;
-        const scale = Math.min(TARGET / base.width, TARGET / base.height, 8192 / base.width, 8192 / base.height);
-        const vp = page.getViewport({ scale });
+        const vp = page.getViewport({ scale: fitScale(base) });
         el.width = Math.round(vp.width);
         el.height = Math.round(vp.height);
-        await page.render({ canvas: el, viewport: vp }).promise;
+        renderTask = page.render({ canvas: el, viewport: vp });
+        await renderTask!.promise;
+        renderTask = null;
 
+        // Pin the box to the page's true ratio (the thumbnail's, used for the
+        // fallback, can differ by a rounding step).
+        stage!.style.setProperty("--poster-aspect", String(vp.width / vp.height));
         el.hidden = false;
         if (fallback) fallback.hidden = true;
       }
 
-      main().catch((err) => {
+      async function renderPoster() {
+        // Bind to non-null locals so the closures keep the narrowing (the
+        // placeholder page has no canvas and no pdf: nothing to do).
+        if (!pdfUrl || !canvas || !stage) return true;
+        const el = canvas;
+
+        const page = await withRetry(async () => {
+          const pdf = await pdfjs.getDocument({ url: pdfUrl }).promise;
+          const first = await pdf.getPage(1);
+          await draw(el, first);
+          return first;
+        });
+
+        // The panel can change mode under us --- a fresh EDID on hotplug, or a
+        // compositor scale change. Re-render at the new device resolution rather
+        // than letting the browser rescale a stale buffer.
+        let debounce: ReturnType<typeof setTimeout>;
+        window.addEventListener("resize", () => {
+          clearTimeout(debounce);
+          debounce = setTimeout(() => void draw(el, page).catch(() => {}), 250);
+        });
+        return true;
+      }
+
+      // Reload on an interval so a new deploy's poster appears without anyone
+      // touching the display. Armed unconditionally and up front: a hung fetch
+      // must never leave the sign with no path back.
+      if (reloadMs) setTimeout(() => location.reload(), reloadMs);
+
+      const posterOk = renderPoster().catch((err) => {
         // Leave the fallback thumbnail on screen; log for the kiosk console.
         console.error("signage: PDF render failed, showing thumbnail fallback", err);
+        return false;
+      });
+      const backdropOk = backdrop ? keepBackdrop(backdrop) : Promise.resolve(true);
+
+      // A degraded render comes back around sooner than the hourly tick.
+      void Promise.all([posterOk, backdropOk]).then(([poster, back]) => {
+        if (!(poster && back) && retryMs) setTimeout(() => location.reload(), retryMs);
       });
     </script>
   </body>
