@@ -44,11 +44,15 @@ const title = latest ? fullTitle(latest.entry.data) : "Slop University";
 // Refresh the whole page hourly to pick up new deploys.
 const RELOAD_MS = 60 * 60 * 1000;
 
-// A degraded render (no poster, or no backdrop) retries on this much shorter
-// cycle instead. A cold boot on wifi can drop the two largest assets mid-flight
-// --- the clock steps on first NTP sync, tailscaled reads the jump as a wake
-// and rebinds the link, and anything still streaming dies. Waiting a full hour
-// to recover from a blip is the wrong trade for an unattended sign.
+// An asset that wouldn't load (the poster PDF, or the backdrop) retries on this
+// much shorter cycle instead. A cold boot on wifi can drop the two largest
+// assets mid-flight --- the clock steps on first NTP sync, tailscaled reads the
+// jump as a wake and rebinds the link, and anything still streaming dies.
+// Waiting a full hour to recover from a blip is the wrong trade for an
+// unattended sign.
+//
+// An orientation with no poster at all isn't degraded in this sense: only a
+// rebuild can fill it, so it waits for the hourly reload like everything else.
 const RETRY_MS = 60 * 1000;
 
 // The poster's aspect ratio, known at build time from the thumbnail. Drives the
