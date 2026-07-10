@@ -23,7 +23,9 @@ gitignored `output/` residue is fine), and exit non-zero --- the next timer run
 picks a fresh action. Never ask the user anything; this skill runs unattended.
 Run every step in the foreground --- never launch a background task. Under
 `claude -p` the invocation returns while background work is still running, which
-kills the run half-done (this has burnt a full tick before).
+kills the run half-done (this has burnt a full tick before). Beware: the Agent
+tool backgrounds subagents _by default_ --- when delegating, always pass
+`run_in_background: false` so the run stays inside one turn.
 
 The trust boundary: **this skill commits; it never pushes.** The cron wrapper
 (`ops/cron-publish.sh`) validates the commit's diff against a path allowlist

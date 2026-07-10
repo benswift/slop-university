@@ -8,4 +8,7 @@ Wants=network-online.target
 Type=oneshot
 WorkingDirectory=/home/ben/projects/slop-university
 ExecStart=/home/ben/projects/slop-university/ops/cron-publish.sh
+# Safety net: don't kill orphaned background tasks at the 600s print-mode
+# ceiling; TimeoutStartSec is the outer bound.
+Environment=CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
 TimeoutStartSec=2h
