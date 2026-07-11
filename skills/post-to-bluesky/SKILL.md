@@ -114,10 +114,17 @@ never punctuation or hype:
 - **Don't reuse phrasing** from recent posts (you just read the feed) or from
   the output's own news post.
 
-Length: **at most ~280 characters** including the URL, so it fits Bluesky's
-300-grapheme cap with margin. One sharp idea, teased not told. Write the post
-text; you may place the URL inline where it reads naturally, or leave it out of
-the text and let the `link` field append it (the card renders either way).
+**Every post ends with the `#slopU` tag** --- the institutional hashtag, last
+thing in `text` (the poster appends any `link` URL after it, on its own line).
+Write it literally; the poster facets every hashtag in the text into a real,
+tappable tag, so the composer never writes facets. The tag is how posts join the
+wider `#slopU` feed, so it is not optional.
+
+Length: **at most ~280 characters** including the URL and the `#slopU` tag, so
+it fits Bluesky's 300-grapheme cap with margin. One sharp idea, teased not told.
+Write the post text; you may place the URL inline where it reads naturally, or
+leave it out of the text and let the `link` field append it (the card renders
+either way).
 
 ## Write the staged file
 
@@ -125,7 +132,7 @@ Write `data/pending-post.json` (create `data/` if absent):
 
 ```json
 {
-  "text": "Sign the strategy, and watch the enthusiasm for it quietly evaporate --- long after anyone remembers why it was signed. The School of Emergent Priorities has been mapping exactly where it goes.",
+  "text": "Sign the strategy, and watch the enthusiasm for it quietly evaporate --- long after anyone remembers why it was signed. The School of Emergent Priorities has been mapping exactly where it goes. #slopU",
   "link": "https://slop.university/outputs/anu-poster-enthusiasm-drift-xxxx",
   "subject": "outputs/anu-poster-enthusiasm-drift-xxxx"
 }

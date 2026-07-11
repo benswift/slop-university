@@ -33,7 +33,9 @@ pending-post.json schema:
   }
 
 If `link` is present it is faceted as a clickable link --- in place when the URL
-is already in `text`, otherwise appended on its own line.
+is already in `text`, otherwise appended on its own line. Every #hashtag in the
+text (the house tag is #slopU) is faceted as a tappable tag, so the composer
+only ever writes literal text.
 
 Exit 0 on a successful (or deduped) post; the wrapper deletes the file only
 then. Any non-zero exit leaves it staged for the next run to retry --- the dedup
@@ -108,6 +110,26 @@ def link_facet(text: str, url: str) -> tuple[str, list[dict]]:
         "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}],
     }
     return text, [facet]
+
+
+_TAG_RE = re.compile(r"(?<!\w)#([A-Za-z][A-Za-z0-9_]*)")
+
+
+def tag_facets(text: str) -> list[dict]:
+    """Facet every #hashtag in text (byteStart/byteEnd are UTF-8 byte offsets)."""
+    facets = []
+    for m in _TAG_RE.finditer(text):
+        start = len(text[: m.start()].encode("utf-8"))
+        end = start + len(m.group(0).encode("utf-8"))
+        facets.append(
+            {
+                "index": {"byteStart": start, "byteEnd": end},
+                "features": [
+                    {"$type": "app.bsky.richtext.facet#tag", "tag": m.group(1)}
+                ],
+            }
+        )
+    return facets
 
 
 _META_RE = re.compile(r"<meta\b[^>]*>", re.IGNORECASE)
@@ -238,6 +260,7 @@ def main() -> None:
     facets: list[dict] = []
     if link:
         text, facets = link_facet(text, link)
+    facets.extend(tag_facets(text))
     if len(text) > MAX_CHARS:
         fail(f"post is {len(text)} chars; Bluesky caps at {MAX_CHARS}")
 
