@@ -7,12 +7,20 @@
 // link are static HTML and always render; the post list stays hidden unless
 // the fetch succeeds, so a failed fetch (or no JS) degrades to a plain
 // "follow us" strip rather than a broken section.
+// IconifyIcon is the raw astro-icon component (the theme's Icon wrapper pins
+// the iconoir set, which has no butterfly); "bluesky" resolves from the local
+// src/icons/ dir. currentColor keeps the mark in the heading ink, not brand
+// blue.
+import { IconifyIcon } from "astro-theme-university/components/Icon.astro";
+
 const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
 ---
 
 <section class="bsky-feed" aria-labelledby="bsky-feed-heading">
   <div class="feed-head">
-    <h2 id="bsky-feed-heading">Slop University on Bluesky</h2>
+    <h2 id="bsky-feed-heading">
+      Slop University <span class="on-bsky">on <IconifyIcon name="bluesky" class="bsky-mark" role="img" aria-label="Bluesky" focusable="false" /></span>
+    </h2>
     <a class="follow" href={BSKY_PROFILE}>Follow @slop.university</a>
   </div>
   <ul class="posts" hidden></ul>
@@ -118,6 +126,21 @@ const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
 
   .feed-head h2 {
     margin-block: 0;
+  }
+
+  /* A wrapped heading must never orphan the butterfly on its own line. */
+  .on-bsky {
+    white-space: nowrap;
+  }
+
+  /* The mark is rendered by astro-icon, so it carries no scope attribute.
+     inline-block overrides the theme reset's block svgs, which would
+     otherwise force the mark onto its own line. */
+  .feed-head h2 :global(.bsky-mark) {
+    display: inline-block;
+    inline-size: 0.85em;
+    block-size: 0.85em;
+    vertical-align: -0.05em;
   }
 
   .follow {
