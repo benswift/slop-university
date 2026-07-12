@@ -1,0 +1,52 @@
+---
+import Icon from "astro-theme-university/components/Icon.astro";
+import { presetBadgeLabels, presetIcons, presetLabels, type Preset } from "../lib/outputs";
+
+// The "output type" pill --- an icon plus a short genre label --- shown wherever
+// an output is carded: the outputs grid, and the news cards that announce one.
+// It positions itself in the card's top-right corner, so the consumer must give
+// it a positioned ancestor (a `position: relative` wrapper around the Card).
+interface Props {
+  preset: Preset;
+}
+
+const { preset } = Astro.props;
+---
+
+<span class="type-badge" title={presetLabels[preset]}>
+  <Icon name={presetIcons[preset]} size={16} />
+  <span>{presetBadgeLabels[preset]}</span>
+</span>
+
+<style>
+  /* The badge sits in the card's top-right corner. The card itself is an
+     anchor in normal flow, so the consumer's relatively-positioned wrapper
+     gives the badge something to anchor to; pointer-events: none lets clicks
+     fall through to the link underneath. */
+  .type-badge {
+    position: absolute;
+    inset-block-start: var(--at-spacing-sm);
+    inset-inline-end: var(--at-spacing-sm);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.3em 0.6em;
+    border-radius: 999px;
+    background: var(--at-primary);
+    color: var(--at-white);
+    font-size: var(--at-font-size-sm);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  }
+
+  /* The svg comes from the Icon component, so it carries no scope attribute of
+     ours --- an unqualified `.type-badge svg` compiles to a selector that never
+     matches. */
+  .type-badge :global(svg) {
+    flex-shrink: 0;
+  }
+</style>

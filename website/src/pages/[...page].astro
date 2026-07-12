@@ -9,6 +9,7 @@ import Pagination from "astro-theme-university/components/Pagination.astro";
 import heroImage from "../assets/images/hero.avif";
 import BlueskyFeed from "../components/BlueskyFeed.astro";
 import OpenGraph from "../components/OpenGraph.astro";
+import OutputTypeBadge from "../components/OutputTypeBadge.astro";
 import { siteConfig } from "../site-config";
 import { newsPostHero } from "../lib/heroes";
 
@@ -25,6 +26,13 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { page } = Astro.props;
 const title =
   page.currentPage === 1 ? siteConfig.name : `${siteConfig.name} — news, page ${page.currentPage}`;
+
+// A news post that announces an output carries that output's type badge, the
+// same pill the outputs grid shows. Posts announcing a grant or an
+// institutional notice reference no output and go unbadged.
+const presetByOutputId = new Map(
+  (await getCollection("outputs")).map((entry) => [entry.id, entry.data.preset]),
+);
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
@@ -64,22 +72,28 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 
   <CardGrid columns={2}>
     {
-      page.data.map((entry) => (
-        <Card
-          title={entry.data.title}
-          href={`/news/${entry.id}/`}
-          image={newsPostHero(entry.id, entry.data.output)}
-          imageAlt=""
-          headingLevel="h2"
-        >
-          <p class="news-date">
-            <time datetime={entry.data.date.toISOString()}>
-              {dateFormat.format(entry.data.date)}
-            </time>
-          </p>
-          {entry.data.description && <p>{entry.data.description}</p>}
-        </Card>
-      ))
+      page.data.map((entry) => {
+        const preset = entry.data.output ? presetByOutputId.get(entry.data.output) : undefined;
+        return (
+          <div class="news-card">
+            {preset && <OutputTypeBadge preset={preset} />}
+            <Card
+              title={entry.data.title}
+              href={`/news/${entry.id}/`}
+              image={newsPostHero(entry.id, entry.data.output)}
+              imageAlt=""
+              headingLevel="h2"
+            >
+              <p class="news-date">
+                <time datetime={entry.data.date.toISOString()}>
+                  {dateFormat.format(entry.data.date)}
+                </time>
+              </p>
+              {entry.data.description && <p>{entry.data.description}</p>}
+            </Card>
+          </div>
+        );
+      })
     }
   </CardGrid>
 
@@ -89,6 +103,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 </BaseLayout>
 
 <style>
+  /* The type badge (OutputTypeBadge) positions itself in the top-right corner
+     and needs a positioned ancestor; the Card is an anchor in normal flow, so
+     this wrapper provides it. Unbadged posts get a bare wrapper, which is inert. */
+  .news-card {
+    position: relative;
+  }
+
   .news-date {
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);

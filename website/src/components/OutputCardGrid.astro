@@ -2,8 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
-import Icon from "astro-theme-university/components/Icon.astro";
-import { presetBadgeLabels, presetIcons, presetLabels } from "../lib/outputs";
+import OutputTypeBadge from "./OutputTypeBadge.astro";
 import { outputHero } from "../lib/heroes";
 import { thumbnail } from "../lib/thumbnails";
 
@@ -24,10 +23,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   {
     entries.map((entry) => (
       <div class="output-card">
-        <span class="type-badge" title={presetLabels[entry.data.preset]}>
-          <Icon name={presetIcons[entry.data.preset]} size={16} />
-          <span>{presetBadgeLabels[entry.data.preset]}</span>
-        </span>
+        <OutputTypeBadge preset={entry.data.preset} />
         <Card
           title={entry.data.title}
           href={`/outputs/${entry.id}/`}
@@ -53,38 +49,10 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     margin-block: 0 var(--at-spacing-sm);
   }
 
-  /* The badge sits in the card's top-right corner. The card itself is an
-     anchor in normal flow, so a relatively-positioned wrapper gives the badge
-     something to anchor to; pointer-events: none lets clicks fall through to
-     the link underneath. */
+  /* The badge (OutputTypeBadge) positions itself in the top-right corner and
+     needs a positioned ancestor to anchor to; the card itself is an anchor in
+     normal flow, so this wrapper provides it. */
   .output-card {
     position: relative;
-  }
-
-  .type-badge {
-    position: absolute;
-    inset-block-start: var(--at-spacing-sm);
-    inset-inline-end: var(--at-spacing-sm);
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
-    padding: 0.3em 0.6em;
-    border-radius: 999px;
-    background: var(--at-primary);
-    color: var(--at-white);
-    font-size: var(--at-font-size-sm);
-    font-weight: 600;
-    line-height: 1;
-    white-space: nowrap;
-    pointer-events: none;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
-  }
-
-  /* The svg comes from the Icon component, so it carries no scope attribute of
-     ours --- an unqualified `.type-badge svg` compiles to a selector that never
-     matches. */
-  .type-badge :global(svg) {
-    flex-shrink: 0;
   }
 </style>
