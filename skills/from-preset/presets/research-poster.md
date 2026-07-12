@@ -332,6 +332,14 @@ with a wink.
 - **Citation honesty**: neither the list nor the prose may claim something a
   cited work doesn't support. The fictional project borrows the field's
   legitimacy; it never puts words in a real researcher's mouth.
+- **One slop self-citation** (0-1 of the list): cite a topically adjacent prior
+  Slop University output from `website/src/content/outputs/*.yml`, following
+  `paper.md` › "Slop self-citations (cite the canon)" --- fields copied
+  field-for-field from the ledger entry (title + subtitle, authors, school,
+  year, DOI), slop DOI rendered (the site's `/doi/` route resolves it), exempt
+  from the external DOI check above but verified against the ledger, citation
+  honesty judged against the entry's `summary`. Skip if nothing in the ledger
+  fits the topic.
 - Roughly 4-6 entries --- a poster's list is short; verified beats full.
 
 ## Imagery (preset specifics for image-workflow.md)
@@ -849,8 +857,10 @@ items:
 - [ ] Charts use brand styling per `../../_shared/chart-workflow.md` (no rainbow
       bars; legends top/bottom) and **fill the column** (responsive `layout`,
       wide-short aspect --- no side padding)
-- [ ] 4-6 **real, verified** references (each DOI resolves or arXiv id matches);
-      real authors/titles/venues, DOI or arXiv id rendered; no fabricated entry
+- [ ] 4-6 **real, verified** references (each external DOI resolves or arXiv id
+      matches); real authors/titles/venues, DOI or arXiv id rendered; no
+      fabricated entry; at most one a slop self-citation matching its
+      `outputs/*.yml` ledger entry field-for-field
 - [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs) in the
       academic-present register (past-tense methods, hedged findings); no
       exclamation marks, no satire signals on the page
@@ -898,7 +908,7 @@ items:
   `format: poster`.
 - Not a real research poster. The project, data, and charts are generative
   fiction --- but the cited references are real, verified literature (that is
-  the point).
+  the point), with at most one ledger-verified slop self-citation threaded in.
 - Not a place for new chart or genre conventions. Chart mechanics belong in
   `../../_shared/chart-workflow.md`; cross-preset voice doctrine belongs in
   `../genre.md`.

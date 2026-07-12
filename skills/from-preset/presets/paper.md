@@ -4,8 +4,9 @@ description:
   Slop University research paper --- an A4 two-column conference-style paper
   describing a plausible-but-fake research project, authored by roster
   researchers, with fabricated results charts and a REAL, verified bibliography
-  (every entry resolves via DOI or arXiv). Paper format (no cover, contents, or
-  back cover; multi-page, no parity requirement).
+  (every entry resolves via DOI or arXiv), plus 1-3 self-citations of prior Slop
+  University outputs verified against the site ledger. Paper format (no cover,
+  contents, or back cover; multi-page, no parity requirement).
 ---
 
 # Paper preset
@@ -19,7 +20,10 @@ in the fictional project it reports.
 The sharpest detail: **the bibliography is real.** The fake paper cites only
 genuine literature, every entry verified to resolve --- borrowed legitimacy via
 the citation graph. (This is also why the site's `robots.txt` blocks indexing of
-output PDFs: the borrowing must never flow back into citation databases.)
+output PDFs: the borrowing must never flow back into citation databases.) The
+one sanctioned exception: 1-3 entries citing Slop University's own prior outputs
+--- institutions self-cite, and the canon's citation graph should loop back on
+itself (see "Slop self-citations").
 
 Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
@@ -65,17 +69,17 @@ it in unbroken paper register.
 
 ## The genre's structural skeleton
 
-| Section                | Length          | Notes                                                                                   |
-| ---------------------- | --------------- | --------------------------------------------------------------------------------------- |
-| Title block + abstract | spans both cols | Title, authors + affiliations (+ DOI on publish runs), 150-220 word abstract            |
-| Introduction           | ~350 words      | The gap, framed seriously; contributions as a 3-bullet list (each hedged)               |
-| Related work           | ~250 words      | Where most citations live; every claim about a cited work must be true of that work     |
-| Method                 | ~400 words      | Deadpan procedural; one display equation and/or a short code listing earn the costume   |
-| Experiments / Results  | ~450 words      | 2-4 gribouille charts + optionally a table; baselines, an ablation that changes nothing |
-| Discussion             | ~200 words      | Hedged interpretation; "we observe consistent improvements in most settings"            |
-| Limitations            | ~120 words      | Concedes nothing: every "limitation" quietly reasserts a strength                       |
-| Conclusion             | ~120 words      | One-paragraph close; "future work" fragment                                             |
-| References             | 15-25 entries   | **Real, verified literature** (see "Bibliography"); `bibliography(..., style: "ieee")`  |
+| Section                | Length          | Notes                                                                                                            |
+| ---------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Title block + abstract | spans both cols | Title, authors + affiliations (+ DOI on publish runs), 150-220 word abstract                                     |
+| Introduction           | ~350 words      | The gap, framed seriously; contributions as a 3-bullet list (each hedged)                                        |
+| Related work           | ~250 words      | Where most citations live; every claim about a cited work must be true of that work                              |
+| Method                 | ~400 words      | Deadpan procedural; one display equation and/or a short code listing earn the costume                            |
+| Experiments / Results  | ~450 words      | 2-4 gribouille charts + optionally a table; baselines, an ablation that changes nothing                          |
+| Discussion             | ~200 words      | Hedged interpretation; "we observe consistent improvements in most settings"                                     |
+| Limitations            | ~120 words      | Concedes nothing: every "limitation" quietly reasserts a strength                                                |
+| Conclusion             | ~120 words      | One-paragraph close; "future work" fragment                                                                      |
+| References             | 15-25 entries   | **Real, verified literature** + 1-3 slop self-citations (see "Bibliography"); `bibliography(..., style: "ieee")` |
 
 Section names may vary in the usual reservoir spirit (e.g. "Background" for
 Related work, "Evaluation" for Experiments); "Abstract", "Limitations", and
@@ -126,6 +130,45 @@ work ("resource-allocation mechanisms have been studied extensively @real2019"
 project borrows the field's legitimacy; it does not misrepresent real
 researchers' actual claims. Cite generously in Introduction and Related work;
 2-4 callbacks in Method/Results keep the costume on.
+
+### Slop self-citations (cite the canon)
+
+**1-3 entries cite Slop University's own prior outputs.** Institutions
+self-cite, and the canon's citation graph should loop back on itself --- a
+Related-work sentence like "prior work at this institution instrumented the
+suggestion-box pipeline @slop-tlmg6a" deepens the fiction. These are the only
+entries exempt from the external verification above; they verify against the
+ledger instead:
+
+- **Source of truth**: `website/src/content/outputs/*.yml` (the canonical
+  ledger). Pick topically adjacent prior outputs --- prefer `preset: paper`
+  entries, `research-poster` entries also fit --- judging adjacency from each
+  entry's `summary` and `topic` fields. The ledger is thematically dense (campus
+  measurement, dashboards, audit apparatus), so a fit nearly always exists; skip
+  self-citation only when genuinely nothing is adjacent.
+- **Copy fields exactly** from the entry: `title` (append the `subtitle` after a
+  colon), `authors` verbatim and in order, `school`, year from `date`, `doi`. An
+  entry that doesn't match its ledger record field-for-field is a fabricated
+  reference --- hard failure, same as an unverified external entry. A bonus when
+  it happens naturally: if one of this run's own roster authors appears in an
+  adjacent prior output, cite that one --- genuine self-citation reads even
+  straighter.
+- **Verify against the ledger**, not doi.org (the `10.5555` test prefix never
+  resolves there, by design):
+  `grep -l '10.5555/slop.<seed>' website/src/content/outputs/*.yml` must hit
+  exactly the entry you copied from.
+- **BibTeX shape** (same workaround family as the arXiv entry form above ---
+  typst's BibTeX conversion drops `@techreport`'s `institution`, so carry the
+  institution in an `@article`'s `journal` field):
+  `@article{slop-<seed>, author = {...}, title = {...}, journal = {Slop University technical report}, year = {...}, doi = {10.5555/slop.<seed>}}`.
+  This renders authors, title, institution, year, and the DOI; the site's
+  `/doi/` route is the DOI's resolver, so a curious reader can chase it.
+- **Citation honesty applies unchanged**: a prose claim about a cited slop
+  output must be true of that output's ledger `summary`. The canon stays
+  self-consistent or the fiction collapses on a close read.
+
+Self-citations count inside the 15-25 total; the bibliography's realness remains
+the point, so they stay a thread (1-3), never the fabric.
 
 ## Figures and tables
 
@@ -287,11 +330,15 @@ package --- not before.
       4-8 pages
 - [ ] 2-4 authors, all from `canon/roster.yml`, affiliations from
       `canon/schools.md`; no other person named outside the References
-- [ ] 15+ references, **every entry verified** (DOI resolves or arXiv ID returns
-      a matching title); fields copied accurately; loaded via
+- [ ] 15+ references, **every external entry verified** (DOI resolves or arXiv
+      ID returns a matching title); fields copied accurately; loaded via
       `bibliography(..., style: "ieee")` and actually cited in prose
+- [ ] 1-3 slop self-citations, each matching its
+      `website/src/content/outputs/*.yml` entry field-for-field, slop DOI
+      rendered, cited in prose (skipped only if nothing in the ledger is
+      topically adjacent)
 - [ ] Citation honesty: every prose claim about a cited work is true of that
-      work
+      work (for slop self-citations, true of the ledger entry's `summary`)
 - [ ] 2+ gribouille charts in brand styling (incl. the do-nothing ablation);
       captions carry falsifiable claims; at most one generated image
 - [ ] Voice holds: hedged contributions, deadpan method, limitations that
@@ -304,6 +351,9 @@ package --- not before.
 - **An unverified or fabricated reference slips in**: hard failure --- the
   entire point is that the bibliography is real. Re-verify the full list; drop
   anything that doesn't resolve.
+- **A slop self-citation drifts from its ledger entry** (remixed title, wrong
+  authors, invented DOI): the same hard failure wearing a gown --- re-copy the
+  fields from the `outputs/*.yml` entry or drop the citation.
 - **Prose misattributes a claim to a real cited work**: rewrite the sentence to
   a claim that is true of that work (or generalise to the field).
 - **Reads like a poster**: prose too telegraphic. A paper carries full sentences
