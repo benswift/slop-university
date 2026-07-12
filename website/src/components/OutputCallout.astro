@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import { fullTitle, presetLabels, presetReadLabels } from "../lib/outputs";
+import { fullTitle, presetLabels } from "../lib/outputs";
 import { thumbnail } from "../lib/thumbnails";
 
 // The jump-straight-to-the-document callout, carried at the top of both places
@@ -11,8 +11,10 @@ import { thumbnail } from "../lib/thumbnails";
 //
 // One link target, twice over: the thumbnail is a decorative second door to the
 // same PDF (hidden from assistive tech and the tab order, so the callout offers
-// a single stop), and the heading is the real one. `showRecord` adds the way
-// back to the landing page --- omitted on the landing page itself.
+// a single stop), and the "PDF" line in the meta is the real one --- the
+// document's shape carries the call to action, so the text just names the file.
+// `showRecord` adds the way back to the landing page --- omitted on the landing
+// page itself.
 interface Props {
   id: string;
   data: CollectionEntry<"outputs">["data"];
@@ -34,12 +36,11 @@ const full = fullTitle(data);
   }
   <div class="callout-body">
     <p class="callout-kicker">{presetLabels[data.preset]}</p>
-    <h2 class="callout-action">
-      <a href={data.pdf}>{presetReadLabels[data.preset]}</a>
-    </h2>
     {showRecord && <p class="callout-title">{full}</p>}
     <p class="callout-meta">
-      PDF{data.pages && <> · {data.pages} pages</>}
+      <a class="callout-pdf" href={data.pdf}>
+        PDF{data.pages && <> · {data.pages} pages</>}
+      </a>
       {
         showRecord && (
           <>
@@ -71,7 +72,7 @@ const full = fullTitle(data);
     transition: box-shadow 150ms ease, transform 150ms ease;
   }
 
-  .callout:has(.callout-action a:hover, .callout-thumb:hover) {
+  .callout:has(.callout-pdf:hover, .callout-thumb:hover) {
     box-shadow: var(--at-shadow-md);
     transform: translateY(-2px);
   }
@@ -81,7 +82,7 @@ const full = fullTitle(data);
       transition: none;
     }
 
-    .callout:has(.callout-action a:hover, .callout-thumb:hover) {
+    .callout:has(.callout-pdf:hover, .callout-thumb:hover) {
       transform: none;
     }
   }
@@ -111,26 +112,16 @@ const full = fullTitle(data);
     text-transform: uppercase;
   }
 
-  .callout-action {
-    margin-block: 0;
-    font-size: var(--at-font-size-h4);
-    line-height: 1.2;
-  }
-
-  .callout-action a {
-    text-decoration: none;
-  }
-
-  .callout-action a:hover {
-    text-decoration: underline;
-  }
-
   .callout-title {
-    margin-block: var(--at-spacing-xs) 0;
+    margin-block: 0;
     color: var(--at-text-secondary);
     text-wrap: pretty;
   }
 
+  /* The "PDF · N pages" link is the callout's real door now that the heading is
+     gone; it takes the theme's usual link treatment (colour + underline), same
+     as the "Full record" link beside it, while the thumbnail carries the visual
+     pull. Only the surrounding meta text is muted. */
   .callout-meta {
     margin-block: var(--at-spacing-sm) 0;
     color: var(--at-text-muted);

@@ -10,17 +10,6 @@ export const presetLabels: Record<Preset, string> = {
   "impact-report": "Impact report",
 };
 
-// The call to action on an output's callout. Each genre gets its own verb ---
-// a poster is viewed, a plan is read --- because "Read the output" is exactly
-// the institutional flatness the rest of the site is careful to avoid.
-export const presetReadLabels: Record<Preset, string> = {
-  "research-poster": "View the poster",
-  paper: "Read the paper",
-  brochure: "Read the brochure",
-  strategy: "Read the plan",
-  "impact-report": "Read the report",
-};
-
 // Short forms for the type badge on output cards, where the icon already
 // carries the "research artefact" sense and the pill has to stay narrow. The
 // long labels above still cover the citation note and the metadata table.
