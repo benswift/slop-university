@@ -112,15 +112,13 @@ Per-run `references.bib` harvested from genuine literature:
    correctly attributed. Never fabricate an entry, never pad with an unverified
    one; 15 verified beats 25 mixed.
 4. Write `output/slop-paper-<slug>-<seed>.bib` and load it with
-   `#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References",
-   style: "ieee")`. (The whole `output/` tree is gitignored, the per-run bib
-   included.)
+   `#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References", style: "ieee")`.
+   (The whole `output/` tree is gitignored, the per-run bib included.)
 
    **arXiv entry form**: typst's BibTeX conversion drops `eprint` /
-   `archivePrefix` (the entry renders as a bare title + year), and a `url`
-   field suppresses the year. Write arXiv entries as
-   `@article{key, author = {...}, title = {...}, year = {...},
-   journal = {arXiv preprint arXiv:<id>}}`.
+   `archivePrefix` (the entry renders as a bare title + year), and a `url` field
+   suppresses the year. Write arXiv entries as
+   `@article{key, author = {...}, title = {...}, year = {...}, journal = {arXiv preprint arXiv:<id>}}`.
 
 **Citation honesty rule**: prose claims about a cited work must be true of that
 work ("resource-allocation mechanisms have been studied extensively @real2019"
