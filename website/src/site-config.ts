@@ -1,21 +1,9 @@
-import type { SiteConfig } from "astro-theme-university/types";
 import { defineSiteConfig } from "astro-theme-university/types";
-import slopCrest from "./assets/branding/slop-crest.svg";
-import slopLogo from "./assets/branding/slop-horizontal-gold-black.svg";
-import slopLogoDark from "./assets/branding/slop-horizontal-gold-white.svg";
-
 // The Slop University branding preset — the web mirror of the
-// slop-university-brand typst package. Spread into the site config (and from
-// there into BaseLayout); never import astro-theme-anu here.
-export const slopBranding: Partial<SiteConfig> = {
-  logo: slopLogo,
-  logoDark: slopLogoDark,
-  // On narrow viewports the wide horizontal lockup wraps the nav bar, so the
-  // theme swaps to the crest below 640px. The gold outline reads on both the
-  // cream and dark backgrounds, so a single mark serves both themes.
-  logoCompact: slopCrest,
-  favicon: slopCrest,
-};
+// slop-university-brand typst package, extracted so other sites can wear the
+// identity. Spread into the site config (and from there into BaseLayout);
+// never import astro-theme-anu here.
+import { slopBranding } from "astro-theme-slop";
 
 export const siteConfig = defineSiteConfig({
   ...slopBranding,

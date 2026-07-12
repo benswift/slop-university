@@ -23,11 +23,13 @@ two lockup SVGs (one horizontal mark, black/white wordmark ink; masthead and
 back cover share the artwork), the masthead placement geometry, and the
 gribouille chart values (`slop-theme`, `slop-categorical`, `slop-ordinal`,
 `slop-gold-tints`, `slop-colour` / `slop-fill`). Generated documents import the
-brand package only. The same two SVGs are installed into
-`website/src/assets/branding/` for the site's logo/logoDark (build-all.sh keeps
-the copies in sync); `slop-crest.svg` there is a **hand-derived crest-only cut**
-of the lockup art (favicon) --- lockup-gen.typ doesn't produce it, so if the
-crest curve ever changes, re-derive it by hand from the new lockup.
+brand package only. The same two SVGs are installed into the
+[astro-theme-slop](https://github.com/benswift/astro-theme-slop) web brand
+package (a sibling checkout; build-all.sh keeps the copies in sync --- after a
+web update, commit/tag that repo and bump the website's pinned tag);
+`slop-crest.svg` there is a **hand-derived crest-only cut** of the lockup art
+(favicon) --- lockup-gen.typ doesn't produce it, so if the crest curve ever
+changes, re-derive it by hand from the new lockup.
 
 This directory keeps the _generator_ toolchain.
 
@@ -49,8 +51,8 @@ This directory keeps the _generator_ toolchain.
 Needs Public Sans (`$PUBLIC_SANS_PATH`, default
 `~/.local/share/fonts/PublicSans-static`) and writes into the brand package
 logos dir (`$SLOP_BRAND_LOGOS`, default
-`../../brand/slop-university-brand/0.1.0/logos`) and the website branding dir
-(`$SLOP_WEB_BRANDING`, default `../../website/src/assets/branding`). All env
+`../../brand/slop-university-brand/0.1.0/logos`) and the astro-theme-slop assets
+dir (`$SLOP_WEB_BRANDING`, default `../../../astro-theme-slop/assets`). All env
 vars are overridable.
 
 ## Masthead placement (the `slop` lockup entry in the brand package)

@@ -13,7 +13,7 @@ export default defineConfig({
     universityTheme({
       name: "Slop University",
       defaultLayout: "src/layouts/PageLayout.astro",
-      brandCss: "/src/styles/slop.css",
+      brandCss: "astro-theme-slop/slop.css",
       llmsTxt: true,
     }),
     sitemap(),

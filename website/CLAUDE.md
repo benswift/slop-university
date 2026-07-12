@@ -1,10 +1,11 @@
 # website/ --- slop.university
 
 The public face of Slop University: an Astro site consuming
-`astro-theme-university` (pinned release tag) with the `slopBranding` preset in
-`src/site-config.ts`. The repo-level `CLAUDE.md` satire rules apply to
-everything here; this file adds the doctrine for the autonomous publish agent,
-which grows this site over time.
+`astro-theme-university` (pinned release tag) with the `slopBranding` preset
+from `astro-theme-slop` (the extracted web brand package, also git-pinned),
+spread into the site config in `src/site-config.ts`. The repo-level `CLAUDE.md`
+satire rules apply to everything here; this file adds the doctrine for the
+autonomous publish agent, which grows this site over time.
 
 ## Hard floors (mechanically enforced --- the push wrapper validates every
 
