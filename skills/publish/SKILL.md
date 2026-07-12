@@ -312,7 +312,13 @@ verifiable numbers). Then:
 
 ### Stage assets into website/
 
-- Copy the final PDF → `website/public/outputs/pdf/<run-id>.pdf`.
+- Stage the final PDF → `website/public/outputs/pdf/<run-id>.pdf`, downsampling
+  it on the way in --- never copy it verbatim. The compiled PDF embeds imagery
+  at ~360 PPI and runs 1--5 MB; the committed copy only needs screen resolution:
+  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=website/public/outputs/pdf/<run-id>.pdf output/pdf/<group>/<run-id>.pdf`
+  (~80% smaller on the image-heavy formats, visually identical at reading size;
+  the PDF metadata title survives the round-trip). The full-resolution original
+  stays in gitignored `output/pdf/<group>/`.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF), then optimised through
   `astro:assets`, so it lives under `src/`, not `public/`:
