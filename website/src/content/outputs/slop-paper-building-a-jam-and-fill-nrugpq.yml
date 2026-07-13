@@ -1,0 +1,30 @@
+title: "Flagged for Jams, Cited for Staffing"
+subtitle: "Deploying an After-Hours Book-Return Chute Sensor, and How Its Alert Log Became the Case for Keeping the Library Desk Staffed"
+authors:
+  - Sten Okwuosa
+  - Thandiwe Solberg
+  - Joost Nwosu
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-13
+doi: 10.5555/slop.nrugpq
+summary: >-
+  A paper from the School of Continuous Improvement builds and deploys the
+  Return-Chute Sentinel, a load-cell-and-break-beam sensor for the
+  University Library's after-hours book-return chute, cutting
+  fault-detection latency from an hour-bound manual round to a couple of
+  minutes and reducing night staff's walk-through rounds by three-quarters
+  across a fourteen-week deployment, with an ablation finding its
+  break-beam channel makes little difference to detection accuracy. The
+  paper separately traces how the sensor's alert log, which counts only
+  mechanical chute events, came to be cited by Facilities' after-hours
+  staffing review as evidence of sustained patron demand for a staffed
+  desk, a use the instrument was never built to support.
+topic: >-
+  building a jam-and-fill sensor for the library's after-hours book-return
+  chute to cut night staff's hourly bin checks, then tracing how the
+  sensor's alert log became the evidence Facilities cites to justify
+  keeping the library service desk staffed after hours
+pdf: /outputs/pdf/slop-paper-building-a-jam-and-fill-nrugpq.pdf
+pages: 6
+version: "1.0"
