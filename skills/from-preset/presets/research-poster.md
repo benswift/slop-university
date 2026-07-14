@@ -134,16 +134,16 @@ the chart pipeline are off-limits to variation; they're fixed.
 
 ### Layout (roll: feature-right / feature-top)
 
-Roll one of two layouts per run, weighted **75% feature-right (landscape) / 25%
-feature-top (portrait)** --- roll 1-4 and take 1-3 as landscape, 4 as portrait.
-Landscape is favoured because that's what the department's e-signage displays it
-on; the portrait quarter keeps the genre varied. Both carry the **same content**
---- the same sections, the same single chart, the same `1fr` field image, a QR,
-and a bottom-pinned footer --- and differ only in orientation and where the
-feature image and title sit. Roll the layout **first**, before the other rolls:
-it sets the feature image's aspect ratio and which of the two skeletons in
-"Typst structure" you write. Everything downstream (sections, chart, references,
-voice, one-page fit) is identical across the two.
+Roll one of two layouts per run, weighted **50% feature-right (landscape) / 50%
+feature-top (portrait)** --- roll 1-2 and take 1 as landscape, 2 as portrait.
+Landscape suits the department's e-signage; portrait keeps the genre varied ---
+the split is even so both orientations turn up equally often. Both carry the
+**same content** --- the same sections, the same single chart, the same `1fr`
+field image, a QR, and a bottom-pinned footer --- and differ only in orientation
+and where the feature image and title sit. Roll the layout **first**, before the
+other rolls: it sets the feature image's aspect ratio and which of the two
+skeletons in "Typst structure" you write. Everything downstream (sections,
+chart, references, voice, one-page fit) is identical across the two.
 
 - **feature-right (A3 landscape).** A tall image full-bleeds the right ~third of
   the page (reserved via the page `margin: (right: 150mm, …)` and a `place`d
@@ -157,15 +157,17 @@ voice, one-page fit) is identical across the two.
 
 - **feature-top (A3 portrait).** A wide image full-bleeds a band across the top
   of the page (reserved via an oversized `top` margin and a `place`d box flush
-  to the page edge), with **two gradient scrims** --- one darkening the top so
-  the **white Slop University lockup** reads, one darkening the bottom so the
-  **white title + subtitle + gold rule** read (the "white text, black scrim"
-  treatment the template uses for cover and feature-page overlays). The
-  automatic masthead is hidden (`hide: (…, "masthead")`) and the lockup overlaid
-  manually via `slop-lockup` (white), because the automatic one draws a solid
-  rect and sits behind the band. The 2-column body fills the page below. The
-  **feature image is wide and horizontal** (a corridor, a courtyard, a bank of
-  screens) --- request a **16:9** image.
+  to the page edge), with a **uniform base scrim over the whole band** (a
+  legibility floor, since the title and subtitle can otherwise land on a bright
+  patch of a run-varying image) plus **two gradient scrims** --- one darkening
+  the top so the **white Slop University lockup** reads, one darkening the
+  bottom so the **white title + subtitle + gold rule** read (the "white text,
+  black scrim" treatment the template uses for cover and feature-page overlays).
+  The automatic masthead is hidden (`hide: (…, "masthead")`) and the lockup
+  overlaid manually via `slop-lockup` (white), because the automatic one draws a
+  solid rect and sits behind the band. The 2-column body fills the page below.
+  The **feature image is wide and horizontal** (a corridor, a courtyard, a bank
+  of screens) --- request a **16:9** image.
 
 In both layouts the feature image is `place`d out of flow (right third, or top
 band) so it never affects column fit; the body field image is in-flow in the
@@ -637,12 +639,17 @@ height) and is placed directly with `#body`.
 }
 
 // ── Hero band: a wide image full-bleeding a band across the top, flush to the
-//    page edge. Two scrims darken the top (so the white lockup reads) and the
-//    bottom (so the white title reads); the lockup, title, subtitle, gold rule,
-//    and QR are overlaid. `place`d out of flow, so it never affects column fit. ──
+//    page edge. Three scrims: a uniform base darkens the WHOLE band (a
+//    legibility floor everywhere, since the image content varies run to run and
+//    the title/subtitle can otherwise land on a bright patch), then gradients
+//    darken the top (so the white lockup reads) and the bottom (so the white
+//    title reads). The lockup, title, subtitle, gold rule, and QR are overlaid.
+//    `place`d out of flow, so it never affects column fit. ──
 #place(top + left, dx: -m-left, dy: -m-top, box(width: 297mm, height: band-h, clip: true, {
   image("/output/slop-poster-<slug>-<seed>-images/feature.jpg",
         width: 100%, height: 100%, fit: "cover")
+  // base scrim over the whole band (uniform legibility floor, ~35%)
+  place(top + left, rect(width: 100%, height: 100%, fill: rgb("#00000059")))
   // top scrim (for the lockup)
   place(top, rect(width: 100%, height: 42%,
     fill: gradient.linear(angle: 90deg, (rgb("#000000b3"), 0%), (rgb("#00000000"), 100%))))
