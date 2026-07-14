@@ -12,6 +12,15 @@ import backdrop from "../../assets/signage/backdrop.avif";
 // PDF page is rendered to a canvas at device resolution via PDF.js, so the
 // vector text stays crisp at any display size.
 //
+// A panel that is physically portrait but whose framebuffer is landscape (a
+// landscape-native screen mounted on its side, with no OS-level rotation) can
+// use /signage/portrait/?rotate=cw (or ?rotate=ccw): it serves the same portrait
+// posters but rotates the stage 90 degrees in CSS so the poster stands upright
+// once the panel's physical rotation is accounted for. The stage's layout box is
+// swapped to the panel's true (portrait) dimensions before rotating, so the
+// letterbox maths and the PDF render resolution stay correct. Flip cw/ccw to
+// match the way the panel was turned --- read client-side, so no rebuild needed.
+//
 // Because the site is static, "latest" is resolved at build time; the /publish
 // tick rebuilds on each new output, and the page reloads itself on an interval
 // so a fresh deploy swaps the poster in unattended.
@@ -132,6 +141,28 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       #fallback[hidden] {
         display: none;
       }
+
+      /* Physically-portrait panel with a landscape framebuffer (see the head
+         comment). `?rotate=cw|ccw` swaps the stage's layout box to the panel's
+         true portrait dimensions (width <- 100vh, height <- 100vw) then spins it
+         90deg. Because clientWidth/clientHeight report the pre-transform box, the
+         canvas still renders at the panel's real resolution; the transform is
+         purely how it lands on the glass. */
+      body.rotate #stage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100vh;
+        height: 100vw;
+        transform: translate(-50%, -50%) rotate(var(--rotate, 90deg));
+      }
+
+      /* Same contain-fit as the un-rotated poster, but measured against the
+         rotated stage (vw/vh swapped) rather than the raw viewport. */
+      body.rotate #poster,
+      body.rotate #fallback {
+        width: min(100vh, calc(100vw * var(--poster-aspect)));
+      }
     </style>
   </head>
   <body>
@@ -172,6 +203,15 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       const pdfUrl = stage?.dataset.pdf;
       const reloadMs = Number(stage?.dataset.reloadMs) || 0;
       const retryMs = Number(stage?.dataset.retryMs) || 0;
+
+      // A physically-portrait panel with a landscape framebuffer asks for
+      // rotation via `?rotate=cw|ccw`. Toggle the CSS mode up front, before the
+      // first render, so fitScale measures the rotated (portrait) stage box.
+      const rotate = new URLSearchParams(location.search).get("rotate");
+      if (rotate === "cw" || rotate === "ccw") {
+        document.body.classList.add("rotate");
+        document.body.style.setProperty("--rotate", rotate === "ccw" ? "-90deg" : "90deg");
+      }
 
       const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
       const fallback = document.getElementById("fallback");
