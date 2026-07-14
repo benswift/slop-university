@@ -108,7 +108,7 @@ where the feature image and title sit (the "Placement" column below describes
 | Region                    | Placement                                    | Length / notes                                                                                                                                                             |
 | ------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Title band                | full width (left two-thirds), below masthead | Project title (gold, ~32pt) + one-line subtitle. No affiliation line --- attribution rides in the lockup + margin wordmark                                                 |
-| Feature image             | full-bleed right third                       | tall (9:16) `references/`-styled photo with a gradient scrim + white hero quote --- the visual hook                                                                        |
+| Feature image             | full-bleed right third                       | tall (9:16) `references/`-styled photo with a baked-in scrim + white hero quote --- the visual hook                                                                        |
 | Body image (field)        | foot of the left grid column                 | wide (21:9) `references/`-styled photo as a `height: 1fr` block, cropped (`fit: cover`) to fill the column's leftover height --- pads the left column to balance the right |
 | Background                | column flow                                  | ~30-45 words; the gap, ideally framed as a question                                                                                                                        |
 | Aims / Research questions | column flow                                  | 3 terse bullets                                                                                                                                                            |
@@ -147,9 +147,10 @@ chart, references, voice, one-page fit) is identical across the two.
 
 - **feature-right (A3 landscape).** A tall image full-bleeds the right ~third of
   the page (reserved via the page `margin: (right: 150mm, …)` and a `place`d
-  box), with a gradient scrim and a white hero quote over its lower portion; the
-  title (gold on white) and a 2-column grid body take the left two-thirds. The
-  masthead renders automatically top-left; the QR sits over the image's
+  box), with a white hero quote over its lower portion --- the scrim under the
+  quote is **baked into the image at prep** (see Imagery), not drawn in typst;
+  the title (gold on white) and a 2-column grid body take the left two-thirds.
+  The masthead renders automatically top-left; the QR sits over the image's
   top-right. The **feature image is tall and vertical** (a stack aisle, a
   stairwell, a tower) --- request a **9:16** image from `styled-image-gen`. The
   big image makes the poster pop and the title still gets a comfortable
@@ -157,17 +158,19 @@ chart, references, voice, one-page fit) is identical across the two.
 
 - **feature-top (A3 portrait).** A wide image full-bleeds a band across the top
   of the page (reserved via an oversized `top` margin and a `place`d box flush
-  to the page edge), with a **uniform base scrim over the whole band** (a
-  legibility floor, since the title and subtitle can otherwise land on a bright
-  patch of a run-varying image) plus **two gradient scrims** --- one darkening
-  the top so the **white Slop University lockup** reads, one darkening the
-  bottom so the **white title + subtitle + gold rule** read (the "white text,
-  black scrim" treatment the template uses for cover and feature-page overlays).
-  The automatic masthead is hidden (`hide: (…, "masthead")`) and the lockup
-  overlaid manually via `slop-lockup` (white), because the automatic one draws a
-  solid rect and sits behind the band. The 2-column body fills the page below.
-  The **feature image is wide and horizontal** (a corridor, a courtyard, a bank
-  of screens) --- request a **16:9** image.
+  to the page edge). The band's darkening --- a **uniform base over the whole
+  band** (a legibility floor, since the title and subtitle can otherwise land on
+  a bright patch of a run-varying image), a **darker top** so the **white Slop
+  University lockup** reads, and a **darker bottom** so the **white title
+  - subtitle + gold rule** read (the "white text, black scrim" treatment the
+    template uses for cover and feature-page overlays) --- is all **baked into
+    `feature.jpg` at image prep** (see Imagery), not drawn in typst; the
+    document overlays only text. The automatic masthead is hidden
+    (`hide: (…, "masthead")`) and the lockup overlaid manually via `slop-lockup`
+    (white), because the automatic one draws a solid rect and sits behind the
+    band. The 2-column body fills the page below. The **feature image is wide
+    and horizontal** (a corridor, a courtyard, a bank of screens) --- request a
+    **16:9** image.
 
 In both layouts the feature image is `place`d out of flow (right third, or top
 band) so it never affects column fit; the body field image is in-flow in the
@@ -356,6 +359,36 @@ with a wink.
   (`--aspect-ratio 16:9`, wide) for **feature-top** (full-bleeds the top band
   with scrims + the overlaid masthead/title). `place`d out of flow, so it never
   affects column fit.
+- **Scrim bake (`feature.jpg`, both layouts).** The white-on-scrim overlays
+  (hero quote, or lockup + title block) need the image darkened beneath them,
+  and that darkening is **baked into the JPEG** --- never drawn as typst
+  gradient scrims, which render as solid black in iOS Safari and Firefox and are
+  dropped by Chrome (see `../../_shared/typst-layout.md`, "PDF transparency").
+  After generating `feature.jpg`, centre-crop to the display aspect and multiply
+  the scrims in (a multiply mask is exactly a stacked black scrim: `gray(65%)`
+  darkens by 35%, `gray(20%)` by 80%):
+
+  ```bash
+  # feature-right --- 9:16 image shown in a 143x297mm box: bottom 48% fades to 80% black
+  H=$(identify -format %h feature.jpg); W=$(( H * 143 / 297 ))
+  convert feature.jpg -gravity center -crop ${W}x${H}+0+0 +repage \
+    \( -size ${W}x$(( H * 48 / 100 )) gradient:white-'gray(20%)' -background white -gravity south -extent ${W}x${H} \) \
+    -compose multiply -composite -quality 92 feature.jpg
+
+  # feature-top --- 16:9 image shown in the 297mm x band-h (152mm) band: uniform 35%
+  # base + top 42% fading from 70% black (lockup) + bottom 60% fading to 80% black
+  # (title block). If the skeleton's band-h isn't 152mm, use its value in H.
+  W=$(identify -format %w feature.jpg); H=$(( W * 152 / 297 ))
+  convert feature.jpg -gravity center -crop ${W}x${H}+0+0 +repage \
+    \( -size ${W}x${H} xc:'gray(65%)' \) -compose multiply -composite \
+    \( -size ${W}x$(( H * 42 / 100 )) gradient:'gray(30%)'-white -background white -gravity north -extent ${W}x${H} \) -compose multiply -composite \
+    \( -size ${W}x$(( H * 60 / 100 )) gradient:white-'gray(20%)' -background white -gravity south -extent ${W}x${H} \) -compose multiply -composite \
+    -quality 92 feature.jpg
+  ```
+
+  The crop matches what `fit: "cover"` will show, so the baked bands land
+  exactly where the overlay text sits.
+
 - **`inline-1.jpg`** (always) --- the wide field image. **21:9**
   (`--aspect-ratio 21:9`), **2K** is fine (shown only a column wide); placed
   in-flow at the foot of the left grid cell as a `height: 1fr` block, cropped
@@ -397,13 +430,13 @@ Read these before generating:
   and the column-grid body. **Note:** those are dark-mode with custom display
   fonts; this preset is **light-mode using the template defaults** (Public Sans,
   gold accents). Copy the page-setup moves, not the dark styling or fonts.
-- **Hero scrim + masthead overlay (feature-top)**:
+- **Hero overlay (feature-top)**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
-  --- the core's `feature-page` and cover block both do the
-  white-text-on-gradient-scrim treatment the top band reuses; `slop-lockup`
-  (from the brand package) is the helper that overlays the masthead on the photo
-  (no masking rect). There is no perceptron analogue for this layout --- the
-  core is the reference.
+  --- the core's `feature-page` and cover block both do the white-text-on-scrim
+  treatment the top band emulates (the band's own scrims are baked into the
+  image at prep --- see Imagery); `slop-lockup` (from the brand package) is the
+  helper that overlays the masthead on the photo (no masking rect). There is no
+  perceptron analogue for this layout --- the core is the reference.
 - **Chart + card layout**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
   --- chart-in-column usage and the highlight-card grid (under the core's
@@ -470,12 +503,12 @@ an identical two-column body grid --- only the page setup and the feature image
 }
 
 // ── Feature image: a tall image full-bleeding the reserved right third, with a
-//    gradient scrim and a white hero quote over its lower portion. ──
+//    white hero quote over its lower portion. The scrim under the quote is baked
+//    into feature.jpg at image prep (see Imagery) --- never a typst gradient
+//    scrim (alpha gradients render black in iOS Safari/Firefox). ──
 #place(top + right, dx: 150mm, dy: -25mm, box(width: 143mm, height: 297mm, clip: true, {
   image("/output/slop-poster-<slug>-<seed>-images/feature.jpg",
         width: 100%, height: 100%, fit: "cover")
-  place(bottom, rect(width: 143mm, height: 48%,
-    fill: gradient.linear(angle: 90deg, (rgb("#00000000"), 0%), (rgb("#000000cc"), 100%))))
   place(bottom + left, dx: 10mm, dy: -11mm, box(width: 123mm)[
     #text(fill: white, size: 19pt, weight: "medium")[“<hero quote --- a punchy finding or strapline>”]
     #v(0.35em)
@@ -588,13 +621,13 @@ an identical two-column body grid --- only the page setup and the feature image
 Portrait A3. A wide hero image is `place`d flush to the top edge; the body flows
 below it in the same two-column grid as Skeleton A. The masthead is overlaid
 (white `slop-lockup`) rather than auto-rendered, and the title is **white over
-the bottom scrim** (not gold-on-white as in Skeleton A). The `body` definition
-is identical to Skeleton A (set rules, both cells, the `1fr` image, the fill
-probe, the pinned footer); only its placement differs --- Skeleton A nests it as
-row two of an outer `grid(rows: (auto, 1fr))` below its in-flow title, whereas
-here the title lives in the hero band (out of flow), so the body grid is the
-first in-flow content (its `rows: 1fr` already resolves against the correct
-height) and is placed directly with `#body`.
+the band's baked-dark bottom** (not gold-on-white as in Skeleton A). The `body`
+definition is identical to Skeleton A (set rules, both cells, the `1fr` image,
+the fill probe, the pinned footer); only its placement differs --- Skeleton A
+nests it as row two of an outer `grid(rows: (auto, 1fr))` below its in-flow
+title, whereas here the title lives in the hero band (out of flow), so the body
+grid is the first in-flow content (its `rows: 1fr` already resolves against the
+correct height) and is placed directly with `#body`.
 
 ```typst
 #import "@local/slop-university-brand:0.1.0": slop, slop-colors, slop-lockup, slop-qr-code
@@ -639,32 +672,24 @@ height) and is placed directly with `#body`.
 }
 
 // ── Hero band: a wide image full-bleeding a band across the top, flush to the
-//    page edge. Three scrims: a uniform base darkens the WHOLE band (a
-//    legibility floor everywhere, since the image content varies run to run and
-//    the title/subtitle can otherwise land on a bright patch), then gradients
-//    darken the top (so the white lockup reads) and the bottom (so the white
-//    title reads). The lockup, title, subtitle, gold rule, and QR are overlaid.
-//    `place`d out of flow, so it never affects column fit. ──
+//    page edge. The band's darkening (a uniform legibility floor over the whole
+//    band, a darker top for the lockup, a darker bottom for the title) is baked
+//    into feature.jpg at image prep (see Imagery) --- never typst gradient
+//    scrims (alpha gradients render black in iOS Safari/Firefox). The lockup,
+//    title, subtitle, gold rule, and QR are overlaid. `place`d out of flow, so
+//    it never affects column fit. ──
 #place(top + left, dx: -m-left, dy: -m-top, box(width: 297mm, height: band-h, clip: true, {
   image("/output/slop-poster-<slug>-<seed>-images/feature.jpg",
         width: 100%, height: 100%, fit: "cover")
-  // base scrim over the whole band (uniform legibility floor, ~35%)
-  place(top + left, rect(width: 100%, height: 100%, fill: rgb("#00000059")))
-  // top scrim (for the lockup)
-  place(top, rect(width: 100%, height: 42%,
-    fill: gradient.linear(angle: 90deg, (rgb("#000000b3"), 0%), (rgb("#00000000"), 100%))))
-  // bottom scrim (for the title block)
-  place(bottom, rect(width: 100%, height: 60%,
-    fill: gradient.linear(angle: 90deg, (rgb("#00000000"), 0%), (rgb("#000000cc"), 100%))))
   // gold spine continued over the band (the page-background rule is covered here)
   place(top + left, dx: 1.9cm, rect(width: 0.75pt, height: band-h, fill: slop-colors.gold))
-  // white Slop University lockup, overlaid (no masking rect --- reads on the top scrim)
+  // white Slop University lockup, overlaid (no masking rect --- reads on the band's baked-dark top)
   place(top + left, dx: 2.2cm, dy: 1.1cm,
     slop-lockup(variant: "white", height: 1.7cm))
   // QR top-right, balancing the lockup
   place(top + right, dx: -1.6cm, dy: 1.4cm,
     slop-qr-code("https://slop.university/", width: 2.4cm))
-  // title block over the bottom scrim --- WHITE (gold lives only in the rule)
+  // title block over the band's baked-dark bottom --- WHITE (gold lives only in the rule)
   place(bottom + left, dx: 2.2cm, dy: -11mm, box(width: 250mm)[
     #text(fill: white, size: 44pt, weight: "regular")[<Project title --- steering-driven; part before the colon>]
     #v(0.25em)
@@ -747,21 +772,22 @@ poster lands on one page first time.
   `band-h` + the band→body gap so the body never flows under the band --- this
   mirrors how feature-right reserves the right third with
   `margin: (right: 150mm, …)`.
-- **(feature-top) Two scrims, not one.** The bottom scrim carries the white
-  title (as feature-right's bottom scrim carries the hero quote); a **second top
-  scrim is essential** so the overlaid white lockup reads on a bright photo.
-  `slop-lockup` is transparent by design (no masking rect) --- without the top
-  scrim it can wash out. If the lockup or title still reads faintly, deepen that
-  scrim's end stop (`#000000cc` → `#000000e6`) rather than moving the art.
+- **(feature-top) The bake darkens top AND bottom, not just the bottom.** The
+  darkened bottom carries the white title (as feature-right's carries the hero
+  quote); the **darkened top is essential** so the overlaid white lockup reads
+  on a bright photo. `slop-lockup` is transparent by design (no masking rect)
+  --- without it it can wash out. If the lockup or title still reads faintly,
+  deepen the relevant mask's dark end (`gray(20%)` → `gray(10%)`) and re-run the
+  bake rather than moving the art.
 - **(feature-top) Overlaid masthead means hiding the automatic one**
   (`hide: (…, "masthead")`). The auto masthead draws a solid white rect in the
   page background; the top band would cover it, leaving no masthead at all. The
   gold spine is re-drawn over the band (the background rule is also covered
   there) so it runs unbroken into the body below.
-- **(feature-top) The title is WHITE over the scrim, not gold-on-white.** Gold
-  lives only in the rule under the subtitle. Keep the title to ≤2 lines and the
-  subtitle to one, so the block stays inside the bottom scrim (it grows upward
-  from its bottom anchor).
+- **(feature-top) The title is WHITE over the darkened band, not
+  gold-on-white.** Gold lives only in the rule under the subtitle. Keep the
+  title to ≤2 lines and the subtitle to one, so the block stays inside the
+  band's baked-dark bottom (it grows upward from its bottom anchor).
 - **Image/chart paths are root-relative with the `output/` prefix**
   (`/output/slop-poster-<slug>-<seed>-charts/chart-1.typ`), matching how the
   booklet presets reference images. Compile with the project root as the typst
@@ -845,11 +871,12 @@ items:
       author's school (`canon/roster.yml` / `canon/schools.md`); no other person
       named anywhere
 - [ ] Layout matches the roll. feature-right: a tall (9:16) image full-bleeds
-      the right third with a scrim + white hero quote; title + 2-column body in
-      the left two-thirds (right margin reserved). feature-top: a wide (16:9)
-      image full-bleeds the top band with two scrims + the overlaid white
-      masthead, title, subtitle, and gold rule; 2-column body fills the page
-      below
+      the right third with a baked-in scrim + white hero quote; title + 2-column
+      body in the left two-thirds (right margin reserved). feature-top: a wide
+      (16:9) image full-bleeds the top band with the baked-in darkening + the
+      overlaid white masthead, title, subtitle, and gold rule; 2-column body
+      fills the page below. Neither skeleton draws a typst gradient scrim (the
+      bake carries them)
 - [ ] Section names drawn from the reservoirs
 - [ ] Two house-style images (`references/slop-style/` refs): the 4K feature
       (9:16 for feature-right / 16:9 for feature-top) and the wide (21:9, 2K)
@@ -892,10 +919,10 @@ items:
 - **Title looks like a heading, not a banner**: the project title was written as
   `=` / `==` instead of a manual `text()` block. Use the title-band block ---
   gold-on-white for feature-right, white-on-scrim in the hero for feature-top.
-- **(feature-top) Lockup or title washes out on the hero**: the scrim isn't deep
-  enough, or the automatic masthead wasn't hidden. Deepen the relevant scrim's
-  end stop (`#000000cc` → `#000000e6`) and confirm `hide: (…, "masthead")` ---
-  do not lighten the photo or move the art.
+- **(feature-top) Lockup or title washes out on the hero**: the baked darkening
+  isn't deep enough, or the automatic masthead wasn't hidden. Deepen the
+  relevant mask's dark end (`gray(20%)` → `gray(10%)`), re-run the bake, and
+  confirm `hide: (…, "masthead")` --- do not lighten the photo or move the art.
 - **(feature-top) Body hidden behind the band, or a white gap below it**:
   `m-top` is out of step with the band height. Keep `m-top` ≈ `band-h` + the
   band→body gap; too small and the body flows under the band, too large and a

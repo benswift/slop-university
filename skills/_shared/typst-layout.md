@@ -196,6 +196,25 @@ the print shop can cut cleanly. The snippets above already include it.
 **Poster-format presets are exempt** --- a poster is pinned to a board, not
 trimmed, so there is no bleed.
 
+## PDF transparency: constant alpha only
+
+Never emit an **alpha gradient** (`gradient.linear` etc. with alpha in any stop)
+into a PDF. Typst encodes them as a shading through a luminosity soft mask ---
+spec-valid (ISO 32000 §11.6.5), but mishandled by the viewers that matter:
+**solid black in iOS Safari and Firefox (pdf.js), silently dropped in Chrome
+(PDFium)**, and resolution-dependent in poppler. Uniform **constant-alpha**
+fills (e.g. `rgb("#00000059")` on a rect) are the one transparency feature every
+viewer renders correctly.
+
+Where a gradient scrim is needed over an image, either **bake it into the image
+file at prep time** (centre-crop to the display aspect, then `-compose multiply`
+a gradient mask onto the JPEG --- the research-poster blueprint's "Scrim bake"
+bullet carries the tested recipe), or approximate it with a stack of ~60
+smoothstep-eased constant-alpha strips (the core package's `feature-page` scrim
+does this internally). Prefer the bake when the workflow already prepares the
+image: it is pixel-identical to a true gradient and leaves zero transparency in
+the PDF.
+
 ## Page-parity discipline
 
 The page count must be even (back cover sits on the final leaf of a
