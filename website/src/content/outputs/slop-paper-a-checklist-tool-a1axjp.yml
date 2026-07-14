@@ -1,0 +1,27 @@
+title: Filed Once, Counted Thrice
+subtitle: >-
+  Auditing a Volunteer Bike-Marshal Fault Checklist's Silent Fan-Out Across
+  Three Facilities Queues
+authors:
+  - Joost Nwosu
+  - Thandiwe Solberg
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-14
+doi: 10.5555/slop.a1axjp
+summary: >-
+  A paper from the School of Continuous Improvement audits Spoke Check, a
+  fault checklist for the University's thirty-four self-service bike-repair
+  stands, finding it silently duplicated every filed report into two further
+  Facilities systems for eight weeks before a patch collapsed the duplication
+  within days --- a fix that left the stands' own repair-turnaround figure
+  statistically unchanged.
+topic: >-
+  a checklist tool built for volunteer bike marshals to flag broken tools at
+  campus self-service bike-repair stands turns out to be silently duplicating
+  every fault report into two other Facilities queues nobody asked it to
+  notify, inflating whichever queue's backlog dashboard someone happens to
+  check that week
+pdf: /outputs/pdf/slop-paper-a-checklist-tool-a1axjp.pdf
+pages: 5
+version: "1.0"
