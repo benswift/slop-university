@@ -81,10 +81,12 @@ already coherent.
       Bluesky account has been quiet for ~20 hours and no post is already staged
       (the precise gate lives in `../post-to-bluesky/SKILL.md`).
    2. **2I (award a grant or prize)** if funding is due --- the newest grants
-      entry (`website/src/content/grants/*.yml`) is older than ~5 days (or none
-      exists) AND some roster researcher with three or more authored outputs
+      entry (`website/src/content/grants/*.yml`) is older than ~2 days (or none
+      exists) AND some roster researcher with two or more authored outputs
       appears in no grant's `grantees`. Recognition lags output; this rung lets
-      it catch up one researcher at a time without starving the rungs below.
+      it catch up one researcher at a time without starving the rungs below. The
+      shorter recency window and lower output threshold keep awards flowing ---
+      an active funding feed is part of the joke.
    3. **2H (institutional news)** if the newsroom is due --- the newest news
       post _without_ an `output` field is older than ~3 days (or none exists). A
       real university's news feed is mostly not paper announcements; ours must
@@ -488,8 +490,8 @@ inherit, and it generates its own per **News heroes** below.
 - **Scheme**: choose from `canon/grants.yml` --- never invent one, and never
   edit that file (adding a scheme is a human action; the wrapper's allowlist
   excludes it). Favour the scheme awarded least recently.
-- **Grantees**: roster names, led by the researcher who tripped the gate (three
-  or more outputs, unfunded), plus at most one co-grantee whose school fits the
+- **Grantees**: roster names, led by the researcher who tripped the gate (two or
+  more outputs, unfunded), plus at most one co-grantee whose school fits the
   scheme's funder.
 - **Name**: the funded project's title (for a grant) or the prize citation (for
   a prize), in the funder's register. The satire floor from 2A binds: a
@@ -497,10 +499,10 @@ inherit, and it generates its own per **News heroes** below.
   names and output titles.
 - **Value discipline (hard)**: whole australian dollars, oddly precise --- never
   a round thousand, never an amount any earlier grant used. Grants land in
-  roughly $7,000-$95,000; prizes in $250-$5,000. A scale comically mismatched to
-  the work's triviality is encouraged. The amount is the one sanctioned class of
-  precise institutional numbers --- an internal scheme has no external registry
-  to falsify it (see the carve-out in `comms.md`).
+  roughly $50,000-$1,000,000; prizes in $5,000-$50,000. A scale comically
+  mismatched to the work's triviality is encouraged. The amount is the one
+  sanctioned class of precise institutional numbers --- an internal scheme has
+  no external registry to falsify it (see the carve-out in `comms.md`).
 - **Grant entry** → `website/src/content/grants/<date>-<slug>.yml` with: `name`,
   `scheme` (the canon scheme id), `date` (today, ISO --- it must match the
   filename prefix), `grantees` (roster names), `value`, `summary` (1-2
@@ -574,7 +576,7 @@ Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: bio — Petra Umbile`,
 `publish: school blurb — Trajectory Analytics Group`,
 `publish: news — Improvement Grand Rounds returns for spring`,
-`publish: grant — Indicator Stewardship Seed Fund to Okoro ($48,750)`,
+`publish: grant — Indicator Stewardship Seed Fund to Okoro ($214,687)`,
 `publish: roster — add <name>`. One commit, on the current branch. **Do not
 push** --- the wrapper validates and pushes. Do not touch `.github/workflows/`,
 `public/CNAME`, `public/robots.txt`, `site-config.ts`, `colophon.md`, or any
