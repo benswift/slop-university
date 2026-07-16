@@ -1,0 +1,26 @@
+title: "Ahead of the Sweep, Not Ahead of the Mess"
+subtitle: >-
+  Forecasting Hot-Desk Tidiness-Sweep Failures from Swipe-In Time Regularity
+  Rather Than Logged Hours
+authors:
+  - Fenna Okoro
+  - Kwame Lindqvist
+preset: paper
+school: School of Emergent Priorities
+date: 2026-07-16
+doi: 10.5555/slop.h4dvr2
+summary: >-
+  A paper from the School of Emergent Priorities reports a fourteen-week
+  deployment of a Swipe Regularity Index, adapted from circadian
+  rest-activity-rhythm methodology, forecasting hot-desk tidiness-sweep
+  failure across 620 desk-weeks on two hot-desk floors. A regularity-only
+  model reaches an AUC of 0.71 against 0.54 for Facilities' existing
+  hours-logged risk score, and a feature ablation finds logged hours adds no
+  detectable forecasting value once regularity is available.
+topic: >-
+  forecasting which hot-desks will fail the evening tidiness sweep from
+  swipe-in time regularity, not logged hours --- the predictor Facilities
+  never tried
+pdf: /outputs/pdf/slop-paper-forecasting-which-hot-h4dvr2.pdf
+pages: 5
+version: "1.0"
