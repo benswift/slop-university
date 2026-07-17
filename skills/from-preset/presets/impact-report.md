@@ -69,6 +69,7 @@ One free-text **steering prompt**. 1-3 short sentences, or a phrase. Examples:
 - "a quiet pivot to defence"
 - "post-pandemic resilience"
 - "research that pays its way"
+- "impact at the kitchen table"
 
 The prompt is the document's topic. The institutional voice (see `../genre.md`)
 is the only floor; everything else --- impact-area names, vignettes, At-a-glance

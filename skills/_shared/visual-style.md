@@ -86,8 +86,9 @@ and between runs.
 ## The seed set (`references/slop-style/`)
 
 A curated, fully-generated exemplar set --- no real photos, ever. Minimum
-viable: ~5--8 images covering at least one campus scene, one interior/lab, one
-abstract research motif, one portrait. Preset and publish runs steer
+viable: ~5--8 images covering at least one campus scene, one everyday/street
+scene (a shop, a bus stop, a suburban street), one interior/lab, one abstract
+research motif, one portrait. Preset and publish runs steer
 `ben:styled-image-gen` with these instead of any photographic reference.
 
 Curation bar for adding an image (seed or promoted from a run):

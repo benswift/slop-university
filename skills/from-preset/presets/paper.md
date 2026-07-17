@@ -143,9 +143,9 @@ ledger instead:
 - **Source of truth**: `website/src/content/outputs/*.yml` (the canonical
   ledger). Pick topically adjacent prior outputs --- prefer `preset: paper`
   entries, `research-poster` entries also fit --- judging adjacency from each
-  entry's `summary` and `topic` fields. The ledger is thematically dense (campus
-  measurement, dashboards, audit apparatus), so a fit nearly always exists; skip
-  self-citation only when genuinely nothing is adjacent.
+  entry's `summary` and `topic` fields. The ledger is thematically dense
+  (everyday-life measurement, dashboards, audit apparatus), so a fit nearly
+  always exists; skip self-citation only when genuinely nothing is adjacent.
 - **Copy fields exactly** from the entry: `title` (append the `subtitle` after a
   colon), `authors` verbatim and in order, `school`, year from `date`, `doi`. An
   entry that doesn't match its ledger record field-for-field is a fabricated

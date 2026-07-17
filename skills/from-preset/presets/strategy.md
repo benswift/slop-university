@@ -51,6 +51,7 @@ One free-text **steering prompt**. 1-3 short sentences, or a phrase. Examples:
 - "rise to the AI moment"
 - "regional engagement and community knowledge"
 - "research excellence at scale"
+- "the university in everyday life"
 
 The prompt is the document's topic. The institutional voice (see `../genre.md`)
 is the only floor; everything else --- pillar names, KPIs, foreword, vision,

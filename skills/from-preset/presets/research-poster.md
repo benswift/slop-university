@@ -83,16 +83,19 @@ attributed; never a fabricated entry.
 One free-text **steering prompt** describing a subversive fictional research
 project. 1-3 short sentences, or a phrase. Examples:
 
-- "training magpies as a distributed campus surveillance network"
+- "training magpies as a distributed suburban surveillance network"
 - "a reinforcement-learning model for optimal tea-room biscuit redistribution"
-- "measuring the institutional unconscious via car-park sensor telemetry"
-- "a closed-loop controller for undergraduate enthusiasm"
+- "measuring neighbourhood sentiment via bin-night compliance telemetry"
+- "a closed-loop controller for supermarket self-checkout patience"
+- "forecasting school pick-up congestion from parent group-chat activity"
 - "using soil moisture sensors to predict committee-meeting sentiment"
 
 The prompt is the project. The academic register (below) is the only floor;
 everything else --- title, aims, methods, results, charts, captions --- bends to
 the prompt. The institution's voice keeps wrapping the absurd in methods prose,
-plausible bands, and hedged findings.
+plausible bands, and hedged findings. Objects of study range across everyday
+life --- the home, the street, the shops, transit --- with campus one setting
+among many (see `../genre.md`).
 
 ## The genre's structural skeleton
 
@@ -231,9 +234,9 @@ Fill the trailing column (and vary the foot between runs) with 1-2 small items
 after the references --- real poster apparatus, played deadpan:
 
 - **Acknowledgements / funding** --- aggregate only ("we thank the staff of the
-  monitored common rooms"; "supported by a School of Continuous Improvement seed
-  grant" --- schools from `canon/schools.md`); no person names beyond the author
-  line.
+  monitored common rooms"; "we thank the households of the instrumented street";
+  "supported by a School of Continuous Improvement seed grant" --- schools from
+  `canon/schools.md`); no person names beyond the author line.
 - **Ethics / data statement** --- often the funniest line on the poster, played
   straight ("animal ethics approval 2025/047; no birds harmed"; "de-identified
   occupancy only; no number plates retained"; "thresholds pre-registered").
@@ -397,10 +400,11 @@ with a wink.
   Being a `1fr` block it can't overflow, and being in its own cell it can't
   overlap the text.
 - Both images depict the project's apparatus, fieldwork, or setting in the
-  two-ink house style (a tagged bird on a walkway, an instrumented common room,
-  a sensor-fitted car park --- as risograph illustration, never photography),
-  with the prompt formula from `../../_shared/visual-style.md` and 3-5
-  references from `references/slop-style/`.
+  two-ink house style (a tagged bird on a powerline, an instrumented laundromat,
+  a sensor-fitted supermarket queue, a monitored common room --- as risograph
+  illustration, never photography), with the prompt formula from
+  `../../_shared/visual-style.md` and 3-5 references from
+  `references/slop-style/`.
 - No parity-fix spare --- the poster is single-page; there is no parity to fix.
 
 ## Chart workflow

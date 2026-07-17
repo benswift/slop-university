@@ -46,6 +46,13 @@ institution's voice keep wrapping the absurd in vague nouns, bridging verbs, and
 transformations between adjacent abstractions. Hedging language at the edges,
 specific falsifiable commitments at the centre.
 
+The institution's gaze is the constant; the setting is not. Objects and themes
+range across everyday life --- households, shops, streets, transit, workplaces,
+playgrounds --- with the campus one setting among many. The satire is an
+institution applying total rigour to the ordinary, and the ordinary belongs to
+everyone; a corpus that only ever studies its own campus narrows the joke to
+people who live there.
+
 ## Voice is the floor
 
 The genre voice (the "language moves" list above) is preserved without exception

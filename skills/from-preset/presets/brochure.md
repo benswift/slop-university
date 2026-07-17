@@ -81,6 +81,7 @@ sentences, or a phrase. Examples:
 - "research that pays its way"
 - "the case for the counted"
 - "come and count with us"
+- "we measure the everyday"
 
 The prompt is the campaign theme. The institutional voice (see `../genre.md`) is
 the only floor; the cover line, section headings, featured schools/outputs,
@@ -213,7 +214,8 @@ and at most one.
   is ample and 4K would just be wasted pixels and generation time.
 - Cover image should be the run's most aspirational, campaign-worthy scene ---
   the brochure's hero. Inline scenes match their feature (a lab, a public
-  lecture, a fieldwork moment, a reading room), keyed to the campaign theme.
+  lecture, fieldwork in an ordinary street or market, a reading room), keyed to
+  the campaign theme.
 - Record an explicit `inline-N` → section assignment when planning.
 
 ## Chart workflow (preset-specific, optional)
