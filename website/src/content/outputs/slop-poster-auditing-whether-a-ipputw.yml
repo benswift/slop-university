@@ -1,0 +1,22 @@
+title: Still Ticking When the Signal Isn't
+subtitle: A Field Validation of a Suburban Bus Stop's Live-Arrival Display Against the Bus's Own GPS Trace
+authors:
+  - Osei Vandermeer
+  - Mirela Hanke
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-07-17
+doi: 10.5555/slop.ipputw
+summary: >-
+  A research poster from the School of Continuous Improvement matches a
+  suburban bus stop's live-arrival countdown against the bus's own GPS trace
+  across a 15-week deployment, finding the display agrees closely with the
+  bus while its GPS feed is live (r = 0.95) and barely at all once the feed
+  lapses (r = -0.06, n = 48), with no change to the sign's format across
+  either state.
+topic: >-
+  auditing whether a suburban bus stop's live countdown is actually live, or
+  reverting to the timetable when a bus's GPS drops out
+pdf: /outputs/pdf/slop-poster-auditing-whether-a-ipputw.pdf
+pages: 1
+version: "1.0"
