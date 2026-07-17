@@ -1,0 +1,25 @@
+title: Displayed, Not Metered
+subtitle:
+  Auditing a Residence-Hall Laundry App's Credit Balance Against
+  Machine-Metered Wash Cycles Across a Payment-System Migration
+authors:
+  - Casimir Beng
+  - Mirela Hanke
+  - Renke Sabel
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-17
+doi: 10.5555/slop.7xifby
+summary: >-
+  A paper from the School of Continuous Improvement audits a residence-hall
+  laundry app's wash-credit balance against independent machine-metering
+  telemetry spanning a payment-system migration, finding the displayed
+  balance drifts steadily from what the machines actually deliver and that a
+  low-balance notification leaves student top-up behaviour unchanged.
+topic:
+  validating whether the residence-hall laundry app's displayed credit
+  balance tracks what the machines actually meter after a payment-system
+  migration, or quietly drifts while students keep topping up anyway
+pdf: /outputs/pdf/slop-paper-validating-whether-the-7xifby.pdf
+pages: 5
+version: "1.0"
