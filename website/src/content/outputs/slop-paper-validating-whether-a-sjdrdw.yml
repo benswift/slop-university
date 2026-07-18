@@ -1,0 +1,30 @@
+title: Reading the Score, Not the Shelf
+subtitle: >-
+  A Validation Study of a Warehouse Scanner's Pick-Confidence Score Against
+  Independent Inventory Audit
+authors:
+  - Renke Sabel
+  - Joost Nwosu
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-18
+doi: 10.5555/slop.sjdrdw
+summary: >-
+  A paper from the School of Continuous Improvement links 64 pickers'
+  scanner-logged pick-confidence scores across nine distribution centres to
+  a blind programme of hand-conducted inventory audits, finding the score's
+  closest relationship is with the number of weeks since the picker's last
+  retraining session (r = 0.81) rather than with audit-verified accuracy
+  (r = 0.06), and that retraining changes the score without changing the
+  error rates it is meant to flag.
+topic: >-
+  validating whether a warehouse's handheld scanner pick-confidence score ---
+  which flags a picker for retraining once enough low-confidence scans
+  accumulate --- predicts the errors an independent manual inventory audit
+  later finds, or whether the score mostly tracks how many weeks it's been
+  since the picker was last retrained
+pdf: /outputs/pdf/slop-paper-validating-whether-a-sjdrdw.pdf
+pages: 5
+version: "1.0"
+grants:
+  - 2026-07-09-calibration-weight-succession
