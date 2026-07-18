@@ -104,6 +104,10 @@ const outputs = defineCollection({
     summary: z.string(),
     topic: z.string(),
     pdf: z.string(),
+    // Dark-theme sibling of `pdf` (same content, dark render), produced for
+    // research posters so the e-signage screens show white-on-black. Older
+    // outputs predate it; consumers must fall back to `pdf`.
+    pdfDark: z.string().optional(),
     pages: z.number().optional(),
     version: z.string().default("1.0"),
     grants: z.array(z.string()).default([]), // grants entry ids funding this work

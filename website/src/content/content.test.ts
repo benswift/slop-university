@@ -175,7 +175,7 @@ describe("outputs entries", () => {
   it("point at a PDF that exists under public/", () => {
     for (const id of outputIds) {
       const entry = readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8");
-      for (const match of entry.matchAll(/^pdf:\s*(\/\S+)\s*$/gm)) {
+      for (const match of entry.matchAll(/^pdf(?:Dark)?:\s*(\/\S+)\s*$/gm)) {
         expect(existsSync(join(publicDir, match[1])), `${id}: ${match[1]}`).toBe(true);
       }
     }

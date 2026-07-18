@@ -46,7 +46,10 @@ const posters = (await getCollection("outputs"))
 // rather than throwing --- an empty orientation must never fail the whole
 // unattended site build.
 const latest = posters[0];
-const pdfUrl = latest?.entry.data.pdf;
+// Prefer the dark-theme render on signage (white-on-black suits an ambient
+// screen); posters published before dark variants existed fall back to the
+// light PDF.
+const pdfUrl = latest?.entry.data.pdfDark ?? latest?.entry.data.pdf;
 const thumb = latest?.thumb;
 const title = latest ? fullTitle(latest.entry.data) : "Slop University";
 
