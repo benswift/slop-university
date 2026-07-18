@@ -5,9 +5,18 @@
 // derives from any real institution's marks.
 #import "@local/university-typst-template:0.1.0" as _uni
 #import "@local/university-typst-template:0.1.0": (
-  chart-colour, chart-fill, chart-theme, greyscale-ordinal, inline-figure,
-  make-palette,
+  chart-colour, chart-fill, chart-theme, greyscale-ordinal,
+  greyscale-ordinal-dark, inline-figure, make-palette,
 )
+
+// The document theme, read once from the CLI: `--input theme=dark` renders
+// the dark variant (the signage artefact); absent means light, so every
+// existing document and plain `typst compile` is unchanged. Documents pass
+// this straight through as `config: (theme: slop-doc-theme)`; the `-auto`
+// chart exports below key off the same value, so one flag themes the whole
+// compilation.
+#let slop-doc-theme = sys.inputs.at("theme", default: "light")
+#let _slop-dark = slop-doc-theme == "dark"
 
 // The two inks (plus paper) of the house style: lockup gold and ink black.
 #let slop-gold = rgb("#b97d1c")
@@ -23,6 +32,15 @@
       gold: slop-gold,
     )
 )
+
+// Theme-following semantic colours for run-authored content. "Ink" is
+// whatever contrasts with the page ground (house ink on light, paper on
+// dark); "muted" is the de-emphasised grey for captions, credits, and
+// footnote-register text.
+#let slop-ink-auto = if _slop-dark { slop-colors.white } else { slop-ink }
+#let slop-muted-auto = if _slop-dark { slop-colors.grey-2 } else {
+  slop-colors.grey-4
+}
 
 // Lockup artwork, read once as bytes so the core can render it (paths
 // resolve here, inside this package). Regenerate via
@@ -99,21 +117,44 @@
 
 // --- Gribouille chart styling ---
 
-// The brand chart theme (Public Sans, slop ink, light-grey grid).
+// The brand chart theme (Public Sans, slop ink, light-grey grid), its dark
+// mirror, and the `-auto` pick that follows `slop-doc-theme`. Chart files
+// use the auto exports so the same source renders correctly in both the
+// light PDF and the dark signage variant.
 #let slop-theme = chart-theme(slop-brand)
+#let slop-theme-dark = chart-theme(slop-brand, dark: true)
+#let slop-theme-auto = if _slop-dark { slop-theme-dark } else { slop-theme }
 
 // Chart palettes, on the two-ink register: gold and ink lead; a gold tint
 // and a mid-grey extend to four series without leaving the house palette.
+// The dark counterpart swaps ink for paper (white) --- gold + paper on the
+// dark ground --- and keeps the same series order.
 #let slop-categorical = (
   slop-gold,
   slop-ink,
   slop-colors.primary-2,
   slop-colors.grey-3,
 )
-// Ordinal: black greyscale ramp (dark -> light) for ranked/Likert series.
+#let slop-categorical-dark = (
+  slop-gold,
+  slop-colors.white,
+  slop-colors.primary-2,
+  slop-colors.grey-3,
+)
+#let slop-categorical-auto = if _slop-dark { slop-categorical-dark } else {
+  slop-categorical
+}
+// Ordinal: greyscale ramp for ranked/Likert series --- black-anchored on
+// light pages, white-anchored on dark.
 #let slop-ordinal = greyscale-ordinal
+#let slop-ordinal-dark = greyscale-ordinal-dark
+#let slop-ordinal-auto = if _slop-dark { slop-ordinal-dark } else {
+  slop-ordinal
+}
 // Sequential single-hue: slop gold tints (100% -> ~10%) for parts of a
-// whole.
+// whole. Every step stays legible on both grounds (the palest tint is
+// near-paper, which reads fine on the dark page), so one ramp serves both
+// themes.
 #let slop-gold-tints = (
   slop-gold,
   color.mix((slop-gold, 75%), (white, 25%)),
@@ -124,9 +165,13 @@
 
 // Map the first N brand colours onto a discrete aesthetic. Pass the factor
 // levels in the order you want them coloured; override `palette` for a
-// different ramp (e.g. slop-ordinal, slop-gold-tints).
-#let slop-colour(levels, palette: slop-categorical) = chart-colour(
+// different ramp (e.g. slop-ordinal-auto, slop-gold-tints). The default
+// follows the document theme.
+#let slop-colour(levels, palette: slop-categorical-auto) = chart-colour(
   levels,
   palette,
 )
-#let slop-fill(levels, palette: slop-categorical) = chart-fill(levels, palette)
+#let slop-fill(levels, palette: slop-categorical-auto) = chart-fill(
+  levels,
+  palette,
+)
