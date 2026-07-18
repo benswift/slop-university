@@ -1,0 +1,33 @@
+title: The Number Stayed Clean
+subtitle: >-
+  A Quasi-Experiment on a Suburban Gym Chain's Booking-Reliability Score,
+  Comparing Attendance and Cancellation Timing Before and After Its
+  Introduction
+authors:
+  - Casimir Beng
+  - Mirela Hanke
+  - Solveig Adeyemi
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-19
+doi: 10.5555/slop.ln1awt
+summary: >-
+  A paper from the School of Continuous Improvement tracks a twenty-week
+  rollout of a suburban gym chain's booking-app reliability score across 22
+  sites, finding booking-fill rates at popular classes rise from 93.6% to
+  99.3% while door-scanner attendance holds flat (71.5% versus 71.7%,
+  p = 0.62). The gap traces to cancellation timing: the share of
+  cancellations landing in the six-minute band just outside the score's
+  two-hour penalty cutoff triples, from 14.6% to 51.3%. An unplanned natural
+  ablation --- four sites left with a cosmetic-only score display by a
+  backend migration --- shows the clustering requires the score's
+  functioning waitlist-promotion mechanism, not merely its visibility.
+topic: >-
+  comparing real class attendance at a suburban gym chain's group-fitness
+  booking app before and after it introduces a member reliability score that
+  auto-promotes punctual bookers off the waitlist for popular classes, to see
+  whether the score changes who actually shows up or just changes who books
+  early and cancels at the exact cutoff to protect their number
+pdf: /outputs/pdf/slop-paper-a-quasi-experiment-on-ln1awt.pdf
+pages: 6
+version: "1.0"
