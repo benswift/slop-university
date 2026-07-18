@@ -37,11 +37,11 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 | Field                      | Value                                                                                                                                                  |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Canonical name             | Slop University research poster                                                                                                                        |
-| Format                     | **poster** (single-page A3, light theme; orientation set by the layout roll)                                                                           |
+| Format                     | **poster** (single-page A3; orientation set by the layout roll)                                                                                        |
 | Visible title              | the fabricated project's title --- **steering-driven** (see note below)                                                                                |
 | Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                             |
 | Paper / orientation        | `a3`; set by the layout roll --- feature-right = `page-settings: (flipped: true)` (landscape); feature-top = portrait (no `flipped`)                   |
-| Theme                      | `light`                                                                                                                                                |
+| Theme                      | `light` by default; a **dark sibling** (`<name>-dark.pdf`) is compiled from the same source with `--input theme=dark` --- the e-signage artefact       |
 | Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-lockup` (auto masthead hidden) |
 | Filename prefix            | `slop-poster`                                                                                                                                          |
 | Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                           |
@@ -241,8 +241,9 @@ after the references --- real poster apparatus, played deadpan:
   straight ("animal ethics approval 2025/047; no birds harmed"; "de-identified
   occupancy only; no number plates retained"; "thresholds pre-registered").
 - **Contact line**, optionally with a QR: import `slop-qr-code` and place
-  `slop-qr-code("https://slop.university/", width: 2.3cm)` beside a short
-  contact line; the QR is theme-aware and fills the column foot nicely.
+  `slop-qr-code("https://slop.university/", width: 2.3cm, config: (theme: slop-doc-theme))`
+  beside a short contact line; the QR follows the theme (dark modules on light
+  pages, inverted on dark) and fills the column foot nicely.
 
 Keep furniture small (8-9pt); if the foot would overflow, compress it to a
 single line.
@@ -432,8 +433,9 @@ Read these before generating:
   `~/projects/perceptron_apparatus/docs/mnist-poster.typ` and `poker-poster.typ`
   --- the A3 + `flipped: true` + `hide: ("page-numbers", "title-block")` recipe
   and the column-grid body. **Note:** those are dark-mode with custom display
-  fonts; this preset is **light-mode using the template defaults** (Public Sans,
-  gold accents). Copy the page-setup moves, not the dark styling or fonts.
+  fonts; this preset uses **the template defaults** (Public Sans, gold accents),
+  light unless the dark compile flag is set. Copy the page-setup moves, not the
+  custom styling or fonts.
 - **Hero overlay (feature-top)**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
   --- the core's `feature-page` and cover block both do the white-text-on-scrim
@@ -459,16 +461,29 @@ Read these before generating:
 
 The poster does **not** use the booklet scaffold (no `cover:`, no `#outline()`,
 no Acknowledgement of Country, no `#slop-back-cover()`, no manual
-`#pagebreak()`). It drives `slop(...)` directly for a light, single page. There
-are **two skeletons, one per layout roll** (see "Per-run variation rolls ›
-Layout"); write the one the roll selected. Both share the `chartfig` helper and
-an identical two-column body grid --- only the page setup and the feature image
-/ title block differ.
+`#pagebreak()`). It drives `slop(...)` directly for a single page. There are
+**two skeletons, one per layout roll** (see "Per-run variation rolls › Layout");
+write the one the roll selected. Both share the `chartfig` helper and an
+identical two-column body grid --- only the page setup and the feature image /
+title block differ.
+
+**Theme-aware source (the dark sibling).** The skeletons are written so one
+source compiles to both the light poster and its dark signage sibling, keyed off
+`--input theme=dark` at compile time --- never fork the `.typ`. The rules:
+`config: (theme: slop-doc-theme)` (and the same `config` on every `slop-qr-code`
+call); muted furniture text (captions, ethics line, credits, author line) uses
+`slop-muted-auto`, never a hardcoded grey; charts use `slop-theme-auto` and the
+`-auto` palettes (see the chart workflow); any stroke or outline authored
+against the page ground uses `slop-ink-auto`. Imagery needs no dark treatment
+--- the light, cream-paper images read as framed prints on the dark page, and
+the feature image's white-on-scrim treatment is already the dark idiom.
 
 ### Skeleton A --- feature-right (landscape)
 
 ```typst
-#import "@local/slop-university-brand:0.1.0": slop, slop-colors, slop-qr-code
+#import "@local/slop-university-brand:0.1.0": (
+  slop, slop-colors, slop-doc-theme, slop-muted-auto, slop-qr-code,
+)
 
 #set document(
   title: "This Slop University Research Poster Does Not Exist: <steering prompt verbatim>",
@@ -481,7 +496,7 @@ an identical two-column body grid --- only the page setup and the feature image
   // the left two-thirds.
   margin: (left: 33mm, right: 150mm, top: 25mm, bottom: 25mm),
   config: (
-    theme: "light",
+    theme: slop-doc-theme,            // "light" normally; "dark" under --input theme=dark
     logos: ("studio",),               // rotated "Office of Research Outputs" wordmark
                                        // in the bottom-left margin
     hide: ("page-numbers", "title-block"),
@@ -502,7 +517,7 @@ an identical two-column body grid --- only the page setup and the feature image
   v(0.5em)
   block(width: w, chart)
   v(0.2em)
-  text(size: 8.5pt, fill: slop-colors.grey-4, caption)
+  text(size: 8.5pt, fill: slop-muted-auto, caption)
   v(0.6em)
 }
 
@@ -522,8 +537,11 @@ an identical two-column body grid --- only the page setup and the feature image
 
 // ── QR over the image's top-right (manual: the config `qr-url` would render
 //    behind the placed feature image). ──
-#place(top + right, dx: 140mm, dy: -15mm,
-  slop-qr-code("https://slop.university/", width: 2.6cm))
+#place(top + right, dx: 140mm, dy: -15mm, slop-qr-code(
+  "https://slop.university/",
+  width: 2.6cm,
+  config: (theme: slop-doc-theme),
+))
 
 // ── Body --- defined here, placed below by the outer grid. Two equal columns:
 //    LEFT the text sections then a `height: 1fr` body image that fills the column's
@@ -590,9 +608,9 @@ an identical two-column body grid --- only the page setup and the feature image
       #box(width: 100%, height: 0pt)<fill-top>
       // Pin the footer to the bottom of the column so both columns reach the page foot.
       #v(1fr)
-      #text(size: 8.5pt, fill: slop-colors.grey-4)[<deadpan ethics / data line>]<fill-bot>
+      #text(size: 8.5pt, fill: slop-muted-auto)[<deadpan ethics / data line>]<fill-bot>
       #v(0.35em)
-      #text(size: 8.5pt, fill: slop-colors.grey-4)[Office of Research Outputs · slop.university]
+      #text(size: 8.5pt, fill: slop-muted-auto)[Office of Research Outputs · slop.university]
     ],
   )
 }
@@ -611,7 +629,7 @@ an identical two-column body grid --- only the page setup and the feature image
     #v(0.15em)
     #text(size: 15pt)[<part after the colon, else a one-line research question>]
     #v(0.4em)
-    #text(size: 11pt, fill: slop-colors.grey-4)[<2-3 roster authors, middot-separated> --- <lead author's school>]
+    #text(size: 11pt, fill: slop-muted-auto)[<2-3 roster authors, middot-separated> --- <lead author's school>]
     #v(0.35cm)
     #line(length: 100%, stroke: 0.5pt + slop-colors.gold)
     #v(0.4cm)
@@ -634,7 +652,10 @@ grid is the first in-flow content (its `rows: 1fr` already resolves against the
 correct height) and is placed directly with `#body`.
 
 ```typst
-#import "@local/slop-university-brand:0.1.0": slop, slop-colors, slop-lockup, slop-qr-code
+#import "@local/slop-university-brand:0.1.0": (
+  slop, slop-colors, slop-doc-theme, slop-lockup, slop-muted-auto,
+  slop-qr-code,
+)
 
 #set document(
   title: "This Slop University Research Poster Does Not Exist: <steering prompt verbatim>",
@@ -654,7 +675,7 @@ correct height) and is placed directly with `#body`.
   paper: "a3",                        // PORTRAIT --- no `page-settings: (flipped: true)`
   margin: (left: m-left, right: m-right, top: m-top, bottom: m-bottom),
   config: (
-    theme: "light",
+    theme: slop-doc-theme,            // "light" normally; "dark" under --input theme=dark
     logos: ("studio",),               // rotated "Office of Research Outputs" wordmark, bottom-left margin
     // Hide the auto masthead: it draws a solid white rect in the page background,
     // which the top hero band would cover. We overlay our own white lockup on
@@ -671,7 +692,7 @@ correct height) and is placed directly with `#body`.
   v(0.5em)
   block(width: w, chart)
   v(0.2em)
-  text(size: 8.5pt, fill: slop-colors.grey-4, caption)
+  text(size: 8.5pt, fill: slop-muted-auto, caption)
   v(0.6em)
 }
 
@@ -692,7 +713,8 @@ correct height) and is placed directly with `#body`.
     slop-lockup(variant: "white", height: 1.7cm))
   // QR top-right, balancing the lockup
   place(top + right, dx: -1.6cm, dy: 1.4cm,
-    slop-qr-code("https://slop.university/", width: 2.4cm))
+    slop-qr-code("https://slop.university/", width: 2.4cm,
+      config: (theme: slop-doc-theme)))
   // title block over the band's baked-dark bottom --- WHITE (gold lives only in the rule)
   place(bottom + left, dx: 2.2cm, dy: -11mm, box(width: 250mm)[
     #text(fill: white, size: 44pt, weight: "regular")[<Project title --- steering-driven; part before the colon>]

@@ -11,6 +11,8 @@ the output paths are assembled.
 ```
 output/<prefix>-<slug>-<seed>.typ
 output/pdf/<group>/<prefix>-<slug>-<seed>.pdf   # final PDF, foldered by source
+output/pdf/<group>/<prefix>-<slug>-<seed>-dark.pdf  # dark render, if the
+                                           # preset declares a dark variant
 output/<prefix>-<slug>-<seed>-images/      # if the run generates images
 output/<prefix>-<slug>-<seed>-charts/      # if the run generates charts
 ```

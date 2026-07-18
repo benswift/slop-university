@@ -34,8 +34,8 @@ column --- copy that shape; don't copy the data, and swap the examples' neutral
    ```typst
    #import "@preview/gribouille:0.3.0": *
    #import "@local/slop-university-brand:0.1.0": (
-     slop-theme, slop-fill, slop-colour, slop-gold, slop-ink, slop-ordinal,
-     slop-gold-tints,
+     slop-theme-auto, slop-fill, slop-colour, slop-gold, slop-ink-auto,
+     slop-ordinal-auto, slop-gold-tints,
    )
 
    #let data = ( /* inline records */ )
@@ -47,7 +47,7 @@ column --- copy that shape; don't copy the data, and swap the examples' neutral
      scales: (/* slop-colour(...) / slop-fill(...) / scale-*-continuous(...) */),
      guides: guides(/* colour or fill: guide-legend(position: "top") */),
      labs: labs(x: none, y: "<axis title>", colour: none),  // no title -- it lives in the caption
-     theme: slop-theme,
+     theme: slop-theme-auto,
      width: size.width,
      height: 0.34 * size.width,  // wide and short; ~0.3 poster, ~0.45 a roomier figure
    ))
@@ -83,22 +83,31 @@ Each chart type appears at most once per document.
 
 ## Chart styling
 
-The brand package supplies the theme (`slop-theme` --- Public Sans, slop ink, a
-light-grey grid) plus the brand palettes and two scale helpers. Use the helpers
-rather than hard-coding hex:
+The brand package supplies the theme plus the brand palettes and two scale
+helpers. **Always use the `-auto` exports in chart files** --- they follow the
+document theme (`--input theme=dark` compiles the dark signage sibling from the
+same source; without the flag they are exactly the light values), so a chart
+authored once renders correctly in both variants. Use the helpers rather than
+hard-coding hex:
 
-- `slop-categorical` --- slop gold, ink black, a gold tint, a mid-grey, **in
-  that order** (the two-ink register: gold and ink lead, tints extend). For
-  distinct series (line, scatter, grouped bar). Most charts need only the
-  gold/ink pair; the helper takes the first N.
-- `slop-ordinal` --- a black greyscale ramp (dark → light). For ordered bar
-  categories (a Likert ramp).
+- `slop-theme-auto` --- the chart theme (Public Sans; slop ink on a light grid
+  normally, paper ink on a dimmed grid under the dark flag). The fixed
+  `slop-theme` / `slop-theme-dark` exist but chart files shouldn't pin them.
+- `slop-categorical-auto` --- slop gold, ink (black on light pages, paper on
+  dark), a gold tint, a mid-grey, **in that order** (the two-ink register: gold
+  and ink lead, tints extend). For distinct series (line, scatter, grouped bar).
+  Most charts need only the gold/ink pair; the helper takes the first N.
+- `slop-ordinal-auto` --- a greyscale ramp for ordered bar categories (a Likert
+  ramp); black-anchored on light pages, white-anchored on dark.
 - `slop-gold-tints` --- a single-hue slop-gold ramp. For a sequential
-  single-series breakdown (warm parts-of-a-whole).
+  single-series breakdown (warm parts-of-a-whole). One ramp serves both themes.
+- `slop-ink-auto` --- the page-ground ink for hardcoded strokes and outlines
+  (e.g. `geom-boxplot(colour: ...)`): house ink on light pages, paper on dark.
+  Never hardcode `slop-ink` in a chart file for this job.
 - `slop-fill(levels, palette: ...)` / `slop-colour(levels, palette: ...)` ---
   map a palette onto a discrete scale's levels, in the order you pass them.
-  Default palette is `slop-categorical`; pass `palette: slop-ordinal` (or
-  `slop-gold-tints`) for a ramp.
+  Default palette is `slop-categorical-auto`; pass `palette: slop-ordinal-auto`
+  (or `slop-gold-tints`) for a ramp.
 
 **Line / scatter (few, distinct series):** map the series to `colour` and add
 `slop-colour(("Series A", "Series B"))` --- gold then ink, distinct for clear
@@ -107,11 +116,11 @@ directly (`geom-line(colour: slop-gold)`, `geom-point(..., fill: slop-gold)`).
 
 **Bars (especially stacked):** use a single-hue ramp, not the multi-colour
 categorical palette --- the categorical palette reads as visual chaos on bars
-whose categories aren't strongly distinct. Pass `palette: slop-ordinal` (the
+whose categories aren't strongly distinct. Pass `palette: slop-ordinal-auto` (the
 conservative choice, when the chart is the document's data spine and shouldn't
 compete) or `palette: slop-gold-tints` (warmer, on-brand, for positive framings)
 to `slop-fill`. A **grouped** bar comparing genuinely distinct entities is the
-exception --- `slop-categorical` is fine there.
+exception --- `slop-categorical-auto` is fine there.
 
 **Parts of a whole (the old doughnut's job):** a normalised stacked bar ---
 `geom-col(position: "fill")` with `scale-y-continuous(labels: format-percent())`

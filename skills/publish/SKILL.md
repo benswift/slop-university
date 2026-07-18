@@ -305,10 +305,11 @@ verifiable numbers). Then:
   `authors` (the roster authors used), `preset`, `school` (the lead author's
   school), `date`, `doi`, `summary` (1-2 sentence abstract of the fictional
   work, institutional register --- not the press release's standfirst), `topic`
-  (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pages` (from
-  pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
-  thumbnail and hero carry no yml field --- they resolve by matching a file
-  basename to the entry id (see below).
+  (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pdfDark`
+  (research-poster runs only: `/outputs/pdf/<run-id>-dark.pdf`, the dark signage
+  render --- see staging below), `pages` (from pdfinfo), `version: "1.0"`, and
+  `grants` (optional --- see below). The thumbnail and hero carry no yml field
+  --- they resolve by matching a file basename to the entry id (see below).
 - **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
   `grantees` include one of this output's authors, its `date` precedes the
   output's, and its remit plausibly covers the topic, list its entry id under
@@ -327,6 +328,13 @@ verifiable numbers). Then:
   (~80% smaller on the image-heavy formats, visually identical at reading size;
   the PDF metadata title survives the round-trip). The full-resolution original
   stays in gitignored `output/pdf/<group>/`.
+- **Dark sibling (research-poster runs only)** --- the from-preset step also
+  compiled `output/pdf/research-poster/<run-id>-dark.pdf` (same source,
+  `--input theme=dark`); stage it through the identical gs downsample →
+  `website/public/outputs/pdf/<run-id>-dark.pdf` and record it as `pdfDark` in
+  the outputs entry. The signage endpoints prefer it; every other surface
+  (landing page, DOI, downloads) keeps using the light `pdf`. The thumbnail and
+  hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF), then optimised through
   `astro:assets`, so it lives under `src/`, not `public/`:
