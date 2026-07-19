@@ -1,9 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { fullTitle } from "../../lib/outputs";
 import { thumbnail } from "../../lib/thumbnails";
-import backdrop from "../../assets/signage/backdrop.avif";
 
 // Chromeless, fullscreen e-signage view of the most recent research poster in a
 // given orientation. Built for a kiosk browser (the 8K landscape panel today at
@@ -56,10 +54,10 @@ const title = latest ? fullTitle(latest.entry.data) : "Slop University";
 // Refresh the whole page hourly to pick up new deploys.
 const RELOAD_MS = 60 * 60 * 1000;
 
-// An asset that wouldn't load (the poster PDF, or the backdrop) retries on this
-// much shorter cycle instead. A cold boot on wifi can drop the two largest
-// assets mid-flight --- the clock steps on first NTP sync, tailscaled reads the
-// jump as a wake and rebinds the link, and anything still streaming dies.
+// A poster PDF that wouldn't load retries on this much shorter cycle instead.
+// A cold boot on wifi can drop a large asset mid-flight --- the clock steps on
+// first NTP sync, tailscaled reads the jump as a wake and rebinds the link,
+// and anything still streaming dies.
 // Waiting a full hour to recover from a blip is the wrong trade for an
 // unattended sign.
 //
@@ -93,18 +91,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
         overflow: hidden;
       }
 
-      /* House-style two-ink field behind the letterboxed poster, filling the
-         panel's aspect gap instead of black bars. `cover` keeps it full-bleed
-         at any panel ratio; #000 stays as the base while the image loads. */
-      #backdrop {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 0;
-      }
-
       /* Kiosk: no cursor, no text selection, no touch callouts. */
       body {
         cursor: none;
@@ -122,8 +108,7 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       }
 
       /* Both the canvas and the fallback image occupy the same cell and fit
-         the viewport preserving the poster's aspect ratio. A soft shadow lifts
-         the light poster off the dark house field.
+         the viewport preserving the poster's aspect ratio.
 
          Size the box from the aspect ratio rather than `max-width`/`max-height`:
          those cap a large intrinsic size down to the viewport but never scale a
@@ -137,7 +122,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
         width: min(100vw, calc(100vh * var(--poster-aspect)));
         height: auto;
         object-fit: contain;
-        box-shadow: 0 0 4vmin rgba(0, 0, 0, 0.55);
       }
 
       #poster[hidden],
@@ -169,7 +153,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
     </style>
   </head>
   <body>
-    <Image id="backdrop" src={backdrop} alt="" loading="eager" aria-hidden="true" />
     <main
       id="stage"
       aria-label={`Research poster: ${title}`}
@@ -218,7 +201,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
 
       const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
       const fallback = document.getElementById("fallback");
-      const backdrop = document.getElementById("backdrop") as HTMLImageElement | null;
 
       // Chromium's max canvas dimension. Exceeding it yields a blank canvas.
       const MAX_CANVAS_PX = 8192;
@@ -229,31 +211,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       // genuinely unreachable origin shouldn't be hammered until the next
       // whole-page retry comes round.
       const backoff = (attempt: number) => Math.min(30_000, 500 * 2 ** attempt);
-
-      const settled = (img: HTMLImageElement) =>
-        img.complete
-          ? Promise.resolve()
-          : new Promise<void>((r) => {
-              img.addEventListener("load", () => r(), { once: true });
-              img.addEventListener("error", () => r(), { once: true });
-            });
-
-      // `complete` with a zero `naturalWidth` is how a failed decode or a
-      // severed transfer presents. Re-request under a fresh query so we bypass
-      // any cached error entry.
-      const loaded = (img: HTMLImageElement) => img.complete && img.naturalWidth > 0;
-
-      async function keepBackdrop(img: HTMLImageElement, attempts = 6) {
-        const base = img.src;
-        await settled(img);
-        for (let n = 0; n < attempts && !loaded(img); n++) {
-          await sleep(backoff(n));
-          img.src = `${base}${base.includes("?") ? "&" : "?"}retry=${n + 1}`;
-          await settled(img);
-        }
-        if (!loaded(img)) console.error("signage: backdrop failed to load", base);
-        return loaded(img);
-      }
 
       async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
         let last: unknown;
@@ -304,7 +261,7 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       async function renderPoster() {
         // Bind to non-null locals so the closures keep the narrowing (the
         // placeholder page has no canvas and no pdf: nothing to do).
-        if (!pdfUrl || !canvas || !stage) return true;
+        if (!pdfUrl || !canvas || !stage) return;
         const el = canvas;
 
         const page = await withRetry(async () => {
@@ -322,7 +279,6 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
           clearTimeout(debounce);
           debounce = setTimeout(() => void draw(el, page).catch(() => {}), 250);
         });
-        return true;
       }
 
       // Reload on an interval so a new deploy's poster appears without anyone
@@ -330,16 +286,11 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       // must never leave the sign with no path back.
       if (reloadMs) setTimeout(() => location.reload(), reloadMs);
 
-      const posterOk = renderPoster().catch((err) => {
+      // A degraded render comes back around sooner than the hourly tick.
+      void renderPoster().catch((err) => {
         // Leave the fallback thumbnail on screen; log for the kiosk console.
         console.error("signage: PDF render failed, showing thumbnail fallback", err);
-        return false;
-      });
-      const backdropOk = backdrop ? keepBackdrop(backdrop) : Promise.resolve(true);
-
-      // A degraded render comes back around sooner than the hourly tick.
-      void Promise.all([posterOk, backdropOk]).then(([poster, back]) => {
-        if (!(poster && back) && retryMs) setTimeout(() => location.reload(), retryMs);
+        if (retryMs) setTimeout(() => location.reload(), retryMs);
       });
     </script>
   </body>
