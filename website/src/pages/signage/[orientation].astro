@@ -4,11 +4,14 @@ import { fullTitle } from "../../lib/outputs";
 import { thumbnail } from "../../lib/thumbnails";
 
 // Chromeless, fullscreen e-signage view of the most recent research poster in a
-// given orientation. Built for a kiosk browser (the 8K landscape panel today at
-// /signage/landscape; a future portrait screen at /signage/portrait): no site
-// chrome, no theme layout --- just the poster, letterboxed on black. The actual
-// PDF page is rendered to a canvas at device resolution via PDF.js, so the
-// vector text stays crisp at any display size.
+// given orientation. Built for kiosk browsers: any number of panels, each
+// pointed at the route matching its mounting (/signage/landscape or
+// /signage/portrait), with no site chrome and no theme layout --- just the
+// poster, letterboxed on black. Posters are generated at the panels' native
+// 16:9 / 9:16 aspect, so current ones fill the screen edge-to-edge; older
+// A3-era posters keep their letterbox. The actual PDF page is rendered to a
+// canvas at device resolution via PDF.js, so the vector text stays crisp at any
+// display size.
 //
 // A panel that is physically portrait but whose framebuffer is landscape (a
 // landscape-native screen mounted on its side, with no OS-level rotation) can
