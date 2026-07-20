@@ -7,7 +7,10 @@ heroImage: ./_heroes/about.avif
 Slop University is a research university organised around a single conviction:
 that what an institution measures, it comes to understand, and what it
 understands, it can improve. The University pursues that conviction across its
-schools, its research groups, and its programs, and reports on it openly.
+schools, its research groups, and its programs, and reports on it openly. Its
+motto, _Edimus ergo sumus_ --- "we publish, therefore we are" --- states the
+corollary plainly: an institution's understanding exists only once it is on the
+record.
 
 The University is home to the
 [School of Emergent Priorities](/schools/emergent-priorities/), which studies

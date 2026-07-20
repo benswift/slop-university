@@ -52,6 +52,9 @@ Slop University is a persistent fiction: its people, schools, and units live in
   eyeballed for accidental real-person likeness.
 - `canon/schools.md` --- school, unit, and lab names. Never invent an org unit
   inside a run; add it to the canon first.
+- `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
+  sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
+  run.
 - `canon/grants.yml` --- the internal funding schemes and prizes (all funders
   are Slop University bodies; no external funder, real or invented). Never
   invent a scheme inside a run; award events reference schemes by id and live in

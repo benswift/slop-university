@@ -18,6 +18,10 @@
 #let slop-doc-theme = sys.inputs.at("theme", default: "light")
 #let _slop-dark = slop-doc-theme == "dark"
 
+// The university motto (canon/institution.md): "we publish, therefore we
+// are". Set in italics, untranslated; covers and back pages only, sparingly.
+#let slop-motto = "Edimus ergo sumus"
+
 // The two inks (plus paper) of the house style: lockup gold and ink black.
 #let slop-gold = rgb("#b97d1c")
 #let slop-ink = rgb("#1a1a1a")
