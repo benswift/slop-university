@@ -55,10 +55,10 @@ typst).
    `<RES>` slot for every image from the calling preset's declared size. The
    rule of thumb, by how the image actually lands on the page:
 
-   - **`4K`** for anything that fills or full-bleeds a **printed** page ---
-     booklet/poster **covers** and the poster **feature/hero**. At A3/booklet
-     scale the detail matters; it's slower than 1K/2K but don't downscale a
-     cover to save time.
+   - **`4K`** for anything that fills or full-bleeds a **full page** ---
+     booklet/poster **covers** and the poster **feature/hero**. At booklet print
+     scale and on the high-res signage panels the detail matters; it's slower
+     than 1K/2K but don't downscale a cover to save time.
    - **`2K`** for anything shown at part-page size --- an inline figure within a
      booklet text column or a landscape strip between paragraphs, or the
      research poster's wide body strip --- and for every **web hero** (publish

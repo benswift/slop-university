@@ -1,11 +1,12 @@
 ---
 name: research-poster
 description:
-  Slop University research poster --- a single-page A3 (landscape or portrait),
-  light-mode, chart-heavy academic poster describing a plausible-but-fake
-  research project. Steering-driven topic in straight academic-present voice;
-  fabricated charts in the slop brand colours are the visual spine. Poster
-  format (no cover, contents, or back cover).
+  Slop University research poster --- a single-page 16:9 landscape or 9:16
+  portrait (the e-signage panels' native aspect), light-mode, chart-heavy
+  academic poster describing a plausible-but-fake research project.
+  Steering-driven topic in straight academic-present voice; fabricated charts in
+  the slop brand colours are the visual spine. Poster format (no cover,
+  contents, or back cover).
 ---
 
 # Research-poster preset
@@ -34,19 +35,19 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
 ## Doc identity
 
-| Field                      | Value                                                                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Canonical name             | Slop University research poster                                                                                                                        |
-| Format                     | **poster** (single-page A3; orientation set by the layout roll)                                                                                        |
-| Visible title              | the fabricated project's title --- **steering-driven** (see note below)                                                                                |
-| Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                             |
-| Paper / orientation        | `a3`; set by the layout roll --- feature-right = `page-settings: (flipped: true)` (landscape); feature-top = portrait (no `flipped`)                   |
-| Theme                      | `light` by default; a **dark sibling** (`<name>-dark.pdf`) is compiled from the same source with `--input theme=dark` --- the e-signage artefact       |
-| Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-lockup` (auto masthead hidden) |
-| Filename prefix            | `slop-poster`                                                                                                                                          |
-| Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                           |
-| Register                   | academic-present (present-tense findings, past-tense methods, hedged)                                                                                  |
-| PDF metadata title formula | `This Slop University Research Poster Does Not Exist: <steering verbatim>`                                                                             |
+| Field                      | Value                                                                                                                                                                                                                             |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical name             | Slop University research poster                                                                                                                                                                                                   |
+| Format                     | **poster** (single page at screen aspect; orientation set by the layout roll)                                                                                                                                                     |
+| Visible title              | the fabricated project's title --- **steering-driven** (see note below)                                                                                                                                                           |
+| Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                                                                                                        |
+| Paper / orientation        | screen aspect via explicit `page-settings` --- feature-right = `(width: 528mm, height: 297mm)` (16:9 landscape); feature-top = `(width: 297mm, height: 528mm)` (9:16 portrait). A3 only on explicit request (see "Print variant") |
+| Theme                      | `light` by default; a **dark sibling** (`<name>-dark.pdf`) is compiled from the same source with `--input theme=dark` --- the e-signage artefact                                                                                  |
+| Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-lockup` (auto masthead hidden)                                                                            |
+| Filename prefix            | `slop-poster`                                                                                                                                                                                                                     |
+| Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                                                                                                      |
+| Register                   | academic-present (present-tense findings, past-tense methods, hedged)                                                                                                                                                             |
+| PDF metadata title formula | `This Slop University Research Poster Does Not Exist: <steering verbatim>`                                                                                                                                                        |
 
 **Title is steering-driven (unlike the booklet presets).** `strategy` and
 `impact-report` lock a fixed cover title and let steering drive only the
@@ -99,14 +100,15 @@ among many (see `../genre.md`).
 
 ## The genre's structural skeleton
 
-One A3 page, portrait or landscape per the layout roll (see "Per-run variation
-rolls › Layout"). The **content** is identical either way --- the regions below
-are a content contract, not a fixed geometry. Both layouts carry a feature
-image, one chart, a field image, and a two-cell body grid: the left cell holds
-the text + an image that fills its leftover height; the right cell holds the
-chart, discussion, references, and a bottom-pinned footer. What differs is only
-where the feature image and title sit (the "Placement" column below describes
-**feature-right**; the **feature-top** differences are in the Layout roll).
+One page at the e-signage panels' native aspect --- 16:9 landscape or 9:16
+portrait per the layout roll (see "Per-run variation rolls › Layout"). The
+**content** is identical either way --- the regions below are a content
+contract, not a fixed geometry. Both layouts carry a feature image, one chart, a
+field image, and a two-cell body grid: the left cell holds the text + an image
+that fills its leftover height; the right cell holds the chart, discussion,
+references, and a bottom-pinned footer. What differs is only where the feature
+image and title sit (the "Placement" column below describes **feature-right**;
+the **feature-top** differences are in the Layout roll).
 
 | Region                    | Placement                                    | Length / notes                                                                                                                                                             |
 | ------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,14 +123,15 @@ where the feature image and title sit (the "Placement" column below describes
 | References                | column flow (end)                            | 4-6 real, verified citations (DOI/arXiv-checked) in small (~8pt) text                                                                                                      |
 | Footer line               | column flow (end)                            | one deadpan acknowledgements / ethics / data line (never a person)                                                                                                         |
 
-Total body prose: ~150 words at 10pt --- the poster is telegraphic (fragments
+Total body prose: ~200 words at 10pt --- the poster is telegraphic (fragments
 and bullets, not paragraphs; see "Voice"). Budget is a guide, not a target ---
 the hard constraint is that it fits on **one page** (see "Compile and one-page
-fit"). ~150 is a realistic ceiling for column 2 (chart + a 4-6 entry reference
-list + footer all sit in the right grid cell). The body image is a `height: 1fr`
-block, so it costs the column budget nothing --- it just expands or shrinks
-(cropped) to fill whatever the left column has spare. If the poster overflows,
-tighten the prose or shorten the chart plot --- never touch the reference list.
+fit"), and the fill-probe check (step 3) owns the under-fill side. ~200 is a
+realistic ceiling for column 2 (chart + a 4-6 entry reference list + footer all
+sit in the right grid cell). The body image is a `height: 1fr` block, so it
+costs the column budget nothing --- it just expands or shrinks (cropped) to fill
+whatever the left column has spare. If the poster overflows, tighten the prose
+or shorten the chart plot --- never touch the reference list.
 
 ## Per-run variation rolls
 
@@ -139,32 +142,34 @@ the chart pipeline are off-limits to variation; they're fixed.
 
 Roll one of two layouts per run, weighted **50% feature-right (landscape) / 50%
 feature-top (portrait)** --- roll 1-2 and take 1 as landscape, 2 as portrait.
-Landscape suits the department's e-signage; portrait keeps the genre varied ---
-the split is even so both orientations turn up equally often. Both carry the
-**same content** --- the same sections, the same single chart, the same `1fr`
-field image, a QR, and a bottom-pinned footer --- and differ only in orientation
-and where the feature image and title sit. Roll the layout **first**, before the
-other rolls: it sets the feature image's aspect ratio and which of the two
-skeletons in "Typst structure" you write. Everything downstream (sections,
-chart, references, voice, one-page fit) is identical across the two.
+Both orientations drive live e-signage panels (`/signage/landscape` and
+`/signage/portrait`) --- the split is even so both screens get fresh posters
+equally often. Both carry the **same content** --- the same sections, the same
+single chart, the same `1fr` field image, a QR, and a bottom-pinned footer ---
+and differ only in orientation and where the feature image and title sit. Roll
+the layout **first**, before the other rolls: it sets the feature image's aspect
+ratio and which of the two skeletons in "Typst structure" you write. Everything
+downstream (sections, chart, references, voice, one-page fit) is identical
+across the two.
 
-- **feature-right (A3 landscape).** A tall image full-bleeds the right ~third of
-  the page (reserved via the page `margin: (right: 150mm, …)` and a `place`d
-  box), with a white hero quote over its lower portion --- the scrim under the
-  quote is **baked into the image at prep** (see Imagery), not drawn in typst;
-  the title (gold on white) and a 2-column grid body take the left two-thirds.
-  The masthead renders automatically top-left; the QR sits over the image's
-  top-right. The **feature image is tall and vertical** (a stack aisle, a
-  stairwell, a tower) --- request a **9:16** image from `styled-image-gen`. The
-  big image makes the poster pop and the title still gets a comfortable
+- **feature-right (16:9 landscape, 528 × 297 mm).** A tall image full-bleeds the
+  right third of the page (reserved via the page `margin: (right: 183mm, …)` and
+  a `place`d box), with a white hero quote over its lower portion --- the scrim
+  under the quote is **baked into the image at prep** (see Imagery), not drawn
+  in typst; the title (gold on white) and a 2-column grid body take the left
+  two-thirds. The masthead renders automatically top-left; the QR sits over the
+  image's top-right. The **feature image is tall and vertical** (a stack aisle,
+  a stairwell, a tower) --- request a **9:16** image from `styled-image-gen`.
+  The big image makes the poster pop and the title still gets a comfortable
   two-thirds width.
 
-- **feature-top (A3 portrait).** A wide image full-bleeds a band across the top
-  of the page (reserved via an oversized `top` margin and a `place`d box flush
-  to the page edge). The band's darkening --- a **uniform base over the whole
-  band** (a legibility floor, since the title and subtitle can otherwise land on
-  a bright patch of a run-varying image), a **darker top** so the **white Slop
-  University lockup** reads, and a **darker bottom** so the **white title
+- **feature-top (9:16 portrait, 297 × 528 mm).** A wide image full-bleeds a band
+  across the top of the page (reserved via an oversized `top` margin and a
+  `place`d box flush to the page edge). The band's darkening --- a **uniform
+  base over the whole band** (a legibility floor, since the title and subtitle
+  can otherwise land on a bright patch of a run-varying image), a **darker top**
+  so the **white Slop University lockup** reads, and a **darker bottom** so the
+  **white title
   - subtitle + gold rule** read (the "white text, black scrim" treatment the
     template uses for cover and feature-page overlays) --- is all **baked into
     `feature.jpg` at image prep** (see Imagery), not drawn in typst; the
@@ -180,6 +185,25 @@ band) so it never affects column fit; the body field image is in-flow in the
 left grid cell as a `height: 1fr` block --- it consumes exactly the cell's
 leftover height and crops (`fit: cover`) to fit, so it can't overflow or
 overlap.
+
+**Print variant (A3, on explicit request only).** The screen aspects above are
+the default --- they fill the signage panels edge-to-edge. Only when a physical
+print poster is explicitly requested, produce A3 instead by substituting the old
+geometry (everything else --- content, rolls, voice, images --- is unchanged):
+
+| Knob                     | Screen default (this file)                                            | A3 print variant                                                     |
+| ------------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Page setup               | `page-settings: (width: …, height: …)` per the roll                   | `paper: "a3"` (+ `page-settings: (flipped: true)` for feature-right) |
+| Feature box / margin (A) | 176 × 297 mm box; `right: 183mm`; place `dx: 183mm`; quote box 156 mm | 143 × 297 mm box; `right: 150mm`; place `dx: 150mm`; quote box 123mm |
+| QR place (A)             | `dx: 173mm`                                                           | `dx: 140mm`                                                          |
+| Band geometry (B)        | `band-h = 190mm`, `m-top = 210mm`                                     | `band-h = 152mm`, `m-top = 170mm`                                    |
+| Bake crop anchor (A)     | `W=$(identify -format %w …); H=$(( W * 297 / 176 ))`                  | `H=$(identify -format %h …); W=$(( H * 143 / 297 ))`                 |
+| Bake crop anchor (B)     | `H=$(identify -format %h …); W=$(( H * 297 / 190 ))`                  | `W=$(identify -format %w …); H=$(( W * 152 / 297 ))`                 |
+| `pdfinfo` page size      | ≈ 1497 × 842 pt / 842 × 1497 pt                                       | ≈ 1190 × 842 pt / 842 × 1190 pt                                      |
+
+(The bake anchors flip because at A3 the box is a more extreme aspect than the
+generated image, while at screen aspect it is less extreme --- always crop the
+dimension the box doesn't fill, matching what `fit: cover` will show.)
 
 ### Section-name reservoirs
 
@@ -373,16 +397,20 @@ with a wink.
   darkens by 35%, `gray(20%)` by 80%):
 
   ```bash
-  # feature-right --- 9:16 image shown in a 143x297mm box: bottom 48% fades to 80% black
-  H=$(identify -format %h feature.jpg); W=$(( H * 143 / 297 ))
+  # feature-right --- 9:16 image shown in a 176x297mm box: the box is WIDER than
+  # the image aspect, so cover crops top/bottom --- anchor on width. Bottom 48%
+  # fades to 80% black.
+  W=$(identify -format %w feature.jpg); H=$(( W * 297 / 176 ))
   convert feature.jpg -gravity center -crop ${W}x${H}+0+0 +repage \
     \( -size ${W}x$(( H * 48 / 100 )) gradient:white-'gray(20%)' -background white -gravity south -extent ${W}x${H} \) \
     -compose multiply -composite -quality 92 feature.jpg
 
-  # feature-top --- 16:9 image shown in the 297mm x band-h (152mm) band: uniform 35%
-  # base + top 42% fading from 70% black (lockup) + bottom 60% fading to 80% black
-  # (title block). If the skeleton's band-h isn't 152mm, use its value in H.
-  W=$(identify -format %w feature.jpg); H=$(( W * 152 / 297 ))
+  # feature-top --- 16:9 image shown in the 297mm x band-h (190mm) band: the band
+  # is TALLER than the image aspect, so cover crops the sides --- anchor on
+  # height. Uniform 35% base + top 42% fading from 70% black (lockup) + bottom
+  # 60% fading to 80% black (title block). If the skeleton's band-h isn't 190mm,
+  # use its value in W's ratio.
+  H=$(identify -format %h feature.jpg); W=$(( H * 297 / 190 ))
   convert feature.jpg -gravity center -crop ${W}x${H}+0+0 +repage \
     \( -size ${W}x${H} xc:'gray(65%)' \) -compose multiply -composite \
     \( -size ${W}x$(( H * 42 / 100 )) gradient:'gray(30%)'-white -background white -gravity north -extent ${W}x${H} \) -compose multiply -composite \
@@ -431,11 +459,12 @@ Read these before generating:
 
 - **Poster layout cues (feature-right)**:
   `~/projects/perceptron_apparatus/docs/mnist-poster.typ` and `poker-poster.typ`
-  --- the A3 + `flipped: true` + `hide: ("page-numbers", "title-block")` recipe
-  and the column-grid body. **Note:** those are dark-mode with custom display
-  fonts; this preset uses **the template defaults** (Public Sans, gold accents),
-  light unless the dark compile flag is set. Copy the page-setup moves, not the
-  custom styling or fonts.
+  --- the `hide: ("page-numbers", "title-block")` recipe and the column-grid
+  body (page size differs: those are A3, this preset is screen-format via
+  explicit `page-settings` width/height). **Note:** those are dark-mode with
+  custom display fonts; this preset uses **the template defaults** (Public Sans,
+  gold accents), light unless the dark compile flag is set. Copy the page-setup
+  moves, not the custom styling or fonts.
 - **Hero overlay (feature-top)**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
   --- the core's `feature-page` and cover block both do the white-text-on-scrim
@@ -451,10 +480,9 @@ Read these before generating:
   reasons in "Critical gotchas".
 - **Layout core source**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
-  --- the `slop(...)` options used here (`paper`,
-  `page-settings: (flipped: true)`, `config: (theme, hide, qr-url)`). The
-  first-page branding (gold rule + slop lockup) renders automatically from the
-  brand package.
+  --- the `slop(...)` options used here (`page-settings: (width: …, height: …)`,
+  `config: (theme, hide, qr-url)`). The first-page branding (gold rule + slop
+  lockup) renders automatically from the brand package.
 - **Chart pipeline**: `../../_shared/chart-workflow.md`.
 
 ## Typst structure
@@ -491,17 +519,18 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 
 #show: doc => slop(
   title: "",                          // title block hidden; poster title is in the body
-  paper: "a3",
   // Reserve the right third for the full-bleed feature image; the body flows in
   // the left two-thirds.
-  margin: (left: 33mm, right: 150mm, top: 25mm, bottom: 25mm),
+  margin: (left: 33mm, right: 183mm, top: 25mm, bottom: 25mm),
   config: (
     theme: slop-doc-theme,            // "light" normally; "dark" under --input theme=dark
     logos: ("studio",),               // rotated "Office of Research Outputs" wordmark
                                        // in the bottom-left margin
     hide: ("page-numbers", "title-block"),
   ),
-  page-settings: (flipped: true),     // landscape
+  // 16:9 landscape (the signage panels' native aspect); explicit width/height
+  // override the template's `paper` default.
+  page-settings: (width: 528mm, height: 297mm),
   doc,
 )
 
@@ -525,10 +554,10 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 //    white hero quote over its lower portion. The scrim under the quote is baked
 //    into feature.jpg at image prep (see Imagery) --- never a typst gradient
 //    scrim (alpha gradients render black in iOS Safari/Firefox). ──
-#place(top + right, dx: 150mm, dy: -25mm, box(width: 143mm, height: 297mm, clip: true, {
+#place(top + right, dx: 183mm, dy: -25mm, box(width: 176mm, height: 297mm, clip: true, {
   image("/output/slop-poster-<slug>-<seed>-images/feature.jpg",
         width: 100%, height: 100%, fit: "cover")
-  place(bottom + left, dx: 10mm, dy: -11mm, box(width: 123mm)[
+  place(bottom + left, dx: 10mm, dy: -11mm, box(width: 156mm)[
     #text(fill: white, size: 19pt, weight: "medium")[“<hero quote --- a punchy finding or strapline>”]
     #v(0.35em)
     #text(fill: rgb("#e0e0e0"), size: 10pt)[<one supporting line --- a falsifiable claim>]
@@ -537,7 +566,7 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 
 // ── QR over the image's top-right (manual: the config `qr-url` would render
 //    behind the placed feature image). ──
-#place(top + right, dx: 140mm, dy: -15mm, slop-qr-code(
+#place(top + right, dx: 173mm, dy: -15mm, slop-qr-code(
   "https://slop.university/",
   width: 2.6cm,
   config: (theme: slop-doc-theme),
@@ -556,7 +585,7 @@ the feature image's white-on-scrim treatment is already the dark idiom.
   grid(
     columns: (1fr, 1fr),
     rows: 1fr,
-    gutter: 1.0cm,
+    gutter: 1.2cm,
     [
       == Background
       <30-45 words --- the gap, ideally framed as a question>
@@ -640,16 +669,16 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 
 ### Skeleton B --- feature-top (portrait)
 
-Portrait A3. A wide hero image is `place`d flush to the top edge; the body flows
-below it in the same two-column grid as Skeleton A. The masthead is overlaid
-(white `slop-lockup`) rather than auto-rendered, and the title is **white over
-the band's baked-dark bottom** (not gold-on-white as in Skeleton A). The `body`
-definition is identical to Skeleton A (set rules, both cells, the `1fr` image,
-the fill probe, the pinned footer); only its placement differs --- Skeleton A
-nests it as row two of an outer `grid(rows: (auto, 1fr))` below its in-flow
-title, whereas here the title lives in the hero band (out of flow), so the body
-grid is the first in-flow content (its `rows: 1fr` already resolves against the
-correct height) and is placed directly with `#body`.
+Portrait 9:16 (297 × 528 mm). A wide hero image is `place`d flush to the top
+edge; the body flows below it in the same two-column grid as Skeleton A. The
+masthead is overlaid (white `slop-lockup`) rather than auto-rendered, and the
+title is **white over the band's baked-dark bottom** (not gold-on-white as in
+Skeleton A). The `body` definition is identical to Skeleton A (set rules, both
+cells, the `1fr` image, the fill probe, the pinned footer); only its placement
+differs --- Skeleton A nests it as row two of an outer `grid(rows: (auto, 1fr))`
+below its in-flow title, whereas here the title lives in the hero band (out of
+flow), so the body grid is the first in-flow content (its `rows: 1fr` already
+resolves against the correct height) and is placed directly with `#body`.
 
 ```typst
 #import "@local/slop-university-brand:0.1.0": (
@@ -664,15 +693,17 @@ correct height) and is placed directly with `#body`.
 // Geometry. The top margin is oversized to RESERVE the hero band: the body flows
 // below it, while the band is `place`d flush to the page edge (negative dx/dy
 // cancel the margins). Keep `band-h` + the band→body gap ≈ `m-top`.
-#let band-h = 152mm
+#let band-h = 190mm
 #let m-left = 25mm
 #let m-right = 20mm
-#let m-top = 170mm
+#let m-top = 210mm
 #let m-bottom = 18mm
 
 #show: doc => slop(
   title: "",                          // title hidden; poster title is overlaid on the hero
-  paper: "a3",                        // PORTRAIT --- no `page-settings: (flipped: true)`
+  // 9:16 portrait (the signage panels' native aspect); explicit width/height
+  // override the template's `paper` default.
+  page-settings: (width: 297mm, height: 528mm),
   margin: (left: m-left, right: m-right, top: m-top, bottom: m-bottom),
   config: (
     theme: slop-doc-theme,            // "light" normally; "dark" under --input theme=dark
@@ -777,8 +808,9 @@ poster lands on one page first time.
   (the caption carries the claim). High-res JPG images still take `w: 100%`
   cleanly.
 - **Body text 10pt** inside the `#columns` block. 11pt with a chart, six
-  sections, and references overflows A3; 10pt fits and reads fine at poster
-  scale. Section heads stay 15pt (the heading show-rule sets its own size).
+  sections, and references overflows the page; 10pt fits and reads fine at
+  poster scale. Section heads stay 15pt (the heading show-rule sets its own
+  size).
 - **(feature-right) The `#v(2.6cm)` at the top of the outer grid's title row is
   mandatory** --- it pushes the title below the top-left Slop University lockup
   (top ~4.5cm) and leaves a clear gap between the lockup and the title. Without
@@ -797,7 +829,7 @@ poster lands on one page first time.
   `place`d flush to the page edge with negative `dx/dy`.** Keep `m-top` ≈
   `band-h` + the band→body gap so the body never flows under the band --- this
   mirrors how feature-right reserves the right third with
-  `margin: (right: 150mm, …)`.
+  `margin: (right: 183mm, …)`.
 - **(feature-top) The bake darkens top AND bottom, not just the bottom.** The
   darkened bottom carries the white title (as feature-right's carries the hero
   quote); the **darkened top is essential** so the overlaid white lockup reads
@@ -837,8 +869,9 @@ The poster replaces the booklet parity-fix with a one-page check:
    (create `output/pdf/research-poster/` if absent).
 2. Check
    `pdfinfo output/pdf/research-poster/slop-poster-<slug>-<seed>.pdf | grep -E 'Pages|Page size'`.
-   Expect **1 page**, A3 in the rolled orientation --- landscape ≈ 1190 × 842 pt
-   (feature-right) or portrait ≈ 842 × 1190 pt (feature-top).
+   Expect **1 page**, screen-format in the rolled orientation --- landscape
+   (16:9) ≈ 1497 × 842 pt (feature-right) or portrait (9:16) ≈ 842 × 1497 pt
+   (feature-top).
 3. Measure the right-column fill band --- the backpressure check for
    _under_-fill. The footer is pinned with `#v(1fr)`, so any leftover whitespace
    pools into that one gap, which the `<fill-top>` / `<fill-bot>` markers
@@ -868,21 +901,22 @@ The poster replaces the booklet parity-fix with a one-page check:
    is one page.
 
    A standard poster --- feature image, a `1fr` body image, one full-width
-   chart, telegraphic sections, and a 4-6 entry reference list --- fits one A3
-   page once the prose is terse (~150 words). The body image is free (it absorbs
+   chart, telegraphic sections, and a 4-6 entry reference list --- fits one page
+   once the prose is terse (~200 words). The body image is free (it absorbs
    slack); the budget is really each grid cell's text + chart + references +
-   footer. **feature-top** has slightly less body height (the hero band takes
-   ~152mm) but the same content fits; its risk is the opposite one ---
-   under-fill, which step 3 owns.
+   footer. **feature-top**'s hero band takes ~190mm, but the taller page leaves
+   it the deeper body columns of the two layouts; its risk is the opposite one
+   --- under-fill, which step 3 owns.
 
 ## Pre-ship checklist (preset-specific)
 
 Generic format-aware checklist items live in `../SKILL.md`. Research-poster
 items:
 
-- [ ] Single A3 page in the rolled orientation (`paper: "a3"`; feature-right
-      adds `page-settings: (flipped: true)`, feature-top is portrait); `pdfinfo`
-      confirms 1 page
+- [ ] Single screen-format page in the rolled orientation (explicit
+      `page-settings` width/height: feature-right 528 × 297 mm landscape,
+      feature-top 297 × 528 mm portrait --- or A3 only if the print variant was
+      explicitly requested); `pdfinfo` confirms 1 page
 - [ ] Light theme; `slop` lockup, QR (to slop.university), "Office of Research
       Outputs" wordmark in the bottom-left margin (`logos: ("studio",)`), gold
       spine down the left edge. feature-right: lockup top-left (auto), QR
