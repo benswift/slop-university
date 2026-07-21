@@ -1,0 +1,26 @@
+title: Loud, Not Right
+subtitle: Validating a Smart Monitor's Cry-Classification Label Against What Actually Soothed the Baby
+authors:
+  - Runa Adegoke
+  - Ronja Oyelaran
+preset: research-poster
+school: School of Emergent Priorities
+date: 2026-07-21
+doi: 10.5555/slop.mjo541
+summary: >-
+  A research poster from the School of Emergent Priorities follows 68
+  families running a smart baby monitor's cry-classification feature across
+  a 14-week deployment, matching the monitor's predicted cry category
+  against the soothing action that actually settled the baby, logged blind
+  to the on-device label. Label-match rate holds flat between 47% and 53%
+  across the full deployment, while the monitor's own confidence score
+  tracks the cry's acoustic loudness far more closely than whether the
+  label was correct.
+topic: >-
+  validating whether a smart baby monitor's AI cry-classification label
+  predicts which soothing action actually settles the baby, or just tracks
+  how loud the cry was
+pdf: /outputs/pdf/slop-poster-validating-whether-a-mjo541.pdf
+pdfDark: /outputs/pdf/slop-poster-validating-whether-a-mjo541-dark.pdf
+pages: 1
+version: "1.0"
