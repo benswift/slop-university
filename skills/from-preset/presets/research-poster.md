@@ -470,7 +470,8 @@ Read these before generating:
   --- the core's `feature-page` and cover block both do the white-text-on-scrim
   treatment the top band emulates (the band's own scrims are baked into the
   image at prep --- see Imagery); `slop-lockup` (from the brand package) is the
-  helper that overlays the masthead on the photo (no masking rect). There is no
+  helper that overlays the masthead on the photo (no masking rect), and
+  `slop-lockup-dx` gives the dx that keeps its crest on the spine. There is no
   perceptron analogue for this layout --- the core is the reference.
 - **Chart + card layout**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
@@ -682,8 +683,8 @@ resolves against the correct height) and is placed directly with `#body`.
 
 ```typst
 #import "@local/slop-university-brand:0.1.0": (
-  slop, slop-colors, slop-doc-theme, slop-lockup, slop-muted-auto,
-  slop-qr-code,
+  slop, slop-colors, slop-doc-theme, slop-lockup, slop-lockup-dx,
+  slop-muted-auto, slop-qr-code,
 )
 
 #set document(
@@ -739,8 +740,11 @@ resolves against the correct height) and is placed directly with `#body`.
         width: 100%, height: 100%, fit: "cover")
   // gold spine continued over the band (the page-background rule is covered here)
   place(top + left, dx: 1.9cm, rect(width: 0.75pt, height: band-h, fill: slop-colors.gold))
-  // white Slop University lockup, overlaid (no masking rect --- reads on the band's baked-dark top)
-  place(top + left, dx: 2.2cm, dy: 1.1cm,
+  // white Slop University lockup, overlaid (no masking rect --- reads on the band's baked-dark top).
+  // dx comes from `slop-lockup-dx`, which puts the crest axis on the gold spine
+  // exactly as the auto masthead does --- never a hand-picked dx (the crest ends
+  // up floating a centimetre right of the spine).
+  place(top + left, dx: slop-lockup-dx(height: 1.7cm), dy: 1.1cm,
     slop-lockup(variant: "white", height: 1.7cm))
   // QR top-right, balancing the lockup
   place(top + right, dx: -1.6cm, dy: 1.4cm,
@@ -921,7 +925,10 @@ items:
       Outputs" wordmark in the bottom-left margin (`logos: ("studio",)`), gold
       spine down the left edge. feature-right: lockup top-left (auto), QR
       top-right, title clear below the lockup (the `#v(2.6cm)`). feature-top:
-      white lockup + QR overlaid on the hero band (auto masthead hidden)
+      white lockup + QR overlaid on the hero band (auto masthead hidden), the
+      lockup placed at `slop-lockup-dx(height: 1.7cm)` so the crest axis lands
+      on the gold spine (eyeball it: the spine must run through the crest, as it
+      does under the auto masthead)
 - [ ] No `cover:`, no `#outline()`, no Acknowledgement of Country, no
       `#slop-back-cover()`, no `#pagebreak()` anywhere
 - [ ] Visible title is the fabricated project name (steering-driven); if it

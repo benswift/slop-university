@@ -119,6 +119,19 @@
   height: height,
 )
 
+// The dx that places a left-aligned `slop-lockup` so its crest axis sits on
+// the brand spine (the rule at 1.9cm, 0.75pt wide, so centre 1.9132cm).
+// `mast-dx` above is this same quantity frozen at the masthead's 1.64cm; the
+// crest axis sits a constant fraction of the art's height in from its left
+// edge, so the inset scales with `height`. An overlaid lockup (the poster's
+// feature-top hero band, where the auto masthead is hidden) must place with
+// this rather than a hand-picked dx --- otherwise the crest floats off the
+// spine that the auto masthead bisects.
+#let _spine-x = 1.9cm + 0.375pt
+#let slop-lockup-dx(height: 1.64cm) = (
+  _spine-x - (_spine-x - slop-brand.lockups.slop.mast-dx) * (height / 1.64cm)
+)
+
 // --- Gribouille chart styling ---
 
 // The brand chart theme (Public Sans, slop ink, light-grey grid), its dark
