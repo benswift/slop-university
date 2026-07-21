@@ -8,9 +8,10 @@ Which brand package depends on the path:
 - **Preset (satirical) path** --- `@local/slop-university-brand:0.1.0` (in-repo
   at `brand/slop-university-brand/0.1.0/`): the Slop University brand. Exports
   are `slop`-prefixed: `slop` (the show rule), `slop-back-cover`, `slop-colors`,
-  `slop-highlight-card`, `slop-inline-figure`, `slop-lockup`, `slop-lockup-dx`
-  (the dx that sits an overlaid lockup's crest on the spine), `slop-qr-code`,
-  plus the chart values (see `chart-workflow.md`).
+  `slop-highlight-card`, `slop-inline-figure`, `slop-lockup`,
+  `slop-overlay-masthead` (spine-in-two-segments + lockup for image bands;
+  supersedes `slop-lockup-dx`, kept only so old outputs recompile),
+  `slop-qr-code`, plus the chart values (see `chart-workflow.md`).
 - **Faithful from-source path** --- `@local/anu-typst-template:0.3.0`: the
   genuine ANU brand. Exports are `anu`-prefixed with the same shapes.
 

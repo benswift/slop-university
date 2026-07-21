@@ -119,14 +119,22 @@
   height: height,
 )
 
+// Overlay masthead for image bands (the poster feature-top hero): the gold
+// spine drawn in two segments with the bare lockup in the gap between them,
+// crest axis on the spine --- see `overlay-masthead` in the core. This is
+// what the feature-top skeleton uses; it replaces placing `slop-lockup` and
+// a continuous spine rect by hand (the spine showed through the crest's open
+// line-art).
+#let slop-overlay-masthead = _uni.overlay-masthead.with(
+  brand: slop-brand,
+  name: "slop",
+)
+
 // The dx that places a left-aligned `slop-lockup` so its crest axis sits on
 // the brand spine (the rule at 1.9cm, 0.75pt wide, so centre 1.9132cm).
-// `mast-dx` above is this same quantity frozen at the masthead's 1.64cm; the
-// crest axis sits a constant fraction of the art's height in from its left
-// edge, so the inset scales with `height`. An overlaid lockup (the poster's
-// feature-top hero band, where the auto masthead is hidden) must place with
-// this rather than a hand-picked dx --- otherwise the crest floats off the
-// spine that the auto masthead bisects.
+// Superseded by `slop-overlay-masthead` (which also breaks the spine around
+// the lockup); kept exported so already-generated outputs in `output/` still
+// compile.
 #let _spine-x = 1.9cm + 0.375pt
 #let slop-lockup-dx(height: 1.64cm) = (
   _spine-x - (_spine-x - slop-brand.lockups.slop.mast-dx) * (height / 1.64cm)

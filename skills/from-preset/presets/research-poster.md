@@ -43,7 +43,7 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 | Author line                | 2-3 roster researchers (`canon/roster.yml`) + the lead author's school --- the only place people are named                                                                                                                        |
 | Paper / orientation        | screen aspect via explicit `page-settings` --- feature-right = `(width: 528mm, height: 297mm)` (16:9 landscape); feature-top = `(width: 297mm, height: 528mm)` (9:16 portrait). A3 only on explicit request (see "Print variant") |
 | Theme                      | `light` by default; a **dark sibling** (`<name>-dark.pdf`) is compiled from the same source with `--input theme=dark` --- the e-signage artefact                                                                                  |
-| Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-lockup` (auto masthead hidden)                                                                            |
+| Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-overlay-masthead` (auto masthead hidden)                                                                  |
 | Filename prefix            | `slop-poster`                                                                                                                                                                                                                     |
 | Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                                                                                                      |
 | Register                   | academic-present (present-tense findings, past-tense methods, hedged)                                                                                                                                                             |
@@ -174,11 +174,11 @@ across the two.
     template uses for cover and feature-page overlays) --- is all **baked into
     `feature.jpg` at image prep** (see Imagery), not drawn in typst; the
     document overlays only text. The automatic masthead is hidden
-    (`hide: (…, "masthead")`) and the lockup overlaid manually via `slop-lockup`
-    (white), because the automatic one draws a solid rect and sits behind the
-    band. The 2-column body fills the page below. The **feature image is wide
-    and horizontal** (a corridor, a courtyard, a bank of screens) --- request a
-    **16:9** image.
+    (`hide: (…, "masthead")`) and the masthead overlaid via
+    `slop-overlay-masthead` (white lockup, spine bisected around it), because
+    the automatic one draws a solid rect and sits behind the band. The 2-column
+    body fills the page below. The **feature image is wide and horizontal** (a
+    corridor, a courtyard, a bank of screens) --- request a **16:9** image.
 
 In both layouts the feature image is `place`d out of flow (right third, or top
 band) so it never affects column fit; the body field image is in-flow in the
@@ -469,9 +469,9 @@ Read these before generating:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
   --- the core's `feature-page` and cover block both do the white-text-on-scrim
   treatment the top band emulates (the band's own scrims are baked into the
-  image at prep --- see Imagery); `slop-lockup` (from the brand package) is the
-  helper that overlays the masthead on the photo (no masking rect), and
-  `slop-lockup-dx` gives the dx that keeps its crest on the spine. There is no
+  image at prep --- see Imagery); `slop-overlay-masthead` (from the brand
+  package) overlays the lockup on the photo with the gold spine drawn in two
+  segments around it (no masking rect; crest axis on the spine). There is no
   perceptron analogue for this layout --- the core is the reference.
 - **Chart + card layout**:
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
@@ -672,19 +672,20 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 
 Portrait 9:16 (297 × 528 mm). A wide hero image is `place`d flush to the top
 edge; the body flows below it in the same two-column grid as Skeleton A. The
-masthead is overlaid (white `slop-lockup`) rather than auto-rendered, and the
-title is **white over the band's baked-dark bottom** (not gold-on-white as in
-Skeleton A). The `body` definition is identical to Skeleton A (set rules, both
-cells, the `1fr` image, the fill probe, the pinned footer); only its placement
-differs --- Skeleton A nests it as row two of an outer `grid(rows: (auto, 1fr))`
-below its in-flow title, whereas here the title lives in the hero band (out of
-flow), so the body grid is the first in-flow content (its `rows: 1fr` already
-resolves against the correct height) and is placed directly with `#body`.
+masthead is overlaid (white, via `slop-overlay-masthead`) rather than
+auto-rendered, and the title is **white over the band's baked-dark bottom** (not
+gold-on-white as in Skeleton A). The `body` definition is identical to Skeleton
+A (set rules, both cells, the `1fr` image, the fill probe, the pinned footer);
+only its placement differs --- Skeleton A nests it as row two of an outer
+`grid(rows: (auto, 1fr))` below its in-flow title, whereas here the title lives
+in the hero band (out of flow), so the body grid is the first in-flow content
+(its `rows: 1fr` already resolves against the correct height) and is placed
+directly with `#body`.
 
 ```typst
 #import "@local/slop-university-brand:0.1.0": (
-  slop, slop-colors, slop-doc-theme, slop-lockup, slop-lockup-dx,
-  slop-muted-auto, slop-qr-code,
+  slop, slop-colors, slop-doc-theme, slop-muted-auto, slop-overlay-masthead,
+  slop-qr-code,
 )
 
 #set document(
@@ -711,7 +712,7 @@ resolves against the correct height) and is placed directly with `#body`.
     logos: ("studio",),               // rotated "Office of Research Outputs" wordmark, bottom-left margin
     // Hide the auto masthead: it draws a solid white rect in the page background,
     // which the top hero band would cover. We overlay our own white lockup on
-    // the band instead (`slop-lockup`, below).
+    // the band instead (`slop-overlay-masthead`, below).
     hide: ("page-numbers", "title-block", "masthead"),
   ),
   doc,
@@ -738,14 +739,13 @@ resolves against the correct height) and is placed directly with `#body`.
 #place(top + left, dx: -m-left, dy: -m-top, box(width: 297mm, height: band-h, clip: true, {
   image("/output/slop-poster-<slug>-<seed>-images/feature.jpg",
         width: 100%, height: 100%, fit: "cover")
-  // gold spine continued over the band (the page-background rule is covered here)
-  place(top + left, dx: 1.9cm, rect(width: 0.75pt, height: band-h, fill: slop-colors.gold))
-  // white Slop University lockup, overlaid (no masking rect --- reads on the band's baked-dark top).
-  // dx comes from `slop-lockup-dx`, which puts the crest axis on the gold spine
-  // exactly as the auto masthead does --- never a hand-picked dx (the crest ends
-  // up floating a centimetre right of the spine).
-  place(top + left, dx: slop-lockup-dx(height: 1.7cm), dy: 1.1cm,
-    slop-lockup(variant: "white", height: 1.7cm))
+  // gold spine + white lockup in one helper: the spine is drawn in two segments
+  // (the page-background rule is covered by the band image) with the lockup in
+  // the gap, crest axis on the spine --- exactly the auto masthead's "rule
+  // bisected by the lockup" grammar. Never place the spine and lockup by hand:
+  // a continuous spine shows through the crest's open line-art, and a
+  // hand-picked dx floats the crest off the spine.
+  slop-overlay-masthead(band-h, variant: "white", dy: 1.1cm, height: 1.7cm)
   // QR top-right, balancing the lockup
   place(top + right, dx: -1.6cm, dy: 1.4cm,
     slop-qr-code("https://slop.university/", width: 2.4cm,
@@ -837,10 +837,10 @@ poster lands on one page first time.
 - **(feature-top) The bake darkens top AND bottom, not just the bottom.** The
   darkened bottom carries the white title (as feature-right's carries the hero
   quote); the **darkened top is essential** so the overlaid white lockup reads
-  on a bright photo. `slop-lockup` is transparent by design (no masking rect)
-  --- without it it can wash out. If the lockup or title still reads faintly,
-  deepen the relevant mask's dark end (`gray(20%)` → `gray(10%)`) and re-run the
-  bake rather than moving the art.
+  on a bright photo. The overlaid lockup is transparent by design (no masking
+  rect) --- without it it can wash out. If the lockup or title still reads
+  faintly, deepen the relevant mask's dark end (`gray(20%)` → `gray(10%)`) and
+  re-run the bake rather than moving the art.
 - **(feature-top) Overlaid masthead means hiding the automatic one**
   (`hide: (…, "masthead")`). The auto masthead draws a solid white rect in the
   page background; the top band would cover it, leaving no masthead at all. The
@@ -925,10 +925,10 @@ items:
       Outputs" wordmark in the bottom-left margin (`logos: ("studio",)`), gold
       spine down the left edge. feature-right: lockup top-left (auto), QR
       top-right, title clear below the lockup (the `#v(2.6cm)`). feature-top:
-      white lockup + QR overlaid on the hero band (auto masthead hidden), the
-      lockup placed at `slop-lockup-dx(height: 1.7cm)` so the crest axis lands
-      on the gold spine (eyeball it: the spine must run through the crest, as it
-      does under the auto masthead)
+      white lockup + QR overlaid on the hero band (auto masthead hidden) via
+      `slop-overlay-masthead`, spine in two segments with the crest axis on it
+      (eyeball it: the spine must stop above the crest and resume below, as it
+      does at the auto masthead --- never run through the crest's line-art)
 - [ ] No `cover:`, no `#outline()`, no Acknowledgement of Country, no
       `#slop-back-cover()`, no `#pagebreak()` anywhere
 - [ ] Visible title is the fabricated project name (steering-driven); if it
