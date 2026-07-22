@@ -1,0 +1,31 @@
+title: Held for a Tap, Sent Regardless
+subtitle: >-
+  A Street-Deployed Triage Bot for Doorbell Person-at-the-Gate Alerts, and
+  What the Confirm Window Actually Changes
+authors:
+  - Fenna Okoro
+  - Osei Vandermeer
+preset: paper
+school: School of Emergent Priorities
+date: 2026-07-22
+doi: 10.5555/slop.1lhg1o
+summary: >-
+  A paper from the Schools of Emergent Priorities and Continuous Improvement
+  designs and deploys a confirm-gate that holds a doorbell camera's
+  person-at-the-gate alerts in a private volunteer queue before they reach a
+  street's neighbourhood-watch group chat. Across eleven streets over a
+  nine-week deployment, only 18.3% of alerts are confirmed inside the
+  90-second window and weekly forwarding volume holds steady against the
+  pre-deployment baseline, while confirm latency runs longer, not shorter,
+  on streets with larger volunteer rosters.
+topic: >-
+  designing and deploying a lightweight triage bot for a street's
+  neighbourhood-watch group chat that holds a doorbell camera's
+  person-at-the-gate alerts for a volunteer's one-tap confirmation before
+  they reach the group, and tracking what actually happens to the alerts
+  nobody confirms in time
+pdf: /outputs/pdf/slop-paper-designing-and-deploying-1lhg1o.pdf
+pages: 5
+version: "1.0"
+grants:
+  - 2026-07-16-restocked-before-the-forecast
