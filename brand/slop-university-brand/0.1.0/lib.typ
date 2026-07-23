@@ -191,7 +191,10 @@
 // Map the first N brand colours onto a discrete aesthetic. Pass the factor
 // levels in the order you want them coloured; override `palette` for a
 // different ramp (e.g. slop-ordinal-auto, slop-gold-tints). The default
-// follows the document theme.
+// follows the document theme. Key the result by aesthetic in gribouille's
+// `scales(...)` binder --- e.g. `scales: scales(fill: slop-fill(levels))`;
+// since gribouille 0.5.0 the spec is aesthetic-agnostic, so slop-colour and
+// slop-fill are the same function under two readable names.
 #let slop-colour(levels, palette: slop-categorical-auto) = chart-colour(
   levels,
   palette,
@@ -200,3 +203,33 @@
   levels,
   palette,
 )
+
+// --- Social furniture ---
+
+// The Bluesky butterfly, recoloured at use. The university runs a real
+// Bluesky account (@slop.university); posters carry the mark in their footer
+// furniture. Default fill follows the page ground; pass `fill:` to override
+// (e.g. `white` over a baked-dark hero band).
+#let _bluesky-svg = read("logos/bluesky.svg")
+#let slop-bluesky-logo(height: 0.85em, fill: auto) = {
+  let f = if fill == auto { slop-ink-auto } else { fill }
+  image(
+    bytes(_bluesky-svg.replace("#1185fe", f.to-hex())),
+    format: "svg",
+    height: height,
+    alt: "Bluesky",
+  )
+}
+
+// The standard social line for poster footers: butterfly + handle +
+// institutional hashtag. One helper so every poster renders it identically;
+// muted by default (footnote register), `fill:` for overlays.
+#let slop-social-line(size: 8.5pt, fill: auto) = {
+  let f = if fill == auto { slop-muted-auto } else { fill }
+  text(
+    size: size,
+    fill: f,
+  )[#box(baseline: 14%, slop-bluesky-logo(height: 0.95em, fill: f))#h(
+      0.4em,
+    )#"@slop.university · #slopU"]
+}
