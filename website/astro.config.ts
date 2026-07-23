@@ -12,7 +12,6 @@ export default defineConfig({
   integrations: [
     universityTheme({
       name: "Slop University",
-      defaultLayout: "src/layouts/PageLayout.astro",
       brandCss: "astro-theme-slop/slop.css",
       llmsTxt: true,
     }),
