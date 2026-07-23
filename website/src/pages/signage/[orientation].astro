@@ -3,8 +3,9 @@ import { getCollection } from "astro:content";
 import { fullTitle } from "../../lib/outputs";
 import { thumbnail } from "../../lib/thumbnails";
 
-// Chromeless, fullscreen e-signage view of the most recent research poster in a
-// given orientation. Built for kiosk browsers: any number of panels, each
+// Chromeless, fullscreen e-signage view of the most recent poster-format
+// output (research poster or marketing poster) in a given orientation. Built
+// for kiosk browsers: any number of panels, each
 // pointed at the route matching its mounting (/signage/landscape or
 // /signage/portrait), with no site chrome and no theme layout --- just the
 // poster, letterboxed on black. Posters are generated at the panels' native
@@ -38,7 +39,7 @@ const { orientation } = Astro.params;
 const isLandscape = orientation === "landscape";
 
 const posters = (await getCollection("outputs"))
-  .filter((entry) => entry.data.preset === "research-poster")
+  .filter((entry) => entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster")
   .map((entry) => ({ entry, thumb: thumbnail(entry.id) }))
   .filter(({ thumb }) => thumb && (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
   .sort((a, b) => b.entry.data.date.getTime() - a.entry.data.date.getTime());

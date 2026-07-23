@@ -19,6 +19,7 @@ const people = defineCollection({
     name: z.string(),
     title: z.string(),
     school: z.string(), // full school name; resolved to a schools entry at render
+    email: z.string().regex(/^[a-z]+(\.[a-z]+)+@slop\.university$/), // id with dots; catch-all makes it real
     bio: z.string(),
     headshot: z.string(), // canon-root path; images resolved via lib/headshots.ts
     web: z.url().optional(),
@@ -97,7 +98,14 @@ const outputs = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     authors: z.array(z.string()).default([]),
-    preset: z.enum(["research-poster", "paper", "brochure", "strategy", "impact-report"]),
+    preset: z.enum([
+      "research-poster",
+      "marketing-poster",
+      "paper",
+      "brochure",
+      "strategy",
+      "impact-report",
+    ]),
     school: z.string().optional(),
     date: z.coerce.date(),
     doi: z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/),
@@ -105,8 +113,9 @@ const outputs = defineCollection({
     topic: z.string(),
     pdf: z.string(),
     // Dark-theme sibling of `pdf` (same content, dark render), produced for
-    // research posters so the e-signage screens show white-on-black. Older
-    // outputs predate it; consumers must fall back to `pdf`.
+    // the poster-format presets (research-poster, marketing-poster) so the
+    // e-signage screens show white-on-black. Older outputs predate it;
+    // consumers must fall back to `pdf`.
     pdfDark: z.string().optional(),
     pages: z.number().optional(),
     version: z.string().default("1.0"),

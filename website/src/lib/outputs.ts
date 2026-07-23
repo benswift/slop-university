@@ -4,6 +4,7 @@ export type Preset = CollectionEntry<"outputs">["data"]["preset"];
 
 export const presetLabels: Record<Preset, string> = {
   "research-poster": "Research poster",
+  "marketing-poster": "Marketing poster",
   paper: "Research paper",
   brochure: "Brochure",
   strategy: "Strategic plan",
@@ -16,6 +17,7 @@ export const presetLabels: Record<Preset, string> = {
 export const presetBadgeLabels: Record<Preset, string> = {
   ...presetLabels,
   "research-poster": "Poster",
+  "marketing-poster": "Ad",
   paper: "Paper",
 };
 
@@ -31,6 +33,7 @@ export type OutputSeries = (typeof seriesOrder)[number];
 export const presetSeries: Record<Preset, OutputSeries> = {
   paper: "Research papers",
   "research-poster": "Research posters",
+  "marketing-poster": "Other outputs",
   brochure: "Other outputs",
   strategy: "Other outputs",
   "impact-report": "Other outputs",
@@ -73,6 +76,7 @@ export function seriesFacets(outputs: { preset: Preset }[]): SeriesFacet[] {
 // valid iconoir icons (the theme's Icon component adds the `iconoir:` prefix).
 export const presetIcons: Record<Preset, string> = {
   "research-poster": "presentation",
+  "marketing-poster": "megaphone",
   paper: "journal-page",
   brochure: "book",
   strategy: "strategy",
