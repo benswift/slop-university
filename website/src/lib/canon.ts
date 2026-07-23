@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 // Cross-reference helpers over the canon-backed collections. People and schools
 // are loaded from canon/ (see content.config.ts); these keep the join logic ---

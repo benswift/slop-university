@@ -4,11 +4,11 @@ import {
   bibtex,
   bibtexTokens,
   fullTitle,
+  type Preset,
   presetLabels,
   seriesFacets,
   seriesOrder,
   seriesSlugs,
-  type Preset,
 } from "./outputs";
 
 const entry: CollectionEntry<"outputs">["data"] = {

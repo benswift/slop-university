@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 // Join and formatting helpers over the funding collections: award events live
 // in src/content/grants/ (written by the publish tick), the canon schemes they
