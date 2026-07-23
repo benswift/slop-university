@@ -223,13 +223,16 @@ each.
 ### Chart count and types
 
 Roll **1 chart** (a 2nd only if the prose stays lean) --- the data spine,
-alongside the feature image. Types drawn from
-`{line, area, scatter, grouped-bar, stacked-bar, boxplot}`; each appears at most
-once. **Omit the chart `title`** (the claim goes in the typst caption). Each
-chart is `layout`-responsive, so it fills the right grid cell on its own ---
-keep it **wide and short** (set `height` to ~0.3 of the width). The chart leads
-the **right grid cell** (with the discussion, references, and footer); the
-text + body image take the left cell. Styling and the render pipeline are in
+alongside the feature image. Type drawn from the full menu in
+`../../_shared/chart-workflow.md` › "Chart types" (staples plus the distinctive
+forms --- ridgeline, bump, dumbbell, waffle, heatmap, and friends); each type
+appears at most once, and the menu's variation pressure applies --- don't
+default to a line or bar when a more specific form fits the fabricated data.
+**Omit the chart `title`** (the claim goes in the typst caption). Each chart is
+`layout`-responsive, so it fills the right grid cell on its own --- keep it
+**wide and short** (set `height` to ~0.3 of the width). The chart leads the
+**right grid cell** (with the discussion, references, and footer); the text +
+body image take the left cell. Styling and the render pipeline are in
 `../../_shared/chart-workflow.md`.
 
 ### Attribution (roster + canon)
@@ -254,8 +257,20 @@ content, which should read as the project's field site or apparatus.
 
 ### Footer furniture
 
-Fill the trailing column (and vary the foot between runs) with 1-2 small items
-after the references --- real poster apparatus, played deadpan:
+The column foot always ends with two fixed lines (already in the skeletons):
+
+- **Contact line** ---
+  `Contact: <lead author's roster email> · Office of Research Outputs`. The
+  email comes from the lead author's `email` field in `canon/roster.yml` (the id
+  with dots at slop.university --- the domain catch-all makes it real); never
+  invent an address in any other shape.
+- **Social line** --- `#slop-social-line()` from the brand package: the Bluesky
+  butterfly, `@slop.university`, and the `#slopU` institutional hashtag. Every
+  poster carries it (conference posters really do this now); it is furniture,
+  not a satire signal --- it renders muted at footnote size.
+
+Above those, fill the trailing column (and vary the foot between runs) with 1-2
+rolled items after the references --- real poster apparatus, played deadpan:
 
 - **Acknowledgements / funding** --- aggregate only ("we thank the staff of the
   monitored common rooms"; "we thank the households of the instrumented street";
@@ -264,13 +279,9 @@ after the references --- real poster apparatus, played deadpan:
 - **Ethics / data statement** --- often the funniest line on the poster, played
   straight ("animal ethics approval 2025/047; no birds harmed"; "de-identified
   occupancy only; no number plates retained"; "thresholds pre-registered").
-- **Contact line**, optionally with a QR: import `slop-qr-code` and place
-  `slop-qr-code("https://slop.university/", width: 2.3cm, config: (theme: slop-doc-theme))`
-  beside a short contact line; the QR follows the theme (dark modules on light
-  pages, inverted on dark) and fills the column foot nicely.
 
-Keep furniture small (8-9pt); if the foot would overflow, compress it to a
-single line.
+Keep furniture small (8-9pt); if the foot would overflow, compress the rolled
+items to a single line (the contact and social lines stay).
 
 ### Result / metric plausible bands
 
@@ -512,6 +523,7 @@ the feature image's white-on-scrim treatment is already the dark idiom.
 ```typst
 #import "@local/slop-university-brand:0.1.0": (
   slop, slop-colors, slop-doc-theme, slop-muted-auto, slop-qr-code,
+  slop-social-line,
 )
 
 #set document(
@@ -640,7 +652,9 @@ the feature image's white-on-scrim treatment is already the dark idiom.
       #v(1fr)
       #text(size: 8.5pt, fill: slop-muted-auto)[<deadpan ethics / data line>]<fill-bot>
       #v(0.35em)
-      #text(size: 8.5pt, fill: slop-muted-auto)[Office of Research Outputs · slop.university]
+      #text(size: 8.5pt, fill: slop-muted-auto)[Contact: <lead author's roster email> · Office of Research Outputs]
+      #v(0.3em)
+      #slop-social-line()
     ],
   )
 }
@@ -685,7 +699,7 @@ directly with `#body`.
 ```typst
 #import "@local/slop-university-brand:0.1.0": (
   slop, slop-colors, slop-doc-theme, slop-muted-auto, slop-overlay-masthead,
-  slop-qr-code,
+  slop-qr-code, slop-social-line,
 )
 
 #set document(
@@ -955,6 +969,9 @@ items:
       and the `#v(1fr)` footer pin do this; fill-probe band ≲ 40 mm per step 3
       of "Compile and one-page fit"); the deadpan ethics / data footer line is
       **on-page** (not clipped off the bottom), no person
+- [ ] Footer carries the fixed contact line (lead author's `email` from
+      `canon/roster.yml` --- never an invented address shape) and
+      `#slop-social-line()` (Bluesky butterfly + `@slop.university` + `#slopU`)
 - [ ] Charts use brand styling per `../../_shared/chart-workflow.md` (no rainbow
       bars; legends top/bottom) and **fill the column** (responsive `layout`,
       wide-short aspect --- no side padding)

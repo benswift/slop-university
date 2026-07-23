@@ -192,12 +192,13 @@ already read the rest of the canon.
 _Scope._ The topic is composed before the preset is rolled, so state it as a
 picturable object under institutional treatment and it will serve every preset.
 The object floor binds `paper` and `research-poster` absolutely (a study needs
-something studied) and governs the `brochure`'s campaign subject. `strategy` and
-`impact-report` are the exception in one direction only: those genres take the
-institution as their legitimate subject, so the topic supplies the theme rather
-than a research object --- but their initiatives, KPIs, and vignettes should
-still fasten onto something picturable rather than onto another register. The
-_pathology-as-method_ constraint holds for all five.
+something studied) and governs the `brochure`'s and `marketing-poster`'s
+campaign subjects. `strategy` and `impact-report` are the exception in one
+direction only: those genres take the institution as their legitimate subject,
+so the topic supplies the theme rather than a research object --- but their
+initiatives, KPIs, and vignettes should still fasten onto something picturable
+rather than onto another register. The _pathology-as-method_ constraint holds
+for all six.
 
 **Dedup --- on topic, object, AND shape.** Compare the candidate against the
 `topic` and `summary` of every existing outputs entry
@@ -237,13 +238,14 @@ all hard:
 The enabled list is this section, so nothing joins the pool by accident. Each
 enabled preset carries a target share of 2A output volume:
 
-| Preset            | Format  | Target share |
-| ----------------- | ------- | ------------ |
-| `research-poster` | poster  | 45%          |
-| `paper`           | paper   | 45%          |
-| `brochure`        | booklet | 8%           |
-| `impact-report`   | booklet | 1%           |
-| `strategy`        | booklet | 1%           |
+| Preset             | Format  | Target share |
+| ------------------ | ------- | ------------ |
+| `research-poster`  | poster  | 40%          |
+| `paper`            | paper   | 40%          |
+| `marketing-poster` | poster  | 10%          |
+| `brochure`         | booklet | 8%           |
+| `impact-report`    | booklet | 1%           |
+| `strategy`         | booklet | 1%           |
 
 **Selection is deterministic apportionment, not a random draw** --- the same
 gap-driven logic as the phase-1 ladder, applied to preset mix. Read the `preset`
@@ -254,7 +256,9 @@ preset with the largest deficit (tie → higher target share, then
 `research-poster`). This tracks the target mix without an RNG and self-corrects
 after any run that aborts. Booklets total ~10% of 2A runs --- `brochure` around
 one run in twelve, `impact-report` and `strategy` near-vanishing at ~1% each
-(they're the heaviest to generate); posters and papers split the rest evenly.
+(they're the heaviest to generate); `marketing-poster` at ~10% keeps the signage
+rotation seasoned with ads without the outputs ledger reading like a billboard;
+research posters and papers split the rest evenly.
 
 **Fixed-title booklets need disambiguation.** `impact-report` and `strategy` fix
 their _cover_ titles (`Impact Report 2021–2026`, `Strategic Plan 2026–2031`), so
@@ -306,10 +310,11 @@ verifiable numbers). Then:
   school), `date`, `doi`, `summary` (1-2 sentence abstract of the fictional
   work, institutional register --- not the press release's standfirst), `topic`
   (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pdfDark`
-  (research-poster runs only: `/outputs/pdf/<run-id>-dark.pdf`, the dark signage
-  render --- see staging below), `pages` (from pdfinfo), `version: "1.0"`, and
-  `grants` (optional --- see below). The thumbnail and hero carry no yml field
-  --- they resolve by matching a file basename to the entry id (see below).
+  (poster-format runs only --- `research-poster`, `marketing-poster`:
+  `/outputs/pdf/<run-id>-dark.pdf`, the dark signage render --- see staging
+  below), `pages` (from pdfinfo), `version: "1.0"`, and `grants` (optional ---
+  see below). The thumbnail and hero carry no yml field --- they resolve by
+  matching a file basename to the entry id (see below).
 - **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
   `grantees` include one of this output's authors, its `date` precedes the
   output's, and its remit plausibly covers the topic, list its entry id under
@@ -328,13 +333,13 @@ verifiable numbers). Then:
   (~80% smaller on the image-heavy formats, visually identical at reading size;
   the PDF metadata title survives the round-trip). The full-resolution original
   stays in gitignored `output/pdf/<group>/`.
-- **Dark sibling (research-poster runs only)** --- the from-preset step also
-  compiled `output/pdf/research-poster/<run-id>-dark.pdf` (same source,
-  `--input theme=dark`); stage it through the identical gs downsample →
-  `website/public/outputs/pdf/<run-id>-dark.pdf` and record it as `pdfDark` in
-  the outputs entry. The signage endpoints prefer it; every other surface
-  (landing page, DOI, downloads) keeps using the light `pdf`. The thumbnail and
-  hero are rendered from the light variant as before.
+- **Dark sibling (poster-format runs: `research-poster`, `marketing-poster`)**
+  --- the from-preset step also compiled `output/pdf/<group>/<run-id>-dark.pdf`
+  (same source, `--input theme=dark`); stage it through the identical gs
+  downsample → `website/public/outputs/pdf/<run-id>-dark.pdf` and record it as
+  `pdfDark` in the outputs entry. The signage endpoints prefer it; every other
+  surface (landing page, DOI, downloads) keeps using the light `pdf`. The
+  thumbnail and hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF), then optimised through
   `astro:assets`, so it lives under `src/`, not `public/`:
@@ -418,7 +423,9 @@ and the repo `CLAUDE.md`), in order:
    focus), and eyeball it for style compliance (two inks, no baked-in text, no
    recognisable real place).
 5. Add the entry to `canon/roster.yml` (`id`, `name`, `title`, `school` from
-   `canon/schools.yml`, a 2-3 sentence `bio`, `headshot`).
+   `canon/schools.yml`, `email` --- the id with its hyphen(s) replaced by dots
+   at slop.university, per the roster header's rule --- a 2-3 sentence `bio`,
+   `headshot`).
 
 If the collision check is inconclusive, or the headshot or hero can't be
 generated, abort the run rather than admit a shaky entry.

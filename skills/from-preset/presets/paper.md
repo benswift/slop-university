@@ -94,6 +94,13 @@ Superscript affiliation markers only when the authors span two schools. Never
 anyone off-roster; never a real person. Author order: lead author is the one
 whose school the project best fits.
 
+**Contact emails.** The title block carries the authors' addresses in the
+brace-group form CS papers use ---
+`{verity.marris, casimir.beng}@slop.university` --- built from each author's
+`email` field in `canon/roster.yml` (the id with dots; the domain catch-all
+makes every address real and deliverable). Never invent an address in any other
+shape.
+
 ## Bibliography --- real references, verified (hard requirement)
 
 Per-run `references.bib` harvested from genuine literature:
@@ -173,9 +180,14 @@ the point, so they stay a thread (1-3), never the fabric.
 ## Figures and tables
 
 - **2-4 gribouille charts** in the results-figure register: a baselines
-  comparison (line or grouped-bar), an ablation (grouped-bar or boxplot --- the
-  ablation that changes nothing: bars statistically indistinguishable, reported
-  straight), error bars where the type supports them. Charts are authored per
+  comparison (line, grouped-bar, or dumbbell), an ablation (grouped-bar,
+  boxplot, or violin --- the ablation that changes nothing: distributions
+  statistically indistinguishable, reported straight), error bars where the type
+  supports them. Draw types from the full menu in
+  `../../_shared/chart-workflow.md` › "Chart types" --- the distinctive forms
+  (ridgeline, beeswarm, bump, heatmap, difference band) are exactly what a
+  methods-heavy paper's figures should reach for, and the menu's variation
+  pressure applies across the corpus. Charts are authored per
   `../../_shared/chart-workflow.md` into
   `output/slop-paper-<slug>-<seed>-charts/` and embedded with
   `slop-inline-figure` (single-column) --- captions state a falsifiable claim
@@ -259,6 +271,9 @@ span the title block + abstract across both with
   #v(0.15em)
   #text(size: 9pt, fill: slop-colors.grey-4)[<Lead school>, Slop University]
   #v(0.15em)
+  // roster emails, brace-grouped; a string, so the @ doesn't parse as a ref
+  #text(size: 9pt, fill: slop-colors.grey-4)[#("{<lead>.<surname>, <coauthor>.<surname>}@slop.university")]
+  #v(0.15em)
   #text(size: 9pt, fill: slop-colors.grey-4)[doi:10.5555/slop.<seed>]  // publish runs only
   #v(0.9em)
   #block(width: 82%)[
@@ -330,6 +345,8 @@ package --- not before.
       4-8 pages
 - [ ] 2-4 authors, all from `canon/roster.yml`, affiliations from
       `canon/schools.md`; no other person named outside the References
+- [ ] Title block lists the authors' contact emails (brace-group form, each
+      address from the roster's `email` field --- no invented shapes)
 - [ ] 15+ references, **every external entry verified** (DOI resolves or arXiv
       ID returns a matching title); fields copied accurately; loaded via
       `bibliography(..., style: "ieee")` and actually cited in prose

@@ -210,12 +210,12 @@ viewer renders correctly.
 
 Where a gradient scrim is needed over an image, either **bake it into the image
 file at prep time** (centre-crop to the display aspect, then `-compose multiply`
-a gradient mask onto the JPEG --- the research-poster blueprint's "Scrim bake"
-bullet carries the tested recipe), or approximate it with a stack of ~60
-smoothstep-eased constant-alpha strips (the core package's `feature-page` scrim
-does this internally). Prefer the bake when the workflow already prepares the
-image: it is pixel-identical to a true gradient and leaves zero transparency in
-the PDF.
+a gradient mask onto the JPEG --- the research-poster and marketing-poster
+blueprints' "Scrim bake" bullet carries the tested recipe), or approximate it
+with a stack of ~60 smoothstep-eased constant-alpha strips (the core package's
+`feature-page` scrim does this internally). Prefer the bake when the workflow
+already prepares the image: it is pixel-identical to a true gradient and leaves
+zero transparency in the PDF.
 
 ## Page-parity discipline
 

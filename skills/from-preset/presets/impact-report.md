@@ -178,8 +178,10 @@ chart count.
 
 ### Chart types
 
-Drawn from `{line, area, scatter, grouped-bar, stacked-bar, boxplot}`. Each type
-appears at most once per run unless chart count exceeds 4.
+Drawn from the full menu in `../../_shared/chart-workflow.md` › "Chart types"
+--- the distinctive forms (waffle, bump, dumbbell, heatmap, difference band)
+carry the institutional-dashboard register this genre lives in; don't default to
+line/bar. Each type appears at most once per run unless chart count exceeds 4.
 
 ### Vignette substance
 

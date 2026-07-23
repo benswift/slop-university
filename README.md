@@ -53,10 +53,12 @@ Two slash commands:
   topic; the institutional voice (vague nouns, bridging verbs, hedging at the
   edges) is the only floor --- so however unhinged the content gets, it still
   reads as a recognisably institutional document. Current presets: `strategy`
-  and `impact-report` (multi-page booklets), `research-poster` (a single-page
-  A3, chart-heavy poster), and `paper` (an A4 two-column research paper whose
-  bibliography is real, verified literature). New presets land by dropping a
-  file in `skills/from-preset/presets/`.
+  and `impact-report` (multi-page booklets), `brochure` (a glossy marketing
+  booklet), `research-poster` (a single-page, screen-format, chart-heavy
+  poster), `marketing-poster` (a display ad for the signage screens), and
+  `paper` (an A4 two-column research paper whose bibliography is real, verified
+  literature). New presets land by dropping a file in
+  `skills/from-preset/presets/`.
 
 - `/from-source <source>` --- ingest a URL or local document and typeset it
   through the same layout core, faithfully. No rewriting; the source's voice,

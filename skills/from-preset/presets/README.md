@@ -37,8 +37,9 @@ Optional sections to add if the preset needs them:
 
 Existing presets are the worked examples; copy the closest and edit.
 `strategy.md` and `impact-report.md` are `booklet`-format (the latter also a
-worked chart example); `research-poster.md` is the `poster`-format worked
-example; `paper.md` is the `paper`-format worked example (charts plus a verified
+worked chart example); `research-poster.md` is the dense `poster`-format worked
+example and `marketing-poster.md` the sparse one (all-placed content, no flowed
+body); `paper.md` is the `paper`-format worked example (charts plus a verified
 real bibliography). A non-booklet preset overrides the booklet-shaped workflow
 steps (4, 6, 7) and checklist items in its own blueprint --- see how
 `research-poster.md` handles the single-page layout, the omitted back cover, and

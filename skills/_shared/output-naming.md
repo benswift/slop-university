@@ -22,14 +22,15 @@ absent) so the booklets and posters are easy to browse by what produced them;
 the intermediate `.typ`, image folder, and chart folder stay flat in `output/`.
 The `<group>` subfolder and its `<prefix>` are fixed per calling path:
 
-| Path / preset     | `<group>` (pdf subfolder) | `<prefix>`      |
-| ----------------- | ------------------------- | --------------- |
-| `strategy`        | `strategy`                | `slop-strategy` |
-| `impact-report`   | `impact-report`           | `slop-impact`   |
-| `research-poster` | `research-poster`         | `slop-poster`   |
-| `paper`           | `paper`                   | `slop-paper`    |
-| `brochure`        | `brochure`                | `slop-brochure` |
-| `from-source`     | `from-source`             | `source`        |
+| Path / preset      | `<group>` (pdf subfolder) | `<prefix>`      |
+| ------------------ | ------------------------- | --------------- |
+| `strategy`         | `strategy`                | `slop-strategy` |
+| `impact-report`    | `impact-report`           | `slop-impact`   |
+| `research-poster`  | `research-poster`         | `slop-poster`   |
+| `marketing-poster` | `marketing-poster`        | `slop-ad`       |
+| `paper`            | `paper`                   | `slop-paper`    |
+| `brochure`         | `brochure`                | `slop-brochure` |
+| `from-source`      | `from-source`             | `source`        |
 
 A preset blueprint may declare its own prefix and group inline; a
 blueprint-declared value overrides this table.

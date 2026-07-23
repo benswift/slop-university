@@ -3,9 +3,10 @@ name: brochure
 description:
   Slop University glossy marketing brochure --- an image-led institutional
   showcase in the aspirational prospectus register. Steering-driven campaign
-  theme; the one preset that quotes and cross-references the rest of the site
-  (published outputs by DOI, canon schools and roster researchers). Booklet
-  format, lighter and shorter than strategy/impact-report.
+  theme; quotes and cross-references the rest of the site (published outputs by
+  DOI, canon schools and roster researchers --- a licence it shares only with
+  the marketing-poster preset). Booklet format, lighter and shorter than
+  strategy/impact-report.
 ---
 
 # Brochure preset
@@ -22,13 +23,14 @@ retrospective (that's `impact-report`) and not a governance document (that's
 `strategy`). Think campus prospectus, case-for-support, or research-showcase
 booklet.
 
-The distinctive move: **the brochure references the rest of the site.** Unlike
-every other preset, it is allowed --- encouraged --- to name published Slop
-University research outputs (by real title and DOI), name canon schools/units,
-and quote canon roster researchers by name. It is a marketing piece _about the
-university that already exists in the fiction_, so it draws on that fiction's
-real (fabricated) record rather than inventing fresh institutional facts. See
-"Site cross-referencing" below --- this is a hard rule, not a flourish.
+The distinctive move: **the brochure references the rest of the site.** Alone
+among the presets bar the marketing poster (which borrows this licence at ad
+scale), it is allowed --- encouraged --- to name published Slop University
+research outputs (by real title and DOI), name canon schools/units, and quote
+canon roster researchers by name. It is a marketing piece _about the university
+that already exists in the fiction_, so it draws on that fiction's real
+(fabricated) record rather than inventing fresh institutional facts. See "Site
+cross-referencing" below --- this is a hard rule, not a flourish.
 
 Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
