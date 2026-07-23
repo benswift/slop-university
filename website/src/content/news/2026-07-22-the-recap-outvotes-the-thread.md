@@ -4,8 +4,7 @@ subtitle:
   Across 22 weeks and 14 street committees, decisions increasingly cite the
   nightly digest alone, never the thread it condenses
 date: 2026-07-22
-description:
-  A new Slop University research poster tracks how quickly a street
+description: A new Slop University research poster tracks how quickly a street
   committee's decisions come to cite an AI-generated chat digest alone,
   rather than the residents' group chat it condenses.
 output: slop-poster-piloting-an-ai-generated-08k1xt

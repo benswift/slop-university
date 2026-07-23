@@ -1,7 +1,6 @@
 ---
 title: A screen-time token jar halves the arguing and hardens what's left
-subtitle:
-  A two-week school-holiday diary study of 142 households finds a token
+subtitle: A two-week school-holiday diary study of 142 households finds a token
   economy cuts negotiation frequency in half while lengthening and
   escalating the negotiations that remain
 date: 2026-07-22

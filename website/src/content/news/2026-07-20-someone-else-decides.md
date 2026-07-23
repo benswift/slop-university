@@ -4,8 +4,7 @@ subtitle:
   Someone Else Decides gathers four of this year's studies into one pitch
   for who --- or what --- is doing the deciding
 date: 2026-07-20
-description:
-  A new marketing brochure from Slop University gathers four of this
+description: A new marketing brochure from Slop University gathers four of this
   year's published studies into a single pitch about who, or what, now
   makes a household, street, or workplace's small decisions.
 output: slop-brochure-what-a-household-fy7lm9

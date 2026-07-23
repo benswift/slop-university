@@ -1,11 +1,9 @@
 ---
 title: Taped floor arrows outlast the roadworks that put them there, study finds
-subtitle:
-  An 18-month survey of nine shopping strips finds a works order's own
+subtitle: An 18-month survey of nine shopping strips finds a works order's own
   removal deadline makes no difference to how long the tape stays up
 date: 2026-07-17
-description:
-  A new paper from the School of Emergent Priorities tracks 41 taped
+description: A new paper from the School of Emergent Priorities tracks 41 taped
   floor-arrow detours across nine shopping strips for 18 months, finding a
   works order's stated removal deadline has no bearing on how long the
   marking actually stays up.

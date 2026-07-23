@@ -1,7 +1,6 @@
 ---
 title: Slop University's compliance tracker rewards its own blackouts
-subtitle:
-  Two weeks of total telemetry outage produced the School of Continuous
+subtitle: Two weeks of total telemetry outage produced the School of Continuous
   Improvement's highest recorded Focus Hour compliance, the audit finds, once a
   missing reading counts as a compliant one
 date: 2026-07-08

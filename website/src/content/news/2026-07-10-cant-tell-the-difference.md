@@ -1,6 +1,5 @@
 ---
-title:
-  Slop University finds its occupancy-aware sprinklers don't notice occupancy
+title: Slop University finds its occupancy-aware sprinklers don't notice occupancy
 subtitle:
   A seven-week field study and a sensor-disconnection test find the central
   quad's watering pattern unchanged by how many people are on the lawn

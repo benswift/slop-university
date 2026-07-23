@@ -1,11 +1,9 @@
 ---
 title: Slop University puts a live status panel on every hall laundry room
-subtitle:
-  A new brochure connects the laundry-availability network to the
+subtitle: A new brochure connects the laundry-availability network to the
   parcel-locker, shuttle-stop, and signage work published ahead of it
 date: 2026-07-11
-description:
-  Slop University has published a brochure describing a live
+description: Slop University has published a brochure describing a live
   laundry-availability network now reaching every hall of residence, framed
   alongside recent published work on parcel-locker reminders, shuttle-stop
   placement, and campus signage.

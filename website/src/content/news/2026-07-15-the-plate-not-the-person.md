@@ -1,7 +1,6 @@
 ---
 title: Slop University ties faster bubbler repairs to a named accountable owner
-subtitle:
-  A natural experiment across 146 campus water bubblers finds the effect
+subtitle: A natural experiment across 146 campus water bubblers finds the effect
   holds even when the named owner is on leave
 date: 2026-07-15
 description:

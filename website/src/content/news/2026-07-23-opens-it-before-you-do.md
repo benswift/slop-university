@@ -1,7 +1,6 @@
 ---
 title: Slop University advertises reading the report before you do
-subtitle:
-  A new bus-stop and campus-screen campaign for the Master of Applied
+subtitle: A new bus-stop and campus-screen campaign for the Master of Applied
   Measurement turns an internal habit into the pitch
 date: 2026-07-23
 description:

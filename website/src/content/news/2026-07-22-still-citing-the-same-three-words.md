@@ -1,7 +1,6 @@
 ---
 title: A council's verge-garden warning letters never catch up with the street
-subtitle:
-  An eight-year audit of six council wards finds warning letters citing
+subtitle: An eight-year audit of six council wards finds warning letters citing
   "unauthorised planting" holding above 81 per cent even as verge-garden
   prevalence rose sixfold
 description:

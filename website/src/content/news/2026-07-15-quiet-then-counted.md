@@ -1,7 +1,6 @@
 ---
 title: Library's overflow-desk log quietly swaps capacity counts for names
-subtitle:
-  A term of coded referrals finds the quiet-corner desk's log tracking
+subtitle: A term of coded referrals finds the quiet-corner desk's log tracking
   repeat visitors, not the capacity it was built to forecast
 date: 2026-07-15
 description:

@@ -1,7 +1,6 @@
 ---
 title: A private umbrella reminder goes public without anyone approving it
-subtitle:
-  A 22-building deployment finds the foyer return-nudge's public tier
+subtitle: A 22-building deployment finds the foyer return-nudge's public tier
   already live wherever a default let it through, while doubling the
   private nudge changes nothing
 date: 2026-07-23

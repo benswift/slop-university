@@ -1,6 +1,5 @@
 ---
-title:
-  Slop University researchers find staff read the panel before the practice
+title: Slop University researchers find staff read the panel before the practice
   moves
 subtitle:
   Across three stages of its own review cycle, staff quickly learn what a panel

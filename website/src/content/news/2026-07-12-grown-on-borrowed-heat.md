@@ -1,7 +1,6 @@
 ---
 title: Slop University asks its own server room to grow something
-subtitle:
-  A new case-for-support brochure connects a server-room heat line to
+subtitle: A new case-for-support brochure connects a server-room heat line to
   published work from the Adaptive Metrics Lab and the Horizon Register
 date: 2026-07-12
 description:

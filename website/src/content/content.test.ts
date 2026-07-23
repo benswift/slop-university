@@ -17,13 +17,14 @@ const outputIds = readdirSync(join(contentDir, "outputs"))
   .map((f) => f.replace(/\.yml$/, ""));
 
 const outputs = outputIds.map(
-  (id) => parseYaml(readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8")) as {
-    authors?: string[];
-    school?: string;
-    doi?: string;
-    date?: string;
-    grants?: string[];
-  },
+  (id) =>
+    parseYaml(readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8")) as {
+      authors?: string[];
+      school?: string;
+      doi?: string;
+      date?: string;
+      grants?: string[];
+    },
 );
 
 const grantIds = readdirSync(join(contentDir, "grants"))
@@ -31,12 +32,13 @@ const grantIds = readdirSync(join(contentDir, "grants"))
   .map((f) => f.replace(/\.yml$/, ""));
 
 const grants = grantIds.map(
-  (id) => parseYaml(readFileSync(join(contentDir, "grants", `${id}.yml`), "utf8")) as {
-    scheme?: string;
-    date?: string;
-    grantees?: string[];
-    value?: number;
-  },
+  (id) =>
+    parseYaml(readFileSync(join(contentDir, "grants", `${id}.yml`), "utf8")) as {
+      scheme?: string;
+      date?: string;
+      grantees?: string[];
+      value?: number;
+    },
 );
 
 const grantDateById = new Map(grantIds.map((id, i) => [id, grants[i].date]));
@@ -67,7 +69,11 @@ const schemes = (
 ).schemes;
 const schemeIds = new Set(schemes.map((s) => s.id));
 const schoolNames = new Set((schoolDoc.schools ?? []).map((s) => s.name));
-const allOrgNames = new Set(Object.values(schoolDoc).flat().map((o) => o.name));
+const allOrgNames = new Set(
+  Object.values(schoolDoc)
+    .flat()
+    .map((o) => o.name),
+);
 const researcherNames = new Set(researchers.map((r) => r.name));
 
 // Name → URL-slug maps, mirroring the render-time resolvers in lib/canon.ts

@@ -4,8 +4,7 @@ subtitle:
   Incident reports and dispute times hold steady once the ledger is gone;
   staff faith that a record could be found again does not
 date: 2026-07-21
-description:
-  A new Slop University paper compares pool centres that dropped a
+description: A new Slop University paper compares pool centres that dropped a
   duplicated paper sign-in ledger against those that kept it, and finds
   staff confidence in incident traceability the only thing that moved.
 output: slop-paper-trialling-whether-a-a1hnm0

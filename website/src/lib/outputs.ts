@@ -87,7 +87,9 @@ export const presetIcons: Record<Preset, string> = {
 // card), `subtitle` the optional explanatory deck. Rejoin them with ": " for
 // the places that want the whole academic title --- the citation, the document
 // <title>, the DOI resolver, the announcing news post.
-export function fullTitle(entry: Pick<CollectionEntry<"outputs">["data"], "title" | "subtitle">): string {
+export function fullTitle(
+  entry: Pick<CollectionEntry<"outputs">["data"], "title" | "subtitle">,
+): string {
   return entry.subtitle ? `${entry.title}: ${entry.subtitle}` : entry.title;
 }
 

@@ -1,10 +1,8 @@
 ---
 title: Slop University counts the phone pouches its online exams don't need
-subtitle:
-  An audit of nine teaching periods finds pouch issuance unmoved by the
+subtitle: An audit of nine teaching periods finds pouch issuance unmoved by the
   rising share of exams sitting online
-description:
-  A new poster from the School of Continuous Improvement audits nine
+description: A new poster from the School of Continuous Improvement audits nine
   teaching periods of phone-pouch distribution against the University's
   rising share of online-invigilated exam sittings.
 date: 2026-07-11

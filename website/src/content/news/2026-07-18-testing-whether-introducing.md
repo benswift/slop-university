@@ -1,7 +1,6 @@
 ---
 title: Courtyard barbecue booking board leaves the grill queue exactly as it was
-subtitle:
-  A 12-week study across 16 apartment courtyards finds a sign-up board
+subtitle: A 12-week study across 16 apartment courtyards finds a sign-up board
   didn't reorder who grills next, or shorten the wait to get there
 date: 2026-07-18
 description:

@@ -1,7 +1,6 @@
 ---
 title: A lobby noticeboard's postings turn out to carry the weight of a ruling
-subtitle:
-  An eleven-month coding study across four apartment blocks finds one
+subtitle: An eleven-month coding study across four apartment blocks finds one
   noticeboard entry type closing disputes twice as fast as the rest, with
   no resident ever elected to decide anything
 date: 2026-07-21

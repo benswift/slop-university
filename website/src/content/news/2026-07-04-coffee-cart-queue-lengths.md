@@ -1,7 +1,6 @@
 ---
 title: Slop University researchers link coffee queues to the rankings
-subtitle:
-  The morning line at the campus coffee cart appears to run ahead of the
+subtitle: The morning line at the campus coffee cart appears to run ahead of the
   University's ranking trajectory
 date: 2026-07-04
 description:

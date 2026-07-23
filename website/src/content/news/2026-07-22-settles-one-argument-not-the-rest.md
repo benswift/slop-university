@@ -1,7 +1,6 @@
 ---
 title: A taxi-rank ticket dispenser settles one argument, not all of them
-subtitle:
-  A 22-rank taxonomy of queue-order disputes finds the formal instrument
+subtitle: A 22-rank taxonomy of queue-order disputes finds the formal instrument
   displacing contested claims rather than resolving them
 description:
   A new Slop University paper codes queue-order disputes across 22 airport

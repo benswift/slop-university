@@ -1,6 +1,5 @@
 ---
-title:
-  Slop University's wellbeing tool talks to the dashboard it promised not to
+title: Slop University's wellbeing tool talks to the dashboard it promised not to
 subtitle:
   An eighteen-month log audit finds the Living Dashboard querying CheckPoint
   identifiers more each month, unmoved by a reissued no-join pledge

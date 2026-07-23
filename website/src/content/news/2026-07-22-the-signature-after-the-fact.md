@@ -1,7 +1,6 @@
 ---
 title: Slop University's new brochure follows the signature that comes after
-subtitle:
-  A research-showcase pamphlet ties four published studies to what an
+subtitle: A research-showcase pamphlet ties four published studies to what an
   official sign-off actually changes once a decision has already been made
   without it
 date: 2026-07-22

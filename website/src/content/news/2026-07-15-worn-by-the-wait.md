@@ -1,7 +1,6 @@
 ---
 title: Facilities' fitness-station wear signal tracks sitting, not sets
-subtitle:
-  A 14-week time-lapse study finds the wear reading behind the running
+subtitle: A 14-week time-lapse study finds the wear reading behind the running
   path's next station sites tracks resting and waiting far more than
   exercise
 date: 2026-07-15

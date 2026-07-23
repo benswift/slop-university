@@ -1,7 +1,6 @@
 ---
 title: Slop University's new brochure tours what a small system tells you
-subtitle:
-  A research-showcase pamphlet follows a corridor status lamp into four
+subtitle: A research-showcase pamphlet follows a corridor status lamp into four
   published studies of what an everyday system actually reports.
 date: 2026-07-19
 description:

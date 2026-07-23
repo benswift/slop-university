@@ -1,7 +1,6 @@
 ---
 title: Campus apiary's Pollinator Index tracks its hives, not its garden beds
-subtitle:
-  A season of matched transects finds wild-pollinator richness near the
+subtitle: A season of matched transects finds wild-pollinator richness near the
   smart hives running persistently below beds farther away, regardless of
   what the Index does
 date: 2026-07-14

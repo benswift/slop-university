@@ -4,8 +4,7 @@ subtitle:
   A new inter-rater reliability study recovers the six causes the Library's
   silent-floor tickbox flattens into one
 date: 2026-07-12
-description:
-  Two coders and a six-category scheme show how much detail Slop
+description: Two coders and a six-category scheme show how much detail Slop
   University's library noise sensor loses on its way into a single
   compliance tickbox, from a three-second mechanical trip to a
   ninety-second conversation.

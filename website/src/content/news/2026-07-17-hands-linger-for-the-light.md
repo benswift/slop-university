@@ -1,11 +1,9 @@
 ---
 title: Hand dryer field study separates the wiring from the lingering
-subtitle:
-  A ten-week manipulation of a campus hand dryer's boost relay and
+subtitle: A ten-week manipulation of a campus hand dryer's boost relay and
   indicator light finds hands linger to the light, not the airflow
 date: 2026-07-17
-description:
-  A new paper from the School of Continuous Improvement independently
+description: A new paper from the School of Continuous Improvement independently
   manipulates a hand dryer's boost-relay wiring and indicator light,
   finding how long hands linger under the airflow tracks the light rather
   than measured drying power.

@@ -1,7 +1,6 @@
 ---
 title: Slop University's fountain-repair queue tracks footfall, not wear
-subtitle:
-  A blind condition audit of 56 campus water-bubblers finds Facilities'
+subtitle: A blind condition audit of 56 campus water-bubblers finds Facilities'
   refill-counter ranking barely predicts which ones actually need fixing
 description:
   A new poster from the School of Continuous Improvement audits whether a

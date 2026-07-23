@@ -1,7 +1,6 @@
 ---
 title: Slop University finds a wifi login delay just moves the dropout
-subtitle:
-  A staggered upgrade across fourteen lecture theatres traces where an
+subtitle: A staggered upgrade across fourteen lecture theatres traces where an
   eight-second captive-portal notice sends the connections it doesn't save
 description:
   A new paper from the School of Emergent Priorities finds a mandatory wifi

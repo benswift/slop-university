@@ -5,8 +5,7 @@ subtitle:
   swaps by the second week of the holidays, almost never through the app's
   own sanctioned route
 date: 2026-07-19
-description:
-  A new research poster from the School of Continuous Improvement
+description: A new research poster from the School of Continuous Improvement
   interviews 34 households about what they do once a screen-time app's
   earned-minutes balance runs out, and finds its own sanctioned borrowing
   feature goes almost entirely unused.

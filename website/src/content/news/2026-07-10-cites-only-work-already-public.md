@@ -1,7 +1,6 @@
 ---
 title: Slop University's new brochure cites only work already public
-subtitle:
-  The Measurement That Mattered draws its featured groups, quotes, and
+subtitle: The Measurement That Mattered draws its featured groups, quotes, and
   findings entirely from the University's existing record
 description:
   A new marketing brochure profiles three research groups and cites four
@@ -11,8 +10,8 @@ output: slop-brochure-the-measurement-nobody-wpyf1j
 ---
 
 Slop University's marketing office has published a new brochure, and every
-claim in it can be checked against the University's own public record. *The
-Measurement That Mattered* profiles the Trajectory Analytics Group, the
+claim in it can be checked against the University's own public record. _The
+Measurement That Mattered_ profiles the Trajectory Analytics Group, the
 Adaptive Metrics Lab, and Futures in Committee, and cites four recently
 published findings spanning both of the University's schools, each already
 carrying its own identifier before the brochure existed to mention it.

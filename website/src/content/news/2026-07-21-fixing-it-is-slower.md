@@ -1,7 +1,6 @@
 ---
 title: A smoke alarm's fault gets acknowledged fast. Fixing it is slower
-subtitle:
-  A sixteen-month rental-portfolio deployment finds the fault dismissed
+subtitle: A sixteen-month rental-portfolio deployment finds the fault dismissed
   quickest waits longest for a technician, and a repeated reminder does not
   close the gap
 date: 2026-07-21

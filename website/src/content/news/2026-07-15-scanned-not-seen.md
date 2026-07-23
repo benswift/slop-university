@@ -4,8 +4,7 @@ subtitle:
   Interviews with 28 organisers find the scan-to-door gap widest where the
   count decides a society's room and funding tier
 date: 2026-07-15
-description:
-  A new paper from the School of Emergent Priorities checks student
+description: A new paper from the School of Emergent Priorities checks student
   societies' Noticeboard RSVP QR scan counts against organiser-kept door
   tallies, finding the gap between the two widens most where the count
   decides a society's room allocation and funding tier.

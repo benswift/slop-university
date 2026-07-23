@@ -1,7 +1,6 @@
 ---
 title: Naming a caddy's owner lifted confidence, not the markers
-subtitle:
-  A term-long trial across 60 meeting rooms found stocked-rate tracked
+subtitle: A term-long trial across 60 meeting rooms found stocked-rate tracked
   cupboard distance, not the placard on the wall
 date: 2026-07-14
 description:

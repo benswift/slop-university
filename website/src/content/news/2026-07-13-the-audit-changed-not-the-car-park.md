@@ -1,7 +1,6 @@
 ---
 title: Slop University finds a car-park renaming changes nothing but the record
-subtitle:
-  Two renaming events and three semesters of boom-gate logs turn up no
+subtitle: Two renaming events and three semesters of boom-gate logs turn up no
   change in where anyone parks, but one in how the University compares
   this year to last
 description:

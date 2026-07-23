@@ -1,12 +1,10 @@
 ---
 title: A cheap sensor rig matches the bowling alley's system, except when it counts
-subtitle:
-  A season-long comparator audit finds the two systems agree closely on
+subtitle: A season-long comparator audit finds the two systems agree closely on
   clean frames and only fairly on disputed ones --- and the league's rules
   committee still upholds the incumbent in 91% of disputes
 date: 2026-07-20
-description:
-  A new Slop University paper builds a cheap sensor rig to shadow a
+description: A new Slop University paper builds a cheap sensor rig to shadow a
   ten-pin bowling alley's proprietary scoring system for a season, then
   tracks whose call the league's rules committee believes when the two
   disagree.

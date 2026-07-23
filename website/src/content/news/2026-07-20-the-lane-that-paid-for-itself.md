@@ -1,11 +1,9 @@
 ---
 title: A paid pickup lane gets families out faster, not the line itself
-subtitle:
-  A ten-week trial across six primary schools finds a priority-lane
+subtitle: A ten-week trial across six primary schools finds a priority-lane
   permit's saved minutes match almost exactly what the general lane loses
 date: 2026-07-20
-description:
-  A new Slop University research poster tests a paid priority lane at
+description: A new Slop University research poster tests a paid priority lane at
   primary-school car-pool pickup and finds permit-holders' saved minutes
   are almost exactly offset by slower departures in the general lane.
 output: slop-poster-selling-a-laminated-1bx2n3

@@ -8,10 +8,9 @@ import type { ImageMetadata } from "astro";
 // This is the ONE place the ../ depth to canon/ is written down. The glob
 // pattern must be a static string literal, so it is defined here and nowhere
 // else. Basenames equal the roster `id` (verity-marris.jpg → verity-marris).
-const headshots = import.meta.glob<{ default: ImageMetadata }>(
-  "../../../canon/headshots/*.jpg",
-  { eager: true },
-);
+const headshots = import.meta.glob<{ default: ImageMetadata }>("../../../canon/headshots/*.jpg", {
+  eager: true,
+});
 
 /** Resolve a roster researcher id to its optimizable headshot, if present. */
 export function headshot(id: string): ImageMetadata | undefined {

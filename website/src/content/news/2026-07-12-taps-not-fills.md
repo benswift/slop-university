@@ -4,8 +4,7 @@ subtitle:
   A covert field audit finds well under half of the activations the Living
   Dashboard credits as bottles saved were ever a completed fill
 date: 2026-07-12
-description:
-  A new paper from the School of Continuous Improvement audits Slop
+description: A new paper from the School of Continuous Improvement audits Slop
   University's hydration-station activation counters directly, finding full
   fills a minority cause of the taps counted toward the Living Dashboard's
   bottles-saved tally.

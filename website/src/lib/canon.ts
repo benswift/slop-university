@@ -14,8 +14,7 @@ export async function getPeople(): Promise<Person[]> {
   return (await getCollection("people")).toSorted(
     (a, b) =>
       (a.data.displayOrder ?? Number.MAX_SAFE_INTEGER) -
-        (b.data.displayOrder ?? Number.MAX_SAFE_INTEGER) ||
-      a.data.name.localeCompare(b.data.name),
+        (b.data.displayOrder ?? Number.MAX_SAFE_INTEGER) || a.data.name.localeCompare(b.data.name),
   );
 }
 

@@ -1,12 +1,10 @@
 ---
 title: Locker-wall optimiser hits its wear target; a taped list carries the rest
-subtitle:
-  A fourteen-week study of the Library Parcel Wall's overnight optimiser
+subtitle: A fourteen-week study of the Library Parcel Wall's overnight optimiser
   finds it met its wear target while an unsigned handwritten list absorbed
   the queueing it created
 date: 2026-07-16
-description:
-  A new paper from the School of Continuous Improvement finds an
+description: A new paper from the School of Continuous Improvement finds an
   unsupervised parcel-locker reassignment system met its wear-reduction
   target during a fourteen-week deployment, with much of the queueing it
   introduced absorbed by a handwritten corrections list of unknown

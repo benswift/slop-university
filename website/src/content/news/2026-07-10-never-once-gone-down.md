@@ -4,8 +4,7 @@ subtitle:
   Interviews with permit-holders find the register's steady rise tracks an
   uncancelled form, not who is actually still riding in
 date: 2026-07-10
-description:
-  A School of Continuous Improvement poster interviews 38 bike-rack
+description: A School of Continuous Improvement poster interviews 38 bike-rack
   permit-holders about whether they still cycle to campus, and finds the
   University's cycling-participation index keeps climbing regardless of what
   they say.

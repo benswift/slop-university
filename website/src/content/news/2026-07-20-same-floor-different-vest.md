@@ -1,7 +1,6 @@
 ---
 title: A warehouse vest tier tracks tenure, not how safe staff feel
-subtitle:
-  A 14-week survey of 236 floor staff finds the tier built for
+subtitle: A 14-week survey of 236 floor staff finds the tier built for
   sensor-guided machinery predicts nothing about felt safety that tenure
   doesn't already
 date: 2026-07-20

@@ -1,12 +1,10 @@
 ---
 title: Precautionary house rules mostly outlast their own review date
-subtitle:
-  A 193-chair survey finds most schemes let a twelve-month rule continue
+subtitle: A 193-chair survey finds most schemes let a twelve-month rule continue
   with no vote at all, and recall of the original incident predicts
   nothing
 date: 2026-07-18
-description:
-  A new paper from the School of Emergent Priorities surveys 193
+description: A new paper from the School of Emergent Priorities surveys 193
   body-corporate chairs whose precautionary rule reached its own
   twelve-month review, finding most rules continued with no motion
   recorded and few chairs could name any evidence considered beforehand.

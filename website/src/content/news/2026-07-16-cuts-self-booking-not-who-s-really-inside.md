@@ -1,7 +1,6 @@
 ---
 title: Piano-room cooldown fix cuts self-booking, not who's really inside
-subtitle:
-  An eight-week terminal audit finds blocked rebookings mostly resurface
+subtitle: An eight-week terminal audit finds blocked rebookings mostly resurface
   under a declared practice partner's name
 date: 2026-07-16
 description:

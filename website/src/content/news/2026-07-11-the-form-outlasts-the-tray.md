@@ -1,10 +1,8 @@
 ---
 title: Slop University's meal-plan default renews the card, not the appetite
-subtitle:
-  A two-hall comparison finds an opt-out renewal keeps enrolment steady
+subtitle: A two-hall comparison finds an opt-out renewal keeps enrolment steady
   while actual redemption moves the other way
-description:
-  A new poster from the School of Continuous Improvement compares an
+description: A new poster from the School of Continuous Improvement compares an
   opt-out meal-plan default against a hall that still requires active
   reconfirmation, and finds retention and redemption running in opposite
   directions.

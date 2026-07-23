@@ -1,7 +1,6 @@
 ---
 title: Slop University finds its exam-hall phone rule doesn't check the paper type
-subtitle:
-  A term-long audit of the central examination hall finds the
+subtitle: A term-long audit of the central examination hall finds the
   phone-surrender procedure enforced with identical rigour on closed-book and
   open-note papers alike
 date: 2026-07-10

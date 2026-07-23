@@ -1,7 +1,6 @@
 ---
 title: A boom gate's own confidence score moves where security looks
-subtitle:
-  A 13-week two-gate audit finds the display barely moves overall
+subtitle: A 13-week two-gate audit finds the display barely moves overall
   intervention, but empties the top confidence band of scrutiny
 date: 2026-07-14
 description:

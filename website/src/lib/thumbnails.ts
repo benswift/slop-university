@@ -7,10 +7,9 @@ import type { ImageMetadata } from "astro";
 //
 // The glob pattern must be a static string literal, so it lives here and
 // nowhere else.
-const thumbnails = import.meta.glob<{ default: ImageMetadata }>(
-  "../assets/outputs/thumbs/*.avif",
-  { eager: true },
-);
+const thumbnails = import.meta.glob<{ default: ImageMetadata }>("../assets/outputs/thumbs/*.avif", {
+  eager: true,
+});
 
 /** Resolve an output id to its optimisable first-page thumbnail, if present. */
 export function thumbnail(id: string): ImageMetadata | undefined {

@@ -1,12 +1,10 @@
 ---
 title: A choir seating tool tidies the roster, not the sound
-subtitle:
-  A season-long validation across 18 community choirs finds an automated
+subtitle: A season-long validation across 18 community choirs finds an automated
   seating-balance score untethered from how a blind panel rates the
   choir's own blend
 date: 2026-07-20
-description:
-  A new Slop University research poster validates a community choir's
+description: A new Slop University research poster validates a community choir's
   automated seating-balance score against an independent panel's blend
   ratings, and finds the two don't move together.
 output: slop-poster-validating-whether-a-bx5gb5

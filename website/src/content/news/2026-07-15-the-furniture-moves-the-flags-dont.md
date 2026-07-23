@@ -1,11 +1,9 @@
 ---
 title: A seating heatmap moves where invigilators stand, not where flags land
-subtitle:
-  A pre-registered field test across fifteen sittings finds the heatmap
+subtitle: A pre-registered field test across fifteen sittings finds the heatmap
   redistributes attention, not detection
 date: 2026-07-15
-description:
-  A new paper from the School of Emergent Priorities pre-registers a
+description: A new paper from the School of Emergent Priorities pre-registers a
   fifteen-sitting field test of heatmap-driven invigilator reseating and
   finds it moves attention without moving where integrity flags are
   raised.

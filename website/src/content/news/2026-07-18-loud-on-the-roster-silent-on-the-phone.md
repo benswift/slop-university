@@ -1,7 +1,6 @@
 ---
 title: New scale scores a parent's reliance on the class chat over memory
-subtitle:
-  A validated instrument predicts a roster's quiet renegotiations, but
+subtitle: A validated instrument predicts a roster's quiet renegotiations, but
   nothing about a parent's phone at the gate
 date: 2026-07-18
 description:

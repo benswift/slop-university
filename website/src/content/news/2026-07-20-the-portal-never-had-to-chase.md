@@ -1,7 +1,6 @@
 ---
 title: Deposit of the Quarter goes to a record the portal never had to chase
-subtitle:
-  The prize recognises Dr Ingrid Vasseur's repository deposit, lodged
+subtitle: The prize recognises Dr Ingrid Vasseur's repository deposit, lodged
   complete before the Office of Research Outputs' automated reminder email
   ever went out
 date: 2026-07-20

@@ -1,7 +1,6 @@
 ---
 title: Cover-sheet AI declaration ticked once, repeated all term
-subtitle:
-  A term of 268 students' assignment declarations shows the first tick
+subtitle: A term of 268 students' assignment declarations shows the first tick
   predicting every one after, while actual reliance keeps shifting
   underneath it
 date: 2026-07-14

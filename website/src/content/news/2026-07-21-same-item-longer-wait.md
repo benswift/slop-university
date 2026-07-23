@@ -1,7 +1,6 @@
 ---
 title: A charity shop's new judging panel leaves the winning item unchanged
-subtitle:
-  A 24-week study across 19 op shops finds the same kind of item still
+subtitle: A 24-week study across 19 op shops finds the same kind of item still
   winning Find of the Week after a nomination panel replaces one rostered
   volunteer's pick, with only the wait growing longer
 date: 2026-07-21

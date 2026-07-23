@@ -1,12 +1,10 @@
 ---
 title: A late-order alert's wording decides who takes the blame
-subtitle:
-  Complaint-ticket language names the courier twice as often once a
+subtitle: Complaint-ticket language names the courier twice as often once a
   food-delivery app's notification started naming them, though the lateness
   itself never moved
 date: 2026-07-21
-description:
-  A new Slop University paper finds a food-delivery app's late-order
+description: A new Slop University paper finds a food-delivery app's late-order
   notification wording shifts customer complaint blame onto the courier,
   without any change in how late orders actually run.
 output: slop-paper-testing-whether-a-2udumk

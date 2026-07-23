@@ -1,7 +1,6 @@
 ---
 title: Facilities' chess-table move raised foot traffic, not chess
-subtitle:
-  Nine weeks before and nine after a courtyard relocation, play at the
+subtitle: Nine weeks before and nine after a courtyard relocation, play at the
   University's chess tables held flat despite a fivefold rise in foot
   traffic
 date: 2026-07-15

@@ -1,7 +1,6 @@
 ---
 title: Printed end date doesn't get a street notice down any sooner, study finds
-subtitle:
-  A 214-notice matched-pairs study finds no difference in removal timing
+subtitle: A 214-notice matched-pairs study finds no difference in removal timing
   between notices that print an expiry date and those that don't
 date: 2026-07-19
 description:

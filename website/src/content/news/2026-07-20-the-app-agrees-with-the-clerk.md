@@ -1,12 +1,10 @@
 ---
 title: A photo-check app agrees with the counter clerk, not the inspector
-subtitle:
-  A season-long swap-cage audit finds a hardware chain's photo-check app
+subtitle: A season-long swap-cage audit finds a hardware chain's photo-check app
   adds counter time without catching anything the staff glance didn't
   already catch
 date: 2026-07-20
-description:
-  A new Slop University research poster audits a hardware chain's
+description: A new Slop University research poster audits a hardware chain's
   photo-based gas-bottle condition-check app against staff visual checks
   and an independent inspector's blind reassessment, and finds the app
   adds handling time but no extra safety signal.

@@ -1,7 +1,6 @@
 ---
 title: The budget line decides a capstone's fate, not the panel's rank
-subtitle:
-  A survey of Master of Priority Studies alumni finds a capstone panel's
+subtitle: A survey of Master of Priority Studies alumni finds a capstone panel's
   priority rank has no bearing on whether a recommendation was implemented; a
   pre-existing budget line does, overwhelmingly
 date: 2026-07-09

@@ -1,7 +1,6 @@
 ---
 title: Slop University's audit-evidence tool beats the record it supports
-subtitle:
-  A blind trial finds internal reviewers rating the Attestation Loom's
+subtitle: A blind trial finds internal reviewers rating the Attestation Loom's
   synthesised entries more audit-ready than the human-logged evidence it was
   piloted alongside
 date: 2026-07-08

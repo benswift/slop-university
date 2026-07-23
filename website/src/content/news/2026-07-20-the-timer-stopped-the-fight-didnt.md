@@ -1,12 +1,10 @@
 ---
 title: Household timeout timers end a session, not the argument
-subtitle:
-  An interview study of 34 households across the school holidays finds a
+subtitle: An interview study of 34 households across the school holidays finds a
   shared timer's logged close rarely lines up with when a sibling truce
   actually held
 date: 2026-07-20
-description:
-  A new Slop University paper interviews 34 households about a shared
+description: A new Slop University paper interviews 34 households about a shared
   household timeout-timer app, finding its logged session end rarely matches
   when parents say a sibling argument actually settled.
 output: slop-paper-interviewing-parents-who-b8wknf

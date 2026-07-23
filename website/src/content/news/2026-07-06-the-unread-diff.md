@@ -1,7 +1,6 @@
 ---
 title: Slop University researchers ask how closely engineers still read the code
-subtitle:
-  Reviewer attention to changes, tracked against a rising-accuracy AI
+subtitle: Reviewer attention to changes, tracked against a rising-accuracy AI
   code-review assistant across four releases
 date: 2026-07-06
 description:

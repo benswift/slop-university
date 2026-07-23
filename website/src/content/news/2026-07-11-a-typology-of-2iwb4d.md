@@ -3,8 +3,7 @@ title: Slop University's mailroom flag can't say who actually cleared it
 subtitle:
   An unannounced two-week audit of the pigeonhole wall finds the log's binary
   flag tracks two of four clearance types and barely tracks the other two
-description:
-  A new paper from the School of Emergent Priorities shadows Slop
+description: A new paper from the School of Emergent Priorities shadows Slop
   University's mailroom pigeonhole wall for two unannounced weeks and finds
   the mailroom's own binary clearance flag can't distinguish an addressee's
   own hand from a delegate's or the mailroom's.

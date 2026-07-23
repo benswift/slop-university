@@ -1,7 +1,6 @@
 ---
 title: Strata intercom's compliance rate holds near-perfect as verification fades
-subtitle:
-  An interview study of 64 residents finds a reflexive swipe overtaking
+subtitle: An interview study of 64 residents finds a reflexive swipe overtaking
   verification as tenure grows, while the security audit's acknowledgement
   rate stays flat
 date: 2026-07-19

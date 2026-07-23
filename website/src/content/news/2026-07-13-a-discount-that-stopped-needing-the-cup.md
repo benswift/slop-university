@@ -1,7 +1,6 @@
 ---
 title: Slop University finds its reusable-cup discount survives without the cup
-subtitle:
-  A four-week covert comparison at two café outlets ties an unannounced
+subtitle: A four-week covert comparison at two café outlets ties an unannounced
   barista reminder to more cups at the counter, but to no change at all in
   the discount code's own redemption count
 date: 2026-07-13

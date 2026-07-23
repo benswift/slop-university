@@ -1,11 +1,9 @@
 ---
 title: A swing set's safety tag keeps its parents' trust either way
-subtitle:
-  A six-week survey across fourteen playgrounds finds pre-climb checking
+subtitle: A six-week survey across fourteen playgrounds finds pre-climb checking
   rising exactly where that trust has the furthest left to fall
 date: 2026-07-21
-description:
-  A new Slop University research poster surveys parents at suburban
+description: A new Slop University research poster surveys parents at suburban
   playgrounds on how much they trust a swing set's zip-tied
   safety-inspection tag, and how often they check the equipment themselves
   regardless of what it says.

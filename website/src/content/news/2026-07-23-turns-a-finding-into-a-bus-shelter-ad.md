@@ -4,8 +4,7 @@ subtitle:
   The School of Emergent Priorities campaign borrows its punchline directly
   from a recent group-chat study
 date: 2026-07-23
-description:
-  A new Slop University marketing poster for the School of Emergent
+description: A new Slop University marketing poster for the School of Emergent
   Priorities turns a share-house group-chat finding into bus-stop and
   campus-screen advertising, in matched daylight and evening renders.
 output: slop-ad-the-group-chat-xr441g

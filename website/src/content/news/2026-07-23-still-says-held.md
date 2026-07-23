@@ -1,7 +1,6 @@
 ---
 title: A parcel locker's hold guarantee shortens as the bank fills up
-subtitle:
-  An audit of six share houses finds the app's "reserved" badge lags a
+subtitle: An audit of six share houses finds the app's "reserved" badge lags a
   slot's actual reassignment by minutes, worse the fuller the bank gets
 date: 2026-07-23
 description:

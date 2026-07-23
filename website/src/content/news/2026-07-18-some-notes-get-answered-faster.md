@@ -1,7 +1,6 @@
 ---
 title: Handwritten fridge notes get answered on category, not urgency
-subtitle:
-  An 18-week audit finds a community fridge's warning notes reach a
+subtitle: An 18-week audit finds a community fridge's warning notes reach a
   volunteer in hours, its requests can wait more than a day
 date: 2026-07-18
 description:

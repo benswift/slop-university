@@ -1,12 +1,10 @@
 ---
 title: Clip-chart reset changes what's logged, not what's sent home
-subtitle:
-  A 26-classroom interrupted-time-series study finds a behaviour-chart
+subtitle: A 26-classroom interrupted-time-series study finds a behaviour-chart
   threshold reset shifted logged clip movements immediately, with no
   matching shift in the incident notes sent home
 date: 2026-07-18
-description:
-  A new paper from the School of Continuous Improvement tracks 612
+description: A new paper from the School of Continuous Improvement tracks 612
   children across 26 primary classrooms through a platform-wide
   clip-chart threshold reset, finding clip movements jumped immediately
   while the incident notes sent home did not move at all.

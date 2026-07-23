@@ -1,7 +1,6 @@
 ---
 title: Self-declared pool pace doesn't match the stopwatch, study finds
-subtitle:
-  A 90-swimmer validation study finds the mismatch tracks lane crowding
+subtitle: A 90-swimmer validation study finds the mismatch tracks lane crowding
   better than a headcount does
 date: 2026-07-19
 description:

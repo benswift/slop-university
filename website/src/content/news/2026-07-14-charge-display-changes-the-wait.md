@@ -5,8 +5,7 @@ subtitle:
   tool didn't shift which buggy staff pick, only how long it took them to
   pick it
 date: 2026-07-14
-description:
-  A new paper from the School of Continuous Improvement evaluates a
+description: A new paper from the School of Continuous Improvement evaluates a
   request-and-charge-status tool built for Grounds' shared golf-buggy
   fleet, finding ten weeks of use left buggy selection unchanged while
   adding roughly forty-five seconds to every request.

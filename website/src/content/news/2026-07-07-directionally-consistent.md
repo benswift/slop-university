@@ -4,8 +4,7 @@ subtitle:
   A capability-practice pattern fails to reappear in a third setting, then takes
   on a life of its own in the dashboard
 date: 2026-07-07
-description:
-  New findings from the School of Emergent Priorities test whether a
+description: New findings from the School of Emergent Priorities test whether a
   capability-practice pattern found in two earlier studies reappears in a third
   setting, and trace what became of the result once it reached the School of
   Continuous Improvement's own dashboard.

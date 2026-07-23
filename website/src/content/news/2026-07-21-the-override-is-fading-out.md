@@ -1,7 +1,6 @@
 ---
 title: A storm call's human override is fading out
-subtitle:
-  A season-long study across 42 junior-sport ovals finds the app's own
+subtitle: A season-long study across 42 junior-sport ovals finds the app's own
   accuracy no better than the sky-read it's replacing
 date: 2026-07-21
 description:

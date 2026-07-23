@@ -1,7 +1,6 @@
 ---
 title: Asking still beats the score on Slop University's garden waitlist
-subtitle:
-  A new interview study finds the community-garden Stewardship Priority
+subtitle: A new interview study finds the community-garden Stewardship Priority
   Score changes almost nothing about who actually gets offered a plot next,
   or when
 date: 2026-07-12

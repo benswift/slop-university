@@ -1,7 +1,6 @@
 ---
 title: Slop University's new campaign puts a face on horizon-watching
-subtitle:
-  The campus and bus-stop rollout makes Dr Fenna Okoro, Convenor of the
+subtitle: The campus and bus-stop rollout makes Dr Fenna Okoro, Convenor of the
   Horizon Register, the face of the School of Emergent Priorities
 date: 2026-07-23
 description:

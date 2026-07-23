@@ -1,7 +1,6 @@
 ---
 title: Repeating a chore-wheel study at building scale flips the result
-subtitle:
-  A public working-bee board doesn't raise record accuracy the way a
+subtitle: A public working-bee board doesn't raise record accuracy the way a
   household chore wheel's appeals process once did — it raises how much
   gets done instead
 date: 2026-07-23

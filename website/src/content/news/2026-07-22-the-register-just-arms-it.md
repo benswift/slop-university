@@ -1,7 +1,6 @@
 ---
 title: A share house's incident log doesn't quiet its arguments, just arms them
-subtitle:
-  A 14-week study across 34 share houses finds a written robot-vacuum
+subtitle: A 14-week study across 34 share houses finds a written robot-vacuum
   incident register raises how often an argument cites the past, without
   changing how often an argument starts at all
 description:

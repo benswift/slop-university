@@ -1,7 +1,6 @@
 ---
 title: Horizon Register's wet-weather call earns its keep only in a downpour
-subtitle:
-  A term of loaner-umbrella bin counts finds the forecast beats a
+subtitle: A term of loaner-umbrella bin counts finds the forecast beats a
   caretaker's memory only once rainfall clears 10mm
 date: 2026-07-14
 description:

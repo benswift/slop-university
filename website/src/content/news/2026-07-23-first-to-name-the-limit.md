@@ -1,7 +1,6 @@
 ---
 title: Slop University's own composite scores it first for spotting a quiet cap
-subtitle:
-  A new bus-stop and campus-screen campaign for the School of Continuous
+subtitle: A new bus-stop and campus-screen campaign for the School of Continuous
   Improvement puts the University's Indicator Commons ranking on public
   display, first place included
 date: 2026-07-23

@@ -5,8 +5,7 @@ subtitle:
   the market's own reliability score, and traces its blind spot to the
   weather
 date: 2026-07-19
-description:
-  A new paper from the School of Continuous Improvement builds a
+description: A new paper from the School of Continuous Improvement builds a
   four-category taxonomy of farmers-market stallholder no-shows and finds it
   predicts recurrence far better than the market's existing reliability
   score, which treats every absence the same.

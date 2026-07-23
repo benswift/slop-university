@@ -5,8 +5,7 @@ subtitle:
   by three-quarters, and traced how the sensor's own alert log became
   Facilities' evidence for keeping the after-hours desk staffed
 date: 2026-07-13
-description:
-  A new paper from the School of Continuous Improvement deploys a
+description: A new paper from the School of Continuous Improvement deploys a
   jam-and-fill sensor on the University Library's after-hours book-return
   chute, then traces how its alert log was cited by Facilities' staffing
   review as evidence of the patron demand it was never built to measure.

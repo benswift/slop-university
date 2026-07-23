@@ -1,11 +1,9 @@
 ---
 title: Parent trust in a school gate scanner falls, but never to zero
-subtitle:
-  A survey of 163 parents finds trust in a gate scanner's "present" tap
+subtitle: A survey of 163 parents finds trust in a gate scanner's "present" tap
   erodes with each recalled disagreement, then plateaus
 date: 2026-07-23
-description:
-  A new Slop University research poster surveys parents at five high
+description: A new Slop University research poster surveys parents at five high
   schools on how much they trust a gate scanner's "present" tap against
   their own knowledge of the school run, and finds trust falls with each
   disagreement but never collapses.

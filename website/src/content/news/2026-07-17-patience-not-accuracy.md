@@ -1,12 +1,10 @@
 ---
 title: Laundromat repair signs buy patience, not accuracy, study finds
-subtitle:
-  A nine-week signage audit across a coin-laundromat chain finds a dated
+subtitle: A nine-week signage audit across a coin-laundromat chain finds a dated
   repair promise changes how long regulars wait nearby, not when the
   machine is actually fixed
 date: 2026-07-17
-description:
-  A new paper from the School of Emergent Priorities catalogues
+description: A new paper from the School of Emergent Priorities catalogues
   out-of-service signage across twenty-four coin laundromats, finding a
   specific repair date wins patrons far more patience than a vague or
   dateless sign while predicting almost nothing about when the machine is

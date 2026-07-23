@@ -1,6 +1,5 @@
 ---
-title:
-  Slop University makes its case for research that reaches the table on time
+title: Slop University makes its case for research that reaches the table on time
 subtitle:
   A new case-for-support brochure sets out the sensing, register, and review
   infrastructure that carries a signal from the horizon to a recorded decision

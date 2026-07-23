@@ -3,8 +3,7 @@ title: Slop University pilots a timer that reclaims empty study rooms
 subtitle:
   A grace-window release agent lifts study-room use in three buildings, and
   quietly evicts a small, predictable slice of latecomers
-description:
-  A new paper from the School of Continuous Improvement pilots a
+description: A new paper from the School of Continuous Improvement pilots a
   timeout-release agent for booked-but-empty study rooms, and finds its
   near-miss eviction rate tracks an unrevisited installation setting more
   closely than any deliberate design choice.

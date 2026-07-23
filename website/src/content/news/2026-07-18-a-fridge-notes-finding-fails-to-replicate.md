@@ -1,7 +1,6 @@
 ---
 title: A fridge-notes finding fails to replicate at the book box
-subtitle:
-  A pre-registered attempt to repeat a community-fridge finding at five
+subtitle: A pre-registered attempt to repeat a community-fridge finding at five
   suburban book boxes turns up spine orientation as the real predictor
   instead
 date: 2026-07-18

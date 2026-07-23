@@ -4,8 +4,7 @@ subtitle:
   A fourteen-week study finds how consistently a desk is used forecasts a
   failed tidiness sweep better than how much it's used
 date: 2026-07-16
-description:
-  A new paper from the School of Emergent Priorities finds a desk's
+description: A new paper from the School of Emergent Priorities finds a desk's
   arrival-time regularity forecasts next week's tidiness-sweep failure
   better than Facilities' existing hours-logged risk score.
 output: slop-paper-forecasting-which-hot-h4dvr2

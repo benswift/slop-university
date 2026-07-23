@@ -1,7 +1,6 @@
 ---
 title: Slop University's new campus tour skips the summary slide
-subtitle:
-  A prospectus brochure routes prospective students through the Horizon
+subtitle: A prospectus brochure routes prospective students through the Horizon
   Register, the Living Dashboard, and Demo Quarter, live
 date: 2026-07-13
 description:

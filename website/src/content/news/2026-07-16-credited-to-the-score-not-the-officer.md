@@ -4,8 +4,7 @@ subtitle:
   A year-long reconstruction of 227 reinstated permits finds staff log most
   reversals as the score's own doing, even when the score hadn't moved
 date: 2026-07-16
-description:
-  A new paper from the School of Emergent Priorities reconstructs the
+description: A new paper from the School of Emergent Priorities reconstructs the
   Parking Office's priority-tier score against 227 manually reinstated
   permits over a full academic year, finding staff log most reversals as a
   score revision even when an independent recomputation shows the score

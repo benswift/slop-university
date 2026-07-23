@@ -4,8 +4,7 @@ subtitle:
   A university-wide charter rewrite left committees reading better and governing
   exactly as before
 date: 2026-07-07
-description:
-  New findings from the School of Continuous Improvement classify the
+description: New findings from the School of Continuous Improvement classify the
   University's standing committees by how far their actual business has drifted
   from what a freshly rewritten charter says they do, and find the rewrite
   changed the prose but not the drift.

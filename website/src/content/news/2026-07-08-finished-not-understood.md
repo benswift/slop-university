@@ -1,6 +1,5 @@
 ---
-title:
-  Slop University finds its induction module tracks completion, not
+title: Slop University finds its induction module tracks completion, not
   understanding
 subtitle:
   Across six cohorts of new starters, completion certificates climbed while an

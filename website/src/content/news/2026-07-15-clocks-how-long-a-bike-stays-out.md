@@ -4,8 +4,7 @@ subtitle:
   A civic-place showcase reads a bike-share dock's running checkout clock as
   a compliment, alongside a public-space watch and a garden waitlist
 date: 2026-07-15
-description:
-  Slop University has published a civic-place brochure, Come and Stay
+description: Slop University has published a civic-place brochure, Come and Stay
   Awhile, reading a bike-share dock's checkout clock, a wider watch on
   public campus life, and a community garden's waitlist as evidence of a
   neighbourhood that keeps choosing to stay close to campus.

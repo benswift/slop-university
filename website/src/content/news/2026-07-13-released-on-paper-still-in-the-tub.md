@@ -1,12 +1,10 @@
 ---
 title: Front-desk disposal tiers report release; the shelf never empties
-subtitle:
-  A fourteen-week stock-take against the Library's own disposal register
+subtitle: A fourteen-week stock-take against the Library's own disposal register
   finds released items still in the tub, and traces the gap to a workaround
   the register can't see
 date: 2026-07-13
-description:
-  A new paper from the School of Continuous Improvement audits the
+description: A new paper from the School of Continuous Improvement audits the
   Library's four-stage Lost & Found disposal register against a physical
   stock-take of the same items, tracing a persistent gap to a front-desk
   workaround the register cannot see.

@@ -1,7 +1,6 @@
 ---
 title: Facilities' picnic-table tally misses most informally claimed seats
-subtitle:
-  A term-long audit of jumpers, laptops, and bags left on picnic-table
+subtitle: A term-long audit of jumpers, laptops, and bags left on picnic-table
   benches finds most claims never register in Facilities' quarterly
   walkthrough count
 date: 2026-07-15

@@ -1,7 +1,6 @@
 ---
 title: The registration sticker outlives the desk heater, study finds
-subtitle:
-  Coding 214 registered heaters and fans across two Schools, researchers
+subtitle: Coding 214 registered heaters and fans across two Schools, researchers
   find the sticker survives long after the appliance is gone
 date: 2026-07-13
 description:

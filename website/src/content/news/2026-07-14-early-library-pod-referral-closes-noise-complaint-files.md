@@ -1,7 +1,6 @@
 ---
 title: Early library-pod referral closes noise-complaint files
-subtitle:
-  A matched comparison of 348 students finds the referral closes a first
+subtitle: A matched comparison of 348 students finds the referral closes a first
   complaint at nearly twice the rate of a verbal warning alone
 date: 2026-07-14
 description:

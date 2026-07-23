@@ -1,12 +1,10 @@
 ---
 title: Crossing button's press count traced to a signal it never touches
-subtitle:
-  A 14-week controller audit finds the crossing button's presses move
+subtitle: A 14-week controller audit finds the crossing button's presses move
   independently of the signal, while the Traffic Advisory Committee's case
   for a second crossing still cites the tally as demand
 date: 2026-07-13
-description:
-  A new poster from the School of Emergent Priorities finds a
+description: A new poster from the School of Emergent Priorities finds a
   pedestrian-crossing button's press count moves independently of the signal
   it is wired to, even as the University's Traffic Advisory Committee keeps
   citing the tally as pedestrian demand for a second crossing.

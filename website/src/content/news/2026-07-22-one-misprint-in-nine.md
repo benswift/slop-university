@@ -1,7 +1,6 @@
 ---
 title: A theatre programme's correction form catches one misprint in nine
-subtitle:
-  A season-end audit of 34 programme printings at nine community theatre
+subtitle: A season-end audit of 34 programme printings at nine community theatre
   companies finds 412 misprints where the companies' own correction channels
   logged 47
 date: 2026-07-22

@@ -1,7 +1,6 @@
 ---
 title: A forecast built to get ahead mostly doesn't
-subtitle:
-  A term of logged stock-outs finds the University's predictive
+subtitle: A term of logged stock-outs finds the University's predictive
   stationery-cupboard reorder rarely beating a simple threshold rule
 date: 2026-07-13
 description:

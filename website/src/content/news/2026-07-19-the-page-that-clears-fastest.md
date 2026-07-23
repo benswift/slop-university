@@ -1,7 +1,6 @@
 ---
 title: Fall-alert response score improves as fewer carers walk the room
-subtitle:
-  A 26-shift audit finds an aged-care scorecard's fastest pages track a
+subtitle: A 26-shift audit finds an aged-care scorecard's fastest pages track a
   busier queue, not a completed welfare check
 date: 2026-07-19
 description:

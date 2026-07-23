@@ -1,12 +1,10 @@
 ---
 title: Loyalty-card stamps mostly get restored off the books, study finds
-subtitle:
-  A nine-site interview study finds café counter staff restore a loyalty
+subtitle: A nine-site interview study finds café counter staff restore a loyalty
   tally by hand far more often than the platform's own ledger ever
   recorded it
 date: 2026-07-17
-description:
-  A new research poster from the School of Continuous Improvement
+description: A new research poster from the School of Continuous Improvement
   catalogues how café counter staff restore a loyalty-card tally after an
   app outage or a missed scan, finding a formal goodwill-stamp indicator
   would recognise only a slice of the repair work already happening at

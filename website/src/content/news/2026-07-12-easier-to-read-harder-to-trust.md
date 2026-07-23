@@ -4,8 +4,7 @@ subtitle:
   The same audit that caught the plaque misreads found staff more likely to
   log one than to fix the tally it feeds
 date: 2026-07-12
-description:
-  A new poster from the School of Emergent Priorities interviews the
+description: A new poster from the School of Emergent Priorities interviews the
   Facilities staff who triage lift-lobby scanner anomalies, and finds most
   flagged plaque misreads are logged rather than corrected in the published
   floor-traffic tally.

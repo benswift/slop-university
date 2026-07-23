@@ -1,12 +1,10 @@
 ---
 title: Told the fare estimate is only a guess, riders keep screenshotting anyway
-subtitle:
-  A 32-rider interview study finds screenshotting, mental rounding, and
+subtitle: A 32-rider interview study finds screenshotting, mental rounding, and
   simply not looking survive being told the quoted price was never a
   promise
 date: 2026-07-18
-description:
-  A new paper from the School of Continuous Improvement interviews 32
+description: A new paper from the School of Continuous Improvement interviews 32
   rideshare riders about how they relate to the app's upfront fare estimate
   once it has run high, finding their coping habits hold steady even after
   being told the quoted price is informational only.

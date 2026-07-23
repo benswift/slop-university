@@ -1,7 +1,6 @@
 ---
 title: Oval floodlight extension mostly isn't lighting for players
-subtitle:
-  An eleven-week validation study finds the sports oval's motion-sensing
+subtitle: An eleven-week validation study finds the sports oval's motion-sensing
   floodlight extension confirms a lingering player just 46% of the time
 date: 2026-07-17
 description:

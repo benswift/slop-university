@@ -1,7 +1,6 @@
 ---
 title: Indicator Stewardship Seed Fund backs a tool library's ledger handover
-subtitle:
-  A new grant funds a witnessed sign-off between a neighbourhood tool
+subtitle: A new grant funds a witnessed sign-off between a neighbourhood tool
   library's volunteer coordinators, so a loan's condition notes survive the
   handover intact
 date: 2026-07-18

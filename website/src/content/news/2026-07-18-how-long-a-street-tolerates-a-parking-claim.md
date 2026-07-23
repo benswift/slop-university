@@ -1,7 +1,6 @@
 ---
 title: New taxonomy tracks how long a street tolerates an improvised parking claim
-subtitle:
-  A 341-claim, 11-suburb study finds road cones lose their hold on a
+subtitle: A 341-claim, 11-suburb study finds road cones lose their hold on a
   parking bay in days, staked ropes in weeks
 date: 2026-07-18
 description:

@@ -1,7 +1,6 @@
 ---
 title: A scorecard built to keep school-crossing supervisors rarely says keep
-subtitle:
-  A year-long self-scoring trial across 142 school crossings finds the
+subtitle: A year-long self-scoring trial across 142 school crossings finds the
   Human-Preservation Protocol recommends retaining a supervisor in only one
   case in sixteen
 date: 2026-07-20

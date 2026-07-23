@@ -5,8 +5,7 @@ subtitle:
   scanner, a shopfront QR code, a paid pickup lane) into one civic-minded
   pitch
 date: 2026-07-20
-description:
-  A new marketing brochure from Slop University draws three published
+description: A new marketing brochure from Slop University draws three published
   studies about everyday automated checks into a single pitch for the
   University's civic research programme.
 output: slop-brochure-the-self-checkout-beep-ouaw4j

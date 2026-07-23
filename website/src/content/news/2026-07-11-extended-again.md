@@ -1,7 +1,6 @@
 ---
 title: Slop University finds its "interim" equipment desk keeps extending itself
-subtitle:
-  The Library's staffed equipment sign-off desk cut return-condition
+subtitle: The Library's staffed equipment sign-off desk cut return-condition
   disputes within a term; its review date has still been extended seven
   times since
 description:

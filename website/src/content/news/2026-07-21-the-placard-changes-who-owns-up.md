@@ -1,7 +1,6 @@
 ---
 title: A pub quiz's honesty sign doesn't touch the final score
-subtitle:
-  A sixteen-week spot-check across 22 trivia venues finds self-reported
+subtitle: A sixteen-week spot-check across 22 trivia venues finds self-reported
   scores already accurate, with the placard changing only who visibly owns
   up to a mistake.
 date: 2026-07-21

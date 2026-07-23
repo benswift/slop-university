@@ -1,7 +1,6 @@
 ---
 title: Slop University's plant-watering agent takes credit it didn't earn
-subtitle:
-  A 14-week study finds the agent's watering log holding flat across
+subtitle: A 14-week study finds the agent's watering log holding flat across
   kitchenettes while pot survival tracks whoever's nearby to top them up by
   hand
 date: 2026-07-12

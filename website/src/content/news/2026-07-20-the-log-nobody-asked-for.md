@@ -1,7 +1,6 @@
 ---
 title: A primary-school canteen retires its ordering app for paper and stickers
-subtitle:
-  An eight-week pilot cuts sticker mismatches under 2%, and turns up an
+subtitle: An eight-week pilot cuts sticker mismatches under 2%, and turns up an
   unplanned use for the order log
 date: 2026-07-20
 description:

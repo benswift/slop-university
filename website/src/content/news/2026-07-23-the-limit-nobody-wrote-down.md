@@ -4,8 +4,7 @@ subtitle:
   A six-item instrument, validated across nine toy libraries, tracks a felt
   borrowing ceiling against volunteers' own informal reminders
 date: 2026-07-23
-description:
-  A new Slop University paper introduces and validates a short survey
+description: A new Slop University paper introduces and validates a short survey
   instrument for the moment a toy library's "no borrowing limit" policy
   starts to feel bounded, checked against volunteers' own informal
   enforcement records.

@@ -1,11 +1,9 @@
 ---
 title: A room-release fix that worked on campus does nothing at the library
-subtitle:
-  Redeployed unmodified at three public library branches, the campus
+subtitle: Redeployed unmodified at three public library branches, the campus
   release agent's grace window produces no measurable lift over 22 weeks
 date: 2026-07-23
-description:
-  A new Slop University research poster redeploys the campus
+description: A new Slop University research poster redeploys the campus
   booked-but-empty study-room release agent at public library branches and
   finds no utilisation gain over a matched 22-week trial, unlike the
   original campus deployment.

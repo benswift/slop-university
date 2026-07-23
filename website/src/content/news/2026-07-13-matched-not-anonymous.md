@@ -1,7 +1,6 @@
 ---
 title: Slop University tests its own promise of an anonymous tip line
-subtitle:
-  A new paper finds two routine ticketing fields narrow most team-scoped
+subtitle: A new paper finds two routine ticketing fields narrow most team-scoped
   tips to a name, and audits whether triage already infers the same thing
   informally
 date: 2026-07-13

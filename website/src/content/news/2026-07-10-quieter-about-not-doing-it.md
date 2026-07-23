@@ -1,7 +1,6 @@
 ---
 title: Slop University verifies its tallest lift's energy savings
-subtitle:
-  A car-by-car audit finds the reported 13.4% cut is real, concentrated
+subtitle: A car-by-car audit finds the reported 13.4% cut is real, concentrated
   entirely in two of the building's four lifts
 date: 2026-07-10
 description:

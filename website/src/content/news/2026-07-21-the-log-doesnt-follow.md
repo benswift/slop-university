@@ -1,7 +1,6 @@
 ---
 title: A fridge's compliance count climbs. The dispute log doesn't follow
-subtitle:
-  Eight weeks after a shared office fridge adopted QR-tag disposal
+subtitle: Eight weeks after a shared office fridge adopted QR-tag disposal
   scheduling, label compliance nearly doubles while Friday clear-out
   disputes hold flat
 date: 2026-07-21

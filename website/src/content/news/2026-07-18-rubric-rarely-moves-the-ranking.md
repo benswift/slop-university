@@ -4,8 +4,7 @@ subtitle:
   A 19-society survey ties a judge's sealed walk-in hunch to the finished
   scoresheet, and finds full rubric compliance changes nothing
 date: 2026-07-18
-description:
-  A new paper from the School of Continuous Improvement surveys 47
+description: A new paper from the School of Continuous Improvement surveys 47
   show-society produce judges across one season, finding a sealed
   pre-scoring hunch predicts the finished scoresheet closely, and that
   requiring every rubric column doesn't change how often the two agree.

@@ -1,7 +1,6 @@
 ---
 title: Wayfinding app rollout leaves the Main Quad's worn shortcut untouched
-subtitle:
-  A new paper finds the desire path across the Main Quad lawn wearing on
+subtitle: A new paper finds the desire path across the Main Quad lawn wearing on
   unchanged since the app began recommending a paved detour, with a second
   track already forming beside it
 date: 2026-07-15

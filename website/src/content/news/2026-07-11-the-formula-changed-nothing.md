@@ -3,8 +3,7 @@ title: Slop University audits its new parking-permit priority score
 subtitle:
   A matched before-and-after study finds the new scoring formula reorders
   very few of the names on the old waitlist
-description:
-  A new paper from the School of Emergent Priorities matches 890
+description: A new paper from the School of Emergent Priorities matches 890
   parking-permit applicants across the University's retired blanket waitlist
   and its priority-tier replacement, and finds the two schemes send permits
   to almost exactly the same people.

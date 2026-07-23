@@ -4,8 +4,7 @@ subtitle:
   An in-house handwriting-divergence tool checks the clipboard against the
   card reader it replaced, and turns up a gap too small to call decisive
 date: 2026-07-13
-description:
-  A new paper from the School of Continuous Improvement tests whether
+description: A new paper from the School of Continuous Improvement tests whether
   Improvement Grand Rounds' paper sign-in sheet is actually harder to fake
   than the tap-card system it replaced, and finds the retired card reader,
   still quietly logging, at least as informative.

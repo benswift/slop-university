@@ -1,7 +1,6 @@
 ---
 title: Slop University finds its EV-charging count doesn't mean charging
-subtitle:
-  A deliberate replication of an earlier tap/fill finding shows drivers
+subtitle: A deliberate replication of an earlier tap/fill finding shows drivers
   reserving bays, not drawing power, behind next year's expansion case
 date: 2026-07-12
 description:

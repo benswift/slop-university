@@ -1,7 +1,6 @@
 ---
 title: Recreation Centre names an algorithm owner; towel reservations keep climbing
-subtitle:
-  A fourteen-week study pairs the booking app's own fairness-score logs
+subtitle: A fourteen-week study pairs the booking app's own fairness-score logs
   against duty-manager reports naming the tactics members still use to hold
   a treadmill
 date: 2026-07-16

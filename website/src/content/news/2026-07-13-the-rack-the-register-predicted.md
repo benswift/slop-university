@@ -4,8 +4,7 @@ subtitle:
   Interviews at both bike-rack banks trace occupancy to proximity, not to
   the Horizon Register's precinct forecast
 date: 2026-07-13
-description:
-  A new paper from the School of Emergent Priorities finds a covered
+description: A new paper from the School of Emergent Priorities finds a covered
   bike-rack bank sited by the Horizon Register's demand forecast sits
   mostly empty, while cyclists cite proximity to where they are actually
   headed, not the forecast, for where they park.

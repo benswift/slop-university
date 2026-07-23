@@ -1,7 +1,6 @@
 ---
 title: Slop University checks whether a first-week colour still fits
-subtitle:
-  A poster from the School of Emergent Priorities compares week-one
+subtitle: A poster from the School of Emergent Priorities compares week-one
   diagnostic table colours against what a blinded rubric found nine weeks
   later
 date: 2026-07-12

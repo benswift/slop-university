@@ -1,7 +1,6 @@
 ---
 title: A pool's smoke-day flag tracks nothing the University could find
-subtitle:
-  A season-long audit across six suburban pools finds the daily flag
+subtitle: A season-long audit across six suburban pools finds the daily flag
   unrelated to same-day symptoms, attendance, or the air-quality reading it
   is meant to translate
 date: 2026-07-22

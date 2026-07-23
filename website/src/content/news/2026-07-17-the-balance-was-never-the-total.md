@@ -5,8 +5,7 @@ subtitle:
   further from actual usage the longer a hall has run the app, while a
   low-balance nudge changes nothing
 date: 2026-07-17
-description:
-  A new paper from the School of Continuous Improvement audits a
+description: A new paper from the School of Continuous Improvement audits a
   residence-hall laundry app's credit balance against independent machine
   telemetry, finding the balance drifts steadily from actual usage after a
   payment-system migration, while a low-balance notification leaves top-up

@@ -1,7 +1,6 @@
 ---
 title: A little free library's posted ratio doesn't predict its value
-subtitle:
-  A 14-week survey across 38 suburban boxes finds legibility, not
+subtitle: A 14-week survey across 38 suburban boxes finds legibility, not
   arithmetic, driving whether anyone even remembers the number
 date: 2026-07-21
 description:

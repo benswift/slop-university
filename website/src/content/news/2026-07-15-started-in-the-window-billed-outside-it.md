@@ -1,7 +1,6 @@
 ---
 title: Charging bay audit finds sunshine-window discount rewards a start time
-subtitle:
-  A 14-week smart-meter audit finds most of a compliant session's charge
+subtitle: A 14-week smart-meter audit finds most of a compliant session's charge
   lands on full-price power once the window closes
 date: 2026-07-15
 description:

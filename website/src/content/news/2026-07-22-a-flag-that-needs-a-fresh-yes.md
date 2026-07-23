@@ -1,7 +1,6 @@
 ---
 title: Asking a childcare flag to earn a fresh yes each term cuts how long it stays
-subtitle:
-  A quasi-experiment across 58 rooms finds a settling-in support flag
+subtitle: A quasi-experiment across 58 rooms finds a settling-in support flag
   outlasts a room's own settled call in most default-carry-over cases, far
   less often once educators must actively renew it
 date: 2026-07-22

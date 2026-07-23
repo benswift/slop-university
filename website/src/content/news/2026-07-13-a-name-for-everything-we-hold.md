@@ -1,7 +1,6 @@
 ---
 title: Slop University names an owner for everything it holds
-subtitle:
-  The 2026-2031 Strategic Plan swaps shared responsibility for a single
+subtitle: The 2026-2031 Strategic Plan swaps shared responsibility for a single
   named steward, all the way down to the Library's loaner umbrellas
 date: 2026-07-13
 description:

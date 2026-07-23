@@ -1,7 +1,6 @@
 ---
 title: Slop University's energy rating tracks a light, not a meter
-subtitle:
-  A new poster finds floor-level energy self-assessments track a shared
+subtitle: A new poster finds floor-level energy self-assessments track a shared
   photocopier's stand-by light far more closely than the meter behind it
 date: 2026-07-09
 description:

@@ -1,7 +1,6 @@
 ---
 title: Office door nameplates outlast the desks they name
-subtitle:
-  A 14-week audit of nine shared offices finds a stale nameplate behind
+subtitle: A 14-week audit of nine shared offices finds a stale nameplate behind
   most of the semester's misdirected mail and visitors
 date: 2026-07-14
 description:

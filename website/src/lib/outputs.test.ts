@@ -95,7 +95,13 @@ describe("fullTitle", () => {
 
 describe("presetLabels", () => {
   it("labels every preset the schema allows", () => {
-    for (const preset of ["research-poster", "paper", "brochure", "strategy", "impact-report"] as const) {
+    for (const preset of [
+      "research-poster",
+      "paper",
+      "brochure",
+      "strategy",
+      "impact-report",
+    ] as const) {
       expect(presetLabels[preset]).toBeTruthy();
     }
   });

@@ -1,7 +1,6 @@
 ---
 title: A library's claim-likelihood score sorts the shelf, not the outcome
-subtitle:
-  A 14-month audit of 926 lost-property items finds the index predicts
+subtitle: A 14-month audit of 926 lost-property items finds the index predicts
   cataloguing order far better than it predicts reclaim
 date: 2026-07-15
 description:

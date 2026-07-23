@@ -1,11 +1,9 @@
 ---
 title: A council's pothole priority score loses the crews within a season
-subtitle:
-  A wet-season interview study across nine councils finds patch order
+subtitle: A wet-season interview study across nine councils finds patch order
   drifting further from the app's rank each week, not closer
 date: 2026-07-20
-description:
-  A new Slop University research poster interviews council road crews
+description: A new Slop University research poster interviews council road crews
   across one wet season and finds compliance with an app's pothole-repair
   ranking eroding week by week, not holding steady.
 output: slop-poster-interviewing-council-7hfxvw

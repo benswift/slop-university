@@ -1,7 +1,6 @@
 ---
 title: Scanned to count, read as watched
-subtitle:
-  A 246-person survey finds most believe the fire-drill check-in feeds a
+subtitle: A 246-person survey finds most believe the fire-drill check-in feeds a
   personal record the Safety and Wellbeing Office says it doesn't keep
 date: 2026-07-13
 description:

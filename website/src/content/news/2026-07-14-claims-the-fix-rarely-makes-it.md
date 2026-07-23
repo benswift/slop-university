@@ -1,7 +1,6 @@
 ---
 title: Retirement Panel claims the fix, rarely makes it
-subtitle:
-  A year of shared kitchenette kettle tickets shows the Panel's own
+subtitle: A year of shared kitchenette kettle tickets shows the Panel's own
   procurement pathway behind one in twelve of the resolutions it reports to
   the Living Dashboard
 date: 2026-07-14

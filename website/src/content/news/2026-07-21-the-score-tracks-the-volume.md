@@ -4,8 +4,7 @@ subtitle:
   Across 68 families and 14 weeks, the score tracked a cry's loudness far
   more closely than whether its label was right
 date: 2026-07-21
-description:
-  A new Slop University research poster tests a smart baby monitor's
+description: A new Slop University research poster tests a smart baby monitor's
   cry-classification confidence score against whether its label actually
   matched what soothed the baby, and finds the score tracking loudness, not
   correctness.

@@ -1,7 +1,6 @@
 ---
 title: Households copy the neighbours' bin once the roster goes stale
-subtitle:
-  A 24-street audit ties bin-night roster age to a rising reliance on
+subtitle: A 24-street audit ties bin-night roster age to a rising reliance on
   copying the neighbours, with a QR-code freshness stamp failing to close
   the gap
 date: 2026-07-18

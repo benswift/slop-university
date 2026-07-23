@@ -1,7 +1,6 @@
 ---
 title: A share-house door code still ends up on a sticky note, reminders or not
-subtitle:
-  A fourteen-week trial across 42 share houses finds push and text
+subtitle: A fourteen-week trial across 42 share houses finds push and text
   reminders no faster than a paper notice at stopping a new door code
   turning up in writing
 date: 2026-07-23

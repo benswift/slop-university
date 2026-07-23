@@ -1,7 +1,6 @@
 ---
 title: Loading-dock hand signals overtake the booking system's forecast
-subtitle:
-  A nine-week interview study of three loading bays finds the
+subtitle: A nine-week interview study of three loading bays finds the
   hand-signalled order rarely matches what the booking system predicts
 date: 2026-07-17
 description:

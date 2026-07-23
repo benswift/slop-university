@@ -1,11 +1,9 @@
 ---
 title: Most dinner-table phone rules have quietly changed, study finds
-subtitle:
-  An interview study of 34 households finds most have silently loosened
+subtitle: An interview study of 34 households finds most have silently loosened
   their own phones-in-the-basket rule without ever renegotiating it
 date: 2026-07-18
-description:
-  A new paper from the School of Emergent Priorities interviews 34
+description: A new paper from the School of Emergent Priorities interviews 34
   households about their phones-in-the-basket dinner rule, finding most have
   drifted from the version they'd recite to a visitor without either party
   marking the change.

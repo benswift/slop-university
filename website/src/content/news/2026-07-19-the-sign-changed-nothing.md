@@ -1,7 +1,6 @@
 ---
 title: Phones-away signage leaves pub-trivia disputes unchanged, study finds
-subtitle:
-  A season-long audit of 58 trivia venues finds no measurable shift in
+subtitle: A season-long audit of 58 trivia venues finds no measurable shift in
   disputed-answer rates before or after a venue puts up the honour sign
 date: 2026-07-19
 description:

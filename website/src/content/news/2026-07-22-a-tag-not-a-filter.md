@@ -1,7 +1,6 @@
 ---
 title: A neighbourhood alert bot adds a tag, not a filter
-subtitle:
-  A nine-week deployment across eleven streets finds a doorbell alert
+subtitle: A nine-week deployment across eleven streets finds a doorbell alert
   confirm-gate relabels alerts far more reliably than it filters them
 description:
   A new Slop University paper deploys a volunteer confirm step between a

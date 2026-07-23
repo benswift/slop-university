@@ -5,8 +5,7 @@ subtitle:
   not the published rotation, decides whose power a shared energy budget
   switches off
 date: 2026-07-20
-description:
-  A new Slop University paper instruments a share-house energy-budget
+description: A new Slop University paper instruments a share-house energy-budget
   power-board across 31 households and finds its published fairness rotation
   predicts almost nothing about which resident's appliance actually gets cut.
 output: slop-paper-auditing-whether-a-ws53l7

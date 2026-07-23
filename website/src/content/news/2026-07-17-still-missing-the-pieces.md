@@ -1,11 +1,9 @@
 ---
 title: Certified-complete board games still missing pieces, audit finds
-subtitle:
-  A 34-game term-end audit finds the common-room shelf's self-certified
+subtitle: A 34-game term-end audit finds the common-room shelf's self-certified
   completeness card tracks borrower trust, not the pieces
 date: 2026-07-17
-description:
-  A new research poster from the School of Emergent Priorities audits
+description: A new research poster from the School of Emergent Priorities audits
   every game on a common-room shelf against its self-certified
   completeness card, finding certified-complete games still missing
   pieces at close to the same rate as games with no card at all.

@@ -1,7 +1,6 @@
 ---
 title: Slop University's flagship measurement program can't measure itself
-subtitle:
-  Regrading a decade of Master of Applied Measurement capstones finds a
+subtitle: Regrading a decade of Master of Applied Measurement capstones finds a
   graduate's distinction band tracks who chaired that year's rubric far more
   than the work itself
 date: 2026-07-08

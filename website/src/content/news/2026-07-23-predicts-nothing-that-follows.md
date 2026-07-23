@@ -1,7 +1,6 @@
 ---
 title: A shared streaming account's home-check prompt predicts nothing
-subtitle:
-  Response speed across 316 households leaves later verification flags
+subtitle: Response speed across 316 households leaves later verification flags
   unchanged, an eleven-month Slop University panel finds
 date: 2026-07-23
 description:

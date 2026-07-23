@@ -1,12 +1,10 @@
 ---
 title: Slop University tests whether raised hands track understanding
-subtitle:
-  A survey of first-year students and staff running the Device-Free Hour
+subtitle: A survey of first-year students and staff running the Device-Free Hour
   pilot finds its hand-raise tally drifting further from what comprehension
   checks show, week over week
 date: 2026-07-12
-description:
-  A new poster from the School of Continuous Improvement pairs
+description: A new poster from the School of Continuous Improvement pairs
   comprehension checks against the hand-raise tally behind Slop
   University's Device-Free Hour continuation case, and finds the two
   drifting further apart across the pilot.

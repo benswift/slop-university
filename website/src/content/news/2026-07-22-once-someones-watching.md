@@ -1,7 +1,6 @@
 ---
 title: A farmers market queue closes its judgement gap once a marshal arrives
-subtitle:
-  A replication of an earlier dog-park finding shows patrons judging a
+subtitle: A replication of an earlier dog-park finding shows patrons judging a
   queue-jumper harshly only when nobody is stationed to watch the line
 date: 2026-07-22
 description:

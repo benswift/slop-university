@@ -1,7 +1,6 @@
 ---
 title: A shopfront disclosure code gets scanned, almost never compared
-subtitle:
-  A fourteen-week deployment across nine real-estate branches finds a
+subtitle: A fourteen-week deployment across nine real-estate branches finds a
   "photos enhanced" QR code draws scans, but rarely the comparison it
   exists to enable
 date: 2026-07-20

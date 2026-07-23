@@ -1,7 +1,6 @@
 ---
 title: Dog park sign tracks the patrol roster, not the citations
-subtitle:
-  A 46-site-week study finds ranger patrol timing follows a compliance
+subtitle: A 46-site-week study finds ranger patrol timing follows a compliance
   sign's own reading more closely than the leash-law citations it was
   installed to validate
 date: 2026-07-18

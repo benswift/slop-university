@@ -1,12 +1,10 @@
 ---
-title:
-  Slop University researchers forecast when minutes stop matching the meeting
+title: Slop University researchers forecast when minutes stop matching the meeting
 subtitle:
   Modelling the point where summarisation capability outpaces a committee's
   ability to notice nothing was decided
 date: 2026-07-06
-description:
-  New findings from the School of Emergent Priorities model when
+description: New findings from the School of Emergent Priorities model when
   meeting-summarisation capability outpaces a committee's own ability to tell
   that nothing was decided.
 output: slop-poster-using-meeting-minute-umzrp7

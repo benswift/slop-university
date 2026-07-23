@@ -1,7 +1,6 @@
 ---
 title: Slop University brochure makes its case from a lift button
-subtitle:
-  A new research-showcase brochure ties four published studies and four
+subtitle: A new research-showcase brochure ties four published studies and four
   canon research groups together, betting the whole pitch on a lift button
   that already knows you're coming
 date: 2026-07-12

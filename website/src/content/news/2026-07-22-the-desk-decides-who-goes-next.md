@@ -6,8 +6,7 @@ subtitle:
   one predicts a clinic's own wait-time error far better than a simple
   count does
 date: 2026-07-22
-description:
-  A new Slop University research poster classifies why a suburban vet
+description: A new Slop University research poster classifies why a suburban vet
   clinic's posted queue board and its actual call order diverge, and finds
   the resulting taxonomy predicts the clinic's own wait-time error better
   than a raw divergence count does.

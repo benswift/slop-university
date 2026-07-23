@@ -5,8 +5,7 @@ subtitle:
   the score agrees with her only slightly, and holds up the wording that
   gets things claimed fastest
 date: 2026-07-19
-description:
-  A new paper from the School of Emergent Priorities validates a
+description: A new paper from the School of Emergent Priorities validates a
   neighbourhood giveaway group's automated templated-listing score against
   a volunteer moderator's own read of which flagged posts are genuine bulk
   reposts, finding the score's agreement with her is only slight and its

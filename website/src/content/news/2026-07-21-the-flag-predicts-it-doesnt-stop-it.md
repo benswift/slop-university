@@ -1,7 +1,6 @@
 ---
 title: The flag predicts a warranty bounce-back. It doesn't stop one
-subtitle:
-  Customers shown the flag attach more paperwork, not less, while the
+subtitle: Customers shown the flag attach more paperwork, not less, while the
   portal's own completeness check barely beats chance across eleven months
 date: 2026-07-21
 description:

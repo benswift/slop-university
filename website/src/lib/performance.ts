@@ -124,7 +124,14 @@ export function performanceSpec(
         type: "nominal" as const,
         title: null,
         // Vega's default dashes are too fine to read at this stroke width.
-        scale: { domain: [...seriesDomain], range: [[1, 0], [6, 3], [2, 2]] },
+        scale: {
+          domain: [...seriesDomain],
+          range: [
+            [1, 0],
+            [6, 3],
+            [2, 2],
+          ],
+        },
       },
     },
     width: 640,

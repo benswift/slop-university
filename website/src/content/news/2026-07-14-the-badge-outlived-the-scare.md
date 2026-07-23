@@ -1,7 +1,6 @@
 ---
 title: A marking-room badge rule moved the marking, not the hours
-subtitle:
-  An interrupted time-series across three marking rooms finds the work
+subtitle: An interrupted time-series across three marking rooms finds the work
   shifted next door and the rule was never revisited
 date: 2026-07-14
 description:

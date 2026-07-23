@@ -1,11 +1,9 @@
 ---
 title: Slop University audits a compost-bin colour change and confirms nothing moved
-subtitle:
-  A twelve-week bin-by-bin count finds contamination unchanged after
+subtitle: A twelve-week bin-by-bin count finds contamination unchanged after
   Facilities recoloured kitchenette compost-lids, though the lids stayed
   anyway
-description:
-  A new poster from the School of Continuous Improvement audits ten
+description: A new poster from the School of Continuous Improvement audits ten
   kitchenette compost bins before and after a lid recolour, finding
   contamination unchanged and Facilities' new lids kept regardless.
 date: 2026-07-13

@@ -1,7 +1,6 @@
 ---
 title: Share-house chore whiteboard still names flatmates who've moved out
-subtitle:
-  A 38-house audit finds barely a fifth of a chore roster's names still
+subtitle: A 38-house audit finds barely a fifth of a chore roster's names still
   live there by the third tenancy turnover
 date: 2026-07-17
 description:

@@ -1,7 +1,6 @@
 ---
 title: A garden mower stops crossing its line once someone's watching
-subtitle:
-  An eight-month deployment across 22 community-garden sites ties fewer
+subtitle: An eight-month deployment across 22 community-garden sites ties fewer
   virtual-fence breaches to a committee that actually reads the containment
   ledger, not to any change in the mower itself
 date: 2026-07-23
