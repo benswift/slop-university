@@ -4,3 +4,9 @@
 allowBuilds:
   esbuild: true
   sharp: false
+
+# Security floor for a transitive pnpm's time-based resolution keeps on a
+# vulnerable version (svgo removeScripts bypass, GHSA fixed in 4.0.2). svgo@3
+# (iconify's major) deliberately untouched; drop once astro's floor passes it.
+overrides:
+  "svgo@>=4.0.0 <4.0.2": "^4.0.2"
