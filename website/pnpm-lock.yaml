@@ -27,8 +27,8 @@ importers:
         specifier: github:benswift/astro-theme-slop#v0.1.0
         version: https://codeload.github.com/benswift/astro-theme-slop/tar.gz/96786f0eabfb3e3f0c030d6b1045e831ac799e0a(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0))
       astro-theme-university:
-        specifier: git+https://github.com/ANUcybernetics/astro-theme-university.git#v0.6.6
-        version: https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/64e4d9acd8b20315960e0e1e9faac56454a1c886(@iconify-json/iconoir@1.2.11)(@types/node@26.1.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0))(esbuild@0.28.1)(lightningcss@1.32.0)(pagefind@1.5.2)(supports-color@10.2.2)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)
+        specifier: git+https://github.com/ANUcybernetics/astro-theme-university.git#v0.7.0
+        version: https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/63f9a1d47987300a2cd98308440b18daf0b8018b(@iconify-json/iconoir@1.2.11)(@types/node@26.1.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0))(esbuild@0.28.1)(lightningcss@1.32.0)(pagefind@1.5.2)(supports-color@10.2.2)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)
       pdfjs-dist:
         specifier: ^6.1.200
         version: 6.1.200
@@ -1671,9 +1671,9 @@ packages:
     peerDependencies:
       astro: ^7.0.0
 
-  astro-theme-university@https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/64e4d9acd8b20315960e0e1e9faac56454a1c886:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/64e4d9acd8b20315960e0e1e9faac56454a1c886}
-    version: 0.6.6
+  astro-theme-university@https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/63f9a1d47987300a2cd98308440b18daf0b8018b:
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/63f9a1d47987300a2cd98308440b18daf0b8018b}
+    version: 0.7.0
     engines: {node: '>=24'}
     peerDependencies:
       '@iconify-json/iconoir': ^1.2.0
@@ -5542,7 +5542,7 @@ snapshots:
     dependencies:
       astro: 7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0)
 
-  astro-theme-university@https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/64e4d9acd8b20315960e0e1e9faac56454a1c886(@iconify-json/iconoir@1.2.11)(@types/node@26.1.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0))(esbuild@0.28.1)(lightningcss@1.32.0)(pagefind@1.5.2)(supports-color@10.2.2)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3):
+  astro-theme-university@https://codeload.github.com/ANUcybernetics/astro-theme-university/tar.gz/63f9a1d47987300a2cd98308440b18daf0b8018b(@iconify-json/iconoir@1.2.11)(@types/node@26.1.0)(astro@7.1.1(@astrojs/markdown-remark@7.2.1(supports-color@10.2.2))(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.0)(yaml@2.9.0))(esbuild@0.28.1)(lightningcss@1.32.0)(pagefind@1.5.2)(supports-color@10.2.2)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3):
     dependencies:
       '@astro-community/astro-embed-youtube': 0.5.10
       '@astrojs/markdown-remark': 7.2.1(supports-color@10.2.2)
