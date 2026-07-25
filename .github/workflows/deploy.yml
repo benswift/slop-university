@@ -21,6 +21,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -71,10 +72,24 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
+      # A healthy deploy takes ~30s, so 5 minutes is ample headroom. The
+      # occasional stall on the Pages deployment API never recovers, it just
+      # burns the clock --- capping the first attempt short leaves room to
+      # retry inside the same run rather than going red and waiting an hour
+      # for the next publish tick to redeploy.
       - name: Deploy to GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+        with:
+          timeout: 300000
+
+      - name: Deploy to GitHub Pages (retry)
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v5
