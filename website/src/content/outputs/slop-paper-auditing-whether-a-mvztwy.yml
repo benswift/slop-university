@@ -1,0 +1,27 @@
+title: Fair Only in the Firmware
+subtitle: >-
+  Auditing a Consumer Router's "Fair-Share" Mode Against Sixteen Weeks of
+  Device-Level Throughput Logs
+authors:
+  - Casimir Beng
+  - Torun Ezeigwe
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-27
+doi: 10.5555/slop.mvztwy
+summary: >-
+  A paper from the School of Continuous Improvement instruments 34
+  share-house and family routers with a passive, port-mirrored
+  packet-capture logger for sixteen weeks, comparing each router's
+  AI-optimised fairness-intervention log against independently measured
+  per-device throughput share. The device holding the oldest continuous
+  DHCP lease retains a mean 1.9 times its nominal equal share during
+  congestion regardless of a four-week nightly-reboot ablation, and the
+  log records the gap as resolved in 61% of the windows in which it fires.
+topic: >-
+  auditing whether a share-house router's AI-optimised fair-share Wi-Fi
+  mode actually equalises bandwidth during peak congestion, or the device
+  that connected first each reboot keeps the biggest slice regardless
+pdf: /outputs/pdf/slop-paper-auditing-whether-a-mvztwy.pdf
+pages: 5
+version: "1.0"
