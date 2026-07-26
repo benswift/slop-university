@@ -1,0 +1,24 @@
+title: Catching the Quota Nobody Publishes
+subtitle: A Low-Cost Instrumentation Pipeline for Detecting an Undisclosed Fair-Use Ceiling on "Unlimited" Transit Smartcard Passes
+authors:
+  - Torun Ezeigwe
+  - Ingeborg Nwachukwu
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-27
+doi: 10.5555/slop.jmsl4q
+summary: >-
+  A paper from the School of Continuous Improvement instruments nine station
+  clusters of a regional transit network with a passive tap-and-response-tone
+  logger, locating the point at which an "unlimited" weekly travel pass
+  crosses an undisclosed anti-fraud fair-use ceiling and validating the
+  automated flag against an independent attendant tally, finding the ceiling
+  varies by cluster rather than following a single network-wide figure.
+topic: >-
+  instrumenting a transit smartcard gate to detect when an "unlimited"
+  weekly travel pass crosses its undisclosed anti-fraud fair-use ceiling,
+  since the operator never discloses the daily-tap threshold that triggers
+  a "see attendant" decline
+pdf: /outputs/pdf/slop-paper-instrumenting-a-transit-jmsl4q.pdf
+pages: 5
+version: "1.0"
