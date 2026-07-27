@@ -172,14 +172,18 @@ rescue_and_abort() {
 # tells the from-preset resolver to treat private/ preset overlays as
 # unresolvable --- the unattended path can only ever run public slop presets
 # (and in the worktree private/ doesn't exist to begin with).
+PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
+PUBLISHED_AT="$(date -Iseconds)"
+log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
 (
   cd "$WORKTREE_DIR"
   GIT_AUTHOR_NAME="Slop University Press" \
   GIT_AUTHOR_EMAIL="press@slop.university" \
   SLOPU_PUBLIC_ONLY=1 \
+  SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
   /home/ben/.local/bin/claude \
     --dangerously-skip-permissions \
-    -p "/publish"
+    -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
 ) >> "$LOG_FILE" 2>&1 || log "publish agent failed (continuing)"
 
 log "=== publish agent finished at $(date -Iseconds) ==="

@@ -23,9 +23,10 @@ import { thumbnail } from "../../lib/thumbnails";
 // letterbox maths and the PDF render resolution stay correct. Flip cw/ccw to
 // match the way the panel was turned --- read client-side, so no rebuild needed.
 //
-// Because the site is static, "latest" is resolved at build time; the /publish
-// tick rebuilds on each new output, and the page reloads itself on an interval
-// so a fresh deploy swaps the poster in unattended.
+// Because the site is static, the candidate list is resolved at build time; the
+// browser chooses its hour's item from that list. The /publish tick rebuilds on
+// each new output, and the page reloads itself on an interval to pick up a
+// fresh deploy without anyone touching the display.
 //
 // Orientation isn't in the content schema, but the first-page thumbnail is
 // rendered from the PDF page, so its dimensions carry the true orientation. A
@@ -42,18 +43,39 @@ const posters = (await getCollection("outputs"))
   .filter((entry) => entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster")
   .map((entry) => ({ entry, thumb: thumbnail(entry.id) }))
   .filter(({ thumb }) => thumb && (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
-  .sort((a, b) => b.entry.data.date.getTime() - a.entry.data.date.getTime());
+  .sort((a, b) => {
+    const aTime = a.entry.data.publishedAt?.getTime() ?? a.entry.data.date.getTime();
+    const bTime = b.entry.data.publishedAt?.getTime() ?? b.entry.data.date.getTime();
+    return bTime - aTime || b.entry.id.localeCompare(a.entry.id);
+  });
 
-// If no poster matches this orientation yet, degrade to a quiet placeholder
-// rather than throwing --- an empty orientation must never fail the whole
-// unattended site build.
-const latest = posters[0];
-// Prefer the dark-theme render on signage (white-on-black suits an ambient
-// screen); posters published before dark variants existed fall back to the
-// light PDF.
-const pdfUrl = latest?.entry.data.pdfDark ?? latest?.entry.data.pdf;
-const thumb = latest?.thumb;
-const title = latest ? fullTitle(latest.entry.data) : "Slop University";
+// Signage is research-led: four research slots followed by one ad slot. Keep a
+// bounded recent pool so a screen changes regularly without resurrecting old
+// material from deep in the archive. The browser advances the pool hourly.
+const research = posters.filter(({ entry }) => entry.data.preset === "research-poster").slice(0, 12);
+const marketing = posters.filter(({ entry }) => entry.data.preset === "marketing-poster").slice(0, 6);
+const playlist = {
+  research: research.map(({ entry, thumb }) => ({
+    pdf: entry.data.pdfDark ?? entry.data.pdf,
+    thumb: thumb!.src,
+    width: thumb!.width,
+    height: thumb!.height,
+    title: fullTitle(entry.data),
+  })),
+  marketing: marketing.map(({ entry, thumb }) => ({
+    pdf: entry.data.pdfDark ?? entry.data.pdf,
+    thumb: thumb!.src,
+    width: thumb!.width,
+    height: thumb!.height,
+    title: fullTitle(entry.data),
+  })),
+};
+
+// A usable first frame for browsers with JavaScript disabled or still loading.
+const initial = playlist.research[0] ?? playlist.marketing[0];
+const pdfUrl = initial?.pdf;
+const thumb = initial;
+const title = initial?.title ?? "Slop University";
 
 // Refresh the whole page hourly to pick up new deploys.
 const RELOAD_MS = 60 * 60 * 1000;
@@ -161,6 +183,8 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       id="stage"
       aria-label={`Research poster: ${title}`}
       data-pdf={pdfUrl}
+      data-playlist={JSON.stringify(playlist)}
+      data-orientation={orientation}
       data-reload-ms={RELOAD_MS}
       data-retry-ms={RETRY_MS}
       style={`--poster-aspect: ${posterAspect}`}
@@ -168,7 +192,7 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       <canvas id="poster" hidden></canvas>
       {
         thumb && (
-          <img id="fallback" src={thumb.src} alt={`Poster: ${title}`} width={thumb.width} height={thumb.height} />
+          <img id="fallback" src={thumb.thumb} alt={`Poster: ${title}`} width={thumb.width} height={thumb.height} />
         )
       }
     </main>
@@ -190,9 +214,25 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
       const stage = document.getElementById("stage");
-      const pdfUrl = stage?.dataset.pdf;
       const reloadMs = Number(stage?.dataset.reloadMs) || 0;
       const retryMs = Number(stage?.dataset.retryMs) || 0;
+
+      type Poster = { pdf: string; thumb: string; width: number; height: number; title: string };
+      type Playlist = { research: Poster[]; marketing: Poster[] };
+      const playlist = JSON.parse(stage?.dataset.playlist ?? '{"research":[],"marketing":[]}') as Playlist;
+
+      // Give the two physical orientations different positions in the same
+      // five-hour cadence. Research occupies four slots; an ad gets the fifth.
+      // If an orientation has no candidate of the requested type, use the
+      // other type rather than leaving a blank screen.
+      const hour = Math.floor(Date.now() / (60 * 60 * 1000));
+      const offset = stage?.dataset.orientation === "portrait" ? 2 : 0;
+      const wantsMarketing = (hour + offset) % 5 === 4;
+      const preferred = wantsMarketing ? playlist.marketing : playlist.research;
+      const fallbackPool = wantsMarketing ? playlist.research : playlist.marketing;
+      const pool = preferred.length ? preferred : fallbackPool;
+      const selected = pool.length ? pool[(hour + offset) % pool.length] : undefined;
+      let pdfUrl = selected?.pdf ?? stage?.dataset.pdf;
 
       // A physically-portrait panel with a landscape framebuffer asks for
       // rotation via `?rotate=cw|ccw`. Toggle the CSS mode up front, before the
@@ -204,7 +244,21 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       }
 
       const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
-      const fallback = document.getElementById("fallback");
+      const fallback = document.getElementById("fallback") as HTMLImageElement | null;
+
+      if (selected && stage) {
+        stage.dataset.pdf = selected.pdf;
+        stage.setAttribute("aria-label", `Poster: ${selected.title}`);
+        stage.style.setProperty("--poster-aspect", String(selected.width / selected.height));
+        document.title = `${selected.title} --- Slop University signage`;
+        if (fallback) {
+          fallback.src = selected.thumb;
+          fallback.alt = `Poster: ${selected.title}`;
+          fallback.width = selected.width;
+          fallback.height = selected.height;
+          fallback.hidden = false;
+        }
+      }
 
       // Chromium's max canvas dimension. Exceeding it yields a blank canvas.
       const MAX_CANVAS_PX = 8192;

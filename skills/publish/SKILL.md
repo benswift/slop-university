@@ -233,7 +233,7 @@ all hard:
   purpose-built index, and not every abstract closes by proposing a randomised
   trial.
 
-### Roll a preset
+### Receive the preset selection
 
 The enabled list is this section, so nothing joins the pool by accident. Each
 enabled preset carries a target share of 2A output volume:
@@ -247,18 +247,17 @@ enabled preset carries a target share of 2A output volume:
 | `impact-report`    | booklet | 1%           |
 | `strategy`         | booklet | 1%           |
 
-**Selection is deterministic apportionment, not a random draw** --- the same
-gap-driven logic as the phase-1 ladder, applied to preset mix. Read the `preset`
-field of every existing outputs entry (`website/src/content/outputs/*.yml`) and
-count how many each enabled preset already has; let `N` be the total. For each
-enabled preset compute its _deficit_ = `share × (N + 1) − count`, and pick the
-preset with the largest deficit (tie → higher target share, then
-`research-poster`). This tracks the target mix without an RNG and self-corrects
-after any run that aborts. Booklets total ~10% of 2A runs --- `brochure` around
-one run in twelve, `impact-report` and `strategy` near-vanishing at ~1% each
-(they're the heaviest to generate); `marketing-poster` at ~10% keeps the signage
-rotation seasoned with ads without the outputs ledger reading like a billboard;
-research posters and papers split the rest evenly.
+**The cron wrapper selects this with an OS-random draw, not the model.** For an
+unattended `/publish` run, its prompt names one preset selected by
+`ops/select-preset.sh`; use that exact preset for rung 2A. Do not count outputs,
+rebalance shares, or roll a different preset. The selector uses `/dev/urandom`
+and the table's shares directly, so the mix is stochastic rather than an LLM
+judgement. A failed run consumes no published output but does consume its draw;
+the next run simply draws again. Booklets total ~10% of 2A runs --- `brochure`
+around one run in twelve, `impact-report` and `strategy` near-vanishing at ~1%
+each (they're the heaviest to generate); `marketing-poster` at ~10% keeps the
+signage rotation seasoned with ads without the outputs ledger reading like a
+billboard; research posters and papers split the rest evenly.
 
 **Fixed-title booklets need disambiguation.** `impact-report` and `strategy` fix
 their _cover_ titles (`Impact Report 2021–2026`, `Strategic Plan 2026–2031`), so
@@ -307,7 +306,9 @@ verifiable numbers). Then:
   after the colon, shown as a deck under the heading --- split an academic
   "Main: Subtitle" title here rather than storing the whole string in `title`),
   `authors` (the roster authors used), `preset`, `school` (the lead author's
-  school), `date`, `doi`, `summary` (1-2 sentence abstract of the fictional
+  school), `date`, `publishedAt` (the exact `SLOPU_PUBLISHED_AT` value supplied
+  by the unattended wrapper; omit only for a manual run without it), `doi`,
+  `summary` (1-2 sentence abstract of the fictional
   work, institutional register --- not the press release's standfirst), `topic`
   (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pdfDark`
   (poster-format runs only --- `research-poster`, `marketing-poster`:

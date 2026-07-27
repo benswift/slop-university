@@ -1,7 +1,7 @@
 # Signage kiosk
 
 Turn a Raspberry Pi 5 (or any Wayland/labwc box) into a fullscreen, chromeless
-e-signage display that shows the latest landscape research poster from
+e-signage display that shows the research-led landscape poster playlist from
 [slop.university/signage/landscape](https://slop.university/signage/landscape/).
 
 The route renders the poster PDF to a canvas and self-reloads hourly, so a fresh

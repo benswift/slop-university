@@ -108,6 +108,10 @@ const outputs = defineCollection({
     ]),
     school: z.string().optional(),
     date: z.coerce.date(),
+    // Exact publish time, supplied by the unattended wrapper. `date` remains
+    // the human-facing publication date; signage uses this to order same-day
+    // outputs consistently.
+    publishedAt: z.coerce.date().optional(),
     doi: z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/),
     summary: z.string(),
     topic: z.string(),

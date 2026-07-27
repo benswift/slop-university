@@ -1,6 +1,6 @@
 #!/bin/bash
 # Slop University e-signage kiosk: a single fullscreen Chromium window showing
-# the latest landscape research poster. The page
+# the research-led landscape poster playlist. The page
 # (https://slop.university/signage/landscape) renders the poster PDF to a canvas
 # and self-reloads hourly to pick up new posters; systemd restarts this unit if
 # Chromium dies. Install at /usr/local/bin/signage-kiosk-launch.

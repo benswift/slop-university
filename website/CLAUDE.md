@@ -96,8 +96,10 @@ built by hand (like this pass), not grown by the tick.
   (`src/content/content.test.ts`) enforces the seams: output authors and schools
   must exist in the canon.
 - `src/content/outputs/*.yml` --- one entry per published artefact (title,
-  optional subtitle, authors, preset, school, date, doi, summary, topic, pdf,
-  pages, version). `title` is the main/head title and `subtitle` the optional
+  optional subtitle, authors, preset, school, date, optional `publishedAt`, doi,
+  summary, topic, pdf, pages, version). `publishedAt` is the exact wrapper
+  timestamp used to order same-day signage candidates; `date` remains the
+  human-facing publication date. `title` is the main/head title and `subtitle` the optional
   deck; the two rejoin with ": " (`fullTitle` in `src/lib/outputs.ts`) for the
   citation, document `<title>`, DOI resolver, and announcing news post. Only the
   PDF lives in `public/` (`public/outputs/pdf/`); `robots.txt` disallows
