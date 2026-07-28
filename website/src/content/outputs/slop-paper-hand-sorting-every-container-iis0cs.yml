@@ -1,0 +1,33 @@
+title: Ineligible by Return Code
+subtitle:
+  A Validation-Subsample Correction of Container-Return Success Rates Across
+  Fourteen Reverse Vending Points
+authors:
+  - Torun Ezeigwe
+  - Thandiwe Solberg
+  - Marit Osayande
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-29
+publishedAt: 2026-07-29T03:01:38+10:00
+doi: 10.5555/slop.iis0cs
+summary: >-
+  A paper from the School of Continuous Improvement treats a container-deposit
+  scheme's reverse vending machines as a diagnostic test for container
+  eligibility and assesses them against a blind hand-sort. Trained sorters
+  classified all 41,392 containers presented in 216 validated sessions across
+  fourteen return points, without sight of the machine's decision. Specificity
+  held at 0.991 while sensitivity fell from 0.881 to 0.724 over eight quarters,
+  and a standard misclassification correction moves the network's published
+  eligible-presentation success rate from 94.2% to 79.1% (95% bootstrap CI 77.4
+  to 80.6). The divergence is structural rather than behavioural: containers the
+  machine codes as out of scheme leave the denominator against which the machine
+  is scored, and by the final quarter 46.1% of them were eligible.
+topic: >-
+  hand-sorting every container presented at fourteen reverse vending return
+  points against what the machine accepted, to correct a return-success rate
+  whose denominator the machine itself supplies, and what the scheme's published
+  figure does once an eligible bottle coded ineligible simply leaves the count
+pdf: /outputs/pdf/slop-paper-hand-sorting-every-container-iis0cs.pdf
+pages: 5
+version: "1.0"
