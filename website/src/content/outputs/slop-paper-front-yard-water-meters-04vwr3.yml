@@ -1,0 +1,35 @@
+title: Still on the Walk Sheet
+subtitle: >-
+  A Controlled Interrupted Time-Series Study of Orphaned Quarterly Meter Reads
+  After Automated Address Normalisation
+authors:
+  - Thandiwe Solberg
+  - Joost Nwosu
+  - Iben Chikere
+preset: paper
+school: School of Continuous Improvement
+date: 2026-07-28
+publishedAt: 2026-07-28T17:03:39+10:00
+doi: 10.5555/slop.04vwr3
+summary: >-
+  A paper from the School of Continuous Improvement evaluates a metropolitan
+  water retailer's automated address-normalisation release against the physical
+  meters its merges affected rather than against the record set they cleaned.
+  A controlled interrupted time-series analysis over sixteen quarters, with a
+  comparison cohort excluded from the merge pass, finds reads logged against no
+  active account rising by 5.02 per 1,000 connections per quarter at the release
+  (95% CI 4.41 to 5.63) against no level change in the comparison series, and a
+  field audit of 96 orphaned properties finds 91 meters still in service and
+  registering flow. Over the same period the retailer's Record Integrity Index
+  rose from 0.941 to 0.997, and 71.4% of the resulting customer contacts were
+  closed under a code that removes the property from the indicator's own
+  candidate queue.
+topic: >-
+  front-yard water meters still read every quarter after an
+  address-normalisation rule merged their accounts away, and the
+  record-integrity indicator that counts each merge as an improvement
+pdf: /outputs/pdf/slop-paper-front-yard-water-meters-04vwr3.pdf
+pages: 6
+version: "1.0"
+grants:
+  - 2026-07-24-the-times-nobody-retired
