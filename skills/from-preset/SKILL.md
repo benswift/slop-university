@@ -206,8 +206,8 @@ format.
   chart files (regenerate via styled-image-gen or the preset's chart workflow)
   or a stale package symlink (`@local/slop-university-brand:0.1.0` should point
   at `brand/slop-university-brand/0.1.0` in this repo;
-  `@local/university-typst-template:0.1.0` at the core package in the
-  `anu-typst-template` repo's `packages/` dir).
+  `@local/university-typst-template:0.1.0` at `0.1.0/` in the
+  `university-typst-template` repo).
 - **Voice cracks**: the document drops out of the preset's register ---
   exclamation marks, activist verbs, first-person passion, no hedging on the
   wrapped claims. Regenerate. The hedge wraps the unhinged commitment; if the

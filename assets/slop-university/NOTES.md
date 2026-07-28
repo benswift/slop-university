@@ -16,12 +16,12 @@ the documents still read straight --- the brand is the joke.
 
 The lockup ships inside `brand/slop-university-brand/0.1.0/` --- a typst package
 (`@local/slop-university-brand:0.1.0`) that layers the Slop University brand
-over `university-typst-template`, the de-branded layout core (in the
-`anu-typst-template` repo under `packages/`). The brand package owns the palette
-(built from the lockup gold via `make-palette`, ink pinned to `#1a1a1a`), the
-two lockup SVGs (one horizontal mark, black/white wordmark ink; masthead and
-back cover share the artwork), the masthead placement geometry, and the
-gribouille chart values (`slop-theme`, `slop-categorical`, `slop-ordinal`,
+over `university-typst-template`, the de-branded layout core (its own repo,
+`ANUcybernetics/university-typst-template` on GitHub). The brand package owns
+the palette (built from the lockup gold via `make-palette`, ink pinned to
+`#1a1a1a`), the two lockup SVGs (one horizontal mark, black/white wordmark ink;
+masthead and back cover share the artwork), the masthead placement geometry, and
+the gribouille chart values (`slop-theme`, `slop-categorical`, `slop-ordinal`,
 `slop-gold-tints`, `slop-colour` / `slop-fill`). Generated documents import the
 brand package only. The same two SVGs are installed into the
 [astro-theme-slop](https://github.com/benswift/astro-theme-slop) web brand

@@ -96,9 +96,9 @@ Slop University is a persistent fiction: its people, schools, and units live in
   document, for tone and visual convention)
 - Typst packages (all `@local`, symlinked into
   `~/.local/share/typst/packages/local/`):
-  - `university-typst-template:0.1.0` --- the de-branded layout core (lives in
-    the `anu-typst-template` repo under `packages/`); all layout machinery,
-    branding injected as data
+  - `university-typst-template:0.1.0` --- the de-branded layout core (its own
+    repo, `ANUcybernetics/university-typst-template` on GitHub); all layout
+    machinery, branding injected as data
   - `slop-university-brand:0.1.0` --- the Slop University brand layer, in this
     repo at `brand/slop-university-brand/0.1.0/` (`slop-*` exports; palette from
     the lockup gold `#b97d1c`). The **preset path** imports this
