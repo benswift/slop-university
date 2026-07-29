@@ -40,9 +40,14 @@ log "=== publish run started at $(date -Iseconds) ==="
 # run to retry (the poster dedups, so a lost-response retry can't double-post).
 # data/pending-post.json is a gitignored working-tree artefact, never
 # committed: the agent COMPOSES it, this wrapper POSTS it --- the same trust
-# split as "the agent commits, the wrapper pushes". The SLOPU_TOKEN credential
-# lives only in this wrapper's mise env, never in the unattended, feed-reading
-# agent's. data/ is canonical HERE: the press worktree's data/ is a symlink to
+# split as "the agent commits, the wrapper pushes". Note what that split does
+# and does not buy. It is STRUCTURAL for the action: the agent has no path to
+# send a post, because only this wrapper calls the poster. It is NOT isolation
+# of the credential --- mise exports SLOPU_TOKEN (and every other secret in the
+# untracked [env] block) into this shell, and the agent runs as a child, so it
+# inherits them. Anything relying on the unattended, feed-reading agent not
+# HOLDING a secret needs `env -u` on its invocation below; today nothing does.
+# data/ is canonical HERE: the press worktree's data/ is a symlink to
 # this checkout's, so a post the agent stages over there lands where this
 # wrapper (and the lock, and the block file) already look.
 flush_pending_post() {
