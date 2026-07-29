@@ -21,7 +21,12 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Generous because the Astro image cache only saves in actions/cache's
+    # post-job step: a build killed by this timeout saves nothing, so a cold
+    # build that can't finish once can never seed the cache that would make it
+    # fast. Any change to image format or srcset widths rehashes every
+    # transform and forces one fully cold build, so leave room for it.
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -48,6 +53,21 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      # node_modules/.astro holds the image service's transform cache --- ~5600
+      # encodes, which is essentially the whole build cost --- plus the content
+      # layer store. Without it every publish tick re-encodes every image from
+      # scratch, ~20 times a day. Keyed on sha so each run saves its updated
+      # cache; restore-keys picks up the most recent. Note the path is
+      # workspace-relative, so it needs the website/ prefix that
+      # defaults.run.working-directory supplies for run steps but not for uses.
+      - name: Cache Astro build cache
+        uses: actions/cache@v6
+        with:
+          path: website/node_modules/.astro
+          key: ${{ runner.os }}-astro-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-astro-build-
 
       - name: Lint
         run: pnpm run lint
