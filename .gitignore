@@ -8,11 +8,18 @@
 # logfiles from cron runs
 logs/
 
-# the staged social post (data/pending-post.json) is a working-tree handoff from
-# the /publish agent to the cron wrapper's Bluesky poster --- never committed.
+# the working-tree handoffs from the /publish agent to the cron wrapper: the
+# staged social post (data/pending-post.json) and the tick's PDFs
+# (data/pending-uploads/) --- never committed.
+#
 # No trailing slash: in the press worktree data is a SYMLINK to the main
-# checkout's data/, and `data/` (directories only) would leave it untracked
-data
+# checkout's data/, and `data/` (directories only) would leave it untracked.
+# LEADING slash, though: unanchored `data` matches a directory of that name at
+# ANY depth, which silently swallowed a run of mislanded PDFs under
+# website/data/pending-uploads/ --- invisible to git status, untouched by
+# `git clean -fd`, and so undiagnosable from the repo. Anchored, a stray data/
+# anywhere but the root shows up and gets cleaned.
+/data
 
 # generated outputs are kept locally only, not committed (everything under
 # output/ --- .typ, .bib, images, charts, pdf, overviews)
@@ -37,9 +44,9 @@ references/*.avif
 backlog/
 docs/
 
-# output PDFs are served from the bucket at pdf.slop.university, never from the
-# Pages artifact --- they were its largest and only unbounded category, and
-# being committed they grew .git by the same ~0.6 MB every publish tick.
-# Ignored so a stray write here can never reintroduce that; the publish tick
-# stages PDFs into data/pending-uploads/ for the wrapper to upload.
-website/public/outputs/
+# NOTE: website/public/outputs/ is deliberately NOT ignored. Output PDFs are
+# served from the bucket at pdf.slop.university and must never be committed, but
+# the push wrapper's allowlist already rejects that path, so ignoring it would
+# add no protection --- and would cost the visibility that matters: a PDF
+# mislanded there needs to show up in git status and be swept by `git clean -fd`,
+# not sit there silently while the tick fails somewhere downstream.

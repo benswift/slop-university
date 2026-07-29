@@ -326,20 +326,30 @@ verifiable numbers). Then:
 
 ### Stage assets into website/
 
-- Stage the final PDF → `data/pending-uploads/<run-id>.pdf`, downsampling it on
-  the way in --- never copy it verbatim. The compiled PDF embeds imagery at ~360
-  PPI and runs 1--5 MB; the served copy only needs screen resolution:
-  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=data/pending-uploads/<run-id>.pdf output/pdf/<group>/<run-id>.pdf`
+- Stage the final PDF into the staging dir **at the repo root**, downsampling it
+  on the way in --- never copy it verbatim. The compiled PDF embeds imagery at
+  ~360 PPI and runs 1--5 MB; the served copy only needs screen resolution.
+
+  `cd` to the repo root first and keep both paths root-relative, or use absolute
+  paths. **Do not run this from `website/`.** A bare `data/pending-uploads/…`
+  resolved against `website/` silently creates `website/data/pending-uploads/`,
+  the wrapper finds nothing to upload, and the whole tick is rescued and thrown
+  away --- this went wrong for a run of ticks, so it is worth the care:
+
+  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=./data/pending-uploads/<run-id>.pdf ./output/pdf/<group>/<run-id>.pdf`
+
   (~80% smaller on the image-heavy formats, visually identical at reading size;
   the PDF metadata title survives the round-trip). The full-resolution original
-  stays in gitignored `output/pdf/<group>/`.
+  stays in gitignored `output/pdf/<group>/`. Create the staging dir if it is
+  missing (`mkdir -p ./data/pending-uploads`), and confirm the file landed there
+  before moving on --- `ls ./data/pending-uploads/` from the repo root.
 
   PDFs are **not committed** and do not live under `website/public/` --- they
   are served from the bucket at `pdf.slop.university` (why:
-  `website/src/lib/pdfs.ts`). `data/pending-uploads/` is the gitignored handoff
-  channel: you stage the file there, and the cron wrapper uploads it and only
-  then pushes. Same trust split as the social post --- the agent composes, the
-  wrapper publishes --- and it is what makes a failed upload abort the tick
+  `website/src/lib/pdfs.ts`). The root `data/pending-uploads/` is the gitignored
+  handoff channel: you stage the file there, and the cron wrapper uploads it and
+  only then pushes. Same trust split as the social post --- the agent composes,
+  the wrapper publishes --- and it is what makes a failed upload abort the tick
   rather than publish an entry pointing at a missing object. Never write to
   `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
 
@@ -349,10 +359,10 @@ verifiable numbers). Then:
 - **Dark sibling (poster-format runs: `research-poster`, `marketing-poster`)**
   --- the from-preset step also compiled `output/pdf/<group>/<run-id>-dark.pdf`
   (same source, `--input theme=dark`); stage it through the identical gs
-  downsample → `data/pending-uploads/<run-id>-dark.pdf` and set `pdfDark: true`
-  in the outputs entry. The signage endpoints prefer it; every other surface
-  (landing page, DOI, downloads) keeps using the light PDF. The thumbnail and
-  hero are rendered from the light variant as before.
+  downsample → `./data/pending-uploads/<run-id>-dark.pdf` (repo root, as above)
+  and set `pdfDark: true` in the outputs entry. The signage endpoints prefer it;
+  every other surface (landing page, DOI, downloads) keeps using the light PDF.
+  The thumbnail and hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF), then optimised through
   `astro:assets`, so it lives under `src/`, not `public/`:

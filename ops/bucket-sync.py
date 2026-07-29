@@ -29,10 +29,16 @@ Credentials come from the untracked `[env]` block in
 already exports --- the same channel as REPLICATE_API_TOKEN and SLOPU_TOKEN.
 They are deliberately not named AWS_* so they cannot hijack unrelated S3 clients.
 
+The credential the publish tick carries is scoped to upload-only on this one
+bucket (see `upload_policy`). `setup` and `create-upload-key` need the admin key
+instead --- they are rare, deliberate operations, so supply it inline for the one
+run rather than leaving it in the env.
+
 Usage:
-  ops/bucket-sync.py setup              # apply CORS + robots.txt (idempotent)
   ops/bucket-sync.py upload FILE...     # upload PDFs, keyed by basename
   ops/bucket-sync.py verify [ID]        # check the served object, live
+  ops/bucket-sync.py setup              # apply CORS + robots.txt (admin key)
+  ops/bucket-sync.py create-upload-key [NAME]   # mint the scoped key (admin key)
 """
 
 import os
@@ -62,6 +68,104 @@ ROBOTS_TXT = """\
 User-agent: *
 Disallow: /
 """
+
+
+IAM_ENDPOINT = "https://fly.iam.storage.tigris.dev"
+
+# The credential the unattended publish tick carries. It can add an object to
+# this one bucket and do nothing else: no delete, no listing, no read, no reach
+# into any other bucket. That matters because the tick's key lives in the mise
+# [env] block, which every service on the host can read --- so the useful
+# question is not "can it leak" but "what can the holder of a leaked copy do".
+# The answer is: upload a PDF to a bucket of fabricated PDFs. It cannot destroy
+# the archive, enumerate it, or pivot.
+#
+# The multipart actions are here because boto3's upload_file silently switches
+# to multipart above 8 MB; a PutObject-only key would work for years and then
+# fail on the first oversized poster. GetObject is absent on purpose --- the
+# objects are public, so reads never need a credential.
+UPLOAD_POLICY_ACTIONS = [
+    "s3:PutObject",
+    "s3:AbortMultipartUpload",
+    "s3:ListMultipartUploadParts",
+]
+
+
+def upload_policy(bucket: str) -> dict:
+    return {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "PublishTickUploadOnly",
+                "Effect": "Allow",
+                "Action": UPLOAD_POLICY_ACTIONS,
+                "Resource": f"arn:aws:s3:::{bucket}/*",
+            }
+        ],
+    }
+
+
+POLICY_NAME = "slopu-publish-upload-only"
+
+
+def create_upload_key(name: str) -> None:
+    """Mint the scoped upload credential. Run with an admin key in the env.
+
+    Tigris implements a useful subset of the IAM API, and the shape matters:
+    PutUserPolicy (inline policies) returns NotImplemented, so the policy has to
+    be a MANAGED one --- CreatePolicy, then AttachUserPolicy by ARN. CreatePolicy
+    also validates the resource ARN against real buckets, which is a good sign it
+    is genuinely enforced rather than stored and ignored.
+
+    Order matters for a different reason: attach the policy BEFORE handing the
+    key out, and never create the key until the policy exists. Creating first
+    leaves a live unscoped credential if the second call fails --- which is
+    exactly what happened on the first attempt here, stranding a key whose
+    secret was lost with the traceback.
+    """
+    import json
+
+    bucket = os.environ["SLOPU_S3_BUCKET"]
+    iam = boto3.client(
+        "iam",
+        endpoint_url=IAM_ENDPOINT,
+        aws_access_key_id=os.environ["SLOPU_S3_ACCESS_KEY_ID"],
+        aws_secret_access_key=os.environ["SLOPU_S3_SECRET_ACCESS_KEY"],
+        region_name="auto",
+    )
+
+    arn = next(
+        (
+            p["Arn"]
+            for p in iam.list_policies().get("Policies", [])
+            if p["PolicyName"] == POLICY_NAME
+        ),
+        None,
+    )
+    if arn:
+        print(f"reusing existing policy {arn}")
+    else:
+        arn = iam.create_policy(
+            PolicyName=POLICY_NAME,
+            PolicyDocument=json.dumps(upload_policy(bucket)),
+        )["Policy"]["Arn"]
+        print(f"created policy {arn}")
+
+    key = iam.create_access_key(UserName=name)["AccessKey"]
+    try:
+        # In Tigris the access key IS the user, so every subsequent call
+        # identifies it by AccessKeyId --- passing the human-readable name here
+        # fails with "Access key doesn't exist".
+        iam.attach_user_policy(UserName=key["AccessKeyId"], PolicyArn=arn)
+    except Exception:
+        # Never leave an unscoped credential alive on a partial failure.
+        iam.delete_access_key(UserName=name, AccessKeyId=key["AccessKeyId"])
+        print(f"attach failed; deleted the unscoped key {key['AccessKeyId']}")
+        raise
+
+    print(f"\nscoped key '{name}': {UPLOAD_POLICY_ACTIONS} on {bucket}/* only\n")
+    print(f'SLOPU_S3_ACCESS_KEY_ID = "{key["AccessKeyId"]}"')
+    print(f'SLOPU_S3_SECRET_ACCESS_KEY = "{key["SecretAccessKey"]}"')
 
 
 def client():
@@ -210,6 +314,8 @@ def main() -> None:
         upload([Path(p) for p in rest])
     elif cmd == "verify":
         verify(rest[0] if rest else None)
+    elif cmd == "create-upload-key":
+        create_upload_key(rest[0] if rest else "slopu-publish-upload")
     else:
         sys.exit(f"unknown command: {cmd}\n{__doc__}")
 

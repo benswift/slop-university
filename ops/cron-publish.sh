@@ -304,8 +304,19 @@ for f in $(git diff --name-only --diff-filter=A "$BASE_REF" "$PRESS_BRANCH" -- '
 done
 
 if [ -n "$MISSING_PDFS" ]; then
-  log "VALIDATION FAILURE: new outputs entry with no PDF staged in data/pending-uploads/:"
+  log "VALIDATION FAILURE: new outputs entry with no PDF staged in ${PENDING_DIR}:"
   printf '%s' "$MISSING_PDFS" >> "$LOG_FILE"
+  # Say WHERE it went, not just that it is absent. The first version of this
+  # check reported only the missing name, and the PDFs turned out to be landing
+  # in website/data/pending-uploads/ --- the agent had resolved a relative path
+  # against website/. That cost a hunt through the worktree to work out; this
+  # turns the same failure into one line of log.
+  STRAYS="$(find "$WORKTREE_DIR" -name '*.pdf' -newermt '-3 hours' \
+    -not -path "${WORKTREE_DIR}/output/pdf/*" -not -path "${PENDING_DIR}/*" 2>/dev/null | head -20)"
+  if [ -n "$STRAYS" ]; then
+    log "  ...but these recent PDFs exist elsewhere in the worktree (mislanded staging path?):"
+    printf '%s\n' "$STRAYS" >> "$LOG_FILE"
+  fi
   rescue_and_abort
 fi
 
