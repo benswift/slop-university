@@ -1,6 +1,7 @@
 ---
 title: Slop University funds a weekly reality check for a laundromat's status board
-subtitle: The Indicator Stewardship Seed Fund backs Dr Marit Osayande and Dr Torun
+subtitle:
+  The Indicator Stewardship Seed Fund backs Dr Marit Osayande and Dr Torun
   Ezeigwe's audit of a laundromat's available-machine board, with a named
   successor lined up before the checking lapses
 date: 2026-07-29

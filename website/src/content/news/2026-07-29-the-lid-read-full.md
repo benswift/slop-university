@@ -3,8 +3,7 @@ title: Slop University traces a charity bin's fill alert to the wrong donations
 subtitle: A staggered sensor rollout across six collection routes finds resale
   value falling as fill-based dispatch rises
 date: 2026-07-29
-description:
-  A new Slop University research poster checks a charity clothing-bin
+description: A new Slop University research poster checks a charity clothing-bin
   network's fill-sensor alert against what its collection trucks actually
   bring back, finding the two drifting apart as the sensor rolls out route
   by route.
