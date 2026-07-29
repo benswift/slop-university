@@ -1,7 +1,6 @@
 ---
 title: Slop University names first Director of the Master of Priority Studies
-subtitle:
-  Associate Professor Kwame Lindqvist, who studies how a priority gets a
+subtitle: Associate Professor Kwame Lindqvist, who studies how a priority gets a
   budget line before it gets a definition, now leads a program that gave
   itself both
 date: 2026-07-24

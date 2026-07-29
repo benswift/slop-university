@@ -1,7 +1,6 @@
 ---
 title: Slop University's newest advertisement asks who grades the grader
-subtitle:
-  A new bus-stop and campus-screen campaign puts the Master of Applied
+subtitle: A new bus-stop and campus-screen campaign puts the Master of Applied
   Measurement's own director in front of the instrument she studies
   hardest, the marking rubric
 description:

@@ -5,8 +5,7 @@ subtitle:
   chain, finding sales hold steady once a notice goes up and drop only when
   stock is physically pulled
 date: 2026-07-26
-description:
-  A new Slop University research poster audits 52 store-level product
+description: A new Slop University research poster audits 52 store-level product
   recalls, finding that a shelf-edge withdrawal notice moves no measurable
   sales until the stock is physically pulled from the shelf.
 output: slop-poster-comparing-supermarket-sales-lskvcg

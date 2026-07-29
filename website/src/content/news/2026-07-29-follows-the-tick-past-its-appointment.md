@@ -1,7 +1,6 @@
 ---
 title: Slop University brochure follows the tick past its appointment
-subtitle:
-  The Tick Is Not the Milestone draws two published studies and two
+subtitle: The Tick Is Not the Milestone draws two published studies and two
   postgraduate programmes into one account of what a completed box actually
   confirms
 date: 2026-07-29

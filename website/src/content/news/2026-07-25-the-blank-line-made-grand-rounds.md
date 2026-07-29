@@ -3,8 +3,7 @@ title: A blank certificate field earns itself a spot on Grand Rounds
 subtitle:
   The School of Continuous Improvement's standing case-review seminar takes
   up a fun run's unpersonalised finisher certificate this spring
-description:
-  A new Slop University advertising campaign turns a fun run's blank
+description: A new Slop University advertising campaign turns a fun run's blank
   finisher certificate into the next case before Improvement Grand Rounds,
   the School of Continuous Improvement's standing review seminar, running
   across the University's digital signage network this spring.

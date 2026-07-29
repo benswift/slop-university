@@ -4,8 +4,7 @@ subtitle:
   A new research poster audits 214 subscriber households across three box
   tiers and finds an itemised cost breakdown changes no one's mind about
   cancelling
-description:
-  A new Slop University research poster audits a household meal-kit
+description: A new Slop University research poster audits a household meal-kit
   subscription's per-meal premium against the grocery shop it replaces
   across three tiers, finding a randomised cost-disclosure mailer produces
   no detectable change in cancellation.

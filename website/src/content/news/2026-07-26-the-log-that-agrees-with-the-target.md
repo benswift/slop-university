@@ -4,8 +4,7 @@ subtitle:
   A new paper surveys 236 parents completing a primary-school reading log,
   finding what gets signed each night tracks the printed target more closely
   than it tracks whether reading happened
-description:
-  A School of Emergent Priorities survey of 236 households finds a
+description: A School of Emergent Priorities survey of 236 households finds a
   primary-school reading log's signed minutes cluster around the school's own
   printed target rather than around any reading that actually happened.
 date: 2026-07-26

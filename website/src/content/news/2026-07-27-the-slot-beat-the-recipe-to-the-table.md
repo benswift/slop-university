@@ -1,7 +1,6 @@
 ---
 title: Slop University times how early the sign-up beats the dish
-subtitle:
-  A new research poster tracks a street potluck's capped sign-up sheet
+subtitle: A new research poster tracks a street potluck's capped sign-up sheet
   against when each household actually decided what to cook
 description:
   A new Slop University research poster timestamps 214 household sign-ups

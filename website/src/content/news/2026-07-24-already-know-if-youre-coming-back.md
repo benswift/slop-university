@@ -1,7 +1,6 @@
 ---
 title: Slop University's lost-property forecaster gets its own bus-stop campaign
-subtitle:
-  Sorted on Arrival's reclaim-odds forecaster fronts a new bus-stop and
+subtitle: Sorted on Arrival's reclaim-odds forecaster fronts a new bus-stop and
   campus-screen pitch, umbrellas and all
 date: 2026-07-24
 description:

@@ -1,7 +1,6 @@
 ---
 title: Slop University pitches Applied Measurement on a diner coffee refill
-subtitle:
-  A new bus-stop and campus-screen pitch for the Master of Applied
+subtitle: A new bus-stop and campus-screen pitch for the Master of Applied
   Measurement turns a diner's "bottomless" refill into the whole argument
 date: 2026-07-24
 description:

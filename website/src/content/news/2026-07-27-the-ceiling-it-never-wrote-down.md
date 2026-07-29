@@ -1,7 +1,6 @@
 ---
 title: Slop University clocks the ceiling an "unlimited" pass won't publish
-subtitle:
-  A new paper builds a gate-side instrument that locates where an
+subtitle: A new paper builds a gate-side instrument that locates where an
   "unlimited" weekly transit pass quietly earns a review, without asking
   the operator for help
 description:

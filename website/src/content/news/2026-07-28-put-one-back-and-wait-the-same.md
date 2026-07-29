@@ -1,7 +1,6 @@
 ---
 title: Express-lane item limits sort baskets but not checkout times
-subtitle:
-  A regression-discontinuity study across 22 supermarkets finds shoppers
+subtitle: A regression-discontinuity study across 22 supermarkets finds shoppers
   adjusting their baskets at the limit and the transaction taking just as long
 description:
   A new Slop University paper treats a supermarket express lane's posted item

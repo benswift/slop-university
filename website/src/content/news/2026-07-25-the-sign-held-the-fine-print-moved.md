@@ -1,11 +1,9 @@
 ---
 title: Slop University clocks a decade of rewrites hiding beneath one sentence
-subtitle:
-  New research from the School of Emergent Priorities finds a retail
+subtitle: New research from the School of Emergent Priorities finds a retail
   price-match guarantee's headline held steady for ten years while its fine
   print grew sixfold
-description:
-  A new Slop University paper audits a decade of archived price-match
+description: A new Slop University paper audits a decade of archived price-match
   guarantee pages across 14 retail chains, finding an unchanged headline
   promise sitting above fine print that grew sixfold and added exclusions
   every year.

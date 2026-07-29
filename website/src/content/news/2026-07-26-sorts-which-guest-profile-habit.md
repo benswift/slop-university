@@ -1,11 +1,9 @@
 ---
 title: Slop University sorts which Guest-profile habit actually costs the night
-subtitle:
-  A new paper interviews 58 households about why they reach for a shared
+subtitle: A new paper interviews 58 households about why they reach for a shared
   streaming box's Guest profile, then checks each stated reason against the
   household's own viewing log
-description:
-  A new Slop University paper interviews 58 households about why they
+description: A new Slop University paper interviews 58 households about why they
   invoke a shared streaming device's Guest profile against their own
   screen-time cutoff, finding the reason parents worry about least
   accounts for the largest share of the extra viewing time it produces.

@@ -1,7 +1,6 @@
 ---
 title: Slop University puts a book club's vote through an audit-grade recount
-subtitle:
-  A new research-showcase brochure borrows election-margin-computation
+subtitle: A new research-showcase brochure borrows election-margin-computation
   methods to test how much confidence a two-vote book club decision
   actually carries
 date: 2026-07-25

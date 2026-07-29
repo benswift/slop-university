@@ -1,7 +1,6 @@
 ---
 title: Slop University funds a removal date for a suburb's temporary detour signs
-subtitle:
-  The Anticipatory Capability Fund backs Dr Marek Solheim and Dr Lindiwe
+subtitle: The Anticipatory Capability Fund backs Dr Marek Solheim and Dr Lindiwe
   Achterberg's kerbside register, which gives every temporary traffic sign a
   retirement date on the day it is installed
 date: 2026-07-28

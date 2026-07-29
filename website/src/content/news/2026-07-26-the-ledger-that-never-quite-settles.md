@@ -4,8 +4,7 @@ subtitle:
   A new prospectus opens on a share-house bill-splitting app and follows the
   same gap into two published studies and three of the University's own
   programmes
-description:
-  Slop University's Office of Research Outputs has published a new
+description: Slop University's Office of Research Outputs has published a new
   prospectus that opens on a share-house bill-splitting app's zero balance
   and follows the same gap into its wider research culture.
 date: 2026-07-26

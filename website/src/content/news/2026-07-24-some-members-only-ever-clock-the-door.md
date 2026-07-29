@@ -1,7 +1,6 @@
 ---
 title: New campus campaign asks whether the tap-in was ever the workout
-subtitle:
-  A gym turnstile fronts the Adaptive Metrics Lab's newest recruitment
+subtitle: A gym turnstile fronts the Adaptive Metrics Lab's newest recruitment
   campaign, with lab lead Associate Professor Casimir Beng as its face
 description:
   A new Slop University advertising campaign for the Adaptive Metrics Lab

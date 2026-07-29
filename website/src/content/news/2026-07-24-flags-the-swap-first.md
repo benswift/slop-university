@@ -1,7 +1,6 @@
 ---
 title: Horizon Register composite ranks Slop University first for flagging swaps
-subtitle:
-  A new bus-stop and campus-screen campaign puts the School of Emergent
+subtitle: A new bus-stop and campus-screen campaign puts the School of Emergent
   Priorities' self-scored ranking on public display, a café specials board
   standing in for the catch
 date: 2026-07-24

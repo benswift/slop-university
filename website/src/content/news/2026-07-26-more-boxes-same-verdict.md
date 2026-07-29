@@ -1,11 +1,9 @@
 ---
 title: Slop University finds a longer ballot doesn't change the seat
-subtitle:
-  A new research poster tracks five cohorts of Year 7 elective ballots,
+subtitle: A new research poster tracks five cohorts of Year 7 elective ballots,
   finding satisfaction and first-preference odds hold steady whether the
   form asks for three choices or five
-description:
-  A new Slop University research poster compares five years of Year 7
+description: A new Slop University research poster compares five years of Year 7
   elective-ballot cohorts, finding neither post-allocation satisfaction nor
   the odds of getting a first preference change once the ballot asks for
   three choices instead of five.

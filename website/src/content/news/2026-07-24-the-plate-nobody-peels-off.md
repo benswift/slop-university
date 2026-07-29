@@ -1,11 +1,9 @@
 ---
 title: Strategic Drift Survey scores the University first, five years running
-subtitle:
-  A new campaign turns the School of Emergent Priorities' own ranking
+subtitle: A new campaign turns the School of Emergent Priorities' own ranking
   instrument on the P-plate nobody's ever peeled off a rear window
 date: 2026-07-24
-description:
-  A new Slop University advertising campaign puts the Strategic Drift
+description: A new Slop University advertising campaign puts the Strategic Drift
   Survey's self-scored ranking on public display, crediting the instrument
   first for catching a P-plate credential nobody's bothered to update in
   years.

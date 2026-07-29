@@ -1,7 +1,6 @@
 ---
 title: Slop University re-tests one of its own findings, and it doesn't hold
-subtitle:
-  A new research poster carries a little free library result across to a
+subtitle: A new research poster carries a little free library result across to a
   silent disco's live channel-swap leaderboard, where an unmissable number
   turns out to track the exit door
 description:

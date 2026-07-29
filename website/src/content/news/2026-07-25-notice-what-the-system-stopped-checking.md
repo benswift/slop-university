@@ -1,7 +1,6 @@
 ---
 title: Master of Applied Measurement's new pitch catches the check that stopped
-subtitle:
-  A new recruitment campaign for the program stages a parking bay still
+subtitle: A new recruitment campaign for the program stages a parking bay still
   flagged overstayed long after the car it was watching has gone
 description:
   A new Slop University advertising campaign for the Master of Applied

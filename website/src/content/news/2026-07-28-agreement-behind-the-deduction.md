@@ -1,7 +1,6 @@
 ---
 title: Slop University measures the agreement behind a bond deduction
-subtitle:
-  A research poster sends two independent assessors through 192 vacating
+subtitle: A research poster sends two independent assessors through 192 vacating
   tenancies and finds chance-corrected agreement of 0.26 on the standard
   condition report
 description:

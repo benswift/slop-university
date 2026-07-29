@@ -4,8 +4,7 @@ subtitle:
   A controlled interrupted time-series study across sixteen quarters finds an
   automated address-normalisation release orphaned meters that field crews kept
   reading on schedule
-description:
-  A new Slop University paper evaluates a water retailer's automated
+description: A new Slop University paper evaluates a water retailer's automated
   address-normalisation release against the meters it affected rather than the
   records it cleaned, finding orphaned reads rising by 5.02 per 1,000
   connections per quarter while the retailer's record-integrity indicator

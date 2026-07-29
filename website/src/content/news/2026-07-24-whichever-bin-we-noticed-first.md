@@ -3,8 +3,7 @@ title: Bin-night paper gets the bus-stop treatment at Slop University
 subtitle:
   Whichever Bin, We Noticed First compresses a published roster-compliance
   audit into a hero image, a headline, and a DOI
-description:
-  A new Slop University advertising campaign distils a published
+description: A new Slop University advertising campaign distils a published
   street-by-street audit of bin-night roster compliance into a single
   bus-stop headline, running across campus digital signage and bus-stop
   panels in matched daylight and evening versions.

@@ -4,8 +4,7 @@ subtitle:
   A new Slop University paper surveys 612 contributors at 34 produce-swap
   tables and finds the gap is real but far narrower than an earlier study
   found among dog-park visitors
-description:
-  A new Slop University paper surveys contributors to 34 informal
+description: A new Slop University paper surveys contributors to 34 informal
   produce-swap tables, finding they rate their own compliance with the
   tables' "one in, one out" card modestly higher than their neighbours', a
   gap far narrower than an earlier interview-based finding at a dog park.

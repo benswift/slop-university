@@ -5,8 +5,7 @@ subtitle:
   council's hall-hire conditions and finds 23 per cent of clauses diverge from
   the source
 date: 2026-07-28
-description:
-  A new Slop University research poster back-translates the six
+description: A new Slop University research poster back-translates the six
   community-language versions of a council's community-hall hire conditions,
   finding 43 of 186 clause-instances diverge from the source and that the
   divergence tracks which hirers are later pulled up.

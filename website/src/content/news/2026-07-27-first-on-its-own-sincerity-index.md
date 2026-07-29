@@ -1,7 +1,6 @@
 ---
 title: Adaptive Metrics Lab tops its own sincerity index again
-subtitle:
-  A new marketing campaign turns the Lab's card-by-card audit of the
+subtitle: A new marketing campaign turns the Lab's card-by-card audit of the
   University's own correspondence into this quarter's headline number
 date: 2026-07-27
 description:

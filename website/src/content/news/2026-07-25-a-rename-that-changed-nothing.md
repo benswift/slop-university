@@ -1,7 +1,6 @@
 ---
 title: Slop University campaign catches a rename that changed nothing
-subtitle:
-  A recruitment campaign for the School of Emergent Priorities follows a
+subtitle: A recruitment campaign for the School of Emergent Priorities follows a
   share-house chore wheel through a checklist-to-roles rename that leaves
   the workload exactly where it was
 description:

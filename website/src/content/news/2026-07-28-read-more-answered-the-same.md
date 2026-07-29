@@ -3,8 +3,7 @@ title: Slop University trial finds a clearer notice draws no extra submissions
 subtitle:
   A cluster-randomised trial across 168 notified developments lifted recall of
   the notice by 16.7 points and left the submission rate where it was
-description:
-  A new Slop University research poster reports a pre-registered
+description: A new Slop University research poster reports a pre-registered
   cluster-randomised trial of plain-language development notices across nine
   wards, finding sizeable gains in recall and comprehension alongside a
   difference of 0.02 submissions per notified property.

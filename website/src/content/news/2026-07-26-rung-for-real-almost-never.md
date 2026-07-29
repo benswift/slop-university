@@ -1,7 +1,6 @@
 ---
 title: Slop University maps what actually sets off a fire alarm
-subtitle:
-  A new research poster audits six years of activation logs across 41
+subtitle: A new research poster audits six years of activation logs across 41
   buildings and finds 96.4% of them were scheduled tests
 description:
   A new Slop University research poster audits six years of fire-alarm

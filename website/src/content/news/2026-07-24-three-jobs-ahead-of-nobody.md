@@ -1,7 +1,6 @@
 ---
 title: Capability Sprints' new pitch is a printer queue that never catches up
-subtitle:
-  A new bus-stop and campus-screen campaign for the short course turns a
+subtitle: A new bus-stop and campus-screen campaign for the short course turns a
   stalled printer queue counter into the whole argument for enrolling
 description:
   A new Slop University advertising campaign for Capability Sprints builds

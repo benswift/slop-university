@@ -1,7 +1,6 @@
 ---
 title: Slop University's newest brochure checks the street against the ledger
-subtitle:
-  Ask The Street sets published audits of council ledgers and collection
+subtitle: Ask The Street sets published audits of council ledgers and collection
   calendars beside what the kerb still shows
 description:
   Slop University has published Ask The Street, a civic-research brochure

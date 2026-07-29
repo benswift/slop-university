@@ -1,7 +1,6 @@
 ---
 title: Slop University classifies the improvised repairs holding halls together
-subtitle:
-  A field survey of 214 shared community facilities yields a seven-class
+subtitle: A field survey of 214 shared community facilities yields a seven-class
   taxonomy, which one facilities portfolio has since adopted as its maintenance
   closure codes
 description:

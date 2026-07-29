@@ -1,7 +1,6 @@
 ---
 title: Slop University's newest campaign teaches a hunch you already have
-subtitle:
-  A new bus-stop and campus-screen campaign for the Master of Priority
+subtitle: A new bus-stop and campus-screen campaign for the Master of Priority
   Studies puts a name to the moment you sense the bus before the countdown
   sign does
 date: 2026-07-23

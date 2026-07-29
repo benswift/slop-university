@@ -1,7 +1,6 @@
 ---
 title: Capability Sprints' new campaign catches a fail-safe gone untested
-subtitle:
-  A recruitment campaign for the program follows an office fire door's
+subtitle: A recruitment campaign for the program follows an office fire door's
   emergency release, wired since installation, that a doorstop has quietly
   made unnecessary
 description:

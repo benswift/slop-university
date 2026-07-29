@@ -1,11 +1,9 @@
 ---
 title: Slop University pull-tests the latch a checklist already passed
-subtitle:
-  A new paper checks 412 kitchen cabinet child-safety latches against a
+subtitle: A new paper checks 412 kitchen cabinet child-safety latches against a
   standardised pull-force test, finding a third of those marked engaged fail
   outright
-description:
-  A new Slop University paper validates a home safety walkthrough's
+description: A new Slop University paper validates a home safety walkthrough's
   latch-engaged checklist item against a standardised pull-force test on 412
   kitchen cabinet latches, finding roughly a third marked engaged fail
   outright.

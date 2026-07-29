@@ -1,7 +1,6 @@
 ---
 title: Ronja Oyelaran's new campaign asks who a consultation is really for
-subtitle:
-  A recruitment campaign for the School of Emergent Priorities puts her
+subtitle: A recruitment campaign for the School of Emergent Priorities puts her
   research on after-the-fact feedback beside a courier's own delivery text
 description:
   A new Slop University advertising campaign puts Senior Lecturer Ronja

@@ -1,7 +1,6 @@
 ---
 title: Applied Measurement's newest pitch counts on an appeal that never wins
-subtitle:
-  A recruitment campaign for the Master of Applied Measurement stages a
+subtitle: A recruitment campaign for the Master of Applied Measurement stages a
   junior sports club's tryout noticeboard and the appeal-window survey taped
   up beside it
 description:

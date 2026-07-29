@@ -1,10 +1,8 @@
 ---
 title: Street-tree watering keeps trees alive at $318 each, study finds
-subtitle:
-  A cost-effectiveness study across 386 street trees finds bagged rounds
+subtitle: A cost-effectiveness study across 386 street trees finds bagged rounds
   cheaper than replanting, and a canopy target that books only the plantings
-description:
-  A new Slop University research poster costs a council's street-tree
+description: A new Slop University research poster costs a council's street-tree
   watering-bag rounds at $318 per additional tree surviving two summers, and
   finds the canopy target the council reports against books only the cost per
   tree planted.

@@ -1,7 +1,6 @@
 ---
 title: Slop University maps what arrives when "no gifts" doesn't land
-subtitle:
-  A new paper audits 1,748 birthday-party arrivals and finds a
+subtitle: A new paper audits 1,748 birthday-party arrivals and finds a
   charitable-donation redirect far outpaces a plain refusal, while a
   reminder text moves the rate hardly at all
 description:

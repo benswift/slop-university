@@ -1,11 +1,9 @@
 ---
 title: Slop University finds a status field that never signs off
-subtitle:
-  A new paper finds a frozen "Under review" field keeps staff checking a
+subtitle: A new paper finds a frozen "Under review" field keeps staff checking a
   stalled promotion bid for weeks longer than a portal that shows nothing
   at all
-description:
-  A new Slop University paper cross-references an internal-transfer
+description: A new Slop University paper cross-references an internal-transfer
   portal's status field against the case-management system's own reviewer
   log, finding the field freezes at "Under review" long after review
   activity continues behind it, and that staff shown the frozen field keep

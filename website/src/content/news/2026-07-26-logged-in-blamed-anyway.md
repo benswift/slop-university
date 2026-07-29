@@ -1,11 +1,9 @@
 ---
 title: Slop University tests whether a feeder log settles who forgot
-subtitle:
-  A new research poster fits three shared-office fish tanks with a
+subtitle: A new research poster fits three shared-office fish tanks with a
   badge-tap feed logger and checks its timestamps against the paper
   roster taped up beside them
-description:
-  A new Slop University research poster fits three shared-office fish
+description: A new Slop University research poster fits three shared-office fish
   tanks with a badge-tap feed logger and checks its timestamps against
   the paper roster taped up beside them, finding the log settles barely
   three in five disputed weeks.

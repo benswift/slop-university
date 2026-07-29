@@ -1,7 +1,6 @@
 ---
 title: A new Slop University campaign puts a count on the phone basket by the door
-subtitle:
-  A new bus-stop and campus-screen campaign for the Master of Applied
+subtitle: A new bus-stop and campus-screen campaign for the Master of Applied
   Measurement turns a front-hall ritual into its pitch
 date: 2026-07-24
 description:

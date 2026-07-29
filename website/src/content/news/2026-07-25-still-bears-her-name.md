@@ -1,7 +1,6 @@
 ---
 title: Slop University tracks how long a spice-jar label outlives its owner
-subtitle:
-  A new research poster follows 214 labelled jars across nine shared
+subtitle: A new research poster follows 214 labelled jars across nine shared
   kitchens, and finds a name written once keeps standing long after someone
   else takes over the refills
 description:

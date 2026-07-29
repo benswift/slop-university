@@ -1,7 +1,6 @@
 ---
 title: Review Cadence Observatory clocks the pile before the truck does
-subtitle:
-  A new bus-stop and campus-screen campaign features Dr Osei Vandermeer
+subtitle: A new bus-stop and campus-screen campaign features Dr Osei Vandermeer
   beside a verge hard-rubbish pile picked clean minutes before council
   collection
 date: 2026-07-24

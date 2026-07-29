@@ -1,7 +1,6 @@
 ---
 title: Futures in Committee gets a campaign built on finishing your sentence
-subtitle:
-  A new bus-stop and campus-screen pitch for the seminar series turns a
+subtitle: A new bus-stop and campus-screen pitch for the seminar series turns a
   group chat's self-completing reply into the whole argument for showing up
 description:
   A new Slop University advertising campaign for the Futures in Committee

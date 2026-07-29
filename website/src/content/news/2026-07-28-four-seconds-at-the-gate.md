@@ -1,7 +1,6 @@
 ---
 title: A busy gate makes a trailer load likelier to be called general waste
-subtitle:
-  A research poster puts 1,776 randomised load vignettes to 148 transfer
+subtitle: A research poster puts 1,776 randomised load vignettes to 148 transfer
   station gate attendants and finds presentation and queue state moving the
   call almost as far as what is in the trailer
 description:
