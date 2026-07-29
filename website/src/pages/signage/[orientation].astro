@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { fullTitle } from "../../lib/outputs";
+import { signagePdfUrl } from "../../lib/pdfs";
 import { thumbnail } from "../../lib/thumbnails";
 
 // Chromeless, fullscreen e-signage view of the most recent poster-format
@@ -56,14 +57,14 @@ const research = posters.filter(({ entry }) => entry.data.preset === "research-p
 const marketing = posters.filter(({ entry }) => entry.data.preset === "marketing-poster").slice(0, 6);
 const playlist = {
   research: research.map(({ entry, thumb }) => ({
-    pdf: entry.data.pdfDark ?? entry.data.pdf,
+    pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
     thumb: thumb!.src,
     width: thumb!.width,
     height: thumb!.height,
     title: fullTitle(entry.data),
   })),
   marketing: marketing.map(({ entry, thumb }) => ({
-    pdf: entry.data.pdfDark ?? entry.data.pdf,
+    pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
     thumb: thumb!.src,
     width: thumb!.width,
     height: thumb!.height,

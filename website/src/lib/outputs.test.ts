@@ -20,7 +20,7 @@ const entry: CollectionEntry<"outputs">["data"] = {
   doi: "10.5555/slop.sn9kzr",
   summary: "A two-year study.",
   topic: "coffee-cart queue lengths",
-  pdf: "/outputs/pdf/slop-poster-x.pdf",
+  pdfDark: false,
   version: "1.0",
   grants: [],
 };

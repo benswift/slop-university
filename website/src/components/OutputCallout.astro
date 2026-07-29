@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { fullTitle, presetLabels } from "../lib/outputs";
+import { pdfUrl } from "../lib/pdfs";
 import { thumbnail } from "../lib/thumbnails";
 
 // The jump-straight-to-the-document callout, carried at the top of both places
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const { id, data, showRecord = false } = Astro.props;
+const pdf = pdfUrl(id);
 const thumb = thumbnail(id);
 const full = fullTitle(data);
 ---
@@ -29,7 +31,7 @@ const full = fullTitle(data);
 <aside class="callout">
   {
     thumb && (
-      <a class="callout-thumb" href={data.pdf} tabindex="-1" aria-hidden="true">
+      <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
         <Image
           src={thumb}
           alt=""
@@ -45,7 +47,7 @@ const full = fullTitle(data);
     <p class="callout-kicker">{presetLabels[data.preset]}</p>
     {showRecord && <p class="callout-title">{full}</p>}
     <p class="callout-meta">
-      <a class="callout-pdf" href={data.pdf}>
+      <a class="callout-pdf" href={pdf}>
         PDF{data.pages && <> · {data.pages} pages</>}
       </a>
       {

@@ -115,12 +115,15 @@ const outputs = defineCollection({
     doi: z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/),
     summary: z.string(),
     topic: z.string(),
-    pdf: z.string(),
-    // Dark-theme sibling of `pdf` (same content, dark render), produced for
-    // the poster-format presets (research-poster, marketing-poster) so the
-    // e-signage screens show white-on-black. Older outputs predate it;
-    // consumers must fall back to `pdf`.
-    pdfDark: z.string().optional(),
+    // The PDF's location is not stored: it is served from the bucket at
+    // pdf.slop.university under the entry id (see src/lib/pdfs.ts), so a path
+    // here could only ever agree or disagree with that.
+    //
+    // Whether a DARK render exists is a real fact, not derivable: it is
+    // produced only for the poster-format presets (research-poster,
+    // marketing-poster) so the e-signage screens show white-on-black, and
+    // older outputs predate it. Consumers fall back to the light PDF.
+    pdfDark: z.boolean().default(false),
     pages: z.number().optional(),
     version: z.string().default("1.0"),
     grants: z.array(z.string()).default([]), // grants entry ids funding this work

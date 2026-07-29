@@ -9,7 +9,6 @@ import { parse as parseYaml } from "yaml";
 // agree across the seams (roster ↔ schools ↔ outputs).
 
 const contentDir = join(process.cwd(), "src/content");
-const publicDir = join(process.cwd(), "public");
 const canonDir = join(process.cwd(), "..", "canon");
 
 const outputIds = readdirSync(join(contentDir, "outputs"))
@@ -24,6 +23,8 @@ const outputs = outputIds.map(
       doi?: string;
       date?: string;
       grants?: string[];
+      preset?: string;
+      pdfDark?: boolean;
     },
 );
 
@@ -178,12 +179,30 @@ describe("news entries", () => {
 });
 
 describe("outputs entries", () => {
-  it("point at a PDF that exists under public/", () => {
+  // The PDF itself lives in the bucket (src/lib/pdfs.ts), so its presence is
+  // not something this suite can check offline --- that guarantee is the
+  // publish wrapper's, which uploads before it pushes and aborts the tick if
+  // the upload fails. What stays checkable here is that no entry stores a
+  // location: a stray `pdf:` key would be silently ignored by the schema and
+  // would read as authoritative to the next person editing an entry.
+  it("store no PDF path --- the location is derived from the entry id", () => {
     for (const id of outputIds) {
       const entry = readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8");
-      for (const match of entry.matchAll(/^pdf(?:Dark)?:\s*(\/\S+)\s*$/gm)) {
-        expect(existsSync(join(publicDir, match[1])), `${id}: ${match[1]}`).toBe(true);
-      }
+      expect(entry, `${id} stores a stale pdf path`).not.toMatch(/^pdf:/m);
+      expect(entry, `${id} stores a stale pdfDark path`).not.toMatch(/^pdfDark:\s*\//m);
+    }
+  });
+
+  // A dark render is only ever produced for the poster presets (the e-signage
+  // screens show white-on-black); a flag on anything else means the tick wrote
+  // a fact that has no file behind it.
+  it("only flag a dark render on the poster presets", () => {
+    for (const [i, output] of outputs.entries()) {
+      if (!output.pdfDark) continue;
+      expect(
+        ["research-poster", "marketing-poster"],
+        `${outputIds[i]} flags pdfDark on a ${output.preset}`,
+      ).toContain(output.preset);
     }
   });
 
