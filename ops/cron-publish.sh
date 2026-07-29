@@ -286,7 +286,25 @@ fi
 # preserves the commits).
 PENDING_DIR="${PROJECT_DIR}/data/pending-uploads"
 mkdir -p "$PENDING_DIR"
+
+# Rescue a mislanded staging dir before looking. The agent resolves the staging
+# path against whatever its cwd is, and it runs the site checks from website/ ---
+# which put three ticks' PDFs in website/data/pending-uploads/ and threw away
+# three complete generation runs. The skill now says to cd to the root, but a
+# discarded run costs a full generation (typst, imagery, a Replicate spend) and
+# an hour, whereas moving a file costs nothing. So: accept it, move it, and shout
+# --- being strict here buys nothing and loses real work. The WARNING is the
+# point; if it appears in the log the instruction has drifted again.
 shopt -s nullglob
+for stray_dir in "${WORKTREE_DIR}"/*/data/pending-uploads "${PROJECT_DIR}"/*/data/pending-uploads; do
+  strays=("$stray_dir"/*.pdf)
+  if [ ${#strays[@]} -gt 0 ]; then
+    log "WARNING: ${#strays[@]} PDF(s) staged in the WRONG dir (${stray_dir}); moving to ${PENDING_DIR}"
+    mv -n "${strays[@]}" "$PENDING_DIR"/ >> "$LOG_FILE" 2>&1 || log "WARNING: could not move strays out of ${stray_dir}"
+    rmdir -p --ignore-fail-on-non-empty "$stray_dir" 2>/dev/null || true
+  fi
+done
+
 PENDING_PDFS=("$PENDING_DIR"/*.pdf)
 shopt -u nullglob
 
