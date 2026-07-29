@@ -203,7 +203,7 @@ fi
 # website/CLAUDE.md's hard floors: workflows, CNAME, robots.txt, site-config,
 # and doctrine files can never land via the unattended path, no matter what the
 # agent was talked into. The allowlist covers the gap-driven tick's whole
-# surface: research outputs (news + outputs + PDFs, plus each output's
+# surface: research outputs (news + outputs, plus each output's
 # pipeline-optimised thumbnail and hero under
 # src/assets/{outputs/thumbs,heroes/outputs}), grant awards (content/grants/
 # --- but NOT canon/grants.yml: the tick awards from existing schemes only;
@@ -215,7 +215,7 @@ fi
 # hand-built index and homepage heroes elsewhere in src/assets/heroes are
 # deliberately excluded. The denylist carves the one out-of-fiction page
 # (colophon) back out of the otherwise-allowed pages/ dir.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|website/src/assets/(outputs/thumbs|heroes/(outputs|news))/|website/public/outputs/pdf/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|website/src/assets/(outputs/thumbs|heroes/(outputs|news))/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
@@ -265,6 +265,56 @@ if [ -n "$AGENT_SHAS" ]; then
   log "validated $(echo "$AGENT_SHAS" | wc -l) agent commit(s) against allowlist + firewall"
 else
   log "no agent commits this run"
+fi
+
+# --- Upload this tick's PDFs to the bucket, BEFORE the push. Output PDFs are
+# served from pdf.slop.university, not from the Pages artifact (they were its
+# largest and only unbounded category, and being committed they grew .git at the
+# same rate --- see website/src/lib/pdfs.ts). The agent stages them into
+# gitignored data/pending-uploads/ and never uploads: same trust split as the
+# social post, the agent composes and the wrapper publishes.
+#
+# Ordering is the whole point. The push is what makes the outputs entry live,
+# and the entry's PDF URL is derived from its id --- so an entry that shipped
+# before its bytes did would be a live 404. Upload first, abort the push on
+# failure, and the staged files survive for the next tick to retry (a rescue
+# preserves the commits).
+PENDING_DIR="${PROJECT_DIR}/data/pending-uploads"
+mkdir -p "$PENDING_DIR"
+shopt -s nullglob
+PENDING_PDFS=("$PENDING_DIR"/*.pdf)
+shopt -u nullglob
+
+# An empty staging dir is normal --- only a 2A run publishes an output; the
+# canon and news actions stage nothing. What must never happen is a NEW outputs
+# entry without its bytes, so check that pairing directly rather than inferring
+# the action. A dark render is required exactly when the entry flags one.
+MISSING_PDFS=""
+for f in $(git diff --name-only --diff-filter=A "$BASE_REF" "$PRESS_BRANCH" -- 'website/src/content/outputs/*.yml'); do
+  id="$(basename "$f" .yml)"
+  [ -f "${PENDING_DIR}/${id}.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}.pdf"$'\n'
+  if git show "${PRESS_BRANCH}:${f}" | grep -qE '^pdfDark: *true'; then
+    [ -f "${PENDING_DIR}/${id}-dark.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}-dark.pdf"$'\n'
+  fi
+done
+
+if [ -n "$MISSING_PDFS" ]; then
+  log "VALIDATION FAILURE: new outputs entry with no PDF staged in data/pending-uploads/:"
+  printf '%s' "$MISSING_PDFS" >> "$LOG_FILE"
+  rescue_and_abort
+fi
+
+if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
+  log "=== uploading ${#PENDING_PDFS[@]} PDF(s) to the bucket at $(date -Iseconds) ==="
+  if "${PROJECT_DIR}/ops/bucket-sync.py" upload "${PENDING_PDFS[@]}" >> "$LOG_FILE" 2>&1; then
+    rm -f "${PENDING_PDFS[@]}"
+    log "uploaded and cleared data/pending-uploads/"
+  else
+    log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
+    rescue_and_abort
+  fi
+else
+  log "no PDFs staged for upload this run"
 fi
 
 # Push press to main on origin (the documented per-repo exception to the

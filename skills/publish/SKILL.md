@@ -308,14 +308,13 @@ verifiable numbers). Then:
   `authors` (the roster authors used), `preset`, `school` (the lead author's
   school), `date`, `publishedAt` (the exact `SLOPU_PUBLISHED_AT` value supplied
   by the unattended wrapper; omit only for a manual run without it), `doi`,
-  `summary` (1-2 sentence abstract of the fictional
-  work, institutional register --- not the press release's standfirst), `topic`
-  (the steering line), `pdf` (`/outputs/pdf/<run-id>.pdf`), `pdfDark`
-  (poster-format runs only --- `research-poster`, `marketing-poster`:
-  `/outputs/pdf/<run-id>-dark.pdf`, the dark signage render --- see staging
-  below), `pages` (from pdfinfo), `version: "1.0"`, and `grants` (optional ---
-  see below). The thumbnail and hero carry no yml field --- they resolve by
-  matching a file basename to the entry id (see below).
+  `summary` (1-2 sentence abstract of the fictional work, institutional register
+  --- not the press release's standfirst), `topic` (the steering line),
+  `pdfDark` (poster-format runs only --- `research-poster`, `marketing-poster`:
+  `true`, meaning a dark signage render exists --- see staging below), `pages`
+  (from pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
+  thumbnail and hero carry no yml field --- they resolve by matching a file
+  basename to the entry id (see below).
 - **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
   `grantees` include one of this output's authors, its `date` precedes the
   output's, and its remit plausibly covers the topic, list its entry id under
@@ -327,20 +326,33 @@ verifiable numbers). Then:
 
 ### Stage assets into website/
 
-- Stage the final PDF → `website/public/outputs/pdf/<run-id>.pdf`, downsampling
-  it on the way in --- never copy it verbatim. The compiled PDF embeds imagery
-  at ~360 PPI and runs 1--5 MB; the committed copy only needs screen resolution:
-  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=website/public/outputs/pdf/<run-id>.pdf output/pdf/<group>/<run-id>.pdf`
+- Stage the final PDF → `data/pending-uploads/<run-id>.pdf`, downsampling it on
+  the way in --- never copy it verbatim. The compiled PDF embeds imagery at ~360
+  PPI and runs 1--5 MB; the served copy only needs screen resolution:
+  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=data/pending-uploads/<run-id>.pdf output/pdf/<group>/<run-id>.pdf`
   (~80% smaller on the image-heavy formats, visually identical at reading size;
   the PDF metadata title survives the round-trip). The full-resolution original
   stays in gitignored `output/pdf/<group>/`.
+
+  PDFs are **not committed** and do not live under `website/public/` --- they
+  are served from the bucket at `pdf.slop.university` (why:
+  `website/src/lib/pdfs.ts`). `data/pending-uploads/` is the gitignored handoff
+  channel: you stage the file there, and the cron wrapper uploads it and only
+  then pushes. Same trust split as the social post --- the agent composes, the
+  wrapper publishes --- and it is what makes a failed upload abort the tick
+  rather than publish an entry pointing at a missing object. Never write to
+  `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
+
+  The key is the run id, so nothing records a path: the entry carries no `pdf`
+  field at all.
+
 - **Dark sibling (poster-format runs: `research-poster`, `marketing-poster`)**
   --- the from-preset step also compiled `output/pdf/<group>/<run-id>-dark.pdf`
   (same source, `--input theme=dark`); stage it through the identical gs
-  downsample → `website/public/outputs/pdf/<run-id>-dark.pdf` and record it as
-  `pdfDark` in the outputs entry. The signage endpoints prefer it; every other
-  surface (landing page, DOI, downloads) keeps using the light `pdf`. The
-  thumbnail and hero are rendered from the light variant as before.
+  downsample → `data/pending-uploads/<run-id>-dark.pdf` and set `pdfDark: true`
+  in the outputs entry. The signage endpoints prefer it; every other surface
+  (landing page, DOI, downloads) keeps using the light PDF. The thumbnail and
+  hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF), then optimised through
   `astro:assets`, so it lives under `src/`, not `public/`:
@@ -579,7 +591,6 @@ the action:
 
 - **2A:** `website/src/content/news/<date>-<slug>.md`,
   `website/src/content/outputs/<run-id>.yml`,
-  `website/public/outputs/pdf/<run-id>.pdf`,
   `website/src/assets/outputs/thumbs/<run-id>.avif`,
   `website/src/assets/heroes/outputs/<run-id>.avif`.
 - **2B / 2F:** `canon/roster.yml` or `canon/schools.yml`.
@@ -592,6 +603,10 @@ the action:
 - **2I:** `website/src/content/grants/<date>-<slug>.yml`,
   `website/src/content/news/<date>-<slug>.md`,
   `website/src/assets/heroes/news/<date>-<slug>.avif`.
+
+Note what is **absent** from the 2A set: the PDFs. They stay in gitignored
+`data/pending-uploads/`, which the wrapper uploads to the bucket before it
+pushes. Committing one is a validation failure, not a tidiness matter.
 
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,
