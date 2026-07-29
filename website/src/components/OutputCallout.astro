@@ -30,7 +30,14 @@ const full = fullTitle(data);
   {
     thumb && (
       <a class="callout-thumb" href={data.pdf} tabindex="-1" aria-hidden="true">
-        <Image src={thumb} alt="" widths={[180, 360]} sizes="9rem" loading="lazy" />
+        <Image
+          src={thumb}
+          alt=""
+          widths={[180, 360]}
+          sizes="9rem"
+          format="avif"
+          loading="lazy"
+        />
       </a>
     )
   }

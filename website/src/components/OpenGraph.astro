@@ -18,8 +18,13 @@ interface Props {
 
 const { title, description, type = "website", image, imageAlt } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-// Card scrapers largely don't decode AVIF; serve the card as JPEG.
-const card = image ? await getImage({ src: image, width: 1200, format: "jpeg" }) : undefined;
+// Card scrapers largely don't decode AVIF; serve the card as JPEG. Quality 70
+// rather than the default 80: these are one-per-page 1200px cards that add up
+// to a large slice of a Pages artifact with a hard size ceiling, and they're
+// only ever seen scaled down in a social embed.
+const card = image
+  ? await getImage({ src: image, width: 1200, format: "jpeg", quality: 70 })
+  : undefined;
 ---
 
 <link rel="canonical" href={canonical.href} />
