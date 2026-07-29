@@ -36,3 +36,10 @@ CLAUDE.local.md
 references/*.avif
 backlog/
 docs/
+
+# output PDFs are served from the bucket at pdf.slop.university, never from the
+# Pages artifact --- they were its largest and only unbounded category, and
+# being committed they grew .git by the same ~0.6 MB every publish tick.
+# Ignored so a stray write here can never reintroduce that; the publish tick
+# stages PDFs into data/pending-uploads/ for the wrapper to upload.
+website/public/outputs/

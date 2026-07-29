@@ -28,10 +28,10 @@ University use the reserved test prefix `10.5555`, which no production DOI
 registry will ever assign; they resolve only through this site's own resolver
 (`slop.university/doi/…`). Nothing is deposited with any external registry or
 repository. The institution runs its own legitimacy infrastructure, which works
-perfectly and means nothing --- that is the point. This site's `robots.txt` also
-blocks search-engine indexing of the output PDFs, so that fabricated documents
-citing real literature can never feed citation databases or scholarly search
-engines.
+perfectly and means nothing --- that is the point. The output PDFs, which are
+served from `pdf.slop.university`, are blocked from search-engine indexing by
+that host's `robots.txt`, so that fabricated documents citing real literature
+can never feed citation databases or scholarly search engines.
 
 **Nothing here impersonates anyone.** The institution, its schools, and its
 researchers are fictional by construction. The branding is drawn from scratch;

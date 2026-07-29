@@ -1,6 +1,12 @@
 # Output PDFs are excluded from indexing so that fabricated documents citing
 # real literature can never feed citation databases (Google Scholar respects
 # this). The rationale is documented on /colophon/.
+#
+# The PDFs themselves now live on pdf.slop.university, whose own robots.txt
+# carries the real Disallow (a robots.txt only ever covers its own origin ---
+# see ops/bucket-sync.py). This rule stays because /outputs/pdf/ URLs were live
+# here for months: it keeps crawlers off the dead path rather than letting them
+# rediscover it as a wall of 404s.
 User-agent: *
 Disallow: /outputs/pdf/
 
