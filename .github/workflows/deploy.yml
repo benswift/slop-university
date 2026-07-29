@@ -61,13 +61,22 @@ jobs:
       # cache; restore-keys picks up the most recent. Note the path is
       # workspace-relative, so it needs the website/ prefix that
       # defaults.run.working-directory supplies for run steps but not for uses.
+      #
+      # The v2 segment is a manual cache lineage. Astro keys transforms by
+      # content hash and never prunes, so changing image format or srcset
+      # widths orphans every existing entry --- the cache then carries both
+      # generations forever (434 MB of dead webp beside 275 MB of live avif,
+      # measured at the v1 -> v2 switch), and a fatter entry means fewer of
+      # them fit the repo's 10 GB budget before LRU eviction forces another
+      # cold build. Bump this whenever an image-config change invalidates the
+      # old entries; it costs the one cold build that change forces anyway.
       - name: Cache Astro build cache
         uses: actions/cache@v6
         with:
           path: website/node_modules/.astro
-          key: ${{ runner.os }}-astro-build-${{ github.sha }}
+          key: ${{ runner.os }}-astro-build-v2-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-astro-build-
+            ${{ runner.os }}-astro-build-v2-
 
       - name: Lint
         run: pnpm run lint
