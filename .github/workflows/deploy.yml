@@ -26,7 +26,13 @@ jobs:
     # build that can't finish once can never seed the cache that would make it
     # fast. Any change to image format or srcset widths rehashes every
     # transform and forces one fully cold build, so leave room for it.
-    timeout-minutes: 60
+    #
+    # 60 wasn't enough: the AVIF switch's cold build ran past it and was
+    # killed with nothing saved, which is the unrecoverable case --- it would
+    # have repeated hourly. AVIF encodes ~8x slower than webp and this runner
+    # is ~2.5x slower than the box the 23-minute local measurement came from.
+    # The ceiling is free on the warm builds that are the steady state.
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@v7
