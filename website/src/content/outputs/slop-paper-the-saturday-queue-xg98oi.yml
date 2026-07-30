@@ -1,0 +1,36 @@
+title: The Weighbridge Sets the Ceiling
+subtitle: >-
+  A Discrete-Event Feasibility Analysis of Saturday Queueing at a Council Waste
+  Transfer Station, Against a Standard Calibrated on Weekday Arrivals
+authors:
+  - Kwame Lindqvist
+  - Fenna Okoro
+  - Ingrid Vasseur
+preset: paper
+school: School of Emergent Priorities
+date: 2026-07-30
+publishedAt: 2026-07-30T14:04:33+10:00
+doi: 10.5555/slop.xg98oi
+summary: >-
+  A paper from the School of Emergent Priorities times 5,842 inbound vehicle
+  movements at a metropolitan council's principal waste and recycling centre
+  across fourteen Saturdays and twelve weekdays, then sweeps 72 configurations
+  of attendant staffing, tipping-hall bays, payment terminals and a Saturday
+  booking quota through 2,000 simulated trading days each. No configuration
+  attains the operator's published six-minute mean inbound wait: the best
+  reaches 11.4 minutes (95% CI 11.1-11.7) against a worst of 23.8, and two
+  analytical bounds --- a Pollaczek-Khinchine floor of 7.1 minutes under
+  perfectly smoothed arrivals and a fluid bound of 12.5 minutes on the observed
+  arrival profile --- place the shortfall beyond the reach of anything
+  downstream of the single inbound weighbridge. Run on weekday arrivals, the
+  same standard is attained at every configuration with more than four minutes
+  to spare.
+topic: >-
+  the Saturday queue at a council waste transfer station: simulating whether
+  any staffing or lane configuration can meet the published average-wait target
+  when a single weighbridge cycle bounds throughput, and what the target's
+  weekday-calibrated model does with the Saturday it has never contained
+pages: 6
+version: "1.0"
+grants:
+  - 2026-07-16-restocked-before-the-forecast
