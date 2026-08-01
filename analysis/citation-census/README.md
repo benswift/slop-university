@@ -290,14 +290,16 @@ fictional in content.
   the correct work" figure has a 95% CI of roughly 94.6–99.8%. Treat "1 in 100"
   as an order-of-magnitude estimate of the mis-keying rate, not an exact
   population parameter.
-- **Title-similarity matching under-flags nothing but over-flags truncation.**
-  The automated Jaccard check initially flagged 6 correct matches as mismatches
-  because Crossref stores short/truncated titles for some records; all 6 were
-  manually verified as correct before being counted as resolved. This means the
-  _automated_ pipeline alone would have under-reported the resolution rate —
-  anyone re-running `verify.py` without the manual review step should expect
-  ~86% not ~99%, and should re-check "title_mismatch" rows by hand before
-  treating them as failures.
+- **Title-similarity matching over-flagged truncation, and has been fixed.** The
+  original Jaccard check scored against the longer of the two token sets, which
+  reads Crossref's truncated records ("Web Surveys" for "Web Surveys: A Review
+  of Issues and Approaches") as mis-keyed DOIs. It flagged 6 correct matches as
+  mismatches, all cleared by hand, so the automated pipeline alone reported ~86%
+  against a true ~99%. `verify.py` now treats a literal prefix match as a
+  truncation and follows Crossref redirects, and reproduces 99/100 automatically
+  with no manual review step — re-verified 2026-08-01. The single remaining
+  mismatch is the genuine mis-key described in §3. If a rerun reports a
+  materially lower rate, suspect the matcher before the corpus.
 - **Disciplinary classification is a keyword heuristic** (`characterize.py`,
   `AI_KW`/`CS_ADJACENT` lists) applied to venue/title text, not a citation
   database's subject classification. It is good enough to show an
