@@ -142,6 +142,33 @@ def main() -> None:
     out = RESULTS / (sys.argv[2] if len(sys.argv) > 2 else f"judgements-{model}.json")
 
     stims = json.loads(STIM.read_text())
+
+    manifest_path = SCRATCH / "stimuli" / "manifest.json"
+    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    fingerprint = manifest.get("fingerprint")
+
+    # Resume, and extend. Item ids are content-derived, so judgements already on
+    # disk stay valid when the corpus grows: only genuinely new items are sent.
+    # A judgement whose id is no longer in the stimulus set is kept rather than
+    # dropped --- it is evidence about an excerpt, not about this sample.
+    existing: dict[str, dict] = {}
+    if out.exists():
+        prior = json.loads(out.read_text())
+        if prior and "item" in prior[0]:
+            existing = {r["item"]: r for r in prior if r.get("judgement")}
+        stale = existing.keys() - {s["item"] for s in stims}
+        if stale:
+            print(
+                f"note: {len(stale)} judged items are not in the current sample --- kept, not re-judged"
+            )
+
+    todo = [s for s in stims if s["item"] not in existing]
+    if existing:
+        print(f"{len(existing)} already judged, {len(todo)} to do")
+    if not todo:
+        print("nothing new to judge")
+        return
+    stims = todo
     # independent randomisation of presentation order per judge
     order = list(range(len(stims)))
     # Stable per-judge seed. Python salts str hashing per process, so the
@@ -163,6 +190,7 @@ def main() -> None:
         return {
             "item": s["item"],
             "presentation_index": order.index(k),
+            "stimulus_fingerprint": fingerprint,
             "judge": model,
             "truth": s["truth"],
             "condition": s["condition"],
@@ -177,6 +205,7 @@ def main() -> None:
     with ThreadPoolExecutor(max_workers=workers) as pool:
         rows = list(pool.map(one, order))
 
+    rows = list(existing.values()) + rows
     rows.sort(key=lambda r: r["item"])
     RESULTS.mkdir(exist_ok=True)
     out.write_text(json.dumps(rows, indent=1))

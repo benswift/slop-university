@@ -10,10 +10,23 @@ more real entities, so they end up carrying more redaction tags. Left alone,
 tag count would be a cue that has nothing to do with the question. This sampler
 therefore matches the two sides on tag density within each condition, and
 reports the residual difference.
+
+**Item ids are stable across re-samples.** They were positional (`E001`, `E002`
+... assigned after a shuffle), which is fine for a study run once and fatal for
+one meant to grow: adding documents re-runs the greedy matching, every id shifts
+to a different excerpt, and a judgements file from the previous run silently
+joins to the wrong stimuli. Ids are now derived from the excerpt's own identity,
+so a judgement stays attached to the thing that was judged. Extending the corpus
+then means judging only the items that are new and pooling with what exists,
+instead of paying to re-judge the lot.
+
+The sidecar `stimuli/manifest.json` fingerprints the set. `judge.py` stamps that
+fingerprint into its results, so mixing runs is detectable rather than invisible.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import random
 import re
@@ -23,9 +36,14 @@ from pathlib import Path
 SCRATCH = Path(__file__).resolve().parent.parent
 POOL = SCRATCH / "stimuli" / "pool_redacted.json"
 OUT = SCRATCH / "stimuli" / "stimuli.json"
+MANIFEST = SCRATCH / "stimuli" / "manifest.json"
 
 SEED = 20260801
-QUOTA = {"strategy": (16, 16), "impact": (12, 12)}
+# How many matched pairs to draw per condition. `None` means "as many as the
+# caliper and the per-document cap allow" --- with a hundred-odd real documents
+# the binding constraint should be the data, not a constant left over from a
+# 54-item pilot. An integer still forces a fixed n.
+QUOTA: dict[str, int | None] = {"strategy": None, "impact": None}
 MAX_PER_DOC = 3
 CALIPER = 0.50  # max tolerated tags/100w difference within a matched pair
 
@@ -94,10 +112,13 @@ def main() -> None:
     pool = json.loads(POOL.read_text())
 
     chosen: list[dict] = []
-    for cond, (nf, _nr) in QUOTA.items():
+    for cond, quota in QUOTA.items():
         fab = [s for s in pool if s["condition"] == cond and s["truth"] == "fabricated"]
         real = [s for s in pool if s["condition"] == cond and s["truth"] == "real"]
-        pf, pr = matched_pick(fab, real, nf, rng)
+        # An unbounded request is capped by the caliper and MAX_PER_DOC anyway;
+        # the ceiling is whichever side has fewer usable excerpts.
+        n = quota if quota is not None else min(len(fab), len(real))
+        pf, pr = matched_pick(fab, real, n, rng)
         chosen += pf + pr
 
     for s in chosen:
@@ -107,13 +128,42 @@ def main() -> None:
             )
         s["tag_density"] = round(density(s), 2)
 
-    rng.shuffle(chosen)
-    for i, s in enumerate(chosen, 1):
-        s["item"] = f"E{i:03d}"
+    # Stable, content-derived ids. A judgement keyed on one of these stays
+    # attached to the excerpt that was actually judged, however the pool grows.
+    for s in chosen:
+        s["item"] = "E" + hashlib.sha1(s["id"].encode()).hexdigest()[:8]
+
+    chosen.sort(key=lambda s: s["item"])
+    if len({s["item"] for s in chosen}) != len(chosen):
+        raise SystemExit("id collision --- widen the hash prefix")
 
     OUT.write_text(json.dumps(chosen, indent=1))
 
-    print(f"sampled {len(chosen)}")
+    fingerprint = hashlib.sha1(
+        "".join(sorted(s["item"] for s in chosen)).encode()
+    ).hexdigest()[:16]
+    MANIFEST.write_text(
+        json.dumps(
+            {
+                "fingerprint": fingerprint,
+                "n": len(chosen),
+                "seed": SEED,
+                "caliper": CALIPER,
+                "max_per_doc": MAX_PER_DOC,
+                "by_condition": {
+                    f"{c}-{t}": sum(
+                        1 for s in chosen if s["condition"] == c and s["truth"] == t
+                    )
+                    for c in QUOTA
+                    for t in ("fabricated", "real")
+                },
+            },
+            indent=1,
+        )
+        + "\n"
+    )
+
+    print(f"sampled {len(chosen)}  fingerprint {fingerprint}")
     for k, v in sorted(
         Counter((s["condition"], s["truth"], s["subtype"]) for s in chosen).items()
     ):

@@ -45,25 +45,22 @@ def fail(msg: str) -> None:
     sys.exit(1)
 
 
-def download(url: str, dest: Path) -> None:
+def download(
+    url: str, dest: Path, cookies: str | None = None, referer: str | None = None
+) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
-    proc = subprocess.run(
-        [
-            "curl",
-            "-sSL",
-            "--max-time",
-            "120",
-            "--retry",
-            "2",
-            "-A",
-            UA,
-            "-o",
-            str(dest),
-            url,
-        ],
-        capture_output=True,
-        text=True,
-    )
+    cmd = ["curl", "-sSL", "--max-time", "300", "--retry", "2", "-A", UA]
+    # Some university CDNs serve a bot-challenge page to a bare client. Where the
+    # document is public but the host wants a session, the cookies come from a
+    # real browser visit to the same site (see the agent-browser recipe in the
+    # README) --- this is passing through an ordinary visit, not defeating a
+    # challenge the site refuses to grant.
+    if cookies:
+        cmd += ["-b", cookies]
+    if referer:
+        cmd += ["-e", referer]
+    cmd += ["-o", str(dest), url]
+    proc = subprocess.run(cmd, capture_output=True, text=True)
     if proc.returncode != 0:
         dest.unlink(missing_ok=True)
         fail(f"download failed: {proc.stderr.strip()[:200]}")
@@ -133,13 +130,32 @@ def main() -> None:
     )
     p.add_argument("--year", required=True, type=int)
     p.add_argument("--shard", required=True)
+    p.add_argument(
+        "--cookies", help="Cookie header from a real browser visit, e.g. 'a=1; b=2'"
+    )
+    p.add_argument(
+        "--referer", help="Referer header, usually the strategy landing page"
+    )
+    p.add_argument(
+        "--local",
+        help="Register a PDF already downloaded by hand instead of fetching it. "
+        "For documents behind a bot challenge, which a person can pass and a "
+        "script should not try to.",
+    )
     args = p.parse_args()
 
     if not args.file.endswith(".pdf"):
         fail("--file must end in .pdf")
 
     dest = RAW / args.file
-    download(args.url, dest)
+    if args.local:
+        src = Path(args.local).expanduser()
+        if not src.exists():
+            fail(f"no file at {src}")
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(src.read_bytes())
+    else:
+        download(args.url, dest, cookies=args.cookies, referer=args.referer)
     pages, words, _ = verify(dest)
 
     record(
