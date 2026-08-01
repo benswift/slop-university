@@ -5,15 +5,28 @@ Everything below is reproducible from the scripts and data in this directory.
 The corpora in `slop-university/output/` and `slop-university-press/output/`
 were read only; nothing in them was modified.
 
-**Headline, after the re-run: the discrimination result is negative.** Current
-frontier models tell fabricated institutional prose from real institutional
-prose at or near ceiling (100%, 98.1%, 96.3%, 92.6% across four judges). The
-first run's near-chance figures came from a model generation that has since been
-superseded, on the identical stimuli. What survives is narrower and is set out
-under [What survives](#what-survives): the previous generation _was_ fooled,
-badly and asymmetrically; and what current models detect is over-tidiness rather
-than invention, which is why the real documents they misjudge are the vaguest
-ones.
+**Headline, after adding DeepSeek: detectability is a property of the reader.**
+Six models current in August 2026, reading the identical 54 excerpts, score
+anywhere from 68.5% to 100% — GPT-5.6 Terra 100%, Sol 98.1%, Claude Sonnet
+96.3%, GPT-5.6 Luna 92.6%, DeepSeek V4 Flash 77.8%, DeepSeek V4 Pro 68.5%.
+
+The DeepSeek run (1 August 2026) removed the generational reading this report
+previously offered. Pro is current, is DeepSeek's stronger tier, scores _worse_
+than its cheaper Flash, and lands among the models superseded a year ago. It
+also lets fabrications through for their specificity in close to the words
+GPT-4.1 used — so the "specificity reads as authenticity" pattern is not a
+property of an older generation, it is a property of some readers now. Both
+readings of the same feature are live at once.
+
+Pro additionally fails the memorisation control that every GPT-5.6 judge passed:
+it claimed recognition on seven fabricated excerpts, confidently naming real
+Australian universities at 90–95 certainty. All seven are ANU-branded
+fabrications; no Slop-branded fabrication was ever falsely recognised.
+
+The narrower claims from the previous re-run still hold and are set out under
+[What survives](#what-survives), with one weakened: of the four real-side errors
+the strongest judges made, only two are clean, the other two turning on stimulus
+defects documented below.
 
 ## The question
 
@@ -145,15 +158,23 @@ Each excerpt is presented **independently** (never paired --- a pair leaks
 relative information), in a presentation order randomised per judge, with the
 50/50 base rate stated. The judge returns a binary label, a confidence in
 50--100, and a one-line reason naming the deciding feature (`scripts/judge.py`).
-Four judges in the current run, 54 items each, 216 judgements; a further 108
-from the two superseded models in the first run.
+Six judges current at time of writing, 54 items each, 324 judgements; a further
+108 from the two superseded models in the first run.
 
-| judge         | family    | access                     |
-| ------------- | --------- | -------------------------- |
-| GPT-5.6 Sol   | OpenAI    | chat completions API       |
-| GPT-5.6 Terra | OpenAI    | chat completions API       |
-| GPT-5.6 Luna  | OpenAI    | chat completions API       |
-| Claude Sonnet | Anthropic | `claude -p --model sonnet` |
+| judge             | family    | access                     |
+| ----------------- | --------- | -------------------------- |
+| GPT-5.6 Sol       | OpenAI    | chat completions API       |
+| GPT-5.6 Terra     | OpenAI    | chat completions API       |
+| GPT-5.6 Luna      | OpenAI    | chat completions API       |
+| Claude Sonnet     | Anthropic | `claude -p --model sonnet` |
+| DeepSeek V4 Pro   | DeepSeek  | chat completions API       |
+| DeepSeek V4 Flash | DeepSeek  | chat completions API       |
+
+DeepSeek was added on 1 August 2026 and is the only judge from a vendor with no
+relationship to the generator, which is why it matters more than a fifth data
+point. Its `/models` endpoint lists exactly two ids, `deepseek-v4-pro` and
+`deepseek-v4-flash`, and the API serves the OpenAI chat-completions schema, so
+`judge.py` reaches it through the same asker behind a `deepseek:` backend.
 
 GPT-5.6 ships as three named variants rather than the `-mini`/`-nano`/`-pro`
 suffixes used from 5.0 to 5.5, so the names carry no tier information on their
@@ -177,30 +198,35 @@ so they remain directly comparable.
 
 ### Headline
 
-All four judges, 54 items each. Accuracy and balanced accuracy coincide because
-the set is exactly balanced (27/27).
+All six current judges, 54 items each. Accuracy and balanced accuracy coincide
+because the set is exactly balanced (27/27).
 
-| judge             | accuracy          | 95% CI       | binomial p | sensitivity to fabrication | specificity |
-| ----------------- | ----------------- | ------------ | ---------- | -------------------------- | ----------- |
-| **GPT-5.6 Terra** | **100%** (54/54)  | [93.4, 100]  | 1.1e-16    | 100%                       | 100%        |
-| **GPT-5.6 Sol**   | **98.1%** (53/54) | [90.2, 99.7] | 6.1e-15    | 100%                       | 96.3%       |
-| Claude Sonnet     | 96.3% (52/54)     | [87.5, 99.0] | 1.7e-13    | 92.6%                      | 100%        |
-| GPT-5.6 Luna      | 92.6% (50/54)     | [82.4, 97.1] | 3.8e-11    | 96.3%                      | 88.9%       |
-| pooled (5.6 only) | 96.9% (157/162)   | ---          | ---        | 98.8%                      | 95.1%       |
+| judge                 | accuracy          | 95% CI       | binomial p | sensitivity to fabrication | specificity |
+| --------------------- | ----------------- | ------------ | ---------- | -------------------------- | ----------- |
+| **GPT-5.6 Terra**     | **100%** (54/54)  | [93.4, 100]  | 1.1e-16    | 100%                       | 100%        |
+| **GPT-5.6 Sol**       | **98.1%** (53/54) | [90.2, 99.7] | 6.1e-15    | 100%                       | 96.3%       |
+| Claude Sonnet         | 96.3% (52/54)     | [87.5, 99.0] | 1.7e-13    | 92.6%                      | 100%        |
+| GPT-5.6 Luna          | 92.6% (50/54)     | [82.4, 97.1] | 3.8e-11    | 96.3%                      | 88.9%       |
+| **DeepSeek V4 Flash** | **77.8%** (42/54) | [65.1, 86.8] | 2.6e-05    | 81.5%                      | 74.1%       |
+| **DeepSeek V4 Pro**   | **68.5%** (37/54) | [55.3, 79.3] | 4.5e-03    | 55.6%                      | 81.5%       |
+| pooled (5.6 only)     | 96.9% (157/162)   | ---          | ---        | 98.8%                      | 95.1%       |
 
 On the strategy condition alone --- the cleanest genre match, and the one this
-report quotes --- Terra scores 100% (32/32), Sol 96.9%, Claude 93.8% and Luna
-87.5%.
+report quotes --- Terra scores 100% (32/32), Sol 96.9%, Claude 93.8%, Luna
+87.5%, Flash 71.9% and Pro 68.8%. The ordering is unchanged and the spread is
+wider.
 
-**This overturns the first run's headline.** The previous generation produced a
-defensible range of 61--72% with one judge not significantly above chance. The
-current generation is at or near ceiling. The null result is gone, and the paper
-cannot claim that a capable model fails to tell these apart from text alone. It
-can only claim something much narrower, set out under _What survives_ below.
+**The spread is the result.** Every judge is above chance, and the range across
+six current models is 31.5 points on identical stimuli. No generational story
+explains it: DeepSeek's V4 line is current, Pro is the stronger and dearer tier
+yet scores below Flash, and Pro sits among the two superseded models at the
+bottom of the first run's table.
 
 Sol and Terra differ by a single item, which is well inside noise, so this run
 cannot separate them; Luna is clearly the weakest of the three, consistent with
-its documented position as the lightweight variant.
+its documented position as the lightweight variant. The DeepSeek pair inverts
+its vendor's own tier ordering, which this design cannot explain and which is
+worth a dedicated run before anything is built on it.
 
 ### The asymmetry has closed
 
@@ -293,10 +319,12 @@ This control is also only partial: it catches _declared_ recognition.
 Familiarity below the threshold at which a model will assert "I recognise this"
 would not be detected, and would still help.
 
-### Two residual cues found by reading the judges' reasons
+### Four residual cues found by reading the judges' reasons
 
-Both were discovered by the judges, not by the redaction audit, which is itself
-worth recording.
+Every one was discovered by a judge, not by the redaction audit, which is itself
+worth recording. The last two surfaced only once DeepSeek was added: a judge
+that is not at ceiling has room to be pushed by a weak cue, so weaker judges are
+better instruments for finding stimulus defects than stronger ones.
 
 **Untranslated non-English terms survived redaction.** Three excerpts (E011,
 E037, E039) retain `mātauranga` / `Mātauranga` (te reo Māori) and `chéile`
@@ -317,7 +345,27 @@ so the _outcome_ is not perfectly symmetric. This is a small effect and it
 cannot account for scores at ceiling, but it is a genuine hole in extraction
 parity and a future run should normalise it.
 
-## What the judges think they are using
+**Dropped ligatures leave misspellings on the real side only.** `pdftotext`
+loses `fi`/`ff`/`ffi` from some real PDFs, leaving `effcient`, `beneft`, `fnd`,
+`fnancial`, `signifcant`, `diffcult` and `refecting` in the extracted text. Ten
+such tokens appear across two real excerpts and **zero** fabricated ones — the
+typst-generated PDFs have no ligature problem to lose. DeepSeek Pro cited it
+directly, calling a real Edinburgh excerpt fabricated for "multiple spelling
+errors (effcient, fnd, beneft, frst) that are unlikely in a professionally
+published university document", and Flash did the same. The cue points real →
+fabricated, which is why it cost nothing at ceiling: the 5.6 judges have
+near-perfect specificity and had no errors left for it to cause.
+
+**Residual identity leakage: `Unit M`.** The gazetteer removed the institution
+name from Manchester's strategic plan but left `Unit M`, its real innovation
+unit, standing in two excerpts. Two judges read it as an unreplaced placeholder
+and inferred fabrication — Luna: "little concrete accountability beyond an
+unexplained placeholder-like 'Unit M'"; Flash: "the unredacted placeholder 'Unit
+M' ... indicate invented aspirational prose". This contradicts the verification
+claim above that "a scan for capitalised proper-noun sequences appearing on only
+one side found no residual identity leakage": the scan did not catch a
+`Word + single capital` form. It is also **load-bearing for a headline finding**
+— see the correction under [What survives](#what-survives).
 
 The qualitative picture has **inverted** between generations, and this is the
 most interesting thing in the re-run.
@@ -428,28 +476,36 @@ specificity was already near ceiling and stayed there.
 
 ## What survives
 
-The strong claim is dead. Current frontier models discriminate these two
-populations from text alone at or near ceiling, so the paper cannot say a
-capable reader is fooled. What the pilot still supports:
+The strong claim is dead in its original form: several current frontier models
+discriminate these two populations at or near ceiling, so the pilot cannot say
+that a capable reader is simply fooled. What it supports instead:
 
-1. **The previous generation was fooled, badly and asymmetrically**, and that is
-   a dated but real measurement --- the models most people were using in 2025
-   and early 2026 let 60--78% of fabrications through while never doubting a
-   real document.
-2. **What current models detect is over-tidiness, not inauthenticity.** They
-   flag procedural over-completeness and aphoristic polish. This is a claim
-   about the press's house style being detectable, not about fabricated
-   institutional documents being detectable in general.
-3. **The real documents that get flagged are the vaguest ones.** Four of the
-   five errors the 5.6 judges made were real strategic plans called fabricated
-   for "generic aspirational strategy language" and "sweeping commitments ...
-   offering no concrete detail". The boundary the models have learned runs
-   between concrete and vague, not between real and invented --- and real
-   university strategy sits on both sides of it. That is a better version of the
-   project's argument than the discrimination result was ever going to be.
-4. **Recall is a live shortcut.** On 44% of the real side a model can simply
-   recognise the document, with perfect precision. Any future text-only
-   experiment against public documents has to control for this.
+1. **Detectability is a property of the reader.** Six current models span 68.5%
+   to 100% on identical stimuli. This is the headline and it replaces the
+   generational framing the previous revision used.
+2. **Some current frontier models still are fooled.** DeepSeek V4 Pro lets 44%
+   of fabrications through. That is not a dated measurement about superseded
+   models; it is a current one, from a vendor with no relationship to the
+   generator.
+3. **The same feature reads both ways at once.** The 5.6 judges flag procedural
+   over-completeness and aphoristic polish as fabrication; DeepSeek Pro cites
+   the identical specificity as proof of authenticity, in close to the words
+   GPT-4.1 used a year ago.
+4. **The real documents that get flagged are the vaguest ones** — but this is
+   now the weakest item here, not the strongest. Of the four real-side errors
+   the 5.6 judges made, only **two** are clean: Toronto ("generic strategic
+   buzzwords and sweeping commitments while offering no concrete detail") and
+   one Manchester excerpt ("implausibly sweeping"). Of the other two, one (E009)
+   explicitly names the `Unit M` leakage described above, and one (E020) turns
+   on a testimonial pull-quote flattened into body text by extraction. Two clean
+   errors across two institutions will not carry the claim; see TASK-006 in the
+   research-papers backlog, which exists to build the corpus that would.
+5. **Recall is a live shortcut, and it is not always precise.** The 5.6 judges
+   recognise 44% of the real side with zero false positives. DeepSeek Pro
+   claimed recognition 21 times and was wrong on 11 of them, including seven
+   fabrications confidently attributed to real Australian universities at 90–95
+   certainty. Any future text-only experiment against public documents has to
+   control for both directions of this.
 
 ## Limitations
 
