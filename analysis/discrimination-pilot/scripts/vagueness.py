@@ -59,6 +59,9 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ids import doc_key, item_id  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 POOL = ROOT / "stimuli" / "pool.json"
 OUT = ROOT / "results"
@@ -458,10 +461,13 @@ def main() -> None:
         scored = [
             {
                 "id": r.get("id"),
-                "item": r.get("item"),
+                # Derived, not read: the pool is scored BEFORE sampling, so these
+                # rows have no "item" of their own. Deriving it here is what
+                # lets the proxies join to judgements later.
+                "item": item_id(r["id"]) if r.get("id") else None,
                 "truth": r.get("truth"),
                 "condition": r.get("condition"),
-                "source_doc": str(r.get("id", "")).rsplit("--", 1)[0],
+                "source_doc": doc_key(str(r.get("id", ""))),
                 **proxy_scores(r.get("text") or r.get("text_redacted", "")),
             }
             for r in rows

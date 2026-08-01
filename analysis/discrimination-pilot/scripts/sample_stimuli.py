@@ -33,6 +33,11 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ids import item_id  # noqa: E402
+
 SCRATCH = Path(__file__).resolve().parent.parent
 POOL = SCRATCH / "stimuli" / "pool_redacted.json"
 OUT = SCRATCH / "stimuli" / "stimuli.json"
@@ -131,7 +136,7 @@ def main() -> None:
     # Stable, content-derived ids. A judgement keyed on one of these stays
     # attached to the excerpt that was actually judged, however the pool grows.
     for s in chosen:
-        s["item"] = "E" + hashlib.sha1(s["id"].encode()).hexdigest()[:8]
+        s["item"] = item_id(s["id"])
 
     chosen.sort(key=lambda s: s["item"])
     if len({s["item"] for s in chosen}) != len(chosen):
