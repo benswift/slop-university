@@ -1,0 +1,152 @@
+
+========================================================================
+JUDGE: gpt-4.1   n=54
+========================================================================
+accuracy 33/54 = 61.1%   95% CI [47.8%, 73.0%]   binomial p = 0.1337
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated               6      21
+real                     0      27
+
+sensitivity to fabrication 6/27 = 22.2%
+specificity (real called real) 27/27 = 100.0%
+response bias: called FABRICATED 11.1% of the time
+
+by condition:
+  impact              12/22  =  54.5%  CI [35%,73%]
+  strategy            21/32  =  65.6%  CI [48%,80%]
+
+by subtype:
+  anu-brand            3/12  =  25.0%  CI [9%,53%]
+  real                16/16  = 100.0%  CI [81%,100%]
+  real-statutory      11/11  = 100.0%  CI [74%,100%]
+  slop-brand           3/15  =  20.0%  CI [7%,45%]
+
+by condition x truth:
+  impact     fabricated    1/11  =   9.1%
+  impact     real         11/11  = 100.0%
+  strategy   fabricated    5/16  =  31.2%
+  strategy   real         16/16  = 100.0%
+
+calibration:
+  conf  70- 84  n=  2  stated  82.5%  actual  50.0%
+  conf  85- 94  n= 39  stated  89.6%  actual  61.5%
+  conf  95-100  n= 13  stated  95.9%  actual  61.5%
+  mean confidence when right 90.7  when wrong 91.1
+
+========================================================================
+JUDGE: gpt-5   n=54
+========================================================================
+accuracy 36/54 = 66.7%   95% CI [53.4%, 77.8%]   binomial p = 0.01983
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              11      16
+real                     2      25
+
+sensitivity to fabrication 11/27 = 40.7%
+specificity (real called real) 25/27 = 92.6%
+response bias: called FABRICATED 24.1% of the time
+
+by condition:
+  impact              13/22  =  59.1%  CI [39%,77%]
+  strategy            23/32  =  71.9%  CI [55%,84%]
+
+by subtype:
+  anu-brand            6/12  =  50.0%  CI [25%,75%]
+  real                15/16  =  93.8%  CI [72%,99%]
+  real-statutory      10/11  =  90.9%  CI [62%,98%]
+  slop-brand           5/15  =  33.3%  CI [15%,58%]
+
+by condition x truth:
+  impact     fabricated    3/11  =  27.3%
+  impact     real         10/11  =  90.9%
+  strategy   fabricated    8/16  =  50.0%
+  strategy   real         15/16  =  93.8%
+
+calibration:
+  conf  50- 69  n=  1  stated  63.0%  actual 100.0%
+  conf  70- 84  n= 34  stated  77.9%  actual  52.9%
+  conf  85- 94  n= 19  stated  89.1%  actual  89.5%
+  mean confidence when right 82.4  when wrong 79.9
+
+========================================================================
+JUDGE: sonnet   n=54
+========================================================================
+accuracy 52/54 = 96.3%   95% CI [87.5%, 99.0%]   binomial p = 1.65e-13
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              25       2
+real                     0      27
+
+sensitivity to fabrication 25/27 = 92.6%
+specificity (real called real) 27/27 = 100.0%
+response bias: called FABRICATED 46.3% of the time
+
+by condition:
+  impact              22/22  = 100.0%  CI [85%,100%]
+  strategy            30/32  =  93.8%  CI [80%,98%]
+
+by subtype:
+  anu-brand           10/12  =  83.3%  CI [55%,95%]
+  real                16/16  = 100.0%  CI [81%,100%]
+  real-statutory      11/11  = 100.0%  CI [74%,100%]
+  slop-brand          15/15  = 100.0%  CI [80%,100%]
+
+by condition x truth:
+  impact     fabricated   11/11  = 100.0%
+  impact     real         11/11  = 100.0%
+  strategy   fabricated   14/16  =  87.5%
+  strategy   real         16/16  = 100.0%
+
+calibration:
+  conf  50- 69  n= 14  stated  64.9%  actual  85.7%
+  conf  70- 84  n= 21  stated  77.7%  actual 100.0%
+  conf  85- 94  n= 18  stated  88.8%  actual 100.0%
+  conf  95-100  n=  1  stated  97.0%  actual 100.0%
+  mean confidence when right 78.9  when wrong 65.0
+
+========================================================================
+POOLED (all judges)   n=162
+========================================================================
+accuracy 121/162 = 74.7%   95% CI [67.5%, 80.8%]   binomial p = 2.322e-10
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              42      39
+real                     2      79
+
+sensitivity to fabrication 42/81 = 51.9%
+specificity (real called real) 79/81 = 97.5%
+response bias: called FABRICATED 27.2% of the time
+
+by condition:
+  impact              47/66  =  71.2%  CI [59%,81%]
+  strategy            74/96  =  77.1%  CI [68%,84%]
+
+by subtype:
+  anu-brand           19/36  =  52.8%  CI [37%,68%]
+  real                47/48  =  97.9%  CI [89%,100%]
+  real-statutory      32/33  =  97.0%  CI [85%,99%]
+  slop-brand          23/45  =  51.1%  CI [37%,65%]
+
+by condition x truth:
+  impact     fabricated   15/33  =  45.5%
+  impact     real         32/33  =  97.0%
+  strategy   fabricated   27/48  =  56.2%
+  strategy   real         47/48  =  97.9%
+
+calibration:
+  conf  50- 69  n= 15  stated  64.7%  actual  86.7%
+  conf  70- 84  n= 57  stated  78.0%  actual  70.2%
+  conf  85- 94  n= 76  stated  89.3%  actual  77.6%
+  conf  95-100  n= 14  stated  96.0%  actual  64.3%
+  mean confidence when right 83.2  when wrong 85.0
+
+unanimous on 32/54 items (59%)
+  of those, correct on 31/32 = 97%
+majority vote accuracy 37/54 = 68.5% CI [55%,79%] p=0.009073
+
+tag-density-only baseline (best single threshold, fitted on the test set): 53.7%
