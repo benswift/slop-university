@@ -24,6 +24,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from gazetteer import derive as derive_terms, non_english_tokens
+from merged_tokens import fit as fit_merges, repair as repair_merges
 from normalise import normalise
 
 SCRATCH = Path(__file__).resolve().parent.parent
@@ -743,6 +744,18 @@ def main() -> None:
             pdfs.append((path, cond, "real", "web", "real", row))
 
     stims = collect(pdfs)
+
+    # Merged tokens, the last one-sided extraction defect. This cannot run
+    # inside pdf_to_text with the ligature repair, because the detector is
+    # fitted to the corpus's own hyphenation and so needs every excerpt in
+    # hand; see merged_tokens.py for why a dictionary alone will not do it.
+    split = fit_merges([(s.id.rsplit("--", 1)[0], s.text) for s in stims])
+    merges = 0
+    for s in stims:
+        s.text, k = repair_merges(s.text, split)
+        s.words = len(WORD_RE.findall(s.text))
+        merges += k
+
     (OUT / "pool.json").write_text(json.dumps([asdict(s) for s in stims], indent=1))
 
     from collections import Counter
@@ -753,7 +766,8 @@ def main() -> None:
     print("total pool:", len(stims))
     print(
         f"normalisation: {NORMALISATION_STATS['ligature_repairs']} ligature repairs, "
-        f"{NORMALISATION_STATS['orthography_changes']} spellings normalised"
+        f"{NORMALISATION_STATS['orthography_changes']} spellings normalised, "
+        f"{merges} merged tokens split"
     )
 
 

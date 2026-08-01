@@ -154,7 +154,12 @@ def deciles(pairs: list[tuple[float, int]], k: int = 10) -> None:
     if len(pairs) < k:
         print("  (too few items to bin)")
         return
-    pairs = sorted(pairs)
+    # Shuffle before sorting on the score alone. Sorting the pairs directly
+    # would break ties on the error flag, which on a tied-heavy axis sorts the
+    # errors into the top bins and manufactures a trend out of nothing.
+    pairs = list(pairs)
+    random.Random(SEED).shuffle(pairs)
+    pairs = sorted(pairs, key=lambda p: p[0])
     size = len(pairs) / k
     print(f"  {'decile':<8}{'n':>5}{'median index':>15}{'called FABRICATED':>20}")
     for d in range(k):
