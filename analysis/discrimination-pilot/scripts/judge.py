@@ -24,6 +24,7 @@ import random
 import re
 import subprocess
 import sys
+import zlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -123,7 +124,12 @@ def main() -> None:
     stims = json.loads(STIM.read_text())
     # independent randomisation of presentation order per judge
     order = list(range(len(stims)))
-    random.Random(hash(model) & 0xFFFF).shuffle(order)
+    # Stable per-judge seed. Python salts str hashing per process, so the
+    # earlier hash(model) form was not reproducible between runs; crc32 is.
+    # Presentation order cannot in fact affect the result -- every item is an
+    # independent stateless call with no shared context -- but a reproducible
+    # order keeps the record honest.
+    random.Random(zlib.crc32(model.encode())).shuffle(order)
 
     def one(k: int) -> dict:
         s = stims[k]

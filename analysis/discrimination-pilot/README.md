@@ -1,8 +1,19 @@
 # Slop University: text-only discrimination pilot
 
-Run 1 August 2026. Everything below is reproducible from the scripts and data in
-this directory. The `slop-university` and `slop-university-press` repos were
-read only; nothing in them was modified.
+Run 1 August 2026; re-run against the GPT-5.6 generation the same day.
+Everything below is reproducible from the scripts and data in this directory.
+The corpora in `slop-university/output/` and `slop-university-press/output/`
+were read only; nothing in them was modified.
+
+**Headline, after the re-run: the discrimination result is negative.** Current
+frontier models tell fabricated institutional prose from real institutional
+prose at or near ceiling (100%, 98.1%, 96.3%, 92.6% across four judges). The
+first run's near-chance figures came from a model generation that has since been
+superseded, on the identical stimuli. What survives is narrower and is set out
+under [What survives](#what-survives): the previous generation _was_ fooled,
+badly and asymmetrically; and what current models detect is over-tidiness rather
+than invention, which is why the real documents they misjudge are the vaguest
+ones.
 
 ## The question
 
@@ -39,9 +50,9 @@ titles and URLs are in `corpus/provenance.json`.
 
 Two matched conditions, both institutional prose, both A4 booklet genre:
 
-| condition    | fabricated side                                   | real side                                                                         |
-| ------------ | ------------------------------------------------- | --------------------------------------------------------------------------------- |
-| **strategy** | slop/ANU-branded strategic plans (27 source PDFs) | published university strategic and corporate plans (11 PDFs, 10 institutions)              |
+| condition    | fabricated side                                   | real side                                                                                 |
+| ------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **strategy** | slop/ANU-branded strategic plans (27 source PDFs) | published university strategic and corporate plans (11 PDFs, 10 institutions)             |
 | **impact**   | five-year school impact reports (13 source PDFs)  | university annual reports, accounts and SDG/donor impact reports (6 PDFs, 6 institutions) |
 
 The **brochure** genre was dropped: 39 fabricated brochures exist but there is
@@ -123,10 +134,10 @@ a cap of three excerpts per source document. The matched set:
 | impact    | fabricated | 11  | 309        | 1.63           |
 | impact    | real       | 11  | 309        | 1.70           |
 
-54 excerpts from 32 distinct source documents (20 fabricated, 12 real spanning nine
-real institutions), 27 per side. The best possible
-single-threshold classifier using tag density alone, **fitted on the test set**,
-scores 53.7% --- so the cue has been neutralised.
+54 excerpts from 32 distinct source documents (20 fabricated, 12 real spanning
+nine real institutions), 27 per side. The best possible single-threshold
+classifier using tag density alone, **fitted on the test set**, scores 53.7% ---
+so the cue has been neutralised.
 
 ## Method
 
@@ -134,84 +145,184 @@ Each excerpt is presented **independently** (never paired --- a pair leaks
 relative information), in a presentation order randomised per judge, with the
 50/50 base rate stated. The judge returns a binary label, a confidence in
 50--100, and a one-line reason naming the deciding feature (`scripts/judge.py`).
-Three judges, 54 items each, 162 judgements.
+Four judges in the current run, 54 items each, 216 judgements; a further 108
+from the two superseded models in the first run.
 
 | judge         | family    | access                     |
 | ------------- | --------- | -------------------------- |
+| GPT-5.6 Sol   | OpenAI    | chat completions API       |
+| GPT-5.6 Terra | OpenAI    | chat completions API       |
+| GPT-5.6 Luna  | OpenAI    | chat completions API       |
 | Claude Sonnet | Anthropic | `claude -p --model sonnet` |
-| GPT-5         | OpenAI    | chat completions API       |
-| GPT-4.1       | OpenAI    | chat completions API       |
 
-**The self-judgement conflict is not a footnote here --- it is the main
-result.** Claude generated the slop. A local Qwen endpoint was configured but
-unreachable, so the cross-check is single-vendor (OpenAI) rather than broad.
+GPT-5.6 ships as three named variants rather than the `-mini`/`-nano`/`-pro`
+suffixes used from 5.0 to 5.5, so the names carry no tier information on their
+face. The vendor ordering is documented: **Sol** is "the highest reasoning
+ceiling in the family", **Terra** "the balanced default", **Luna** "a
+lightweight, cost-efficient variant ... the lowest-cost option", at $5/$30,
+$2.50/$15 and $1/$6 per million input/output tokens respectively.[^tiers] The
+models endpoint itself exposes no tier metadata --- all three were created
+within eleven minutes of each other and return only `id`/`object`/`created`.
+
+[^tiers]:
+    Confirmed against the GitHub Copilot changelog of 9 July 2026, which quotes
+    OpenAI's own model descriptions, and Axios's 12 July 2026 model-selection
+    guide. OpenAI's own `/index/gpt-5-6/` page returns 403 to automated fetches.
+
+Claude Sonnet is retained from the first run as the self-recognition reference
+point. Its judgements are unchanged (same stimuli, same prompt, same harness),
+so they remain directly comparable.
 
 ## Results
 
 ### Headline
 
-| judge             | accuracy          | 95% CI       | binomial p   | sensitivity to fabrication | specificity |
-| ----------------- | ----------------- | ------------ | ------------ | -------------------------- | ----------- |
-| **Claude Sonnet** | **96.3%** (52/54) | [87.5, 99.0] | 1.7e-13      | 92.6%                      | 100%        |
-| GPT-5             | 66.7% (36/54)     | [53.4, 77.8] | 0.020        | 40.7%                      | 92.6%       |
-| GPT-4.1           | 61.1% (33/54)     | [47.8, 73.0] | 0.134 (n.s.) | 22.2%                      | 100%        |
-| pooled            | 74.7% (121/162)   | [67.5, 80.8] | 2.3e-10      | 51.9%                      | 97.5%       |
+All four judges, 54 items each. Accuracy and balanced accuracy coincide because
+the set is exactly balanced (27/27).
 
-Majority vote across the three judges: 68.5% (37/54), p = 0.009.
+| judge             | accuracy          | 95% CI       | binomial p | sensitivity to fabrication | specificity |
+| ----------------- | ----------------- | ------------ | ---------- | -------------------------- | ----------- |
+| **GPT-5.6 Terra** | **100%** (54/54)  | [93.4, 100]  | 1.1e-16    | 100%                       | 100%        |
+| **GPT-5.6 Sol**   | **98.1%** (53/54) | [90.2, 99.7] | 6.1e-15    | 100%                       | 96.3%       |
+| Claude Sonnet     | 96.3% (52/54)     | [87.5, 99.0] | 1.7e-13    | 92.6%                      | 100%        |
+| GPT-5.6 Luna      | 92.6% (50/54)     | [82.4, 97.1] | 3.8e-11    | 96.3%                      | 88.9%       |
+| pooled (5.6 only) | 96.9% (157/162)   | ---          | ---        | 98.8%                      | 95.1%       |
 
-On the strategy condition alone --- the cleanest genre match, and the one with
-tag density matched to two decimal places --- Claude scores 93.8% (30/32, p =
-2.5e-07), GPT-5 71.9% (p = 0.020) and GPT-4.1 65.6% (p = 0.11, n.s.).
+On the strategy condition alone --- the cleanest genre match, and the one this
+report quotes --- Terra scores 100% (32/32), Sol 96.9%, Claude 93.8% and Luna
+87.5%.
 
-Claude's advantage is not noise and it is one-directional. Paired McNemar tests
-on the same 54 items: against GPT-4.1, Claude alone is correct on 19 items and
-GPT-4.1 alone on 0 (p = 3.8e-06); against GPT-5, 17 against 1 (p = 1.4e-04).
+**This overturns the first run's headline.** The previous generation produced a
+defensible range of 61--72% with one judge not significantly above chance. The
+current generation is at or near ceiling. The null result is gone, and the paper
+cannot claim that a capable model fails to tell these apart from text alone. It
+can only claim something much narrower, set out under _What survives_ below.
 
-### Confusion
+Sol and Terra differ by a single item, which is well inside noise, so this run
+cannot separate them; Luna is clearly the weakest of the three, consistent with
+its documented position as the lightweight variant.
 
-Every judge is biased towards "real", and the bias is severe for the OpenAI
-models. Pooled across judges:
+### The asymmetry has closed
 
-|                      | judged fabricated | judged real |
-| -------------------- | ----------------- | ----------- |
-| **truly fabricated** | 42                | 39          |
-| **truly real**       | 2                 | 79          |
+This is the sharpest change. In the first run every judge was heavily biased
+towards "real": real documents were almost never called fabrications (97.5%
+specificity pooled) but roughly half the fabrications passed.
 
-Real documents are almost never mistaken for fabrications (97.5% specificity),
-but roughly half of the fabrications pass. GPT-4.1 called "real" on 89% of all
-items; a judge that simply always answered "real" would have scored 50%, so its
-61% represents six catches out of 27 fabrications.
+| generation    | called FABRICATED | sensitivity | specificity |
+| ------------- | ----------------- | ----------- | ----------- |
+| GPT-4.1       | 11.1%             | 22.2%       | 100%        |
+| GPT-5         | 24.1%             | 40.7%       | 92.6%       |
+| GPT-5.6 Luna  | 53.7%             | 96.3%       | 88.9%       |
+| GPT-5.6 Sol   | 51.9%             | 100%        | 96.3%       |
+| GPT-5.6 Terra | 50.0%             | 100%        | 100%        |
+
+The 5.6 judges answer "fabricated" almost exactly half the time and their errors
+are no longer one-directional. Luna is the only one that now errs the _other_
+way, calling three real documents fabrications. If the interesting claim was
+"fabrications pass while real documents are never doubted", that claim no longer
+holds for current models.
 
 ### By condition and subtype
 
-|                          | Claude | GPT-5 | GPT-4.1 |
-| ------------------------ | ------ | ----- | ------- |
-| strategy                 | 93.8%  | 71.9% | 65.6%   |
-| impact                   | 100%   | 59.1% | 54.5%   |
-| fabricated, Slop-branded | 100%   | 33%   | 20%     |
-| fabricated, ANU-branded  | 83%    | 50%   | 25%     |
+|                          | Terra | Sol   | Luna  | Claude |
+| ------------------------ | ----- | ----- | ----- | ------ |
+| strategy                 | 100%  | 96.9% | 87.5% | 93.8%  |
+| impact                   | 100%  | 100%  | 100%  | 100%   |
+| fabricated, Slop-branded | 100%  | 100%  | 100%  | 100%   |
+| fabricated, ANU-branded  | 100%  | 100%  | 91.7% | 83%    |
 
-The ANU-branded fabrications are _harder_ than the Slop-branded ones for Claude,
-despite their absurd steering topics --- they are full-length strategic plans
-written in a restrained real-institution register, and the register is doing
-more work than the topic.
+The ANU-branded fabrications --- full-length plans in a restrained
+real-institution register --- were the hardest subset for Claude and for the
+previous generation. They are no longer hard for Sol or Terra.
 
 ### Calibration
 
-Confidence carries almost no information for the OpenAI judges. GPT-4.1's mean
-confidence is 90.7 when right and 91.1 when wrong; in its 95--100 confidence
-band it is correct 61.5% of the time. GPT-5 is similar (77.9 stated against
-52.9% actual in the 70--84 band). Claude is the only judge that is
-_under_-confident: 78.9 mean when right against 65.0 when wrong, and 100%
-correct in every band above 70. Pooled, the 95--100 band is correct 64.3% of the
-time --- the highest-confidence judgements are the least reliable.
+The 5.6 judges are well calibrated in the direction that matters: mean
+confidence 91.1 when right against 70.0 when wrong, and 100% actual accuracy in
+both the 85--94 and 95--100 bands (n = 58 and 67). Contrast the previous
+generation, where GPT-4.1 averaged 90.7 when right and 91.1 when wrong ---
+confidence carrying no information at all. Where the 5.6 judges are unsure they
+now say so, and the 50--69 band is the only one where they fall to chance (3/6).
+
+### Is it judgement, or recall? A memorisation control
+
+Near-perfect scores demand an alternative explanation before they are believed.
+The real side of this corpus is **public web text** --- published strategic
+plans and annual reports, indexed and crawlable. The fabricated side is
+gitignored and local-only. A model that has memorised the real documents can
+sort the set without judging anything, and that shortcut gets _stronger_ with
+newer and larger models, which is precisely the pattern a naive reading of these
+results would mistake for better discrimination.
+
+`scripts/memorisation_probe.py` presents the same redacted excerpts and asks
+each judge to name the source institution, answering only on actual recognition
+of the wording.
+
+| judge         | claimed recognition | correctly named the real source | false recognitions on fabricated items |
+| ------------- | ------------------- | ------------------------------- | -------------------------------------- |
+| GPT-5.6 Terra | 12/54               | 12/27 real items (44%)          | 0                                      |
+| GPT-5.6 Sol   | 12/54               | 12/27 real items (44%)          | 0                                      |
+| GPT-5.6 Luna  | 10/54               | 8/27 real items (30%)           | 0                                      |
+
+The shortcut is real and it is **perfectly precise**: every claimed recognition
+was a real document, correctly attributed, and no fabricated excerpt was ever
+falsely recognised. On roughly 44% of the real side, "I recognise this,
+therefore it is real" is a free and infallible answer that involves no judgement
+about institutional prose at all.
+
+It does not, however, explain the result. Excluding every item a judge claimed
+to recognise, and the three items carrying residual language leakage (below),
+and restricting to the strategy condition:
+
+| judge         | sensitivity | specificity | balanced accuracy |
+| ------------- | ----------- | ----------- | ----------------- |
+| GPT-5.6 Terra | 100%        | 100%        | 100%              |
+| GPT-5.6 Sol   | 100%        | 80%         | 90.0%             |
+| Claude Sonnet | 88%         | 100%        | 93.8%             |
+| GPT-5.6 Luna  | 94%         | 50%         | 71.9%             |
+
+Balanced accuracy is used because excluding recognised items strips mostly real
+excerpts, leaving 16 fabricated against 5--6 real; plain accuracy would reward a
+"fabricated"-leaning judge. **The real-side n here is 5--6 items, so the
+specificity column is very noisy and Luna's 50% should not be read as a
+finding.** The defensible statement is that Terra and Sol remain far above
+chance with demonstrated memorisation removed, so recall is a genuine confound
+but not the mechanism.
+
+This control is also only partial: it catches _declared_ recognition.
+Familiarity below the threshold at which a model will assert "I recognise this"
+would not be detected, and would still help.
+
+### Two residual cues found by reading the judges' reasons
+
+Both were discovered by the judges, not by the redaction audit, which is itself
+worth recording.
+
+**Untranslated non-English terms survived redaction.** Three excerpts (E011,
+E037, E039) retain `mātauranga` / `Mātauranga` (te reo Māori) and `chéile`
+(Irish). Both are real-side-only and both were cited explicitly --- Terra: "the
+excerpt's distinctive use of mātauranga ... strongly suggests an [authentic
+document]". The gazetteer redacted `Māori` but not Māori-language vocabulary.
+These items are excluded from the cleaned figures above.
+
+**PDF extraction noise is mildly asymmetric.** Sol called one excerpt real
+because of "the interrupted sentence flow, merged word 'teachingsupport', and
+displaced bullet/heading sequence ... characteristic of text extracted from a
+professional[ly typeset document]". Measured across the set, real excerpts carry
+more long merged tokens than fabricated ones (2.85 vs 1.67 tokens of >=14
+characters per excerpt); mid-word capital merges and broken hyphenation are near
+zero on both sides. The extraction _method_ was identical, but the real PDFs are
+complex multi-column layouts while the slop PDFs are cleanly generated by typst,
+so the _outcome_ is not perfectly symmetric. This is a small effect and it
+cannot account for scores at ceiling, but it is a genuine hole in extraction
+parity and a future run should normalise it.
 
 ## What the judges think they are using
 
-This is the most useful part for the paper, and the three judges disagree
-completely about what a tell even is.
+The qualitative picture has **inverted** between generations, and this is the
+most interesting thing in the re-run.
 
-**GPT-4.1 and GPT-5 read specificity as authenticity.** Their reasons for
+**The previous generation read specificity as authenticity.** Their reasons for
 calling a fabrication "real" cite "nuanced reflections", "specific, measurable
 goals, credible timelines, and detailed implementation phases", "granular detail
 about program design", "first-hand institutional knowledge", "self-critical
@@ -220,65 +331,159 @@ generator's procedural texture --- the phased delivery table, the named
 governance committee, the honest-sounding admission that a finding is "not
 flattering" --- is being read as evidence that someone lived through it.
 
-When the OpenAI judges do catch a fabrication, the tell is almost always a
-**coined proper noun**, not the prose: "Heroic Dose Programme", "Presence
+When the previous generation did catch a fabrication, the tell was almost always
+a **coined proper noun**, not the prose: "Heroic Dose Programme", "Presence
 Officer", "mycelial engagement", "Writing Apparatus", "Reciprocity Register".
-They are detecting implausible vocabulary, not fabricated institutional writing.
-Strip the funny nouns and they are near chance.
+They were detecting implausible vocabulary, not fabricated institutional
+writing.
 
-**Claude is detecting its own house style.** Its reasons for "fabricated" name
-prose architecture, not content: "the telltale AI-generator cadence of triadic
-parallel clauses building to a thesis statement", "aphoristic, paradox-driven
-narration", "relentless triadic 'will X, will Y, and will Z' parallelism", "the
-closing aphorism", "the self-consciously literary register", "invented verbatim
-quote ... stating an abstractly neat aphorism". Style terms appear in 23 of its
-25 fabricated calls. That is self-recognition of a generator signature, and it
-is the single best explanation of the 30-point gap between Claude and the OpenAI
-judges.
+**The 5.6 judges read the same specificity as fabrication.** The reversal is
+almost word-for-word. Where GPT-4.1 called a passage real for its "specific,
+measurable goals, credible timelines", Sol and Terra now call passages
+fabricated for exactly that quality:
 
-**A genre confound is visible in Claude's "real" calls.** Seven of its eleven
-correct calls on real statutory documents cite accounting and audit boilerplate
---- "AASB 13 fair value disclosure", "UK HE SORP", "ISAs", "Ethical Standard",
-"Level 2/Level 3 valuation inputs". That language appears only in real annual
-reports; the slop impact reports never contain it. Claude's 100% on the impact
-condition is therefore partly a genre artefact, not discrimination of
-fabricated-ness. The strategy condition, where both sides are marketing-register
-prose, is the honest number.
+- "the oddly specific two-page limit on decision briefs ... reads like a
+  synthetic governance detail rather than a credible p[olicy]" (Terra)
+- "an implausibly specific" pledge to limit executive papers to two pages (Sol)
+- "oddly exact invented-looking metrics ('94 cohort-traceable research
+  outputs')" (Sol)
+- "the implausibly exhaustive, self-referential governance scheme --- down to
+  Council attendance join-logs ... and a Presence Officer" (Sol)
 
-**Confident errors.** The most confident miss (GPT-4.1, confidence 97) is a
-fabricated ANU strategic plan's delivery-phasing section --- "Build
-(2027--2028)... Embed (2029--2030)... Renew (2031)... Council holds
-responsibility for oversight of this plan" --- called real for its "detailed
-timeline, structured governance framework, and formal language about audits and
-annual reporting". The passage is generic enough that it could have come from
-any of the real plans in the set, which is precisely the point.
+The feature has not changed; the interpretation of it has flipped. Procedural
+over-completeness --- every asset stewarded, every meeting logged, every
+indicator retired on a schedule --- now reads as _too tidy to be an
+institution_. That is a better description of the press's actual failure mode
+than anything in the first run, and it is the most quotable qualitative result
+here.
+
+They also name generator style directly, converging on the vocabulary Claude
+used in the first run: "conspicuously literary chain of aphorisms and
+reversals", "unusually literary, self-consciously paradoxical institutional
+voice", "reads like generated prose", "reads as an AI-". The coined-noun tell
+still fires ("Heroic Dose Programme", "Post-Dose Integration") but it is no
+longer the only thing working.
+
+**The self-recognition explanation is substantially weakened.** In the first
+run, Claude's 96.3% against 61--67% for the OpenAI judges made
+generator-signature self-recognition the obvious explanation, and Claude's
+reasons named prose architecture in 23 of its 25 fabricated calls. That argument
+does not survive this run: Terra (100%) and Sol (98.1%) now match or beat
+Claude, from a different vendor, citing the same stylistic features. Whatever
+Claude was detecting, it was not something only Claude could see. The honest
+revision is that Claude's first-run score was _not_ meaningfully inflated by
+self-recognition --- it was simply ahead of the OpenAI models available at the
+time, and the field has caught up. The conflict of interest remains worth
+declaring, but it is no longer load-bearing.
+
+**The genre confound is unchanged and now affects every judge.** Correct calls
+on real statutory documents cite accounting and audit boilerplate --- "AASB 13
+fair value disclosure", "UK HE SORP", "ISAs (UK)", "FRC Ethical Standard",
+"Level 2/Level 3 valuation inputs" --- in 8/11 of Sol's, 7/11 of Terra's, 7/11
+of Luna's and 7/11 of Claude's. That language appears only in real annual
+reports; the slop impact reports never contain it. **Every judge's 100% on the
+impact condition is therefore partly a genre artefact**, which is why this
+report quotes the strategy condition, where both sides are marketing-register
+prose.
+
+**The errors are the most interesting part.** The 5.6 judges made only five
+errors between them, and four of the five are real strategic plans called
+fabricated --- three from Manchester, one from Toronto. The stated reasons are
+almost a review of the genre:
+
+- "relies heavily on generic aspirational strategy language and sweeping claims"
+  (Luna, on Manchester)
+- "relies on generic strategic buzzwords and sweeping commitments while offering
+  no co[ncrete detail]" (Luna, on Toronto)
+- "the unsupported pledge for half of all students to study online or through
+  workplace routes" (Sol, on Manchester)
+
+The real documents that get mistaken for fabrications are the vaguest and most
+aspirational ones. The single fabricated item that slipped past a 5.6 judge
+(Luna, confidence 67) was praised for "a coherent, institution-specific
+four-pillar framework and a credible Australia[n context]". Discrimination is
+now tracking concreteness rather than authorship, and on that axis some real
+university strategy is indistinguishable from generated strategy because it is
+doing the same thing.
+
+## The previous generation, for context
+
+The first run of this pilot (same 54 stimuli, same prompt, same harness) used
+the models current at the time. Those numbers are retained because "the previous
+model generation did much worse" is legitimate context, but they are no longer
+the result.
+
+| judge   | accuracy      | sensitivity to fabrication | specificity | called FABRICATED |
+| ------- | ------------- | -------------------------- | ----------- | ----------------- |
+| GPT-5   | 66.7% (36/54) | 40.7%                      | 92.6%       | 24.1%             |
+| GPT-4.1 | 61.1% (33/54) | 22.2%                      | 100%        | 11.1%             |
+
+GPT-4.1 did not differ significantly from chance (p = 0.13). Both were flatly
+miscalibrated --- GPT-4.1 averaged 90.7 stated confidence when right and 91.1
+when wrong. The gap to 5.6 is roughly 30 points of accuracy and, more
+strikingly, 60--80 points of sensitivity to fabrication. Whatever changed
+between generations, it changed the ability to notice that institutional prose
+is manufactured, not the ability to recognise that a real document is real ---
+specificity was already near ceiling and stayed there.
+
+## What survives
+
+The strong claim is dead. Current frontier models discriminate these two
+populations from text alone at or near ceiling, so the paper cannot say a
+capable reader is fooled. What the pilot still supports:
+
+1. **The previous generation was fooled, badly and asymmetrically**, and that is
+   a dated but real measurement --- the models most people were using in 2025
+   and early 2026 let 60--78% of fabrications through while never doubting a
+   real document.
+2. **What current models detect is over-tidiness, not inauthenticity.** They
+   flag procedural over-completeness and aphoristic polish. This is a claim
+   about the press's house style being detectable, not about fabricated
+   institutional documents being detectable in general.
+3. **The real documents that get flagged are the vaguest ones.** Four of the
+   five errors the 5.6 judges made were real strategic plans called fabricated
+   for "generic aspirational strategy language" and "sweeping commitments ...
+   offering no concrete detail". The boundary the models have learned runs
+   between concrete and vague, not between real and invented --- and real
+   university strategy sits on both sides of it. That is a better version of the
+   project's argument than the discrimination result was ever going to be.
+4. **Recall is a live shortcut.** On 44% of the real side a model can simply
+   recognise the document, with perfect precision. Any future text-only
+   experiment against public documents has to control for this.
 
 ## Limitations
 
 The ones that constrain what may be claimed:
 
-1. **The primary judge generated the stimuli.** Claude's 96% is contaminated by
-   self-recognition and should not be reported as a discriminability figure. The
-   defensible ceiling for "can a capable model tell them apart" is the
-   non-Anthropic result: 61--72%, one of which is not significant.
-2. **Single-vendor cross-check.** Both independent judges are OpenAI. Their
-   agreement with each other bounds nothing about models generally.
-3. **The real corpus is not the faithful path.** The claim the press actually
+1. **Ceiling effects.** Terra scored 54/54 and Sol 53/54. At ceiling this design
+   cannot rank judges, cannot support a calibration analysis, and cannot detect
+   any further improvement. A harder stimulus set is needed before these models
+   can be compared to each other at all.
+2. **Memorisation is only partly controlled.** The probe catches _declared_
+   recognition (44% of the real side, zero false positives). Sub-threshold
+   familiarity would still help and would not be detected. The fabricated side
+   cannot be memorised --- it is gitignored and local-only --- so this confound
+   runs one way only.
+3. **Residual leakage found after the fact.** Untranslated te reo Māori
+   (`mātauranga`) and Irish (`chéile`) survived redaction in three excerpts and
+   were cited by judges. Excluded from cleaned figures, but the gazetteer should
+   have caught non-English vocabulary, not just the language's name.
+4. **Extraction parity is imperfect in outcome.** Identical method, but real
+   multi-column PDFs yield more merged tokens than typst-generated ones (2.85 vs
+   1.67 long tokens per excerpt), and at least one judgement cited this.
+5. **The impact condition is imperfectly genre-matched.** Real statutory annual
+   reports carry accounting language with no fabricated counterpart, and every
+   judge uses it. Quote the strategy condition.
+6. **The real corpus is not the faithful path.** The claim the press actually
    makes is about the _same machinery_ typesetting real content. That corpus
-   does not exist yet. This pilot compares fabricated-press prose against real
-   documents in their own typography's text layer, which is a related but weaker
-   comparison.
-4. **The impact condition is imperfectly genre-matched.** Real statutory annual
-   reports carry accounting language with no fabricated counterpart. Prefer the
-   strategy condition when quoting a number.
-5. **Small n.** 54 items, 32 source documents; the fabricated side is 20 source
-   documents from one generator with one house style, so this measures _this
-   press_, not fabricated institutional prose in general.
-6. **Residual style asymmetries.** The press capitalises "Plan" and "School"
-   more than the real corpus does. Symmetric redaction cannot remove a house
-   convention, and some of the signal may be that rather than fabrication as
-   such.
-7. **Judges were told the base rate is 50/50.** Items were presented
+   still does not exist.
+7. **Small n, one generator.** 54 items, 32 source documents; the fabricated
+   side is 20 documents from one press with one house style. This measures _this
+   press_ against current models, not fabricated institutional prose in general.
+8. **Single-vendor cross-check.** Three of four judges are OpenAI, and the three
+   5.6 variants are one family. A local Qwen endpoint was configured but
+   unreachable.
+9. **Judges were told the base rate is 50/50.** Items were presented
    independently so this cannot be exploited across items, but it does shape the
    decision threshold.
 
@@ -287,44 +492,48 @@ The ones that constrain what may be claimed:
 > To test whether the press's output survives the loss of its own typography, we
 > ran a text-only discrimination pilot. We drew 54 prose excerpts of roughly 300
 > words --- 27 fabricated, from the press's strategic plans and impact reports,
-> and 27 from genuine strategic plans and annual reports published by nine
-> real universities --- extracted from PDF by an identical pipeline and redacted
+> and 27 from genuine strategic plans and annual reports published by nine real
+> universities --- extracted from PDF by an identical pipeline and redacted
 > symmetrically for institutional, personal, geographic and referential
 > identity. Because real documents name more real entities, redaction leaves
 > them more heavily tagged; we matched the two sides on redaction-tag density so
 > that counting brackets could not substitute for reading (a tag-density-only
 > classifier, fitted on the test set, reaches 53.7%). Excerpts were presented
-> independently and in randomised order. Two non-Anthropic judges scored 66.7%
-> (GPT-5) and 61.1% (GPT-4.1) against a 50% baseline; the latter does not differ
-> significantly from chance. Both were badly asymmetric --- they almost never
-> mistook a real document for a fabrication (97.5% specificity pooled) but let
-> roughly two-thirds of fabrications through --- and both were flatly
-> miscalibrated, GPT-4.1 averaging 91% stated confidence whether right or wrong.
-> Their stated reasons show why: procedural specificity, phased delivery tables,
-> named governance committees and a self-critical register were read as evidence
-> of authenticity, which are exactly the properties the press manufactures. What
-> did give a fabrication away was almost never the prose but an implausible
-> coined noun --- a "Heroic Dose Programme", a "Presence Officer". A third
-> judge, Claude, scored 96.3%; we report this as a null result about
-> discriminability rather than a positive one, because Claude generated the
-> corpus and its stated reasons name generator style ("triadic parallel
-> clauses", "aphoristic, paradox-driven narration") rather than institutional
-> implausibility. The finding we take forward is narrower than the one we set
-> out to test, and more uncomfortable: a reader without the generator's own
-> stylistic fingerprint has little to go on but the vocabulary, and
-> institutional prose is a genre in which vocabulary is the only thing anyone
-> was ever checking.
+> independently, in randomised order, with the 50/50 base rate stated. Current
+> frontier models solve this task: GPT-5.6 Terra scored 100%, Sol 98.1% and
+> Claude Sonnet 96.3%, against 66.7% and 61.1% for the previous generation of
+> OpenAI models on the identical stimuli. We report the negative result plainly
+> --- the documents are not indistinguishable from text alone, and any claim
+> that they are is now false. Two things survive it. First, the failure was
+> recent and asymmetric: the models widely deployed a year earlier let 60--78%
+> of fabrications through while almost never doubting a real document (97.5%
+> specificity), and read procedural specificity, phased delivery tables and a
+> self-critical register as evidence of authenticity --- exactly the properties
+> the press manufactures. Second, and more interesting, the current models have
+> not learned to detect invention; they have learned to detect tidiness. They
+> flag "implausibly exhaustive" governance schemes and "conspicuously literary"
+> aphorism, and the passages they wrongly condemn are real university strategies
+> written in "generic aspirational strategy language" with "sweeping commitments
+> ... offering no concrete detail". Four of the five errors our best judges made
+> were real plans mistaken for fabrications on those grounds. The boundary these
+> systems have found runs between the concrete and the vague rather than between
+> the real and the invented, and a great deal of genuine institutional strategy
+> sits on the wrong side of it. We also note a confound that will bite any
+> replication: on 44% of the real excerpts a model could simply name the source
+> institution from redacted text, with no false positives on the fabricated
+> side, so part of what looks like discrimination on public documents is recall.
 
 ## Files
 
 ```
-discrimination-pilot.md        this report
+README.md                      this report
 corpus/provenance.json         real-side documents: titles, institutions, URLs
 corpus/raw/*.pdf               18 downloaded real documents (2 excluded from the set)
 scripts/build_stimuli.py       extraction + gazetteer redaction -> stimuli/pool.json
 scripts/leak_audit.py          LLM leakage detector + mechanical application
 scripts/sample_stimuli.py      tag-density-matched balanced sampling
 scripts/judge.py               the pilot harness (OpenAI + claude CLI backends)
+scripts/memorisation_probe.py  the recall control: can a judge name the source?
 scripts/analyse.py             accuracy, CIs, binomial tests, confusion, calibration
 stimuli/pool.json              189 redacted excerpts (gazetteer pass)
 stimuli/pool_leak_spans.json   every span the detector flagged, per excerpt
@@ -332,10 +541,15 @@ stimuli/pool_redacted.json     189 excerpts after both redaction passes
 stimuli/stimuli.json           the 54 sampled stimuli with truth labels
 stimuli/stimuli.txt            same, human-readable
 stimuli/key.json               compact item -> truth/condition/source key
-results/judgements-*.json      raw judgements per judge
-results/judgements-all.json    all 162 judgements pooled
+results/judgements-*.json      raw judgements per judge (6 judges across both runs)
+results/judgements-all.json    all judgements pooled
+results/memorisation.json      per-item recall probe results
 results/analysis.txt           full analysis output
 ```
+
+The stimulus set is unchanged between the two runs: `stimuli/stimuli.json` is
+byte-identical to the file used for the GPT-4.1 / GPT-5 judgements, so all six
+judges saw exactly the same 54 excerpts under the same prompt.
 
 Reproduce with:
 
@@ -343,10 +557,21 @@ Reproduce with:
 uv run --script scripts/build_stimuli.py
 uv run --script scripts/leak_audit.py detect && uv run --script scripts/leak_audit.py apply
 uv run --script scripts/sample_stimuli.py
-uv run --script scripts/judge.py openai:gpt-4.1
-uv run --script scripts/judge.py openai:gpt-5
+uv run --script scripts/judge.py openai:gpt-5.6-terra
+uv run --script scripts/judge.py openai:gpt-5.6-sol
+uv run --script scripts/judge.py openai:gpt-5.6-luna
 uv run --script scripts/judge.py claude:sonnet
+uv run --script scripts/memorisation_probe.py gpt-5.6-terra gpt-5.6-sol gpt-5.6-luna
 uv run --script scripts/analyse.py
 ```
 
-Sampling is seeded (`SEED = 20260801`); judge calls are not deterministic.
+Sampling is seeded (`SEED = 20260801`) and presentation order is now seeded per
+judge via `crc32` --- the first run used `hash()`, which Python salts per
+process, so that run's exact order is not recoverable. This does not affect any
+result: every item is an independent stateless call with no shared context, so
+presentation order cannot influence a judgement.
+
+API keys come from the `fnox` config in `~/projects/vlm-perception-experiments`.
+Note that on this machine `fnox run` emits `Provider 'onepass' not configured`
+warnings and falls through to the ambient `OPENAI_API_KEY`; the calls succeed
+either way, but the 1Password backing is not actually wired up.
