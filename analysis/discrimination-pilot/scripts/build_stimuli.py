@@ -573,6 +573,10 @@ def pdf_to_text(pdf: Path) -> str:
 
 WORD_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’\-]*")
 
+# Four or more single letters in a row: the signature of letter-spaced display
+# type flattened by pdftotext.
+LETTERSPACED_RE = re.compile(r"(?:\b[A-Z]\s+){4,}")
+
 
 def is_prose(par: str) -> bool:
     """Keep running prose; drop covers, contents, chart labels, tables, figures."""
@@ -598,6 +602,18 @@ def is_prose(par: str) -> bool:
         return False
     # contents pages / dotted leaders
     if "...." in par or ". . . ." in par:
+        return False
+    # Letter-spaced display type. Designers track headings out --- "W H AT W E
+    # D O" --- and pdftotext emits the tracking as real spaces, so the heading
+    # arrives as a run of single characters. It is a real-side-only artefact
+    # (typst generates no letter-spaced headings) and it points the same way the
+    # dropped ligatures did: towards "this text is damaged, so it is fabricated".
+    # Dropping the paragraph is better than trying to reassemble the words,
+    # which cannot be done reliably once the word boundaries are gone.
+    if LETTERSPACED_RE.search(par):
+        return False
+    singles = sum(1 for w in words if len(w) == 1 and w.isupper() and w != "I")
+    if singles / len(words) > 0.05:
         return False
     return True
 

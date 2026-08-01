@@ -17,6 +17,7 @@ Usage:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -84,8 +85,39 @@ def detect_one(client: httpx.Client, stim: dict) -> dict:
 
 def detect() -> None:
     stims = json.loads(STIM.read_text())
-    with httpx.Client() as client, ThreadPoolExecutor(max_workers=8) as pool:
-        results = list(pool.map(lambda s: detect_one(client, s), stims))
+
+    # Cache on the excerpt TEXT, not its id. Ids shift whenever the prose filter
+    # changes what counts as an excerpt, but the detector's answer depends only
+    # on the words it was shown --- so keying on the text means a re-run after a
+    # pipeline fix, or after the corpus grows, pays only for excerpts that are
+    # genuinely new. At 600-odd excerpts a full re-detect is not ruinous, but it
+    # is pure waste, and this corpus is meant to keep growing.
+    cached: dict[str, list] = {}
+    if SPANS.exists():
+        for row in json.loads(SPANS.read_text()):
+            if "text_sha1" in row:
+                cached[row["text_sha1"]] = row["leaks"]
+
+    def key(s: dict) -> str:
+        return hashlib.sha1(s["text"].encode()).hexdigest()
+
+    todo = [s for s in stims if key(s) not in cached]
+    print(f"{len(stims) - len(todo)} excerpts cached, {len(todo)} to detect")
+
+    fresh: dict[str, list] = {}
+    if todo:
+        with httpx.Client() as client, ThreadPoolExecutor(max_workers=8) as pool:
+            for r in pool.map(lambda s: detect_one(client, s), todo):
+                fresh[r["item"]] = r["leaks"]
+
+    results = [
+        {
+            "item": s["id"],
+            "text_sha1": key(s),
+            "leaks": fresh.get(s["id"], cached.get(key(s), [])),
+        }
+        for s in stims
+    ]
     SPANS.write_text(json.dumps(results, indent=1))
     n = sum(len(r["leaks"]) for r in results)
     print(f"detected {n} candidate leaks across {len(results)} excerpts")
@@ -131,7 +163,9 @@ def apply() -> None:
         # longest first so nested spans don't leave fragments
         # the detector occasionally returns bare strings instead of objects
         leaks = [
-            lk if isinstance(lk, dict) else {"text": str(lk), "category": "ORGANISATION"}
+            lk
+            if isinstance(lk, dict)
+            else {"text": str(lk), "category": "ORGANISATION"}
             for lk in leaks
         ]
         leaks = sorted(leaks, key=lambda x: -len(str(x.get("text", ""))))
@@ -148,7 +182,10 @@ def apply() -> None:
             # institutional identity and redacting them only inflates tag counts
             if re.fullmatch(r"(?:19|20)\d{2}(?:[-/–](?:19|20)?\d{2})?", frag):
                 continue
-            if re.fullmatch(r"(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:19|20)\d{2}", frag):
+            if re.fullmatch(
+                r"(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:19|20)\d{2}",
+                frag,
+            ):
                 continue
             if frag not in text:
                 continue

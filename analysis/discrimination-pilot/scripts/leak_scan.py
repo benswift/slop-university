@@ -106,7 +106,11 @@ def side_of(row: dict) -> str:
 
 
 def text_of(row: dict) -> str:
-    for key in ("text", "excerpt", "redacted", "body"):
+    # `text_redacted` FIRST. The pool carries both the gazetteer-only text and
+    # the text after the LLM leak pass, and scanning the former reports leaks
+    # that were in fact removed --- which is worse than useless, because it
+    # sends you hunting for identity residue that is not in the stimulus.
+    for key in ("text_redacted", "text", "excerpt", "redacted", "body"):
         if key in row:
             return row[key]
     raise KeyError(f"no text field in {sorted(row)}")
