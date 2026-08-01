@@ -1,11 +1,21 @@
 # Slop University: text-only discrimination pilot
 
-> **Corpus expansion in progress (1 August 2026, TASK-006).** Everything below
-> describes the 54-item pilot and still stands as a record of it. The real-side
-> corpus has since been rebuilt at roughly ten times the size, and the stimulus
-> pipeline has been changed in ways that will move the numbers when the judges
-> are re-run. See [The expanded corpus](#the-expanded-corpus-task-006) at the
-> end for what is new, what is already measured, and what is still owed.
+> **Superseded in part by the expanded run (1 August 2026, TASK-006).**
+> Everything below describes the 54-item pilot and stands as a record of it. The
+> real corpus has since been rebuilt at roughly thirteen times the size --- 147
+> documents, 143 institutions, 25 countries --- and all six judges re-run
+> against 190 stimuli drawn from it.
+>
+> **One claim below is refuted by that run and should not be quoted:** that the
+> boundary these judges learned runs between the concrete and the vague. It does
+> not replicate. See
+> [The claim this corpus was built to test does not replicate](#the-claim-this-corpus-was-built-to-test-does-not-replicate),
+> and the finding that replaced it --- the judges' stated reasons cite vagueness
+> while their behaviour does not track it. That affects the
+> [drafted paragraph for the paper](#drafted-paragraph-for-the-paper) at the end
+> of this file, which has not yet been rewritten.
+>
+> Run 1's own stimuli and judgements are archived under `run-1/`.
 
 Run 1 August 2026; re-run against the GPT-5.6 generation the same day.
 Everything below is reproducible from the scripts and data in this directory.
@@ -731,29 +741,139 @@ specific_ --- the phased delivery table, the named committee, the dated
 commitment --- while the genre it imitates is overwhelmingly vaguer than the
 imitation.
 
+### The re-run: what 190 items say
+
+Six judges, 190 stimuli drawn from 111 source documents, tag density matched at
+1.41 against 1.41 in the strategy condition. All 190 parsed for every judge.
+
+| judge             | accuracy  | sensitivity | specificity | strategy only |
+| ----------------- | --------- | ----------- | ----------- | ------------- |
+| GPT-5.6 Sol       | **98.9%** | 97.9%       | 100%        | 99.4%         |
+| GPT-5.6 Terra     | **95.3%** | 93.7%       | 96.8%       | 95.1%         |
+| GPT-5.6 Luna      | 92.1%     | 93.7%       | 90.5%       | 92.1%         |
+| Claude Sonnet     | 88.9%     | 80.0%       | 97.9%       | 87.8%         |
+| DeepSeek V4 Flash | 65.8%     | 68.4%       | 63.2%       | 65.9%         |
+| DeepSeek V4 Pro   | **54.2%** | 52.6%       | 55.8%       | 54.9%         |
+
+These are **not** comparable item-for-item with run 1. The corpus is different,
+the sample is different, and the extraction pipeline itself changed --- ligature
+repair, orthography normalisation and the letter-spacing filter all alter the
+text judges see. Per-judge deltas between the runs are not movement over time.
+
+Two things do carry. **The spread widened to 44.7 points** against 31.5, so
+detectability remains a property of the reader and more so. And **Terra came off
+the ceiling**, 54/54 in run 1 against 181/190 here, which relieves the first
+run's sharpest limitation: at ceiling the design could not rank judges, support
+a calibration analysis, or detect any further improvement. Nine errors can be
+read.
+
+### The claim this corpus was built to test does not replicate
+
+For real excerpts only, in the strategy condition: does a document's vagueness
+predict a judge calling it fabricated? **No.**
+
+| judge             | real-side errors | r          | permutation p | rank-sum p |
+| ----------------- | ---------------- | ---------- | ------------- | ---------- |
+| DeepSeek V4 Pro   | 36               | **-0.056** | 0.62          | 0.32       |
+| DeepSeek V4 Flash | 31               | 0.161      | 0.15          | 0.19       |
+| GPT-5.6 Luna      | 7                | 0.055      | 0.63          | 0.40       |
+| GPT-5.6 Terra     | 2                | 0.074      | 0.50          | 0.28       |
+| Claude Sonnet     | 2                | 0.001      | 0.99          | 0.93       |
+| GPT-5.6 Sol       | 0                | ---        | ---           | ---        |
+
+Nothing is significant, and the sign is not even consistent. The decile table is
+flat: 16% misclassification in the least vague decile, 18% in the vaguest, with
+no monotone trend between. The vagueness index spans 1.6 to 7.3 across the
+sampled real excerpts, so this is not restriction of range, and the two judges
+with real statistical power --- Pro with 36 errors and Flash with 31 --- are the
+two closest to zero.
+
+Two clean errors across two institutions were an anecdote. The anecdote does not
+generalise.
+
+### What replaced it is better
+
+**The judges' stated reasons cite vagueness. Their behaviour does not track
+it.**
+
+Nine of the eleven real-side errors made by the four strongest judges name the
+predicted feature almost verbatim:
+
+- "relies on repetitive, highly generic strategic language and sweeping 2035
+  ambitions without concrete objectives, measures, or identifiable initiatives"
+  (Luna, on Wollongong)
+- "generically hedged and adjective-heavy ... without a single concrete,
+  checkable data point" (Sonnet, on Teesside)
+- "highly generic, repetitive aspirational language and vague commitments
+  without measurable targets, timelines, responsible units" (Luna, on Iowa)
+
+So the reasons say vagueness and the measurements say no relationship. Three
+things rule out the obvious explanations.
+
+**The construct is real and measurable.** The lexical proxy and a model's own
+concreteness rating agree at r = +0.57 across 603 excerpts (+0.44 within the
+real side alone). This is not an ill-defined property that no measure could
+capture.
+
+**Both measures agree on the corpus-level fact.** Real documents are vaguer than
+fabricated ones on the proxy (+4.15 against +1.88) and on the model rating
+(concreteness 27.6 against 55.3 --- the press is twice as concrete as real
+universities). Two independent methods, same conclusion.
+
+**The models' own axis fails too.** Scoring the errors against GPT-5.6 Terra's
+concreteness ratings rather than the lexical proxy changes nothing: every r is
+within noise of zero, and Pro's is again the wrong sign. It is not that the
+proxy missed what the judges meant by "vague" --- the judges' own notion of
+concreteness does not predict their judgements either.
+
+The remaining explanation is that **the stated reasons are post-hoc
+rationalisation**: "generic aspirational language with no concrete detail" is
+true of nearly every university strategic plan, so it is always available as a
+justification, and a model asked to name the deciding feature will reach for it
+whether or not it decided anything. That is a caution well beyond this paper.
+Reading a model's stated reasons as evidence about its decision procedure is
+exactly what the first run did, and it produced a finding that a hundred more
+documents could not reproduce.
+
+### Memorisation at scale
+
+| judge         | claimed recognition | correctly named the real source | false recognitions |
+| ------------- | ------------------- | ------------------------------- | ------------------ |
+| GPT-5.6 Sol   | 51/190              | 39/95 real items (41%)          | 0                  |
+| GPT-5.6 Terra | 40/190              | 24/95 (25%)                     | 1                  |
+| GPT-5.6 Luna  | 28/190              | 16/95 (17%)                     | 2                  |
+
+Recall is still a live shortcut and still close to precise, but the rate has
+fallen from run 1's 44% for both Sol and Terra --- as it should, because the
+corpus now contains a great many institutions obscure enough that no model has
+memorised their strategic plans. Obscurity is the control the first run lacked,
+and it is now doing work.
+
 ### Still owed
 
-1. **The re-run itself.** The judges have not been run against the expanded
-   stimulus set. The pool is 509 excerpts (378 real, 131 fabricated) and the
-   fabricated side is now the scarce one, so the tag-density-matched sample will
-   be roughly 98 pairs per condition against the first run's 16 --- a far better
-   test, and one that will cost real API budget across six judges.
-2. **Whether misclassification tracks the vagueness score.** This is the actual
-   claim of TASK-006, and it needs judgements to test. The axis is measured; the
-   correlation is not.
-3. **The model rating of the axis.** `vagueness.py --model` is implemented but
-   unrun; agreement between the model rating and the lexical proxies is what
-   licenses treating either as a measurement of the same thing.
-4. **The memorisation probe at scale.** A hundred more public documents makes
-   recall a bigger confound, not a smaller one --- but the corpus now contains
-   many genuinely obscure institutions, which is the control the first run
-   lacked. `memorisation_probe.py` is unchanged and needs running.
-5. **Extraction parity in outcome.** Real multi-column PDFs still yield more
-   merged tokens than typst-generated ones, and the one-sided lone capitals
-   above are a second instance of the same problem. Identical method, unequal
-   result.
-6. **`Willie A`.** The `word-capital` rule catches `Unit M` but not a forename
-   followed by a middle initial.
+1. **The paper's drafted paragraph is now wrong** and needs rewriting. It states
+   that "the boundary these systems have found runs between the concrete and the
+   vague rather than between the real and the invented", citing four errors.
+   That claim is refuted by the data below it, and the replacement --- stated
+   reasons that do not describe behaviour --- is a different argument.
+2. **What the errors DO track is unknown.** Ruling out vagueness says what is
+   not driving misclassification, not what is. Candidate predictors worth
+   testing against the same 82 real excerpts: extraction damage, document age,
+   country, tier, and whether the judge claimed to recognise the source.
+3. **Extraction parity remains open**, and is now implicated. Luna flagged
+   Wollongong partly for "the malformed 'realworld impact'" --- a merged token,
+   real-side only. Merged tokens are the one real-side artefact still
+   unaddressed, and unlike vagueness they are a plausible cause.
+4. **Eleven one-sided lone capitals survive** the letter-spacing filter,
+   scattered one to five occurrences each. Down from a systematic artefact to a
+   marginal one, but still one-sided and still pointing real to fabricated.
+5. **TASK-007's manual downloads** can be folded in without re-judging: item ids
+   are content-derived and `judge.py` resumes. They will not enlarge the
+   discrimination test, which is capped at ~90 strategy pairs by the fabricated
+   side, but they improve the corpus-level vagueness measurement.
+6. **One rater, one axis.** The model concreteness rating is GPT-5.6 Terra only.
+   A second rater would establish whether the r = +0.57 agreement with the
+   lexical proxy is a property of the construct or of that model.
 
 ## Files
 

@@ -505,7 +505,9 @@ def main() -> None:
                     res = {"concreteness": None, "reason": f"error: {e}"}
             return {
                 "id": rows[i].get("id"),
-                "item": rows[i].get("item"),
+                # Derived, as in the proxy path: the pool is rated BEFORE
+                # sampling and carries no "item" of its own.
+                "item": item_id(rows[i]["id"]) if rows[i].get("id") else None,
                 "truth": rows[i].get("truth"),
                 "rater": args.model,
                 **res,

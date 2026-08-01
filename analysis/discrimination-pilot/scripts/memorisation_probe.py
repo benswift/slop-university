@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -56,6 +57,20 @@ ENDPOINTS = {
 
 
 def ask(model: str, text: str) -> dict:
+    """One probe, with retries --- a single transient 500 from the provider
+    killed an entire six-model run, which is an expensive way to learn that a
+    long batch job needs to tolerate a flaky request."""
+    for attempt in range(4):
+        try:
+            return _ask_once(model, text)
+        except Exception:  # noqa: BLE001 - retry, then give up on this item
+            if attempt == 3:
+                return {"recognised": None, "error": True}
+            time.sleep(2**attempt)
+    return {"recognised": None, "error": True}
+
+
+def _ask_once(model: str, text: str) -> dict:
     url, keyvar = ENDPOINTS["deepseek" if model.startswith("deepseek") else ""]
     with httpx.Client() as c:
         r = c.post(
@@ -75,26 +90,26 @@ def ask(model: str, text: str) -> dict:
             return {"recognised": None}
 
 
-# maps a source-file stem to the institution that actually published it
-TRUTH = {
-    "real-strategy-anu": "australian national",
-    "real-impact-anu": "australian national",
-    "anu-corporate-plan-2026-v5": "australian national",
-    "real-strategy-auckland": "auckland",
-    "real-impact-auckland": "auckland",
-    "real-strategy-edinburgh": "edinburgh",
-    "real-impact-edinburgh": "edinburgh",
-    "real-strategy-manchester": "manchester",
-    "real-impact-manchester": "manchester",
-    "real-strategy-toronto": "toronto",
-    "real-strategy-trinity-dublin": "trinity",
-    "real-strategy-tudelft": "delft",
-    "real-impact-tudelft": "delft",
-    "real-strategy-ucl": "college london",
-    "real-impact-ucl": "college london",
-    "real-strategy-univ-sydney": "sydney",
-    "real-strategy-unsw": "new south wales",
-}
+# Maps a source-file stem to the institution that published it. Derived from
+# corpus/provenance.json rather than hand-written: the hand-written version
+# covered the first run's twelve institutions, and against a corpus of 143 it
+# would score almost every correct recognition as a miss --- silently turning a
+# memorisation result into an understatement.
+def _load_truth() -> dict[str, str]:
+    prov = json.loads((ROOT / "corpus" / "provenance.json").read_text())
+    out: dict[str, str] = {}
+    for row in prov.get("real_strategy", []) + prov.get("real_impact", []):
+        stem = row["file"].rsplit(".", 1)[0]
+        name = row["institution"].lower()
+        # Match on the distinctive part: a judge naming "Manchester" should
+        # count as having named "The University of Manchester".
+        for filler in ("the ", "university of ", " university", "college of ", " college"):
+            name = name.replace(filler, " ")
+        out[stem] = " ".join(name.split())
+    return out
+
+
+TRUTH = _load_truth()
 
 
 def main() -> None:

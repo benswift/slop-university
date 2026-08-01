@@ -113,14 +113,31 @@ def normal_p(z: float) -> float:
     return math.erfc(abs(z) / math.sqrt(2))
 
 
-def load() -> tuple[dict[str, float], list[dict]]:
-    if not PROXIES.exists():
-        raise SystemExit("run `vagueness.py --proxies` first")
-    index = {
-        r["item"]: r["vagueness_index"]
-        for r in json.loads(PROXIES.read_text())
-        if r.get("item")
-    }
+def load(axis: str = "proxy") -> tuple[dict[str, float], list[dict]]:
+    if axis == "proxy":
+        if not PROXIES.exists():
+            raise SystemExit("run `vagueness.py --proxies` first")
+        index = {
+            r["item"]: r["vagueness_index"]
+            for r in json.loads(PROXIES.read_text())
+            if r.get("item")
+        }
+    else:
+        # The model's own concreteness rating, sign-flipped so that higher means
+        # vaguer on both axes and the two are directly comparable. If the models'
+        # stated reasons ("no concrete detail") describe what they actually did,
+        # THIS axis should predict their errors even where the lexical proxy
+        # does not --- and if it does not either, the reasons are post-hoc.
+        path = RESULTS / f"vagueness-model-{axis}.json"
+        if not path.exists():
+            raise SystemExit(
+                f"no model rating at {path} --- run `vagueness.py --model openai:{axis}`"
+            )
+        index = {
+            r["item"]: -float(r["concreteness"])
+            for r in json.loads(path.read_text())
+            if r.get("item") and r.get("concreteness") is not None
+        }
 
     rows: list[dict] = []
     for f in sorted(RESULTS.glob("judgements-*.json")):
@@ -156,11 +173,16 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--judge", help="restrict to one judge")
     p.add_argument(
+        "--axis",
+        default="proxy",
+        help="'proxy' for the lexical index, or a rater model id for its own concreteness rating",
+    )
+    p.add_argument(
         "--condition", default="strategy", help="condition to test (default: strategy)"
     )
     args = p.parse_args()
 
-    index, rows = load()
+    index, rows = load(args.axis)
 
     # Real excerpts only. The question is whether vagueness predicts a real
     # document being mistaken for a fabrication, not whether the two corpora
@@ -178,6 +200,7 @@ def main() -> None:
     if not rows:
         raise SystemExit("no matching real-side judgements")
 
+    print(f"axis: {args.axis}")
     print(
         f"{len(rows)} real-side judgements in the {args.condition} condition, "
         f"{len({r['judge'] for r in rows})} judges, "
