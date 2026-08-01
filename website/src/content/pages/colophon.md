@@ -33,6 +33,14 @@ served from `pdf.slop.university`, are blocked from search-engine indexing by
 that host's `robots.txt`, so that fabricated documents citing real literature
 can never feed citation databases or scholarly search engines.
 
+Two further surfaces stay public and are not covered by that rule: the
+University's Bluesky feed, and an `llms.txt` that orients automated readers
+rather than turning them away --- a site that bars search engines while
+welcoming language models is being precise about which readers it was built for.
+Neither surface carries a bibliography. The borrowed literature exists only
+inside the PDFs and never in this site's HTML, so nothing an indexer can reach
+names a real work.
+
 **Nothing here impersonates anyone.** The institution, its schools, and its
 researchers are fictional by construction. The branding is drawn from scratch;
 the
