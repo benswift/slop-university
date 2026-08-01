@@ -31,6 +31,9 @@ from pathlib import Path
 
 import httpx
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ids import text_sha  # noqa: E402
+
 SCRATCH = Path(__file__).resolve().parent.parent
 STIM = SCRATCH / "stimuli" / "stimuli.json"
 RESULTS = SCRATCH / "results"
@@ -151,11 +154,30 @@ def main() -> None:
     # disk stay valid when the corpus grows: only genuinely new items are sent.
     # A judgement whose id is no longer in the stimulus set is kept rather than
     # dropped --- it is evidence about an excerpt, not about this sample.
+    # A judgement is evidence about the excerpt that was judged, so resume keys
+    # on the excerpt's text and not only on its id. Ids survive a pool rebuild
+    # and a stimulus repair; the text does not, and a judgement of text that no
+    # longer exists must be re-elicited rather than reused. Rows written before
+    # this stamp existed carry no fingerprint and are trusted, with a warning:
+    # there is nothing else to do with them, but the gap should be visible.
+    shas = {s["item"]: text_sha(s["text_redacted"]) for s in stims}
     existing: dict[str, dict] = {}
     if out.exists():
         prior = json.loads(out.read_text())
         if prior and "item" in prior[0]:
             existing = {r["item"]: r for r in prior if r.get("judgement")}
+        unstamped = sum(1 for r in existing.values() if not r.get("text_sha"))
+        if unstamped:
+            print(f"note: {unstamped} prior judgements predate the text fingerprint")
+        changed = {
+            item
+            for item, r in existing.items()
+            if r.get("text_sha") and item in shas and r["text_sha"] != shas[item]
+        }
+        if changed:
+            print(f"note: {len(changed)} excerpts have changed since judging --- re-judging")
+            for item in changed:
+                del existing[item]
         stale = existing.keys() - {s["item"] for s in stims}
         if stale:
             print(
@@ -189,6 +211,7 @@ def main() -> None:
                 res = {"judgement": None, "confidence": None, "reason": f"error: {e}"}
         return {
             "item": s["item"],
+            "text_sha": text_sha(s["text_redacted"]),
             "presentation_index": order.index(k),
             "stimulus_fingerprint": fingerprint,
             "judge": model,

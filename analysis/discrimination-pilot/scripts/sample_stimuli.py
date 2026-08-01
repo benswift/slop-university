@@ -36,7 +36,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ids import item_id  # noqa: E402
+from ids import item_id, text_sha  # noqa: E402
 
 SCRATCH = Path(__file__).resolve().parent.parent
 POOL = SCRATCH / "stimuli" / "pool_redacted.json"
@@ -144,8 +144,15 @@ def main() -> None:
 
     OUT.write_text(json.dumps(chosen, indent=1))
 
+    # Over the text, not just the ids. Ids survive a rebuild, so a fingerprint
+    # taken over ids alone reports "same stimulus set" after the excerpts under
+    # those ids have changed --- which is the failure this sidecar exists to
+    # make visible.
     fingerprint = hashlib.sha1(
-        "".join(sorted(s["item"] for s in chosen)).encode()
+        "".join(
+            f"{s['item']}:{text_sha(s['text_redacted'])}"
+            for s in sorted(chosen, key=lambda s: s["item"])
+        ).encode()
     ).hexdigest()[:16]
     MANIFEST.write_text(
         json.dumps(

@@ -2,7 +2,7 @@
  {
   "item": "E0061494b",
   "presentation_index": 109,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -12,12 +12,13 @@
   "tag_density": 1.75,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The excerpt uses generic but coherent strategic planning language typical of real university documents, with no obvious signs of fabrication."
+  "reason": "The excerpt uses generic but coherent strategic planning language typical of real university documents, with no obvious signs of fabrication.",
+  "text_sha": "63dbc7b55eb0"
  },
  {
   "item": "E028a1a72",
   "presentation_index": 76,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -27,12 +28,13 @@
   "tag_density": 2.45,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt reports a specific counterintuitive null finding from a controlled study, which is typical of genuine research reporting rather than generic AI-generated text."
+  "reason": "The excerpt reports a specific counterintuitive null finding from a controlled study, which is typical of genuine research reporting rather than generic AI-generated text.",
+  "text_sha": "b0d8f1c896b7"
  },
  {
   "item": "E03788a35",
   "presentation_index": 185,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -42,12 +44,13 @@
   "tag_density": 1.24,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The claim that almost two-thirds of graduates are in a leadership role three years after completion is an exaggerated statistic typical of AI-generated promotional text."
+  "reason": "The claim that almost two-thirds of graduates are in a leadership role three years after completion is an exaggerated statistic typical of AI-generated promotional text.",
+  "text_sha": "e7b3fc0650b7"
  },
  {
   "item": "E0384828b",
   "presentation_index": 8,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -57,12 +60,13 @@
   "tag_density": 0.75,
   "judgement": "REAL",
   "confidence": 65,
-  "reason": "The specific mention of investing in heritage assets suggests an established university and is a concrete detail not always found in fabricated documents."
+  "reason": "The specific mention of investing in heritage assets suggests an established university and is a concrete detail not always found in fabricated documents.",
+  "text_sha": "75cf7fbc17db"
  },
  {
   "item": "E08e56edf",
   "presentation_index": 74,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -72,12 +76,13 @@
   "tag_density": 1.71,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The vision to be a world-leading university focused on studying a specific place and its global role feels artificially narrow for a comprehensive institution boasting unmatched research scale."
+  "reason": "The vision to be a world-leading university focused on studying a specific place and its global role feels artificially narrow for a comprehensive institution boasting unmatched research scale.",
+  "text_sha": "6fd96cac0602"
  },
  {
   "item": "E0970b572",
   "presentation_index": 98,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -87,12 +92,13 @@
   "tag_density": 1.86,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "One partner name ('Department of Industry, Science and Resources') is left unredacted, contradicting the prompt's assertion that all institution names are replaced by tags."
+  "reason": "One partner name ('Department of Industry, Science and Resources') is left unredacted, contradicting the prompt's assertion that all institution names are replaced by tags.",
+  "text_sha": "9dd3f12ab1e6"
  },
  {
   "item": "E0d4469e3",
   "presentation_index": 163,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -102,12 +108,13 @@
   "tag_density": 1.86,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The text centers on an abstract, coined concept ('Hybrid Substrate Premise' and 'crossing') that lacks concrete institutional grounding typical of real strategic plans."
+  "reason": "The text centers on an abstract, coined concept ('Hybrid Substrate Premise' and 'crossing') that lacks concrete institutional grounding typical of real strategic plans.",
+  "text_sha": "16741ca676f6"
  },
  {
   "item": "E0f34857e",
   "presentation_index": 69,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -117,12 +124,13 @@
   "tag_density": 1.05,
   "judgement": "FABRICATED",
   "confidence": 65,
-  "reason": "The grammatical error 'industry that spans' and the unidiomatic 'multinational study partners' indicate AI-generated text that lacks coherent syntactic structure."
+  "reason": "The grammatical error 'industry that spans' and the unidiomatic 'multinational study partners' indicate AI-generated text that lacks coherent syntactic structure.",
+  "text_sha": "c621435fea5a"
  },
  {
   "item": "E0fd055a3",
   "presentation_index": 186,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -132,12 +140,13 @@
   "tag_density": 0.32,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The excerpt exhibits coherent structure and specific, realistic strategic priorities consistent with genuine university documents, such as the hallmark of small class sizes."
+  "reason": "The excerpt exhibits coherent structure and specific, realistic strategic priorities consistent with genuine university documents, such as the hallmark of small class sizes.",
+  "text_sha": "896a1a1d2b33"
  },
  {
   "item": "E153da4ea",
   "presentation_index": 146,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -147,12 +156,13 @@
   "tag_density": 2.53,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific metric of operating a permanently co-located joint research unit with reciprocal academic appointments and biennial renewal is a concrete, verifiable commitment characteristic of a real university plan."
+  "reason": "The specific metric of operating a permanently co-located joint research unit with reciprocal academic appointments and biennial renewal is a concrete, verifiable commitment characteristic of a real university plan.",
+  "text_sha": "a1255b2ca3d2"
  },
  {
   "item": "E15684fdd",
   "presentation_index": 16,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -162,12 +172,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The excerpt ends with an incomplete sentence ('for a more'), which is uncharacteristic of a professionally published university document and suggests AI-generated text that was truncated."
+  "reason": "The excerpt ends with an incomplete sentence ('for a more'), which is uncharacteristic of a professionally published university document and suggests AI-generated text that was truncated.",
+  "text_sha": "c5c884ac5c55"
  },
  {
   "item": "E16beb938",
   "presentation_index": 75,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -177,12 +188,13 @@
   "tag_density": 1.54,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt contains the unredacted proper noun 'College of Systems & Society', which should have been replaced by a tag if the document were real, indicating an AI-generated institutional name that evaded redaction."
+  "reason": "The excerpt contains the unredacted proper noun 'College of Systems & Society', which should have been replaced by a tag if the document were real, indicating an AI-generated institutional name that evaded redaction.",
+  "text_sha": "3297282aa2d0"
  },
  {
   "item": "E18fdafa5",
   "presentation_index": 24,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -192,12 +204,13 @@
   "tag_density": 0.92,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "Unredacted proper names like 'the School' and 'the Commons' appear inconsistently, suggesting a generated text where generic placeholders were not properly redacted."
+  "reason": "Unredacted proper names like 'the School' and 'the Commons' appear inconsistently, suggesting a generated text where generic placeholders were not properly redacted.",
+  "text_sha": "5e8fd4a8ce29"
  },
  {
   "item": "E1cf34cff",
   "presentation_index": 21,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -207,12 +220,13 @@
   "tag_density": 1.86,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt contains a disjointed structure with a stray number '38' and abrupt topic shifts characteristic of AI-generated patchwork."
+  "reason": "The excerpt contains a disjointed structure with a stray number '38' and abrupt topic shifts characteristic of AI-generated patchwork.",
+  "text_sha": "2d8704671dcd"
  },
  {
   "item": "E1fea4f4f",
   "presentation_index": 103,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -222,12 +236,13 @@
   "tag_density": 0.35,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt contains a residual page number (' \u2014 13 \u2014'), which is characteristic of text extracted from a real PDF rather than AI-generated prose."
+  "reason": "The excerpt contains a residual page number (' \u2014 13 \u2014'), which is characteristic of text extracted from a real PDF rather than AI-generated prose.",
+  "text_sha": "31b865262602"
  },
  {
   "item": "E2039ec78",
   "presentation_index": 84,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -237,12 +252,13 @@
   "tag_density": 1.79,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The extended mycelial metaphor and fanciful specifics like a 'Reciprocity Register' and 'Mycelial Forum' read as an AI-generated pastiche of progressive university rhetoric rather than genuine bureaucratic planning."
+  "reason": "The extended mycelial metaphor and fanciful specifics like a 'Reciprocity Register' and 'Mycelial Forum' read as an AI-generated pastiche of progressive university rhetoric rather than genuine bureaucratic planning.",
+  "text_sha": "f0ac1d6b3513"
  },
  {
   "item": "E235d31f3",
   "presentation_index": 176,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -252,12 +268,13 @@
   "tag_density": 1.37,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt demonstrates a nuanced understanding of disciplinary tensions and institutional structure, typical of genuine university strategic documents."
+  "reason": "The excerpt demonstrates a nuanced understanding of disciplinary tensions and institutional structure, typical of genuine university strategic documents.",
+  "text_sha": "9cdf8dd17646"
  },
  {
   "item": "E26b837c5",
   "presentation_index": 85,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -267,12 +284,13 @@
   "tag_density": 3.8,
   "judgement": "REAL",
   "confidence": 95,
-  "reason": "The use of the authentic M\u0101ori name 'Te Kunenga ki [PLACE]' strongly indicates a real institution (Massey University)."
+  "reason": "The use of the authentic M\u0101ori name 'Te Kunenga ki [PLACE]' strongly indicates a real institution (Massey University).",
+  "text_sha": "27cd0abde5d5"
  },
  {
   "item": "E27a5fa37",
-  "presentation_index": 47,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 16,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -281,13 +299,14 @@
   "words": 329,
   "tag_density": 1.82,
   "judgement": "FABRICATED",
-  "confidence": 85,
-  "reason": "The text uses the word 'meditations' where 'engagements' or 'collaborations' would be expected, which is a jarring and unlikely error in a professionally published university document."
+  "confidence": 90,
+  "reason": "The excerpt contains grammatical errors and unusual phrasing like 'Our Enabling Environment Mana-enhancing' as a run-on sentence, and the likely typo 'meditations' instead of 'deliberations', which are uncharacteristic of a carefully edited university publication.",
+  "text_sha": "9b117395bddf"
  },
  {
   "item": "E28afe1e5",
   "presentation_index": 173,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -297,12 +316,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 95,
-  "reason": "The excerpt uses psychedelic terminology ('Set & Setting', 'Heroic Dose', 'Post-Dose Integration') as formal governance terms, which is implausible for a genuine university plan."
+  "reason": "The excerpt uses psychedelic terminology ('Set & Setting', 'Heroic Dose', 'Post-Dose Integration') as formal governance terms, which is implausible for a genuine university plan.",
+  "text_sha": "f20670808a00"
  },
  {
   "item": "E29edbfaa",
   "presentation_index": 175,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -312,12 +332,13 @@
   "tag_density": 0.91,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains highly specific carbon budget figures (64% used from 2018/19-2023/24) and a precise approval date (April 2025) that are indicative of genuine institutional reporting."
+  "reason": "The excerpt contains highly specific carbon budget figures (64% used from 2018/19-2023/24) and a precise approval date (April 2025) that are indicative of genuine institutional reporting.",
+  "text_sha": "852274cb147d"
  },
  {
   "item": "E29f02cc3",
   "presentation_index": 116,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -327,12 +348,13 @@
   "tag_density": 0.9,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The text switches from singular 'university's activities' to plural 'the universities' mid-paragraph, inconsistent with a real single-institution document."
+  "reason": "The text switches from singular 'university's activities' to plural 'the universities' mid-paragraph, inconsistent with a real single-institution document.",
+  "text_sha": "475e3e8131b8"
  },
  {
   "item": "E2b32c20e",
   "presentation_index": 180,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -342,12 +364,13 @@
   "tag_density": 1.14,
   "judgement": "REAL",
   "confidence": 95,
-  "reason": "The excerpt contains detailed, specific academic initiatives such as hiring teaching experts in every school and strengthening support for sessional teachers, indicative of an authentic institutional strategic plan."
+  "reason": "The excerpt contains detailed, specific academic initiatives such as hiring teaching experts in every school and strengthening support for sessional teachers, indicative of an authentic institutional strategic plan.",
+  "text_sha": "7dcecbf9f15f"
  },
  {
   "item": "E2ed853b8",
   "presentation_index": 62,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -357,12 +380,13 @@
   "tag_density": 0.31,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains a specific and realistic reference to the UN's 2015 Sustainable Development Goals, along with a coherent description of interdisciplinary research areas typical of a psychology faculty strategic plan."
+  "reason": "The excerpt contains a specific and realistic reference to the UN's 2015 Sustainable Development Goals, along with a coherent description of interdisciplinary research areas typical of a psychology faculty strategic plan.",
+  "text_sha": "89f274b19c18"
  },
  {
   "item": "E30e8cb5b",
   "presentation_index": 115,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -372,12 +396,13 @@
   "tag_density": 2.6,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The excerpt contains repetitive phrasing and generic impact statements characteristic of AI-generated university impact reports."
+  "reason": "The excerpt contains repetitive phrasing and generic impact statements characteristic of AI-generated university impact reports.",
+  "text_sha": "d5425c7bf2e2"
  },
  {
   "item": "E30fc4ddb",
   "presentation_index": 49,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -387,12 +412,13 @@
   "tag_density": 2.45,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The concrete, mundane research finding about unnecessary cartridge swaps being logged as downtime is too idiosyncratic to be fabricated."
+  "reason": "The concrete, mundane research finding about unnecessary cartridge swaps being logged as downtime is too idiosyncratic to be fabricated.",
+  "text_sha": "f04b448e303b"
  },
  {
   "item": "E3271f110",
   "presentation_index": 17,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -402,12 +428,13 @@
   "tag_density": 0.92,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The extremely specific and overly bold working assumption about AI performing the majority of cognitive labor by 2029 is atypical of cautious real university strategic plans."
+  "reason": "The extremely specific and overly bold working assumption about AI performing the majority of cognitive labor by 2029 is atypical of cautious real university strategic plans.",
+  "text_sha": "211c3e21de67"
  },
  {
   "item": "E327bd8b4",
   "presentation_index": 36,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -417,12 +444,13 @@
   "tag_density": 1.82,
   "judgement": "REAL",
   "confidence": 95,
-  "reason": "The mention of 'Retirement Income Builder' and the seventh valuation under the scheme specific funding regime accurately reflects the USS pension scheme's structure and regulatory milestones."
+  "reason": "The mention of 'Retirement Income Builder' and the seventh valuation under the scheme specific funding regime accurately reflects the USS pension scheme's structure and regulatory milestones.",
+  "text_sha": "5b8c50a48f12"
  },
  {
   "item": "E32c619de",
-  "presentation_index": 99,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 17,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -430,14 +458,15 @@
   "source_doc": "anu2026-indo-pacific-sovereign-b906e4",
   "words": 295,
   "tag_density": 2.37,
-  "judgement": "FABRICATED",
+  "judgement": "REAL",
   "confidence": 80,
-  "reason": "The unhyphenated 'selfdetermination' and lowercase 'country' in an Indigenous context are atypical for professionally edited university documents, suggesting AI generation."
+  "reason": "The excerpt contains precise, measurable goals (e.g., '50 active strategic partnerships by 2031') and a concrete implementation timeline with designated roles, which are characteristic of authentic university strategic plans.",
+  "text_sha": "aafcb88ed6bd"
  },
  {
   "item": "E34eb9cd0",
   "presentation_index": 13,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -447,12 +476,13 @@
   "tag_density": 3.75,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "Overly generic phrasing and clich\u00e9d buzzwords typical of AI-generated prose, lacking any distinct concrete details or unique organisational voice."
+  "reason": "Overly generic phrasing and clich\u00e9d buzzwords typical of AI-generated prose, lacking any distinct concrete details or unique organisational voice.",
+  "text_sha": "b487205cd8ad"
  },
  {
   "item": "E35cccaec",
   "presentation_index": 178,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -462,12 +492,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The phrase 'intensifying research and intensifying innovation' uses an unusual verb pairing that is characteristic of AI-generated prose."
+  "reason": "The phrase 'intensifying research and intensifying innovation' uses an unusual verb pairing that is characteristic of AI-generated prose.",
+  "text_sha": "74c49776b9b4"
  },
  {
   "item": "E379822ec",
   "presentation_index": 154,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -477,12 +508,13 @@
   "tag_density": 0.97,
   "judgement": "REAL",
   "confidence": 92,
-  "reason": "Specific internal program names like 'TIPs Council' and '[PLACE] Collaborative for Transformative Study' indicate authentic institutional context."
+  "reason": "Specific internal program names like 'TIPs Council' and '[PLACE] Collaborative for Transformative Study' indicate authentic institutional context.",
+  "text_sha": "d401513b96b9"
  },
  {
   "item": "E3966c4cd",
   "presentation_index": 11,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -492,12 +524,13 @@
   "tag_density": 1.71,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'solving [ORGANISATION]' is grammatically incomplete, likely an error from AI generation."
+  "reason": "The phrase 'solving [ORGANISATION]' is grammatically incomplete, likely an error from AI generation.",
+  "text_sha": "0c1e79a9793e"
  },
  {
   "item": "E39800da1",
   "presentation_index": 90,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -507,12 +540,13 @@
   "tag_density": 0.68,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The specific, actionable target requiring an AI-free original-work component in all new courses by 2030, with Academic Board certification, reflects a genuine and timely institutional response to generative AI concerns."
+  "reason": "The specific, actionable target requiring an AI-free original-work component in all new courses by 2030, with Academic Board certification, reflects a genuine and timely institutional response to generative AI concerns.",
+  "text_sha": "b8838fbb037d"
  },
  {
   "item": "E3b0c9392",
   "presentation_index": 32,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -522,12 +556,13 @@
   "tag_density": 0.35,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The overly specific and rigid commitment to two-page written briefs and restricting slide decks to ceremonial use is idiosyncratic and not characteristic of genuine university strategic plans."
+  "reason": "The overly specific and rigid commitment to two-page written briefs and restricting slide decks to ceremonial use is idiosyncratic and not characteristic of genuine university strategic plans.",
+  "text_sha": "2ee7f57ba4fb"
  },
  {
   "item": "E3bfc12ee",
   "presentation_index": 160,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -537,12 +572,13 @@
   "tag_density": 1.18,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt abruptly shifts from researcher development to student mental health statistics without coherent transition, and uses overly promotional and mixed phrasing typical of AI-generated text."
+  "reason": "The excerpt abruptly shifts from researcher development to student mental health statistics without coherent transition, and uses overly promotional and mixed phrasing typical of AI-generated text.",
+  "text_sha": "428fefcca274"
  },
  {
   "item": "E3db727d9",
   "presentation_index": 129,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -552,12 +588,13 @@
   "tag_density": 0.62,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The strategies list is repetitive with near-identical phrasing for student and faculty/staff recruitment, suggesting formulaic generation."
+  "reason": "The strategies list is repetitive with near-identical phrasing for student and faculty/staff recruitment, suggesting formulaic generation.",
+  "text_sha": "4c50755de4db"
  },
  {
   "item": "E3ffcf62a",
   "presentation_index": 142,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -567,12 +604,13 @@
   "tag_density": 0.38,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The strategic pillar naming uses the overly colloquial 'Fair Dinkum', which reads as an artificial attempt to inject national character rather than a genuine university document."
+  "reason": "The strategic pillar naming uses the overly colloquial 'Fair Dinkum', which reads as an artificial attempt to inject national character rather than a genuine university document.",
+  "text_sha": "0400db711f0b"
  },
  {
   "item": "E40b547ba",
   "presentation_index": 18,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -582,12 +620,13 @@
   "tag_density": 0.94,
   "judgement": "REAL",
   "confidence": 65,
-  "reason": "The excerpt includes specific year 2025 and a coherent governance structure with a mid-period review in 2028, which aligns with typical real-world strategic planning cycles."
+  "reason": "The excerpt includes specific year 2025 and a coherent governance structure with a mid-period review in 2028, which aligns with typical real-world strategic planning cycles.",
+  "text_sha": "2c39f398afae"
  },
  {
   "item": "E41d0d0e4",
   "presentation_index": 93,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -597,12 +636,13 @@
   "tag_density": 0.33,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The excerpt contains informal Australian slang like 'mateship' and 'beaut set of bones' which are highly unlikely in a genuine strategic plan document."
+  "reason": "The excerpt contains informal Australian slang like 'mateship' and 'beaut set of bones' which are highly unlikely in a genuine strategic plan document.",
+  "text_sha": "a8c5fdbdc9c8"
  },
  {
   "item": "E421f657e",
   "presentation_index": 12,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -612,12 +652,13 @@
   "tag_density": 0.91,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The use of precise European higher education terminology like 'first and second cycle education' and 'research studies' is characteristic of authentic university strategic documents from institutions adhering to the Bologna Process."
+  "reason": "The use of precise European higher education terminology like 'first and second cycle education' and 'research studies' is characteristic of authentic university strategic documents from institutions adhering to the Bologna Process.",
+  "text_sha": "8bd7ad22b65e"
  },
  {
   "item": "E43568bcc",
   "presentation_index": 31,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -627,12 +668,13 @@
   "tag_density": 0.93,
   "judgement": "REAL",
   "confidence": 95,
-  "reason": "The excerpt contains hyphenated words at line breaks (e.g., 'ma\u2010 terial', 'trans\u2010 forming'), indicative of a real typeset document, and references the real Una Europa alliance."
+  "reason": "The excerpt contains hyphenated words at line breaks (e.g., 'ma\u2010 terial', 'trans\u2010 forming'), indicative of a real typeset document, and references the real Una Europa alliance.",
+  "text_sha": "235c4a343393"
  },
  {
   "item": "E4386112c",
-  "presentation_index": 6,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 13,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -642,12 +684,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The text relies on generic motivational language and clich\u00e9s like 'future world changers' without any specific details, which is characteristic of AI-generated fabrications."
+  "reason": "The excerpt relies entirely on generic buzzwords like 'future world changers' without any specific details or unique institutional voice.",
+  "text_sha": "4e7cdcb19461"
  },
  {
   "item": "E443b59b8",
   "presentation_index": 182,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -657,12 +700,13 @@
   "tag_density": 1.2,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains a specific, data-driven case study with precise temporal and quantitative details typical of genuine internal evaluation reports."
+  "reason": "The excerpt contains a specific, data-driven case study with precise temporal and quantitative details typical of genuine internal evaluation reports.",
+  "text_sha": "213b3872fb61"
  },
  {
   "item": "E498cb95b",
   "presentation_index": 125,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -672,12 +716,13 @@
   "tag_density": 1.54,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The self-referential oversight mechanism and the specific jargon 'join-log data' appear fabricated, as real university documents rarely require such detailed presence tracking across all units."
+  "reason": "The self-referential oversight mechanism and the specific jargon 'join-log data' appear fabricated, as real university documents rarely require such detailed presence tracking across all units.",
+  "text_sha": "4d5dd906e1ef"
  },
  {
   "item": "E4a0f0b64",
-  "presentation_index": 159,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 10,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -685,14 +730,15 @@
   "source_doc": "real-strategy-au-wollongong",
   "words": 291,
   "tag_density": 1.37,
-  "judgement": "FABRICATED",
+  "judgement": "REAL",
   "confidence": 75,
-  "reason": "The text strings together generic higher education buzzwords without specific details, and contains a minor error ('realworld') typical of AI-generated prose."
+  "reason": "The run-on heading 'Being ready for the world We are committed' suggests a genuine document with section headings imperfectly extracted, not a smoothly generated AI text.",
+  "text_sha": "2847a21e19b9"
  },
  {
   "item": "E4b3042c3",
   "presentation_index": 106,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -702,12 +748,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The detailed governance structure including an independent panel commissioned by Council for a mid-period review and the Audit and Risk Committee's oversight role is characteristic of authentic university strategic plans."
+  "reason": "The detailed governance structure including an independent panel commissioned by Council for a mid-period review and the Audit and Risk Committee's oversight role is characteristic of authentic university strategic plans.",
+  "text_sha": "bff0b432b457"
  },
  {
   "item": "E4b601ef4",
   "presentation_index": 139,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -717,12 +764,13 @@
   "tag_density": 0.64,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The excerpt includes a specific operational detail about an internal researcher's fieldwork on planning practices that suggests genuine institutional context."
+  "reason": "The excerpt includes a specific operational detail about an internal researcher's fieldwork on planning practices that suggests genuine institutional context.",
+  "text_sha": "a7463109c348"
  },
  {
   "item": "E4b95c535",
-  "presentation_index": 137,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 2,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -731,13 +779,14 @@
   "words": 324,
   "tag_density": 1.54,
   "judgement": "FABRICATED",
-  "confidence": 85,
-  "reason": "The use of dollar currency in a document referencing FRS 102 (UK accounting standard) and the double-bracketed redaction tag indicate fabrication."
+  "confidence": 90,
+  "reason": "The excerpt incorrectly refers to 'FIRS 102' instead of the real FRS 102 accounting standard.",
+  "text_sha": "b3bb4a0306a0"
  },
  {
   "item": "E4bf6b274",
   "presentation_index": 102,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -747,12 +796,13 @@
   "tag_density": 1.79,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The overly specific and whimsical institutional focus on 'accident' as a cross-disciplinary teachable practice, complete with a 'Glitch Studio' and 'Failed Experiment Archive,' suggests an AI-generated concoction."
+  "reason": "The overly specific and whimsical institutional focus on 'accident' as a cross-disciplinary teachable practice, complete with a 'Glitch Studio' and 'Failed Experiment Archive,' suggests an AI-generated concoction.",
+  "text_sha": "3a807ab03db7"
  },
  {
   "item": "E4c5c22e0",
-  "presentation_index": 179,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 5,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -761,13 +811,14 @@
   "words": 260,
   "tag_density": 1.54,
   "judgement": "REAL",
-  "confidence": 75,
-  "reason": "The inclusion of a specific numerical target ('half of our students to study online or through workplace routes') and redacted named labs suggests genuine institutional planning rather than generic AI fabrication."
+  "confidence": 80,
+  "reason": "The presence of 'y' artifacts likely from bullet point extraction in a PDF indicates a real university document.",
+  "text_sha": "1764861121fc"
  },
  {
   "item": "E4dbc410a",
   "presentation_index": 27,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -777,12 +828,13 @@
   "tag_density": 2.65,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The phrase 'the number staff' is a grammatical error typical of human drafting, not typical of polished AI-generated text."
+  "reason": "The phrase 'the number staff' is a grammatical error typical of human drafting, not typical of polished AI-generated text.",
+  "text_sha": "d7143ccb8296"
  },
  {
   "item": "E4dd6d5de",
   "presentation_index": 141,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -792,12 +844,13 @@
   "tag_density": 1.79,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The detailed proposal for an interdisciplinary advisory board with external experts to advise the President's Board is a realistic, specific governance mechanism typical of genuine university strategic plans."
+  "reason": "The detailed proposal for an interdisciplinary advisory board with external experts to advise the President's Board is a realistic, specific governance mechanism typical of genuine university strategic plans.",
+  "text_sha": "2998e5ee5c25"
  },
  {
   "item": "E4f66b5fa",
   "presentation_index": 133,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -807,12 +860,13 @@
   "tag_density": 2.53,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "Uses British spelling 'recognise' in a document describing a US-specific land-, sea-, and space-grant university."
+  "reason": "Uses British spelling 'recognise' in a document describing a US-specific land-, sea-, and space-grant university.",
+  "text_sha": "3ecffe41ba13"
  },
  {
   "item": "E500a3dd5",
   "presentation_index": 33,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -822,12 +876,13 @@
   "tag_density": 0.36,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The detailed breakdown of unregulated revenue sources (postgraduate, international, philanthropy, commercial) is typical of authentic university financial strategies."
+  "reason": "The detailed breakdown of unregulated revenue sources (postgraduate, international, philanthropy, commercial) is typical of authentic university financial strategies.",
+  "text_sha": "40aab6cf2afa"
  },
  {
   "item": "E515ee23c",
   "presentation_index": 147,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -837,12 +892,13 @@
   "tag_density": 0.89,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The rigid, universal requirement of a 'trajectory portfolio' for all appointments and admissions, combined with an artificially neat structure and jargon, suggests an AI-generated policy that lacks real-world institutional nuance."
+  "reason": "The rigid, universal requirement of a 'trajectory portfolio' for all appointments and admissions, combined with an artificially neat structure and jargon, suggests an AI-generated policy that lacks real-world institutional nuance.",
+  "text_sha": "8783c72508ad"
  },
  {
   "item": "E51cab28a",
   "presentation_index": 148,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -852,12 +908,13 @@
   "tag_density": 2.53,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific target of 50 strategic partnerships by 2031 and the detailed governance setup with executive sponsors and baselines are typical of authentic strategic plans."
+  "reason": "The specific target of 50 strategic partnerships by 2031 and the detailed governance setup with executive sponsors and baselines are typical of authentic strategic plans.",
+  "text_sha": "404c672b5633"
  },
  {
   "item": "E5439463e",
   "presentation_index": 105,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -867,12 +924,13 @@
   "tag_density": 1.34,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The grammatical error 'a far from perfect measures' indicates a lack of careful editing typical of AI-generated text."
+  "reason": "The grammatical error 'a far from perfect measures' indicates a lack of careful editing typical of AI-generated text.",
+  "text_sha": "63adfd88ed89"
  },
  {
   "item": "E54f828d0",
   "presentation_index": 59,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -882,12 +940,13 @@
   "tag_density": 1.05,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific phrase 'pressed us to be both more honest and more ambitious' conveys authentic reflective engagement unlikely in generic AI-generated text."
+  "reason": "The specific phrase 'pressed us to be both more honest and more ambitious' conveys authentic reflective engagement unlikely in generic AI-generated text.",
+  "text_sha": "8f4e63d9bc47"
  },
  {
   "item": "E5542d62c",
   "presentation_index": 64,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -897,12 +956,13 @@
   "tag_density": 1.24,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The excerpt's intense focus on error disclosure and a 'Standing Committee on Error and Correction' is implausibly specific and atypical of genuine university strategic documents."
+  "reason": "The excerpt's intense focus on error disclosure and a 'Standing Committee on Error and Correction' is implausibly specific and atypical of genuine university strategic documents.",
+  "text_sha": "99332c26b12a"
  },
  {
   "item": "E5581da85",
   "presentation_index": 124,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -912,12 +972,13 @@
   "tag_density": 2.48,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt includes a page number ('\u2014 12 \u2014') which is typical of real documents and less common in AI-generated text."
+  "reason": "The excerpt includes a page number ('\u2014 12 \u2014') which is typical of real documents and less common in AI-generated text.",
+  "text_sha": "c8bf0e556af0"
  },
  {
   "item": "E558c6230",
   "presentation_index": 46,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -927,12 +988,13 @@
   "tag_density": 0.75,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The text contains OCR artifacts from ligatures (e.g., 'e\ufffdfective') indicative of a real scanned document."
+  "reason": "The text contains OCR artifacts from ligatures (e.g., 'e\ufffdfective') indicative of a real scanned document.",
+  "text_sha": "fd834f34ae8a"
  },
  {
   "item": "E5b327aa2",
   "presentation_index": 72,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -942,12 +1004,13 @@
   "tag_density": 0.94,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "Specific details like the 22-member committee and analysis of 73 initiatives lend authenticity to the strategic planning narrative."
+  "reason": "Specific details like the 22-member committee and analysis of 73 initiatives lend authenticity to the strategic planning narrative.",
+  "text_sha": "70d6e472a811"
  },
  {
   "item": "E5dc8b802",
   "presentation_index": 153,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -957,12 +1020,13 @@
   "tag_density": 2.68,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The detailed description of 'integrated design pedagogy' with specific components like 'foundational course, the project-based seminar, the technical-cultural integration' reflects genuine, context-rich university planning rather than generic AI-generated prose."
+  "reason": "The detailed description of 'integrated design pedagogy' with specific components like 'foundational course, the project-based seminar, the technical-cultural integration' reflects genuine, context-rich university planning rather than generic AI-generated prose.",
+  "text_sha": "31568b9d43d4"
  },
  {
   "item": "E5edeeb4c",
   "presentation_index": 164,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -972,12 +1036,13 @@
   "tag_density": 0.61,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt includes concrete, institution-specific planning language and roles (e.g., Vice-Rector for Education) that align with authentic university strategic documents."
+  "reason": "The excerpt includes concrete, institution-specific planning language and roles (e.g., Vice-Rector for Education) that align with authentic university strategic documents.",
+  "text_sha": "5e5b2a91e2e8"
  },
  {
   "item": "E600ff39b",
   "presentation_index": 138,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -987,12 +1052,13 @@
   "tag_density": 0.68,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The excerpt includes a specific baseline metric from 2020 (Job involvement 4.22) typical of real strategic plans."
+  "reason": "The excerpt includes a specific baseline metric from 2020 (Job involvement 4.22) typical of real strategic plans.",
+  "text_sha": "e8422a87ee0f"
  },
  {
   "item": "E6284a748",
-  "presentation_index": 43,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 1,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1000,14 +1066,15 @@
   "source_doc": "real-strategy-toronto",
   "words": 286,
   "tag_density": 1.05,
-  "judgement": "REAL",
-  "confidence": 70,
-  "reason": "The seamless integration of generic strategic goals with institutional terminology (e.g., Statement of Institutional Purpose) mirrors authentic university planning language."
+  "judgement": "FABRICATED",
+  "confidence": 85,
+  "reason": "The excerpt is composed entirely of generic higher education buzzwords and lacks any institution-specific details or concrete examples, typical of AI-generated strategic plan language.",
+  "text_sha": "3d659b4f1b30"
  },
  {
   "item": "E64fff942",
-  "presentation_index": 135,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 3,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1015,14 +1082,15 @@
   "source_doc": "anu2026-ulm-pedagogical-inheritance-ua3nu2",
   "words": 270,
   "tag_density": 1.85,
-  "judgement": "FABRICATED",
+  "judgement": "REAL",
   "confidence": 85,
-  "reason": "The phrase 'civilsociety' is a concatenation error typical of AI-generated text, missing a space or hyphen between 'civil' and 'society', which is unlikely in a carefully proofread university strategic plan."
+  "reason": "The excerpt contains concrete, measurable targets and a detailed phased implementation timeline consistent with genuine university strategic plans.",
+  "text_sha": "bf298dd0e362"
  },
  {
   "item": "E6704cb56",
   "presentation_index": 67,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1032,12 +1100,13 @@
   "tag_density": 2.1,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'pipeline of talent research' appears to be a grammatical error or missing punctuation, which is characteristic of AI-generated text that mishandles lists."
+  "reason": "The phrase 'pipeline of talent research' appears to be a grammatical error or missing punctuation, which is characteristic of AI-generated text that mishandles lists.",
+  "text_sha": "824b41b1af22"
  },
  {
   "item": "E6ab208c5",
   "presentation_index": 63,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1047,12 +1116,13 @@
   "tag_density": 1.18,
   "judgement": "FABRICATED",
   "confidence": 65,
-  "reason": "The poetic phrase 'honourably retired' and the radical reliance on 'felt sense' over formal instruments suggests a dramatic, idealized plan more typical of AI-generated content."
+  "reason": "The poetic phrase 'honourably retired' and the radical reliance on 'felt sense' over formal instruments suggests a dramatic, idealized plan more typical of AI-generated content.",
+  "text_sha": "754748a89a5e"
  },
  {
   "item": "E6b4bb6b2",
   "presentation_index": 188,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1062,12 +1132,13 @@
   "tag_density": 3.74,
   "judgement": "FABRICATED",
   "confidence": 95,
-  "reason": "The described 'inventions' such as wooden magnets and dehydrated water pills are absurd and clearly fabricated."
+  "reason": "The described 'inventions' such as wooden magnets and dehydrated water pills are absurd and clearly fabricated.",
+  "text_sha": "71ea8ce1d917"
  },
  {
   "item": "E6cd5b87f",
   "presentation_index": 61,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1077,12 +1148,13 @@
   "tag_density": 2.68,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific acknowledgment of Indigenous custodianship and the phrase 'care for Country' is characteristic of real Australian university strategic plans."
+  "reason": "The specific acknowledgment of Indigenous custodianship and the phrase 'care for Country' is characteristic of real Australian university strategic plans.",
+  "text_sha": "900236b660a8"
  },
  {
   "item": "E6dd8e459",
   "presentation_index": 23,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1092,12 +1164,13 @@
   "tag_density": 1.04,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The excerpt adopts psychedelic terminology ('Microdose,' 'Set,' 'Setting') as a central metaphor for education, which is excessively unconventional for a genuine university document."
+  "reason": "The excerpt adopts psychedelic terminology ('Microdose,' 'Set,' 'Setting') as a central metaphor for education, which is excessively unconventional for a genuine university document.",
+  "text_sha": "211e17bef870"
  },
  {
   "item": "E6e7d816b",
-  "presentation_index": 122,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 19,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1105,14 +1178,15 @@
   "source_doc": "anu2026-nimes-new-interfaces-089f85",
   "words": 270,
   "tag_density": 0.0,
-  "judgement": "REAL",
+  "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The specific and consistent detail across the phased initiatives (e.g., undergraduate studio cycle integration across colleges) suggests an authentic institutional context."
+  "reason": "The excerpt exhibits a generic, template-like structure with symmetric phasing ('Set in motion', 'Deepen', 'Scale', 'Sustain') and a complete absence of concrete institutional details or unique identifiers, typical of AI-generated text.",
+  "text_sha": "b3756c6e1900"
  },
  {
   "item": "E700ba752",
   "presentation_index": 0,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1122,12 +1196,13 @@
   "tag_density": 0.9,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The excerpt consistently refers to 'universities' in the plural rather than a specific institution, lacking the first-person perspective typical of a single university's strategic or impact document."
+  "reason": "The excerpt consistently refers to 'universities' in the plural rather than a specific institution, lacking the first-person perspective typical of a single university's strategic or impact document.",
+  "text_sha": "d7a78028b29d"
  },
  {
   "item": "E70f950d8",
   "presentation_index": 81,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1137,12 +1212,13 @@
   "tag_density": 1.04,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The jarring non-sequitur from defining values to delivering a seamless student experience suggests AI-generated concatenation of buzzwords without strategic coherence."
+  "reason": "The jarring non-sequitur from defining values to delivering a seamless student experience suggests AI-generated concatenation of buzzwords without strategic coherence.",
+  "text_sha": "1f6bb59b953d"
  },
  {
   "item": "E715c46b3",
   "presentation_index": 184,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -1152,12 +1228,13 @@
   "tag_density": 2.35,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains highly specific procedural details (e.g., a wellbeing index item persisting for 11 years because a board resolution was needed, and the survey instrument being substituted in the third year) that are characteristic of a genuine case study in an impact report."
+  "reason": "The excerpt contains highly specific procedural details (e.g., a wellbeing index item persisting for 11 years because a board resolution was needed, and the survey instrument being substituted in the third year) that are characteristic of a genuine case study in an impact report.",
+  "text_sha": "83610ad2f9a8"
  },
  {
   "item": "E722f70e3",
   "presentation_index": 96,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1167,12 +1244,13 @@
   "tag_density": 2.24,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The inclusion of specific internal initiative names (Leadership Framework, Study for Staff program, Teaching Associate roles) suggests a real institution with established programs rather than generic fabricated text."
+  "reason": "The inclusion of specific internal initiative names (Leadership Framework, Study for Staff program, Teaching Associate roles) suggests a real institution with established programs rather than generic fabricated text.",
+  "text_sha": "bc50c3840efb"
  },
  {
   "item": "E726c474e",
   "presentation_index": 95,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1182,12 +1260,13 @@
   "tag_density": 0.34,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The specific program names ('Continuing Education, Executive Education, Partnered Projects and Pre-College') and cross-reference to page 23 show concrete detail typical of a genuine strategic plan."
+  "reason": "The specific program names ('Continuing Education, Executive Education, Partnered Projects and Pre-College') and cross-reference to page 23 show concrete detail typical of a genuine strategic plan.",
+  "text_sha": "8373c8512d87"
  },
  {
   "item": "E733982a4",
   "presentation_index": 108,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1197,12 +1276,13 @@
   "tag_density": 1.15,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The phrase 'spirit of agency that centres us as influencers' uses unnatural jargon inconsistent with typical university strategic plans."
+  "reason": "The phrase 'spirit of agency that centres us as influencers' uses unnatural jargon inconsistent with typical university strategic plans.",
+  "text_sha": "7fce0df38aea"
  },
  {
   "item": "E7386d6d8",
   "presentation_index": 66,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1212,12 +1292,13 @@
   "tag_density": 0.3,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt proposes a highly specific, actionable policy (named attestation for AI-assisted decisions) that reads like a genuine institutional commitment rather than generic AI-generated prose."
+  "reason": "The excerpt proposes a highly specific, actionable policy (named attestation for AI-assisted decisions) that reads like a genuine institutional commitment rather than generic AI-generated prose.",
+  "text_sha": "02474ccfb170"
  },
  {
   "item": "E7423e809",
   "presentation_index": 55,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1227,12 +1308,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The structured, detailed operational objectives with a coherent numbering system and specific policy language are characteristic of genuine university strategic documents."
+  "reason": "The structured, detailed operational objectives with a coherent numbering system and specific policy language are characteristic of genuine university strategic documents.",
+  "text_sha": "a72126759d00"
  },
  {
   "item": "E74259c39",
   "presentation_index": 40,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1242,12 +1324,13 @@
   "tag_density": 0.69,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The excerpt contains a detailed, sequentially numbered action plan that mirrors the structure of typical university strategic documents, including specific measurable steps and a logical flow from evaluation to implementation."
+  "reason": "The excerpt contains a detailed, sequentially numbered action plan that mirrors the structure of typical university strategic documents, including specific measurable steps and a logical flow from evaluation to implementation.",
+  "text_sha": "4d7bad49c39a"
  },
  {
   "item": "E744db3ff",
   "presentation_index": 87,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1257,12 +1340,13 @@
   "tag_density": 2.24,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The highly specific and unusual commitment to 'structured decision-rehearsal exercises' as a flagship research target is a distinctive, coherent priority unlikely to be fabricated."
+  "reason": "The highly specific and unusual commitment to 'structured decision-rehearsal exercises' as a flagship research target is a distinctive, coherent priority unlikely to be fabricated.",
+  "text_sha": "54a09ab867e6"
  },
  {
   "item": "E749e7195",
-  "presentation_index": 113,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 15,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1271,13 +1355,14 @@
   "words": 271,
   "tag_density": 0.37,
   "judgement": "FABRICATED",
-  "confidence": 85,
-  "reason": "The term 'Vibe Literacy' is highly informal and unlikely to appear in a genuine university strategic plan."
+  "confidence": 95,
+  "reason": "The concept of 'Vibe Literacy' and 'calibrated feel' as institutional accreditation is too satirical and unlike any genuine university strategic priority.",
+  "text_sha": "47b6725155f7"
  },
  {
   "item": "E74ac2537",
   "presentation_index": 78,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1287,12 +1372,13 @@
   "tag_density": 1.79,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt references real UK government policies like 'levelling up' and 'City Deal', which are specific and typical of genuine university strategic plans."
+  "reason": "The excerpt references real UK government policies like 'levelling up' and 'City Deal', which are specific and typical of genuine university strategic plans.",
+  "text_sha": "6445801c23a9"
  },
  {
   "item": "E789bd192",
   "presentation_index": 101,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1302,12 +1388,13 @@
   "tag_density": 2.55,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'all people and things' is unnaturally broad and not typical of real university strategic language."
+  "reason": "The phrase 'all people and things' is unnaturally broad and not typical of real university strategic language.",
+  "text_sha": "3d7b95760f2f"
  },
  {
   "item": "E78cd5822",
   "presentation_index": 170,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1317,12 +1404,13 @@
   "tag_density": 1.91,
   "judgement": "REAL",
   "confidence": 95,
-  "reason": "The unredacted acronym 'CQU' refers to a real university, Central Queensland University, indicating the excerpt is from a genuine document."
+  "reason": "The unredacted acronym 'CQU' refers to a real university, Central Queensland University, indicating the excerpt is from a genuine document.",
+  "text_sha": "6365afd3e7a7"
  },
  {
   "item": "E78ecf3e2",
   "presentation_index": 48,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1332,12 +1420,13 @@
   "tag_density": 1.52,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt references specific governance frameworks (Code of Good University Governance, three lines model) and uses precise, standard language typical of real university risk management documentation."
+  "reason": "The excerpt references specific governance frameworks (Code of Good University Governance, three lines model) and uses precise, standard language typical of real university risk management documentation.",
+  "text_sha": "dda3c3405de1"
  },
  {
   "item": "E7b066d4a",
   "presentation_index": 156,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1347,12 +1436,13 @@
   "tag_density": 1.89,
   "judgement": "REAL",
   "confidence": 88,
-  "reason": "The excerpt contains highly specific, legislation-driven operational details (e.g., WHSMS Handbook chapters, digital workflow system) consistent with genuine university compliance reporting."
+  "reason": "The excerpt contains highly specific, legislation-driven operational details (e.g., WHSMS Handbook chapters, digital workflow system) consistent with genuine university compliance reporting.",
+  "text_sha": "aeea67734fb3"
  },
  {
   "item": "E7bcdd34a",
   "presentation_index": 77,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1362,12 +1452,13 @@
   "tag_density": 0.65,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The concrete annual review timeline (April to June) and the use of the term 'Bildung' typically found in Scandinavian university plans indicate authenticity."
+  "reason": "The concrete annual review timeline (April to June) and the use of the term 'Bildung' typically found in Scandinavian university plans indicate authenticity.",
+  "text_sha": "640aee356056"
  },
  {
   "item": "E7c9d98c9",
   "presentation_index": 110,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1377,12 +1468,13 @@
   "tag_density": 1.52,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The excerpt's reliance on a dense sequence of generic buzzwords without a single concrete commitment or distinctive detail strongly indicates AI fabrication."
+  "reason": "The excerpt's reliance on a dense sequence of generic buzzwords without a single concrete commitment or distinctive detail strongly indicates AI fabrication.",
+  "text_sha": "6c7a8d7121d9"
  },
  {
   "item": "E7d89c82b",
   "presentation_index": 58,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1392,12 +1484,13 @@
   "tag_density": 4.06,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The reference to 'eight decades' and the specific geopolitical framing strongly align with real strategic plans from established national universities like the Australian National University."
+  "reason": "The reference to 'eight decades' and the specific geopolitical framing strongly align with real strategic plans from established national universities like the Australian National University.",
+  "text_sha": "502e40e7e23f"
  },
  {
   "item": "E7f2a4bf0",
   "presentation_index": 143,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1407,12 +1500,13 @@
   "tag_density": 1.09,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains specific institutional terminology (e.g., 'Intellectual Property Development and Commercialisation Fund') and realistic, coherent strategic commitments typical of genuine university plans."
+  "reason": "The excerpt contains specific institutional terminology (e.g., 'Intellectual Property Development and Commercialisation Fund') and realistic, coherent strategic commitments typical of genuine university plans.",
+  "text_sha": "589368b26de0"
  },
  {
   "item": "E82dded6f",
   "presentation_index": 54,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1422,12 +1516,13 @@
   "tag_density": 1.14,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The central premise that a university would publicly commit to being 'most attentive to its own errors' and annually report significant mistakes alongside financials is implausibly self-critical for a genuine strategic plan."
+  "reason": "The central premise that a university would publicly commit to being 'most attentive to its own errors' and annually report significant mistakes alongside financials is implausibly self-critical for a genuine strategic plan.",
+  "text_sha": "49aaf46bc39d"
  },
  {
   "item": "E846ea0d7",
-  "presentation_index": 119,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 6,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1436,13 +1531,14 @@
   "words": 331,
   "tag_density": 2.11,
   "judgement": "REAL",
-  "confidence": 85,
-  "reason": "The excerpt includes highly specific, niche details like a climate-controlled instrument archive for playable instruments and precise metrics (30 free events by 2031, 12 partners) that are typical of actual university strategic plans rather than generic AI-generated prose."
+  "confidence": 70,
+  "reason": "The highly specific and measurable outcomes with precise timelines and terminology like 'annual academic returns' and 'Council' are typical of authentic university strategic plans.",
+  "text_sha": "63d5b3d40d89"
  },
  {
   "item": "E84aca748",
   "presentation_index": 162,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1452,12 +1548,13 @@
   "tag_density": 2.9,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The proposed institute combining equine genomics and pastoral economy history is inconsistent with the research profile of a national university."
+  "reason": "The proposed institute combining equine genomics and pastoral economy history is inconsistent with the research profile of a national university.",
+  "text_sha": "f4dcb6339a7e"
  },
  {
   "item": "E8513232a",
   "presentation_index": 41,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1467,12 +1564,13 @@
   "tag_density": 0.36,
   "judgement": "FABRICATED",
   "confidence": 65,
-  "reason": "Overly precise and rigid operational targets, such as the real-time budget visibility metric, suggest an AI's attempt to mimic strategic plan language."
+  "reason": "Overly precise and rigid operational targets, such as the real-time budget visibility metric, suggest an AI's attempt to mimic strategic plan language.",
+  "text_sha": "bf84500939ae"
  },
  {
   "item": "E8701cc10",
   "presentation_index": 174,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1482,12 +1580,13 @@
   "tag_density": 0.92,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt demonstrates technically precise fair value measurement language, consistent with IFRS 13, including specific valuation approaches and the interplay between inputs, which is characteristic of genuine university financial statements."
+  "reason": "The excerpt demonstrates technically precise fair value measurement language, consistent with IFRS 13, including specific valuation approaches and the interplay between inputs, which is characteristic of genuine university financial statements.",
+  "text_sha": "dcb1e6adfa22"
  },
  {
   "item": "E8b6f8631",
-  "presentation_index": 91,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 9,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1497,12 +1596,13 @@
   "tag_density": 1.34,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The specific commitment to replace presentation-led decision-making with written briefs and working papers reads as a genuine institutional critique, not a generic AI-generated phrase."
+  "reason": "The commitment to replace presentation-led decision-making with written briefs is a highly specific and unusual operational detail characteristic of a genuine strategic plan.",
+  "text_sha": "af345082fb58"
  },
  {
   "item": "E8c7549f0",
-  "presentation_index": 82,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 7,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1512,12 +1612,13 @@
   "tag_density": 2.27,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt contains a lowercase fragment 'develop particularly talented researchers' that appears to be a heading but is not capitalized and is improperly connected to the preceding text, indicating a lack of proper document formatting typical of genuine university publications."
+  "reason": "The excerpt abruptly transitions from the rector's statement to an incomplete sentence fragment 'develop particularly talented researchers.' which lacks context and typical document structure.",
+  "text_sha": "2621c78162a9"
  },
  {
   "item": "E8dc72ae8",
   "presentation_index": 100,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1527,12 +1628,13 @@
   "tag_density": 0.3,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt maintains an extended theatrical metaphor throughout that is excessively ornate and stylized for a genuine university strategic document."
+  "reason": "The excerpt maintains an extended theatrical metaphor throughout that is excessively ornate and stylized for a genuine university strategic document.",
+  "text_sha": "38288434035f"
  },
  {
   "item": "E90fccf8f",
   "presentation_index": 38,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1542,12 +1644,13 @@
   "tag_density": 4.89,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The use of present perfect tense 'have taken place' for future dates December 2025-February 2026 indicates a timeline inconsistency typical of AI-generated text."
+  "reason": "The use of present perfect tense 'have taken place' for future dates December 2025-February 2026 indicates a timeline inconsistency typical of AI-generated text.",
+  "text_sha": "b56542ed40fe"
  },
  {
   "item": "E9174196b",
   "presentation_index": 150,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1557,12 +1660,13 @@
   "tag_density": 1.91,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The detailed accountability mechanisms (annual reporting, independent panel review, designated executive sponsors) are characteristic of authentic modern university strategic plans."
+  "reason": "The detailed accountability mechanisms (annual reporting, independent panel review, designated executive sponsors) are characteristic of authentic modern university strategic plans.",
+  "text_sha": "ae0f085b9328"
  },
  {
   "item": "E927dc84d",
   "presentation_index": 56,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1572,12 +1676,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The excerpt contains no redaction tags, suggesting it never mentioned a specific institution, which is highly atypical for a genuine university document."
+  "reason": "The excerpt contains no redaction tags, suggesting it never mentioned a specific institution, which is highly atypical for a genuine university document.",
+  "text_sha": "2b82d508de93"
  },
  {
   "item": "E92c0845e",
   "presentation_index": 97,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1587,12 +1692,13 @@
   "tag_density": 1.2,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The excerpt references concrete, contemporary geopolitical events that align with real campus concerns in 2023, such as elections and violent conflicts, indicating an authentic institutional response."
+  "reason": "The excerpt references concrete, contemporary geopolitical events that align with real campus concerns in 2023, such as elections and violent conflicts, indicating an authentic institutional response.",
+  "text_sha": "ea197876d021"
  },
  {
   "item": "E94afda3c",
   "presentation_index": 80,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1602,12 +1708,13 @@
   "tag_density": 0.64,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "Specific market share percentages, named initiatives like 'One IT' and 'Student Education Service (SES)', and a concrete timeline (September 2015) are characteristic of a real strategic plan."
+  "reason": "Specific market share percentages, named initiatives like 'One IT' and 'Student Education Service (SES)', and a concrete timeline (September 2015) are characteristic of a real strategic plan.",
+  "text_sha": "be40b9d41667"
  },
  {
   "item": "E959a1aaa",
   "presentation_index": 68,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1617,12 +1724,13 @@
   "tag_density": 2.65,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The specific mention of 'Category 1' research income is a concrete, sector-specific metric characteristic of authentic university strategic plans."
+  "reason": "The specific mention of 'Category 1' research income is a concrete, sector-specific metric characteristic of authentic university strategic plans.",
+  "text_sha": "2f446914e5d2"
  },
  {
   "item": "E962cab75",
   "presentation_index": 158,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1632,12 +1740,13 @@
   "tag_density": 0.91,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The extract describes an excessively precise and operationally implausible commitment to measuring 'priority latency' in days, which reads as an AI's over-engineered interpretation of strategic agility rather than a realistic university initiative."
+  "reason": "The extract describes an excessively precise and operationally implausible commitment to measuring 'priority latency' in days, which reads as an AI's over-engineered interpretation of strategic agility rather than a realistic university initiative.",
+  "text_sha": "09a8c5a9e782"
  },
  {
   "item": "E967a9fea",
   "presentation_index": 152,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1647,12 +1756,13 @@
   "tag_density": 0.93,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The phrase 'standing capacity of a country to ask the questions only its national university is positioned to ask' is a distinctive formulation characteristic of authentic strategic plans from national universities."
+  "reason": "The phrase 'standing capacity of a country to ask the questions only its national university is positioned to ask' is a distinctive formulation characteristic of authentic strategic plans from national universities.",
+  "text_sha": "9f77e6a565aa"
  },
  {
   "item": "E9a0a6896",
   "presentation_index": 86,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1662,12 +1772,13 @@
   "tag_density": 3.0,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The integration of idiosyncratic, consultation-emergent language like 'the tartan paint line item' mirrors how real university plans incorporate institutional in-jokes."
+  "reason": "The integration of idiosyncratic, consultation-emergent language like 'the tartan paint line item' mirrors how real university plans incorporate institutional in-jokes.",
+  "text_sha": "4dc94be5757f"
  },
  {
   "item": "E9cf8827c",
   "presentation_index": 70,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1677,12 +1788,13 @@
   "tag_density": 0.35,
   "judgement": "REAL",
   "confidence": 65,
-  "reason": "The specific timeline detail about the 2018 launch and addition of a fourth pillar based on evolving strengths is typical of genuine university strategy updates."
+  "reason": "The specific timeline detail about the 2018 launch and addition of a fourth pillar based on evolving strengths is typical of genuine university strategy updates.",
+  "text_sha": "a29ea34655f0"
  },
  {
   "item": "Ea1b577f9",
   "presentation_index": 28,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1692,12 +1804,13 @@
   "tag_density": 4.06,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The mention of the 'Northern powerhouse' and a specific 'innovation crescent' stretching between named regions suggests authentic, geographically-informed strategic planning typical of a real university."
+  "reason": "The mention of the 'Northern powerhouse' and a specific 'innovation crescent' stretching between named regions suggests authentic, geographically-informed strategic planning typical of a real university.",
+  "text_sha": "d448aff29ea1"
  },
  {
   "item": "Ea24da2cd",
   "presentation_index": 52,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1707,12 +1820,13 @@
   "tag_density": 2.14,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The typo 'we that we need' indicates a human-produced text."
+  "reason": "The typo 'we that we need' indicates a human-produced text.",
+  "text_sha": "ab8906e2eedf"
  },
  {
   "item": "Ea2a6447b",
   "presentation_index": 187,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1722,12 +1836,13 @@
   "tag_density": 0.35,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The mention of the Institutional Gender Equality Action Plan and the Silver [ORGANISATION] Award reflects real, specific equality frameworks commonly referenced in university strategic plans."
+  "reason": "The mention of the Institutional Gender Equality Action Plan and the Silver [ORGANISATION] Award reflects real, specific equality frameworks commonly referenced in university strategic plans.",
+  "text_sha": "3198d092ce9d"
  },
  {
   "item": "Ea55593c0",
   "presentation_index": 51,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1737,12 +1852,13 @@
   "tag_density": 1.0,
   "judgement": "FABRICATED",
   "confidence": 60,
-  "reason": "The prose is a generic aggregation of standard strategic plan buzzwords without any distinctive institutional voice or specific, concrete commitments."
+  "reason": "The prose is a generic aggregation of standard strategic plan buzzwords without any distinctive institutional voice or specific, concrete commitments.",
+  "text_sha": "ce11381c673d"
  },
  {
   "item": "Eaac207e3",
   "presentation_index": 169,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1752,12 +1868,13 @@
   "tag_density": 1.05,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "Mentions of 'Category 1' research income and 'capability instruments' are specific funding jargon typical of genuine Australian university plans."
+  "reason": "Mentions of 'Category 1' research income and 'capability instruments' are specific funding jargon typical of genuine Australian university plans.",
+  "text_sha": "c31d04d57238"
  },
  {
   "item": "Eacde86f4",
   "presentation_index": 126,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1767,12 +1884,13 @@
   "tag_density": 0.63,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The detailed focus on regional accountability and the metaphor of evidence as infrastructure reads like a genuine strategic plan rather than AI-generated prose."
+  "reason": "The detailed focus on regional accountability and the metaphor of evidence as infrastructure reads like a genuine strategic plan rather than AI-generated prose.",
+  "text_sha": "52149c8ecf6b"
  },
  {
   "item": "Eacfdb130",
   "presentation_index": 26,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1782,12 +1900,13 @@
   "tag_density": 3.36,
   "judgement": "REAL",
   "confidence": 98,
-  "reason": "The specific mention of the real research center 'Manaaki Manawa' and verifiable details about donor Garth, an octogenarian marathoner with a pacemaker, confirm it is an authentic excerpt."
+  "reason": "The specific mention of the real research center 'Manaaki Manawa' and verifiable details about donor Garth, an octogenarian marathoner with a pacemaker, confirm it is an authentic excerpt.",
+  "text_sha": "af8eeaf5125d"
  },
  {
   "item": "Eb1c7600a",
   "presentation_index": 34,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1797,12 +1916,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The text contains realistic formatting artifacts like a soft hyphen and numbered citations that are consistent with a genuine university strategy document."
+  "reason": "The text contains realistic formatting artifacts like a soft hyphen and numbered citations that are consistent with a genuine university strategy document.",
+  "text_sha": "ea4e1d5fe9c8"
  },
  {
   "item": "Eb24ec3c7",
   "presentation_index": 53,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1812,12 +1932,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The text presents a coherent and distinctive philosophy of strategic planning as ratification with concretely defined mechanisms and timelines, suggesting an authentic institutional document rather than a generic AI fabrication."
+  "reason": "The text presents a coherent and distinctive philosophy of strategic planning as ratification with concretely defined mechanisms and timelines, suggesting an authentic institutional document rather than a generic AI fabrication.",
+  "text_sha": "3c87760cb583"
  },
  {
   "item": "Eb52e6ba6",
   "presentation_index": 7,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1827,12 +1948,13 @@
   "tag_density": 0.31,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt's coherent structure and realistic range of educational offerings from schools to executive education, combined with standard strategic phrasing, are typical of genuine university plans."
+  "reason": "The excerpt's coherent structure and realistic range of educational offerings from schools to executive education, combined with standard strategic phrasing, are typical of genuine university plans.",
+  "text_sha": "4d13b6ec0e4e"
  },
  {
   "item": "Eb6aba3d6",
   "presentation_index": 3,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1842,12 +1964,13 @@
   "tag_density": 0.61,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains specific, granular operational targets and implementation steps (e.g., 'custodian tenure at handover exceeds eighteen months', 'documented successor named within a fortnight') that mirror authentic university strategic planning language."
+  "reason": "The excerpt contains specific, granular operational targets and implementation steps (e.g., 'custodian tenure at handover exceeds eighteen months', 'documented successor named within a fortnight') that mirror authentic university strategic planning language.",
+  "text_sha": "5599e3e948d6"
  },
  {
   "item": "Eb6d3f4a4",
   "presentation_index": 132,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1857,12 +1980,13 @@
   "tag_density": 1.15,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The inclusion of specific, measurable targets (e.g., 25-35% enrolment growth, doubling proportion by 2031) and concrete academic terminology (studio-style learning, micro-credentialing, HDR program) reflects authentic university strategic planning language."
+  "reason": "The inclusion of specific, measurable targets (e.g., 25-35% enrolment growth, doubling proportion by 2031) and concrete academic terminology (studio-style learning, micro-credentialing, HDR program) reflects authentic university strategic planning language.",
+  "text_sha": "30f559d51f45"
  },
  {
   "item": "Eb7df3380",
   "presentation_index": 4,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1872,12 +1996,13 @@
   "tag_density": 0.93,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The detailed and contextually appropriate description of the plan development process, including specific stakeholder groups, suggests an authentic institutional document."
+  "reason": "The detailed and contextually appropriate description of the plan development process, including specific stakeholder groups, suggests an authentic institutional document.",
+  "text_sha": "a75a217f128a"
  },
  {
   "item": "Eb7e5a2b8",
   "presentation_index": 144,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1887,12 +2012,13 @@
   "tag_density": 2.5,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'continuously accelerating powerhouse of impactful research' is exaggerated and unnatural, typical of AI-generated hyperbole."
+  "reason": "The phrase 'continuously accelerating powerhouse of impactful research' is exaggerated and unnatural, typical of AI-generated hyperbole.",
+  "text_sha": "ac92502b88d9"
  },
  {
   "item": "Eb853a369",
   "presentation_index": 157,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1902,12 +2028,13 @@
   "tag_density": 0.36,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt contains specific governance terminology like 'University Executive Board' and 'Council' that aligns with real university structures."
+  "reason": "The excerpt contains specific governance terminology like 'University Executive Board' and 'Council' that aligns with real university structures.",
+  "text_sha": "019bafb9b29f"
  },
  {
   "item": "Eb8581380",
   "presentation_index": 25,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1917,12 +2044,13 @@
   "tag_density": 2.14,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The detailed consultation process with specific elements like a standing reference group and successive Council deliberations is characteristic of real university plans."
+  "reason": "The detailed consultation process with specific elements like a standing reference group and successive Council deliberations is characteristic of real university plans.",
+  "text_sha": "d62d3ae3330d"
  },
  {
   "item": "Ebb375c9e",
   "presentation_index": 151,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1932,12 +2060,13 @@
   "tag_density": 0.66,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt uses an overly metaphorical agricultural framing ('soil stewardship', 'fallow weeks') and coined terms like 'the long maintain' that are not typical of genuine university strategic plans."
+  "reason": "The excerpt uses an overly metaphorical agricultural framing ('soil stewardship', 'fallow weeks') and coined terms like 'the long maintain' that are not typical of genuine university strategic plans.",
+  "text_sha": "df13157562ad"
  },
  {
   "item": "Ebd151d9b",
   "presentation_index": 19,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1947,12 +2076,13 @@
   "tag_density": 2.27,
   "judgement": "REAL",
   "confidence": 88,
-  "reason": "The use of specific Australian research income category terminology like 'Category 1' and the 'for the Nation' phrasing are characteristic of real university strategic plans, particularly from a national institution."
+  "reason": "The use of specific Australian research income category terminology like 'Category 1' and the 'for the Nation' phrasing are characteristic of real university strategic plans, particularly from a national institution.",
+  "text_sha": "8b2397c08fab"
  },
  {
   "item": "Ebf13cd4a",
   "presentation_index": 14,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -1962,12 +2092,13 @@
   "tag_density": 2.44,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The highly specific and contextually appropriate use of terms like 'Category 1' research income and '[PLACE] methodologies' aligns precisely with current Australian higher education strategic priorities."
+  "reason": "The highly specific and contextually appropriate use of terms like 'Category 1' research income and '[PLACE] methodologies' aligns precisely with current Australian higher education strategic priorities.",
+  "text_sha": "bee5b221c671"
  },
  {
   "item": "Ebf84eb70",
   "presentation_index": 181,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -1977,12 +2108,13 @@
   "tag_density": 2.85,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The anomalous phrase 'the Offs' appears to be a redaction artifact or AI generation error, which is more characteristic of fabricated prose."
+  "reason": "The anomalous phrase 'the Offs' appears to be a redaction artifact or AI generation error, which is more characteristic of fabricated prose.",
+  "text_sha": "be141a1f7001"
  },
  {
   "item": "Ebfa849a0",
-  "presentation_index": 104,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 0,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -1990,14 +2122,15 @@
   "source_doc": "real-strategy-ie-galway",
   "words": 324,
   "tag_density": 0.93,
-  "judgement": "FABRICATED",
-  "confidence": 70,
-  "reason": "The repetitive use of 'This target demonstrates our ambition to...' after each goal is a common AI-generated explanatory pattern."
+  "judgement": "REAL",
+  "confidence": 85,
+  "reason": "The specific mention of four Colleges and detailed planning processes like rolling five-year business plans is characteristic of authentic university strategic documents.",
+  "text_sha": "ba8ab77fbc6d"
  },
  {
   "item": "Ec0feecfe",
   "presentation_index": 39,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2007,12 +2140,13 @@
   "tag_density": 0.34,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt invents vague and grandiose concepts like 'post-cognitive-labour settlement' that are not commonly found in real university strategic plans."
+  "reason": "The excerpt invents vague and grandiose concepts like 'post-cognitive-labour settlement' that are not commonly found in real university strategic plans.",
+  "text_sha": "49568cf801f3"
  },
  {
   "item": "Ec2215a38",
   "presentation_index": 15,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2022,12 +2156,13 @@
   "tag_density": 1.82,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The phrase 'sensed before it was set' is overly contrived and typical of AI-generated corporatese rather than genuine institutional prose."
+  "reason": "The phrase 'sensed before it was set' is overly contrived and typical of AI-generated corporatese rather than genuine institutional prose.",
+  "text_sha": "4ec4eb7cc30b"
  },
  {
   "item": "Ec30564c0",
   "presentation_index": 155,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2037,12 +2172,13 @@
   "tag_density": 3.31,
   "judgement": "REAL",
   "confidence": 78,
-  "reason": "The specific detail about an external agency retaining a copy of the schema for its own files aligns with typical bureaucratic transparency in real university reports."
+  "reason": "The specific detail about an external agency retaining a copy of the schema for its own files aligns with typical bureaucratic transparency in real university reports.",
+  "text_sha": "f021b401a31f"
  },
  {
   "item": "Ec392abf4",
   "presentation_index": 44,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2052,12 +2188,13 @@
   "tag_density": 4.09,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The poetic and cryptic phrase 'the wall built to watch them' is an unusual, unspecific detail that suggests artificial generation rather than authentic institutional reporting."
+  "reason": "The poetic and cryptic phrase 'the wall built to watch them' is an unusual, unspecific detail that suggests artificial generation rather than authentic institutional reporting.",
+  "text_sha": "2397db4cef03"
  },
  {
   "item": "Ec3f997cc",
   "presentation_index": 134,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2067,12 +2204,13 @@
   "tag_density": 1.88,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "Specific cost-recovery metrics and named programs like 'Capability Sprint' suggest an authentic operational context."
+  "reason": "Specific cost-recovery metrics and named programs like 'Capability Sprint' suggest an authentic operational context.",
+  "text_sha": "8c9232a38975"
  },
  {
   "item": "Ec45a9099",
   "presentation_index": 22,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2082,12 +2220,13 @@
   "tag_density": 3.7,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The specific training module name 'Rights, Relationships and Respect' matches a real mandatory module at a known Australian university."
+  "reason": "The specific training module name 'Rights, Relationships and Respect' matches a real mandatory module at a known Australian university.",
+  "text_sha": "05187b0e2ee2"
  },
  {
   "item": "Ec48475e5",
   "presentation_index": 130,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2097,12 +2236,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt includes highly specific, measurable targets with defined timelines (e.g., a Presence Index by 2027, attendance thresholds by 2029), which are characteristic of genuine university strategic plans."
+  "reason": "The excerpt includes highly specific, measurable targets with defined timelines (e.g., a Presence Index by 2027, attendance thresholds by 2029), which are characteristic of genuine university strategic plans.",
+  "text_sha": "cca3127558f9"
  },
  {
   "item": "Ec5f3d855",
   "presentation_index": 83,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2112,12 +2252,13 @@
   "tag_density": 1.85,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The excerpt's vague, generic aspirations and unnatural phrasing like 'genuine accessibility' suggest it was generated rather than crafted by a real institution."
+  "reason": "The excerpt's vague, generic aspirations and unnatural phrasing like 'genuine accessibility' suggest it was generated rather than crafted by a real institution.",
+  "text_sha": "b461c25a1044"
  },
  {
   "item": "Ec6ade10b",
   "presentation_index": 92,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2127,12 +2268,13 @@
   "tag_density": 1.01,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific operational details like named owners, escalation ladder, and concrete metrics (90%, by 2029) suggest a genuine planning document rather than generic AI-generated text."
+  "reason": "The specific operational details like named owners, escalation ladder, and concrete metrics (90%, by 2029) suggest a genuine planning document rather than generic AI-generated text.",
+  "text_sha": "fd1e9b1e2420"
  },
  {
   "item": "Ec8df07be",
   "presentation_index": 35,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2142,12 +2284,13 @@
   "tag_density": 0.35,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The phrase 'more instrumented' is a non-standard usage that suggests AI-generated text."
+  "reason": "The phrase 'more instrumented' is a non-standard usage that suggests AI-generated text.",
+  "text_sha": "d751c1b2b804"
  },
  {
   "item": "Ecaca525c",
   "presentation_index": 57,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2157,12 +2300,13 @@
   "tag_density": 2.84,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The recursive and self-parodic nature of the dashboard and the evaluation of the evaluation, culminating in an indicator tracking how quickly new indicators are added, strongly suggests a fabricated satire."
+  "reason": "The recursive and self-parodic nature of the dashboard and the evaluation of the evaluation, culminating in an indicator tracking how quickly new indicators are added, strongly suggests a fabricated satire.",
+  "text_sha": "289e633168dc"
  },
  {
   "item": "Ecd156a61",
   "presentation_index": 71,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2172,12 +2316,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt uses overly generic and repetitive strategic planning language without concrete details, specific initiatives, or measurable targets typical of genuine university documents."
+  "reason": "The excerpt uses overly generic and repetitive strategic planning language without concrete details, specific initiatives, or measurable targets typical of genuine university documents.",
+  "text_sha": "7a5906aac442"
  },
  {
   "item": "Ecdd7b04d",
   "presentation_index": 128,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2187,12 +2332,13 @@
   "tag_density": 1.43,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The use of 'somatic' as a category of energy ('historical, material, somatic, and planetary') is an atypical and vague concept in a university strategic plan, suggesting AI-generated text."
+  "reason": "The use of 'somatic' as a category of energy ('historical, material, somatic, and planetary') is an atypical and vague concept in a university strategic plan, suggesting AI-generated text.",
+  "text_sha": "4bb8562f35b9"
  },
  {
   "item": "Ece31c617",
   "presentation_index": 1,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2202,12 +2348,13 @@
   "tag_density": 0.91,
   "judgement": "REAL",
   "confidence": 87,
-  "reason": "The specific, messy detail of a stale dashboard and a natural-sounding quote from a supervisor read like an authentic case study rather than a smoothed-over AI fabrication."
+  "reason": "The specific, messy detail of a stale dashboard and a natural-sounding quote from a supervisor read like an authentic case study rather than a smoothed-over AI fabrication.",
+  "text_sha": "123a7e82c5bb"
  },
  {
   "item": "Ecf09efe8",
   "presentation_index": 94,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2217,12 +2364,13 @@
   "tag_density": 2.37,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The sentence 'Professor [PERSON] I arrived at the [ORGANISATION] in the Summer of 2022' contains a grammatical error (missing conjunction or punctuation) that is unlikely in a carefully edited Vice Chancellor introduction."
+  "reason": "The sentence 'Professor [PERSON] I arrived at the [ORGANISATION] in the Summer of 2022' contains a grammatical error (missing conjunction or punctuation) that is unlikely in a carefully edited Vice Chancellor introduction.",
+  "text_sha": "a25d003a3422"
  },
  {
   "item": "Ed183ecd0",
   "presentation_index": 167,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2232,12 +2380,13 @@
   "tag_density": 0.96,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The elaborate and sustained theatrical metaphor throughout the excerpt is excessively stylized and whimsical for a genuine university strategic plan, characteristic of AI-generated creative prose."
+  "reason": "The elaborate and sustained theatrical metaphor throughout the excerpt is excessively stylized and whimsical for a genuine university strategic plan, characteristic of AI-generated creative prose.",
+  "text_sha": "25f2a08d32ae"
  },
  {
   "item": "Ed2029a46",
-  "presentation_index": 177,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 18,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2247,12 +2396,13 @@
   "tag_density": 0.0,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The dramatic phrasing about 'wind-down of cognitive labour' and 'custodianship of the last human vocations' reads like speculative fiction, not genuine university strategic planning."
+  "reason": "The premise of a university planning a 'structured wind-down' of cognitive labour functions is implausible and characteristic of speculative AI-generated content.",
+  "text_sha": "f3a2add581fa"
  },
  {
   "item": "Ed4331fec",
   "presentation_index": 9,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2262,12 +2412,13 @@
   "tag_density": 0.37,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The phrase 'look on the totality of our endeavours with hope, faith and reason' is uncharacteristically florid and abstract for a university document, suggesting AI generation."
+  "reason": "The phrase 'look on the totality of our endeavours with hope, faith and reason' is uncharacteristically florid and abstract for a university document, suggesting AI generation.",
+  "text_sha": "6ef8b0934640"
  },
  {
   "item": "Ed493ef3c",
   "presentation_index": 145,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2277,12 +2428,13 @@
   "tag_density": 0.34,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase \"United Nations [[ORGANISATION]] (SDGs)\" awkwardly leaves \"United Nations\" unredacted while redacting the rest and retaining the acronym, suggesting an automatic text generation and redaction error."
+  "reason": "The phrase \"United Nations [[ORGANISATION]] (SDGs)\" awkwardly leaves \"United Nations\" unredacted while redacting the rest and retaining the acronym, suggesting an automatic text generation and redaction error.",
+  "text_sha": "56de129e2701"
  },
  {
   "item": "Ed4c494af",
   "presentation_index": 107,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2292,12 +2444,13 @@
   "tag_density": 0.6,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The text relies on esoteric concepts like 'attunement' and 'ambient assurance' that are not part of standard university quality assurance discourse, indicating AI-generated jargon rather than authentic institutional language."
+  "reason": "The text relies on esoteric concepts like 'attunement' and 'ambient assurance' that are not part of standard university quality assurance discourse, indicating AI-generated jargon rather than authentic institutional language.",
+  "text_sha": "4f3e9a5b63c5"
  },
  {
   "item": "Ed655c5f8",
   "presentation_index": 10,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2307,12 +2460,13 @@
   "tag_density": 0.34,
   "judgement": "FABRICATED",
   "confidence": 92,
-  "reason": "The excerpt's unnatural jargon such as 'energetic-impact assessment framework', 'sovereign capability for energetic accounting', and 'Energy Practice Register' reads like an AI-generated pastiche of strategic plan language rather than authentic institutional prose."
+  "reason": "The excerpt's unnatural jargon such as 'energetic-impact assessment framework', 'sovereign capability for energetic accounting', and 'Energy Practice Register' reads like an AI-generated pastiche of strategic plan language rather than authentic institutional prose.",
+  "text_sha": "1efd756d2dc3"
  },
  {
   "item": "Ed7184003",
   "presentation_index": 118,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2322,12 +2476,13 @@
   "tag_density": 0.94,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The excerpt seamlessly strings together a wide array of generic higher education aspirations without any concrete details or unique institutional voice, a pattern typical of AI-generated strategic plan language."
+  "reason": "The excerpt seamlessly strings together a wide array of generic higher education aspirations without any concrete details or unique institutional voice, a pattern typical of AI-generated strategic plan language.",
+  "text_sha": "dba779ade7ea"
  },
  {
   "item": "Ed89bc1eb",
   "presentation_index": 131,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2337,12 +2492,13 @@
   "tag_density": 0.59,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The specific reference to the 2021-22 academic year and contemporary challenges like rising inflation and geopolitical instability grounds it in a real-world context typical of actual university plans."
+  "reason": "The specific reference to the 2021-22 academic year and contemporary challenges like rising inflation and geopolitical instability grounds it in a real-world context typical of actual university plans.",
+  "text_sha": "b00d47f99cd2"
  },
  {
   "item": "Edaf626a6",
   "presentation_index": 5,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "impact",
@@ -2352,12 +2508,13 @@
   "tag_density": 1.54,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The self-referential and circular logic, such as the assurance engagement being logged as an output and improving its own measured impact, is a hallmark of AI-generated satire."
+  "reason": "The self-referential and circular logic, such as the assurance engagement being logged as an output and improving its own measured impact, is a hallmark of AI-generated satire.",
+  "text_sha": "f8c086f227d9"
  },
  {
   "item": "Edc8bc674",
   "presentation_index": 45,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2367,12 +2524,13 @@
   "tag_density": 2.11,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "It contains non-native grammatical errors like 'a scientific knowledge' that are unlikely in fluent AI-generated text."
+  "reason": "It contains non-native grammatical errors like 'a scientific knowledge' that are unlikely in fluent AI-generated text.",
+  "text_sha": "68d6386d1a46"
  },
  {
   "item": "Edcfd3dd3",
   "presentation_index": 136,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2382,12 +2540,13 @@
   "tag_density": 4.87,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The excerpt includes specific historical milestones (early 1970s, 1980s, 1989) that are typical of genuine institutional histories."
+  "reason": "The excerpt includes specific historical milestones (early 1970s, 1980s, 1989) that are typical of genuine institutional histories.",
+  "text_sha": "5bb74776c6d6"
  },
  {
   "item": "Ede8581f0",
   "presentation_index": 117,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2397,12 +2556,13 @@
   "tag_density": 2.11,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The excerpt contains specific planning details like the year 2025 for consultation and a 2031 horizon, which are typical of genuine strategic plans."
+  "reason": "The excerpt contains specific planning details like the year 2025 for consultation and a 2031 horizon, which are typical of genuine strategic plans.",
+  "text_sha": "9909c3558dcc"
  },
  {
   "item": "Edeb33c86",
   "presentation_index": 37,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2412,12 +2572,13 @@
   "tag_density": 0.37,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'energetic accounting' is an unusual and unnatural term not typically found in real university documents, suggesting AI generation."
+  "reason": "The phrase 'energetic accounting' is an unusual and unnatural term not typically found in real university documents, suggesting AI generation.",
+  "text_sha": "6ffa83706350"
  },
  {
   "item": "Edec1195d",
   "presentation_index": 65,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2427,12 +2588,13 @@
   "tag_density": 3.48,
   "judgement": "REAL",
   "confidence": 90,
-  "reason": "The excerpt mentions specific, real-world-aligned initiatives like a National Performance Centre for Sport and a Geological Survey collaboration, which closely match existing facilities and partnerships at institutions such as Heriot-Watt University."
+  "reason": "The excerpt mentions specific, real-world-aligned initiatives like a National Performance Centre for Sport and a Geological Survey collaboration, which closely match existing facilities and partnerships at institutions such as Heriot-Watt University.",
+  "text_sha": "2d81fed2a997"
  },
  {
   "item": "Edf616de2",
   "presentation_index": 114,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2442,12 +2604,13 @@
   "tag_density": 0.3,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The consistent and elaborate use of organic/ecological metaphors (soil, polyculture, mycelium, fallow, composting) throughout the strategic plan language is highly stylized and unusual for real university documents, suggesting AI fabrication."
+  "reason": "The consistent and elaborate use of organic/ecological metaphors (soil, polyculture, mycelium, fallow, composting) throughout the strategic plan language is highly stylized and unusual for real university documents, suggesting AI fabrication.",
+  "text_sha": "b028b3c4c9e6"
  },
  {
   "item": "Edf7d0865",
-  "presentation_index": 149,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 8,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2455,14 +2618,15 @@
   "source_doc": "real-strategy-ca-mru",
   "words": 329,
   "tag_density": 2.43,
-  "judgement": "FABRICATED",
+  "judgement": "REAL",
   "confidence": 70,
-  "reason": "The misspelling 'highquality' (missing space or hyphen) is uncharacteristic of polished real university publications and aligns with common AI tokenization errors."
+  "reason": "Specific terminology like 'block week' and 'after-degrees' suggests an authentic institutional context.",
+  "text_sha": "f153f8619417"
  },
  {
   "item": "Ee1afbd87",
   "presentation_index": 161,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2472,12 +2636,13 @@
   "tag_density": 0.69,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The excerpt includes specific, self-deprecating operational details (recoloured compost-bin lids, a fault-reporting instrument that measured its own uptime) that are typical of genuine institutional reflection rather than fabricated prose."
+  "reason": "The excerpt includes specific, self-deprecating operational details (recoloured compost-bin lids, a fault-reporting instrument that measured its own uptime) that are typical of genuine institutional reflection rather than fabricated prose.",
+  "text_sha": "a483e9a46cf3"
  },
  {
   "item": "Ee1f2f788",
   "presentation_index": 120,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2487,12 +2652,13 @@
   "tag_density": 0.75,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The bullet point specifying 'fit for the next twenty-five years' is an unusually vague and arbitrary time horizon typical of AI-generated text."
+  "reason": "The bullet point specifying 'fit for the next twenty-five years' is an unusually vague and arbitrary time horizon typical of AI-generated text.",
+  "text_sha": "b482619dc3b1"
  },
  {
   "item": "Ee2b3d8bd",
   "presentation_index": 2,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2502,12 +2668,13 @@
   "tag_density": 3.81,
   "judgement": "FABRICATED",
   "confidence": 95,
-  "reason": "The mention of absurd inventions like 'dehydrated water pills' and 'wooden magnet' is typical of fabricated content."
+  "reason": "The mention of absurd inventions like 'dehydrated water pills' and 'wooden magnet' is typical of fabricated content.",
+  "text_sha": "727f62c8a503"
  },
  {
   "item": "Ee56c6e1f",
   "presentation_index": 60,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2517,12 +2684,13 @@
   "tag_density": 1.43,
   "judgement": "FABRICATED",
   "confidence": 75,
-  "reason": "The phrase 'propel a pathway' is an awkward mixed metaphor characteristic of AI-generated prose."
+  "reason": "The phrase 'propel a pathway' is an awkward mixed metaphor characteristic of AI-generated prose.",
+  "text_sha": "1200efdb3d99"
  },
  {
   "item": "Ee6eaa50a",
   "presentation_index": 30,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2532,12 +2700,13 @@
   "tag_density": 1.75,
   "judgement": "REAL",
   "confidence": 72,
-  "reason": "The precise mention of medico-legal audit trails and a 2031 timeline points to a real strategic plan rather than generic AI-generated text."
+  "reason": "The precise mention of medico-legal audit trails and a 2031 timeline points to a real strategic plan rather than generic AI-generated text.",
+  "text_sha": "66d7d2be797c"
  },
  {
   "item": "Ee76631df",
-  "presentation_index": 29,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 14,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2545,14 +2714,15 @@
   "source_doc": "real-strategy-us-iowa",
   "words": 306,
   "tag_density": 1.31,
-  "judgement": "REAL",
-  "confidence": 85,
-  "reason": "The stray 'y' at the end likely indicates an OCR artifact from a real document extraction, while the content itself is coherent and typical of university strategic plans."
+  "judgement": "FABRICATED",
+  "confidence": 75,
+  "reason": "The excerpt ends with an incomplete phrase 'such as: y', indicative of an AI-generated list that was abruptly cut off.",
+  "text_sha": "a56d7ce8df63"
  },
  {
   "item": "Ee867f5a7",
   "presentation_index": 140,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2562,12 +2732,13 @@
   "tag_density": 1.43,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The excerpt describes a specific, nuanced internal governance challenge about AI-assisted decisions and human review capacity, characteristic of a real university's self-assessment."
+  "reason": "The excerpt describes a specific, nuanced internal governance challenge about AI-assisted decisions and human review capacity, characteristic of a real university's self-assessment.",
+  "text_sha": "f3cc02212605"
  },
  {
   "item": "Ee8e0a08a",
   "presentation_index": 121,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2577,12 +2748,13 @@
   "tag_density": 2.91,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The misspelling 'Artic' for 'Arctic' is an unlikely error in a professionally published university document."
+  "reason": "The misspelling 'Artic' for 'Arctic' is an unlikely error in a professionally published university document.",
+  "text_sha": "8daa822b3209"
  },
  {
   "item": "Eeb13df6a",
   "presentation_index": 50,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2592,12 +2764,13 @@
   "tag_density": 0.75,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The excerpt's cohesive structure and conventional strategic phrasing, such as 'interconnectedness of research and teaching' and 'challenge-led teaching,' match typical university language without obvious AI-generated awkwardness."
+  "reason": "The excerpt's cohesive structure and conventional strategic phrasing, such as 'interconnectedness of research and teaching' and 'challenge-led teaching,' match typical university language without obvious AI-generated awkwardness.",
+  "text_sha": "c887db5771ff"
  },
  {
   "item": "Ef15a6c69",
   "presentation_index": 42,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2607,12 +2780,13 @@
   "tag_density": 1.09,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The phrase 'heroic-dose work' is an uncharacteristic metaphor for a university strategic plan, more typical of psychedelic therapy language than institutional prose."
+  "reason": "The phrase 'heroic-dose work' is an uncharacteristic metaphor for a university strategic plan, more typical of psychedelic therapy language than institutional prose.",
+  "text_sha": "a01d3c0796c9"
  },
  {
   "item": "Ef1d72649",
   "presentation_index": 189,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2622,12 +2796,13 @@
   "tag_density": 0.0,
   "judgement": "REAL",
   "confidence": 75,
-  "reason": "The concrete action items and specific terminology match typical authentic university strategic plans."
+  "reason": "The concrete action items and specific terminology match typical authentic university strategic plans.",
+  "text_sha": "d116078c446e"
  },
  {
   "item": "Ef20a3239",
   "presentation_index": 171,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2637,12 +2812,13 @@
   "tag_density": 1.44,
   "judgement": "REAL",
   "confidence": 85,
-  "reason": "The specific reference to a People Plan Board and a staff survey-informed leadership framework ('Resourceful, Responsible, Respectful') in the context of a UK university navigating post-Brexit international positioning is highly characteristic of genuine institutional strategic plans."
+  "reason": "The specific reference to a People Plan Board and a staff survey-informed leadership framework ('Resourceful, Responsible, Respectful') in the context of a UK university navigating post-Brexit international positioning is highly characteristic of genuine institutional strategic plans.",
+  "text_sha": "5be2fef695c0"
  },
  {
   "item": "Ef23bc4df",
   "presentation_index": 168,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -2652,12 +2828,13 @@
   "tag_density": 2.68,
   "judgement": "FABRICATED",
   "confidence": 95,
-  "reason": "The financial statements are incorrectly described as presented in pounds sterling with a dollar sign ($) instead of the pound sign (\u00a3)."
+  "reason": "The financial statements are incorrectly described as presented in pounds sterling with a dollar sign ($) instead of the pound sign (\u00a3).",
+  "text_sha": "058041afda7d"
  },
  {
   "item": "Ef2822317",
   "presentation_index": 89,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2667,12 +2844,13 @@
   "tag_density": 4.89,
   "judgement": "REAL",
   "confidence": 80,
-  "reason": "The detailed glossary defines context-specific terms like a national research-quality assessment framework and reconciliation commitments, which are typical of genuine university strategic plans."
+  "reason": "The detailed glossary defines context-specific terms like a national research-quality assessment framework and reconciliation commitments, which are typical of genuine university strategic plans.",
+  "text_sha": "97af94581138"
  },
  {
   "item": "Ef2efa093",
-  "presentation_index": 88,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 11,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2681,13 +2859,14 @@
   "words": 264,
   "tag_density": 0.38,
   "judgement": "REAL",
-  "confidence": 80,
-  "reason": "The specific year 2057 matches the 100th anniversary of a major work-integrated learning university like Waterloo, and the 'learning-integrated work' phrase is a known strategic differentiator."
+  "confidence": 60,
+  "reason": "The prose uses coherent strategic planning language with a plausible long-term vision, lacking obvious fabrications.",
+  "text_sha": "954a5512afc8"
  },
  {
   "item": "Ef2fa8141",
   "presentation_index": 172,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2697,12 +2876,13 @@
   "tag_density": 0.9,
   "judgement": "FABRICATED",
   "confidence": 90,
-  "reason": "The excerpt contains multiple nonsensical proverbs (e.g., 'the goat does not weep at the herder\u2019s wedding') that are atypical of genuine university strategic plans."
+  "reason": "The excerpt contains multiple nonsensical proverbs (e.g., 'the goat does not weep at the herder\u2019s wedding') that are atypical of genuine university strategic plans.",
+  "text_sha": "8225433241da"
  },
  {
   "item": "Ef3b351a3",
   "presentation_index": 127,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2712,12 +2892,13 @@
   "tag_density": 3.0,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The excerpt includes specific, measurable targets (15% international student population) and detailed, coherent strategies typical of genuine university strategic plans, lacking the vague repetition common in AI-generated fabrications."
+  "reason": "The excerpt includes specific, measurable targets (15% international student population) and detailed, coherent strategies typical of genuine university strategic plans, lacking the vague repetition common in AI-generated fabrications.",
+  "text_sha": "d6cad41ec1ff"
  },
  {
   "item": "Ef3ede73d",
   "presentation_index": 166,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -2727,12 +2908,13 @@
   "tag_density": 4.04,
   "judgement": "FABRICATED",
   "confidence": 80,
-  "reason": "The nonsensical phrase 'double our students and alumni' is a typical generative error."
+  "reason": "The nonsensical phrase 'double our students and alumni' is a typical generative error.",
+  "text_sha": "d92bbc36dc44"
  },
  {
   "item": "Ef6628cba",
   "presentation_index": 123,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2742,12 +2924,13 @@
   "tag_density": 1.31,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The passage relies heavily on a series of invented, aphoristic sayings that read like AI-generated poetic flourishes rather than authentic institutional language."
+  "reason": "The passage relies heavily on a series of invented, aphoristic sayings that read like AI-generated poetic flourishes rather than authentic institutional language.",
+  "text_sha": "038eadbab5a6"
  },
  {
   "item": "Ef860ecd9",
-  "presentation_index": 112,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 4,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2756,13 +2939,14 @@
   "words": 287,
   "tag_density": 4.88,
   "judgement": "FABRICATED",
-  "confidence": 75,
-  "reason": "The highly specific and conceptual framing of 'translation across the crossing' as a primary scholarly object and the creation of a dedicated Translation Office feels artificially contrived, typical of AI-generated strategic plan prose."
+  "confidence": 80,
+  "reason": "The overly abstract framing of digitisation as 'translation across the crossing' and the contrived establishment of a 'Translation Office' with a 'Provenance Standard' feels like an AI-generated attempt at novelty rather than a real strategic priority.",
+  "text_sha": "c029a15fde7f"
  },
  {
   "item": "Ef8a57f10",
   "presentation_index": 20,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "impact",
@@ -2772,12 +2956,13 @@
   "tag_density": 2.46,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt abruptly combines two unrelated topics without a clear transition, and the redaction tag '[PLACE] Budgett' is inconsistent with proper name redaction."
+  "reason": "The excerpt abruptly combines two unrelated topics without a clear transition, and the redaction tag '[PLACE] Budgett' is inconsistent with proper name redaction.",
+  "text_sha": "fed2581dca55"
  },
  {
   "item": "Ef9105e3c",
   "presentation_index": 165,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2787,12 +2972,13 @@
   "tag_density": 0.3,
   "judgement": "REAL",
   "confidence": 70,
-  "reason": "The excerpt's coherent, mission-driven narrative and use of standard university strategic planning rhetoric suggest authenticity."
+  "reason": "The excerpt's coherent, mission-driven narrative and use of standard university strategic planning rhetoric suggest authenticity.",
+  "text_sha": "0ac1de472431"
  },
  {
   "item": "Ef95d05f1",
   "presentation_index": 183,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2802,12 +2988,13 @@
   "tag_density": 3.7,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The highly specific and ambitious metric of 100% of courses publishing a 'writing apparatus' disclosure by 2029, combined with the thematic focus on treating writing tools as scholarship, reads as an AI-generated parody rather than a genuine university plan."
+  "reason": "The highly specific and ambitious metric of 100% of courses publishing a 'writing apparatus' disclosure by 2029, combined with the thematic focus on treating writing tools as scholarship, reads as an AI-generated parody rather than a genuine university plan.",
+  "text_sha": "ec0e7aa45e88"
  },
  {
   "item": "Efab31ace",
-  "presentation_index": 73,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "presentation_index": 12,
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2815,14 +3002,15 @@
   "source_doc": "anu2026-neuroscience-and-creativity-v433rj",
   "words": 287,
   "tag_density": 3.48,
-  "judgement": "FABRICATED",
-  "confidence": 80,
-  "reason": "The prose includes a generic, AI-characteristic philosophical statement: 'Universities flourish through their relationships with the communities they serve \u2014 and they fail when those relationships are characterised by extraction rather than partnership.'"
+  "judgement": "REAL",
+  "confidence": 85,
+  "reason": "The excerpt includes precise numeric targets (e.g., 3,000 HDR completions, doubling of student enrolments and staff representation by 2031) that reflect concrete planning, typical of genuine strategic documents rather than generic AI fabrications.",
+  "text_sha": "556bcab01576"
  },
  {
   "item": "Efbd7069d",
   "presentation_index": 111,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "fabricated",
   "condition": "strategy",
@@ -2832,12 +3020,13 @@
   "tag_density": 1.53,
   "judgement": "FABRICATED",
   "confidence": 85,
-  "reason": "The excerpt relies on an overly stylized metaphor ('sediment') and an abstract, under-defined principle without concrete commitments, characteristic of AI-generated text."
+  "reason": "The excerpt relies on an overly stylized metaphor ('sediment') and an abstract, under-defined principle without concrete commitments, characteristic of AI-generated text.",
+  "text_sha": "9c03711c2b9b"
  },
  {
   "item": "Efd17544d",
   "presentation_index": 79,
-  "stimulus_fingerprint": "1dfbc9d6d1af55ef",
+  "stimulus_fingerprint": "4c37125ee65fc50d",
   "judge": "deepseek-v4-pro",
   "truth": "real",
   "condition": "strategy",
@@ -2847,6 +3036,7 @@
   "tag_density": 0.36,
   "judgement": "FABRICATED",
   "confidence": 70,
-  "reason": "The phrase 'Educating game changers' is a clich\u00e9 that, together with the generic buzzwords throughout, indicates AI-generated content."
+  "reason": "The phrase 'Educating game changers' is a clich\u00e9 that, together with the generic buzzwords throughout, indicates AI-generated content.",
+  "text_sha": "8fab3b8da05b"
  }
 ]

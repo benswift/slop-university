@@ -1,0 +1,92 @@
+axis: proxy
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+judge                     n  errors  vague|err  vague|ok       r   perm p   rank p
+deepseek-v4-flash        82      28       4.93      4.31   0.133   0.2316   0.2406
+deepseek-v4-pro          82      35       4.49      4.54  -0.011   0.9202   0.8697
+gpt-5.6-luna             82       6       4.74      4.51   0.027   0.8220   0.4230
+gpt-5.6-sol              82       0        nan      4.52     nan      nan      nan
+gpt-5.6-terra            82       2       5.49      4.50   0.069   0.5087   0.3212
+haiku                    82      23       4.98      4.35   0.129   0.2463   0.1179
+opus                     82       0        nan      4.52     nan      nan      nan
+sonnet                   82       4       4.76      4.51   0.024   0.8675   0.9143
+
+pooled                  656      98       4.78      4.48   0.049   0.2145   0.1192
+
+Pooling repeats each excerpt once per judge, so the pooled p is anti-conservative
+--- read it as a description, and the per-judge rows as the test.
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65           1.65                12%  ##
+  2          66           2.23                15%  ###
+  3          65           2.69                 9%  ##
+  4          66           2.97                12%  ##
+  5          66           3.46                15%  ###
+  6          65           3.84                18%  ####
+  7          66           6.85                12%  ##
+  8          65           6.96                17%  ###
+  9          66           7.14                21%  ####
+  10         66           7.26                17%  ###
+
+axis: gpt-5.6-terra
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+judge                     n  errors  vague|err  vague|ok       r   perm p   rank p
+deepseek-v4-flash        82      28     -20.86    -22.61   0.061   0.5940   0.4114
+deepseek-v4-pro          82      35     -19.83    -23.64   0.137   0.2241   0.0719
+gpt-5.6-luna             82       6     -19.83    -22.18   0.045   0.6967   0.5273
+gpt-5.6-sol              82       0        nan    -22.01     nan      nan      nan
+gpt-5.6-terra            82       2      -5.00    -22.44   0.196   0.0615   0.0341
+haiku                    82      23     -17.61    -23.73   0.200   0.0708   0.0876
+opus                     82       0        nan    -22.01     nan      nan      nan
+sonnet                   82       4     -19.50    -22.14   0.041   0.7206   0.5684
+
+pooled                  656      98     -19.29    -22.49   0.083   0.0326   0.0080
+
+Pooling repeats each excerpt once per judge, so the pooled p is anti-conservative
+--- read it as a description, and the per-judge rows as the test.
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65         -48.00                 9%  ##
+  2          66         -42.00                18%  ####
+  3          65         -32.00                 5%  #
+  4          66         -22.00                12%  ##
+  5          66         -18.00                12%  ##
+  6          65         -18.00                17%  ###
+  7          66         -12.00                12%  ##
+  8          65         -12.00                22%  ####
+  9          66          -8.00                20%  ####
+  10         66          -6.00                23%  #####
+
+axis: deepseek-v4-pro
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+judge                     n  errors  vague|err  vague|ok       r   perm p   rank p
+deepseek-v4-flash        82      28     -11.68    -17.69   0.194   0.0817   0.0477
+deepseek-v4-pro          82      35     -15.00    -16.11   0.037   0.7506   0.9738
+gpt-5.6-luna             82       6      -9.17    -16.14   0.124   0.2552   0.2094
+gpt-5.6-sol              82       0        nan    -15.63     nan      nan      nan
+gpt-5.6-terra            82       2       0.00    -16.02   0.169   0.1047   0.0381
+haiku                    82      23      -9.43    -18.05   0.264   0.0143   0.0361
+opus                     82       0        nan    -15.63     nan      nan      nan
+sonnet                   82       4     -12.50    -15.79   0.048   0.6651   0.8887
+
+pooled                  656      98     -11.98    -16.28   0.105   0.0081   0.0113
+
+Pooling repeats each excerpt once per judge, so the pooled p is anti-conservative
+--- read it as a description, and the per-judge rows as the test.
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65         -50.00                 8%  ##
+  2          66         -35.00                 9%  ##
+  3          65         -25.00                11%  ##
+  4          66         -15.00                24%  #####
+  5          66         -12.00                18%  ####
+  6          65         -10.00                 9%  ##
+  7          66          -5.00                11%  ##
+  8          65          -5.00                12%  ##
+  9          66          -0.00                18%  ####
+  10         66          -0.00                29%  ######

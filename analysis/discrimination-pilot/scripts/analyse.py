@@ -17,13 +17,27 @@ RESULTS = SCRATCH / "results"
 
 
 def binom_p_two_sided(k: int, n: int, p: float = 0.5) -> float:
-    """Exact two-sided binomial test against p."""
+    """Exact two-sided binomial test against p.
 
-    def pmf(i: int) -> float:
-        return math.comb(n, i) * p**i * (1 - p) ** (n - i)
+    In log space. The direct form overflowed once the panel reached eight
+    judges: math.comb(1520, 760) is a 456-digit integer, and multiplying it by
+    a float is an OverflowError rather than a wrong answer, which is at least
+    the good kind of failure.
+    """
 
-    obs = pmf(k)
-    return min(1.0, sum(pmf(i) for i in range(n + 1) if pmf(i) <= obs * (1 + 1e-9)))
+    def log_pmf(i: int) -> float:
+        return (
+            math.lgamma(n + 1)
+            - math.lgamma(i + 1)
+            - math.lgamma(n - i + 1)
+            + i * math.log(p)
+            + (n - i) * math.log1p(-p)
+        )
+
+    obs = log_pmf(k)
+    return min(
+        1.0, sum(math.exp(log_pmf(i)) for i in range(n + 1) if log_pmf(i) <= obs + 1e-9)
+    )
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:

@@ -1,0 +1,220 @@
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+=== merged ===
+
+judge                     n  errors   axis|err   axis|ok       r   perm p   rank p
+deepseek-v4-flash        82      28       0.00      0.00     nan      nan   1.0000
+deepseek-v4-pro          82      35       0.00      0.00     nan      nan   1.0000
+gpt-5.6-luna             82       6       0.00      0.00     nan      nan   1.0000
+gpt-5.6-sol              82       0        nan      0.00     nan      nan      nan
+gpt-5.6-terra            82       2       0.00      0.00     nan      nan   1.0000
+haiku                    82      23       0.00      0.00     nan      nan   1.0000
+opus                     82       0        nan      0.00     nan      nan      nan
+sonnet                   82       4       0.00      0.00     nan      nan   1.0000
+pooled                  656      98       0.00      0.00     nan      nan   1.0000
+
+Misclassification rate by merged decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65           0.00                18%  ####
+  2          66           0.00                15%  ###
+  3          65           0.00                15%  ###
+  4          66           0.00                 8%  ##
+  5          66           0.00                17%  ###
+  6          65           0.00                11%  ##
+  7          66           0.00                15%  ###
+  8          65           0.00                14%  ###
+  9          66           0.00                14%  ###
+  10         66           0.00                23%  #####
+
+=== age ===
+
+judge                     n  errors   axis|err   axis|ok       r   perm p   rank p
+deepseek-v4-flash        82      28       4.54      4.43   0.020   0.8549   0.5379
+deepseek-v4-pro          82      35       4.20      4.66  -0.088   0.4356   0.5087
+gpt-5.6-luna             82       6       3.50      4.54  -0.105   0.3712   0.3927
+gpt-5.6-sol              82       0        nan      4.46     nan      nan      nan
+gpt-5.6-terra            82       2       3.50      4.49  -0.059   0.6960   0.6305
+haiku                    82      23       4.52      4.44   0.014   0.9007   0.7607
+opus                     82       0        nan      4.46     nan      nan      nan
+sonnet                   82       4       4.25      4.47  -0.019   0.9225   0.8887
+pooled                  656      98       4.32      4.49  -0.024   0.5563   0.8226
+
+Misclassification rate by age decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65           1.00                12%  ##
+  2          66           1.00                20%  ####
+  3          65           3.00                14%  ###
+  4          66           3.00                12%  ##
+  5          66           4.00                17%  ###
+  6          65           5.00                 9%  ##
+  7          66           6.00                21%  ####
+  8          65           6.00                15%  ###
+  9          66           7.00                23%  #####
+  10         66           9.00                 6%  #
+
+=== length ===
+
+judge                     n  errors   axis|err   axis|ok       r   perm p   rank p
+deepseek-v4-flash        82      28     289.04    297.15  -0.146   0.1900   0.2608
+deepseek-v4-pro          82      35     295.37    293.64   0.033   0.7715   0.5485
+gpt-5.6-luna             82       6     307.33    293.36   0.138   0.2148   0.1817
+gpt-5.6-sol              82       0        nan    294.38     nan      nan      nan
+gpt-5.6-terra            82       2     329.00    293.51   0.208   0.0400   0.0583
+haiku                    82      23     296.00    293.75   0.038   0.7289   0.6835
+opus                     82       0        nan    294.38     nan      nan      nan
+sonnet                   82       4     291.25    294.54  -0.027   0.8092   0.8633
+pooled                  656      98     294.96    294.28   0.009   0.8157   0.5838
+
+Misclassification rate by length decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65         262.00                11%  ##
+  2          66         264.00                12%  ##
+  3          65         270.00                18%  ####
+  4          66         279.00                 9%  ##
+  5          66         287.00                27%  #####
+  6          65         295.00                15%  ###
+  7          66         308.00                 8%  ##
+  8          65         320.00                18%  ####
+  9          66         325.00                18%  ####
+  10         66         333.00                12%  ##
+
+=== vagueness ===
+
+judge                     n  errors   axis|err   axis|ok       r   perm p   rank p
+deepseek-v4-flash        82      28       4.93      4.31   0.133   0.2316   0.2406
+deepseek-v4-pro          82      35       4.49      4.54  -0.011   0.9202   0.8697
+gpt-5.6-luna             82       6       4.74      4.51   0.027   0.8220   0.4230
+gpt-5.6-sol              82       0        nan      4.52     nan      nan      nan
+gpt-5.6-terra            82       2       5.49      4.50   0.069   0.5087   0.3212
+haiku                    82      23       4.98      4.35   0.129   0.2463   0.1179
+opus                     82       0        nan      4.52     nan      nan      nan
+sonnet                   82       4       4.76      4.51   0.024   0.8675   0.9143
+pooled                  656      98       4.78      4.48   0.049   0.2145   0.1192
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65           1.65                12%  ##
+  2          66           2.23                15%  ###
+  3          65           2.69                 9%  ##
+  4          66           2.97                12%  ##
+  5          66           3.46                15%  ###
+  6          65           3.84                18%  ####
+  7          66           6.85                12%  ##
+  8          65           6.96                17%  ###
+  9          66           7.14                21%  ####
+  10         66           7.26                17%  ###
+
+=== damaged ===
+
+level                        n  errors    rate
+clean                      656      98     15%  ###
+
+pooled chi-square 0.00 on 0 df, permutation p 1.0000
+Pooling repeats each excerpt once per judge, so this p is anti-conservative,
+and the two DeepSeek judges contribute most of the errors. Read the per-judge
+rows for whether the effect is a panel-wide one or two judges' habit.
+
+judge                           clean
+deepseek-v4-flash         28/82   34%
+deepseek-v4-pro           35/82   43%
+gpt-5.6-luna               6/82    7%
+gpt-5.6-sol                0/82    0%
+gpt-5.6-terra              2/82    2%
+haiku                     23/82   28%
+opus                       0/82    0%
+sonnet                     4/82    5%
+
+=== tier ===
+
+level                        n  errors    rate
+research                   272      48     18%  ####
+regional                    80      14     18%  ####
+elite                      240      31     13%  ###
+mid                         40       5     12%  ##
+specialist                  24       0      0%  
+
+pooled chi-square 7.16 on 4 df, permutation p 0.1304
+Pooling repeats each excerpt once per judge, so this p is anti-conservative,
+and the two DeepSeek judges contribute most of the errors. Read the per-judge
+rows for whether the effect is a panel-wide one or two judges' habit.
+
+judge                           elite            mid       regional       research     specialist
+deepseek-v4-flash          8/30   27%      1/5   20%     3/10   30%    16/34   47%      0/3    0%
+deepseek-v4-pro           11/30   37%      2/5   40%     7/10   70%    15/34   44%      0/3    0%
+gpt-5.6-luna               1/30    3%      0/5    0%     1/10   10%     4/34   12%      0/3    0%
+gpt-5.6-sol                0/30    0%      0/5    0%     0/10    0%     0/34    0%      0/3    0%
+gpt-5.6-terra              1/30    3%      0/5    0%     0/10    0%     1/34    3%      0/3    0%
+haiku                      8/30   27%      2/5   40%     2/10   20%    11/34   32%      0/3    0%
+opus                       0/30    0%      0/5    0%     0/10    0%     0/34    0%      0/3    0%
+sonnet                     2/30    7%      0/5    0%     1/10   10%     1/34    3%      0/3    0%
+
+=== country ===
+
+level                        n  errors    rate
+Scotland                    32       9     28%  ######
+New Zealand                 24       6     25%  #####
+Austria                     16       4     25%  #####
+Finland                     16       4     25%  #####
+Australia                  104      23     22%  ####
+USA                         88      14     16%  ###
+Canada                      40       6     15%  ###
+Ireland                     40       5     12%  ##
+Lithuania                   16       2     12%  ##
+UK                         104      12     12%  ##
+Denmark                     32       3      9%  ##
+other                       56       5      9%  ##
+Wales                       24       2      8%  ##
+Northern Ireland            16       1      6%  #
+Germany                     24       1      4%  #
+Poland                      24       1      4%  #
+
+pooled chi-square 22.86 on 15 df, permutation p 0.0880
+Pooling repeats each excerpt once per judge, so this p is anti-conservative,
+and the two DeepSeek judges contribute most of the errors. Read the per-judge
+rows for whether the effect is a panel-wide one or two judges' habit.
+
+=== doc_type ===
+
+level                        n  errors    rate
+vision                      48      17     35%  #######
+other                       16       3     19%  ####
+strategic-plan             568      78     14%  ###
+institutional-plan          24       0      0%  
+
+pooled chi-square 20.89 on 3 df, permutation p 0.0010
+Pooling repeats each excerpt once per judge, so this p is anti-conservative,
+and the two DeepSeek judges contribute most of the errors. Read the per-judge
+rows for whether the effect is a panel-wide one or two judges' habit.
+
+judge                   institutional          other  strategic-pla         vision
+deepseek-v4-flash           0/3    0%      1/2   50%    23/71   32%      4/6   67%
+deepseek-v4-pro             0/3    0%      1/2   50%    31/71   44%      3/6   50%
+gpt-5.6-luna                0/3    0%      0/2    0%     2/71    3%      4/6   67%
+gpt-5.6-sol                 0/3    0%      0/2    0%     0/71    0%      0/6    0%
+gpt-5.6-terra               0/3    0%      0/2    0%     1/71    1%      1/6   17%
+haiku                       0/3    0%      0/2    0%    19/71   27%      4/6   67%
+opus                        0/3    0%      0/2    0%     0/71    0%      0/6    0%
+sonnet                      0/3    0%      1/2   50%     2/71    3%      1/6   17%
+
+(probed judges: deepseek-v4-flash, deepseek-v4-pro, gpt-5.6-luna, gpt-5.6-sol, gpt-5.6-terra, haiku, opus, sonnet)
+
+=== recognised ===
+
+level                        n  errors    rate
+recognised                 186      33     18%  ####
+not recognised             470      65     14%  ###
+
+pooled chi-square 1.61 on 1 df, permutation p 0.2264
+Pooling repeats each excerpt once per judge, so this p is anti-conservative,
+and the two DeepSeek judges contribute most of the errors. Read the per-judge
+rows for whether the effect is a panel-wide one or two judges' habit.
+
+judge                   not recognise     recognised
+deepseek-v4-flash         20/55   36%     8/27   30%
+deepseek-v4-pro           10/24   42%    25/58   43%
+gpt-5.6-luna               6/60   10%     0/22    0%
+gpt-5.6-sol                0/37    0%     0/45    0%
+gpt-5.6-terra              2/55    4%     0/27    0%
+haiku                     23/81   28%      0/1    0%
+opus                       0/76    0%      0/6    0%
+sonnet                     4/82    5%      0/0      
