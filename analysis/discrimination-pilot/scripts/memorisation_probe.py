@@ -15,12 +15,15 @@ This asks each judge to name the source institution of each redacted excerpt. If
 it names real sources above chance, recall is available as a confound.
 
 Usage: memorisation_probe.py <model> [...]
+       memorisation_probe.py gpt-5.6-terra claude:sonnet
 """
 
 from __future__ import annotations
 
 import json
 import os
+import re
+import subprocess
 import time
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -71,6 +74,23 @@ def ask(model: str, text: str) -> dict:
 
 
 def _ask_once(model: str, text: str) -> dict:
+    # The Anthropic judges reach the model through the `claude` CLI rather than
+    # an API key, the same way judge.py does. They are 3/8 of the panel now, and
+    # a recall control that cannot be run on the judges from the vendor that
+    # also wrote the corpus is the one place it is least safe to skip.
+    if model.startswith("claude:"):
+        p = subprocess.run(
+            ["claude", "-p", "--model", model.split(":", 1)[1], PROMPT % text],
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        m = re.search(r"\{.*\}", p.stdout, re.S)
+        try:
+            return json.loads(m.group(0)) if m else {"recognised": None}
+        except json.JSONDecodeError:
+            return {"recognised": None}
+
     url, keyvar = ENDPOINTS["deepseek" if model.startswith("deepseek") else ""]
     with httpx.Client() as c:
         r = c.post(
@@ -103,7 +123,13 @@ def _load_truth() -> dict[str, str]:
         name = row["institution"].lower()
         # Match on the distinctive part: a judge naming "Manchester" should
         # count as having named "The University of Manchester".
-        for filler in ("the ", "university of ", " university", "college of ", " college"):
+        for filler in (
+            "the ",
+            "university of ",
+            " university",
+            "college of ",
+            " college",
+        ):
             name = name.replace(filler, " ")
         out[stem] = " ".join(name.split())
     return out
@@ -116,7 +142,8 @@ def main() -> None:
     stims = json.loads(STIM.read_text())
     rows = []
     for model in sys.argv[1:]:
-        with ThreadPoolExecutor(max_workers=8) as pool:
+        workers = 4 if model.startswith("claude:") else 8
+        with ThreadPoolExecutor(max_workers=workers) as pool:
             res = list(pool.map(lambda s: ask(model, s["text_redacted"]), stims))
         for s, r in zip(stims, res, strict=True):
             doc = Path(s["source_file"]).stem

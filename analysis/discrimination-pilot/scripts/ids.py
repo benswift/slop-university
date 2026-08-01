@@ -30,3 +30,22 @@ def item_id(excerpt_id: str) -> str:
 def doc_key(excerpt_id: str) -> str:
     """The source document an excerpt came from."""
     return excerpt_id.rsplit("--", 1)[0]
+
+
+def text_sha(text: str) -> str:
+    """Fingerprint of the text a score was computed from.
+
+    The id above is stable against the corpus growing, which is what it is for.
+    It is *too* stable for one thing: `<source-doc>--<n>` says nothing about
+    which excerpt of that document ended up at position n, and rebuilding the
+    pool reshuffles them. A scores file written before a rebuild then joins to
+    the right ids and the wrong text --- which is invisible, because every id
+    still resolves. It happened: run 2's proxy scores were a rebuild behind the
+    pool the judges saw, so 123 excerpts were scored from another excerpt of
+    the same document, and the reported correlation between the lexical proxy
+    and the model rating was 0.57 when it was really 0.64.
+
+    So every scores file records what it actually read, and the analyses check
+    it. A join that has silently gone wrong should fail, not return a number.
+    """
+    return hashlib.sha1(text.encode()).hexdigest()[:12]

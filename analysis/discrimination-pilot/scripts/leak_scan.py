@@ -88,7 +88,11 @@ PROPER_SEQUENCE = re.compile(
     r"\b([A-Z][a-z]{2,}(?:\s+(?:of|for|and|the|de|van)\s+)?(?:\s+[A-Z][a-z]{2,})+)\b"
 )
 WORD_CAPITAL = re.compile(r"\b([A-Z][a-z]{2,}\s+[A-Z])\b(?![a-z])")
-LONE_CAPITAL = re.compile(r"(?<![\w'’.])([A-Z])(?![\w'’.])")
+# The lookarounds have to exclude `&` as well as word characters, or the scan
+# reports `R&D` and `I&E` as four separate bare capitals. Those are ordinary
+# English and were most of what this family found: without the exclusion the
+# residual reads as eleven one-sided leaks when it is really two documents.
+LONE_CAPITAL = re.compile(r"(?<![\w'’.&])([A-Z])(?![\w'’.&])")
 NON_ENGLISH = re.compile(r"\b([A-Za-zÀ-ÿĀ-ž]*[À-ÿĀ-ž][A-Za-zÀ-ÿĀ-ž]*)\b")
 
 

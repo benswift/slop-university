@@ -41,8 +41,12 @@ import argparse
 import json
 import math
 import random
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ids import text_sha  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
@@ -113,15 +117,42 @@ def normal_p(z: float) -> float:
     return math.erfc(abs(z) / math.sqrt(2))
 
 
+def check_current(rows: list[dict], what: str) -> None:
+    """Refuse to analyse a scores file written against an older pool.
+
+    Item ids survive a pool rebuild; the excerpt sitting at a given id does
+    not. A stale scores file therefore joins cleanly and silently attaches
+    each score to a different excerpt of the same document. That is what
+    happened to run 2's proxies, and nothing about the output looked wrong.
+    """
+    pool = json.loads((ROOT / "stimuli" / "pool_redacted.json").read_text())
+    current = {
+        r["id"]: text_sha(r.get("text_redacted") or r.get("text", "")) for r in pool
+    }
+    stamped = [r for r in rows if r.get("text_sha")]
+    if not stamped:
+        print(
+            f"warning: {what} predates the text fingerprint and cannot be "
+            "checked --- regenerate it before trusting this"
+        )
+        return
+    stale = [
+        r for r in stamped if current.get(r.get("id")) not in (None, r["text_sha"])
+    ]
+    if stale:
+        raise SystemExit(
+            f"{what} is {len(stale)} of {len(stamped)} excerpts out of date with the "
+            "pool --- regenerate it (`vagueness.py`) rather than joining on stale scores"
+        )
+
+
 def load(axis: str = "proxy") -> tuple[dict[str, float], list[dict]]:
     if axis == "proxy":
         if not PROXIES.exists():
             raise SystemExit("run `vagueness.py --proxies` first")
-        index = {
-            r["item"]: r["vagueness_index"]
-            for r in json.loads(PROXIES.read_text())
-            if r.get("item")
-        }
+        proxies = json.loads(PROXIES.read_text())
+        check_current(proxies, "vagueness-proxies.json")
+        index = {r["item"]: r["vagueness_index"] for r in proxies if r.get("item")}
     else:
         # The model's own concreteness rating, sign-flipped so that higher means
         # vaguer on both axes and the two are directly comparable. If the models'
@@ -133,9 +164,11 @@ def load(axis: str = "proxy") -> tuple[dict[str, float], list[dict]]:
             raise SystemExit(
                 f"no model rating at {path} --- run `vagueness.py --model openai:{axis}`"
             )
+        ratings = json.loads(path.read_text())
+        check_current(ratings, path.name)
         index = {
             r["item"]: -float(r["concreteness"])
-            for r in json.loads(path.read_text())
+            for r in ratings
             if r.get("item") and r.get("concreteness") is not None
         }
 

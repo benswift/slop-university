@@ -59,6 +59,7 @@ from merged_tokens import rate as merged_rate  # noqa: E402
 from vagueness_vs_error import (  # noqa: E402
     PERMUTATIONS,
     SEED,
+    check_current,
     deciles,
     mean,
     normal_p,
@@ -108,11 +109,9 @@ def load_axes() -> tuple[dict[str, dict[str, float]], dict[str, dict[str, str]]]
             for r in json.loads((ROOT / "stimuli" / "stimuli.json").read_text())
         }
 
-    vagueness = {
-        r["item"]: r["vagueness_index"]
-        for r in json.loads((RESULTS / "vagueness-proxies.json").read_text())
-        if r.get("item")
-    }
+    proxies = json.loads((RESULTS / "vagueness-proxies.json").read_text())
+    check_current(proxies, "vagueness-proxies.json")
+    vagueness = {r["item"]: r["vagueness_index"] for r in proxies if r.get("item")}
 
     numeric: dict[str, dict[str, float]] = {a: {} for a in CONTINUOUS}
     labels: dict[str, dict[str, str]] = {a: {} for a in CATEGORICAL}
@@ -141,8 +140,13 @@ def load_recognition() -> dict[tuple[str, str], str]:
     path = RESULTS / "memorisation.json"
     if not path.exists():
         return {}
+    # The probe records the backend it was called through (`claude:opus`) while
+    # a judgement records the model (`opus`). Joining on the raw string silently
+    # drops every Anthropic judge from this axis.
     return {
-        (r["model"], r["item"]): "recognised" if r["recognised"] else "not recognised"
+        (r["model"].split(":", 1)[-1], r["item"]): (
+            "recognised" if r["recognised"] else "not recognised"
+        )
         for r in json.loads(path.read_text())
         if r.get("item") and r.get("model")
     }

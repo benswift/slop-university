@@ -60,10 +60,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ids import doc_key, item_id  # noqa: E402
+from ids import doc_key, item_id, text_sha  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-POOL = ROOT / "stimuli" / "pool.json"
+POOL = ROOT / "stimuli" / "pool_redacted.json"
 OUT = ROOT / "results"
 
 # --------------------------------------------------------------------------
@@ -340,6 +340,25 @@ def ask(backend: str, text: str) -> dict:
 # --------------------------------------------------------------------------
 
 
+def scored_text(row: dict) -> str:
+    """The text a score is computed from: the excerpt as the judges saw it.
+
+    Both paths read `text_redacted`, from `pool_redacted.json`. Neither did
+    before. The pool was read from `pool.json`, which is the gazetteer pass
+    only, so the axis was measured on text that differs from the stimulus on
+    325 of 604 excerpts --- and the question the axis exists to answer is
+    whether the vagueness *a judge could see* predicts its errors, which can
+    only be asked of the string the judge was given.
+
+    Redaction is not neutral for this measure. `[ORGANISATION]` stands where a
+    named accountable body was, and named accountable bodies are one of the
+    proxy's concrete families, so redaction pushes both sides towards vague and
+    the real side further, it carrying more tags. The corpus-level ratio is
+    reported on both texts for that reason; it survives either choice.
+    """
+    return row.get("text_redacted") or row.get("text", "")
+
+
 def load_pool() -> list[dict]:
     if not POOL.exists():
         raise SystemExit(f"no pool at {POOL} --- run build_stimuli.py first")
@@ -468,7 +487,8 @@ def main() -> None:
                 "truth": r.get("truth"),
                 "condition": r.get("condition"),
                 "source_doc": doc_key(str(r.get("id", ""))),
-                **proxy_scores(r.get("text") or r.get("text_redacted", "")),
+                "text_sha": text_sha(scored_text(r)),
+                **proxy_scores(scored_text(r)),
             }
             for r in rows
         ]
@@ -489,9 +509,7 @@ def main() -> None:
         print(f"wrote {path.relative_to(ROOT)}")
 
     if args.model:
-        texts = [
-            (i, r.get("text_redacted") or r.get("text", "")) for i, r in enumerate(rows)
-        ]
+        texts = [(i, scored_text(r)) for i, r in enumerate(rows)]
 
         def one(pair: tuple[int, str]) -> dict:
             i, text = pair
@@ -510,6 +528,7 @@ def main() -> None:
                 "item": item_id(rows[i]["id"]) if rows[i].get("id") else None,
                 "truth": rows[i].get("truth"),
                 "rater": args.model,
+                "text_sha": text_sha(text),
                 **res,
             }
 
