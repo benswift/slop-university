@@ -1,5 +1,12 @@
 # Slop University: text-only discrimination pilot
 
+> **Corpus expansion in progress (1 August 2026, TASK-006).** Everything below
+> describes the 54-item pilot and still stands as a record of it. The real-side
+> corpus has since been rebuilt at roughly ten times the size, and the stimulus
+> pipeline has been changed in ways that will move the numbers when the judges
+> are re-run. See [The expanded corpus](#the-expanded-corpus-task-006) at the
+> end for what is new, what is already measured, and what is still owed.
+
 Run 1 August 2026; re-run against the GPT-5.6 generation the same day.
 Everything below is reproducible from the scripts and data in this directory.
 The corpora in `slop-university/output/` and `slop-university-press/output/`
@@ -579,12 +586,189 @@ The ones that constrain what may be claimed:
 > institution from redacted text, with no false positives on the fabricated
 > side, so part of what looks like discrimination on public documents is recall.
 
+## The expanded corpus (TASK-006)
+
+The pilot's most interesting finding was also its thinnest. Four of the five
+errors the 5.6 judges made were real strategic plans called fabricated, faulted
+for "generic aspirational strategy language" and "sweeping commitments offering
+no concrete detail" --- and of those four, only two survived scrutiny. Two clean
+errors across two institutions cannot carry the claim that the boundary these
+models learned runs between the concrete and the vague rather than between the
+real and the invented. This section is the corpus that can.
+
+### What was gathered
+
+**114 genuine strategy documents from 110 institutions across 25 countries**, up
+from 11 documents and 10 institutions. Gathered region by region, and
+deliberately not another sweep of the anglophone elite:
+
+| dimension     | spread                                                                                                                                                                                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| country       | Australia 23, UK 15, USA 14, NZ 8, Canada 7, Ireland 6, Netherlands 6, Scotland 5, Norway 4, Austria/Czechia/Denmark/Finland 3 each, Poland/Sweden 2 each, and one each from Belgium, Estonia, Germany, Iceland, Italy, Lithuania, Northern Ireland, Slovenia, Switzerland, Wales |
+| tier          | research 40, elite 38, regional 21, mid 8, specialist 7                                                                                                                                                                                                                           |
+| document type | strategic plan 92, vision 11, institutional plan 8, research strategy 2, corporate plan 1                                                                                                                                                                                         |
+| year          | 2004--2026, with 60 documents from 2020 onwards and 21 from before 2019                                                                                                                                                                                                           |
+
+The regional and specialist tiers are the point: post-92 English universities,
+Irish technological universities, Australian regional campuses, US directional
+publics and liberal arts colleges, HBCU and Hispanic-serving institutions, a
+Norwegian arctic university, an agricultural university and two art schools.
+Every document was verified on retrieval as a text-bearing PDF of at least six
+pages and 1,200 extractable words, so no scanned image or two-page pillar poster
+entered the corpus.
+
+Provenance is per document in `corpus/provenance.json` --- title, institution,
+country, tier, type, year, page and word count, URL, retrieval date --- merged
+from per-region shards under `corpus/incoming/` by `merge_provenance.py`.
+
+The raw PDFs are not committed, and the first run shows why that needed
+addressing rather than repeating: it made the same decision, nothing could
+re-download them, and when the tree was cleaned the entire real corpus was gone.
+`refetch_corpus.py` now restores every document from its recorded URL, so the
+corpus is reproducible rather than merely documented.
+
+Three countries resisted: Spain, Portugal and France yielded nothing despite
+roughly fifteen institutions tried, since their strategy documents are published
+in the national language or not as PDFs at all. Several universities (Melbourne,
+Monash, Deakin, KU Leuven, LMU) publish plans that sit behind bot protection
+that refuses a non-browser client.
+
+### Extraction and redaction defects, fixed
+
+All four were real-side-only, and all four pushed real documents towards
+"fabricated" --- the direction that manufactures this section's finding, so they
+had to be fixed before the corpus was scored rather than after.
+
+**Dropped ligatures** (`normalise.py`). `pdftotext` loses `fi`/`fl`/`ff` from
+fonts with no ToUnicode mapping, leaving `effcient`, `beneft`, `frst`, and
+DeepSeek called a real Edinburgh excerpt fabricated for "multiple spelling
+errors ... unlikely in a professionally published university document". Repair
+is dictionary-verified: a character is reinserted only where exactly one
+candidate is a real word, so genuine misspellings and unusual proper nouns are
+left alone. 183 repairs across the corpus.
+
+**Orthography** (`normalise.py`). American spelling was handled in the first run
+by dropping the two US documents. At this scale exclusion is not good enough, so
+American spellings are mapped to British on **both** sides, again
+dictionary-verified --- a transform fires only if it turns a non-British token
+into a British-dictionary word, which is what keeps `size`, `prize` and
+`capsize` out of the `-ize` rule without an exception list. 1,677 spellings
+normalised, and the US is now in the corpus with fourteen documents. What this
+does not fix is American institutional _vocabulary_ (Provost, Board of Trustees,
+the semester calendar); that is content rather than spelling, rewriting it would
+edit what the document says, and `normalise.py audit` counts it per side instead
+so the residual can be reported rather than assumed away.
+
+**A gazetteer that cannot drift** (`gazetteer.py`). The hand-curated list worked
+for twelve institutions and still leaked. For 110 it would be unauditable ---
+nobody can tell by reading a list which entries are missing. Identity terms are
+now derived from the provenance: name variants, distinctive tokens and acronyms
+per institution, plus demonyms per country. Adding a document to the corpus adds
+its institution to the gazetteer. Title words are contributed only when they are
+coinages or foreign words, never ordinary English, because redacting a title
+word like `Ambition` or `Action` would delete exactly the aspirational register
+the vagueness axis is trying to measure.
+
+**Non-English vocabulary.** The first run redacted the name `Māori` and knew
+nothing of `mātauranga`; three excerpts kept untranslated te reo Māori and
+Irish, and judges cited them. Any diacritic-bearing token in neither English
+word list is now redacted, backed by a curated list for the undiacriticked terms
+(`whanau`, `iwi`, `kaupapa`, `Gaeltacht`, `Cymru`). The scan below finds
+**zero** non-English forms remaining.
+
+**`Unit M`** --- Manchester's real innovation unit, left standing when its
+institution's name was removed, and read by two judges as an unreplaced
+placeholder. A generic organisational noun followed by a lone capital is now
+redacted directly. More to the point, the scan that claimed to have found no
+residual leakage is now a committed script (`leak_scan.py`) rather than
+something run once in a shell: an audit nobody can re-run is an audit whose
+claims cannot be checked, which is how `Unit M` survived a clean bill of health.
+
+### What the scan finds now
+
+Across 509 excerpts, in the three families the first run's hand scan did not
+cover: **zero** non-English forms; six `word-capital` forms, none of them an
+institution (`Triple I`, `Solvency I`, and one residual person-initial,
+`Willie A`, which needs a rule); and seventeen one-sided lone capitals, all but
+one on the real side, coming from figure labels and bullet keys that the prose
+filter let through. That last one is a **new** finding and a real asymmetry ---
+small, but pointing real → fabricated, so it belongs on the list before the
+re-run rather than after it.
+
+### The concrete/vague axis, measured
+
+The axis has to be measured independently of the judges or the claim is
+circular: the vague documents would be, by construction, whatever got
+misclassified. `vagueness.py --proxies` scores every excerpt on six lexical
+families --- dated commitments, quantified targets and named accountable bodies
+pulling concrete; aspirational abstract nouns, hedged commitment language and
+nominalisation density pulling vague --- and reports
+`log((vague + 1) / (concrete + 1))`, symmetric around zero.
+
+| side       | n            | concrete/10k words | vague/10k words | index |
+| ---------- | ------------ | ------------------ | --------------- | ----- |
+| real       | 378 excerpts | 71.5               | 1100.6          | +4.06 |
+| fabricated | 131 excerpts | 185.4              | 858.8           | +1.88 |
+
+**The fabricated documents are two and a half times more concrete than the real
+ones.** Aggregated per source document, the real median index is +4.00 against
++1.82 fabricated, and the distributions overlap heavily in the direction that
+matters: **110 of 116 real documents (95%) are vaguer than the median fabricated
+one, and 48 (41%) are vaguer than every fabricated document in the corpus.**
+
+The effect is not a story about lesser institutions writing mush. Median index
+by tier on the real side: research +4.29, regional +4.02, elite +3.93,
+specialist +3.30, mid +3.15. The vaguest documents in the corpus are an elite
+Norwegian plan, an Australian metropolitan one, a Danish research university and
+a German elite technical institute; the most concrete real documents are
+statutory annual reports, which is exactly what one would expect and is a useful
+check that the proxies measure what they claim to.
+
+This is the paper's best claim in a form it can actually be stated in: not an
+observation about four errors, but a measured property of 116 genuine
+institutional documents. It says the press's failure mode is being _too
+specific_ --- the phased delivery table, the named committee, the dated
+commitment --- while the genre it imitates is overwhelmingly vaguer than the
+imitation.
+
+### Still owed
+
+1. **The re-run itself.** The judges have not been run against the expanded
+   stimulus set. The pool is 509 excerpts (378 real, 131 fabricated) and the
+   fabricated side is now the scarce one, so the tag-density-matched sample will
+   be roughly 98 pairs per condition against the first run's 16 --- a far better
+   test, and one that will cost real API budget across six judges.
+2. **Whether misclassification tracks the vagueness score.** This is the actual
+   claim of TASK-006, and it needs judgements to test. The axis is measured; the
+   correlation is not.
+3. **The model rating of the axis.** `vagueness.py --model` is implemented but
+   unrun; agreement between the model rating and the lexical proxies is what
+   licenses treating either as a measurement of the same thing.
+4. **The memorisation probe at scale.** A hundred more public documents makes
+   recall a bigger confound, not a smaller one --- but the corpus now contains
+   many genuinely obscure institutions, which is the control the first run
+   lacked. `memorisation_probe.py` is unchanged and needs running.
+5. **Extraction parity in outcome.** Real multi-column PDFs still yield more
+   merged tokens than typst-generated ones, and the one-sided lone capitals
+   above are a second instance of the same problem. Identical method, unequal
+   result.
+6. **`Willie A`.** The `word-capital` rule catches `Unit M` but not a forename
+   followed by a middle initial.
+
 ## Files
 
 ```
 README.md                      this report
 corpus/provenance.json         real-side documents: titles, institutions, URLs
-corpus/raw/*.pdf               18 downloaded real documents (2 excluded from the set)
+corpus/incoming/*.json         per-region provenance shards, merged into the above
+corpus/raw/*.pdf               121 downloaded real documents (gitignored, refetchable)
+scripts/fetch_doc.py           fetch + verify one corpus document, record provenance
+scripts/merge_provenance.py    fold the region shards into corpus/provenance.json
+scripts/refetch_corpus.py      restore any corpus PDF missing from disk
+scripts/normalise.py           ligature repair + orthography, applied to both sides
+scripts/gazetteer.py           redaction terms derived from the provenance
+scripts/leak_scan.py           one-sided residual identity leakage, four cue families
+scripts/vagueness.py           the concrete/vague axis: lexical proxies + model rating
 scripts/build_stimuli.py       extraction + gazetteer redaction -> stimuli/pool.json
 scripts/leak_audit.py          LLM leakage detector + mechanical application
 scripts/sample_stimuli.py      tag-density-matched balanced sampling

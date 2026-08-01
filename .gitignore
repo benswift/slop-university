@@ -50,3 +50,9 @@ docs/
 # add no protection --- and would cost the visibility that matters: a PDF
 # mislanded there needs to show up in git status and be swept by `git clean -fd`,
 # not sit there silently while the tick fails somewhere downstream.
+
+# discrimination-pilot corpus: 114 published PDFs, ~640MB. Not committed --- but
+# unlike the first run, provenance.json now records every URL and
+# scripts/refetch_corpus.py restores the lot, so the corpus is reproducible
+# rather than merely documented.
+analysis/discrimination-pilot/corpus/raw/

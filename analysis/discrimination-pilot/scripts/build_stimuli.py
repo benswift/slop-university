@@ -6,8 +6,12 @@
 """Build the redacted stimulus set for the Slop University discrimination pilot.
 
 Both sides go through the *same* pipeline: PDF -> pdftotext (default reading
-order, no -layout) -> paragraph segmentation -> prose filter -> excerpt
-assembly -> symmetric redaction -> sampling.
+order, no -layout) -> extraction normalisation -> paragraph segmentation ->
+prose filter -> excerpt assembly -> symmetric redaction -> sampling.
+
+The normalisation step repairs ligatures dropped by pdftotext and maps American
+spelling to British; see `normalise.py` for why both were real-side-only defects
+in the first run and why that direction mattered.
 """
 
 from __future__ import annotations
@@ -18,6 +22,9 @@ import re
 import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
+
+from gazetteer import derive as derive_terms, non_english_tokens
+from normalise import normalise
 
 SCRATCH = Path(__file__).resolve().parent.parent
 RAW = SCRATCH / "corpus" / "raw"
@@ -481,11 +488,27 @@ def _alt(terms: list[str]) -> re.Pattern:
 # themselves leak (only real documents name a statutory regulator; only the
 # fabricated side names a fictional lab), so everything institutional collapses
 # to one tag and everything referential to another.
-ORG_RE = _alt(UNIVERSITIES + SCHOOLS + AGENCIES + TAGLINES)
+# The hand-written lists above cover the fictional canon and the first run's
+# twelve real institutions. Everything gathered since is derived from
+# corpus/provenance.json, so adding a document to the corpus adds its
+# institution to the gazetteer and the two cannot drift apart.
+DERIVED = derive_terms()
+
+ORG_RE = _alt(UNIVERSITIES + SCHOOLS + AGENCIES + TAGLINES + DERIVED["ORGANISATION"])
 PERSON_RE = _alt(ROSTER + REAL_PEOPLE)
-PLACE_RE = _alt(PLACES)
+PLACE_RE = _alt(PLACES + DERIVED["PLACE"])
 REF_RE = _alt(STATUTES)
 MOTTO_RE = _alt(MOTTOES)
+
+# `Unit M` --- Manchester's real innovation unit --- survived the first run's
+# gazetteer, and two judges read the leftover as an unreplaced placeholder and
+# inferred fabrication. A generic organisational noun followed by a lone
+# capital is the shape that got through.
+UNIT_LETTER_RE = re.compile(
+    r"\b(Unit|Campus|Building|Block|Site|House|Wing|Centre|Center|Hub|Lab|Laboratory"
+    r"|Programme|Program|Project|Faculty|Division|Team|Group|Stream|Pillar|Phase"
+    r"|Cluster|Institute|School|Hall|Court|Tower|Precinct)\s+[A-Z]\b(?![a-z])"
+)
 
 TAGS = ("ORGANISATION", "PERSON", "PLACE", "REF")
 
@@ -503,8 +526,15 @@ def redact(text: str) -> str:
     t = MOTTO_RE.sub("[REF]", t)
     t = REF_RE.sub("[REF]", t)
     t = PERSON_RE.sub("[PERSON]", t)
+    t = UNIT_LETTER_RE.sub("[ORGANISATION]", t)
     t = ORG_RE.sub("[ORGANISATION]", t)
     t = PLACE_RE.sub("[PLACE]", t)
+    # Non-English vocabulary. The first run redacted the name of a language and
+    # not the language, so `mātauranga` and `chéile` survived and were cited by
+    # judges as evidence of authenticity. Anything diacritic-bearing that is in
+    # neither English word list is a national tell, whichever side carries it.
+    for token in non_english_tokens(t):
+        t = re.sub(rf"\b{re.escape(token)}\b", "[PLACE]", t)
     # honorific-triggered names (catches real people not in the gazetteer)
     t = TITLE_RE.sub(lambda m: f"{m.group(1)} [PERSON]", t)
     t = ROLE_NAME_RE.sub(lambda m: f"{m.group(1)} [PERSON]", t)
@@ -523,15 +553,22 @@ def redact(text: str) -> str:
 # --------------------------------------------------------------------------
 
 
+NORMALISATION_STATS: dict[str, int] = {"ligature_repairs": 0, "orthography_changes": 0}
+
+
 def pdf_to_text(pdf: Path) -> str:
-    """Identical extraction for both sides: pdftotext, default reading order."""
+    """Identical extraction for both sides: pdftotext, default reading order,
+    then the symmetric normalisation pass."""
     res = subprocess.run(
         ["pdftotext", "-enc", "UTF-8", str(pdf), "-"],
         capture_output=True,
         text=True,
         check=False,
     )
-    return res.stdout
+    text, stats = normalise(res.stdout)
+    for k, v in stats.items():
+        NORMALISATION_STATS[k] += v
+    return text
 
 
 WORD_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’\-]*")
@@ -613,13 +650,21 @@ class Stim:
     subtype: str  # provenance tag, e.g. "slop-brand", "anu-brand", "real"
     words: int
     text: str
+    # Breadth metadata, carried through from corpus/provenance.json so the
+    # re-run can report misclassification by country, tier, type and year
+    # without joining back to the corpus by filename.
+    country: str = ""
+    tier: str = ""
+    doc_type: str = ""
+    year: int = 0
+    institution: str = ""
 
 
-def collect(pdfs: list[tuple[Path, str, str, str, str]]) -> list[Stim]:
-    """pdfs: (path, condition, truth, repo, subtype)"""
+def collect(pdfs: list[tuple[Path, str, str, str, str, dict]]) -> list[Stim]:
+    """pdfs: (path, condition, truth, repo, subtype, metadata)"""
     rng = random.Random(SEED)
     stims: list[Stim] = []
-    for path, cond, truth, repo, subtype in pdfs:
+    for path, cond, truth, repo, subtype, meta in pdfs:
         exs = excerpts_from_pdf(path)
         if not exs:
             continue
@@ -638,6 +683,11 @@ def collect(pdfs: list[tuple[Path, str, str, str, str]]) -> list[Stim]:
                     subtype=subtype,
                     words=len(WORD_RE.findall(red)),
                     text=red,
+                    country=meta.get("country", ""),
+                    tier=meta.get("tier", ""),
+                    doc_type=meta.get("doc_type", ""),
+                    year=int(meta.get("year") or 0),
+                    institution=meta.get("institution", ""),
                 )
             )
     return stims
@@ -647,7 +697,7 @@ def main() -> None:
     TEXT.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
 
-    pdfs: list[tuple[Path, str, str, str, str]] = []
+    pdfs: list[tuple[Path, str, str, str, str, dict]] = []
 
     # --- fabricated side -------------------------------------------------
     for repo, base in (
@@ -656,26 +706,25 @@ def main() -> None:
     ):
         for p in sorted((base / "strategy").glob("*.pdf")):
             subtype = "anu-brand" if p.stem.startswith("anu2026") else "slop-brand"
-            pdfs.append((p, "strategy", "fabricated", repo, subtype))
+            pdfs.append((p, "strategy", "fabricated", repo, subtype, {}))
         for p in sorted((base / "impact-report").glob("*.pdf")):
-            pdfs.append((p, "impact", "fabricated", repo, "slop-brand"))
+            pdfs.append((p, "impact", "fabricated", repo, "slop-brand", {}))
 
     # --- real side -------------------------------------------------------
-    # US institutions are excluded: American orthography (-ize/-ization),
-    # American academic titles (Provost, Executive Vice President) and the
-    # semester calendar are unremovable national tells, and the fabricated
-    # corpus is uniformly Australian/British in register. Keeping them would
-    # let a judge infer "real" from nationality alone.
-    excluded = {"real-strategy-michigan-state", "real-impact-asu"}
-    for p in sorted(RAW.glob("real-strategy-*.pdf")):
-        if p.stem not in excluded:
-            pdfs.append((p, "strategy", "real", "web", "real"))
-    for p in sorted(RAW.glob("real-impact-*.pdf")):
-        if p.stem not in excluded:
-            pdfs.append((p, "impact", "real", "web", "real"))
-    anu_plan = Path.home() / ".nb" / "home" / "anu-corporate-plan-2026-v5.pdf"
-    if anu_plan.exists():
-        pdfs.append((anu_plan, "strategy", "real", "local", "real"))
+    # The real side is driven by corpus/provenance.json rather than by a glob,
+    # so a PDF only enters the pool if its provenance was recorded. The first
+    # run dropped the two US documents because American orthography was an
+    # unremovable tell against a uniformly Australian/British fabricated
+    # corpus; normalise.py now maps American spelling to British on BOTH sides,
+    # so exclusion by nationality is no longer needed and the US is in.
+    prov = json.loads((SCRATCH / "corpus" / "provenance.json").read_text())
+    for cond, key in (("strategy", "real_strategy"), ("impact", "real_impact")):
+        for row in prov.get(key, []):
+            path = RAW / row["file"]
+            if not path.exists():
+                print(f"  ! missing {row['file']} --- skipped")
+                continue
+            pdfs.append((path, cond, "real", "web", "real", row))
 
     stims = collect(pdfs)
     (OUT / "pool.json").write_text(json.dumps([asdict(s) for s in stims], indent=1))
@@ -686,6 +735,10 @@ def main() -> None:
     for k, v in sorted(c.items()):
         print(k, v)
     print("total pool:", len(stims))
+    print(
+        f"normalisation: {NORMALISATION_STATS['ligature_repairs']} ligature repairs, "
+        f"{NORMALISATION_STATS['orthography_changes']} spellings normalised"
+    )
 
 
 if __name__ == "__main__":

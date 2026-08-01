@@ -1,0 +1,202 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = []
+# ///
+"""Scan a redacted excerpt pool for residual one-sided identity leakage.
+
+The first run of the pilot ran a version of this by hand and reported that "a
+scan for capitalised proper-noun sequences appearing on only one side found no
+residual identity leakage". Two judges then found `Unit M` --- Manchester's real
+innovation unit, left standing after the institution's name was removed --- and
+read it as an unreplaced placeholder, which is a cue pointing real ->
+fabricated. The hand scan missed it because `Unit M` is a `Word + single
+capital` form, not a sequence of capitalised words. Three excerpts also kept
+untranslated `mātauranga` and `chéile`, which the gazetteer never saw because it
+redacted the *name* of a language, not its vocabulary.
+
+Committing the scan is the point: an audit that lives in someone's shell history
+cannot be re-run, and its claims cannot be checked. Four families of cue:
+
+  proper-sequence   two or more capitalised words in a row      (the original)
+  word-capital      a word followed by a lone capital letter    (`Unit M`)
+  lone-capital      a bare single capital standing as a token   (placeholder-ish)
+  non-english       a diacritic-bearing token in neither of the
+                    system word lists                           (`mātauranga`)
+
+Anything appearing on exactly one side is a candidate tell. The output is a
+worklist for the gazetteer, not a verdict --- plenty of one-sided forms are
+legitimately part of what the test measures.
+
+    uv run --script scripts/leak_scan.py [stimuli/pool_redacted.json]
+"""
+
+from __future__ import annotations
+
+import json
+import re
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from normalise import wordlists  # noqa: E402
+
+# Words that start a sentence or a heading and so capitalise for grammatical
+# reasons rather than because they name anything.
+STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "but",
+    "by",
+    "for",
+    "from",
+    "in",
+    "of",
+    "on",
+    "or",
+    "our",
+    "the",
+    "this",
+    "to",
+    "we",
+    "with",
+    "it",
+    "its",
+    "their",
+    "they",
+    "these",
+    "those",
+    "that",
+    "will",
+    "must",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+}
+
+REDACTION_TAG = re.compile(r"\[(?:ORGANISATION|PERSON|PLACE|REF|UNIVERSITY|SCHOOL)\]")
+
+PROPER_SEQUENCE = re.compile(
+    r"\b([A-Z][a-z]{2,}(?:\s+(?:of|for|and|the|de|van)\s+)?(?:\s+[A-Z][a-z]{2,})+)\b"
+)
+WORD_CAPITAL = re.compile(r"\b([A-Z][a-z]{2,}\s+[A-Z])\b(?![a-z])")
+LONE_CAPITAL = re.compile(r"(?<![\w'’.])([A-Z])(?![\w'’.])")
+NON_ENGLISH = re.compile(r"\b([A-Za-zÀ-ÿĀ-ž]*[À-ÿĀ-ž][A-Za-zÀ-ÿĀ-ž]*)\b")
+
+
+def load(path: Path) -> list[dict]:
+    rows = json.loads(path.read_text())
+    return rows if isinstance(rows, list) else rows["items"]
+
+
+def side_of(row: dict) -> str:
+    for key in ("truth", "side", "label"):
+        if key in row:
+            value = str(row[key]).lower()
+            return "fabricated" if "fab" in value else "real"
+    raise KeyError(f"no side field in {sorted(row)}")
+
+
+def text_of(row: dict) -> str:
+    for key in ("text", "excerpt", "redacted", "body"):
+        if key in row:
+            return row[key]
+    raise KeyError(f"no text field in {sorted(row)}")
+
+
+def find_cues(text: str) -> dict[str, set[str]]:
+    british, american = wordlists()
+    known = british | american
+    clean = REDACTION_TAG.sub(" ", text)
+
+    cues: dict[str, set[str]] = defaultdict(set)
+
+    for m in PROPER_SEQUENCE.finditer(clean):
+        phrase = " ".join(m.group(1).split())
+        if all(w.lower() in STOPWORDS for w in phrase.split()):
+            continue
+        cues["proper-sequence"].add(phrase)
+
+    for m in WORD_CAPITAL.finditer(clean):
+        phrase = " ".join(m.group(1).split())
+        if phrase.split()[0].lower() in STOPWORDS:
+            continue
+        cues["word-capital"].add(phrase)
+
+    for m in LONE_CAPITAL.finditer(clean):
+        if m.group(1) not in {"I", "A"}:
+            cues["lone-capital"].add(m.group(1))
+
+    for m in NON_ENGLISH.finditer(clean):
+        token = m.group(1)
+        if token.lower() not in known and len(token) > 2:
+            cues["non-english"].add(token)
+
+    return cues
+
+
+def main() -> None:
+    path = (
+        Path(sys.argv[1])
+        if len(sys.argv) > 1
+        else ROOT / "stimuli" / "pool_redacted.json"
+    )
+    if not path.exists():
+        raise SystemExit(
+            f"no pool at {path} --- run build_stimuli.py and leak_audit.py first"
+        )
+
+    rows = load(path)
+    seen: dict[str, dict[str, dict[str, set[str]]]] = defaultdict(
+        lambda: defaultdict(lambda: defaultdict(set))
+    )
+
+    for row in rows:
+        side = side_of(row)
+        item = str(row.get("id", row.get("item", "?")))
+        for family, phrases in find_cues(text_of(row)).items():
+            for phrase in phrases:
+                seen[family][phrase][side].add(item)
+
+    print(f"{len(rows)} excerpts from {path}\n")
+
+    total_one_sided = 0
+    for family in ("word-capital", "lone-capital", "non-english", "proper-sequence"):
+        entries = seen.get(family, {})
+        one_sided = {
+            phrase: sides for phrase, sides in entries.items() if len(sides) == 1
+        }
+        total_one_sided += len(one_sided)
+        print(
+            f"## {family}: {len(entries)} distinct forms, {len(one_sided)} appear on one side only"
+        )
+
+        ranked = sorted(
+            one_sided.items(), key=lambda kv: -sum(len(v) for v in kv[1].values())
+        )
+        for phrase, sides in ranked[:25]:
+            side = next(iter(sides))
+            items = sorted(sides[side])
+            print(f"  [{side:<10}] {phrase!r}  x{len(items)}  {', '.join(items[:6])}")
+        if len(ranked) > 25:
+            print(f"  ... and {len(ranked) - 25} more")
+        print()
+
+    print(f"{total_one_sided} one-sided forms in total.")
+    print(
+        "Review the `word-capital`, `lone-capital` and `non-english` families first: those\n"
+        "are the three the first run's hand scan did not cover, and all three produced\n"
+        "cues that judges cited."
+    )
+
+
+if __name__ == "__main__":
+    main()
