@@ -159,4 +159,7 @@ the wrapper takes it from here. Then exit.
 the app password, as `SLOPU_TOKEN`, from the wrapper's mise env --- a Bluesky
 **app password** (Settings → App Passwords), never the account password, and
 never in a tracked file. It belongs in the same untracked mise env block as
-`REPLICATE_API_TOKEN`. The agent side of this skill needs no credentials.
+`REPLICATE_API_TOKEN`. The agent side of this skill needs no credentials, and no
+longer has them: the wrapper strips `SLOPU_TOKEN` (and the bucket keys) with
+`env -u` before invoking the agent, so an agent talked into posting by something
+it read in a feed has no credential to post with.

@@ -177,6 +177,20 @@ rescue_and_abort() {
 # tells the from-preset resolver to treat private/ preset overlays as
 # unresolvable --- the unattended path can only ever run public slop presets
 # (and in the worktree private/ doesn't exist to begin with).
+#
+# `env -u` strips the credentials the agent must never hold. The
+# compose/publish split above is structural for the ACTION --- only this
+# wrapper calls the poster and the uploader --- but it was never isolation of
+# the CREDENTIAL: mise exports the whole untracked [env] block into this shell
+# and the agent runs as a child, so it inherited SLOPU_TOKEN and the bucket
+# keys and could have used them directly, bypassing the split entirely. That
+# gap matters because the agent reads attacker-influenceable input every run:
+# the RSS sources and the Bluesky search in 2A are open channels, and a live
+# installation taking topic suggestions from the room widens them. Stripping
+# the tokens turns "the agent has no code path to post" into "the agent has no
+# credential to post with", which survives an injected agent that stops
+# following the skill. REPLICATE_API_TOKEN deliberately stays: image generation
+# genuinely needs it, so bound that one with a spend cap on the key instead.
 PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
 PUBLISHED_AT="$(date -Iseconds)"
 log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
@@ -186,6 +200,11 @@ log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
   GIT_AUTHOR_EMAIL="press@slop.university" \
   SLOPU_PUBLIC_ONLY=1 \
   SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
+  env -u SLOPU_TOKEN \
+      -u SLOPU_S3_ACCESS_KEY_ID \
+      -u SLOPU_S3_SECRET_ACCESS_KEY \
+      -u SLOPU_S3_BUCKET \
+      -u SLOPU_S3_ENDPOINT \
   /home/ben/.local/bin/claude \
     --dangerously-skip-permissions \
     -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
