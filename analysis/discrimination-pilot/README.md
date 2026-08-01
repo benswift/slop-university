@@ -1036,7 +1036,7 @@ Everything the corpus carries, tested with the same statistics
 | country                | null (p = 0.09), and what looked like a New Zealand effect was one Auckland document |
 | extraction damage      | 28% vs 14% before repair; repaired, and see above      |
 | **document type**      | **vision 35% vs strategic plan 14%, p = 0.001**        |
-| claimed recognition    | **0 errors in 101 recognised excerpts, p = 0.0015**    |
+| claimed recognition    | **protective where the recall is real, worthless where it is confabulated** |
 
 **Vision documents.** Long-horizon vision statements — _Aberdeen 2040_,
 _Federation 2040_, Wollongong's _Vision 2035_, Auckland's _Taumata Teitei_,
@@ -1051,10 +1051,26 @@ not age, length or country. The reading worth testing on a bigger corpus is that
 the register a real university adopts when imagining itself fifteen years out is
 the register the press writes in all the time.
 
-**Recognition is protective.** Across the five judges with a memorisation probe
-and a real-side error to make, there are 101 cases where a judge said it
-recognised a real excerpt, and in none of them did it then call that excerpt
-fabricated.
+**Recognition is protective only where it is real.** Pooled across all seven
+probed judges the axis says nothing (18% error on recognised excerpts against
+14% on the rest), and splitting by judge is why:
+
+| judge             | error rate, not recognised | error rate, recognised |
+| ----------------- | -------------------------- | ---------------------- |
+| GPT-5.6 Sol       | 0/37                       | 0/45                   |
+| GPT-5.6 Terra     | 2/55 (4%)                  | 0/27                   |
+| GPT-5.6 Luna      | 6/60 (10%)                 | 0/22                   |
+| Claude Opus 5     | 0/76                       | 0/6                    |
+| Claude Haiku 4.5  | 23/81 (28%)                | 0/1                    |
+| DeepSeek V4 Flash | 20/55 (36%)                | 8/27 (30%)             |
+| DeepSeek V4 Pro   | 10/24 (42%)                | 25/58 (**43%**)        |
+
+The four judges whose recognitions are accurate make no error at all on the 100
+real excerpts they claim to recognise. DeepSeek Pro, whose recognitions are 45
+parts confabulation, is exactly as wrong on what it "recognises" as on what it
+does not. Recall is a shortcut for a model that has it and a hallucination
+surface for one that does not, and the two are indistinguishable from the claim
+itself.
 
 ### The memorisation control, all eight judges
 
