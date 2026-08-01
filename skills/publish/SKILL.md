@@ -233,6 +233,28 @@ all hard:
   purpose-built index, and not every abstract closes by proposing a randomised
   trial.
 
+**Claim the topic --- before generating anything.** The three checks above read
+the outputs ledger, which records what has been PUBLISHED. It cannot see what
+another run is composing right now, and it cannot see what this run already
+composed and discarded. Once the candidate passes dedup, claim it:
+
+```sh
+ops/topic-claim.py claim "<the composed topic, in your own words>"
+```
+
+A non-zero exit means the topic is taken: compose a different angle and claim
+again. Do this **before** any image generation, chart work, or typst compile ---
+the whole point is to spend the re-roll instead of a full generation run. On 1
+August a poster was generated complete, in both themes, before the duplicate
+surfaced, and the entire run was discarded.
+
+If you abandon a claimed topic for any other reason, hand it back with
+`ops/topic-claim.py release "<the topic>"` so a later run can take it. Claims
+expire on their own after three hours, so a crashed run never holds one
+permanently, and `ops/topic-claim.py list` shows what is live. The claims file
+lives in gitignored `data/` --- never commit it, and never treat a claim as a
+substitute for the ledger dedup above, which remains the real check.
+
 ### Receive the preset selection
 
 The enabled list is this section, so nothing joins the pool by accident. Each
