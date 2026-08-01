@@ -21,6 +21,14 @@ export default defineConfig({
       imageFormat: "avif",
       llmsTxt: true,
     }),
-    sitemap(),
+    sitemap({
+      // The DOI resolver emits one noindex redirect stub per minted identifier
+      // (src/pages/doi/[...doi].astro) --- several hundred of them, and one
+      // more with every publish tick. Advertising a noindex URL in the sitemap
+      // asks a crawler to fetch a page whose only content is a request to go
+      // away; the landing pages those stubs point at are in the sitemap on
+      // their own account.
+      filter: (page) => !new URL(page).pathname.startsWith("/doi/"),
+    }),
   ],
 });
