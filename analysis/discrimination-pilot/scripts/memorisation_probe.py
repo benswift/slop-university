@@ -47,11 +47,20 @@ EXCERPT:
 ---"""
 
 
+# DeepSeek serves the OpenAI chat-completions schema, so one asker covers both;
+# the model id selects the endpoint and the key.
+ENDPOINTS = {
+    "deepseek": ("https://api.deepseek.com/chat/completions", "DEEPSEEK_API_TOKEN"),
+    "": ("https://api.openai.com/v1/chat/completions", "OPENAI_API_KEY"),
+}
+
+
 def ask(model: str, text: str) -> dict:
+    url, keyvar = ENDPOINTS["deepseek" if model.startswith("deepseek") else ""]
     with httpx.Client() as c:
         r = c.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
+            url,
+            headers={"Authorization": f"Bearer {os.environ[keyvar]}"},
             json={
                 "model": model,
                 "messages": [{"role": "user", "content": PROMPT % text}],
@@ -118,7 +127,15 @@ def main() -> None:
             f"{model}: claimed recognition on {len(claimed)}/{len(stims)}; "
             f"correctly named the real source on {len(real_hit)}/{n_real} real items"
         )
-    OUT.write_text(json.dumps(rows, indent=1))
+    # Merge rather than overwrite: this file is the record for every judge, and
+    # a run naming only some of them must not drop the rest.
+    fresh = {r["model"] for r in rows}
+    kept = [
+        r
+        for r in (json.loads(OUT.read_text()) if OUT.exists() else [])
+        if r["model"] not in fresh
+    ]
+    OUT.write_text(json.dumps(kept + rows, indent=1))
 
 
 if __name__ == "__main__":

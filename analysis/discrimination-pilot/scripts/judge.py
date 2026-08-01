@@ -12,6 +12,7 @@ confidence, and a one-line reason.
 Backends:
   openai:<model>   OpenAI chat completions
   claude:<model>   the `claude -p` CLI (Anthropic)
+  deepseek:<model> DeepSeek chat completions (OpenAI-compatible schema)
 
 Usage: judge.py <backend> [outfile]
 """
@@ -89,11 +90,12 @@ def parse(raw: str) -> dict:
     }
 
 
-def ask_openai(model: str, text: str) -> dict:
+def ask_chat_completions(url: str, key: str, model: str, text: str) -> dict:
+    """One turn against any OpenAI-schema chat-completions endpoint."""
     with httpx.Client() as c:
         r = c.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
+            url,
+            headers={"Authorization": f"Bearer {key}"},
             json={
                 "model": model,
                 "messages": [{"role": "user", "content": PROMPT % text}],
@@ -103,6 +105,24 @@ def ask_openai(model: str, text: str) -> dict:
         )
         r.raise_for_status()
         return parse(r.json()["choices"][0]["message"]["content"])
+
+
+def ask_openai(model: str, text: str) -> dict:
+    return ask_chat_completions(
+        "https://api.openai.com/v1/chat/completions",
+        os.environ["OPENAI_API_KEY"],
+        model,
+        text,
+    )
+
+
+def ask_deepseek(model: str, text: str) -> dict:
+    return ask_chat_completions(
+        "https://api.deepseek.com/chat/completions",
+        os.environ["DEEPSEEK_API_TOKEN"],
+        model,
+        text,
+    )
 
 
 def ask_claude(model: str, text: str) -> dict:
@@ -118,7 +138,7 @@ def ask_claude(model: str, text: str) -> dict:
 def main() -> None:
     backend = sys.argv[1]
     kind, model = backend.split(":", 1)
-    ask = {"openai": ask_openai, "claude": ask_claude}[kind]
+    ask = {"openai": ask_openai, "claude": ask_claude, "deepseek": ask_deepseek}[kind]
     out = RESULTS / (sys.argv[2] if len(sys.argv) > 2 else f"judgements-{model}.json")
 
     stims = json.loads(STIM.read_text())
