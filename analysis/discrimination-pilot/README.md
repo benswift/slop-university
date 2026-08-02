@@ -856,8 +856,8 @@ and it is now doing work.
 
 ### Still owed
 
-Superseded by TASK-008 below, which closed items 1--4 and 6. What remains open
-is listed at the end of that section.
+Superseded by TASK-008 below, which closed items 1--4 and 6. What is still open
+after that run is tracked as TASK-009 rather than in this file.
 
 ## The repaired run and the eight-judge panel (TASK-008)
 
@@ -1101,23 +1101,11 @@ named as ANU.
 
 ### Still open after this run
 
-1. **The vision-document effect is six excerpts from five institutions.** It is
-   the only property that moves the errors and it needs a corpus built for it:
-   more vision statements, and ideally the same institution's vision document
-   and strategic plan as a within-institution pair.
-2. **Concreteness explains a little, and what explains the rest is unknown.**
-   r = 0.26 at best leaves almost all of the variance in real-side error
-   unaccounted for, on every axis this apparatus carries.
-3. **Ten one-sided lone capitals remain**, from two documents: ETH Zurich's
-   reinserted marginal letters and Grinnell's letter-spaced headings. Neither is
-   redaction leakage and neither predicts an error, so they are a limitation
-   rather than a fix.
-4. **The impact condition is still genre-confounded** and still too small (26
-   items) to say anything on its own. Every claim in this report is the strategy
-   condition unless stated.
-5. **No judge was run twice on identical text**, so the panel's own run-to-run
-   variability is unmeasured --- which is the right yardstick for reading the
-   small movements after the merged-token repair, and we do not have it.
+Tracked as TASK-009 in `research-papers/backlog`, not listed here: the
+vision-document effect needs a corpus built for it, the bulk of the real-side
+error variance is still unexplained, two documents keep one-sided lone capitals,
+the impact condition is genre-confounded at 26 items, and the panel's own
+run-to-run variability has never been measured.
 
 ## Files
 
