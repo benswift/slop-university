@@ -15,6 +15,38 @@ find "$LOG_DIR" -name 'publish-*.log' -mtime +60 -delete
 
 log() { echo "$*" >> "$LOG_FILE"; }
 
+# --- The run's outcome, reported to the JOURNAL and not only to logs/.
+#
+# Everything here says what it is doing in $LOG_FILE and nothing on stdout, so
+# `systemctl status` and `journalctl -u slop-publish` could only ever show
+# systemd's own "Finished" --- which is precisely what they showed for sixteen
+# consecutive ticks over 2026-08-03/04 while the agent died one second in on an
+# expired OAuth token and published nothing. A tolerated agent failure and a
+# real publish were the same green unit, and the only tell was a run lasting
+# seven seconds instead of twenty minutes.
+#
+# So every exit path names an outcome and the EXIT trap prints one greppable
+# line to stdout. The trap is what makes that total: a `set -e` abort, a
+# TimeoutStartSec kill, or a later code path that forgets to call result() all
+# still land a line, and it reads "crashed" rather than nothing at all. That
+# line is also what the alert carries --- unit-oncall (wired to this unit via
+# OnFailure=) quotes the journal tail into the todo, so the todo says which
+# failure this was without anyone opening the log.
+RUN_RESULT="crashed"
+RUN_DETAIL="wrapper exited without recording an outcome"
+result() {
+  RUN_RESULT="$1"
+  RUN_DETAIL="${2:-}"
+}
+on_exit() {
+  local code=$?
+  rm -f "${AGENT_OUT:-}"
+  local line="RESULT=${RUN_RESULT} exit=${code} detail=${RUN_DETAIL}"
+  echo "$line"
+  log "$line"
+}
+trap on_exit EXIT
+
 # Serialize runs: Persistent=true catch-up ticks and a still-running previous
 # tick must never overlap (an overlapped pair each sees the other's commits as
 # its own and validation becomes meaningless). Non-blocking --- a tick that
@@ -22,6 +54,10 @@ log() { echo "$*" >> "$LOG_FILE"; }
 exec 9> "${PROJECT_DIR}/data/publish.lock"
 if ! flock -n 9; then
   log "=== $(date -Iseconds): another publish run holds the lock; skipping ==="
+  # Not a failed run and not a lost tick: the holder is still working. Reported
+  # as its own outcome so a pile of these reads as one long run rather than as
+  # a pipeline that has stopped doing anything.
+  result "skipped-locked" "another publish run holds the lock; the next tick retries"
   exit 0
 fi
 
@@ -71,6 +107,7 @@ if [ -f "${PROJECT_DIR}/data/publish-blocked" ]; then
   log "PIPELINE BLOCKED --- data/publish-blocked exists; a human must triage and remove it:"
   cat "${PROJECT_DIR}/data/publish-blocked" >> "$LOG_FILE"
   log "=== run refused at $(date -Iseconds) ==="
+  result "blocked" "data/publish-blocked exists; a human must triage and remove it"
   exit 1
 fi
 
@@ -86,6 +123,7 @@ if ! git worktree list --porcelain | grep -qxF "worktree ${WORKTREE_DIR}"; then
   if [ -e "$WORKTREE_DIR" ]; then
     log "ERROR: ${WORKTREE_DIR} exists but is not a registered worktree; refusing to touch it"
     flush_pending_post
+    result "config-error" "${WORKTREE_DIR} exists but is not a registered worktree"
     exit 1
   fi
   git worktree add -B "$PRESS_BRANCH" "$WORKTREE_DIR" main >> "$LOG_FILE" 2>&1
@@ -113,7 +151,11 @@ else
   log "main and origin/main have DIVERGED; a human must reconcile (rebase). Skipping this tick."
   flush_pending_post
   log "=== run skipped at $(date -Iseconds) ==="
-  exit 1
+  # Its own exit code, because this is the one failure a human fixes with a
+  # rebase rather than by looking at the pipeline. It ran for two days in
+  # August 2026 and every tick in that window was lost.
+  result "skipped-diverged" "main and origin/main have diverged; a human must rebase"
+  exit 2
 fi
 
 # A previous run that committed but failed to push leaves press ahead of every
@@ -147,6 +189,7 @@ fi
 if ! (cd "${WORKTREE_DIR}/website" && pnpm install --frozen-lockfile) >> "$LOG_FILE" 2>&1; then
   log "pnpm install failed in press worktree; aborting run"
   flush_pending_post
+  result "failed-setup" "pnpm install failed in the press worktree"
   exit 1
 fi
 
@@ -170,7 +213,12 @@ quarantine_pending_pdfs() {
   log "preserved ${#pdfs[@]} staged PDF(s) in ${rescue_dir}"
 }
 
+# Args: <outcome-token> <detail> [exit-code]. Every abort names itself, so the
+# journal line (and the todo built from it) distinguishes a firewall violation
+# from a lost push from a dead credential --- they abort identically here but
+# call for completely different human responses.
 rescue_and_abort() {
+  result "$1" "$2"
   local ts; ts="$(date +%Y%m%d-%H%M%S)"
   if [ "$(git rev-parse "$PRESS_BRANCH")" != "$BASE_REF" ]; then
     if git branch "publish-rescue/${ts}" "$PRESS_BRANCH" >> "$LOG_FILE" 2>&1; then
@@ -183,7 +231,7 @@ rescue_and_abort() {
   git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1 || log "WARNING: reset press to ${BASE_REF} failed"
   log "=== reset press to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
   flush_pending_post
-  exit 1
+  exit "${3:-1}"
 }
 
 # The publish agent generates one output, stages it into website/, verifies
@@ -213,6 +261,11 @@ rescue_and_abort() {
 PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
 PUBLISHED_AT="$(date -Iseconds)"
 log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
+# Captured rather than appended straight to the log, because the classifier
+# below has to read what the agent said. It lands in the log either way; the
+# EXIT trap removes the temp copy on every path, including the aborts.
+AGENT_OUT="$(mktemp)"
+AGENT_STATUS=0
 (
   cd "$WORKTREE_DIR"
   GIT_AUTHOR_NAME="Slop University Press" \
@@ -227,9 +280,32 @@ log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
   /home/ben/.local/bin/claude \
     --dangerously-skip-permissions \
     -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
-) >> "$LOG_FILE" 2>&1 || log "publish agent failed (continuing)"
+) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
+cat "$AGENT_OUT" >> "$LOG_FILE"
 
-log "=== publish agent finished at $(date -Iseconds) ==="
+log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
+
+# A dead credential is not a failed generation, and the difference is the whole
+# reason this check exists. A failed generation is transient --- a typst error,
+# a flaky model call --- and the next tick genuinely may succeed, so tolerating
+# it is right. An expired OAuth token is the opposite: the agent burned nothing
+# and did nothing, and every later tick dies identically until a human runs
+# /login. Treating the two alike is what lost sixteen consecutive ticks behind
+# a green unit on 2026-08-03/04. So this one stops the run and fails the unit.
+#
+# It deliberately does NOT write data/publish-blocked. That file is sticky by
+# design and needs a human to clear it, whereas an expired credential un-breaks
+# itself the moment the human logs in --- blocking would turn a one-step fix
+# into two, and the failed unit already carries the alert.
+if grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in' "$AGENT_OUT"; then
+  log "AGENT AUTH FAILURE --- the unattended agent could not authenticate. No work was attempted."
+  log "  Fix: run \`claude\` interactively as ben, complete /login, and let the next tick run."
+  rescue_and_abort "failed-auth" "agent could not authenticate; a human must run: claude /login" 3
+fi
+
+if [ "$AGENT_STATUS" -ne 0 ]; then
+  log "publish agent failed with status ${AGENT_STATUS} (continuing --- the push below still redeploys the last validated state)"
+fi
 
 # --- Post-run residue in the worktree is a crashed generation's leftovers;
 # nothing human lives there, so it needs no stash --- the next run's
@@ -281,7 +357,7 @@ if [ -n "$FOREIGN_SHAS" ]; then
   log "VALIDATION FAILURE: non-agent commit(s) on press:"
   # shellcheck disable=SC2086  # sha list is deliberately word-split
   git log --format='  %h %an %s' --no-walk $FOREIGN_SHAS >> "$LOG_FILE" 2>&1 || true
-  rescue_and_abort
+  rescue_and_abort "validation-failure" "non-agent commit(s) on press"
 fi
 
 VIOLATION_LOG=""
@@ -301,7 +377,7 @@ done
 if [ -n "$VIOLATION_LOG" ]; then
   log "VALIDATION FAILURE: agent commit(s) violate the allowlist/denylist/firewall:"
   echo "$VIOLATION_LOG" >> "$LOG_FILE"
-  rescue_and_abort
+  rescue_and_abort "validation-failure" "agent commit(s) outside the allowlist, in the denylist, or tripping the private-brand firewall"
 fi
 
 if [ -n "$AGENT_SHAS" ]; then
@@ -372,7 +448,7 @@ if [ -n "$MISSING_PDFS" ]; then
     log "  ...but these recent PDFs exist elsewhere in the worktree (mislanded staging path?):"
     printf '%s\n' "$STRAYS" >> "$LOG_FILE"
   fi
-  rescue_and_abort
+  rescue_and_abort "validation-failure" "new outputs entry with no PDF staged in data/pending-uploads/"
 fi
 
 # Generation can take twenty minutes or more. A human push during that window
@@ -383,11 +459,11 @@ fi
 log "=== pre-upload remote race check at $(date -Iseconds) ==="
 if ! git fetch origin >> "$LOG_FILE" 2>&1; then
   log "REMOTE RACE GUARD: fetch failed; refusing to upload or push"
-  rescue_and_abort
+  rescue_and_abort "failed-fetch" "pre-upload fetch of origin failed; refused to upload or push"
 fi
 if ! git merge-base --is-ancestor origin/main "$PRESS_BRANCH"; then
   log "REMOTE RACE GUARD: origin/main advanced outside press during generation; refusing to upload or push"
-  rescue_and_abort
+  rescue_and_abort "remote-race" "origin/main advanced outside press during generation"
 fi
 
 if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
@@ -396,7 +472,7 @@ if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
     log "uploaded PDFs; retaining local copies until the git push succeeds"
   else
     log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
-    rescue_and_abort
+    rescue_and_abort "failed-upload" "bucket upload failed; the entry's PDF would not be served"
   fi
 else
   log "no PDFs staged for upload this run"
@@ -422,9 +498,27 @@ if git push origin "${PRESS_BRANCH}:main" >> "$LOG_FILE" 2>&1; then
   fi
 else
   log "push failed after the remote race check; preserving the commit and its PDF copies"
-  rescue_and_abort
+  rescue_and_abort "failed-push" "git push failed after the remote race check"
 fi
 
 flush_pending_post
 
 log "=== run finished at $(date -Iseconds) ==="
+
+# Name what the tick actually achieved. A run that pushed nothing new because
+# the agent fell over is not the same event as a clean publish, and until this
+# existed the two were indistinguishable from `systemctl status`. A lost tick
+# exits non-zero even though the push itself succeeded: the push only
+# redeployed the previous state, and "the pipeline produced nothing this hour"
+# is exactly the thing that needs to reach a human. If a single transient
+# generation failure turns out to page too eagerly, this is the line to soften
+# --- unit-oncall already dedups, so a one-off files one todo and the next
+# successful tick clears it.
+if [ -n "$AGENT_SHAS" ]; then
+  result "published" "$(echo "$AGENT_SHAS" | wc -l) agent commit(s) validated and pushed; preset=${PRESET}"
+elif [ "$AGENT_STATUS" -ne 0 ]; then
+  result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; preset=${PRESET}; site redeployed unchanged"
+  exit 4
+else
+  result "no-op" "agent exited cleanly but committed nothing; preset=${PRESET}"
+fi

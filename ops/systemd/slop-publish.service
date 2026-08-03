@@ -4,6 +4,21 @@ Documentation=file:///home/ben/projects/slop-university/ops/cron-publish.sh
 # No `After=network-online.target` here: that is a system target, so in the
 # user manager it silently resolves to nothing and orders nothing. The real
 # guard is the ExecStartPre below. (2026-07-27)
+#
+# The alerting comes free from the dotfiles oncall pattern, as for
+# slop-wake-watchdog: a non-zero exit files a deduped `nb` todo (with this
+# unit's journal tail in the body) and pages, and a later success clears the
+# marker. The wrapper only has to exit non-zero and say why on stdout --- which
+# is what its RESULT= line is for.
+#
+# Unwired, this pipeline published nothing for sixteen hours on 2026-08-03/04
+# while every tick reported success: the agent could not authenticate, the
+# wrapper tolerated that the way it tolerates a failed generation, and systemd
+# logged "Finished" each time. Both halves were needed --- wiring OnFailure=
+# alone would have stayed silent through exactly that outage, and worse, each
+# green run would have fired OnSuccess= and cleared any standing alert.
+OnFailure=unit-oncall@%n.service
+OnSuccess=unit-oncall-clear@%n.service
 
 [Service]
 Type=oneshot
