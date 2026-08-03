@@ -87,11 +87,18 @@ log "=== publish run started at $(date -Iseconds) ==="
 # data/ is canonical HERE: the press worktree's data/ is a symlink to
 # this checkout's, so a post the agent stages over there lands where this
 # wrapper (and the lock, and the block file) already look.
+#
+# POSTED records whether this run actually sent one, because otherwise the
+# outcome line libels a good run: a 2G tick does its whole job without
+# committing anything (the post is a gitignored artefact), so judging the run
+# by its commits alone reports "committed nothing" for a tick that worked.
+POSTED="no"
 flush_pending_post() {
   if [ -f "${PROJECT_DIR}/data/pending-post.json" ]; then
     log "=== posting staged social update at $(date -Iseconds) ==="
     if uv run "${PROJECT_DIR}/ops/post-to-bluesky.py" >> "$LOG_FILE" 2>&1; then
       rm -f "${PROJECT_DIR}/data/pending-post.json"
+      POSTED="yes"
       log "posted and cleared data/pending-post.json"
     else
       log "social post failed; leaving data/pending-post.json staged for retry"
@@ -519,6 +526,11 @@ if [ -n "$AGENT_SHAS" ]; then
 elif [ "$AGENT_STATUS" -ne 0 ]; then
   result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; preset=${PRESET}; site redeployed unchanged"
   exit 4
+elif [ "$POSTED" = "yes" ]; then
+  # A 2G tick, and a complete one. It sits above 2A on the ladder, so the
+  # rolled preset goes unused and the next tick draws again --- the absence of
+  # a commit is the design, not a symptom.
+  result "posted" "social post published; no commit, as a 2G tick stages a gitignored post; preset=${PRESET} unused"
 else
-  result "no-op" "agent exited cleanly but committed nothing; preset=${PRESET}"
+  result "no-op" "agent exited cleanly, committed nothing and posted nothing; preset=${PRESET}"
 fi
