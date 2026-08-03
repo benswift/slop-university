@@ -6,8 +6,9 @@ WORKTREE_DIR="/home/ben/projects/slop-university-press"
 PRESS_BRANCH="press"
 LOG_DIR="${PROJECT_DIR}/logs"
 LOG_FILE="${LOG_DIR}/publish-$(date +%Y-%m-%d).log"
+PENDING_DIR="${PROJECT_DIR}/data/pending-uploads"
 
-mkdir -p "$LOG_DIR" "${PROJECT_DIR}/data"
+mkdir -p "$LOG_DIR" "${PROJECT_DIR}/data" "$PENDING_DIR"
 
 # Keep two months of run logs; they grow without bound otherwise.
 find "$LOG_DIR" -name 'publish-*.log' -mtime +60 -delete
@@ -149,9 +150,26 @@ if ! (cd "${WORKTREE_DIR}/website" && pnpm install --frozen-lockfile) >> "$LOG_F
   exit 1
 fi
 
-# Preserve, never destroy, on a validation abort. main is never touched ---
-# the offending commits exist only on press, so rescue is a branch pointer
-# plus a worktree reset.
+# Preserve, never destroy, on an abort after generation. main is never touched
+# --- the candidate commits exist only on press, so rescue is a branch pointer
+# plus a worktree reset. PDFs move with the rescue instead of remaining in the
+# live handoff directory for an unrelated later tick to upload.
+quarantine_pending_pdfs() {
+  local ts="$1" rescue_dir
+  local -a pdfs
+  shopt -s nullglob
+  pdfs=("$PENDING_DIR"/*.pdf)
+  shopt -u nullglob
+  if [ ${#pdfs[@]} -eq 0 ]; then
+    return
+  fi
+
+  rescue_dir="${PROJECT_DIR}/data/publish-rescue/${ts}"
+  mkdir -p "$rescue_dir"
+  mv "${pdfs[@]}" "$rescue_dir"/
+  log "preserved ${#pdfs[@]} staged PDF(s) in ${rescue_dir}"
+}
+
 rescue_and_abort() {
   local ts; ts="$(date +%Y%m%d-%H%M%S)"
   if [ "$(git rev-parse "$PRESS_BRANCH")" != "$BASE_REF" ]; then
@@ -161,6 +179,7 @@ rescue_and_abort() {
       log "WARNING: could not create rescue branch publish-rescue/${ts}"
     fi
   fi
+  quarantine_pending_pdfs "$ts"
   git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1 || log "WARNING: reset press to ${BASE_REF} failed"
   log "=== reset press to ${BASE_REF}; run aborted at $(date -Iseconds) ==="
   flush_pending_post
@@ -300,12 +319,11 @@ fi
 #
 # Ordering is the whole point. The push is what makes the outputs entry live,
 # and the entry's PDF URL is derived from its id --- so an entry that shipped
-# before its bytes did would be a live 404. Upload first, abort the push on
-# failure, and the staged files survive for the next tick to retry (a rescue
-# preserves the commits).
-PENDING_DIR="${PROJECT_DIR}/data/pending-uploads"
-mkdir -p "$PENDING_DIR"
-
+# before its bytes did would be a live 404. Upload first, but only after a fresh
+# fetch proves the remote tip is still contained in the candidate commit. Keep
+# the local PDF copies until the push succeeds. If the remote moves during the
+# short upload window, preserve the commit and PDFs together for human recovery
+# rather than throwing the commit away and leaving untraceable bucket objects.
 # Rescue a mislanded staging dir before looking. The agent resolves the staging
 # path against whatever its cwd is, and it runs the site checks from website/ ---
 # which put three ticks' PDFs in website/data/pending-uploads/ and threw away
@@ -357,11 +375,25 @@ if [ -n "$MISSING_PDFS" ]; then
   rescue_and_abort
 fi
 
+# Generation can take twenty minutes or more. A human push during that window
+# used to be noticed only after the PDFs had been uploaded, producing an orphan
+# object and a rescue branch. Refresh the remote immediately before the upload
+# and require its current main tip to be contained in press. A fetch failure is
+# also a stop: without a current remote view this guard cannot make its claim.
+log "=== pre-upload remote race check at $(date -Iseconds) ==="
+if ! git fetch origin >> "$LOG_FILE" 2>&1; then
+  log "REMOTE RACE GUARD: fetch failed; refusing to upload or push"
+  rescue_and_abort
+fi
+if ! git merge-base --is-ancestor origin/main "$PRESS_BRANCH"; then
+  log "REMOTE RACE GUARD: origin/main advanced outside press during generation; refusing to upload or push"
+  rescue_and_abort
+fi
+
 if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
   log "=== uploading ${#PENDING_PDFS[@]} PDF(s) to the bucket at $(date -Iseconds) ==="
   if "${PROJECT_DIR}/ops/bucket-sync.py" upload "${PENDING_PDFS[@]}" >> "$LOG_FILE" 2>&1; then
-    rm -f "${PENDING_PDFS[@]}"
-    log "uploaded and cleared data/pending-uploads/"
+    log "uploaded PDFs; retaining local copies until the git push succeeds"
   else
     log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
     rescue_and_abort
@@ -379,13 +411,18 @@ fi
 # origin until the human pulls (the next run bases on origin/main regardless).
 log "=== push at $(date -Iseconds) ==="
 if git push origin "${PRESS_BRANCH}:main" >> "$LOG_FILE" 2>&1; then
+  if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
+    rm -f "${PENDING_PDFS[@]}"
+    log "push succeeded; cleared uploaded PDFs from data/pending-uploads/"
+  fi
   if git merge --ff-only "$PRESS_BRANCH" >> "$LOG_FILE" 2>&1; then
     log "fast-forwarded local main to press"
   else
     log "NOTE: local main not fast-forwarded (dirty or diverged checkout); pull when convenient"
   fi
 else
-  log "push failed; commits stay on press (the next run rescues them onto publish-rescue/*)"
+  log "push failed after the remote race check; preserving the commit and its PDF copies"
+  rescue_and_abort
 fi
 
 flush_pending_post
