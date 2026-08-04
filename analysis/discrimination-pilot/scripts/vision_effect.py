@@ -313,6 +313,7 @@ SURFACE = (
     "awkward",
     "unnatural",
     "inconsistent hyphen",
+    "non-standard",
 )
 REGISTER = (
     "generic",

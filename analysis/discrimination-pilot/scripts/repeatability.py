@@ -13,10 +13,16 @@ stimuli, so "the change is within noise" was an assertion with no noise floor
 behind it.
 
 Run 4 supplies one for free. The vision arm reuses fabricated excerpts from the
-headline sample to keep its presented set balanced, and item ids are derived
-from the excerpt's text, so every reused excerpt is the same judge reading the
-same words a second time --- a separate call, a separate results file, an
-independently shuffled presentation order, and no shared context between them.
+headline sample to keep its presented set balanced, so every reused excerpt is
+the same judge reading the same words a second time --- a separate call, a
+separate results file, an independently shuffled presentation order, and no
+shared context between them.
+
+One caveat the ids do not carry: an item id hashes the positional
+`<source-doc>--<n>` id, not the text (see ids.py), so "same id" only means
+"same words" if both sets come from one pool build. That failure already
+happened once, in run 2, so this script verifies the repeated items are
+byte-identical across the two stimulus files before comparing judgements.
 
     uv run --script scripts/repeatability.py
 """
@@ -54,6 +60,22 @@ def main() -> None:
         s["item"]: s
         for s in json.loads((ROOT / "stimuli" / "stimuli.json").read_text())
     }
+    arm_stims = {
+        s["item"]: s
+        for s in json.loads((ROOT / "stimuli" / "arm_vision.json").read_text())
+    }
+    stale = sorted(
+        i
+        for i in repeated
+        if stims.get(i, {}).get("text_redacted")
+        != arm_stims.get(i, {}).get("text_redacted")
+    )
+    if stale:
+        raise SystemExit(
+            f"{len(stale)} repeated items differ between stimuli.json and "
+            f"arm_vision.json ({', '.join(stale[:5])} ...) --- the pool was "
+            "rebuilt between the two sets, so these are not repeats"
+        )
     fab = sum(stims[i]["truth"] == "fabricated" for i in repeated if i in stims)
     print(f"{len(repeated)} excerpts appear in both the headline sample and the arm")
     print(
@@ -70,6 +92,8 @@ def main() -> None:
 
     totals = [0, 0]
     for path in sorted(RESULTS.glob("judgements-*.json")):
+        if path.name == "judgements-all.json":
+            continue
         a = load(path)
         b = load(ARM_RESULTS / path.name)
         if not b:

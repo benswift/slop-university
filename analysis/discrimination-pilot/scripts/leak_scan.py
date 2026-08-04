@@ -16,13 +16,21 @@ untranslated `mātauranga` and `chéile`, which the gazetteer never saw because 
 redacted the *name* of a language, not its vocabulary.
 
 Committing the scan is the point: an audit that lives in someone's shell history
-cannot be re-run, and its claims cannot be checked. Four families of cue:
+cannot be re-run, and its claims cannot be checked. Six families of cue:
 
-  proper-sequence   two or more capitalised words in a row      (the original)
-  word-capital      a word followed by a lone capital letter    (`Unit M`)
-  lone-capital      a bare single capital standing as a token   (placeholder-ish)
-  non-english       a diacritic-bearing token in neither of the
-                    system word lists                           (`mātauranga`)
+  proper-sequence     two or more capitalised words in a row      (the original)
+  word-capital        a word followed by a lone capital letter    (`Unit M`)
+  lone-capital        a bare single capital standing as a token   (placeholder-ish)
+  non-english         a diacritic-bearing token in neither of the
+                      system word lists                           (`mātauranga`)
+  redaction-artefact  a doubled redaction bracket                 (`[[ORGANISATION]]`)
+  digit-merge         two four-digit years run together           (`20272030`)
+
+The last two were added after the run-4 review: both are pipeline damage
+rather than identity leakage, both sat one-sided on the real side (24 real
+excerpts against 1 fabricated carried `[[`), and judges cited both in
+Wollongong vision excerpts they got wrong. A cue family this scan does not
+look for is a cue family a clean bill of health says nothing about.
 
 Anything appearing on exactly one side is a candidate tell. The output is a
 worklist for the gazetteer, not a verdict --- plenty of one-sided forms are
@@ -98,6 +106,10 @@ WORD_CAPITAL = re.compile(r"\b([A-Z][a-z]{2,}\s+[A-Z])\b(?![a-z])")
 # `[ORGANISATION]R`) sat unnoticed among twelve false positives.
 LONE_CAPITAL = re.compile(r"(?<![\w'’.&\-])([A-Z])(?![\w'’.&\-])")
 NON_ENGLISH = re.compile(r"\b([A-Za-zÀ-ÿĀ-ž]*[À-ÿĀ-ž][A-Za-zÀ-ÿĀ-ž]*)\b")
+# On the RAW text: REDACTION_TAG.sub eats the inner tag of `[[ORGANISATION]]`,
+# so the doubled form is invisible in `clean`.
+REDACTION_ARTEFACT = re.compile(r"\[\[|\]\]")
+DIGIT_MERGE = re.compile(r"\b((?:19|20)\d{2}(?:19|20)\d{2})\b")
 
 
 def load(path: Path) -> list[dict]:
@@ -152,6 +164,12 @@ def find_cues(text: str) -> dict[str, set[str]]:
         if token.lower() not in known and len(token) > 2:
             cues["non-english"].add(token)
 
+    for m in REDACTION_ARTEFACT.finditer(text):
+        cues["redaction-artefact"].add(m.group(0))
+
+    for m in DIGIT_MERGE.finditer(clean):
+        cues["digit-merge"].add(m.group(1))
+
     return cues
 
 
@@ -202,11 +220,27 @@ def main() -> None:
             print(f"  ... and {len(ranked) - 25} more")
         print()
 
+    # The damage families are reported per side rather than one-sided-only: a
+    # 24:1 skew (run 4's `[[` count) is a strong cue that a strictly one-sided
+    # filter would hide behind the single fabricated hit.
+    for family in ("redaction-artefact", "digit-merge"):
+        entries = seen.get(family, {})
+        print(f"## {family}: {len(entries)} distinct forms, counts per side")
+        for phrase, sides in sorted(entries.items()):
+            counts = ", ".join(
+                f"{side} x{len(items)}" for side, items in sorted(sides.items())
+            )
+            examples = sorted(items for xs in sides.values() for items in xs)[:4]
+            print(f"  {phrase!r}  {counts}  e.g. {', '.join(examples)}")
+        print()
+
     print(f"{total_one_sided} one-sided forms in total.")
     print(
         "Review the `word-capital`, `lone-capital` and `non-english` families first: those\n"
         "are the three the first run's hand scan did not cover, and all three produced\n"
-        "cues that judges cited."
+        "cues that judges cited. The `redaction-artefact` and `digit-merge` families are\n"
+        "pipeline damage rather than leakage: anything they report should be fixed in\n"
+        "leak_audit.py or build_stimuli.py before the next judging run."
     )
 
 

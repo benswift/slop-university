@@ -173,6 +173,7 @@ def main() -> None:
         extra=lambda xs: {
             "repeated_from_headline": sorted({s["item"] for s in xs} & headline_items)
         },
+        max_per_doc=ARM_MAX_PER_DOC,
     )
     summarise(arm, "vision arm", arm_fingerprint)
     repeated = {s["item"] for s in arm} & headline_items
@@ -184,6 +185,7 @@ def finalise(
     out: Path,
     manifest: Path,
     extra: Callable[[list[dict]], dict] | None = None,
+    max_per_doc: int = MAX_PER_DOC,
 ) -> str:
     for s in chosen:
         if s["truth"] == "real" and s["condition"] == "impact":
@@ -221,7 +223,7 @@ def finalise(
                 "n": len(chosen),
                 "seed": SEED,
                 "caliper": CALIPER,
-                "max_per_doc": MAX_PER_DOC,
+                "max_per_doc": max_per_doc,
                 "by_condition": {
                     f"{c}-{t}": sum(
                         1 for s in chosen if s["condition"] == c and s["truth"] == t
@@ -263,7 +265,7 @@ def vision_arm(pool: list[dict], rng: random.Random) -> list[dict]:
 
     The headline sample is capped by the fabricated side --- 30 press strategy
     PDFs --- so a plain re-run draws whatever vision excerpts the tag-density
-    matching happens to pick, which in run 4 was seven. Seven excerpts cannot
+    matching happens to pick, which in run 4 was six. Six excerpts cannot
     replicate or refute anything. This arm therefore takes every vision
     document up to the per-document cap, adds the ordinary strategic plans
     gathered from the SAME institutions, and matches the lot against fabricated
