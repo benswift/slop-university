@@ -50,7 +50,19 @@ def main() -> None:
         raise SystemExit("no arm judgements --- run judge.py --stimuli arm_vision")
 
     repeated = set(json.loads(ARM_MANIFEST.read_text())["repeated_from_headline"])
-    print(f"{len(repeated)} excerpts appear in both the headline sample and the arm\n")
+    stims = {
+        s["item"]: s
+        for s in json.loads((ROOT / "stimuli" / "stimuli.json").read_text())
+    }
+    fab = sum(stims[i]["truth"] == "fabricated" for i in repeated if i in stims)
+    print(f"{len(repeated)} excerpts appear in both the headline sample and the arm")
+    print(
+        f"  {fab} fabricated, {len(repeated) - fab} real --- the arm reuses fabricated\n"
+        "  excerpts to stay balanced, so this is mostly a noise floor for the\n"
+        "  fabricated side. The real side, where the errors that matter live, is\n"
+        "  measured on six excerpts and the per-judge figures should not be split by\n"
+        "  truth value.\n"
+    )
     print(
         f"{'judge':<22}{'n':>5}{'agree':>14}{'flips to FAB':>14}"
         f"{'flips to REAL':>15}{'mean |dconf|':>14}"

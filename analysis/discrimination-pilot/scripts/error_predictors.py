@@ -25,7 +25,7 @@ vagueness test used, so the two are read side by side:
   length      words in the excerpt, as a nuisance check
   vagueness   the lexical index, repeated here so the null has company
 
-and four surface-form candidates added for run 4 (TASK-011). The vagueness
+and three surface-form candidates added for run 4 (TASK-011). The vagueness
 null leaves nearly all the real-side error variance unexplained, and the
 missing ingredient was a candidate rather than a test, so these are the
 properties a reader could plausibly be reacting to that the apparatus was
@@ -37,8 +37,6 @@ not yet measuring:
                 excerpt low on this axis may read as machine-written for a
                 reason that has nothing to do with what it says
   first_person  we/our/us per 100 words: the institutional voice
-  listiness     share of lines shorter than a clause, i.e. how much of the
-                excerpt is list rather than prose after the filter
 
 and, categorically:
 
@@ -96,8 +94,13 @@ CONTINUOUS = (
     "sentence_len",
     "burstiness",
     "first_person",
-    "listiness",
 )
+# `listiness` --- how much of the excerpt is list rather than prose --- was the
+# fourth candidate and cannot be measured, which is itself the answer. Excerpts
+# are flattened to a single line before redaction, so no line structure reaches
+# the text a judge is shown: whatever the passage looked like on the page, the
+# judge read one flowed paragraph. "The excerpt is a list-like passage that
+# survived the prose filter" is therefore not a property of the stimulus at all.
 CATEGORICAL = ("damaged", "tier", "country", "doc_type", "recognised")
 
 WORD_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’\-]*")
@@ -130,18 +133,6 @@ def burstiness(text: str) -> float:
     return math.sqrt(var) / m
 
 
-def listiness(text: str) -> float:
-    """Share of lines that are shorter than a clause.
-
-    The prose filter rejects a paragraph where more than 45% of lines are short,
-    which leaves a wide band of surviving passages that are still half bullet
-    list. A judge reading fragments rather than sentences is reading something
-    the genre produces and the press mostly does not.
-    """
-    lines = [ln for ln in text.split("\n") if ln.strip()]
-    if not lines:
-        return 0.0
-    return sum(len(ln.split()) < 8 for ln in lines) / len(lines)
 
 
 # A level with fewer than this many judgements is folded into "other". Chi-square
@@ -203,7 +194,6 @@ def load_axes() -> tuple[dict[str, dict[str, float]], dict[str, dict[str, str]]]
         numeric["first_person"][item] = (
             len(FIRST_PERSON.findall(text)) / max(r["words"], 1) * 100
         )
-        numeric["listiness"][item] = listiness(text)
         if item in vagueness:
             numeric["vagueness"][item] = vagueness[item]
         for a in ("tier", "country", "doc_type"):
