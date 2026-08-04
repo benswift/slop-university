@@ -38,7 +38,11 @@ FETCH = Path(__file__).resolve().parent / "fetch_doc.py"
 def main() -> None:
     check_only = "--check" in sys.argv
     prov = json.loads(PROVENANCE.read_text())
-    rows = prov.get("real_strategy", []) + prov.get("real_impact", [])
+    rows = (
+        prov.get("real_strategy", [])
+        + prov.get("real_impact", [])
+        + prov.get("real_vision_pairs", [])
+    )
 
     missing = [r for r in rows if not (RAW / r["file"]).exists()]
     print(
