@@ -28,3 +28,67 @@ Misclassification rate by vagueness decile (pooled):
   8          65           6.92                23%  #####
   9          66           7.18                24%  #####
   10         66           7.31                15%  ###
+
+########## model axis: gpt-5.6-terra
+axis: gpt-5.6-terra
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+judge                     n  errors  vague|err  vague|ok       r   perm p   rank p
+deepseek-v4-flash        82      33     -15.82    -22.43   0.233   0.0331   0.0263
+deepseek-v4-pro          82      32     -17.22    -21.40   0.146   0.1893   0.1623
+gpt-5.6-luna             82      10     -12.80    -20.74   0.186   0.0938   0.0697
+gpt-5.6-sol              82       3      -7.33    -20.24   0.174   0.1072   0.0510
+gpt-5.6-terra            82       5      -9.60    -20.43   0.186   0.0890   0.0526
+haiku                    82      26     -16.54    -21.27   0.158   0.1614   0.2057
+opus                     82       0        nan    -19.77     nan      nan      nan
+sonnet                   82       8     -12.38    -20.57   0.175   0.1131   0.0736
+
+pooled                  656     117     -15.38    -20.72   0.147   0.0002   0.0001
+
+Pooling repeats each excerpt once per judge, so the pooled p is anti-conservative
+--- read it as a description, and the per-judge rows as the test.
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65         -46.00                 8%  ##
+  2          66         -34.00                18%  ####
+  3          65         -26.00                12%  ##
+  4          66         -22.00                18%  ####
+  5          66         -18.00                 9%  ##
+  6          65         -18.00                11%  ##
+  7          66         -12.00                24%  #####
+  8          65          -8.00                22%  ####
+  9          66          -7.00                23%  #####
+  10         66          -3.00                33%  #######
+
+########## model axis: deepseek-v4-pro
+axis: deepseek-v4-pro
+656 real-side judgements in the strategy condition, 8 judges, 82 distinct excerpts
+
+judge                     n  errors  vague|err  vague|ok       r   perm p   rank p
+deepseek-v4-flash        82      33     -11.06    -16.08   0.165   0.1355   0.0440
+deepseek-v4-pro          82      32     -11.88    -15.46   0.117   0.3025   0.5180
+gpt-5.6-luna             82      10      -8.50    -14.83   0.139   0.2185   0.1805
+gpt-5.6-sol              82       3      -3.33    -14.47   0.140   0.2286   0.1556
+gpt-5.6-terra            82       5      -8.00    -14.45   0.103   0.3898   0.3423
+haiku                    82      26     -14.15    -14.02  -0.004   0.9772   0.8110
+opus                     82       0        nan    -14.06     nan      nan      nan
+sonnet                   82       8      -8.75    -14.64   0.117   0.3071   0.1973
+
+pooled                  656     117     -11.26    -14.67   0.087   0.0250   0.0113
+
+Pooling repeats each excerpt once per judge, so the pooled p is anti-conservative
+--- read it as a description, and the per-judge rows as the test.
+
+Misclassification rate by vagueness decile (pooled):
+  decile      n   median index   called FABRICATED
+  1          65         -45.00                12%  ##
+  2          66         -30.00                18%  ####
+  3          65         -20.00                12%  ##
+  4          66         -15.00                 9%  ##
+  5          66         -10.00                24%  #####
+  6          65         -10.00                17%  ###
+  7          66          -5.00                27%  #####
+  8          65          -0.00                14%  ###
+  9          66          -0.00                18%  ####
+  10         66          -0.00                26%  #####

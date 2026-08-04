@@ -1,0 +1,32 @@
+210 source documents: 168 real, 42 fabricated
+
+                n   median     min     max
+real          168     4.19    0.75    7.39
+fabricated     42     1.83    0.32    4.52
+
+163/168 (97%) real documents are vaguer than the median fabricated one;
+70/168 (42%) are vaguer than EVERY fabricated one.
+
+real side by tier:
+  elite        n=47   median +4.14
+  research     n=52   median +4.08
+  mid          n=20   median +4.17
+  regional     n=36   median +4.19
+  specialist   n=13   median +4.99
+
+vaguest real documents:
+  +7.39  real-strategy-no-bergen  (Norway, elite, 2025)
+  +7.33  real-strategy-no-ntnu  (Norway, elite, 2025)
+  +7.32  real-strategy-au-westernsydney  (Australia, mid, 2021)
+  +7.29  real-strategy-us-unc-charlotte  (USA, regional, 2025)
+  +7.18  real-strategy-uk-teesside  (UK, regional, 2018)
+  +7.13  real-strategy-fi-turku  (Finland, research, 2024)
+  +7.11  real-strategy-au-deakin  (Australia, research, 2020)
+  +7.09  real-strategy-de-kit  (Germany, elite, 2024)
+
+most concrete real documents:
+  +0.75  real-strategy-ca-tru  (Canada, regional, 2025)
+  +1.28  real-impact-tudelft  (Netherlands, research, 2024)
+  +1.34  real-impact-ucl  (UK, elite, 2026)
+  +1.57  real-impact-edinburgh  (UK, elite, 2026)
+  +1.65  real-strategy-uk-northampton  (UK, mid, 2023)

@@ -2,20 +2,24 @@
 
 > **Superseded in part.** Everything from here to
 > [The expanded corpus](#the-expanded-corpus-task-006) describes the 54-item
-> pilot of 1 August 2026 and stands as a record of it. Two runs have happened
-> since: the corpus was rebuilt at thirteen times the size (TASK-006), and then
-> the stimuli were repaired and the panel extended to eight judges (TASK-008,
-> 2 August 2026). Read
-> [The repaired run and the eight-judge panel](#the-repaired-run-and-the-eight-judge-panel-task-008)
-> for what currently stands.
+> pilot of 1 August 2026 and stands as a record of it. Three runs have happened
+> since: the corpus was rebuilt at thirteen times the size (TASK-006), the
+> stimuli were repaired and the panel extended to eight judges (TASK-008, 2
+> August 2026), and then everything was rebuilt from scratch against the final
+> corpus (TASK-011, 4 August 2026). Read
+> [Run 4](#run-4-one-clean-run-on-the-final-corpus-task-011) for what currently
+> stands. It is the only run whose numbers all come from one coherent pass, and
+> it is the one the paper quotes; the runs before it are a record of how the
+> instrument was built rather than results.
 >
 > **One claim below is refuted and should not be quoted:** that the boundary
 > these judges learned runs between the concrete and the vague. It does not
-> replicate. See
+> replicate, in any of three subsequent runs. See
 > [The claim this corpus was built to test does not replicate](#the-claim-this-corpus-was-built-to-test-does-not-replicate)
 > and the finding that replaced it.
 >
-> Run 1's own stimuli and judgements are archived under `run-1/`.
+> Run 1's stimuli and judgements are archived under `run-1/`, run 3's under
+> `run-3/`.
 
 Run 1 August 2026; re-run against the GPT-5.6 generation the same day.
 Everything below is reproducible from the scripts and data in this directory.
@@ -902,8 +906,8 @@ predict accuracy" was over-stated: it is DeepSeek that inverts, not the field.
 
 The one real-side extraction artefact still open. `pdftotext` loses the space
 between two words set in adjacent runs, which multi-column layouts do
-constantly, and the press's typst PDFs mostly do not: 55 of the 65 merged
-tokens in the pool were on the real side.
+constantly, and the press's typst PDFs mostly do not: 55 of the 65 merged tokens
+in the pool were on the real side.
 
 Detecting them cannot be done from a dictionary. The first rule --- a non-word
 that splits into two words --- spent its output on `sustainability` (sustain +
@@ -919,11 +923,11 @@ genre's spelling. That separates `realworld` from `wellbeing`.
 
 It mattered, and it was not the answer:
 
-| | real-side FABRICATED calls, 8 judges |
-| --- | --- |
-| excerpts carrying a merged token, before repair | 22/80 = **28%** |
-| clean excerpts, before repair | 79/576 = 14% |
-| the same damaged excerpts, after repair | 19/80 = **24%** |
+|                                                 | real-side FABRICATED calls, 8 judges |
+| ----------------------------------------------- | ------------------------------------ |
+| excerpts carrying a merged token, before repair | 22/80 = **28%**                      |
+| clean excerpts, before repair                   | 79/576 = 14%                         |
+| the same damaged excerpts, after repair         | 19/80 = **24%**                      |
 
 So the direction was real and one-sided and worth removing --- but removing it
 moved no judge's accuracy by more than a point, and the residual change is
@@ -947,12 +951,12 @@ the join succeeded and the numbers were wrong.
 1. **`vagueness.py` read the wrong pool.** It scored `pool.json`, the gazetteer
    pass, while the judges read `pool_redacted.json` after the LLM leak pass ---
    a different string on 325 of 604 excerpts. The axis exists to ask whether the
-   vagueness *a judge could see* predicts its errors, and that can only be asked
+   vagueness _a judge could see_ predicts its errors, and that can only be asked
    of the string the judge was given.
 2. **The two axes were not reading the same field as each other.** The proxies
    took `text`, the model rating took `text_redacted`.
 3. **A scores file survives a pool rebuild.** Item ids come from
-   `<source-doc>--<n>`, which says nothing about *which* excerpt of that
+   `<source-doc>--<n>`, which says nothing about _which_ excerpt of that
    document landed at position n. Run 2's proxies were written one commit before
    the pool was rebuilt, so 123 excerpts were scored from a different excerpt of
    the same document. Every id resolved. Nothing looked wrong. The reported
@@ -987,10 +991,10 @@ Haiku: 86 of the 98 errors) sit at -0.01, 0.13 and 0.13.
 The "one rater, one axis" gap is closed. A second rater from a different vendor
 (DeepSeek V4 Pro) rated all 604 excerpts alongside GPT-5.6 Terra.
 
-| pair                              | r          |
-| --------------------------------- | ---------- |
-| Terra rating vs DeepSeek Pro rating | **+0.90** |
-| Terra rating vs lexical proxy       | +0.65      |
+| pair                                 | r         |
+| ------------------------------------ | --------- |
+| Terra rating vs DeepSeek Pro rating  | **+0.90** |
+| Terra rating vs lexical proxy        | +0.65     |
 | DeepSeek Pro rating vs lexical proxy | +0.61     |
 
 Two vendors' models agree with each other at 0.90 and with a dependency-free
@@ -1018,8 +1022,8 @@ errors. It is that the high-water mark across three axes, eight judges and 98
 errors is r = 0.26 — seven per cent of the variance — for a feature the judges
 name as **the** deciding one in ten of their twelve articulate errors. And the
 cleanest single case runs the wrong way: DeepSeek Pro rated every excerpt and
-judged every excerpt, and its own ratings do not predict its own errors
-(r = 0.04, p = 0.75).
+judged every excerpt, and its own ratings do not predict its own errors (r =
+0.04, p = 0.75).
 
 Terra's 0.196 and 0.169 are on two errors and should be ignored.
 
@@ -1028,15 +1032,15 @@ Terra's 0.196 and 0.169 are on two errors and should be ignored.
 Everything the corpus carries, tested with the same statistics
 (`error_predictors.py`):
 
-| axis                   | result                                                |
-| ---------------------- | ----------------------------------------------------- |
-| document age           | null, sign negative, no judge near significance        |
-| excerpt length         | null                                                   |
-| institution tier       | null (chi-square p = 0.13; regional and research 18%, elite 13%, specialist 0/24) |
-| country                | null (p = 0.09), and what looked like a New Zealand effect was one Auckland document |
-| extraction damage      | 28% vs 14% before repair; repaired, and see above      |
-| **document type**      | **vision 35% vs strategic plan 14%, p = 0.001**        |
-| claimed recognition    | **protective where the recall is real, worthless where it is confabulated** |
+| axis                | result                                                                               |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| document age        | null, sign negative, no judge near significance                                      |
+| excerpt length      | null                                                                                 |
+| institution tier    | null (chi-square p = 0.13; regional and research 18%, elite 13%, specialist 0/24)    |
+| country             | null (p = 0.09), and what looked like a New Zealand effect was one Auckland document |
+| extraction damage   | 28% vs 14% before repair; repaired, and see above                                    |
+| **document type**   | **vision 35% vs strategic plan 14%, p = 0.001**                                      |
+| claimed recognition | **protective where the recall is real, worthless where it is confabulated**          |
 
 **Vision documents.** Long-horizon vision statements — _Aberdeen 2040_,
 _Federation 2040_, Wollongong's _Vision 2035_, Auckland's _Taumata Teitei_,
@@ -1107,13 +1111,422 @@ error variance is still unexplained, two documents keep one-sided lone capitals,
 the impact condition is genre-confounded at 26 items, and the panel's own
 run-to-run variability has never been measured.
 
+**All five are settled by run 4 below**, four of them affirmatively and one by
+measurement: the vision effect replicates and survives its rival explanations,
+the lone capitals are gone, the impact condition is dropped, run-to-run
+variability is measured for the first time --- and the real-side error variance
+is still mostly unexplained, but the noise floor now says how much of it was
+ever explicable.
+
+## Run 4: one clean run on the final corpus (TASK-011)
+
+4 August 2026. Runs 1--3 were never comparable item for item --- the corpus
+changed, the sample changed, and the extraction pipeline changed underneath both
+--- so this run rebuilds everything from `build_stimuli.py` forward against the
+corpus now fixed at **164 documents from 160 institutions across 25 countries**,
+with all eight judges, so the paper's numbers come from one coherent run rather
+than three overlapping ones. Every figure below is from that single run.
+
+Two design decisions were taken before any judge saw an excerpt, which is the
+only time such decisions can honestly be taken.
+
+**The impact condition is dropped.** Ten matched pairs after the corpus grew,
+and every judge's near-perfect score on it came from accounting and audit
+boilerplate that a fabricated impact report has no reason to contain. That is a
+genre difference, not a discrimination result, and the paper already quoted the
+strategy condition alone. The documents stay in the corpus and in the
+corpus-level measurements; only the judged sample loses them.
+
+**A vision arm is added**, because the obvious way to test run 3's most
+interesting finding does not work. The headline sample is capped by the
+fabricated side --- 30 press strategy PDFs --- not by the real side, so
+enlarging the corpus changes _which_ real excerpts are drawn without drawing
+more of them. Re-running as planned produced **seven** vision excerpts from five
+institutions, which is what run 3 had. The arm therefore takes every prose
+excerpt the vision documents yielded (30, from 11 documents --- two vision
+documents are such design-led brochures that the prose filter found nothing in
+them at all), adds ordinary planning documents gathered from five of the same
+institutions, and matches the lot against fabricated excerpts drawn afresh.
+
+Reusing fabricated excerpts across the two sets is deliberate: it keeps the
+presented set balanced so the prompt's stated 50/50 base rate stays true, and
+because item ids are derived from the excerpt's text, **44 excerpts are the same
+judge reading the same words twice** in separate calls with independently
+shuffled order and no shared context. That is the noise floor the panel has
+never had.
+
+### Three one-sided defects closed
+
+All three pushed real documents towards "fabricated", the direction that
+manufactures this report's findings.
+
+**Lone capitals now reject the excerpt.** The rule tolerated them up to 5% of an
+excerpt's words, which on 250 words is a dozen, and run 3 still finished with
+thirteen one-sided forms, all but one on the real side. A cue that damages only
+one side has no tolerable rate. Cost: 16 real excerpts and zero fabricated ones.
+
+**The LLM leak pass was substituting flagged fragments as bare substrings.** A
+detector that flagged the acronym `OU` turned "OUR STRATEGIC PROCESS" into
+"[ORGANISATION]R" --- a mangled word reading as damaged extraction, which is the
+one thing this pipeline works hardest to keep off the real side. Word boundaries
+now apply.
+
+**The lone-capital scan counted `K-12` and `H-index` as bare capitals**, which
+is how that mangled `[ORGANISATION]R` sat unnoticed among twelve false
+positives. A scan whose output is mostly noise cannot be read, so nobody reads
+it.
+
+The pool is 656 excerpts, and the audits now report **zero** non-English forms,
+**zero** merged tokens and **zero** one-sided lone capitals. What remains in the
+`word-capital` family is eight heading-to-body run-ons of the form "Message from
+the President I'm excited to share ..." --- not identity leakage, and present on
+both sides.
+
+### The panel, eight judges, 164 identical excerpts
+
+| judge             | accuracy  | sensitivity | specificity | real-side errors | conf. right / wrong |
+| ----------------- | --------- | ----------- | ----------- | ---------------- | ------------------- |
+| Claude Opus 5     | **100%**  | 100%        | 100%        | 0                | 85.4 / ---          |
+| GPT-5.6 Sol       | 97.6%     | 98.8%       | 96.3%       | 3                | 92.3 / 78.5         |
+| GPT-5.6 Terra     | 93.3%     | 92.7%       | 93.9%       | 5                | 86.3 / 80.2         |
+| GPT-5.6 Luna      | 87.8%     | 87.8%       | 87.8%       | 10               | 86.4 / 76.8         |
+| Claude Sonnet 5   | 84.8%     | 79.3%       | 90.2%       | 8                | 79.4 / 69.9         |
+| DeepSeek V4 Flash | 64.6%     | 69.5%       | 59.8%       | 33               | 73.6 / 71.0         |
+| DeepSeek V4 Pro   | 53.7%     | 46.3%       | 61.0%       | 32               | 82.4 / 80.1         |
+| Claude Haiku 4.5  | **51.8%** | 35.4%       | 68.3%       | 26               | 71.1 / 70.1         |
+
+**The spread is 48.2 points and both ends are still Anthropic**, on a corpus and
+a sample that share no construction decisions with the one that produced run 3's
+47.4. The ordering is unchanged, Opus is at ceiling again, and Haiku is again
+the panel's floor with a heavy bias towards REAL. Reader-dependence is the most
+robust thing this pilot has found: it now survives a complete rebuild.
+
+The confidence column is the run's quiet second result. Sol, Luna and Sonnet
+separate their right answers from their wrong ones by 10--14 points of stated
+confidence; Flash, Pro and Haiku separate them by 1--3, so their confidence
+carries almost no information about whether they are right. Opus has no wrong
+answers to average. Run 1 recorded the same flatness in GPT-4.1 (90.7 when
+right, 91.1 when wrong) and read it as a generational fact. It is not: it is a
+property of judges that are bad at the task, and three of those are current in
+August 2026.
+
+### The vision-document effect replicates, and survives both rival explanations
+
+This is the run's main finding, and the one run 3 could only point at. Long-
+horizon vision statements draw FABRICATED calls at roughly twice the rate of
+ordinary strategic plans, from judges at every level of the panel.
+
+Counts are judgements --- excerpts x judges --- and each p is a permutation test
+on the pooled difference.
+
+| test                     | vision       | plan          | difference | p      |
+| ------------------------ | ------------ | ------------- | ---------- | ------ |
+| unpaired, headline + arm | 65/240 = 27% | 110/704 = 16% | 11 points  | 0.0005 |
+| the arm alone            | 67/240 = 28% | 12/104 = 12%  | 16 points  | 0.0015 |
+| headline sample alone    | 18/48 = 38%  | 90/536 = 17%  | 21 points  | 0.004  |
+
+The unpaired row sets 30 vision excerpts from 11 documents against 88 plan
+excerpts from 63; the arm row sets those same 30 against the 13 excerpts of the
+institution-matched plans. The last row is the like-for-like comparison with run
+3's 35% against 14% --- same sampler, same kind of sample, no arm involved ---
+and on five times the excerpts it lands in the same place. Its p is from the
+permutation test on the full four-level `doc_type` table rather than on the
+vision/plan contrast alone.
+
+All three pool judgements across judges, which repeats each excerpt eight times
+and makes the p values anti-conservative. Read them as descriptions; the test is
+the per-judge table below.
+
+**The within-institution test is the strongest form the claim has taken.** Four
+institutions contribute both a vision document and their own ordinary plan, so
+house style, country, tier and institutional register all cancel:
+
+| judge             | vision     | plan       | difference |
+| ----------------- | ---------- | ---------- | ---------- |
+| DeepSeek V4 Flash | 7/12 = 58% | 3/11 = 27% | +31        |
+| DeepSeek V4 Pro   | 5/12 = 42% | 4/11 = 36% | +5         |
+| GPT-5.6 Luna      | 4/12 = 33% | 0/11 = 0%  | +33        |
+| Claude Haiku 4.5  | 5/12 = 42% | 3/11 = 27% | +14        |
+| Claude Sonnet 5   | 2/12 = 17% | 0/11 = 0%  | +17        |
+| GPT-5.6 Terra     | 2/12 = 17% | 0/11 = 0%  | +17        |
+| GPT-5.6 Sol       | 1/12 = 8%  | 0/11 = 0%  | +8         |
+| Claude Opus 5     | 0/12 = 0%  | 0/11 = 0%  | 0          |
+
+**Every judge that makes any error at all makes more of them on the vision
+document than on the same university's plan. Seven of seven, sign test p =
+0.016.** Opus makes no errors anywhere and contributes no sign.
+
+Two rival explanations were tested rather than argued about, and both fail.
+
+**It is not the vagueness index restated.** Vision excerpts do sit higher on it
+(mean 5.13 against 4.62), and vagueness is the feature the judges name, so the
+effect could be that axis under another name. It is not: run the contrast inside
+each half of the index and it barely moves --- 27% against 14% in the less vague
+half, 27% against 17% in the vaguer half.
+
+**It is not damage our own pipeline introduced.** This was the more serious
+worry: a vision document is a design-led brochure --- pull quotes, display type,
+marginal text, multi-column spreads --- and `pdftotext` mangles that harder than
+a text-heavy plan, so the "effect" could be typesetting. The judges say which
+they reacted to. Splitting the 65 vision-document errors by what the stated
+reason cites:
+
+| judge             | errors | register | surface | both | neither |
+| ----------------- | ------ | -------- | ------- | ---- | ------- |
+| Claude Sonnet 5   | 8      | 8        | 0       | 0    | 0       |
+| GPT-5.6 Terra     | 7      | 5        | 0       | 2    | 0       |
+| GPT-5.6 Luna      | 8      | 5        | 0       | 3    | 0       |
+| GPT-5.6 Sol       | 5      | 4        | 0       | 1    | 0       |
+| Claude Haiku 4.5  | 9      | 3        | 0       | 3    | 3       |
+| DeepSeek V4 Flash | 15     | 5        | 4       | 2    | 4       |
+| DeepSeek V4 Pro   | 13     | 3        | **7**   | 1    | 2       |
+
+Only DeepSeek Pro leans on surface cues. The five OpenAI and Anthropic judges
+return **no surface-only reasons between them**, and Sonnet's eight errors are
+eight register calls: "vacuous strategic-jargon phrases ... stacked without a
+single concrete program, number, or specific partnership", "inspirational
+abstractions ... without a single concrete program, figure, or verifiable
+claim". The keyword split is indicative rather than exact, but the shape is not
+subtle.
+
+So the reading run 3 offered survives its first real test: **the register a
+university adopts when imagining itself fifteen years out is the register the
+press writes in all the time.**
+
+### A noise floor, at last --- and it is not uniform
+
+44 excerpts appear in both sets, so every judge answered them twice.
+
+| judge             | agreement     | mean \|Δconfidence\| |
+| ----------------- | ------------- | -------------------- |
+| Claude Opus 5     | 44/44 = 100%  | 2.8                  |
+| GPT-5.6 Sol       | 44/44 = 100%  | 2.4                  |
+| GPT-5.6 Luna      | 44/44 = 100%  | 3.7                  |
+| GPT-5.6 Terra     | 42/44 = 95%   | 4.0                  |
+| Claude Sonnet 5   | 42/44 = 95%   | 2.7                  |
+| Claude Haiku 4.5  | 36/44 = 82%   | 5.1                  |
+| DeepSeek V4 Pro   | 35/44 = 80%   | 6.5                  |
+| DeepSeek V4 Flash | 30/44 = 68%   | 7.6                  |
+| pooled            | 317/352 = 90% | ---                  |
+
+**The judges that produce the errors are the judges that do not reproduce
+them.** Flash disagrees with itself on nearly a third of repeated excerpts;
+Opus, Sol and Luna do not disagree with themselves at all. This is a hard
+constraint on the rest of the report and it should be applied to it: any
+predictor of real-side error is trying to explain a signal that is, for the
+three judges supplying 91 of the 117 errors, between a fifth and a third noise.
+An r of 0.26 against a signal that unstable is closer to its ceiling than it
+looks.
+
+Read the limits honestly. The arm reuses fabricated excerpts to stay balanced,
+so 38 of the 44 repeated items are fabricated and this is mostly a floor for
+that side. And both elicitations use the same text and the same prompt, so it
+measures decoder sampling and nothing else --- not drift in a served model, not
+sensitivity to rewording.
+
+### The vagueness null holds, on a fourth sample
+
+| judge             | real-side errors | r      | permutation p | rank-sum p |
+| ----------------- | ---------------- | ------ | ------------- | ---------- |
+| DeepSeek V4 Flash | 33               | 0.191  | 0.085         | **0.038**  |
+| DeepSeek V4 Pro   | 32               | 0.113  | 0.310         | 0.332      |
+| Claude Haiku 4.5  | 26               | 0.039  | 0.727         | 0.403      |
+| GPT-5.6 Luna      | 10               | -0.036 | 0.751         | 0.671      |
+| Claude Sonnet 5   | 8                | 0.004  | 0.970         | 0.950      |
+| GPT-5.6 Terra     | 5                | 0.117  | 0.285         | 0.211      |
+| GPT-5.6 Sol       | 3                | 0.101  | 0.385         | 0.437      |
+
+Pooled r = 0.067. The decile table is still not monotone (11% in the least vague
+decile, 15% in the vaguest, 32% in the fifth). One cell is worth naming rather
+than burying: Flash reaches p = 0.038 on the rank-sum test, the closest any
+judge has come across four runs --- and it is one judge, on one of two tests,
+out of eight, from the judge with the worst self-agreement in the panel.
+
+### The axis itself, rebuilt on the text the judges saw
+
+Three independent measures, all over the same 656 excerpts of
+`pool_redacted.json` --- the string the judges were actually given, which is the
+join that was silently wrong until TASK-008.
+
+| pair                                 | r          |
+| ------------------------------------ | ---------- |
+| Terra rating vs DeepSeek Pro rating  | **+0.905** |
+| Terra rating vs lexical proxy        | 0.649      |
+| DeepSeek Pro rating vs lexical proxy | 0.591      |
+
+The model ratings are concreteness and the proxy is vagueness, so the raw
+correlations against the proxy are negative; magnitudes are given.
+
+| measure                   | real  | fabricated | ratio |
+| ------------------------- | ----- | ---------- | ----- |
+| lexical vagueness index   | +4.26 | +1.90      | 2.2x  |
+| Terra concreteness        | 24.5  | 54.4       | 2.2x  |
+| DeepSeek Pro concreteness | 18.3  | 48.1       | 2.6x  |
+
+Two vendors' models agree with each other at 0.91 and with a dependency-free
+regex count at around 0.6, and all three put real university strategy at roughly
+twice the vagueness of the fabrication imitating it. Aggregated per document,
+**163 of 168 real documents (97%) are vaguer than the median fabricated one, and
+70 (42%) are vaguer than every fabricated document in the corpus.** The
+construct is not ill-defined and not one model's idiosyncrasy, and the
+corpus-level fact survives a rebuilt corpus unchanged.
+
+That makes the model-rated axis the fair test of the judges' stated reason, and
+run 4 sharpens what run 3 could only gesture at. Against Terra's ratings the
+association with error is **positive for every judge that errs at all**:
+
+| judge             | errors | r (Terra axis) | p      | r (Pro axis) | p     |
+| ----------------- | ------ | -------------- | ------ | ------------ | ----- |
+| DeepSeek V4 Flash | 33     | **0.233**      | 0.033  | 0.165        | 0.136 |
+| GPT-5.6 Terra     | 5      | 0.186          | 0.089  | 0.103        | 0.390 |
+| GPT-5.6 Luna      | 10     | 0.186          | 0.094  | 0.139        | 0.219 |
+| Claude Sonnet 5   | 8      | 0.175          | 0.113  | 0.117        | 0.307 |
+| GPT-5.6 Sol       | 3      | 0.174          | 0.107  | 0.140        | 0.229 |
+| Claude Haiku 4.5  | 26     | 0.158          | 0.161  | -0.004       | 0.977 |
+| DeepSeek V4 Pro   | 32     | 0.146          | 0.189  | 0.117        | 0.303 |
+| pooled            | 117    | **0.147**      | 0.0002 | 0.087        | 0.025 |
+
+Seven judges, seven positive signs, on an axis rated by a model told nothing
+about the discrimination task. Run 3 reported this association as inconsistent
+in sign and reaching 0.26 once; on a clean run it is consistent in sign and tops
+out at 0.233. The honest statement is therefore firmer in one direction and
+unchanged in the other: **concreteness is genuinely related to these errors, and
+it accounts for about 2% of the variance in them.** For a feature the judges
+name as _the_ deciding one, that is still almost nothing.
+
+The sharpest single case still runs the wrong way. DeepSeek Pro rated every
+excerpt and judged every excerpt, and its own ratings do not predict its own
+errors (r = 0.117, p = 0.30); Haiku's association with Pro's axis is exactly
+zero.
+
+So the finding that replaced the null in run 3 stands, and is better supported:
+the judges name vagueness constantly, including in the vision-document errors
+above, and their behaviour tracks the document's _genre_ far more strongly than
+its position on the axis they name. Document type moves the error rate by 11--21
+points. Concreteness moves 2% of the variance.
+
+### The memorisation control, all eight judges
+
+The real side is public web text and the fabricated side is gitignored and
+local-only, so a judge that has memorised the real documents can sort the set
+without judging anything. Each judge was asked to name the source institution of
+every excerpt, answering only on actual recognition of the wording.
+
+| judge             | claimed recognition | named the real source | false recognitions (fabrications) |
+| ----------------- | ------------------- | --------------------- | --------------------------------- |
+| DeepSeek V4 Pro   | 106/164             | 21/82 (26%)           | **40**                            |
+| GPT-5.6 Sol       | 45/164              | 32/82 (39%)           | 0                                 |
+| DeepSeek V4 Flash | 45/164              | 12/82 (15%)           | 7                                 |
+| GPT-5.6 Terra     | 41/164              | 20/82 (24%)           | 2                                 |
+| GPT-5.6 Luna      | 24/164              | 9/82 (11%)            | 4                                 |
+| Claude Haiku 4.5  | 9/164               | 1/82 (1%)             | 6                                 |
+| Claude Opus 5     | 7/164               | 6/82 (7%)             | 0                                 |
+| Claude Sonnet 5   | 0/164               | 0/82 (0%)             | 0                                 |
+
+**Recall keeps falling as the corpus broadens**, which is what should happen and
+is the control the first run lacked: 44% for both Sol and Terra on the first
+corpus of twelve institutions, 41%/25%/17% on 110, and 39%/24%/11% now. The
+seventeen documents folded in for TASK-007 were mostly regional and specialist,
+and the rate moved again.
+
+**The answer to the confound is the same one run 3 gave, and it is still the
+cleanest this design can produce.** Opus scores 100% while claiming to recognise
+seven excerpts out of 164 and correctly naming six. The judge that gets
+everything right is the judge with almost no recall to use. Sonnet claims
+nothing at all and scores 84.8%. Sol's 97.6% rests on more recall --- 45 claims,
+32 correctly named, not one false positive --- and survives dropping every
+recognised item.
+
+**And the control keeps catching the other thing.** DeepSeek Pro claims
+recognition on 106 of 164 excerpts and 40 of those are fabrications. Haiku's
+recognitions are six-sevenths confabulation. Recall is a shortcut for a model
+that has it and a hallucination surface for one that does not, and nothing in
+the claim itself distinguishes the two.
+
+### What else predicts real-side error
+
+Three surface-form candidates were added for this run, since the missing
+ingredient was a candidate rather than a test.
+
+| axis                        | pooled r | permutation p | verdict                           |
+| --------------------------- | -------- | ------------- | --------------------------------- |
+| mean sentence length        | -0.100   | **0.013**     | weak, and the decile run is clean |
+| first-person voice (we/our) | +0.087   | **0.025**     | weak; carried by Haiku (r = 0.24) |
+| sentence-length burstiness  | -0.067   | 0.082         | null                              |
+| document age                | -0.079   | 0.047         | weak, sign negative               |
+| excerpt length              | -0.020   | 0.602         | null                              |
+| institution tier            | ---      | 0.140         | null                              |
+| merged tokens               | ---      | ---           | zero remaining, untestable        |
+
+Shorter sentences draw more FABRICATED calls, and the decile table is the
+cleanest monotone run in the report: 18% in the shortest decile falling to 8% in
+the longest. Burstiness --- uniform sentence length, the most-cited surface
+signature of generated prose --- does nothing, which is worth recording given
+how often it is asserted.
+
+The fourth candidate, whether the excerpt is a list-like passage that survived
+the prose filter, **cannot be measured, and that is the answer**. Excerpts are
+flattened to a single line before redaction, so no line structure reaches the
+text a judge is shown. Whatever the passage looked like on the page, the judge
+read one flowed paragraph.
+
+Set against the vision effect's 11--21 points, every one of these is small. The
+best predictor of a real document being called fabricated remains what kind of
+document it is.
+
+### What run 4 settles, and what it does not
+
+Settled, and quotable from a single coherent run:
+
+1. **Detectability is a property of the reader**, and this is now the
+   best-supported claim in the pilot. 48.2 points across eight current models on
+   identical stimuli, both ends supplied by the vendor that also writes the
+   press, and the ordering survives a complete rebuild of corpus, sample and
+   pipeline.
+2. **The vision-document effect is real.** It replicates at five times the
+   evidence, holds within institution 7--0 across every judge that errs, and
+   survives both rival explanations --- it is not the vagueness index restated,
+   and it is not extraction damage, because the five OpenAI and Anthropic judges
+   cite register and return no surface-only reasons between them.
+3. **The panel has a noise floor**, and it is stratified: 100% self-agreement
+   for Opus, Sol and Luna against 68% for DeepSeek Flash. Every earlier "within
+   noise" claim in this file was an assertion; this is the first measurement.
+4. **Stated reasons remain weak evidence about the decision procedure.** The
+   judges name vagueness; concreteness explains about 2% of the variance in
+   their errors while document type moves it by up to 21 points.
+5. **Recall is a confound and not the mechanism.** The judge at 100% claims
+   seven recognitions in 164; the judge claiming 106 scores 53.7% and 40 of
+   those claims are fabrications.
+
+Not settled:
+
+1. **The bulk of the real-side error variance is still unexplained**, and the
+   noise floor now bounds how much of it ever could be. For Flash, Pro and Haiku
+   --- 91 of the 117 errors --- between a fifth and a third of the signal is
+   decoder sampling.
+2. **The vision arm is 11 documents and four within-institution pairs.** Six of
+   the thirteen vision institutions publish no separate ordinary plan, because
+   for them the vision document _is_ the strategic plan; two more sit behind bot
+   protection. The pairs also differ in publication year, which the design does
+   not control.
+3. **Two vision documents yielded no prose at all.** UWA 2030 and Waikato's
+   vision produced zero excerpts that passed the prose filter, which is itself a
+   fact about the genre --- these are design artefacts more than documents ---
+   but it means the arm samples the wordier vision documents.
+4. **Sub-threshold memorisation is still uncontrolled.** The probe catches
+   declared recognition only.
+5. **One generator, one house style.** 30 fabricated strategy PDFs from one
+   press, and the matched test is capped by them rather than by the real side. A
+   materially larger discrimination test needs more press output, not more real
+   documents.
+
 ## Files
 
 ```
 README.md                      this report
 corpus/provenance.json         real-side documents: titles, institutions, URLs
 corpus/incoming/*.json         per-region provenance shards, merged into the above
-corpus/raw/*.pdf               154 downloaded real documents (gitignored, refetchable)
+corpus/raw/*.pdf               176 downloaded real documents (gitignored, refetchable)
 scripts/fetch_doc.py           fetch + verify one corpus document, record provenance
 scripts/merge_provenance.py    fold the region shards into corpus/provenance.json
 scripts/refetch_corpus.py      restore any corpus PDF missing from disk
@@ -1130,37 +1543,48 @@ scripts/memorisation_probe.py  the recall control: can a judge name the source?
 scripts/analyse.py             accuracy, CIs, binomial tests, confusion, calibration
 scripts/vagueness_vs_error.py  does a real document's vagueness predict its being called fabricated?
 scripts/error_predictors.py    the same test for every other property the corpus carries
-stimuli/pool.json              604 redacted excerpts (gazetteer pass)
+scripts/vision_effect.py       vision vs plan, at three levels of confound control
+scripts/repeatability.py       the panel's noise floor, from excerpts judged twice
+stimuli/pool.json              656 redacted excerpts (gazetteer pass)
 stimuli/pool_leak_spans.json   every span the detector flagged, per excerpt
-stimuli/pool_redacted.json     604 excerpts after both redaction passes
-stimuli/stimuli.json           the 190 sampled stimuli with truth labels
-stimuli/stimuli.txt            same, human-readable
-stimuli/key.json               compact item -> truth/condition/source key
-results/judgements-*.json      raw judgements per judge (8 judges on the current set)
-results/judgements-all.json    all judgements pooled
+stimuli/pool_redacted.json     656 excerpts after both redaction passes
+stimuli/stimuli.json           the 164 sampled stimuli with truth labels
+stimuli/manifest.json          fingerprint of the above, stamped into every result
+stimuli/arm_vision.json        the 86-item vision arm
+stimuli/arm_vision_manifest.json  its fingerprint, and which items repeat the headline set
+results/judgements-*.json      raw judgements per judge, headline sample
+results/arm-vision/judgements-*.json  the same eight judges on the arm
 results/memorisation.json      per-item recall probe results
 results/analysis.txt           full analysis output
+results/vision-effect.txt      the vision-document contrasts and their rival explanations
+results/repeatability.txt      per-judge self-agreement
+run-1/, run-3/                 archived stimuli and judgements from the earlier runs
 ```
 
-The stimulus set is unchanged between the two runs: `stimuli/stimuli.json` is
-byte-identical to the file used for the GPT-4.1 / GPT-5 judgements, so all six
-judges saw exactly the same 54 excerpts under the same prompt.
-
-Reproduce with:
+Reproduce run 4 with:
 
 ```
+uv run --script scripts/refetch_corpus.py        # raw PDFs are gitignored; restore first
 uv run --script scripts/build_stimuli.py
 uv run --script scripts/leak_audit.py detect && uv run --script scripts/leak_audit.py apply
-uv run --script scripts/sample_stimuli.py
-uv run --script scripts/judge.py openai:gpt-5.6-terra   # and sol, luna
-uv run --script scripts/judge.py deepseek:deepseek-v4-pro   # and flash
-uv run --script scripts/judge.py claude:opus                # and sonnet, haiku
-uv run --script scripts/memorisation_probe.py gpt-5.6-terra claude:opus  # ...
+uv run --script scripts/leak_scan.py             # zero non-English, zero lone capitals
+uv run --script scripts/merged_tokens.py         # zero merged tokens
+uv run --script scripts/sample_stimuli.py        # writes both the headline set and the arm
+for j in openai:gpt-5.6-terra openai:gpt-5.6-sol openai:gpt-5.6-luna \
+         deepseek:deepseek-v4-pro deepseek:deepseek-v4-flash \
+         claude:opus claude:sonnet claude:haiku; do
+  uv run --script scripts/judge.py "$j"
+  uv run --script scripts/judge.py --stimuli arm_vision "$j" "arm-vision/judgements-${j#*:}.json"
+done
+uv run --script scripts/memorisation_probe.py gpt-5.6-terra   # one model per call: the
+                                                              # slow judges take an hour each
 uv run --script scripts/vagueness.py --proxies
-uv run --script scripts/vagueness.py --model openai:gpt-5.6-terra
+uv run --script scripts/vagueness.py --model openai:gpt-5.6-terra   # and deepseek:deepseek-v4-pro
 uv run --script scripts/analyse.py
 uv run --script scripts/vagueness_vs_error.py
 uv run --script scripts/error_predictors.py
+uv run --script scripts/vision_effect.py
+uv run --script scripts/repeatability.py
 ```
 
 Sampling is seeded (`SEED = 20260801`) and presentation order is now seeded per
