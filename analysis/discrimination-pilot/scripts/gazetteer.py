@@ -364,7 +364,11 @@ def derive() -> dict[str, list[str]]:
             f"no provenance at {PROVENANCE} --- run merge_provenance.py first"
         )
     prov = json.loads(PROVENANCE.read_text())
-    rows = prov.get("real_strategy", []) + prov.get("real_impact", [])
+    rows = (
+        prov.get("real_strategy", [])
+        + prov.get("real_impact", [])
+        + prov.get("real_vision_pairs", [])
+    )
 
     orgs: set[str] = set()
     places: set[str] = set()
@@ -417,7 +421,11 @@ def main() -> None:
         return
 
     prov = json.loads(PROVENANCE.read_text())
-    rows = prov.get("real_strategy", []) + prov.get("real_impact", [])
+    rows = (
+        prov.get("real_strategy", [])
+        + prov.get("real_impact", [])
+        + prov.get("real_vision_pairs", [])
+    )
     print(
         f"derived from {len(rows)} documents, {len({r['institution'] for r in rows})} institutions\n"
     )

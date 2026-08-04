@@ -16,7 +16,7 @@
  },
  {
   "item": "anu2026-a-belief-that-c17482--2",
-  "text_sha1": "f3a2add581facb27013b5168fcb1ad92051b94a1",
+  "text_sha1": "6c0d435fc42734d5950f40bea509551371314ab9",
   "leaks": []
  },
  {
@@ -111,7 +111,7 @@
  },
  {
   "item": "anu2026-aversion-to-powerpoint-j1yhww--3",
-  "text_sha1": "af345082fb5897333de705a7cabc40641a351114",
+  "text_sha1": "2da53eee50d868f8f41d791c4cee6bc3428cd7ab",
   "leaks": []
  },
  {
@@ -279,10 +279,12 @@
  },
  {
   "item": "anu2026-indo-pacific-sovereign-b906e4--0",
-  "text_sha1": "98599c6e75cb5cfd6c6f13b7ad668ceb55cdd3b3",
+  "text_sha1": "ce01d909287db6e3ca5190184dc927631c8252dd",
   "leaks": [
-   "Crawford School",
-   "ORGANISATION"
+   {
+    "text": "Crawford School",
+    "category": "ORGANISATION"
+   }
   ]
  },
  {
@@ -370,17 +372,17 @@
  },
  {
   "item": "anu2026-neuroscience-and-creativity-v433rj--3",
-  "text_sha1": "556bcab01576b535b35e24ea0fb1b799cfbee9c2",
+  "text_sha1": "9ef779a004bc387770fd238717430f2b5704ba98",
   "leaks": []
  },
  {
   "item": "anu2026-nimes-new-interfaces-089f85--0",
-  "text_sha1": "63d5b3d40d89321222549359288e36f93acc3bca",
+  "text_sha1": "5724e2fea5b595c9abec1565e042375616fe2c77",
   "leaks": []
  },
  {
   "item": "anu2026-nimes-new-interfaces-089f85--1",
-  "text_sha1": "b3756c6e1900c9eaa651ccabc6f676dd602263af",
+  "text_sha1": "2a36e91d862fb5142c6b1203da945f76887fdf14",
   "leaks": []
  },
  {
@@ -485,7 +487,7 @@
  },
  {
   "item": "anu2026-the-intersection-of-gu35mo--3",
-  "text_sha1": "9159e8ec1ad9d2fb67c3e0fc3171b0ad6e2e8ff8",
+  "text_sha1": "bd9d4b79a09d7e88f955ab7889cb9b44e61b9e61",
   "leaks": [
    {
     "text": "Hybrid Substrate Institute",
@@ -549,12 +551,12 @@
  },
  {
   "item": "anu2026-ulm-pedagogical-inheritance-ua3nu2--1",
-  "text_sha1": "bf298dd0e3622186af4bc9ebd4a2c2b64abd38c7",
+  "text_sha1": "c7ff0117fa864bbdad1a2d43dd8772e26ac3af9a",
   "leaks": []
  },
  {
   "item": "slop-strategy-an-ai-governance-early-warning-wvbg7e--0",
-  "text_sha1": "62c8ff4e72e2cbdeb0c324548a8a7f9deaa6f826",
+  "text_sha1": "d751c1b2b8043ea7733c21ae5ff3b21c78937e99",
   "leaks": []
  },
  {
@@ -564,14 +566,18 @@
  },
  {
   "item": "slop-strategy-an-ai-governance-early-warning-wvbg7e--2",
-  "text_sha1": "b011465f09ecaa530c753b8135ec5f0c79c9a220",
+  "text_sha1": "3c0f5522dca1608e70d7cd4455bb7f5ce48a1deb",
   "leaks": [
    {
     "text": "University",
     "category": "ORGANISATION"
    },
    {
-    "text": "University\u2019s",
+    "text": "schools and institutes",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "school",
     "category": "ORGANISATION"
    }
   ]
@@ -583,7 +589,7 @@
  },
  {
   "item": "slop-strategy-lean-into-vibes-based-f4cjiw--1",
-  "text_sha1": "47b6725155f795e8dede43a2091f25375dfcec9f",
+  "text_sha1": "7ec7d6d6cea6220005d0e5604e6c080b0ccf3e5a",
   "leaks": []
  },
  {
@@ -730,20 +736,20 @@
  },
  {
   "item": "socy-impact-spending-exorbitant-amounts-t3p9mq--0",
-  "text_sha1": "e620a35631bf6eb4c1f82932326e4380814c67dd",
+  "text_sha1": "525195c7c35813318cf994a39bb623147c28fab6",
   "leaks": [
    {
-    "text": "3A Institute",
+    "text": "KPMG",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "socy-impact-spending-exorbitant-amounts-t3p9mq--1",
-  "text_sha1": "6cc59c5ea2c8aa81c988f4f1375d562388406e44",
+  "text_sha1": "f6006e7a462cb422ecec5c4335d6d1a55796527d",
   "leaks": [
    {
-    "text": "KPMG",
+    "text": "McCusker Foundation",
     "category": "ORGANISATION"
    }
   ]
@@ -961,7 +967,7 @@
  },
  {
   "item": "anu-corporate-plan-2026-v5--0",
-  "text_sha1": "481a9c6c56d388e58778cf7440c62c842eaabbc7",
+  "text_sha1": "1c73cb5010130f54da75c5ea1435310b15bac735",
   "leaks": [
    {
     "text": "The Social Research Centre Pty Ltd (SRC)",
@@ -977,10 +983,6 @@
    },
    {
     "text": "the National Centre for Epidemiology and Population Health",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "[PLACE] Scientific Instruments Pty Ltd (ASI)",
     "category": "ORGANISATION"
    }
   ]
@@ -1068,54 +1070,27 @@
   ]
  },
  {
-  "item": "real-strategy-au-avondale--0",
-  "text_sha1": "2cfad9e28c24554bd2f7b06b4175574e4d82d641",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-avondale--1",
-  "text_sha1": "b3671aa87907f5f017d64574486c4eafb25a4052",
-  "leaks": [
-   {
-    "text": "Adventist Schools [PLACE]",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Sanitarium Health & Wellbeing Group",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "ADRA",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Advent Health",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
   "item": "real-strategy-au-bond--0",
   "text_sha1": "8aba4c621c490c2d7004b25a68b4e6a92f2094ef",
   "leaks": []
  },
  {
   "item": "real-strategy-au-bond--1",
-  "text_sha1": "861b5715425dc6035804b88ca491ba1b4d56f5b3",
+  "text_sha1": "0003f9b4890e476a9b94dd63c640a742bdba078e",
   "leaks": []
  },
  {
   "item": "real-strategy-au-cqu--0",
-  "text_sha1": "29ede7094f0541bce319b4f84131233db5850b00",
-  "leaks": [
-   {
-    "text": "Capricornia College",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "40075ed4ec6ca6ac30c64538787498a655bb27d1",
+  "leaks": []
  },
  {
   "item": "real-strategy-au-cqu--1",
+  "text_sha1": "f0dd20efc40d037ace5b5fadaeaa7efa41e276ad",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-au-cqu--2",
   "text_sha1": "a9f3a527bcf5575c5e071dd3fa9567170ddd6461",
   "leaks": [
    {
@@ -1129,39 +1104,12 @@
   ]
  },
  {
-  "item": "real-strategy-au-cqu--2",
-  "text_sha1": "f0dd20efc40d037ace5b5fadaeaa7efa41e276ad",
-  "leaks": []
- },
- {
   "item": "real-strategy-au-cqu--3",
-  "text_sha1": "40075ed4ec6ca6ac30c64538787498a655bb27d1",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-charlessturt--0",
-  "text_sha1": "8e835ba206313d2fd94fcda0865ee9fd1e931ca3",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-charlessturt--1",
-  "text_sha1": "f27374bc96331f625a9039fc8b4a45309fd7fe7e",
+  "text_sha1": "29ede7094f0541bce319b4f84131233db5850b00",
   "leaks": [
    {
-    "text": "Quality Indicators for Learning and Teaching (QILT) Student Experience Survey",
+    "text": "Capricornia College",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "Excellence in Research [PLACE] (ERA)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "[PLACE] Universities",
-    "category": "REF"
-   },
-   {
-    "text": "\u2018[PLACE] University\u2019 Standards",
-    "category": "REF"
    }
   ]
  },
@@ -1172,15 +1120,11 @@
  },
  {
   "item": "real-strategy-au-curtin--1",
-  "text_sha1": "2a6351f1e636707a1fa0ca4a7f1be0f60a988e94",
+  "text_sha1": "870c0635b5e8b03141a11a0f18da5c8ae9b0806d",
   "leaks": [
    {
-    "text": "Whadjuk",
-    "category": "PLACE"
-   },
-   {
-    "text": "Wungatha",
-    "category": "PLACE"
+    "text": "The United Nations",
+    "category": "ORGANISATION"
    }
   ]
  },
@@ -1196,36 +1140,47 @@
  },
  {
   "item": "real-strategy-au-curtin--3",
-  "text_sha1": "de161386b97453b1a660932f0b39ef216d5ab042",
+  "text_sha1": "2a6351f1e636707a1fa0ca4a7f1be0f60a988e94",
   "leaks": [
    {
-    "text": "Uluru Statement from the Heart",
+    "text": "Whadjuk",
+    "category": "PLACE"
+   },
+   {
+    "text": "Wungatha",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-ecu-2017--0",
+  "text_sha1": "bb1e6f92b8050ae3e499434087e543f046b1a4c2",
+  "leaks": [
+   {
+    "text": "Formula Student",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Silverstone",
+    "category": "PLACE"
+   },
+   {
+    "text": "UK",
+    "category": "PLACE"
+   },
+   {
+    "text": "Mercedes Formula 1",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-au-deakin--0",
-  "text_sha1": "3f9223dc3e26b02208b6b64068038993a78920bb",
+  "item": "real-strategy-au-ecu-2017--1",
+  "text_sha1": "f5fc409f891c87a5a6b8af047c181fedcbe2486e",
   "leaks": []
  },
  {
-  "item": "real-strategy-au-deakin--1",
-  "text_sha1": "655bbb451276d18de5893aa2c33a10584b8a4d4d",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-deakin--2",
-  "text_sha1": "ff54b399b0e2e896a233f8aad821cdb41685b586",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-deakin--3",
-  "text_sha1": "93e5fba6759967deb7a884707904f7ba64eae6db",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-ecu-2017--0",
+  "item": "real-strategy-au-ecu-2017--2",
   "text_sha1": "c3ab6beba7fe3e217f85bea2a602bdce51c0c2d1",
   "leaks": [
    {
@@ -1239,51 +1194,37 @@
   ]
  },
  {
-  "item": "real-strategy-au-ecu-2017--1",
-  "text_sha1": "d9281040b9e7c0fbc8fe4e95132b82b8272505ab",
+  "item": "real-strategy-au-ecu-2017--3",
+  "text_sha1": "3cbd468a33ce7140b6185766ab12c68d6fa891fe",
   "leaks": [
    {
-    "text": "Workplace Gender Equality Agency",
-    "category": "ORGANISATION"
+    "text": "Professors Ralph Martins, Rob Newton and Mel Ziman",
+    "category": "PERSON"
    },
    {
-    "text": "COST Action IS1410 The Digital Literacy and Multimodal Practices of Young Children",
-    "category": "ORGANISATION"
+    "text": "ERA 2015",
+    "category": "REF"
    },
    {
-    "text": "Marie Curie Actions International Research Staff Exchange Scheme (IRSES) - Narratives in Health Communication",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "20 October 2016",
+    "text": "Alzheimer\u2019s disease, Huntington\u2019s disease",
     "category": "REF"
    }
   ]
  },
  {
-  "item": "real-strategy-au-ecu-2017--2",
-  "text_sha1": "c2966c5d5e3b18a95e3cef82143612811e4df31b",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-ecu-2017--3",
-  "text_sha1": "f5fc409f891c87a5a6b8af047c181fedcbe2486e",
-  "leaks": []
- },
- {
   "item": "real-strategy-au-ecu-2022--0",
-  "text_sha1": "8ee778696b274d99c34edaab9a1d95927eb69e6a",
+  "text_sha1": "de53c5a6698ed2e089536fc9e94e5722dc71f8c7",
   "leaks": [
    {
     "text": "Western [PLACE]",
     "category": "PLACE"
    },
    {
-    "text": "[PLACE] West Campus",
+    "text": "South West Campus",
     "category": "PLACE"
    },
    {
-    "text": "[PLACE] West Region",
+    "text": "South West Region",
     "category": "PLACE"
    }
   ]
@@ -1300,21 +1241,6 @@
  },
  {
   "item": "real-strategy-au-federation--0",
-  "text_sha1": "74987a536d4ab18802d67f42c6b54e9a2392fa5d",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-federation--1",
-  "text_sha1": "c2c1f736f64ff8cff878f355dfb28dc918a9cdae",
-  "leaks": [
-   {
-    "text": "Ballarat Tech Park",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-federation--2",
   "text_sha1": "56729c636efd4457dd5c54f19e137cdd4abcb7b6",
   "leaks": [
    {
@@ -1332,153 +1258,50 @@
   ]
  },
  {
-  "item": "real-strategy-au-federation--3",
+  "item": "real-strategy-au-federation--1",
+  "text_sha1": "b18cf16444679eaeac320c4c9660fad45a1d9ad6",
+  "leaks": [
+   {
+    "text": "Victorians",
+    "category": "PLACE"
+   },
+   {
+    "text": "[PLACE] Government",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-federation--2",
   "text_sha1": "550adee9682c3f7685ede2a0e2d67e772412b079",
   "leaks": []
  },
  {
+  "item": "real-strategy-au-federation--3",
+  "text_sha1": "74987a536d4ab18802d67f42c6b54e9a2392fa5d",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-au-flinders--0",
-  "text_sha1": "f5b63a83f0ae72be8f3a3b24c89afdcb48624302",
+  "text_sha1": "1bed1e09b8f624155f6ca1d8a6b750ec32118431",
   "leaks": [
    {
     "text": "Matthew",
     "category": "PERSON"
+   },
+   {
+    "text": "Making a Difference",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-au-flinders--1",
-  "text_sha1": "307ebf6605642ca6e8302914fe1c5bdb143d3a96",
+  "text_sha1": "025f8de84d9a8cfdc37460aa887002ac0507e767",
   "leaks": [
    {
     "text": "Matthew [PLACE]",
     "category": "PERSON"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-griffith--0",
-  "text_sha1": "7c3c54f259bdf0836b2d9a1d4b1b78538f77e11d",
-  "leaks": [
-   {
-    "text": "GRIFFITH STRATEGIC PLAN 2025\u20132030",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-griffith--1",
-  "text_sha1": "5295710fd3caf2388100e59e04950c6e829d9c36",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-griffith--2",
-  "text_sha1": "112dca42be2158c88f829048c8d135358a7c5da6",
-  "leaks": [
-   {
-    "text": "Sophie Carmichael",
-    "category": "PERSON"
-   },
-   {
-    "text": "Worldwide Universities Network",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-griffith--3",
-  "text_sha1": "9344563cb2cddf78bb88c5f437b0dd3758b18edf",
-  "leaks": [
-   {
-    "text": "Old Treasury Building",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Logan Educational Accelerator Precinct",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-jcu--0",
-  "text_sha1": "6ad6f9661146d180931b81b4386ce05be534996f",
-  "leaks": [
-   {
-    "text": "Sophie Bennett",
-    "category": "PERSON"
-   },
-   {
-    "text": "Cambodia",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-jcu--1",
-  "text_sha1": "a4493595a53cd2384e5a0ca4b80e87981ad428a8",
-  "leaks": [
-   {
-    "text": "Asia Bound",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "New Colombo Plan",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "India",
-    "category": "PLACE"
-   },
-   {
-    "text": "Thailand",
-    "category": "PLACE"
-   },
-   {
-    "text": "Cyclone Testing Station",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Cyclone Testing Station (CTS)",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-jcu--2",
-  "text_sha1": "4b9c1eb29c682f97e627715391af62e0970339a7",
-  "leaks": [
-   {
-    "text": "Singapore",
-    "category": "PLACE"
-   },
-   {
-    "text": "UN",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-jcu--3",
-  "text_sha1": "029fd8fb55a6f6cef073eff3eb7d9aa4ad6d40a7",
-  "leaks": [
-   {
-    "text": "Mediasite",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-latrobe--0",
-  "text_sha1": "473914c88207989e787853155f09922dc1d2a063",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-latrobe--1",
-  "text_sha1": "64cda3e6ad6b1d360c1783fe40b0da277fe4e89b",
-  "leaks": [
-   {
-    "text": "Bundoora",
-    "category": "PLACE"
    }
   ]
  },
@@ -1488,33 +1311,22 @@
   "leaks": []
  },
  {
-  "item": "real-strategy-au-monash--0",
-  "text_sha1": "5187e627ab79c159065d70c345272776f382a2b6",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-monash--1",
-  "text_sha1": "01581b5fcac7452e17defed1d763a50040aa85cd",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-monash--2",
-  "text_sha1": "b2fd876f79f08af8bf41cb2e7e42c05bb75b62be",
-  "leaks": []
- },
- {
   "item": "real-strategy-au-murdoch--0",
-  "text_sha1": "29802a42a04c0fa56dd01070187a127bd8263ba4",
-  "leaks": []
+  "text_sha1": "ecc9f41d385d9819521c70ba67e1558fb714ce43",
+  "leaks": [
+   {
+    "text": "Principles for Responsible Management Education (PRME)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "United Nations",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-au-murdoch--1",
-  "text_sha1": "99b3ffde37f9349591df86c03cecb35afbd1f1bb",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-murdoch--2",
-  "text_sha1": "64f5124d17923ca9c56af00aa76a8e34d147a1a8",
+  "text_sha1": "ba1739268935887e7a63e2ceda2f65b18860d16f",
   "leaks": []
  },
  {
@@ -1533,65 +1345,113 @@
  },
  {
   "item": "real-strategy-au-rmit--0",
-  "text_sha1": "b809b4c5ad8c3fae09c81c27eafc482fc2eafb2c",
-  "leaks": [
-   {
-    "text": "Knowledge with Action",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Horizon 2",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "cc9fdb2a6e6d34791706f4d4d7f8ed42a81615c7",
+  "leaks": []
  },
  {
   "item": "real-strategy-au-rmit--1",
-  "text_sha1": "deea9c59e1be2d6112efbf759f8ca429df59e439",
+  "text_sha1": "7a5714c77f7f0a03bd2da4ba7686c6355ce02156",
   "leaks": [
    {
-    "text": "Victorian Government",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-rmit--2",
-  "text_sha1": "cbc91f3120e62b7dbbacf20b1da8bc7c212e4868",
-  "leaks": [
+    "text": "Boon wurrung",
+    "category": "PLACE"
+   },
+   {
+    "text": "Woi wurrung",
+    "category": "PLACE"
+   },
+   {
+    "text": "Eastern Kulin Nation",
+    "category": "PLACE"
+   },
    {
     "text": "Vietnam",
     "category": "PLACE"
    },
    {
-    "text": "Southeast Asia",
+    "text": "Singapore",
     "category": "PLACE"
    },
    {
     "text": "Asia",
     "category": "PLACE"
+   },
+   {
+    "text": "Founded in 1887",
+    "category": "REF"
    }
   ]
  },
  {
-  "item": "real-strategy-au-rmit--3",
-  "text_sha1": "cc9fdb2a6e6d34791706f4d4d7f8ed42a81615c7",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-swinburne--0",
-  "text_sha1": "9e5b7a59b26ee9159e25f3c822bdd3f547f47c2e",
+  "item": "real-strategy-au-rmit--2",
+  "text_sha1": "577091449ea437faa80d197f06e1e49a7645b970",
   "leaks": [
    {
-    "text": "Ad Astra_2030",
+    "text": "The Hanoi Industry and Innovation Hub",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Asia Society",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "KWAsia Incubation Fund",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Indonesia",
+    "category": "PLACE"
+   },
+   {
+    "text": "India",
+    "category": "PLACE"
+   },
+   {
+    "text": "Southeast Asia Hub",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "South Asia Hub",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-au-swinburne--1",
+  "item": "real-strategy-au-rmit--3",
+  "text_sha1": "256531cd3a476048d8a877e91aa4e52595d35d09",
+  "leaks": [
+   {
+    "text": "Bundoora Health and Wellbeing Precinct",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Bundoora Health and Wellbeing Precinct",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "northern corridor",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-swinburne--0",
   "text_sha1": "b47dae4be92b9b53148a953bdefecb109b7fec1f",
   "leaks": []
+ },
+ {
+  "item": "real-strategy-au-swinburne--1",
+  "text_sha1": "027514d73d1496e9e9c824476ac2876623a1e605",
+  "leaks": [
+   {
+    "text": "W. M. Keck Observatory",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Hawaii",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-au-swinburne--2",
@@ -1614,22 +1474,12 @@
  },
  {
   "item": "real-strategy-au-torrens--0",
-  "text_sha1": "dd976e09e459cfc0e7870f0b9cc5c11909da9e06",
-  "leaks": [
-   {
-    "text": "Be Good Principles",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-torrens--1",
-  "text_sha1": "07ceec57cbea58113b56dd93b1859f63ea967c3b",
+  "text_sha1": "b890afe5216ad7f9c8a1e450e9f6a0a9fff01df4",
   "leaks": []
  },
  {
-  "item": "real-strategy-au-torrens--2",
-  "text_sha1": "7ca0363202d01f89de59e4838a0ec65e27c8fd50",
+  "item": "real-strategy-au-torrens--1",
+  "text_sha1": "66d1f6bfd6d304c3d44296e63c8299570d065d1e",
   "leaks": [
    {
     "text": "Strategic Education Inc.",
@@ -1638,55 +1488,66 @@
    {
     "text": "SEI",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "Be Good principles",
-    "category": "REF"
    }
   ]
  },
  {
+  "item": "real-strategy-au-torrens--2",
+  "text_sha1": "abf98a18dbab1b963991352720abd33eec0620b0",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-au-torrens--3",
-  "text_sha1": "4aa3ffa36bcdd5cccbade3341ae3a5a028b1fc89",
+  "text_sha1": "37c2627ec39066bb8ab090e62fc5ad0561b348ed",
   "leaks": []
  },
  {
   "item": "real-strategy-unsw--0",
-  "text_sha1": "2466359e6d02a8fc4c5557407a572c07a1cf4380",
+  "text_sha1": "e763613d27a082ec787eb8ea9d171f5337c267c4",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-unsw--1",
+  "text_sha1": "5bc77a22b18af4308097525a4561aa7b478d7e15",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-unsw--2",
+  "text_sha1": "9ca8ae2aaecdd5c2799e637331878b08b663a131",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-unsw--3",
+  "text_sha1": "03c06182a86fe10bf06c70116f3d6da9c090522f",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-au-canberra--0",
+  "text_sha1": "4ac7e9c1f604d32e637940efcf4dc9f736026077",
   "leaks": [
    {
-    "text": "Campus Master Plan",
+    "text": "UC",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-unsw--1",
-  "text_sha1": "634b4aaffe8c6c8c01d236a9cd6e39af2f9dab25",
+  "item": "real-strategy-au-canberra--1",
+  "text_sha1": "11e236cd28817342d0e1fc0ffe9b23ae72bc1322",
   "leaks": []
  },
  {
-  "item": "real-strategy-unsw--2",
-  "text_sha1": "e763613d27a082ec787eb8ea9d171f5337c267c4",
-  "leaks": []
- },
- {
-  "item": "real-strategy-unsw--3",
-  "text_sha1": "15a36d418e43915a5a946c13ef8a52ea247fea61",
+  "item": "real-strategy-au-canberra--2",
+  "text_sha1": "80c367de6277596789e7640d9a7ab2fa9ee0b152",
   "leaks": [
    {
-    "text": "NSW",
-    "category": "PLACE"
+    "text": "UC",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-au-adelaide--0",
-  "text_sha1": "b5cc48a1cbad47788be9d9389becf484bd12e22b",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-canberra--0",
+  "item": "real-strategy-au-canberra--3",
   "text_sha1": "a39d5e3679dbee75b6bf9b798853a1a04b95ef75",
   "leaks": [
    {
@@ -1704,185 +1565,10 @@
    {
     "text": "Capital region",
     "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-canberra--1",
-  "text_sha1": "c627c089031c6c97ce1053b059133f89039dddae",
-  "leaks": [
+   },
    {
-    "text": "ACT",
+    "text": "national capital",
     "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-canberra--2",
-  "text_sha1": "4ac7e9c1f604d32e637940efcf4dc9f736026077",
-  "leaks": [
-   {
-    "text": "UC",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-canberra--3",
-  "text_sha1": "80c367de6277596789e7640d9a7ab2fa9ee0b152",
-  "leaks": [
-   {
-    "text": "UC",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-melbourne--0",
-  "text_sha1": "76df5841cfb6df65578c36e6e365b7b9338be78b",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-melbourne--1",
-  "text_sha1": "0f99c4f6f7b4cbf3f6a0ff0e04fa333ff47907f7",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-une--0",
-  "text_sha1": "7e4d7a3c0d6890cb3fa3221afd09738917c6946a",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-une--1",
-  "text_sha1": "13baccb20e57339eb534550103bdaf97d25ab09e",
-  "leaks": [
-   {
-    "text": "Sir [PLACE] Madgwick",
-    "category": "PERSON"
-   },
-   {
-    "text": "New [PLACE] West",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-une--2",
-  "text_sha1": "9a588a5572e3b7635c5f967f2ddd586b55453653",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-une--3",
-  "text_sha1": "04457d3a88112011a5f1aec68bc665b35c856a95",
-  "leaks": [
-   {
-    "text": "Armidale",
-    "category": "PLACE"
-   },
-   {
-    "text": "Tamworth",
-    "category": "PLACE"
-   },
-   {
-    "text": "Parramatta",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-newcastle--0",
-  "text_sha1": "279499881168efad01d1d2e5d8d2bba4be46bdbd",
-  "leaks": [
-   {
-    "text": "United Nations CIFAL centre",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Singapore",
-    "category": "PLACE"
-   },
-   {
-    "text": "Asia",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-newcastle--1",
-  "text_sha1": "dea4e60655a11d9144fdc299270008a070d7ffc0",
-  "leaks": [
-   {
-    "text": "Wollotuka Institute",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-newcastle--2",
-  "text_sha1": "4801a6dddcc05bb3dcc95e9c539cd02d764e5f28",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-newcastle--3",
-  "text_sha1": "d402f65e126ba8022491076bbcfd08edcdedabc2",
-  "leaks": [
-   {
-    "text": "National Higher Education Code to Prevent and Respond to Gender-based Violence",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-notredame--0",
-  "text_sha1": "cc1d8779e5a3701f8180999bea675744c37d4d1b",
-  "leaks": [
-   {
-    "text": "Laudato Si\u2019 Action Platform",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "the Vatican",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Catholic organisations",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "St. John Henry Newman",
-    "category": "PERSON"
-   },
-   {
-    "text": "Catholic university",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Newman",
-    "category": "PERSON"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-notredame--1",
-  "text_sha1": "9e0ba193549a8964f4f07a747b9831bac104a387",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-notredame--2",
-  "text_sha1": "a342664d8f0d77c3285d3dca29667383a8b1ec94",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-notredame--3",
-  "text_sha1": "503b05a5798545ff7464eed77aae60c355198247",
-  "leaks": [
-   {
-    "text": "The Catholic intellectual tradition",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Catholic university",
-    "category": "ORGANISATION"
    }
   ]
  },
@@ -1918,6 +1604,20 @@
  },
  {
   "item": "real-strategy-au-uq-2022--1",
+  "text_sha1": "808c8351ff9eebda1ad1e0111df68e70dec1ebe9",
+  "leaks": [
+   {
+    "text": "UQ",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "the University",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-uq-2022--2",
   "text_sha1": "ec4da2de0112cad70d1f395f37fc1b413683e943",
   "leaks": [
    {
@@ -1931,25 +1631,11 @@
   ]
  },
  {
-  "item": "real-strategy-au-uq-2022--2",
+  "item": "real-strategy-au-uq-2022--3",
   "text_sha1": "27f17d740baf772e88c556bb7d4d7b1f037a2cf9",
   "leaks": [
    {
     "text": "UQ",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-au-uq-2022--3",
-  "text_sha1": "808c8351ff9eebda1ad1e0111df68e70dec1ebe9",
-  "leaks": [
-   {
-    "text": "UQ",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "the University",
     "category": "ORGANISATION"
    }
   ]
@@ -1988,89 +1674,147 @@
  },
  {
   "item": "real-strategy-univ-sydney--0",
-  "text_sha1": "6798c80e37dffeb905800399d6dea6def8110eef",
+  "text_sha1": "6a59d436ec9b31715f8089e952a6dd33284176b2",
   "leaks": []
  },
  {
   "item": "real-strategy-univ-sydney--1",
-  "text_sha1": "f1e9b20a15836630760ee087e997ed7a581678cd",
-  "leaks": []
- },
- {
-  "item": "real-strategy-univ-sydney--2",
-  "text_sha1": "0a86a9fdb49089147a9d0c29daef17768e39c325",
-  "leaks": []
- },
- {
-  "item": "real-strategy-univ-sydney--3",
-  "text_sha1": "aef16037bb7befb5ede363b29a85dcd5ae11d3b3",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-utas--0",
-  "text_sha1": "e818e2819af59c1a4829ae3ab35d20adb562b378",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-utas--1",
-  "text_sha1": "2653e3f2510a7dc2762c9c7d0d7c037be5c2f71b",
+  "text_sha1": "fafafa90cd64b7596b5f978a2dd46d249b30fae8",
   "leaks": [
    {
-    "text": "Tasmanian",
+    "text": "Camperdown",
+    "category": "PLACE"
+   },
+   {
+    "text": "Westmead",
+    "category": "PLACE"
+   },
+   {
+    "text": "Camden",
+    "category": "PLACE"
+   },
+   {
+    "text": "Lismore",
+    "category": "PLACE"
+   },
+   {
+    "text": "the Conservatorium",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Broken Hill",
     "category": "PLACE"
    }
   ]
  },
  {
-  "item": "real-strategy-au-utas--2",
-  "text_sha1": "eab342564fd96d465e5aa38ee7f8e69a82d7b180",
+  "item": "real-strategy-univ-sydney--2",
+  "text_sha1": "aef16037bb7befb5ede363b29a85dcd5ae11d3b3",
   "leaks": []
  },
  {
-  "item": "real-strategy-au-utas--3",
-  "text_sha1": "3962e8a4e763c7812258fe1e5dc907790827996b",
+  "item": "real-strategy-univ-sydney--3",
+  "text_sha1": "c5c884ac5c55313ba2f364255c3c8b9690addb1d",
   "leaks": [
    {
-    "text": "Tasmanian",
-    "category": "PLACE"
-   },
-   {
-    "text": "Tasmanian community",
-    "category": "PLACE"
+    "text": "the University",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-au-wollongong--0",
-  "text_sha1": "8e1ca393e8696329004f2c20fbb471fb2c00dfb8",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-wollongong--1",
-  "text_sha1": "56411f99825270167b53583041dce804cd8ff9fd",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-wollongong--2",
-  "text_sha1": "851bcfaf0c94bbcc8d05a731eeeeb740f6512fdc",
+  "text_sha1": "6528d8adac19271cf3ebfe667311cdd9137bc1d7",
   "leaks": [
    {
-    "text": "Vision 2035",
+    "text": "UOW",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UOW Dubai campus",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Hong Kong (SAR)",
+    "category": "PLACE"
+   },
+   {
+    "text": "Malaysia",
+    "category": "PLACE"
+   },
+   {
+    "text": "India",
+    "category": "PLACE"
+   },
+   {
+    "text": "China",
+    "category": "PLACE"
+   },
+   {
+    "text": "Singapore",
+    "category": "PLACE"
+   },
+   {
+    "text": "Saudi Arabia",
+    "category": "PLACE"
+   },
+   {
+    "text": "UOW\u2019s international campus network",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UOW\u2019s extensive global presence",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Values-in-Action Framework",
     "category": "REF"
    },
    {
-    "text": "Strategic Plan 2030",
-    "category": "REF"
+    "text": "UOW",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-wollongong--1",
+  "text_sha1": "5503b6ac5e43edd281af6f3cb56d414f0d471899",
+  "leaks": [
+   {
+    "text": "UOW",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-au-wollongong--2",
+  "text_sha1": "dc898b3f04806e42ac0dc7b781746d3b8ba4730d",
+  "leaks": [
+   {
+    "text": "UOW",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "South Western",
+    "category": "PLACE"
+   },
+   {
+    "text": "Asia",
+    "category": "PLACE"
+   },
+   {
+    "text": "the Middle East",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-au-wollongong--3",
-  "text_sha1": "a25c0449d93efbfb2e183a3af8b43b55b16f585c",
+  "text_sha1": "319cc79b8bf289e784f836302851e6a50b737b8a",
   "leaks": [
    {
-    "text": "Illawarra",
-    "category": "PLACE"
+    "text": "UOW",
+    "category": "ORGANISATION"
    }
   ]
  },
@@ -2127,6 +1871,11 @@
  },
  {
   "item": "real-strategy-au-vu--0",
+  "text_sha1": "4cba96a76544f9fb49125d0a3843dfe781b70f67",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-au-vu--1",
   "text_sha1": "a0171769535da1020167b8788eedbce1e30f1f77",
   "leaks": [
    {
@@ -2140,17 +1889,7 @@
   ]
  },
  {
-  "item": "real-strategy-au-vu--1",
-  "text_sha1": "4cba96a76544f9fb49125d0a3843dfe781b70f67",
-  "leaks": []
- },
- {
   "item": "real-strategy-au-westernsydney--0",
-  "text_sha1": "f9cafe6d962ec75739c02370b0aee35c3bff91df",
-  "leaks": []
- },
- {
-  "item": "real-strategy-au-westernsydney--1",
   "text_sha1": "2c2008405187d6e8375a4d0e07d3e13d6e27dee2",
   "leaks": [
    {
@@ -2164,153 +1903,196 @@
   ]
  },
  {
+  "item": "real-strategy-au-westernsydney--1",
+  "text_sha1": "f9cafe6d962ec75739c02370b0aee35c3bff91df",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-at-tuwien--0",
-  "text_sha1": "0d756e9ed94d6a2d80d07ca2ec6a8ca05a39eb43",
+  "text_sha1": "65780626e1c797cff0dce14de5250638216b324a",
   "leaks": []
  },
  {
   "item": "real-strategy-at-tuwien--1",
-  "text_sha1": "a95db18e1aa5bf87b81fea8739fc096b5c45dae3",
+  "text_sha1": "0d756e9ed94d6a2d80d07ca2ec6a8ca05a39eb43",
   "leaks": []
  },
  {
   "item": "real-strategy-at-tuwien--2",
-  "text_sha1": "cfac5db38df9791118ccc8fd9f8267cd9d127a95",
+  "text_sha1": "0ac1de472431ec654e240f7d70d56f2456da0dca",
   "leaks": []
  },
  {
   "item": "real-strategy-at-tuwien--3",
-  "text_sha1": "42e8f1a0f40347c73402ef69c9aaa0f25bdf59b6",
-  "leaks": []
- },
- {
-  "item": "real-strategy-at-univie--0",
-  "text_sha1": "46e4a33566d1295801100bb135c377482d06a77d",
+  "text_sha1": "205ccef1ca9f62f7c02190f855d2aeaa6d478f4b",
   "leaks": [
    {
-    "text": "2002 Universities Act",
-    "category": "REF"
+    "text": "TU Wie",
+    "category": "ORGANISATION"
    },
    {
-    "text": "1 October 2020",
+    "text": "Karlsplatz",
+    "category": "PLACE"
+   },
+   {
+    "text": "Article 17 of the \u201eStaatsgrundgesetz\u201c of 1867",
     "category": "REF"
    }
   ]
  },
  {
-  "item": "real-strategy-at-univie--1",
-  "text_sha1": "debf23dbbf064fc801dd240a64a138d522474311",
+  "item": "real-strategy-at-univie--0",
+  "text_sha1": "a258db18a76f56c8fc5e35163699fcc4696d9391",
   "leaks": [
    {
-    "text": "Centre for Teaching and Learning",
+    "text": "LMU",
     "category": "ORGANISATION"
    },
    {
-    "text": "University",
+    "text": "University of Uppsala",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "University of Uppsala",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "LMU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CORDIS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "QS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Shanghai Subject Ranking",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Uppsala",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-at-univie--1",
+  "text_sha1": "17e08344efde3bd12fa214568f8d133c9048b6a5",
+  "leaks": [
+   {
+    "text": "EU Framework Programmes",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UN",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-at-univie--2",
-  "text_sha1": "2148e228f300a5478dbefbf66ef4a438f7353782",
+  "text_sha1": "89f274b19c1824170917a5704ebe51ddf0744bba",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-at-univie--3",
+  "text_sha1": "163d3b5e476b771fc8411baba86be3a11db9e2ab",
   "leaks": [
    {
-    "text": "FWF",
+    "text": "Max Perutz Labs",
     "category": "ORGANISATION"
    },
    {
-    "text": "ERC",
+    "text": "Centre for Integrative Bioinformatics [PLACE] (CIBIV)",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-at-univie--3",
-  "text_sha1": "ba60ffb784bf2ed311db194b3b9ba2430d230e1b",
-  "leaks": []
- },
- {
   "item": "real-strategy-at-wu-vienna--0",
-  "text_sha1": "fccc92244b167a4fe3ebe1c071c84c2df13b4257",
+  "text_sha1": "eed88881c62c67854dae9f99fb4abd30d2602b95",
   "leaks": [
    {
     "text": "WU",
     "category": "ORGANISATION"
    },
    {
-    "text": "Lernen macht Schule",
+    "text": "Children\u2019s University",
     "category": "ORGANISATION"
    },
    {
-    "text": "WU\u2019s Global Mindset Initiative",
+    "text": "WU Executive Academy",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-at-wu-vienna--1",
-  "text_sha1": "885f407012de23f5b3bc7eb3773d2e94613b9f35",
+  "text_sha1": "2192e6de3d77d2933477440faed599789d3d4465",
   "leaks": [
+   {
+    "text": "SAP Analytics Cloud (SAC)",
+    "category": "ORGANISATION"
+   },
    {
     "text": "WU",
     "category": "ORGANISATION"
    },
    {
-    "text": "Global Mindset Initiative",
-    "category": "ORGANISATION"
+    "text": "Universities Act",
+    "category": "REF"
    },
    {
-    "text": "WU Executive Academy",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "AMBA",
-    "category": "ORGANISATION"
+    "text": "January 1, 2025",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-at-wu-vienna--2",
-  "text_sha1": "cded73f1ffc686e3fe6bdfbffe5221b9d77b3509",
+  "text_sha1": "9b8ebb5e8c6133666ba459532457d70a51f5dc25",
   "leaks": [
    {
     "text": "WU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "WU community",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "WU\u2019s age management program",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "WU\u2019s human resource development work",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-at-wu-vienna--3",
-  "text_sha1": "b5c17800a51510af1c4d5f81256a5d5ec93fae91",
+  "text_sha1": "c2830d032d8740aa881d7ecf0be8d1417f760574",
   "leaks": [
    {
     "text": "WU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "ENGAGE.EU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Africa Talent Pipeline",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-be-vub--0",
-  "text_sha1": "274ad2c6a59b8e252e5d582a38e5d4d704ec73d5",
-  "leaks": [
-   {
-    "text": "You Are Not Alone (YANA)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "VUBuddy",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-be-vub--1",
-  "text_sha1": "1a3d94f762af9175807ac167dab05c58140198b1",
-  "leaks": []
- },
- {
-  "item": "real-strategy-be-vub--2",
   "text_sha1": "cf2a15a23a8419b892516274becb35f030f78e18",
   "leaks": [
    {
@@ -2328,9 +2110,37 @@
   ]
  },
  {
-  "item": "real-strategy-be-vub--3",
-  "text_sha1": "0060a0a3c3b7e4c24701989d7d77803903558ac2",
+  "item": "real-strategy-be-vub--1",
+  "text_sha1": "274ad2c6a59b8e252e5d582a38e5d4d704ec73d5",
+  "leaks": [
+   {
+    "text": "You Are Not Alone (YANA)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "VUBuddy",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-be-vub--2",
+  "text_sha1": "1a3d94f762af9175807ac167dab05c58140198b1",
   "leaks": []
+ },
+ {
+  "item": "real-strategy-be-vub--3",
+  "text_sha1": "03237c9ea6f8619436b0a349a460c57f20f6efed",
+  "leaks": [
+   {
+    "text": "Caroline Pauwels Academy of Critical Thinking",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Caroline Pauwels",
+    "category": "PERSON"
+   }
+  ]
  },
  {
   "item": "real-strategy-ca-acadia--0",
@@ -2362,25 +2172,61 @@
  },
  {
   "item": "real-strategy-ca-bishops--0",
-  "text_sha1": "e935905791a6303017515d3ef06860dc392b5ba8",
+  "text_sha1": "57ba51ade9268362c13d77ec7f1a6c4d56b9a465",
   "leaks": [
    {
     "text": "Bishop\u2019s",
     "category": "ORGANISATION"
    },
    {
-    "text": "University",
+    "text": "Abenaki Nation",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "W8banakiak wdakiw8k",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-ca-bishops--1",
-  "text_sha1": "a4295f4a8b167a86a9c4a8d38edd771463bc90a5",
-  "leaks": []
+  "text_sha1": "a0b817b348a3dbb95927d8b55521e8ded62cd92e",
+  "leaks": [
+   {
+    "text": "University",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Senate",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "University\u2019s",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-ca-carleton--0",
+  "text_sha1": "f60efa81115617f6c10566529031b9e49dccb35b",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-ca-carleton--1",
+  "text_sha1": "a3098fce203a5b499a7b52f9f24c5c14b592b0bc",
+  "leaks": [
+   {
+    "text": "CARLETON",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "the Canal",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-carleton--2",
   "text_sha1": "30c685890c06086b63e3f2c752dfbb648a14670f",
   "leaks": [
    {
@@ -2394,7 +2240,7 @@
   ]
  },
  {
-  "item": "real-strategy-ca-carleton--1",
+  "item": "real-strategy-ca-carleton--3",
   "text_sha1": "d7f1086109079ec72317d1bb15e2391bdff2954d",
   "leaks": [
    {
@@ -2412,22 +2258,21 @@
   ]
  },
  {
-  "item": "real-strategy-ca-carleton--2",
-  "text_sha1": "f60efa81115617f6c10566529031b9e49dccb35b",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ca-carleton--3",
-  "text_sha1": "8907d55f10e769c95370bfbc0ea4938fb1478c48",
+  "item": "real-strategy-ca-dalhousie--0",
+  "text_sha1": "d44cfd1384c1abef0917fb588c63c47a1d60d091",
   "leaks": [
    {
-    "text": "Bronson Avenue",
+    "text": "Nova Scotia",
+    "category": "PLACE"
+   },
+   {
+    "text": "Halifax",
     "category": "PLACE"
    }
   ]
  },
  {
-  "item": "real-strategy-ca-dalhousie--0",
+  "item": "real-strategy-ca-dalhousie--1",
   "text_sha1": "77f70fe135246cbaa5ef205d58e410d0fa7a8a45",
   "leaks": [
    {
@@ -2441,74 +2286,20 @@
   ]
  },
  {
-  "item": "real-strategy-ca-dalhousie--1",
-  "text_sha1": "57823e9c91a537692c1fcfa4d4cf9e6d8f003866",
-  "leaks": [
-   {
-    "text": "Nova Scotia",
-    "category": "PLACE"
-   },
-   {
-    "text": "Atlantic provinces",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nova Scotia",
-    "category": "PLACE"
-   },
-   {
-    "text": "A Charter for [PLACE] Universities, June 2020",
-    "category": "REF"
-   },
-   {
-    "text": "United Nations",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "200+ years of history",
-    "category": "REF"
-   },
-   {
-    "text": "[PLACE]\u2019s leading and Atlantic [PLACE]\u2019s foremost institution",
-    "category": "REF"
-   }
-  ]
- },
- {
   "item": "real-strategy-ca-dalhousie--2",
-  "text_sha1": "049083abf30b33e848d67c220bd9ecba4314c62b",
+  "text_sha1": "a7311725e445e77cbd7b3d5415d7104f2e05830d",
   "leaks": [
    {
-    "text": "Susan [PERSON]",
-    "category": "PERSON"
-   },
-   {
-    "text": "Leanne FrenchMunn",
-    "category": "PERSON"
-   },
-   {
-    "text": "Brenda MacPhee",
-    "category": "PERSON"
-   },
-   {
-    "text": "Laura Hynes Jenkins",
-    "category": "PERSON"
-   },
-   {
-    "text": "Ryan McNutt",
-    "category": "PERSON"
-   },
-   {
-    "text": "Leo Artalejo",
-    "category": "PERSON"
-   },
-   {
-    "text": "Nova Scotian",
+    "text": "Nova Scotia",
     "category": "PLACE"
    },
    {
-    "text": "Mi\u2019kmaq",
-    "category": "PERSON"
+    "text": "Si'st Kasqimtlnaqnipunqekl Teli L'wi'tmasimk in Mi\u2019kmaq",
+    "category": "REF"
+   },
+   {
+    "text": "Inspiration and Impact",
+    "category": "REF"
    }
   ]
  },
@@ -2532,6 +2323,20 @@
  },
  {
   "item": "real-strategy-ca-lakehead--0",
+  "text_sha1": "0386bad2b1d0a9bc94fc03fcc20b342146d6ce58",
+  "leaks": [
+   {
+    "text": "Northwestern [PLACE]",
+    "category": "PLACE"
+   },
+   {
+    "text": "Simcoe County",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-lakehead--1",
   "text_sha1": "adafc5bd72ef710f6443db49878b3de1c4ae57d0",
   "leaks": [
    {
@@ -2549,26 +2354,7 @@
   ]
  },
  {
-  "item": "real-strategy-ca-lakehead--1",
-  "text_sha1": "0386bad2b1d0a9bc94fc03fcc20b342146d6ce58",
-  "leaks": [
-   {
-    "text": "Northwestern [PLACE]",
-    "category": "PLACE"
-   },
-   {
-    "text": "Simcoe County",
-    "category": "PLACE"
-   }
-  ]
- },
- {
   "item": "real-strategy-ca-laurentian--0",
-  "text_sha1": "2d2a82ae16323c97b556628c4050663b0e12bd48",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ca-laurentian--1",
   "text_sha1": "e00ad0fb45c4e2e3888f2494f20629d4f0dc26fd",
   "leaks": [
    {
@@ -2578,13 +2364,14 @@
   ]
  },
  {
+  "item": "real-strategy-ca-laurentian--1",
+  "text_sha1": "8a8dc6b879101672e5b7e3a6a1030260b8f57e01",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-ca-macewan--0",
-  "text_sha1": "4988b3468138db7c3a8c4a15a5919c7d9ab46afc",
+  "text_sha1": "31cc55ec5a72a693a2101499771cc1d497f822d1",
   "leaks": [
-   {
-    "text": "Alberta",
-    "category": "PLACE"
-   },
    {
     "text": "Alberta",
     "category": "PLACE"
@@ -2593,7 +2380,7 @@
  },
  {
   "item": "real-strategy-ca-macewan--1",
-  "text_sha1": "56993aa4d43fb441f2b168c796896daf5c0b8f97",
+  "text_sha1": "99399c016ab96e7649d0a8f40c5bf074b4b443b0",
   "leaks": [
    {
     "text": "O-day\u2019min",
@@ -2607,13 +2394,8 @@
  },
  {
   "item": "real-strategy-ca-mta--0",
-  "text_sha1": "a8fbd0a6ddc69c9174510357aba79bf167010cba",
-  "leaks": [
-   {
-    "text": "Municipality of Tantramar",
-    "category": "PLACE"
-   }
-  ]
+  "text_sha1": "44b77ed6116cceaf0f0ab9300bdfcf2d053e78d9",
+  "leaks": []
  },
  {
   "item": "real-strategy-ca-mta--1",
@@ -2628,19 +2410,24 @@
     "category": "REF"
    },
    {
-    "text": "since 1839",
+    "text": "1839",
     "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-ca-mta--2",
-  "text_sha1": "d000753592f33dd89f982dc3e6cf6bd0395f7189",
-  "leaks": []
+  "text_sha1": "f0cb0bc0524172a4ea70fc83e78ea544c8cca5b1",
+  "leaks": [
+   {
+    "text": "Allisonians",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-ca-mta--3",
-  "text_sha1": "44b77ed6116cceaf0f0ab9300bdfcf2d053e78d9",
+  "text_sha1": "7dd1373ecad373c4b8336c06c3a1f97f0ce43be8",
   "leaks": []
  },
  {
@@ -2650,6 +2437,24 @@
  },
  {
   "item": "real-strategy-ca-mru--1",
+  "text_sha1": "fc291fff55726319bf553a105e23c88ce9e5a661",
+  "leaks": [
+   {
+    "text": "Association of Colleges and Universities",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "AAC&U",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UNESCO",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-mru--2",
   "text_sha1": "cc70b0b96be9b5ece28f3e9e8243a24033fb4494",
   "leaks": [
    {
@@ -2657,110 +2462,17 @@
     "category": "PLACE"
    },
    {
-    "text": "Calgary",
-    "category": "PLACE"
-   },
-   {
     "text": "Alberta\u2019s",
     "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-mru--2",
-  "text_sha1": "e5c2feea6495c22d6c954f043c7653fe30c42109",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ca-stfx--0",
-  "text_sha1": "eded06cb330523145bb330dcf5d6f08c24a45ffd",
-  "leaks": [
-   {
-    "text": "StFX University",
-    "category": "ORGANISATION"
    },
    {
-    "text": "StFX University",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-stfx--1",
-  "text_sha1": "ca71b3c02a59ac91e57299dc9e47bdea03141880",
-  "leaks": [
-   {
-    "text": "StFX",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Mi\u2019kmaq",
+    "text": "Calgary",
     "category": "PLACE"
-   },
-   {
-    "text": "Truth and Reconciliation Commission Calls to Action",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-stfx--2",
-  "text_sha1": "31088c550b8943d3e2712f5d5575f71a3aea3fe7",
-  "leaks": [
-   {
-    "text": "StFX",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "StFX University",
-    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-ca-tru--0",
-  "text_sha1": "d25f06e4988ef6adb1b992fc2cbb360f2847bcff",
-  "leaks": [
-   {
-    "text": "TRUly Flex",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "TRUSU",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-tru--1",
-  "text_sha1": "1a86bb24f819df748eb66963b4f5bca6aa8e95bc",
-  "leaks": [
-   {
-    "text": "Interior BC",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-tru--2",
-  "text_sha1": "02b7131a07347dd0c2603ef102513758b318bad3",
-  "leaks": [
-   {
-    "text": "TRUSU",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Northwest Council of Colleges and Universities",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "NCCU",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-tru--3",
   "text_sha1": "063717bed32969fbd6138195ee19a6fce2e47cb3",
   "leaks": [
    {
@@ -2770,32 +2482,65 @@
   ]
  },
  {
-  "item": "real-strategy-ca-ubc--0",
-  "text_sha1": "f7be4c04f4f87fa1689770bf80c7e2d802cda3df",
+  "item": "real-strategy-ca-tru--1",
+  "text_sha1": "d25f06e4988ef6adb1b992fc2cbb360f2847bcff",
   "leaks": [
    {
-    "text": "ubc.ca/about/facts.html",
+    "text": "TRUSU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "TRUly Flex",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "February 20, 2026",
+    "category": "REF"
+   },
+   {
+    "text": "February 23",
+    "category": "REF"
+   },
+   {
+    "text": "March 23",
+    "category": "REF"
+   },
+   {
+    "text": "March 27, 2026",
+    "category": "REF"
+   },
+   {
+    "text": "12 February, 2026",
     "category": "REF"
    }
   ]
  },
  {
-  "item": "real-strategy-ca-ubc--1",
-  "text_sha1": "eeb22c9080663715f4e477d582eb79fdc8eaa68e",
+  "item": "real-strategy-ca-tru--2",
+  "text_sha1": "1a86bb24f819df748eb66963b4f5bca6aa8e95bc",
+  "leaks": [
+   {
+    "text": "Interior BC",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-tru--3",
+  "text_sha1": "770abd43efe51077559574608da624d9dee0dc69",
   "leaks": []
  },
  {
-  "item": "real-strategy-ca-ubc--2",
-  "text_sha1": "12a2f82b4e4810674b05260e1162d5648607552a",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ca-ubc--3",
+  "item": "real-strategy-ca-ubc--0",
   "text_sha1": "983395e757d37c3ff258b7c5551abfa62cd9df5c",
   "leaks": [
    {
     "text": "Regional Socio-Economic Development Institute of [PLACE]",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "[ORGANISATION] Okanagan",
+    "category": "PLACE"
    },
    {
     "text": "Portland Community Clinic",
@@ -2816,11 +2561,104 @@
    {
     "text": "Punjabi",
     "category": "PLACE"
+   },
+   {
+    "text": "Asia",
+    "category": "PLACE"
+   },
+   {
+    "text": "Africa",
+    "category": "PLACE"
+   },
+   {
+    "text": "Latin [PLACE]",
+    "category": "PLACE"
+   },
+   {
+    "text": "China",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-ubc--1",
+  "text_sha1": "eeb22c9080663715f4e477d582eb79fdc8eaa68e",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-ca-ubc--2",
+  "text_sha1": "df5c53826455c95227d5e34eb2c848732b1248b7",
+  "leaks": [
+   {
+    "text": "ubc alumnus",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Okanagan",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-ubc--3",
+  "text_sha1": "cd1e25ef124114c2a0a182226117d6d1dfe22208",
+  "leaks": [
+   {
+    "text": "Reconciliation Pole by Haida Chief 7idansuu (James Hart)",
+    "category": "PERSON"
+   },
+   {
+    "text": "Okanagan",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-ca-manitoba--0",
+  "text_sha1": "9255098151280655b8b1fd55c007aa7531da5a04",
+  "leaks": [
+   {
+    "text": "In 1877",
+    "category": "REF"
+   },
+   {
+    "text": "An Act to Establish a Provincial University",
+    "category": "REF"
+   },
+   {
+    "text": "U15",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Winnipeg",
+    "category": "PLACE"
+   },
+   {
+    "text": "Manitobans",
+    "category": "PLACE"
+   },
+   {
+    "text": "Turtle [PLACE]",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-manitoba--1",
+  "text_sha1": "11f41bf522edf4d4f3c54907576f154519a5680d",
+  "leaks": [
+   {
+    "text": "UM",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "December 2023",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-manitoba--2",
   "text_sha1": "d5e9d914c2598836dc501d06fd2ea9f8087f8b02",
   "leaks": [
    {
@@ -2834,7 +2672,7 @@
   ]
  },
  {
-  "item": "real-strategy-ca-manitoba--1",
+  "item": "real-strategy-ca-manitoba--3",
   "text_sha1": "7eab3aafba4cb17114803be44dd7fe1a27307eb6",
   "leaks": [
    {
@@ -2844,36 +2682,8 @@
   ]
  },
  {
-  "item": "real-strategy-ca-manitoba--2",
-  "text_sha1": "4a6899cd3924fc4e6d21a6cc7a2a68d273644472",
-  "leaks": [
-   {
-    "text": "Anishinaabeg, Ininewuk, Anisininewuk, Dakota Oyate and Denesuline",
-    "category": "PLACE"
-   },
-   {
-    "text": "National Homeland of the Red River",
-    "category": "PLACE"
-   },
-   {
-    "text": "UM",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ca-manitoba--3",
-  "text_sha1": "fa4880ec14febf4b92bc48ed498703c5b1aac1af",
-  "leaks": [
-   {
-    "text": "UM",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
   "item": "real-strategy-ca-unbc--0",
-  "text_sha1": "50ea1e581e103b0a13ead5fb5bba8a1785973900",
+  "text_sha1": "69014dd4a52c0efb617d97cde2feb27e9f14fe8f",
   "leaks": [
    {
     "text": "Prince George Campus",
@@ -2889,14 +2699,14 @@
    },
    {
     "text": "Dakelh (Carrier) Peoples",
-    "category": "PERSON"
+    "category": "PLACE"
    },
    {
-    "text": "[PLACE]-Central Campus",
+    "text": "South-Central Campus",
     "category": "ORGANISATION"
    },
    {
-    "text": "[PLACE]-Central campus in Quesnel",
+    "text": "South-Central campus in Quesnel",
     "category": "PLACE"
    },
    {
@@ -2917,23 +2727,23 @@
    },
    {
     "text": "Lhtako",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    },
    {
     "text": "Nazko",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    },
    {
     "text": "Lhoosk\u2019uz",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    },
    {
-    "text": "Dakelh",
-    "category": "PERSON"
+    "text": "Dakelh territory",
+    "category": "PLACE"
    },
    {
     "text": "?Esdilagh",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    },
    {
     "text": "Tsilhqot\u2019in Nation",
@@ -2953,7 +2763,7 @@
    },
    {
     "text": "Dane-zaa people",
-    "category": "PERSON"
+    "category": "PLACE"
    },
    {
     "text": "Doig River First Nation",
@@ -2981,14 +2791,14 @@
    },
    {
     "text": "Kitsumkalum",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    },
    {
     "text": "Kitselas First Nation",
     "category": "ORGANISATION"
    },
    {
-    "text": "Prince Rupert",
+    "text": "satellite campus in the coastal community of Prince Rupert",
     "category": "PLACE"
    },
    {
@@ -3055,11 +2865,52 @@
  },
  {
   "item": "real-strategy-toronto--0",
-  "text_sha1": "e7f49054c607bf699782c0751f3ac89b2ea1bdfd",
+  "text_sha1": "9a85d70a9330ada7111bebb15ba44b291046e784",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-toronto--1",
+  "text_sha1": "ce63dc40870fcdcbaa11d1f1f7b1a6996b6312ed",
   "leaks": []
  },
  {
   "item": "real-strategy-ca-victoria--0",
+  "text_sha1": "1014d4d62c32a0b925e3e6b343a08afa50e1bd9d",
+  "leaks": [
+   {
+    "text": "UVic",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UVic",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UVic",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Distinctly UVic",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-victoria--1",
+  "text_sha1": "2fe1030108666fce6a57cc9e378a297bd0d7efcb",
+  "leaks": [
+   {
+    "text": "UVic",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "uvic.ca/strategicplan",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-ca-victoria--2",
   "text_sha1": "da9876d53aff3319d008fd1c2de7c420cc8b62fc",
   "leaks": [
    {
@@ -3105,9 +2956,13 @@
   ]
  },
  {
-  "item": "real-strategy-ca-victoria--1",
-  "text_sha1": "01634b7ae6236ea0bc374bbdfa8454caebc1a593",
+  "item": "real-strategy-ca-victoria--3",
+  "text_sha1": "5296b6e0aae228421cdb8f8a802172cba953714d",
   "leaks": [
+   {
+    "text": "UVic",
+    "category": "ORGANISATION"
+   },
    {
     "text": "UVic",
     "category": "ORGANISATION"
@@ -3124,8 +2979,13 @@
  },
  {
   "item": "real-strategy-ca-waterloo--0",
-  "text_sha1": "ca0a5d849be3086fa5a5200452f8adc1c6b7e2cf",
-  "leaks": []
+  "text_sha1": "96c3458f9b5efd42500e53c21f09874f7a8d73e0",
+  "leaks": [
+   {
+    "text": "Africa",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-ca-waterloo--1",
@@ -3143,40 +3003,85 @@
  },
  {
   "item": "real-strategy-ca-waterloo--2",
-  "text_sha1": "938b74c76b3001dc7c90a7e71a0969dedf5c4936",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ca-waterloo--3",
-  "text_sha1": "954a5512afc89dd17e68e316aaa45748b78c4595",
-  "leaks": []
- },
- {
-  "item": "real-strategy-cz-charles--0",
-  "text_sha1": "e59efad1a3354fcdc441e2f84a78fc56d4742e72",
-  "leaks": []
- },
- {
-  "item": "real-strategy-cz-charles--1",
-  "text_sha1": "5e5b2a91e2e8fb14a1e36266753cd4ac449bcaef",
-  "leaks": []
- },
- {
-  "item": "real-strategy-cz-charles--2",
-  "text_sha1": "cf55923b5cd23075eb58904af5ff67b44410014f",
+  "text_sha1": "bd4ad4285ea5c806ac4b75c76e6cf2f01688c2a6",
   "leaks": [
    {
-    "text": "4EU+ Alliance",
+    "text": "100 Incubator",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-cz-charles--3",
-  "text_sha1": "00eda6c78b7ea44a4d1c47fcd723e71f7b7fa063",
+  "item": "real-strategy-ca-waterloo--3",
+  "text_sha1": "5fa7172563fbea2689450ae0f0bd80279a64f56d",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-cz-charles--0",
+  "text_sha1": "331bffdf942c1928bd39079feebdc8c5bcbfcebf",
   "leaks": [
    {
-    "text": "Pilsen",
+    "text": "Didaktikon",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Researchers\u2019 Night",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "ScienceFest",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Science Fair",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "FameLab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Caf\u00e9 Collaborations",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Science Caf\u00e9",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Wikipedia",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Planetum",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CAERPIN initiative",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National Museum",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-cz-charles--1",
+  "text_sha1": "480a6a36cc4d3e493daa0be5f6f527a3d1ac9bc4",
+  "leaks": [
+   {
+    "text": "University of the Third Age",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-cz-charles--2",
+  "text_sha1": "92cddd1946f42e5c508acc13814259aee942004e",
+  "leaks": [
+   {
+    "text": "Albertov",
     "category": "PLACE"
    },
    {
@@ -3184,52 +3089,85 @@
     "category": "PLACE"
    },
    {
+    "text": "Jinonice",
+    "category": "PLACE"
+   },
+   {
     "text": "Motol",
     "category": "PLACE"
    },
    {
-    "text": "Albertov Campus\u2019 Biocentre",
+    "text": "Pelc-Tyrolka",
+    "category": "PLACE"
+   },
+   {
+    "text": "Ministry of Education, Youth, and Sports",
     "category": "ORGANISATION"
    }
   ]
+ },
+ {
+  "item": "real-strategy-cz-charles--3",
+  "text_sha1": "5e5b2a91e2e8fb14a1e36266753cd4ac449bcaef",
+  "leaks": []
  },
  {
   "item": "real-strategy-cz-ctu--0",
-  "text_sha1": "9f9b35bf2f0adb51e571eab79d836fbef153423c",
-  "leaks": [
-   {
-    "text": "Ministry of Education, Youth and Sports",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "1ad3e7ba4fd2a997fd08b9097cb6a7795b6cfb37",
+  "leaks": []
  },
  {
   "item": "real-strategy-cz-ctu--1",
-  "text_sha1": "a7bde76088e122eea9baee21222ea724033556d9",
+  "text_sha1": "73b131a46285bd4d71c7c769c84560db9b6bc805",
   "leaks": [
    {
-    "text": "Ministry of Education, Youth and Sports of the [PLACE]",
+    "text": "EuroTeQ University",
     "category": "ORGANISATION"
    },
    {
-    "text": "[PLACE] Structural Funds",
+    "text": "Technical University of [PLACE]",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "Technical University of [PLACE] de [PLACE]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Technion - Israel Institute of Technology",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Tallinn University of Technology",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Israel",
+    "category": "PLACE"
+   },
+   {
+    "text": "Tallinn",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-cz-ctu--2",
-  "text_sha1": "1ad3e7ba4fd2a997fd08b9097cb6a7795b6cfb37",
+  "text_sha1": "423ca8690849589c4eee88dca61e3e3b1b7c5963",
   "leaks": []
  },
  {
   "item": "real-strategy-cz-ctu--3",
-  "text_sha1": "7304fa67668c250f1dcbd9ec8a8a42c6f831bdfe",
+  "text_sha1": "87bf92b72a1383ced806ec868af988c85eaba103",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-cz-masaryk--0",
+  "text_sha1": "8b4801f789a3722375aeb73c1665b73eefbea482",
   "leaks": []
  },
  {
   "item": "real-strategy-dk-aalborg--0",
-  "text_sha1": "dc82b09c0d2869ca90fd398e0ed818012edf784e",
+  "text_sha1": "0ee494c0356109fc55af16d0f1e61ed489e5ed52",
   "leaks": [
    {
     "text": "Per Michael Johansen",
@@ -3239,37 +3177,38 @@
  },
  {
   "item": "real-strategy-dk-aarhus--0",
-  "text_sha1": "da0eac46fcc1b96f53ebf38ca651eb19db558ae1",
+  "text_sha1": "7a5906aac442cd0f10e80d9c1219236ec9ef0336",
   "leaks": []
  },
  {
   "item": "real-strategy-dk-aarhus--1",
-  "text_sha1": "8e73855ac5548bac605ca40ba5c7a5236f380f4f",
-  "leaks": [
-   {
-    "text": "AARHUS UNIVERSITY",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Magna Charta",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-strategy-dk-aarhus--2",
   "text_sha1": "475e3e8131b8a10b64ca9ab4fe83a2feaeeb1c6f",
   "leaks": []
  },
  {
-  "item": "real-strategy-dk-aarhus--3",
-  "text_sha1": "6492089fdf28bec8074365565f2295d1cbb03a03",
+  "item": "real-strategy-dk-aarhus--2",
+  "text_sha1": "d80ae00dc5a8e4fa10aac88e5d9ed0cc96c3c3eb",
   "leaks": []
  },
  {
+  "item": "real-strategy-dk-aarhus--3",
+  "text_sha1": "352b5c38f83ca48806c0fab89c70350576556b34",
+  "leaks": [
+   {
+    "text": "Magna Charta of the [PLACE] Universities",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-dk-sdu--0",
-  "text_sha1": "b905c57b872b02c9a941242be57637ebba3975f0",
-  "leaks": []
+  "text_sha1": "0bfaa25397aa9be841d58eb559cf6e4c846d8b50",
+  "leaks": [
+   {
+    "text": "Region of Southern [PLACE]",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-dk-sdu--1",
@@ -3283,13 +3222,8 @@
  },
  {
   "item": "real-strategy-dk-sdu--3",
-  "text_sha1": "0bfaa25397aa9be841d58eb559cf6e4c846d8b50",
-  "leaks": [
-   {
-    "text": "Region of Southern [PLACE]",
-    "category": "PLACE"
-   }
-  ]
+  "text_sha1": "b905c57b872b02c9a941242be57637ebba3975f0",
+  "leaks": []
  },
  {
   "item": "real-strategy-ee-tartu--0",
@@ -3318,16 +3252,26 @@
  },
  {
   "item": "real-strategy-fi-helsinki--0",
-  "text_sha1": "965bb44bf70c99ced32754f1e9444a299ac01ef5",
-  "leaks": []
- },
- {
-  "item": "real-strategy-fi-helsinki--1",
   "text_sha1": "1a8f7fd9bb7e584e96e6acff0a4543e446d68669",
   "leaks": []
  },
  {
+  "item": "real-strategy-fi-helsinki--1",
+  "text_sha1": "0cd17113429bea231083d7799443cc22e38c5a4e",
+  "leaks": [
+   {
+    "text": "University",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-fi-helsinki--2",
+  "text_sha1": "965bb44bf70c99ced32754f1e9444a299ac01ef5",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-fi-helsinki--3",
   "text_sha1": "f2cbc77c4b088d1af6266d42cbd8215fd4187408",
   "leaks": [
    {
@@ -3345,17 +3289,22 @@
   ]
  },
  {
-  "item": "real-strategy-fi-helsinki--3",
-  "text_sha1": "0cd17113429bea231083d7799443cc22e38c5a4e",
-  "leaks": [
-   {
-    "text": "University",
-    "category": "ORGANISATION"
-   }
-  ]
+  "item": "real-strategy-fi-turku--0",
+  "text_sha1": "8eb2f87a22eafb9d6e7b5e2d3b6a2d25baa35236",
+  "leaks": []
  },
  {
-  "item": "real-strategy-fi-turku--0",
+  "item": "real-strategy-fi-turku--1",
+  "text_sha1": "dba779ade7ea371345b30560207c4ecec1dc2571",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-fi-turku--2",
+  "text_sha1": "10d49f52cebbd9f078f546e345132f6cf2c3b12d",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-fi-turku--3",
   "text_sha1": "ca92c92b4feaaffca5205ba1392dc828780a7c18",
   "leaks": [
    {
@@ -3373,47 +3322,23 @@
   ]
  },
  {
-  "item": "real-strategy-fi-turku--1",
-  "text_sha1": "1f6cd29c9e59f28b4d4abe65c892da669d0c2c3e",
-  "leaks": [
-   {
-    "text": "Pori",
-    "category": "PLACE"
-   },
-   {
-    "text": "Rauma",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-fi-turku--2",
-  "text_sha1": "dba779ade7ea371345b30560207c4ecec1dc2571",
-  "leaks": []
- },
- {
-  "item": "real-strategy-fi-turku--3",
-  "text_sha1": "8a28f949d081d95c4f690bbb2ed7ed17748ad8a1",
-  "leaks": []
- },
- {
   "item": "real-strategy-de-kit--0",
-  "text_sha1": "40c67b7163e11390d9fc8c1960bd97176edadd74",
-  "leaks": []
- },
- {
-  "item": "real-strategy-de-kit--1",
-  "text_sha1": "3c14ecbc801fca7b61b17136663d6cc3c9e5b423",
-  "leaks": []
- },
- {
-  "item": "real-strategy-de-kit--2",
   "text_sha1": "9e951ec4c3c67b60f3ab7b3222eef58d25ba2d43",
   "leaks": []
  },
  {
-  "item": "real-strategy-de-kit--3",
+  "item": "real-strategy-de-kit--1",
+  "text_sha1": "fc76fb0fb700b551b37840eb0c2467ec85346a1a",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-de-kit--2",
   "text_sha1": "8ccc4601af378a4df8bf5065f4a7b88dde18379c",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-de-kit--3",
+  "text_sha1": "0608d8557cff51b5c8c24b78665429d36d3f0b03",
   "leaks": []
  },
  {
@@ -3432,70 +3357,65 @@
  },
  {
   "item": "real-strategy-de-hm-munich--1",
-  "text_sha1": "1276c30e637711ea3c7665e34959e17a2bab509f",
-  "leaks": [
-   {
-    "text": "HM",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "BayFOR",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "KoWi",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Marie Curie Individual Fellowship programmes",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Innovative Training Networks",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EUA",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EU",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "ea4e1d5fe9c8eea030a87ce2087f8de2ee019741",
+  "leaks": []
  },
  {
   "item": "real-strategy-de-hm-munich--2",
-  "text_sha1": "c46e278a8d65d9dddf2e48337484905fb48753b4",
+  "text_sha1": "0050521a899232fe7c49f35ef896d2b1e9e418cb",
   "leaks": [
    {
-    "text": "HM",
+    "text": "UAS7",
     "category": "ORGANISATION"
    },
    {
-    "text": "HM26",
+    "text": "New York",
+    "category": "PLACE"
+   },
+   {
+    "text": "Porto Alegre",
+    "category": "PLACE"
+   },
+   {
+    "text": "Brazil",
+    "category": "PLACE"
+   },
+   {
+    "text": "INUAS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "FH Campus",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "ZHAW",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-de-hm-munich--3",
-  "text_sha1": "a0a4c98238827b83663a9a793422cdb32bc6b91c",
+  "text_sha1": "26d0798f98e0482623f8cb501b1c75e47ed98a32",
   "leaks": [
    {
-    "text": "Strascheg Centre for Entrepreneurship (SCE)",
+    "text": "HM",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "HM Hochschule [PLACE] University of Applied Sciences",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-de-bremen--0",
-  "text_sha1": "2893b5d5192bb19e157326a5436bee2dfde1a323",
+  "text_sha1": "dd444c4662d4f56131fb120711b5e8e892c1e739",
   "leaks": []
  },
  {
   "item": "real-strategy-de-bremen--1",
-  "text_sha1": "dd444c4662d4f56131fb120711b5e8e892c1e739",
+  "text_sha1": "2893b5d5192bb19e157326a5436bee2dfde1a323",
   "leaks": []
  },
  {
@@ -3505,26 +3425,11 @@
  },
  {
   "item": "real-strategy-is-iceland--0",
-  "text_sha1": "68c0c238dbe2534c3df1a8c18e436066aed2da42",
-  "leaks": [
-   {
-    "text": "Centre for Teaching and Learning",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "22381675ffe9962408d346a779031fdb46d692ec",
+  "leaks": []
  },
  {
   "item": "real-strategy-is-iceland--1",
-  "text_sha1": "9bbd1574e69fbd0c4b2e1b85fb4b3140ab83b4f1",
-  "leaks": []
- },
- {
-  "item": "real-strategy-is-iceland--2",
-  "text_sha1": "b45ed45357d9c673230807ac7aaed23c1d6d86d3",
-  "leaks": []
- },
- {
-  "item": "real-strategy-is-iceland--3",
   "text_sha1": "363719805b62701eb1e3de521b63371ec5b9e13a",
   "leaks": [
    {
@@ -3534,24 +3439,73 @@
   ]
  },
  {
+  "item": "real-strategy-is-iceland--2",
+  "text_sha1": "68c0c238dbe2534c3df1a8c18e436066aed2da42",
+  "leaks": [
+   {
+    "text": "Centre for Teaching and Learning",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-is-iceland--3",
+  "text_sha1": "9bbd1574e69fbd0c4b2e1b85fb4b3140ab83b4f1",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-ie-maynooth--0",
-  "text_sha1": "d6cad41ec1ff8ff2a5be3d9d59867200633919a4",
+  "text_sha1": "8b7a2ee88135766fc243f024b287b0c8d90e5a2c",
   "leaks": []
  },
  {
   "item": "real-strategy-ie-maynooth--1",
-  "text_sha1": "bc1d0bbad69583b9b24c79ff875148e8a6ec2df9",
+  "text_sha1": "d6cad41ec1ff8ff2a5be3d9d59867200633919a4",
   "leaks": []
  },
  {
   "item": "real-strategy-ie-maynooth--2",
-  "text_sha1": "df36684d76738436c3e8915090a9e4afe171282e",
-  "leaks": []
+  "text_sha1": "07c7b27de9caf652b01854427c942c7781ed2bd7",
+  "leaks": [
+   {
+    "text": "St. Patrick\u2019s College",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-ie-maynooth--3",
-  "text_sha1": "e40ad20284bff513e9e2e8229ae6175dfeada6da",
-  "leaks": []
+  "text_sha1": "22d23650827293184902cf625586e5c6d5b0d3a3",
+  "leaks": [
+   {
+    "text": "Froebel Department of Primary and Early Childhood Education",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Eolas building",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "School of Education",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "St. Patrick\u2019s College",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Mid-East",
+    "category": "PLACE"
+   },
+   {
+    "text": "Mid-East Regional cluster",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Regional Skills Forum",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-ie-tu-dublin--0",
@@ -3565,7 +3519,7 @@
  },
  {
   "item": "real-strategy-ie-tu-dublin--1",
-  "text_sha1": "9fed02b4599e8fca2a520b4b87f2fad696be7b88",
+  "text_sha1": "567a3a07fe6edc558eabdeaf75f961ecfce4e442",
   "leaks": []
  },
  {
@@ -3596,16 +3550,16 @@
  },
  {
   "item": "real-strategy-trinity-dublin--1",
-  "text_sha1": "3074f210d1efce8cba6f2a689e2a91b63132d729",
-  "leaks": [
-   {
-    "text": "the Provost, Fellows, Foundation Scholars and other members of the Board",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "74c49776b9b4a9c238b849cab8efb81fba298f45",
+  "leaks": []
  },
  {
   "item": "real-strategy-trinity-dublin--2",
+  "text_sha1": "3e713eb533c3678e41573762732518e0c81c44e6",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-trinity-dublin--3",
   "text_sha1": "14275f724f679245b3913b6cc44ca6eb15b2dffc",
   "leaks": [
    {
@@ -3627,14 +3581,18 @@
   ]
  },
  {
-  "item": "real-strategy-trinity-dublin--3",
-  "text_sha1": "51e77ad06ae4c646086c87dd67de7e1da3a928ef",
-  "leaks": []
- },
- {
   "item": "real-strategy-ie-ucc--0",
-  "text_sha1": "d73e828ba722d9764915088a0e74f312da12e206",
-  "leaks": []
+  "text_sha1": "24cfdda83983a732072fc4cb6d14a2bc336020a7",
+  "leaks": [
+   {
+    "text": "UNESCO Global Network of Learning Cities",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National Development Plan 2021\u20132030",
+    "category": "REF"
+   }
+  ]
  },
  {
   "item": "real-strategy-ie-ucc--1",
@@ -3643,6 +3601,11 @@
  },
  {
   "item": "real-strategy-ie-ucc--2",
+  "text_sha1": "1e2a07beee694c2f38bf4c2589dd6e898b807c70",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-ie-ucc--3",
   "text_sha1": "2a35bcaffb7eb2d164b165b4ac3cfc76fad67fd0",
   "leaks": [
    {
@@ -3652,31 +3615,13 @@
   ]
  },
  {
-  "item": "real-strategy-ie-ucc--3",
-  "text_sha1": "2a6fd2c206d5e8aed26b72fdeb5a28e2d94f5a76",
-  "leaks": [
-   {
-    "text": "Tyndall National Institute",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Kane Science Building",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Funding the Future",
-    "category": "REF"
-   }
-  ]
- },
- {
   "item": "real-strategy-ie-ucd--0",
-  "text_sha1": "d0db3d9787b722e74597a2b57fcfc54b178da27a",
+  "text_sha1": "d7143ccb82965e517d6ebcf6cdb432f966914ce7",
   "leaks": []
  },
  {
   "item": "real-strategy-ie-ucd--1",
-  "text_sha1": "301002155bb073d976e0ab84ad9d6d314c86b7db",
+  "text_sha1": "3198d092ce9d69d1ff718f442dad3aa7f3a01ada",
   "leaks": []
  },
  {
@@ -3686,27 +3631,12 @@
  },
  {
   "item": "real-strategy-ie-ucd--3",
-  "text_sha1": "c14e68a73906a6920c92f243cdb1408058d1c7f6",
-  "leaks": [
-   {
-    "text": "\u2018Performance for Growth\u2019 framework",
-    "category": "REF"
-   }
-  ]
+  "text_sha1": "be6b867191a4d6d76659d01d3ace975d2d18a64b",
+  "leaks": []
  },
  {
   "item": "real-strategy-ie-galway--0",
-  "text_sha1": "b97b0bfb6d67dc1944b7b13c3fb0fd604cbdec01",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ie-galway--1",
-  "text_sha1": "0808a7ddcb4812623c991c9af65195f63fc8e0a0",
-  "leaks": []
- },
- {
-  "item": "real-strategy-ie-galway--2",
-  "text_sha1": "7d78468a5ed9bf4d74bcf55d0d7cc201d510b527",
+  "text_sha1": "7259b1fa9036108412e19b1491339947f68b5f68",
   "leaks": [
    {
     "text": "After 175 years of university education in [ORGANISATION]",
@@ -3719,7 +3649,12 @@
   ]
  },
  {
-  "item": "real-strategy-ie-galway--3",
+  "item": "real-strategy-ie-galway--1",
+  "text_sha1": "d7ee371723d5eccda1f733e2a1816ba0f5f5ebab",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-ie-galway--2",
   "text_sha1": "1700a8b3a9f96b78a76405c5c81d3aa56e378406",
   "leaks": [
    {
@@ -3751,6 +3686,11 @@
     "category": "PLACE"
    }
   ]
+ },
+ {
+  "item": "real-strategy-ie-galway--3",
+  "text_sha1": "0808a7ddcb4812623c991c9af65195f63fc8e0a0",
+  "leaks": []
  },
  {
   "item": "real-strategy-it-polimi--0",
@@ -3786,6 +3726,11 @@
  },
  {
   "item": "real-strategy-lt-vilnius--0",
+  "text_sha1": "68d6386d1a46948261d4c53847835297132d5abb",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-lt-vilnius--1",
   "text_sha1": "7a272ba5f72a1c91425e53480f0150052774ee6b",
   "leaks": [
    {
@@ -3795,7 +3740,7 @@
   ]
  },
  {
-  "item": "real-strategy-lt-vilnius--1",
+  "item": "real-strategy-lt-vilnius--2",
   "text_sha1": "e980053fab4b7b6f53a9cf644005e165d6174130",
   "leaks": [
    {
@@ -3809,86 +3754,90 @@
   ]
  },
  {
-  "item": "real-strategy-lt-vilnius--2",
-  "text_sha1": "68d6386d1a46948261d4c53847835297132d5abb",
-  "leaks": []
- },
- {
   "item": "real-strategy-tudelft--0",
-  "text_sha1": "93bbd46823a97c66d280cb759c160bee42416ad8",
+  "text_sha1": "7ae8287a978db2a7be83055a05d678f318d8d848",
   "leaks": []
  },
  {
   "item": "real-strategy-tudelft--1",
-  "text_sha1": "895d05aa9dc6f590a745f922b7fd734d81e4582a",
-  "leaks": [
-   {
-    "text": "Room for everyone\u2019s talent in practice",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Ruimte voor ieders talent in de praktijk",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Declaration on Research Assessment (DORA)",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "95cfefc50b45a9a2f8f5203d72eed4b07b9b929a",
+  "leaks": []
  },
  {
   "item": "real-strategy-tudelft--2",
-  "text_sha1": "8adbbf0021d768e305becbd8bf9c3d370ad7462e",
+  "text_sha1": "eb8621e303779a883829ed5c1bccd5a3d4c1fc60",
   "leaks": [
    {
-    "text": "Contours 2030",
-    "category": "REF"
+    "text": "Imperial College",
+    "category": "ORGANISATION"
    },
    {
-    "text": "Contours 2030 strategy",
-    "category": "REF"
-   },
-   {
-    "text": "Convergence alliance",
+    "text": "National University of Singapore",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-tudelft--3",
-  "text_sha1": "fdf1a81877570390321cb7082bd13af3d8b9141e",
+  "text_sha1": "95b129664041d77197396e8476b4cdc0349e657e",
   "leaks": []
  },
  {
   "item": "real-strategy-nl-tue--0",
-  "text_sha1": "38130f0f8dbb80da08ab125b34e06df8b88cb7af",
+  "text_sha1": "f9ebfffbefc0a719830b1c1b23bbdf87018c0fbd",
   "leaks": [
    {
-    "text": "NVAO",
+    "text": "DIFFER",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "TU/e",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "TU/e campus",
+    "category": "PLACE"
+   },
+   {
+    "text": "Centre for Computation Energy Research (CCER)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Strategic Area Energy",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "EIRES",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "TU/e Campus",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-nl-tue--1",
-  "text_sha1": "3a58ac439490e029e20d49490aa74adcc4d2ab7f",
-  "leaks": [
-   {
-    "text": "TU/e",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-nl-tue--2",
-  "text_sha1": "24e1fc8a939d7f68779296fdeda5167e655122e8",
+  "text_sha1": "ad0a09b6006060f7f14c63f1d88c07b176e6b81e",
   "leaks": [
    {
     "text": "Brainport",
     "category": "PLACE"
    },
    {
-    "text": "Brainport\u2019s Triple Helix cooperation",
+    "text": "Brainport",
+    "category": "PLACE"
+   },
+   {
+    "text": "Brainport",
+    "category": "PLACE"
+   },
+   {
+    "text": "Brainport",
+    "category": "PLACE"
+   },
+   {
+    "text": "TU/e",
     "category": "ORGANISATION"
    },
    {
@@ -3896,50 +3845,38 @@
     "category": "ORGANISATION"
    },
    {
-    "text": "Brainport region",
-    "category": "PLACE"
+    "text": "TU/e Innovation Space",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nl-tue--2",
+  "text_sha1": "6d56ac5503f6c7ebd4f1dd966d8c360335dd74ce",
+  "leaks": [
+   {
+    "text": "TU/e",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nl-tue--3",
-  "text_sha1": "512f9ecfe3131b17d8b729eabca89db4718224f9",
+  "text_sha1": "2a47c050beea423007b78c7527f1548ee81a06a2",
   "leaks": [
    {
-    "text": "Brainport region",
-    "category": "PLACE"
-   },
-   {
     "text": "TU/e",
     "category": "ORGANISATION"
    },
    {
-    "text": "TU [PLACE]",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "TU/e",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "TU/e",
+    "text": "TU/e campus",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nl-leiden--0",
-  "text_sha1": "960ce5947461c0a6a742381af4e54819fe0af62f",
-  "leaks": []
- },
- {
-  "item": "real-strategy-nl-leiden--1",
-  "text_sha1": "2529db879e68e52f1eb9235a358297cd4acd3f62",
-  "leaks": []
- },
- {
-  "item": "real-strategy-nl-leiden--2",
-  "text_sha1": "e5feefc5aeda576d79ea0fff423754129199514a",
+  "text_sha1": "db9d8c2554b3d5665cca7ec6f4f7a3566c73cb37",
   "leaks": [
    {
     "text": "Knowledge Exchange Office (Luris)",
@@ -3948,15 +3885,50 @@
   ]
  },
  {
-  "item": "real-strategy-nl-leiden--3",
-  "text_sha1": "f3bda877528be4737faa9020dfc2fb1777bd1b74",
+  "item": "real-strategy-nl-leiden--1",
+  "text_sha1": "ebf0dbb09af1496cef57bc6c6f68fd2f8bf0b69d",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-nl-leiden--2",
+  "text_sha1": "cece033afa2971268711822d370f3ae0a8f28219",
   "leaks": [
    {
-    "text": "SSH labs",
+    "text": "Learning@LeidenUniversity 20172023",
     "category": "ORGANISATION"
    },
    {
-    "text": "Campus of the Future programme",
+    "text": "China",
+    "category": "PLACE"
+   },
+   {
+    "text": "Indonesia",
+    "category": "PLACE"
+   },
+   {
+    "text": "Latin",
+    "category": "PLACE"
+   },
+   {
+    "text": "Caribbean",
+    "category": "PLACE"
+   },
+   {
+    "text": "Africa",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nl-leiden--3",
+  "text_sha1": "960ce5947461c0a6a742381af4e54819fe0af62f",
+  "leaks": [
+   {
+    "text": "University",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "research university",
     "category": "ORGANISATION"
    }
   ]
@@ -3968,11 +3940,21 @@
  },
  {
   "item": "real-strategy-nl-utrecht--1",
-  "text_sha1": "6ae8a71e2cc2d8bad5ee2d8265a9125a36f89e25",
-  "leaks": []
+  "text_sha1": "6f5a4d801d5038b93b584e9d7306c1daa1146e14",
+  "leaks": [
+   {
+    "text": "UTRECHT EDUCATIONAL MODEL",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-nl-utrecht--2",
+  "text_sha1": "110b259f74fe1340f4ae4bf401e0f7e6971e7f42",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-nl-utrecht--3",
   "text_sha1": "0a6106baeadb606ceb97bbcc68353c7f3ff8097b",
   "leaks": [
    {
@@ -3982,67 +3964,49 @@
   ]
  },
  {
-  "item": "real-strategy-nl-utrecht--3",
-  "text_sha1": "8f0ebf4773d7675831da00415cef7734e1bf3299",
-  "leaks": [
-   {
-    "text": "Dynamics of Youth",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Institutions for Open Societies",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Life Sciences",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EWUU alliance",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UMC",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
   "item": "real-strategy-nl-vu-amsterdam--0",
-  "text_sha1": "d6835768684f9878dc66f25fbfb95926450b1ff1",
+  "text_sha1": "332711f776e3267ba103e7599933fb1dca2257aa",
   "leaks": [
    {
     "text": "VU [PLACE]",
     "category": "ORGANISATION"
    },
    {
-    "text": "Vrije \u2013 or free \u2013 Universiteit [PLACE]",
-    "category": "ORGANISATION"
+    "text": "Bas Bosma",
+    "category": "PERSON"
+   },
+   {
+    "text": "Imran Avci",
+    "category": "PERSON"
+   },
+   {
+    "text": "Jan Jorrit Hasselaar",
+    "category": "PERSON"
    }
   ]
  },
  {
   "item": "real-strategy-nl-vu-amsterdam--1",
-  "text_sha1": "d86d7b1c31de2c9e24bde6246e340aa0f8193678",
+  "text_sha1": "f8fdd26f3c97a7503b7dedf59b642eebc81b005a",
   "leaks": [
    {
-    "text": "VU [PLACE]",
-    "category": "PLACE"
+    "text": "Abraham Kuyper",
+    "category": "PERSON"
    },
    {
-    "text": "A Broader Mind",
+    "text": "Martin Luther King (1879\u20131972)",
+    "category": "PERSON"
+   },
+   {
+    "text": "UNESCO",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nl-vu-amsterdam--2",
-  "text_sha1": "cdc95120a2d820d3043e37ab56ecf5227514de15",
+  "text_sha1": "3642b1e125eec192d9f24f865a6d419fadceec84",
   "leaks": [
-   {
-    "text": "VU [PLACE]",
-    "category": "ORGANISATION"
-   },
    {
     "text": "VU [PLACE]",
     "category": "ORGANISATION"
@@ -4051,83 +4015,176 @@
  },
  {
   "item": "real-strategy-nl-vu-amsterdam--3",
-  "text_sha1": "ea8710ac24c11df24150a8aec5cdc3bf860cc705",
+  "text_sha1": "805dc58f1950416a37bb281abb022e9394aaa408",
   "leaks": [
    {
-    "text": "VU [PLACE]",
+    "text": "VU",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nl-wageningen--0",
-  "text_sha1": "630af86c1a0abc1536415a8dfe757454facc8de7",
-  "leaks": []
+  "text_sha1": "e666fa2e61d0ea9b9a0ead51c73c286b516ba7a4",
+  "leaks": [
+   {
+    "text": "4TU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "EWUU alliance",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "\u2018ELLS\u2019",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Agrifood5",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-nl-wageningen--1",
-  "text_sha1": "5989713518803ee8030f257e2768609d3c5c72b6",
+  "text_sha1": "a78b194d640af6ef8fe3561072f2f3ed0b108cfa",
   "leaks": [
    {
-    "text": "Mansholt Lecture",
-    "category": "REF"
-   },
-   {
-    "text": "Framework Programmes for Research and Innovation",
-    "category": "REF"
+    "text": "[PLACE] University",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nl-wageningen--2",
-  "text_sha1": "6627ba75a8ce5bd90eb4179143bd857b3eddd558",
+  "text_sha1": "83b501971797969f1f4649b3a2aef7aafeeb9cd4",
   "leaks": []
  },
  {
   "item": "real-strategy-nl-wageningen--3",
-  "text_sha1": "80cce6222932833c9f412bcf9a1e3e3575f19de6",
+  "text_sha1": "113726afaf969fd2dedd5f6ba76bb3bd3cf5d32c",
   "leaks": []
  },
  {
   "item": "real-strategy-nz-aut--0",
-  "text_sha1": "d4e890627867acf70d77b1f2ee4278b04ffe2330",
+  "text_sha1": "0ee0e503e6f103354361aef21484d1104574727c",
   "leaks": [
    {
-    "text": "World Health Organisation",
+    "text": "Taupua Waiora [PLACE] Centre for [PLACE] Health Research",
     "category": "ORGANISATION"
    },
    {
-    "text": "Analysis and Policy Observatory",
+    "text": "Paci\ufb01c Islands Families Study",
     "category": "ORGANISATION"
    },
    {
-    "text": "Publications Office of the",
+    "text": "Healthy Paci\ufb01c Grandparents Study",
     "category": "ORGANISATION"
    },
    {
-    "text": "Union",
-    "category": "PLACE"
-   },
-   {
-    "text": "Te Whatu Ora",
+    "text": "Sports Performance Research Institute (SPRINZ)",
     "category": "ORGANISATION"
    },
    {
-    "text": "TEC",
+    "text": "National Institute for Stroke and Applied Neurosciences",
     "category": "ORGANISATION"
    },
    {
-    "text": "Hauroa",
+    "text": "Te Hotonga Hapori",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Kainga Ora",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nz-aut--1",
-  "text_sha1": "15fe0770c67e695fe9f0993a1ba7d31efdc8e6ec",
+  "text_sha1": "92733f3444506ec66f8be5607f68b8232cec865f",
   "leaks": [
    {
-    "text": "Ki Uta Ki Tai",
+    "text": "NCEA",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Barrier Free [PLACE] Trust",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Taikura Trust",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Geneva Health",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Blind Low Vision [PLACE]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Ko Taku Reo",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CCS Disability Action",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Be.Lab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Achieve",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nz-aut--2",
+  "text_sha1": "6fb9408c85de62a8fadc5cd1612646e1c5f17580",
+  "leaks": [
+   {
+    "text": "School of Engineering, Computer and Mathematical Sciences",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Fijian",
+    "category": "PLACE"
+   },
+   {
+    "text": "Samoan",
+    "category": "PLACE"
+   },
+   {
+    "text": "Tongan",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nz-aut--3",
+  "text_sha1": "6abc3b1f8481e73cc7d70f3a439d4edb032108a3",
+  "leaks": [
+   {
+    "text": "Eke Tangaroa",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Mai Ki Aronui",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Piki Ake",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Te Kei",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Te Ara Poutama",
     "category": "ORGANISATION"
    },
    {
@@ -4135,82 +4192,31 @@
     "category": "ORGANISATION"
    },
    {
-    "text": "Te Kete",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-nz-aut--2",
-  "text_sha1": "e85ebd03f079198be0bb22ebb466175dcf7ed6ba",
-  "leaks": [
-   {
-    "text": "Seddon Technical Memorial College",
+    "text": "Te Ranga Tukutuku",
     "category": "ORGANISATION"
    },
    {
-    "text": "Aucklanders",
-    "category": "PLACE"
-   },
-   {
-    "text": "Aucklanders",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-nz-aut--3",
-  "text_sha1": "0488a15f55b21bee3c2d2146e2586476105f550d",
-  "leaks": [
-   {
-    "text": "Babcock NZ",
+    "text": "Taupua Waiora Research Centre",
     "category": "ORGANISATION"
    },
    {
-    "text": "Devonport Naval Base",
-    "category": "PLACE"
-   },
-   {
-    "text": "Fuji\ufb01lm",
+    "text": "Te Ipukarea",
     "category": "ORGANISATION"
    },
    {
-    "text": "ANZ Bank",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Ecostore",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Fisher and Paykel",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Fonterra",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "BetterCo",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "AACSB",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EQUIS",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Te Whatu Ora",
+    "text": "Te Hotonga Hapori",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nz-lincoln--0",
-  "text_sha1": "3a052603e0198bc0684de791097c7be2a77cc51c",
+  "text_sha1": "72fcc03a7744548a5e488b7d4deb3b4a0ec0ddfe",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-nz-lincoln--1",
+  "text_sha1": "556ee2066ac26182eff63da72b51e4674d6faf04",
   "leaks": [
    {
     "text": "India",
@@ -4238,18 +4244,50 @@
    },
    {
     "text": "Manaaki Tauira",
-    "category": "PERSON"
+    "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-nz-lincoln--1",
-  "text_sha1": "2520d835643e86a69b90c0550284375a68d0a3d5",
+  "item": "real-strategy-nz-massey--0",
+  "text_sha1": "466031c1fec46c0e042947e055f7c59415b3bb3f",
+  "leaks": [
+   {
+    "text": "Te Kunenga ki [PLACE] [ORGANISATION]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Te Kunenga ki [PLACE] [ORGANISATION]",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nz-massey--1",
+  "text_sha1": "3945b4e69f2738cfd225b632545d3c6a1a73294a",
+  "leaks": [
+   {
+    "text": "Te Kunenga ki [PLACE] [ORGANISATION]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Te Reo [PLACE]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Te Kunenga Ki [PLACE] [ORGANISATION]",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-nz-massey--2",
+  "text_sha1": "27cd0abde5d5d24e4e51adaf669a99391356c744",
   "leaks": []
  },
  {
   "item": "real-strategy-auckland--0",
-  "text_sha1": "1ee67237ef1f8e9714985021eda8783b14796c5e",
+  "text_sha1": "ec5282faba87a72f548ad89d9fbe3d6ffc108dee",
   "leaks": [
    {
     "text": "Newmarket",
@@ -4267,7 +4305,17 @@
  },
  {
   "item": "real-strategy-auckland--1",
-  "text_sha1": "ff0d594e53494f5e2291dd63311742af2598b8e3",
+  "text_sha1": "efdbe904ea8b79672b700f3fa1cceded2f221654",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-auckland--2",
+  "text_sha1": "e17c5901fe278df742ae847dd32fc084de580c74",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-auckland--3",
+  "text_sha1": "72b755cb7d68361cb5e6b1e378dd72fbffd19727",
   "leaks": [
    {
     "text": "Newmarket Campus",
@@ -4284,67 +4332,35 @@
   ]
  },
  {
-  "item": "real-strategy-auckland--2",
-  "text_sha1": "d450128e7373d34b69f6daf9098b383487fab03d",
-  "leaks": []
- },
- {
-  "item": "real-strategy-auckland--3",
-  "text_sha1": "dee9f02d3fe6eb614b180ac5f4d7b47027457441",
-  "leaks": []
- },
- {
   "item": "real-strategy-nz-canterbury--0",
-  "text_sha1": "9c48dfb703f6976f33c3d67020faeaa31abf1ff4",
+  "text_sha1": "ad93f682530e9edd4b194ec5bc15d5c5f91b0c96",
   "leaks": [
    {
     "text": "UC",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UC Online",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Future Learn",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-nz-canterbury--1",
-  "text_sha1": "3f358ad90555c335e571697308584e75c65d4a30",
+  "text_sha1": "431cebcf62a32a1c048093dce7e27cfe34ae584b",
   "leaks": [
-   {
-    "text": "TEC",
-    "category": "ORGANISATION"
-   },
    {
     "text": "UC",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "2020 Tertiary Education Strategy",
+    "category": "REF"
+   },
+   {
+    "text": "2024 Plan Guidance",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-nz-canterbury--2",
-  "text_sha1": "edf81ab05bc8814b6284054cda664d22689b83c6",
-  "leaks": [
-   {
-    "text": "UC",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UCSA",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "TEC",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-nz-canterbury--3",
   "text_sha1": "d111ade89ef79dea953c1467d4931151d6540180",
   "leaks": [
    {
@@ -4357,6 +4373,10 @@
    },
    {
     "text": "te Waiora (Community, Health, Education and Social Services) Workforce Development Council",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UC",
     "category": "ORGANISATION"
    },
    {
@@ -4382,37 +4402,77 @@
   ]
  },
  {
+  "item": "real-strategy-nz-canterbury--3",
+  "text_sha1": "cc1afc421dbdd160a49f2f8fbaa35913bdfa2602",
+  "leaks": [
+   {
+    "text": "UC",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UC\u2019s",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Waitaha",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-nz-otago--0",
-  "text_sha1": "e4583e8a1205d9fa97482e37a3eb44e4a9facb9d",
-  "leaks": []
+  "text_sha1": "9ebe75c81978f549166f53d228fc610b914cb332",
+  "leaks": [
+   {
+    "text": "Dunedin",
+    "category": "PLACE"
+   },
+   {
+    "text": "Invercargill",
+    "category": "PLACE"
+   },
+   {
+    "text": "Queenstown Lakes",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-nz-otago--1",
-  "text_sha1": "0330a1bf8fccddbca6bb639a3b18b02ba9e38c8a",
-  "leaks": []
+  "text_sha1": "d425e16ab57f5bc025e3d1ac3eb41c183fdd6148",
+  "leaks": [
+   {
+    "text": "the University\u2019s",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-nz-otago--2",
-  "text_sha1": "e9d32d01da63eea8e1f480f937c42112f5cc90fa",
-  "leaks": []
+  "text_sha1": "c88c01d3044321669f519ef7567c6f02e30975c1",
+  "leaks": [
+   {
+    "text": "QS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "THE",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-nz-otago--3",
-  "text_sha1": "e90dd1d66c906dab3e8414e7356a70b68f96ff16",
+  "text_sha1": "63adfd88ed896700af8daa2a105c36743adc85d0",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-nz-waikato--0",
+  "text_sha1": "e4ad40ade076e486f27afb6dfec18321829c8d2e",
   "leaks": []
  },
  {
   "item": "real-strategy-nz-victoria-wellington--0",
-  "text_sha1": "5708472c035b573a45ad14c4beb96db10582f6dc",
-  "leaks": []
- },
- {
-  "item": "real-strategy-nz-victoria-wellington--1",
-  "text_sha1": "2535e8633fd8bfb149dd79a693fa5c6d1e1c07aa",
-  "leaks": []
- },
- {
-  "item": "real-strategy-nz-victoria-wellington--2",
   "text_sha1": "528115aa4d11ef67a208042aec611b3c105854ac",
   "leaks": [
    {
@@ -4422,31 +4482,22 @@
   ]
  },
  {
+  "item": "real-strategy-nz-victoria-wellington--1",
+  "text_sha1": "41266a634cd10ab3efa9a09d2dd9a4756b0d1f5c",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-nz-victoria-wellington--2",
+  "text_sha1": "0d0ef75879465788f4733a3876206dcfd3a9dd4a",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-nz-victoria-wellington--3",
-  "text_sha1": "2de6688482e24a663456634a8d76546a547a5a80",
-  "leaks": [
-   {
-    "text": "The University",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "city as our campus",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "5708472c035b573a45ad14c4beb96db10582f6dc",
+  "leaks": []
  },
  {
   "item": "real-strategy-ni-qub--0",
-  "text_sha1": "958812566715bbc06ddea2c82e80842fd890a321",
-  "leaks": [
-   {
-    "text": "The United Nations",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ni-qub--1",
   "text_sha1": "57fa8552161611d74b44cd1417d6f573ee796a5a",
   "leaks": [
    {
@@ -4468,8 +4519,18 @@
   ]
  },
  {
+  "item": "real-strategy-ni-qub--1",
+  "text_sha1": "958812566715bbc06ddea2c82e80842fd890a321",
+  "leaks": [
+   {
+    "text": "The United Nations",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-ni-qub--2",
-  "text_sha1": "befb707e41ec57698a317bc6b57bb578d84cdb61",
+  "text_sha1": "d4a381b46ecd191880823ef9b832818f6c1c6bb8",
   "leaks": [
    {
     "text": "Queen\u2019s",
@@ -4511,8 +4572,17 @@
  },
  {
   "item": "real-strategy-no-uit--0",
-  "text_sha1": "8daa822b32097e30df4431322289a0bcdb40e651",
-  "leaks": []
+  "text_sha1": "eeebbfed220c8799318b4582e0b8373d4988b9b1",
+  "leaks": [
+   {
+    "text": "Sami",
+    "category": "PERSON"
+   },
+   {
+    "text": "Kven",
+    "category": "PERSON"
+   }
+  ]
  },
  {
   "item": "real-strategy-no-uit--1",
@@ -4526,17 +4596,8 @@
  },
  {
   "item": "real-strategy-no-uit--2",
-  "text_sha1": "eeebbfed220c8799318b4582e0b8373d4988b9b1",
-  "leaks": [
-   {
-    "text": "Sami",
-    "category": "PERSON"
-   },
-   {
-    "text": "Kven",
-    "category": "PERSON"
-   }
-  ]
+  "text_sha1": "8daa822b32097e30df4431322289a0bcdb40e651",
+  "leaks": []
  },
  {
   "item": "real-strategy-no-bergen--0",
@@ -4564,7 +4625,7 @@
  },
  {
   "item": "real-strategy-no-oslo--1",
-  "text_sha1": "ca3d3eafda75c817e5cd02ebdcde761b0cd6534e",
+  "text_sha1": "0400711d6a6e83dc696f52408bad143a3f7cba69",
   "leaks": [
    {
     "text": "UiO",
@@ -4574,22 +4635,14 @@
  },
  {
   "item": "real-strategy-pl-jagiellonian--0",
-  "text_sha1": "58f936aca0b7c832f5f9cdb9ad55195fb647675c",
+  "text_sha1": "477727802cfa801d1ab6d655aa28d0d29eaa087c",
   "leaks": [
    {
     "text": "Una Europa",
     "category": "ORGANISATION"
    },
    {
-    "text": "Collegium Medicum",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Association of Clinical Hospital Directors",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Training Hospital Network",
+    "text": "Jagiel\u2010lonian University",
     "category": "ORGANISATION"
    }
   ]
@@ -4636,7 +4689,7 @@
  },
  {
   "item": "real-strategy-pl-warsaw--0",
-  "text_sha1": "3aa0d390ae89f7e0e4b4e7bebc64e9703c0de506",
+  "text_sha1": "ea285e463617b633a9278b6a00108869dea8c8cc",
   "leaks": [
    {
     "text": "UW",
@@ -4646,6 +4699,11 @@
  },
  {
   "item": "real-strategy-pl-warsaw--1",
+  "text_sha1": "a72126759d005594c3480f3f22ab88ce91129bcc",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-pl-warsaw--2",
   "text_sha1": "1aa2199b9d6179f0c84d11bf0fd99860d663af2c",
   "leaks": [
    {
@@ -4655,32 +4713,22 @@
   ]
  },
  {
-  "item": "real-strategy-pl-warsaw--2",
-  "text_sha1": "ea285e463617b633a9278b6a00108869dea8c8cc",
+  "item": "real-strategy-pl-warsaw--3",
+  "text_sha1": "fadb511fbea52fcb60f1ece2137b08febef8057d",
   "leaks": [
-   {
-    "text": "University",
-    "category": "ORGANISATION"
-   },
    {
     "text": "UW",
     "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-pl-warsaw--3",
-  "text_sha1": "98fc9983a8bcedb949831697e6c401c38605417c",
-  "leaks": [
+   },
    {
-    "text": "a university with over 200 years of teaching tradition",
-    "category": "REF"
+    "text": "4EU+ Alliance",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-scot-heriot-watt--0",
-  "text_sha1": "0e2ddd23d64438481aaa8301d50afd8233dce7c4",
+  "text_sha1": "0ad1e75d7fc8dd3e7a4e3a7b025b2a2a15fa362c",
   "leaks": [
    {
     "text": "Dubai",
@@ -4691,8 +4739,16 @@
     "category": "PLACE"
    },
    {
+    "text": "South East Asia",
+    "category": "PLACE"
+   },
+   {
+    "text": "Middle East",
+    "category": "PLACE"
+   },
+   {
     "text": "International University of the Year",
-    "category": "REF"
+    "category": "ORGANISATION"
    },
    {
     "text": "The Times and Sunday Times Good University Guide",
@@ -4753,8 +4809,13 @@
  },
  {
   "item": "real-strategy-scot-dundee--1",
-  "text_sha1": "563f92a63ee0f666f5c9d6c42962d7010a28ddac",
-  "leaks": []
+  "text_sha1": "cc9108d27def864247f1ee431cac2ac53a6eea26",
+  "leaks": [
+   {
+    "text": "DUSA",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-scot-dundee--2",
@@ -4768,126 +4829,107 @@
  },
  {
   "item": "real-strategy-scot-dundee--3",
-  "text_sha1": "cc9108d27def864247f1ee431cac2ac53a6eea26",
+  "text_sha1": "563f92a63ee0f666f5c9d6c42962d7010a28ddac",
   "leaks": [
    {
-    "text": "DUSA",
-    "category": "ORGANISATION"
+    "text": "Gold Watermark for Public Engagement",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-scot-glasgow--0",
-  "text_sha1": "6a8750c46e606565163b71acc96ee3646c05185d",
-  "leaks": [
-   {
-    "text": "World Changers Together strategy",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-scot-glasgow--1",
   "text_sha1": "0a1697222029698ea9ae8e2f2b498bc3c3dcdc6c",
   "leaks": []
  },
  {
-  "item": "real-strategy-scot-glasgow--2",
-  "text_sha1": "4e7cdcb19461a7de2fb33f404aa1486e84d09bc0",
+  "item": "real-strategy-scot-glasgow--1",
+  "text_sha1": "4969f2241884fad983ed93280277c9a153f903bd",
   "leaks": []
  },
  {
-  "item": "real-strategy-si-ljubljana--0",
-  "text_sha1": "9836eda5739012dc20eab9520735b22625e50ed5",
+  "item": "real-strategy-scot-glasgow--2",
+  "text_sha1": "7268d861dbecfbe4273d52e81c7b0f271b3a5002",
   "leaks": [
    {
-    "text": "UL",
+    "text": "World Changers Together strategy",
     "category": "ORGANISATION"
    },
    {
-    "text": "the UL",
+    "text": "global citizens",
+    "category": "PLACE"
+   },
+   {
+    "text": "early 2022",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-si-ljubljana--0",
+  "text_sha1": "53d55a14d8d320de4781764c8e21cf05ea05d566",
+  "leaks": [
+   {
+    "text": "Valicon",
     "category": "ORGANISATION"
    },
    {
-    "text": "the [PLACE] UL",
+    "text": "Research Centre of the [PLACE] Academy of Sciences and Arts (ZRC SAZU)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Ogledalo Slovenije",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-si-ljubljana--1",
-  "text_sha1": "4ea0f2fbdd084992f1f496f1678577eb45b16dca",
+  "text_sha1": "f1e34c8a5f6a9650f1057214a8e222535d32405b",
   "leaks": [
    {
     "text": "UL",
     "category": "ORGANISATION"
    },
    {
-    "text": "UL\u2019s",
+    "text": "UL member faculties",
     "category": "ORGANISATION"
    },
    {
-    "text": "[PLACE]",
-    "category": "REF"
+    "text": "UL\u2019s reputation",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UL diploma",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UL lacks a competence model",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UL\u2019s habilitation rules",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-si-ljubljana--2",
-  "text_sha1": "1063e8f5144b5dddac2bfebbf4b7edc92e83a2c4",
+  "text_sha1": "afd99107a82c53f6a73a1084c570dcc666a46b8e",
   "leaks": [
    {
-    "text": "VTT",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "VTT Ventures",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Spinnova",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EPO",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EU",
+    "text": "UL",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-si-ljubljana--3",
-  "text_sha1": "aec0243ed37a85b706a57652ca86e40b5f297c36",
-  "leaks": [
-   "Korea",
-   "USA",
-   "Japan",
-   "France"
-  ]
+  "text_sha1": "9d99602f257bd21ffbf0ee22abbfa77146698379",
+  "leaks": []
  },
  {
   "item": "real-strategy-se-lund--0",
-  "text_sha1": "7a493ee129c97876186e9a7afc40090bb1aa2039",
-  "leaks": [
-   {
-    "text": "MAX IV",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "ESS",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Spallation Source",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-se-lund--1",
   "text_sha1": "76599b14bb89a007fa5b43faa92cfa2defb3c6b7",
   "leaks": [
    {
@@ -4905,6 +4947,11 @@
   ]
  },
  {
+  "item": "real-strategy-se-lund--1",
+  "text_sha1": "8bd7ad22b65e27f36b827397816625c5cec6536b",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-se-malmo--0",
   "text_sha1": "2c552ebac765c53a1e1ad5d05b1c7f716badc002",
   "leaks": []
@@ -4916,80 +4963,144 @@
  },
  {
   "item": "real-strategy-ch-ethz--0",
-  "text_sha1": "99b45211ab83925c53cd2aade86b5894421e4587",
+  "text_sha1": "274048ead5f1a2c1cb646e337ebc0d684fa5a107",
   "leaks": [
    {
-    "text": "Canton of [PLACE]",
-    "category": "PLACE"
-   },
-   {
-    "text": "[PLACE]",
-    "category": "PLACE"
-   },
-   {
-    "text": "greater [PLACE] region",
-    "category": "PLACE"
-   },
-   {
-    "text": "city, canton, federal government",
+    "text": "Plant Hub Eschikon research station",
     "category": "ORGANISATION"
    },
    {
-    "text": "[ORGANISATION]",
+    "text": "MeteoSwiss",
     "category": "ORGANISATION"
    },
    {
-    "text": "[PLACE]\u2019s",
-    "category": "PLACE"
+    "text": "Empa",
+    "category": "ORGANISATION"
    },
    {
-    "text": "School for Continuing Education",
+    "text": "Agroscope",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Centre for Climate Systems Modelling",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "International Committee of the Red",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Anergie grid",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-ch-ethz--1",
-  "text_sha1": "37d80a8effdb2a4d7dc0b4368beb090a451c2141",
+  "text_sha1": "5b7ad4e74bf6912f05068e8fc12d4860cad5027f",
   "leaks": [
    {
-    "text": "rETHink initative",
+    "text": "Institute for Theoretical Studies",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National \u00adCentres of Competence in Research",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Origin and Prevalence of Life initiative",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Filming Electrons in Action initiative",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "PSI",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National Supercomputing Centre",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Sustained Scientific User Lab for Simulation Based Science",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Catalysis Hub",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "NCCR Catalysis",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-ch-ethz--2",
-  "text_sha1": "6418ca11957a2283a9d8861fe3de09dbaa280e6e",
-  "leaks": []
+  "text_sha1": "2d07ab555a6ca9e9318fafdc54ef837b88ef096d",
+  "leaks": [
+   {
+    "text": "Treffpunkt Science City",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Scientifica",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Gottfried Semper",
+    "category": "PERSON"
+   }
+  ]
  },
  {
   "item": "real-strategy-ch-ethz--3",
-  "text_sha1": "2a4f14c194dfd7a3dd8db93da3345946bee71dd9",
-  "leaks": []
+  "text_sha1": "4e2caae27f37667876eaf0d5c5e7e363a28ec867",
+  "leaks": [
+   {
+    "text": "Social Innovation Lab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Student Project House",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Singapore",
+    "category": "PLACE"
+   },
+   {
+    "text": "Singapore-[ORGANISATION] Centre",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CREATE",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-ch-basel--0",
-  "text_sha1": "d7531e6fc798a6aafbf104afc11ca20bd8a7f58c",
+  "text_sha1": "02e618efa62f3a63d69120f148eaaf22a129fa3b",
   "leaks": [
    {
-    "text": "Digital Humanities Lab",
+    "text": "United Nations\u2019",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "WHO",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UNESCO",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-ch-basel--1",
-  "text_sha1": "38ada2b39cdb31c182fda7ee7975336701d5cf3b",
-  "leaks": [
-   {
-    "text": "University of Applied Sciences [PLACE]-West [PLACE]",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ch-basel--2",
   "text_sha1": "06ff94c79b1b4f84932408960715889114cbd6f1",
   "leaks": [
    {
@@ -5027,50 +5138,17 @@
   ]
  },
  {
-  "item": "real-strategy-ch-basel--3",
-  "text_sha1": "d23acd9c47d192ecde26446c89bfa046a3b442cb",
-  "leaks": [
-   {
-    "text": "Africa",
-    "category": "PLACE"
-   },
-   {
-    "text": "US",
-    "category": "PLACE"
-   },
-   {
-    "text": "Eucor",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "University of Freiburg i. Br.",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "University of Strasbourg",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Neurex",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Institute of Bioinformatics (SIB)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Personalised Health Network (SPHN)",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-ch-epfl--0",
-  "text_sha1": "38d21df88ec4187494e043f353d3d0c9f308792b",
+  "item": "real-strategy-ch-basel--2",
+  "text_sha1": "6adbf4d1e069fb204a2720c7529cb7c36480931e",
   "leaks": []
  },
  {
-  "item": "real-strategy-ch-epfl--1",
+  "item": "real-strategy-ch-basel--3",
+  "text_sha1": "2998e5ee5c2517ee74378b3447761b061880a71f",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-ch-epfl--0",
   "text_sha1": "d9da93e14d76ff101932d3df89332c705fbe1be7",
   "leaks": [
    {
@@ -5084,31 +5162,12 @@
   ]
  },
  {
+  "item": "real-strategy-ch-epfl--1",
+  "text_sha1": "38d21df88ec4187494e043f353d3d0c9f308792b",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-uk-aston--0",
-  "text_sha1": "82a05ad922c2d8ab5f63b225de7bbabad369042b",
-  "leaks": [
-   {
-    "text": "NHS",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-aston--1",
-  "text_sha1": "bd088c453dae1c98664dd8f29afb06c12ac43d36",
-  "leaks": [
-   {
-    "text": "HS2",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "New Street Station",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-aston--2",
   "text_sha1": "746e6ab20279572f89aa1f00d02f9c0a1f27b8fd",
   "leaks": [
    {
@@ -5126,66 +5185,56 @@
   ]
  },
  {
-  "item": "real-strategy-uk-aston--3",
-  "text_sha1": "0f97895b0b1b79cc3478f0a2ee0cb3e6663873b5",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-citystgeorges--0",
-  "text_sha1": "87938db2387e61f1a747a917603e95cb9b0f8354",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-citystgeorges--1",
-  "text_sha1": "3110c2bde96e102b7d02e33257aefead2589c8b0",
+  "item": "real-strategy-uk-aston--1",
+  "text_sha1": "d1082f5875240e940894f2898df8c5b0f1471914",
   "leaks": [
    {
-    "text": "REF2021",
+    "text": "UK",
+    "category": "PLACE"
+   },
+   {
+    "text": "EU",
     "category": "ORGANISATION"
    },
    {
-    "text": "REF2014",
-    "category": "ORGANISATION"
+    "text": "West Midlands",
+    "category": "PLACE"
    },
    {
-    "text": "HEFCE",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Capital Enterprise",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Local Enterprise Partnership",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "University of [PLACE]",
-    "category": "ORGANISATION"
+    "text": "Birmingham",
+    "category": "PLACE"
    }
   ]
  },
  {
-  "item": "real-strategy-uk-citystgeorges--2",
-  "text_sha1": "a0c7f47c69b6c645e4e227e890a460d528d9d59d",
+  "item": "real-strategy-uk-aston--2",
+  "text_sha1": "82f1cb3e5b721cdef9f4f47ad4104d8e86704f29",
   "leaks": [
    {
-    "text": "Cass [ORGANISATION]",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-citystgeorges--3",
-  "text_sha1": "fc5e419280b968d6853cbec7d67fac2934d9a206",
-  "leaks": [
-   {
-    "text": "Cass",
-    "category": "ORGANISATION"
+    "text": "UK",
+    "category": "PLACE"
    },
    {
-    "text": "ISO 14001",
+    "text": "Brexit",
     "category": "REF"
+   },
+   {
+    "text": "Covid-19",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-uk-aston--3",
+  "text_sha1": "5d9d63db931a42a7df260711744cb5eeb7c1fb39",
+  "leaks": [
+   {
+    "text": "Responsible Futures",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Digital Enterprise",
+    "category": "ORGANISATION"
    }
   ]
  },
@@ -5196,70 +5245,16 @@
  },
  {
   "item": "real-strategy-uk-coventry--1",
-  "text_sha1": "4d13b6ec0e4e0e6055499568f72a545fa20243bb",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-coventry--2",
   "text_sha1": "8fa8c84fb6f19802054e64f4b07634abf2441f1b",
   "leaks": []
  },
  {
-  "item": "real-strategy-uk-falmouth--0",
-  "text_sha1": "ed6aa997661b4c136313e816a6ecf27f4378ac11",
-  "leaks": [
-   {
-    "text": "Francli Craftwear",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Frances Alice Baseley",
-    "category": "PERSON"
-   },
-   {
-    "text": "Alison Mairead Goodman",
-    "category": "PERSON"
-   },
-   {
-    "text": "Frances",
-    "category": "PERSON"
-   },
-   {
-    "text": "Alison",
-    "category": "PERSON"
-   },
-   {
-    "text": "Pendennis Shipyard",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Small Talk",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Sian Rogers",
-    "category": "PERSON"
-   },
-   {
-    "text": "Michael Tew",
-    "category": "PERSON"
-   },
-   {
-    "text": "Kirsty Morlese",
-    "category": "PERSON"
-   },
-   {
-    "text": "Rose Cazzulini",
-    "category": "PERSON"
-   },
-   {
-    "text": "Cornwall",
-    "category": "PLACE"
-   }
-  ]
+  "item": "real-strategy-uk-coventry--2",
+  "text_sha1": "4d13b6ec0e4e0e6055499568f72a545fa20243bb",
+  "leaks": []
  },
  {
-  "item": "real-strategy-uk-falmouth--1",
+  "item": "real-strategy-uk-falmouth--0",
   "text_sha1": "0bd93b3c840f9d14e83dd8cfb6cc5ce510a7fbae",
   "leaks": [
    {
@@ -5293,7 +5288,7 @@
   ]
  },
  {
-  "item": "real-strategy-uk-falmouth--2",
+  "item": "real-strategy-uk-falmouth--1",
   "text_sha1": "54eafad138c3c8a567239f6ed72cfc0002b43c4f",
   "leaks": [
    {
@@ -5347,6 +5342,60 @@
   ]
  },
  {
+  "item": "real-strategy-uk-falmouth--2",
+  "text_sha1": "ed6aa997661b4c136313e816a6ecf27f4378ac11",
+  "leaks": [
+   {
+    "text": "Francli Craftwear",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Frances Alice Baseley",
+    "category": "PERSON"
+   },
+   {
+    "text": "Alison Mairead Goodman",
+    "category": "PERSON"
+   },
+   {
+    "text": "Frances",
+    "category": "PERSON"
+   },
+   {
+    "text": "Alison",
+    "category": "PERSON"
+   },
+   {
+    "text": "Pendennis Shipyard",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Small Talk",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Sian Rogers",
+    "category": "PERSON"
+   },
+   {
+    "text": "Michael Tew",
+    "category": "PERSON"
+   },
+   {
+    "text": "Kirsty Morlese",
+    "category": "PERSON"
+   },
+   {
+    "text": "Rose Cazzulini",
+    "category": "PERSON"
+   },
+   {
+    "text": "Cornwall",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-uk-keele--0",
   "text_sha1": "2e2f33ade555eaa3a8538e95ea5ded24c732b09e",
   "leaks": [
@@ -5358,6 +5407,32 @@
  },
  {
   "item": "real-strategy-uk-lancaster-2009--0",
+  "text_sha1": "25b2f3193ff2862630e2240ae35d8d9c3d7734f1",
+  "leaks": [
+   {
+    "text": "Middle East",
+    "category": "PLACE"
+   },
+   {
+    "text": "South Asia",
+    "category": "PLACE"
+   },
+   {
+    "text": "South East Asia",
+    "category": "PLACE"
+   },
+   {
+    "text": "Research Assessment Exercises",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "RAE",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-uk-lancaster-2009--1",
   "text_sha1": "925541027e82b2ed60aa83a724cfc47e8ce170ee",
   "leaks": [
    {
@@ -5376,26 +5451,18 @@
  },
  {
   "item": "real-strategy-uk-mmu--0",
-  "text_sha1": "b9ef75b63031c62fcff138362cd8b86b63f865b7",
-  "leaks": []
+  "text_sha1": "cafe7ebd7d9fcd62f31a5ba50fa2e49462cc012b",
+  "leaks": [
+   {
+    "text": "NHS",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-uk-mmu--1",
-  "text_sha1": "739a8a9802fe95bd5023258517687ef9042b6862",
-  "leaks": [
-   {
-    "text": "our 200\u2011year history",
-    "category": "REF"
-   },
-   {
-    "text": "UK",
-    "category": "PLACE"
-   },
-   {
-    "text": "Greater [PLACE]",
-    "category": "PLACE"
-   }
-  ]
+  "text_sha1": "56de129e270111b84e75a0aa39406a0dec98d3ba",
+  "leaks": []
  },
  {
   "item": "real-strategy-uk-mmu--2",
@@ -5404,13 +5471,8 @@
  },
  {
   "item": "real-strategy-uk-mmu--3",
-  "text_sha1": "0fc4de078e7649be6a3e26ca1a82ff9457d63a65",
-  "leaks": [
-   {
-    "text": "the UK",
-    "category": "PLACE"
-   }
-  ]
+  "text_sha1": "6d667336aee4459b6a7f20cb0ff9ebffd7dec5bf",
+  "leaks": []
  },
  {
   "item": "real-strategy-uk-rau--0",
@@ -5494,96 +5556,74 @@
  },
  {
   "item": "real-strategy-uk-rca--0",
-  "text_sha1": "65c78c1dbfeae8a78c02387793e0ceae064b9b80",
+  "text_sha1": "e92cfe7f93419a97ebbbb17b57bdccc161bbf040",
   "leaks": [
-   {
-    "text": "Founded in 1837",
-    "category": "REF"
-   },
-   {
-    "text": "Government School of [PLACE]",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "QS ranking",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UK",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-rca--1",
-  "text_sha1": "ecd9438cdb37ea3de2321d76fce22d2eaa216ed1",
-  "leaks": [
-   {
-    "text": "our 1967 Charter",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-rca--2",
-  "text_sha1": "e6f3c675635b2a1a327773b4109439957430b31a",
-  "leaks": [
-   {
-    "text": "Snap Visualisation Lab",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "The Tyre Collective",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "InnovationRCA",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Hanson Cheng",
-    "category": "PERSON"
-   },
-   {
-    "text": "Siobhan Anderson",
-    "category": "PERSON"
-   },
-   {
-    "text": "Hugo Richardson",
-    "category": "PERSON"
-   },
-   {
-    "text": "Deepak Mallya",
-    "category": "PERSON"
-   },
-   {
-    "text": "UK",
-    "category": "PLACE"
-   },
    {
     "text": "Government",
     "category": "ORGANISATION"
    },
    {
     "text": "Innovation Strategy",
-    "category": "REF"
-   },
-   {
-    "text": "2020 Mayor\u2019s Entrepreneur Competition",
     "category": "ORGANISATION"
    },
    {
-    "text": "2022",
-    "category": "REF"
+    "text": "Terra Carta",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "HRH The Prince of [PLACE]",
+    "category": "PERSON"
+   },
+   {
+    "text": "Chancellor Sir [PERSON]",
+    "category": "PERSON"
+   },
+   {
+    "text": "Baroness [PERSON]",
+    "category": "PERSON"
+   },
+   {
+    "text": "Sir [PERSON]",
+    "category": "PERSON"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-uk-rca--1",
+  "text_sha1": "6dce2a6063f1c4e0115799d8910970596e9545b8",
+  "leaks": [
+   {
+    "text": "AiDLab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "The Hong Kong Polytechnic University",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Hong Kong\u2019s Government\u2019s Innovation and Technology Bureau",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Hong Kong",
+    "category": "PLACE"
    },
    {
     "text": "Terra Carta",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "His [PLACE] Highness The Prince of [PLACE] and Sir [PERSON]",
+    "category": "PERSON"
+   },
+   {
+    "text": "Sustainable Markets Initiative",
     "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-strategy-uk-rca--3",
+  "item": "real-strategy-uk-rca--2",
   "text_sha1": "ce6859803c545cb9281b72f42dfe12dd43804ea8",
   "leaks": [
    {
@@ -5629,7 +5669,34 @@
   ]
  },
  {
+  "item": "real-strategy-uk-rca--3",
+  "text_sha1": "65c78c1dbfeae8a78c02387793e0ceae064b9b80",
+  "leaks": [
+   {
+    "text": "Founded in 1837",
+    "category": "REF"
+   },
+   {
+    "text": "Government School of [PLACE]",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "QS ranking",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UK",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-uk-teesside--0",
+  "text_sha1": "c621435fea5a2c60f8bde37c353892f348667532",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-uk-teesside--1",
   "text_sha1": "751491caf9ca871c316532f56d422ba8ae07d086",
   "leaks": [
    {
@@ -5647,58 +5714,25 @@
   ]
  },
  {
-  "item": "real-strategy-uk-teesside--1",
-  "text_sha1": "c621435fea5a2c60f8bde37c353892f348667532",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-openuniversity--0",
-  "text_sha1": "c0e60cfdf2821e84775300011712c22b527048de",
-  "leaks": [
-   {
-    "text": "OpenLearn",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "BBC",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-openuniversity--1",
-  "text_sha1": "2bbcc27b48656110a0a8fa8d9b5981290740e712",
-  "leaks": [
-   {
-    "text": "UK",
-    "category": "PLACE"
-   },
-   {
-    "text": "OU",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
   "item": "real-strategy-ucl--0",
-  "text_sha1": "b00d47f99cd2fd66fb61d1982e3e5b9e8dd7a373",
+  "text_sha1": "24d4adba33ea2945af5ff5aebe4c414f52561db7",
   "leaks": []
  },
  {
   "item": "real-strategy-ucl--1",
-  "text_sha1": "2f67115128b2c1aba7bad30fae426491a5617f22",
+  "text_sha1": "2450d0e2803c36fae1a23feb1d7ae13e81d3571c",
   "leaks": []
  },
  {
   "item": "real-strategy-ucl--2",
-  "text_sha1": "4f2a81bf9829ee02d383db7f7533a6db6551fce7",
+  "text_sha1": "a954cab3da7227cd62b88bdc5e4796ec24432159",
   "leaks": [
    {
     "text": "UCLH",
     "category": "ORGANISATION"
    },
    {
-    "text": "the [PLACE] Free [PLACE]",
+    "text": "Free",
     "category": "PLACE"
    },
    {
@@ -5710,28 +5744,19 @@
     "category": "ORGANISATION"
    },
    {
-    "text": "the [PLACE] National Orthopaedic Hospital, Stanmore",
-    "category": "PLACE"
+    "text": "National Orthopaedic Hospital, Stanmore",
+    "category": "ORGANISATION"
    },
    {
-    "text": "the Whittington NHS Trust",
+    "text": "Whittington NHS Trust",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-ucl--3",
-  "text_sha1": "c97a78cebd122c81d519d3c761617b691607317e",
-  "leaks": [
-   {
-    "text": "UK",
-    "category": "PLACE"
-   },
-   {
-    "text": "UK higher education sector",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "b00d47f99cd2fd66fb61d1982e3e5b9e8dd7a373",
+  "leaks": []
  },
  {
   "item": "real-strategy-uk-bath--0",
@@ -5740,11 +5765,6 @@
  },
  {
   "item": "real-strategy-uk-bath--1",
-  "text_sha1": "0c39ffc2d25f4d52352670d3e1a59640eee9c992",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-bath--2",
   "text_sha1": "efc2fccccac4af91b04fcd0164c9583a6e7ba2a5",
   "leaks": [
    {
@@ -5754,8 +5774,8 @@
   ]
  },
  {
-  "item": "real-strategy-uk-bath--3",
-  "text_sha1": "10745c65983244e43c783043b13b82ec30ba6737",
+  "item": "real-strategy-uk-bath--2",
+  "text_sha1": "19648b94ed4cc1cccc4c137d3c59299591dbc6b9",
   "leaks": [
    {
     "text": "Institute for Advanced Automotive Propulsion Systems",
@@ -5780,58 +5800,64 @@
   ]
  },
  {
+  "item": "real-strategy-uk-bath--3",
+  "text_sha1": "0c39ffc2d25f4d52352670d3e1a59640eee9c992",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-uk-bristol--0",
-  "text_sha1": "b7fe7811bcb9570b8a14e9fd6baf6dce59f9b679",
+  "text_sha1": "b24f8c4f659b9455309fb5aad73f7d733a0c0c8f",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-uk-bristol--1",
+  "text_sha1": "509144b6c9a06f328a86645bbd7353958dd8a8d4",
   "leaks": [
+   {
+    "text": "Barton Hill Micro-Campus",
+    "category": "ORGANISATION"
+   },
    {
     "text": "Temple Quarter Enterprise Campus",
     "category": "ORGANISATION"
    },
    {
-    "text": "New University Library",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-bristol--1",
-  "text_sha1": "6ccff2efc46c93d3494965e6d140cff5be9e600f",
-  "leaks": [
-   {
-    "text": "Perivoli Africa Research Centre",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Africa",
-    "category": "PLACE"
-   },
-   {
-    "text": "Old Vic",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "National Composite Centre",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Pfizer Centre of Excellence for Epidemiology of Vaccine-preventable Diseases",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Pfizer",
+    "text": "[PLACE] Somerset Campus",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-uk-bristol--2",
-  "text_sha1": "b24f8c4f659b9455309fb5aad73f7d733a0c0c8f",
-  "leaks": []
+  "text_sha1": "40aab6cf2afa49f9185a5c824cdaef44b9a41450",
+  "leaks": [
+   {
+    "text": "The University",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-uk-bristol--3",
-  "text_sha1": "f2cea9a1dddee7ba0cf2c5f1e8e0ee92c1e2befc",
-  "leaks": []
+  "text_sha1": "fedd31d5806c496a6ecd35eadd4b7e3c0372730d",
+  "leaks": [
+   {
+    "text": "Top 10 UK universities",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Clifton",
+    "category": "PLACE"
+   },
+   {
+    "text": "Langford",
+    "category": "PLACE"
+   },
+   {
+    "text": "Temple Quarter",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-uk-derby--0",
@@ -5850,6 +5876,11 @@
  },
  {
   "item": "real-strategy-edinburgh--0",
+  "text_sha1": "d53d31b9b1895e926e28ebde7486e389a848132a",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-edinburgh--1",
   "text_sha1": "8f22f07a9912ea1f5c917e74c1500227c9cb2948",
   "leaks": [
    {
@@ -5871,46 +5902,19 @@
   ]
  },
  {
-  "item": "real-strategy-edinburgh--1",
-  "text_sha1": "d53d31b9b1895e926e28ebde7486e389a848132a",
-  "leaks": []
- },
- {
-  "item": "real-strategy-uk-herts--0",
-  "text_sha1": "df26841a15fb78d6f0eab411dc1baeed293c6484",
-  "leaks": [
-   {
-    "text": "Wright Building",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Main building",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "College Lane Campus",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Herts",
-    "category": "PLACE"
-   }
-  ]
- },
- {
   "item": "real-strategy-uk-leeds--0",
-  "text_sha1": "612d9232c99cc8ae2c6127494e0e9d4769c5e534",
+  "text_sha1": "f7d84828ce66f16bb256ccd3ac1167a2442c90ac",
   "leaks": [
    {
-    "text": "The University",
+    "text": "UK",
+    "category": "PLACE"
+   },
+   {
+    "text": "HEFCE",
     "category": "ORGANISATION"
    },
    {
-    "text": "the University",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "the University\u2019s",
+    "text": "Government",
     "category": "ORGANISATION"
    }
   ]
@@ -5936,30 +5940,88 @@
  },
  {
   "item": "real-strategy-uk-leeds--3",
-  "text_sha1": "f7d84828ce66f16bb256ccd3ac1167a2442c90ac",
+  "text_sha1": "9c8766b0c81b4258f9468ca9e17ac9bfdffc5cd2",
   "leaks": [
    {
     "text": "UK",
     "category": "PLACE"
+   },
+   {
+    "text": "UK research councils",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "EU",
+    "category": "ORGANISATION"
    },
    {
     "text": "HEFCE",
     "category": "ORGANISATION"
    },
    {
-    "text": "Government",
+    "text": "N8",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Centre for Bioinformatics",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Consumer Data Research Centre",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "High Performance Computing Centre",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Wellcome Trust",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Innovation Training networks (EU)",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-manchester--0",
-  "text_sha1": "453f6a3984cc1416de9bc8f51b9caaca560630b0",
-  "leaks": []
+  "text_sha1": "538e8b852a5c8c2798672e366ecb8ddee39f40b1",
+  "leaks": [
+   {
+    "text": "Atom Valley",
+    "category": "PLACE"
+   },
+   {
+    "text": "Rochdale",
+    "category": "PLACE"
+   },
+   {
+    "text": "Tameside",
+    "category": "PLACE"
+   },
+   {
+    "text": "Cumbria",
+    "category": "PLACE"
+   },
+   {
+    "text": "Bruntwood SciTech",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Sister",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-manchester--1",
-  "text_sha1": "48613f4cd1593256d04e68feebac7e1f39d69845",
+  "text_sha1": "c415c97197455a75d45a0073a4f04be5d694fa30",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-manchester--2",
+  "text_sha1": "0e059e640c054f8c864853e67bcdd2dce3613bfc",
   "leaks": [
    {
     "text": "UK",
@@ -5968,14 +6030,26 @@
   ]
  },
  {
-  "item": "real-strategy-manchester--2",
-  "text_sha1": "2f57b72c1a62887f13e2dbecb46bcb0b05e727b4",
-  "leaks": []
- },
- {
   "item": "real-strategy-manchester--3",
-  "text_sha1": "251d5d7ef691632995a641669b7f3f42c517bd3b",
-  "leaks": []
+  "text_sha1": "9219596037999ed400975fbd2ccfa5ab838f3923",
+  "leaks": [
+   {
+    "text": "University College for Interdisciplinary Learning (UCIL)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Living Lab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Global Classroom",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UK",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-uk-northampton--0",
@@ -5993,12 +6067,13 @@
  },
  {
   "item": "real-strategy-uk-plymouth--0",
-  "text_sha1": "a6e9f82b6dbeca25c23dd5d48e07b617f7611a82",
+  "text_sha1": "83da38c3a6a86c10010602b7b6382670842a6978",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-uk-plymouth--1",
+  "text_sha1": "946156f21d7afdbe0ea980f69a343223ca2c95ae",
   "leaks": [
-   {
-    "text": "UK",
-    "category": "PLACE"
-   },
    {
     "text": "UK",
     "category": "PLACE"
@@ -6006,27 +6081,35 @@
    {
     "text": "Maritime Strategy to 2050",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "South-West",
+    "category": "PLACE"
    }
   ]
  },
  {
-  "item": "real-strategy-uk-plymouth--1",
-  "text_sha1": "83da38c3a6a86c10010602b7b6382670842a6978",
-  "leaks": []
- },
- {
   "item": "real-strategy-uk-reading--0",
-  "text_sha1": "2d192c8d0e4b69b9f32d4b10303392c3a383d895",
-  "leaks": []
+  "text_sha1": "98e1ac2c8acd8033d79cabe8de6c77f6b1a66380",
+  "leaks": [
+   {
+    "text": "UK",
+    "category": "PLACE"
+   },
+   {
+    "text": "3Rs Framework",
+    "category": "REF"
+   }
+  ]
  },
  {
   "item": "real-strategy-uk-reading--1",
-  "text_sha1": "496b77bb6fa0d7536d67e5914d10a3f7944ff3c6",
+  "text_sha1": "1298bf65fe5da3ca86c747c5802d6f032f668805",
   "leaks": []
  },
  {
   "item": "real-strategy-uk-reading--2",
-  "text_sha1": "1298bf65fe5da3ca86c747c5802d6f032f668805",
+  "text_sha1": "2d192c8d0e4b69b9f32d4b10303392c3a383d895",
   "leaks": []
  },
  {
@@ -6036,7 +6119,17 @@
  },
  {
   "item": "real-strategy-uk-sheffield--0",
-  "text_sha1": "7958401a94679f1cf4300362b4413dafb3aed624",
+  "text_sha1": "44185dc8848e01a4ea384319b01efe3c90264b4b",
+  "leaks": [
+   {
+    "text": "Northern Gritstone",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-uk-sheffield--1",
+  "text_sha1": "0d8fefcda30c0d8f5f4418e8747cc6d4f192a8f1",
   "leaks": [
    {
     "text": "UUK",
@@ -6047,26 +6140,35 @@
     "category": "ORGANISATION"
    },
    {
-    "text": "#step change framework",
-    "category": "REF"
+    "text": "#stepchange",
+    "category": "ORGANISATION"
    },
    {
     "text": "University Mental Health Charter",
-    "category": "REF"
+    "category": "ORGANISATION"
    },
    {
     "text": "Students\u2019 Union",
     "category": "ORGANISATION"
    },
    {
-    "text": "campus",
-    "category": "PLACE"
+    "text": "Sustainability Strategy and Action Plan",
+    "category": "REF"
+   },
+   {
+    "text": "Education for Sustainable Development",
+    "category": "REF"
    }
   ]
  },
  {
-  "item": "real-strategy-uk-sheffield--1",
-  "text_sha1": "a6ea65e831c2a9237d867d503cc4d7c03a564c69",
+  "item": "real-strategy-uk-sheffield--2",
+  "text_sha1": "d116078c446e0a2e6ad72ab4548b0c36d724b953",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-uk-sheffield--3",
+  "text_sha1": "e3e4a5e157fc8d64a4570b0893f13cfc742642ff",
   "leaks": [
    {
     "text": "UK",
@@ -6081,25 +6183,10 @@
     "category": "ORGANISATION"
    },
    {
-    "text": "Yorkshire",
+    "text": "South Yorkshire",
     "category": "PLACE"
    }
   ]
- },
- {
-  "item": "real-strategy-uk-sheffield--2",
-  "text_sha1": "44185dc8848e01a4ea384319b01efe3c90264b4b",
-  "leaks": [
-   {
-    "text": "Northern Gritstone",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-uk-sheffield--3",
-  "text_sha1": "d116078c446e0a2e6ad72ab4548b0c36d724b953",
-  "leaks": []
  },
  {
   "item": "real-strategy-uk-surrey--0",
@@ -6131,22 +6218,22 @@
  },
  {
   "item": "real-strategy-uk-sussex--0",
-  "text_sha1": "7a0a8c264d14e02490bc296fc24a19d7f895a67b",
-  "leaks": [
-   {
-    "text": "Sussex\u02c8s",
-    "category": "PLACE"
-   },
-   {
-    "text": "University",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "9e747b74ddf159ae639756ef42847b6410a4078f",
+  "leaks": []
  },
  {
   "item": "real-strategy-uk-sussex--1",
-  "text_sha1": "e92c86ea6e24c896ecb4639049b5c5c34084ca70",
+  "text_sha1": "34f52fee1da73d5ff98f817afacff0f766e0cad1",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-uk-sussex--2",
+  "text_sha1": "c2e2e94ab75393d7b1b6b8c3ae44cf188da2833c",
   "leaks": [
+   {
+    "text": "South Downs",
+    "category": "PLACE"
+   },
    {
     "text": "UNESCO",
     "category": "ORGANISATION"
@@ -6154,17 +6241,26 @@
   ]
  },
  {
-  "item": "real-strategy-uk-sussex--2",
-  "text_sha1": "34f52fee1da73d5ff98f817afacff0f766e0cad1",
-  "leaks": []
- },
- {
   "item": "real-strategy-uk-sussex--3",
-  "text_sha1": "371d4acb209bf0ed01551b526c01bf8274cbdb15",
-  "leaks": []
+  "text_sha1": "5f525cbd9a7f1e61c95cfccc52e1f5f321a12ca4",
+  "leaks": [
+   {
+    "text": "South Downs",
+    "category": "PLACE"
+   },
+   {
+    "text": "UNESCO",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-us-ball-state--0",
+  "text_sha1": "2f2f738a26bcfb91bbf8e506da171004a2fceea3",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-us-ball-state--1",
   "text_sha1": "23cec1c37f514cb420bb7007ce8bb6f88ccbac93",
   "leaks": [
    {
@@ -6184,11 +6280,39 @@
  },
  {
   "item": "real-strategy-us-sacramento-state--1",
-  "text_sha1": "846476a383288a95a586fd2575dd99313a135225",
+  "text_sha1": "207dbbb2abea71d4245916e87d5508636f242b9b",
   "leaks": [
    {
-    "text": "[PLACE] State",
-    "category": "PLACE"
+    "text": "MGT Consulting Group (MGT)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Microsoft Teams",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Anchor University",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Money Magazine",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Carnegie Foundation Honour for Community Service",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "U.S. News and World Report",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Most Transformative College",
+    "category": "REF"
+   },
+   {
+    "text": "Most Diverse University in the west",
+    "category": "REF"
    }
   ]
  },
@@ -6204,14 +6328,38 @@
  },
  {
   "item": "real-strategy-us-sacramento-state--3",
-  "text_sha1": "3bc7cc03a5399835bebdddbfb718755c6ea21386",
+  "text_sha1": "ca103467c3f9b1f17e41201c316eaac367ad9616",
   "leaks": [
    {
-    "text": "San Diego State",
+    "text": "U.S. News and World Report 2019",
     "category": "ORGANISATION"
    },
    {
-    "text": "Cal Maritime",
+    "text": "Sac State Stands with Immigrants",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National I Stand with Immigrants Day of Action",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Finish in Four",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Through in Two",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CSU",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Placer County",
+    "category": "PLACE"
+   },
+   {
+    "text": "Placer Ranch Inc.",
     "category": "ORGANISATION"
    }
   ]
@@ -6256,57 +6404,91 @@
  },
  {
   "item": "real-strategy-us-georgia-southern--0",
-  "text_sha1": "802de2b25dc3ae11b37d31fe5d785a7337b5838c",
-  "leaks": [
-   {
-    "text": "Southern",
-    "category": "PLACE"
-   },
-   {
-    "text": "Eagle Nation",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-us-georgia-southern--1",
   "text_sha1": "f6655de84da142994614009ecbff48b30302bc4b",
   "leaks": []
  },
  {
-  "item": "real-strategy-us-grinnell-college--0",
-  "text_sha1": "98156cfcd467489400e823de766e51599051e42a",
+  "item": "real-strategy-us-georgia-southern--1",
+  "text_sha1": "69f82faa9ef040b71605c35f3ab9d53087037b28",
   "leaks": [
    {
-    "text": "Centre for Prairie Studies",
+    "text": "Armstrong State University",
     "category": "ORGANISATION"
    },
    {
-    "text": "Meskwaki Nation",
+    "text": "Statesboro Campus",
     "category": "ORGANISATION"
    },
    {
-    "text": "Midwest",
+    "text": "Armstrong Campus in Savannah",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "East [PLACE] Campus in Swainsboro",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Liberty Campus in Hinesville",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Southern Association of Colleges and Schools",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Hyundai",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Gulfstream",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "JCB",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Port of Savannah",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "[PLACE] Ports Authority",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "The Wall Street Journal",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Savannah",
     "category": "PLACE"
    },
    {
-    "text": "Conrad Environmental Research Area (CERA)",
-    "category": "ORGANISATION"
+    "text": "Swainsboro",
+    "category": "PLACE"
    },
    {
-    "text": "Renfrow Hall",
-    "category": "ORGANISATION"
+    "text": "Hinesville",
+    "category": "PLACE"
+   },
+   {
+    "text": "southeast [PLACE]",
+    "category": "PLACE"
+   },
+   {
+    "text": "U.S.",
+    "category": "PLACE"
    }
   ]
  },
  {
-  "item": "real-strategy-us-grinnell-college--1",
+  "item": "real-strategy-us-grinnell-college--0",
   "text_sha1": "339e34cf0824624abdab1d367a829cee3f60fb21",
   "leaks": []
  },
  {
-  "item": "real-strategy-us-grinnell-college--2",
-  "text_sha1": "ed70f62ffe06f3732e9c059f9d44a53f99b67a63",
+  "item": "real-strategy-us-grinnell-college--1",
+  "text_sha1": "48d307c8f8638f9cd6c27adac655ddfa07ed222a",
   "leaks": [
    {
     "text": "the Wilson Centre",
@@ -6315,88 +6497,114 @@
    {
     "text": "the Institute for Global Engagement",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "the Laurel Scholars program",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-grinnell-college--2",
+  "text_sha1": "cbefb62c22528730284f308f0af81a7861f12ab9",
+  "leaks": [
+   {
+    "text": "Renfrow Hall",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Civic Innovation Pavilion",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Bucksbaum",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "MakerSpace downtown",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Grinnellians",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-us-howard--0",
-  "text_sha1": "6e1c5b51db76262254c5f49cbd278ba9a69d40bc",
-  "leaks": []
- },
- {
-  "item": "real-strategy-us-howard--1",
-  "text_sha1": "12ecf1a0eb89eee72f4f06cc937eb9c198bcd442",
+  "text_sha1": "390651da8acec04e97650edd09378ac12ebbd3a3",
   "leaks": [
    {
-    "text": "Independent Sector\u2019s Value of Volunteer Time",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "HUASB",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Girls\u2019 Empowerment and Advocacy Program",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Dr. [PERSON]",
+    "text": "Robin Whitfield",
     "category": "PERSON"
    },
    {
-    "text": "School of Social Work",
+    "text": "Fitch Ratings",
     "category": "ORGANISATION"
    },
    {
-    "text": "District",
-    "category": "PLACE"
-   },
-   {
-    "text": "Middle School of Mathematics and Science (MS)2",
+    "text": "S&P Global",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "School of Education",
-    "category": "ORGANISATION"
-   },
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-howard--1",
+  "text_sha1": "bf10e99d0de2471f688e104b690d93b6a097257d",
+  "leaks": [
    {
     "text": "Bill and Melinda Gates Foundation",
     "category": "ORGANISATION"
    },
    {
-    "text": "Algebra 1",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Black girls",
+    "text": "D.C.",
     "category": "PLACE"
    },
    {
-    "text": "2022-2023",
-    "category": "REF"
+    "text": "DC\u2019s",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-us-howard--2",
-  "text_sha1": "b0222b535bb92268e18e112c80b0a4bddb3ef926",
-  "leaks": [
-   {
-    "text": "University of Illinois Chicago",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "University of Miami",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "2d4b0187e962c5ebe59d12aff6861f00df76a1f4",
+  "leaks": []
  },
  {
   "item": "real-strategy-us-howard--3",
-  "text_sha1": "1f4deb23fb176cd0666926446f6094fc99ed9bf7",
+  "text_sha1": "dd7989e27b604e82e55ac1b7433c3f803771c300",
   "leaks": [
    {
+    "text": "Canvas",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Workday",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "BisonHub",
+    "category": "ORGANISATION"
+   },
+   {
     "text": "Myrtilla Miner Building",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "School of Divinity",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Master of Divinity (MDiv)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Master of Business Administration (MBA)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "MDiv/MBA",
     "category": "ORGANISATION"
    }
   ]
@@ -6427,88 +6635,181 @@
  },
  {
   "item": "real-strategy-michigan-state--0",
-  "text_sha1": "4422c47043c05b6d8e975a53b0c458d676d6cf79",
-  "leaks": []
- },
- {
-  "item": "real-strategy-michigan-state--1",
-  "text_sha1": "63832d4bc830e1aefd6f44101abd0212621c1e9c",
+  "text_sha1": "719cd3bbd0f8820bb7cc52746a71a00ee426f8e8",
   "leaks": [
    {
     "text": "[PLACE] State",
-    "category": "PLACE"
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-michigan-state--1",
+  "text_sha1": "84ee4d145798a9aa438848d44c5163cf4ab98c7b",
+  "leaks": [
+   {
+    "text": "U.S. Commission on Civil Rights",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "President Eisenhower",
+    "category": "PERSON"
+   },
+   {
+    "text": "Julian Samora Research Institute",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-michigan-state--2",
-  "text_sha1": "cbba860bdcd7a11a8098df58c7aceb07bd472301",
+  "text_sha1": "ce5428147f072022a4241302566aa37dc0adc126",
   "leaks": [
    {
-    "text": "[PLACE] State",
+    "text": "Billman Music Pavilion",
     "category": "ORGANISATION"
    },
    {
-    "text": "Spartans",
-    "category": "REF"
+    "text": "Eli and Edythe Broad Art Museum",
+    "category": "ORGANISATION"
    },
    {
-    "text": "Empower Extraordinary",
-    "category": "REF"
+    "text": "[PLACE] State",
+    "category": "PLACE"
+   },
+   {
+    "text": "National Academy of Sciences",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National Academy of Engineering",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "National Academy of Medicine",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Guggenheim Fellows",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "HBCUs",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "HSIs",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-michigan-state--3",
-  "text_sha1": "2f5c44860bd01e7fff7cb8d35919a9540a42b3d1",
+  "text_sha1": "dc985fb3fc084e0161f640a34de1675abd9a0049",
   "leaks": [
    {
-    "text": "Doug Meijer Medical Innovation Building",
+    "text": "FRIB",
     "category": "ORGANISATION"
    },
    {
-    "text": "Grand Rapids",
+    "text": "Flint",
     "category": "PLACE"
    },
    {
-    "text": "Henry Ford Health System",
+    "text": "Global Impact Initiative",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-nc-at--0",
+  "text_sha1": "57c87e6c2740ad17e15d131a3d57d8bddb68468b",
+  "leaks": [
+   {
+    "text": "A&T",
     "category": "ORGANISATION"
    },
    {
-    "text": "HFHS",
+    "text": "Preeminence 2030: [PLACE] A&T Blueprint",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-nc-at--1",
+  "text_sha1": "986a65fb13ad7c3676e4a91483cf9a77a376d394",
+  "leaks": [
+   {
+    "text": "A&T",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Raleigh",
+    "category": "PLACE"
+   },
+   {
+    "text": "U.S. News & World Report",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-nc-at--2",
+  "text_sha1": "d3b2b0219ec4c565a93134a33c1f429ae18ad61d",
+  "leaks": [
+   {
+    "text": "A&T",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "A&T\u2019s",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "land-grant institution",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-nc-at--3",
+  "text_sha1": "9ec6e5a0e6401e1db21a939c7bfc4e2cc3300f7b",
+  "leaks": [
+   {
+    "text": "A&T",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "A&T",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "A&T",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-us-oberlin-college--0",
-  "text_sha1": "1c0787d69b8fce2c6f643d36667577be76e4ac3f",
+  "text_sha1": "af5e8caee6891f24270a9ce9e605a6ede8891359",
   "leaks": [
    {
+    "text": "College of Arts and Sciences",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Conservatory of Music",
+    "category": "ORGANISATION"
+   },
+   {
     "text": "Allen Memorial Art Museum",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Science Centre",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Adam Joseph Lewis Centre for Environmental Studies",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Finney Chapel",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Hall Auditorium",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-us-oberlin-college--1",
-  "text_sha1": "4011e9a913f2690226cc3afc1f75cf947c46fd59",
+  "text_sha1": "c9eef6a61efb60fb954910592621a0df534cc979",
   "leaks": []
  },
  {
@@ -6527,40 +6828,21 @@
  },
  {
   "item": "real-strategy-us-oberlin-college--3",
-  "text_sha1": "9862628b233ab977bfb3ac9ca6a21b7ce28aef8d",
-  "leaks": []
+  "text_sha1": "329c9c0813dde29949bb46d1d89b425b08b9873a",
+  "leaks": [
+   {
+    "text": "U.S.",
+    "category": "PLACE"
+   }
+  ]
  },
  {
   "item": "real-strategy-us-risd--0",
-  "text_sha1": "c1304ce090c7069f6cc97b39060cf51474608c0f",
-  "leaks": [
-   {
-    "text": "United Nations Sustainable Development Solutions Network",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Nature Lab",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-us-risd--1",
-  "text_sha1": "1c519f180824f870e1681fb87220420934c7a1d9",
-  "leaks": [
-   {
-    "text": "Teaching and Learning Lab",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-us-risd--2",
-  "text_sha1": "8373c8512d876275075b5b4f4a1797a4aef666ab",
+  "text_sha1": "489d1d89a8f4944c988dae3a59ea9d599234c32c",
   "leaks": []
  },
  {
-  "item": "real-strategy-us-risd--3",
+  "item": "real-strategy-us-risd--1",
   "text_sha1": "1d9e0cd783c5145c0c9ea4cd304827b694a2bd3d",
   "leaks": [
    {
@@ -6574,17 +6856,109 @@
   ]
  },
  {
-  "item": "real-strategy-us-texas-am--0",
-  "text_sha1": "ab2b9d46884bbdde8b3fa5e881ddcf5d51617143",
+  "item": "real-strategy-us-risd--2",
+  "text_sha1": "8373c8512d876275075b5b4f4a1797a4aef666ab",
   "leaks": []
+ },
+ {
+  "item": "real-strategy-us-risd--3",
+  "text_sha1": "4a79578d8d312fda974c0476e78cc2666e470c0e",
+  "leaks": [
+   {
+    "text": "Nature Lab",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Teaching and Learning Lab",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-texas-am--0",
+  "text_sha1": "1547c2f111433512dd84f27abf267fdc1cb0ef41",
+  "leaks": [
+   {
+    "text": "A&M",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-us-texas-am--1",
-  "text_sha1": "f0baf60a990282911757a9743db87aba21654f7c",
+  "text_sha1": "d04e06dd3bc19e77b3bb5164dd5fcede0ca89ada",
+  "leaks": [
+   {
+    "text": "Aggie",
+    "category": "PERSON"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-texas-am--2",
+  "text_sha1": "3ecffe41ba13b1fa3e3080301b16d2789022b352",
   "leaks": []
  },
  {
+  "item": "real-strategy-us-texas-am--3",
+  "text_sha1": "9ea338033df50ab56e453096d282df0c2edc3683",
+  "leaks": [
+   {
+    "text": "\u201cAggie\u201d",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "A&M",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-us-utep--0",
+  "text_sha1": "70d6e472a811218059dd9a380665953e9b5563f8",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-us-utep--1",
+  "text_sha1": "82c937bf4253e937af8b3eb020826b9919fcfb8d",
+  "leaks": [
+   {
+    "text": "U.S.-Mexico",
+    "category": "PLACE"
+   },
+   {
+    "text": "Mexico",
+    "category": "PLACE"
+   },
+   {
+    "text": "Latin",
+    "category": "PLACE"
+   },
+   {
+    "text": "Language Institute",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Programa Interamericano Estudiantil (PIE)",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Creative Writing program",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "MFA",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-utep--2",
+  "text_sha1": "d8b23a20bf0d59af414303ca58f5793d00e3b7de",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-us-utep--3",
   "text_sha1": "92cc435ac1775400122a2311537d4df128942a13",
   "leaks": [
    {
@@ -6598,23 +6972,13 @@
   ]
  },
  {
-  "item": "real-strategy-us-utep--1",
-  "text_sha1": "70d6e472a811218059dd9a380665953e9b5563f8",
-  "leaks": []
- },
- {
-  "item": "real-strategy-us-utep--2",
-  "text_sha1": "d8b23a20bf0d59af414303ca58f5793d00e3b7de",
-  "leaks": []
- },
- {
   "item": "real-strategy-us-iowa--0",
-  "text_sha1": "367e19600b90671f428b40d7ea2f408f88c914b0",
+  "text_sha1": "eab781e105612793be98b8fd6aadb33f5abd3159",
   "leaks": []
  },
  {
   "item": "real-strategy-us-iowa--1",
-  "text_sha1": "bcaa48b1db7668bb1701ee070e63b38db361fa0c",
+  "text_sha1": "f9507a2c3257593a56ec754fddd763b4986f6cf8",
   "leaks": [
    {
     "text": "Hawkeye",
@@ -6624,11 +6988,6 @@
  },
  {
   "item": "real-strategy-us-iowa--2",
-  "text_sha1": "85abfec504f4aeacc0f42605177e642d62bcf771",
-  "leaks": []
- },
- {
-  "item": "real-strategy-us-iowa--3",
   "text_sha1": "507c4b9e6ab0987ac6f5691363e08eca56f297e5",
   "leaks": [
    {
@@ -6638,60 +6997,25 @@
   ]
  },
  {
+  "item": "real-strategy-us-iowa--3",
+  "text_sha1": "9207440a281bb15b4d70c73d6932240e33f41c82",
+  "leaks": [
+   {
+    "text": "UI",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UNIVERSITY OF IOWA",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "IOWA",
+    "category": "PLACE"
+   }
+  ]
+ },
+ {
   "item": "real-strategy-us-university-of-kentucky--0",
-  "text_sha1": "b8c08fb41e667cc9f0bdbe9eb8ae904f040d42f1",
-  "leaks": []
- },
- {
-  "item": "real-strategy-us-university-of-kentucky--1",
-  "text_sha1": "2cb95dff0e6fb167fa995fa3865fc00d1c81b669",
-  "leaks": [
-   {
-    "text": "UK",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UK Online",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UK LEADS",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Kentuckians",
-    "category": "PLACE"
-   },
-   {
-    "text": "Council on Postsecondary Education (CPE)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Northern [PLACE]",
-    "category": "PLACE"
-   },
-   {
-    "text": "Bowling Green",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-us-university-of-kentucky--2",
-  "text_sha1": "a9b1e3152563c6d2da4aa72e855066bba58a1083",
-  "leaks": [
-   {
-    "text": "UK Athletics",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UK",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-strategy-us-university-of-kentucky--3",
   "text_sha1": "370954e19ca8e1a1a199e19cb56a4e6dd964abf7",
   "leaks": [
    {
@@ -6729,9 +7053,62 @@
   ]
  },
  {
-  "item": "real-strategy-us-nebraska-lincoln--0",
-  "text_sha1": "1f56beb3a9d6abba6ce17a3f698c38e54b0313c4",
+  "item": "real-strategy-us-university-of-kentucky--1",
+  "text_sha1": "471d5f2cf843717c4e86c2e04f50211afc4d36bb",
   "leaks": [
+   {
+    "text": "UK HealthCare",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Markey Cancer Centre",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-university-of-kentucky--2",
+  "text_sha1": "924b288ea533ffd715c6f896385f8aef51f1f439",
+  "leaks": []
+ },
+ {
+  "item": "real-strategy-us-university-of-kentucky--3",
+  "text_sha1": "cfa3f08ac2ed02608b7835de6d231ea89efda9fb",
+  "leaks": [
+   {
+    "text": "UK",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UK",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UK",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UK",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-nebraska-lincoln--0",
+  "text_sha1": "c1313c436f10bebf6e576ce57b646642bb98e49c",
+  "leaks": [
+   {
+    "text": "UNL",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "N2025 Strategic Plan",
+    "category": "REF"
+   },
+   {
+    "text": "Big 10",
+    "category": "ORGANISATION"
+   },
    {
     "text": "The University of Nebraska",
     "category": "ORGANISATION"
@@ -6744,12 +7121,8 @@
  },
  {
   "item": "real-strategy-us-nebraska-lincoln--1",
-  "text_sha1": "9bbf6f7cc7255dd2468f254a09fbd091d4219d43",
+  "text_sha1": "664e83a1dafe1b4619180620d4f1b1a89eb28071",
   "leaks": [
-   {
-    "text": "Nebraska Innovation Campus",
-    "category": "ORGANISATION"
-   },
    {
     "text": "Nebraska",
     "category": "PLACE"
@@ -6757,48 +7130,12 @@
    {
     "text": "University of Nebraska",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Nebraska",
-    "category": "PLACE"
-   },
-   {
-    "text": "Huskers for Life program",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UNL",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Carnegie Community Engagement",
-    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-us-nebraska-lincoln--2",
-  "text_sha1": "b8d559b36a967b353f0d576a3245a8d325fd793c",
+  "text_sha1": "6d77f2b584f215335e536ac3d97bf7379a2f218d",
   "leaks": [
    {
     "text": "UNL",
@@ -6820,8 +7157,12 @@
  },
  {
   "item": "real-strategy-us-nebraska-lincoln--3",
-  "text_sha1": "62e3406b1c0e03304b7977cc041fd3010eaf6177",
+  "text_sha1": "5279f37297f58e2774d4bf5365396084acebcd2a",
   "leaks": [
+   {
+    "text": "Nebraska Innovation Campus",
+    "category": "ORGANISATION"
+   },
    {
     "text": "Nebraska",
     "category": "PLACE"
@@ -6829,53 +7170,113 @@
    {
     "text": "University of Nebraska",
     "category": "ORGANISATION"
+   },
+   {
+    "text": "Huskers for Life",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UNL",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Carnegie Community Engagement",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-us-unc-charlotte--0",
-  "text_sha1": "6229cf3865e566ae0f86d3909c1f578baf3ee0c3",
+  "text_sha1": "78fd31ee38e196af32287477e4e68cd84a93e0d1",
   "leaks": [
    {
-    "text": "UNC",
+    "text": "Centres for Disease Control and Prevention",
     "category": "ORGANISATION"
    },
    {
-    "text": "49erNext",
+    "text": "Atlanta, GA",
+    "category": "PLACE"
+   },
+   {
+    "text": "CDC/ATSDR Committee on Community Engagement",
     "category": "ORGANISATION"
    },
    {
-    "text": "School of Professional Studies",
+    "text": "Campus Compact",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Los Angeles",
+    "category": "PLACE"
+   },
+   {
+    "text": "Research Universities and Civic Engagement Network",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Emily M. Janke",
+    "category": "PERSON"
+   },
+   {
+    "text": "Springfield, MO",
+    "category": "PLACE"
+   },
+   {
+    "text": "Missouri State University",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-strategy-us-unc-charlotte--1",
-  "text_sha1": "c02c758d89e3f5134af5de6c54dc904f403df8ba",
-  "leaks": []
- },
- {
-  "item": "real-strategy-us-usc--0",
-  "text_sha1": "27f548b7b5f898e6ed104e7063c0a7554bdf1de2",
+  "text_sha1": "18fc3c8b89bd8c7bfdc755b1c647c6b2fdaae0c9",
   "leaks": [
    {
-    "text": "Renaissance Scholars program",
+    "text": "UNC [PLACE]",
     "category": "ORGANISATION"
    },
    {
-    "text": "Thematic Option program",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Neural, Informational and Behavioural Sciences (NIBS) doctoral program",
+    "text": "Niner University Elementary School",
     "category": "ORGANISATION"
    }
   ]
  },
  {
+  "item": "real-strategy-us-unc-charlotte--2",
+  "text_sha1": "384bd1325d6d3ba13e6388ba3605a4526294127b",
+  "leaks": [
+   {
+    "text": "Centre for Entrepreneurship and Innovation",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Niner Research",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "UNC [PLACE]",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-unc-charlotte--3",
+  "text_sha1": "5f1fad469c854b448132f5aa43e89b3de34ef28b",
+  "leaks": [
+   {
+    "text": "Kuh, G.D.",
+    "category": "PERSON"
+   }
+  ]
+ },
+ {
+  "item": "real-strategy-us-usc--0",
+  "text_sha1": "bb704142fba7cc5d6148eae48ce39bd791955fc7",
+  "leaks": []
+ },
+ {
   "item": "real-strategy-us-usc--1",
-  "text_sha1": "c6d3fd62df4de611f9deedc287d91be04fb5b313",
+  "text_sha1": "f3591912ba72a44147a77ca96693a45ccfc4f47a",
   "leaks": [
    {
     "text": "Trojan Family",
@@ -6884,38 +7285,14 @@
   ]
  },
  {
-  "item": "real-strategy-us-usc--2",
-  "text_sha1": "5deb3d3878e492d23dff41c0da7dd108b1260934",
-  "leaks": [
-   {
-    "text": "University Park",
-    "category": "PLACE"
-   },
-   {
-    "text": "Health Sciences campuses",
-    "category": "PLACE"
-   }
-  ]
- },
- {
   "item": "real-strategy-us-vanderbilt--0",
-  "text_sha1": "5c3f6e5b65997bfb97858357184684780238ad5e",
-  "leaks": [
-   {
-    "text": "our 150th anniversary in 2023",
-    "category": "REF"
-   }
-  ]
+  "text_sha1": "8664663bde4fad03bd9b0b551e90bd7684a9fde7",
+  "leaks": []
  },
  {
   "item": "real-strategy-us-vanderbilt--1",
-  "text_sha1": "0642288f9448f31d0c20c3463d9e2c1b97743203",
-  "leaks": [
-   {
-    "text": "University",
-    "category": "ORGANISATION"
-   }
-  ]
+  "text_sha1": "d401513b96b9fdbcdc976e01a4cae32c7271ccc2",
+  "leaks": []
  },
  {
   "item": "real-strategy-us-vanderbilt--2",
@@ -6924,16 +7301,16 @@
  },
  {
   "item": "real-strategy-us-vanderbilt--3",
-  "text_sha1": "3670bfa25e34fbb3d7c577d4c65ee4c5ac583040",
+  "text_sha1": "553377cde92aab880fea7f43a978258adeff4b65",
   "leaks": []
  },
  {
   "item": "real-strategy-us-western-kentucky--0",
-  "text_sha1": "a4384e56027fe3f09d97aa3615f18c20428723bc",
+  "text_sha1": "0d81f9fe90db41775daa03e59ce3a2139ff3cdcb",
   "leaks": [
    {
-    "text": "The Hill",
-    "category": "PLACE"
+    "text": "Hilltopper",
+    "category": "ORGANISATION"
    }
   ]
  },
@@ -6977,23 +7354,45 @@
  },
  {
   "item": "real-strategy-us-western-kentucky--2",
-  "text_sha1": "5cb918ae953ba8a6dcf43f2c2691a2b5d629d25a",
-  "leaks": []
+  "text_sha1": "45224f3759f2875f19c785bf3b5e5658057e60ea",
+  "leaks": [
+   {
+    "text": "Bowling Green",
+    "category": "PLACE"
+   },
+   {
+    "text": "Van Meter Hall",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Cherry",
+    "category": "PERSON"
+   }
+  ]
  },
  {
   "item": "real-strategy-us-western-kentucky--3",
-  "text_sha1": "9ddd6214fd8b0ef15ec285efa8c1d4cb9cac7969",
+  "text_sha1": "a4384e56027fe3f09d97aa3615f18c20428723bc",
   "leaks": [
    {
-    "text": "Hilltoppers",
-    "category": "ORGANISATION"
+    "text": "The Hill",
+    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-strategy-wales-bangor--0",
-  "text_sha1": "4ad6b8b87de57a92827fee8a449741dc6e450aa9",
-  "leaks": []
+  "text_sha1": "372a690b6e2670ef92131a46992fc6b66cc3c5e9",
+  "leaks": [
+   {
+    "text": "The University",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "the University\u2019s",
+    "category": "ORGANISATION"
+   }
+  ]
  },
  {
   "item": "real-strategy-wales-bangor--1",
@@ -7011,42 +7410,17 @@
  },
  {
   "item": "real-strategy-wales-bangor--2",
-  "text_sha1": "e3d710b7f18e5bbba8dbec987d3fefd97983e24f",
+  "text_sha1": "11042564dd80864694a8358835dbe4e16720061c",
   "leaks": [
    {
-    "text": "Arts and Innovation centre, Pontio",
-    "category": "ORGANISATION"
+    "text": "Well-being of Future Generations ([PLACE]) Act",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-strategy-wales-bangor--3",
-  "text_sha1": "43fe45d77ca857e901d6a51e7e09c453c50b7c0f",
-  "leaks": [
-   {
-    "text": "UK",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-strategy-wales-southwales--0",
-  "text_sha1": "a5a9a6e398643f4975db20b84a3b07967aa5b91f",
-  "leaks": []
- },
- {
-  "item": "real-strategy-wales-southwales--1",
-  "text_sha1": "08532de557ca9cdf7fb38cd6ab32b5d08566725a",
-  "leaks": []
- },
- {
-  "item": "real-strategy-wales-southwales--2",
-  "text_sha1": "db4e26800ba552d33f14e962de2e358fffde3411",
-  "leaks": []
- },
- {
-  "item": "real-strategy-wales-southwales--3",
-  "text_sha1": "da2158f9870e2cde948a2b02d9c67595a792f2a5",
+  "text_sha1": "b4f7e657da1cd1121c68f442864a16fd79bcd3be",
   "leaks": []
  },
  {
@@ -7056,7 +7430,7 @@
  },
  {
   "item": "real-strategy-wales-uwtsd--1",
-  "text_sha1": "5a841c7945af629f100e1ff8758e74770c08b237",
+  "text_sha1": "dbc648a2ca6b596b8f87ef191a128ddd9c7e2520",
   "leaks": [
    {
     "text": "Medr",
@@ -7067,11 +7441,7 @@
     "category": "REF"
    },
    {
-    "text": "[PLACE] 2050",
-    "category": "REF"
-   },
-   {
-    "text": "Institute of Inner-[PLACE] Learning",
+    "text": "Institute of Inner-City Learning",
     "category": "ORGANISATION"
    },
    {
@@ -7086,240 +7456,171 @@
  },
  {
   "item": "real-impact-anu--0",
-  "text_sha1": "ce22a7799883683e38502da82eeba1994647e906",
+  "text_sha1": "58a40aa7876731aa6b1d64f9f8e5871ee52b66de",
   "leaks": [
    {
-    "text": "Research Portal Plus (RP+)",
+    "text": "Wiyi Yani U Thangani",
     "category": "ORGANISATION"
    },
    {
-    "text": "Research Ethics Management System (REMS)",
+    "text": "Wiyi Yani U Thangani (Women\u2019s Voices) Project",
     "category": "ORGANISATION"
    },
    {
-    "text": "National Centre for [PLACE] Genomics",
+    "text": "Human Rights Commission",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "ACTS",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "International Alliance of Research Universities (IARU)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "ACTS Future of Sustainability conference",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Green Gown Awards",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Carbon Smart Travel",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Department of Finance",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Climate Action in Government Operations network",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Federal Government",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Australasian",
-    "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-impact-anu--1",
-  "text_sha1": "ae365fd1e8c565c1a8a970e03bb9e20ff5cd7b22",
+  "text_sha1": "f8ba884352cd7132f5593d4bacc4f05e9a26d4ed",
   "leaks": [
    {
-    "text": "Austaxpolicy",
-    "category": "ORGANISATION"
+    "text": "Work Health and Safety Act 2011 (Cth)",
+    "category": "REF"
    },
    {
-    "text": "Integration and Implementation Insights",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "'i2Insights'",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Policy Forum Pod",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Democracy Sausage with Mark Kenny",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Mark Kenny",
-    "category": "PERSON"
-   },
-   {
-    "text": "Tech Mirror",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "[PLACE] in the World",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "National Security Podcast",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Apple",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "New Mandala",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Southeast [PLACE]",
-    "category": "PLACE"
+    "text": "Safety, Rehabilitation and Compensation Act 1988 (Cth)",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-impact-anu--2",
-  "text_sha1": "e69281203ae2f7ad17c4e63b7e3b22486779c732",
-  "leaks": []
- },
- {
-  "item": "real-impact-anu--3",
-  "text_sha1": "e4450e7b4341a39fb5176a04c68781ff5e34c20a",
+  "text_sha1": "157a1c0a2de1453e3b4e2e44d928e4871198cf7c",
   "leaks": [
    {
-    "text": "The University",
+    "text": "Rawlinsons [PLACE] Construction Handbook 2023",
     "category": "ORGANISATION"
    },
    {
-    "text": "AASB 137 Provisions, Contingent Liabilities & Contingent Assets",
+    "text": "Colliers",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-anu--3",
+  "text_sha1": "f1376c8c2b667702a9838f8239daad4b4432c060",
+  "leaks": [
+   {
+    "text": "[ORGANISATION]",
+    "category": "REF"
+   },
+   {
+    "text": "[PLACE]",
     "category": "REF"
    }
   ]
  },
  {
   "item": "real-impact-tudelft--0",
-  "text_sha1": "b2681c6dfb20564427ea817514b83817f825807e",
+  "text_sha1": "7e8ff471a477ed2c3fc1fc42383815a575b8987f",
   "leaks": [
    {
-    "text": "QuTech",
-    "category": "ORGANISATION"
+    "text": "Israel",
+    "category": "PLACE"
    },
    {
-    "text": "EEMCS faculty building",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "EEA",
+    "text": "Palestinian territories",
     "category": "PLACE"
    }
   ]
  },
  {
   "item": "real-impact-tudelft--1",
-  "text_sha1": "44d37206f3be6edba032d293c2ef5caaaaecf7ca",
-  "leaks": []
- },
- {
-  "item": "real-impact-tudelft--2",
-  "text_sha1": "763079bb0d088a3d6904a8c907a2b4fdd7bbe0a6",
+  "text_sha1": "b9aef37cbf4ffde1ca59c1252f56af36e520f72a",
   "leaks": [
    {
-    "text": "Senior Executives in the Public and Semi-Public Sector (Standards for Remuneration) Act (WNT)",
-    "category": "REF"
-   },
-   {
-    "text": "Ministry of Education, Culture and Science",
+    "text": "IHE [ORGANISATION]",
     "category": "ORGANISATION"
    },
    {
-    "text": "2018\u20132024 Strategic Framework \u2018Impact for a better society\u2019",
-    "category": "REF"
+    "text": "[PLACE] University of Applied Sciences",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-impact-tudelft--3",
-  "text_sha1": "67da7617a98fdaa3d624538bd8c69fb642c98ae5",
+  "item": "real-impact-tudelft--2",
+  "text_sha1": "dda3c3405de18f786f6cad460c869cf859adde9a",
   "leaks": []
  },
  {
-  "item": "real-impact-auckland--0",
-  "text_sha1": "7f290905fae85a93aa0099525abe6a162f2216f0",
+  "item": "real-impact-tudelft--3",
+  "text_sha1": "dfed5a78fe68e77ece4136bfb0cb18a12683471f",
   "leaks": [
    {
-    "text": "WMP",
+    "text": "Billie Cup",
     "category": "ORGANISATION"
    },
    {
-    "text": "Paige",
+    "text": "3mE Espresso Bar",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "BK Strong",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "CEG Espresso Bar",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Coffee & Bikes",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Echo Coffee Corner",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "EEMCS Espresso Bar",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Fellowship Food Market",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Library Coffee-Star",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Maas",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "PreZero",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-auckland--0",
+  "text_sha1": "0f498e0cb0aa1aea4e27b40d54f0e199843676a6",
+  "leaks": [
+   {
+    "text": "Caroline",
     "category": "PERSON"
    },
    {
-    "text": "Cecilia Tarrant",
+    "text": "The Jubilee Trust",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Jane",
     "category": "PERSON"
+   },
+   {
+    "text": "MoPED",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-impact-auckland--1",
-  "text_sha1": "6ed0e40b2afb074567ab2d8a6c1f84d67126254c",
-  "leaks": [
-   {
-    "text": "Ruofan Wang",
-    "category": "PERSON"
-   },
-   {
-    "text": "Alan",
-    "category": "PERSON"
-   },
-   {
-    "text": "Harvard University",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Harvard Radio Astronomy Station",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Joseph Taylor",
-    "category": "PERSON"
-   },
-   {
-    "text": "1993 Nobel Prize for Physics",
-    "category": "REF"
-   },
-   {
-    "text": "Alan Maxwell Science PhD Scholarship",
-    "category": "REF"
-   },
-   {
-    "text": "2021",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-impact-auckland--2",
-  "text_sha1": "646b4647a7e2c7aaa98a5f81b5984ddd08f76c92",
-  "leaks": []
- },
- {
-  "item": "real-impact-auckland--3",
   "text_sha1": "a50f07effaaf1bbfffb418595cbef03dc469816e",
   "leaks": [
    {
@@ -7333,79 +7634,27 @@
    {
     "text": "Buchanan Dance Research Residency Award",
     "category": "ORGANISATION"
-   },
-   {
-    "text": "Bioengineering Institute",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Associate Professor [PLACE] Budgett",
-    "category": "PERSON"
    }
   ]
  },
  {
-  "item": "real-impact-ucl--0",
-  "text_sha1": "ca0f735e32a2a397cc5789ef20a051f8c9f57a1a",
+  "item": "real-impact-auckland--2",
+  "text_sha1": "00a35438df0778f0d3385af4e30f91d411271e90",
   "leaks": [
    {
-    "text": "UK",
-    "category": "PLACE"
-   },
-   {
-    "text": "QS Sustainability Rankings",
+    "text": "Manaaki Manawa, the Centre for Heart Research",
     "category": "ORGANISATION"
    },
    {
-    "text": "People & Planet University League",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "PEARL",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Concordat for Environmental Sustainability in Research and Innovation",
-    "category": "REF"
-   },
-   {
-    "text": "LEAF (Laboratory Efficiency Assessment Framework)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UN",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "SDGs",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-impact-ucl--1",
-  "text_sha1": "07d898d631a2ce206096c5812ee2ac59581712c7",
-  "leaks": [
-   {
-    "text": "Offs",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-impact-ucl--2",
-  "text_sha1": "dfde3f5163118a0ca856cc04113f1ebdd9356889",
-  "leaks": [
-   {
-    "text": "Her [PLACE] Highness The Princess [PLACE]",
+    "text": "Garth Barfoot",
     "category": "PERSON"
    },
    {
-    "text": "Datuk Seri Dr [PERSON], the Deputy Prime Minister of Malaysia",
-    "category": "PERSON"
+    "text": "Barfoot & [PLACE]",
+    "category": "ORGANISATION"
    },
    {
-    "text": "Malaysia",
+    "text": "New York",
     "category": "PLACE"
    },
    {
@@ -7413,131 +7662,152 @@
     "category": "PERSON"
    },
    {
-    "text": "HM Treasury",
+    "text": "Julian",
+    "category": "PERSON"
+   },
+   {
+    "text": "Kelliher Charitable Trust",
     "category": "ORGANISATION"
    },
    {
-    "text": "the Cabinet Office",
+    "text": "Heart Foundation",
     "category": "ORGANISATION"
-   },
+   }
+  ]
+ },
+ {
+  "item": "real-impact-auckland--3",
+  "text_sha1": "74d42a6ba4467c7000ea92cc7fc960e324aa3105",
+  "leaks": []
+ },
+ {
+  "item": "real-impact-ucl--0",
+  "text_sha1": "59b60065b03413999cd5806a5c98e193dfb4b6fd",
+  "leaks": [
    {
-    "text": "Frontier Economics",
-    "category": "ORGANISATION"
-   },
+    "text": "12 June 2025",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-ucl--1",
+  "text_sha1": "42b713a560f2c18a27a4bd1863395c4f6885afd8",
+  "leaks": [
    {
-    "text": "[PLACE] Stock Exchange",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Petrie Museum of Egyptian and Sudanese Archaeology",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "[ORGANISATION] Art Museum",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UCL200",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "[PLACE] Wing",
+    "text": "Henderson hotel in Hong Kong",
     "category": "PLACE"
    },
    {
-    "text": "Petrie Museum",
+    "text": "Hong Kong",
+    "category": "PLACE"
+   },
+   {
+    "text": "Cathy and Martin Lee",
+    "category": "PERSON"
+   },
+   {
+    "text": "Copenhagen",
+    "category": "PLACE"
+   },
+   {
+    "text": "Chile",
+    "category": "PLACE"
+   },
+   {
+    "text": "Sarah Macdonald",
+    "category": "PERSON"
+   },
+   {
+    "text": "Slade School of Fine Art",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-ucl--2",
+  "text_sha1": "8cb87a1c644df154257576234a0aaff9993d8f40",
+  "leaks": [
+   {
+    "text": "Oriel Estates Services LLP",
     "category": "ORGANISATION"
    },
    {
-    "text": "THE HERDS",
+    "text": "Oriel Estate Services LLP (Oriel)",
     "category": "ORGANISATION"
    },
    {
-    "text": "Lee Miller Archive",
+    "text": "Oriel",
     "category": "ORGANISATION"
    },
    {
-    "text": "Arts Council [PLACE]",
+    "text": "Camden",
+    "category": "PLACE"
+   },
+   {
+    "text": "USS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "SAUL",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "MRCPS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "NHSPS",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "PCSPS",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-impact-ucl--3",
-  "text_sha1": "7e40867c48fd301b72d0d2eeb002927b6501c596",
+  "text_sha1": "d12a1ebf28d26036b1e13e5773a5823bc534fd9c",
   "leaks": [
    {
-    "text": "Biotechnology and Biological Sciences Research Council",
+    "text": "Financial Reporting Council",
     "category": "ORGANISATION"
    },
    {
-    "text": "ALERT24",
+    "text": "Statement of Recommended Practice: Accounting for Further and Higher Education 2019 (SORP 2019)",
     "category": "REF"
    },
    {
-    "text": "Research Capital Investment Fund (RCIF)",
+    "text": "Financial Reporting Standard FIRS 102",
     "category": "REF"
    },
    {
-    "text": "UCAS",
-    "category": "ORGANISATION"
+    "text": "Strategic Plan 2022\u201327",
+    "category": "REF"
    }
   ]
  },
  {
   "item": "real-impact-edinburgh--0",
-  "text_sha1": "98910bb8ec7509629856393d1f972167a0ccea53",
+  "text_sha1": "cdf6b8499267f93bfc53a7bbf99f3f434c407e6a",
   "leaks": [
-   {
-    "text": "Douglas Alexander",
-    "category": "PERSON"
-   },
-   {
-    "text": "Minister of State at the Department for Business and Trade",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Alastair Laing",
-    "category": "PERSON"
-   }
-  ]
- },
- {
-  "item": "real-impact-edinburgh--1",
-  "text_sha1": "97388bc3ba7350aaed020d78b77fce5aa0391c0a",
-  "leaks": [
-   {
-    "text": "Universities Superannuation Scheme (USS)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "National Employee Savings Trust (NEST)",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Moray House Institute of Education",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Strathclyde Pension Fund (SPF)",
-    "category": "ORGANISATION"
-   },
    {
     "text": "Lothian Pension Fund (LPF)",
     "category": "ORGANISATION"
    },
    {
-    "text": "Federated Superannuation Scheme for Universities (FSSU)",
+    "text": "Lothian Pension Fund",
     "category": "ORGANISATION"
    },
    {
-    "text": "Section 28 FIRS 102",
-    "category": "REF"
+    "text": "Local Government Pension Scheme",
+    "category": "ORGANISATION"
    }
   ]
  },
  {
-  "item": "real-impact-edinburgh--2",
+  "item": "real-impact-edinburgh--1",
   "text_sha1": "f32b73807344a8cb1839c7c471365e268e2dfaa2",
   "leaks": [
    {
@@ -7551,34 +7821,66 @@
   ]
  },
  {
-  "item": "real-impact-edinburgh--3",
-  "text_sha1": "0ed680410f6b31661aeb9719589be644e1c2ecd1",
+  "item": "real-impact-edinburgh--2",
+  "text_sha1": "8ad6958a6ec25ccd8834920689ba8cea735a47e8",
   "leaks": [
    {
-    "text": "New College Divinity complex on the Mound",
+    "text": "USS",
     "category": "ORGANISATION"
    },
    {
-    "text": "the Church of [PLACE]",
-    "category": "ORGANISATION"
+    "text": "Pensions Act 2004",
+    "category": "REF"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-edinburgh--3",
+  "text_sha1": "5ff7687ed94b8edf50954d893838214e2cd8ddb1",
+  "leaks": [
+   {
+    "text": "UK",
+    "category": "PLACE"
    },
    {
-    "text": "the University",
-    "category": "ORGANISATION"
+    "text": "Regenerative Sustainability Strategy",
+    "category": "REF"
    },
    {
-    "text": "School of Divinity",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "the University\u2019s Centre",
+    "text": "University Court",
     "category": "ORGANISATION"
    }
   ]
  },
  {
   "item": "real-impact-asu--0",
-  "text_sha1": "87ccf7c4dfb7731d189c07c278a7fce802a11322",
+  "text_sha1": "8a00b5fec5334f8a349479a614dae69681a7a30a",
+  "leaks": [
+   {
+    "text": "EPIXC",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Global Futures Laboratory",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "Health Observatory",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "School of Medicine and Advanced Medical Engineering",
+    "category": "ORGANISATION"
+   },
+   {
+    "text": "STPH",
+    "category": "ORGANISATION"
+   }
+  ]
+ },
+ {
+  "item": "real-impact-asu--1",
+  "text_sha1": "6e338b32729dec45bcba74caaf78f40cb641e9d3",
   "leaks": [
    {
     "text": "Global Futures Water Institute",
@@ -7598,198 +7900,6 @@
    },
    {
     "text": "Project SUN UP",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Personalised Admissions Project",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-impact-asu--1",
-  "text_sha1": "2f6607f841b3512ce8ba988b05163e582fca9829",
-  "leaks": [
-   {
-    "text": "EPIXC",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Clean Energy Manufacturing Innovation Institute",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "STPH",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Public Health Technology (PHT) Corps",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-pair-au-uwa-plan--0",
-  "text_sha1": "777e32899d49c381e0b78d97c86a93846021c1a0",
-  "leaks": []
- },
- {
-  "item": "real-pair-au-uwa-plan--1",
-  "text_sha1": "8d6944a3f972d2c4288ab9ada146925f4f77dbdf",
-  "leaks": []
- },
- {
-  "item": "real-pair-au-wollongong-plan--0",
-  "text_sha1": "057ff1db17d5ba9c3c412177f450e24bd04d3963",
-  "leaks": []
- },
- {
-  "item": "real-pair-au-wollongong-plan--1",
-  "text_sha1": "03f624f025215baaaf2ca932e360e3dfb939808f",
-  "leaks": []
- },
- {
-  "item": "real-pair-ca-macewan-plan--0",
-  "text_sha1": "5385211488ce8d2162f73870ff59d2bb7a7cd7df",
-  "leaks": [
-   {
-    "text": "Government of Alberta",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Alberta Advanced Education",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "Alberta",
-    "category": "PLACE"
-   },
-   {
-    "text": "Province",
-    "category": "PLACE"
-   }
-  ]
- },
- {
-  "item": "real-pair-ca-macewan-plan--1",
-  "text_sha1": "43516c09bf403adb75a80055a6040f93d05a7536",
-  "leaks": [
-   {
-    "text": "Postsecondary Learning Act",
-    "category": "REF"
-   },
-   {
-    "text": "Inuit communities in Alberta",
-    "category": "PLACE"
-   },
-   {
-    "text": "Albertans",
-    "category": "PLACE"
-   },
-   {
-    "text": "waciston",
-    "category": "PLACE"
-   },
-   {
-    "text": "Centre",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "public sector accounting standards",
-    "category": "REF"
-   },
-   {
-    "text": "2019/20",
-    "category": "REF"
-   },
-   {
-    "text": "2020/21",
-    "category": "REF"
-   },
-   {
-    "text": "2021/22",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-pair-ca-macewan-plan--2",
-  "text_sha1": "ec8b0334945c8d13f5c509bc30bb64301d05591b",
-  "leaks": [
-   {
-    "text": "Alberta",
-    "category": "PLACE"
-   },
-   {
-    "text": "Post-secondary Learning Act",
-    "category": "REF"
-   },
-   {
-    "text": "Order in Council on September 24, 2009",
-    "category": "REF"
-   }
-  ]
- },
- {
-  "item": "real-pair-nz-auckland-plan--0",
-  "text_sha1": "16d894e3ee304cf1022b083297fb673e7691de7b",
-  "leaks": []
- },
- {
-  "item": "real-pair-nz-auckland-plan--1",
-  "text_sha1": "fb71122e2b70e7e0164b1af27725b1eea4c830a4",
-  "leaks": []
- },
- {
-  "item": "real-pair-nz-auckland-plan--2",
-  "text_sha1": "cda9125c11914feaf7516c2d804bdb52825d53f7",
-  "leaks": []
- },
- {
-  "item": "real-pair-nz-auckland-plan--3",
-  "text_sha1": "50eab9a5c78453b4349c3ff6f1c59f72188a838b",
-  "leaks": []
- },
- {
-  "item": "real-pair-no-oslo-plan--0",
-  "text_sha1": "bcf226b8008fadb49a0bda2b5fe0fe7bb25440bc",
-  "leaks": [
-   {
-    "text": "UiO",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-pair-no-oslo-plan--1",
-  "text_sha1": "cc04ba99bd4b3acd1649f66249a7960023f88ca9",
-  "leaks": [
-   {
-    "text": "UiO",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-pair-no-oslo-plan--2",
-  "text_sha1": "f8327c7e2f1524b4e2fd4a4425dbe88426047334",
-  "leaks": [
-   {
-    "text": "UiO",
-    "category": "ORGANISATION"
-   }
-  ]
- },
- {
-  "item": "real-pair-no-oslo-plan--3",
-  "text_sha1": "da34f40914a418a1369a27d1b941330367c44a1d",
-  "leaks": [
-   {
-    "text": "UiO",
-    "category": "ORGANISATION"
-   },
-   {
-    "text": "UiO\u2019s",
     "category": "ORGANISATION"
    }
   ]

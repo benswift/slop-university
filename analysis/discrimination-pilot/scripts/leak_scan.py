@@ -92,7 +92,11 @@ WORD_CAPITAL = re.compile(r"\b([A-Z][a-z]{2,}\s+[A-Z])\b(?![a-z])")
 # reports `R&D` and `I&E` as four separate bare capitals. Those are ordinary
 # English and were most of what this family found: without the exclusion the
 # residual reads as eleven one-sided leaks when it is really two documents.
-LONE_CAPITAL = re.compile(r"(?<![\w'’.&])([A-Z])(?![\w'’.&])")
+# The hyphen matters. Without it `K-12`, `E-research`, `H-index` and `B-IQ` all
+# report their first letter as a bare capital, and the family fills up with
+# ordinary hyphenated vocabulary --- which is how a genuine defect (a mangled
+# `[ORGANISATION]R`) sat unnoticed among twelve false positives.
+LONE_CAPITAL = re.compile(r"(?<![\w'’.&\-])([A-Z])(?![\w'’.&\-])")
 NON_ENGLISH = re.compile(r"\b([A-Za-zÀ-ÿĀ-ž]*[À-ÿĀ-ž][A-Za-zÀ-ÿĀ-ž]*)\b")
 
 

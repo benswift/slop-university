@@ -35,7 +35,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ids import text_sha  # noqa: E402
 
 SCRATCH = Path(__file__).resolve().parent.parent
-STIM = SCRATCH / "stimuli" / "stimuli.json"
 RESULTS = SCRATCH / "results"
 
 PROMPT = """You are shown ONE excerpt of prose taken from a university document.
@@ -139,14 +138,31 @@ def ask_claude(model: str, text: str) -> dict:
 
 
 def main() -> None:
-    backend = sys.argv[1]
+    # `--stimuli NAME` runs the same harness, same prompt and same parser over
+    # another stimulus file: the vision arm reuses it, and because it writes to
+    # its own results file an excerpt drawn into both sets is judged twice
+    # independently rather than resumed from the first answer.
+    argv = sys.argv[1:]
+    stim_name = "stimuli"
+    if "--stimuli" in argv:
+        i = argv.index("--stimuli")
+        stim_name = argv[i + 1]
+        del argv[i : i + 2]
+
+    backend = argv[0]
     kind, model = backend.split(":", 1)
     ask = {"openai": ask_openai, "claude": ask_claude, "deepseek": ask_deepseek}[kind]
-    out = RESULTS / (sys.argv[2] if len(sys.argv) > 2 else f"judgements-{model}.json")
+    out = RESULTS / (argv[1] if len(argv) > 1 else f"judgements-{model}.json")
+    out.parent.mkdir(parents=True, exist_ok=True)
 
-    stims = json.loads(STIM.read_text())
+    stim_path = SCRATCH / "stimuli" / f"{stim_name}.json"
+    stims = json.loads(stim_path.read_text())
 
-    manifest_path = SCRATCH / "stimuli" / "manifest.json"
+    manifest_path = (
+        SCRATCH
+        / "stimuli"
+        / ("manifest.json" if stim_name == "stimuli" else f"{stim_name}_manifest.json")
+    )
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     fingerprint = manifest.get("fingerprint")
 
@@ -175,7 +191,9 @@ def main() -> None:
             if r.get("text_sha") and item in shas and r["text_sha"] != shas[item]
         }
         if changed:
-            print(f"note: {len(changed)} excerpts have changed since judging --- re-judging")
+            print(
+                f"note: {len(changed)} excerpts have changed since judging --- re-judging"
+            )
             for item in changed:
                 del existing[item]
         stale = existing.keys() - {s["item"] for s in stims}

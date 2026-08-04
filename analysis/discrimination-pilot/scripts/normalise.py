@@ -263,7 +263,8 @@ def main() -> None:
 
         groups: dict[str, list[Path]] = {
             "real": [
-                root / "corpus" / "raw" / r["file"] for r in prov["real_strategy"]
+                root / "corpus" / "raw" / r["file"]
+                for r in prov["real_strategy"] + prov.get("real_vision_pairs", [])
             ],
             "fabricated": sorted(
                 (

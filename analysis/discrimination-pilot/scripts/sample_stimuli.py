@@ -31,6 +31,7 @@ import json
 import random
 import re
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from pathlib import Path
 
 import sys
@@ -48,9 +49,27 @@ SEED = 20260801
 # caliper and the per-document cap allow" --- with a hundred-odd real documents
 # the binding constraint should be the data, not a constant left over from a
 # 54-item pilot. An integer still forces a fixed n.
-QUOTA: dict[str, int | None] = {"strategy": None, "impact": None}
+#
+# The impact condition was dropped for run 4 (TASK-011, TASK-009 item 4). It
+# never had more than 26 items, and every judge's near-perfect score on it came
+# from accounting and audit boilerplate that a fabricated impact report has no
+# reason to carry --- a genre difference, not a discrimination result. The paper
+# already quoted the strategy condition alone, so the arm was buying a number
+# that could not be used. Its documents stay in the corpus and in the
+# corpus-level measurements; only the judged sample drops it.
+QUOTA: dict[str, int | None] = {"strategy": None}
 MAX_PER_DOC = 3
 CALIPER = 0.50  # max tolerated tags/100w difference within a matched pair
+
+# The arm takes every prose excerpt a vision document yielded, not three of
+# them. The per-document cap exists to stop one document dominating a sample
+# whose unit of analysis is the excerpt; here the unit of analysis is the
+# document, and vision documents are short design-led brochures that yield
+# few prose paragraphs to begin with.
+ARM_MAX_PER_DOC = 4
+
+ARM_OUT = SCRATCH / "stimuli" / "arm_vision.json"
+ARM_MANIFEST = SCRATCH / "stimuli" / "arm_vision_manifest.json"
 
 STATUTORY = {
     "real-impact-anu",
@@ -71,7 +90,11 @@ def density(s: dict) -> float:
 
 
 def matched_pick(
-    fab: list[dict], real: list[dict], n: int, rng: random.Random
+    fab: list[dict],
+    real: list[dict],
+    n: int,
+    rng: random.Random,
+    cap: int = MAX_PER_DOC,
 ) -> tuple[list[dict], list[dict]]:
     """Global greedy 1:1 matching on tag density, within a caliper.
 
@@ -101,7 +124,7 @@ def matched_pick(
         if i in taken_f or j in taken_r:
             continue
         f, r = fab[i], real[j]
-        if used_f[doc_key(f)] >= MAX_PER_DOC or used_r[doc_key(r)] >= MAX_PER_DOC:
+        if used_f[doc_key(f)] >= cap or used_r[doc_key(r)] >= cap:
             continue
         taken_f.add(i)
         taken_r.add(j)
@@ -119,30 +142,67 @@ def main() -> None:
     chosen: list[dict] = []
     for cond, quota in QUOTA.items():
         fab = [s for s in pool if s["condition"] == cond and s["truth"] == "fabricated"]
-        real = [s for s in pool if s["condition"] == cond and s["truth"] == "real"]
+        # `real-pair` documents were gathered for the vision arm, not for the
+        # headline sample; including them would let a sub-study change the
+        # headline table.
+        real = [
+            s
+            for s in pool
+            if s["condition"] == cond
+            and s["truth"] == "real"
+            and s["subtype"] == "real"
+        ]
         # An unbounded request is capped by the caliper and MAX_PER_DOC anyway;
         # the ceiling is whichever side has fewer usable excerpts.
         n = quota if quota is not None else min(len(fab), len(real))
         pf, pr = matched_pick(fab, real, n, rng)
         chosen += pf + pr
 
+    fingerprint = finalise(chosen, OUT, MANIFEST)
+    summarise(chosen, "headline sample", fingerprint)
+
+    # The arm's manifest records which of its items the headline sample also
+    # carries: same judge, same text, two independent elicitations, which is
+    # the run-to-run variability the panel has never been measured for.
+    headline_items = {s["item"] for s in chosen}
+    arm = vision_arm(pool, rng)
+    arm_fingerprint = finalise(
+        arm,
+        ARM_OUT,
+        ARM_MANIFEST,
+        extra=lambda xs: {
+            "repeated_from_headline": sorted({s["item"] for s in xs} & headline_items)
+        },
+    )
+    summarise(arm, "vision arm", arm_fingerprint)
+    repeated = {s["item"] for s in arm} & headline_items
+    print(f"   {len(repeated)} items also in the headline sample (repeatability set)")
+
+
+def finalise(
+    chosen: list[dict],
+    out: Path,
+    manifest: Path,
+    extra: Callable[[list[dict]], dict] | None = None,
+) -> str:
     for s in chosen:
         if s["truth"] == "real" and s["condition"] == "impact":
             s["subtype"] = (
                 "real-statutory" if doc_key(s) in STATUTORY else "real-glossy"
             )
         s["tag_density"] = round(density(s), 2)
-
-    # Stable, content-derived ids. A judgement keyed on one of these stays
-    # attached to the excerpt that was actually judged, however the pool grows.
-    for s in chosen:
+        # Stable, content-derived ids. A judgement keyed on one of these stays
+        # attached to the excerpt that was actually judged, however the pool
+        # grows --- and an excerpt drawn into both the headline sample and the
+        # arm gets the SAME id in both, which is what makes the two elicitations
+        # comparable item for item.
         s["item"] = item_id(s["id"])
 
     chosen.sort(key=lambda s: s["item"])
     if len({s["item"] for s in chosen}) != len(chosen):
         raise SystemExit("id collision --- widen the hash prefix")
 
-    OUT.write_text(json.dumps(chosen, indent=1))
+    out.write_text(json.dumps(chosen, indent=1))
 
     # Over the text, not just the ids. Ids survive a rebuild, so a fingerprint
     # taken over ids alone reports "same stimulus set" after the excerpts under
@@ -154,7 +214,7 @@ def main() -> None:
             for s in sorted(chosen, key=lambda s: s["item"])
         ).encode()
     ).hexdigest()[:16]
-    MANIFEST.write_text(
+    manifest.write_text(
         json.dumps(
             {
                 "fingerprint": fingerprint,
@@ -166,22 +226,26 @@ def main() -> None:
                     f"{c}-{t}": sum(
                         1 for s in chosen if s["condition"] == c and s["truth"] == t
                     )
-                    for c in QUOTA
+                    for c in {s["condition"] for s in chosen}
                     for t in ("fabricated", "real")
                 },
+                **(extra(chosen) if extra else {}),
             },
             indent=1,
         )
         + "\n"
     )
+    return fingerprint
 
-    print(f"sampled {len(chosen)}  fingerprint {fingerprint}")
+
+def summarise(chosen: list[dict], label: str, fingerprint: str) -> None:
+    print(f"\n{label}: {len(chosen)} items  fingerprint {fingerprint}")
     for k, v in sorted(
         Counter((s["condition"], s["truth"], s["subtype"]) for s in chosen).items()
     ):
         print("  ", k, v)
-    print("distinct source docs:", len({doc_key(s) for s in chosen}))
-    for cond in QUOTA:
+    print("  distinct source docs:", len({doc_key(s) for s in chosen}))
+    for cond in sorted({s["condition"] for s in chosen}):
         for t in ("fabricated", "real"):
             xs = [s for s in chosen if s["truth"] == t and s["condition"] == cond]
             if not xs:
@@ -189,9 +253,58 @@ def main() -> None:
             d = [s["tag_density"] for s in xs]
             w = [s["words"] for s in xs]
             print(
-                f"  {cond:9} {t:11} n={len(xs):2d} "
+                f"  {cond:9} {t:11} n={len(xs):3d} "
                 f"words={sum(w) / len(w):5.0f} tags/100w={sum(d) / len(d):.2f}"
             )
+
+
+def vision_arm(pool: list[dict], rng: random.Random) -> list[dict]:
+    """The arm that tests the vision-document effect with real power.
+
+    The headline sample is capped by the fabricated side --- 30 press strategy
+    PDFs --- so a plain re-run draws whatever vision excerpts the tag-density
+    matching happens to pick, which in run 4 was seven. Seven excerpts cannot
+    replicate or refute anything. This arm therefore takes every vision
+    document up to the per-document cap, adds the ordinary strategic plans
+    gathered from the SAME institutions, and matches the lot against fabricated
+    excerpts drawn afresh from the same pool the headline sample used.
+
+    Reusing fabricated excerpts across the two sets is deliberate. It keeps the
+    presented set balanced, so the judge prompt's stated 50/50 base rate stays
+    true and the instrument is identical to the headline run --- and because
+    ids are content-derived, every reused excerpt is the same judge reading the
+    same text a second time, which is exactly the run-to-run variability
+    measurement the panel has never had.
+    """
+
+    def capped(cands: list[dict]) -> list[dict]:
+        by_doc: dict[str, list[dict]] = defaultdict(list)
+        for s in sorted(cands, key=lambda s: s["id"]):
+            by_doc[doc_key(s)].append(s)
+        return [s for xs in by_doc.values() for s in xs[:ARM_MAX_PER_DOC]]
+
+    real = capped(
+        [
+            s
+            for s in pool
+            if s["condition"] == "strategy"
+            and s["truth"] == "real"
+            and s["subtype"] == "real"
+            and s.get("doc_type") == "vision"
+        ]
+    ) + capped([s for s in pool if s["subtype"] == "real-pair"])
+
+    fab = [
+        s for s in pool if s["condition"] == "strategy" and s["truth"] == "fabricated"
+    ]
+    pf, pr = matched_pick(fab, list(real), len(real), rng, cap=ARM_MAX_PER_DOC)
+    dropped = len(real) - len(pr)
+    if dropped:
+        print(
+            f"  ! {dropped} of {len(real)} arm excerpts found no fabricated partner "
+            f"within the {CALIPER} caliper --- dropped to keep the set balanced"
+        )
+    return pf + pr
 
 
 if __name__ == "__main__":

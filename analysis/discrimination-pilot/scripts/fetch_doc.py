@@ -29,6 +29,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -137,6 +138,11 @@ def main() -> None:
         "--referer", help="Referer header, usually the strategy landing page"
     )
     p.add_argument(
+        "--retrieved",
+        default=date.today().isoformat(),
+        help="retrieval date; defaults to today rather than the first gathering pass",
+    )
+    p.add_argument(
         "--local",
         help="Register a PDF already downloaded by hand instead of fetching it. "
         "For documents behind a bot challenge, which a person can pass and a "
@@ -171,7 +177,7 @@ def main() -> None:
             "pages": pages,
             "words": words,
             "url": args.url,
-            "retrieved": "2026-08-01",
+            "retrieved": args.retrieved,
         },
     )
     print(f"ACCEPT {args.file} ({pages}pp, {words}w)")

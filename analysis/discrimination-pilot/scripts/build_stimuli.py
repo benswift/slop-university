@@ -613,8 +613,16 @@ def is_prose(par: str) -> bool:
     # which cannot be done reliably once the word boundaries are gone.
     if LETTERSPACED_RE.search(par):
         return False
-    singles = sum(1 for w in words if len(w) == 1 and w.isupper() and w != "I")
-    if singles / len(words) > 0.05:
+    # Lone capitals, the last one-sided extraction cue (TASK-009 item 5). These
+    # are figure labels, bullet keys, appendix letters and marginal characters
+    # that pdftotext drops into the middle of a sentence --- "in W order", "20 B
+    # percent", "Appendix C". The threshold used to be 5% of words, which on a
+    # 250-word excerpt tolerated a dozen of them, and run 3 still finished with
+    # thirteen one-sided forms, all but one on the real side and all pointing
+    # real -> fabricated. A cue that only damages one side has no tolerable
+    # rate, so the rule is now zero: any bare capital that is not the English
+    # word "I" or "A" rejects the excerpt.
+    if any(len(w) == 1 and w.isupper() and w not in ("I", "A") for w in words):
         return False
     return True
 
@@ -734,14 +742,22 @@ def main() -> None:
     # unremovable tell against a uniformly Australian/British fabricated
     # corpus; normalise.py now maps American spelling to British on BOTH sides,
     # so exclusion by nationality is no longer needed and the US is in.
+    # `real-pair` marks the institution-matched plans gathered for the vision
+    # arm. They are extracted like any other real document but carry their own
+    # subtype, so the headline sampler can leave them alone and the arm can find
+    # them without joining back to the provenance by filename.
     prov = json.loads((SCRATCH / "corpus" / "provenance.json").read_text())
-    for cond, key in (("strategy", "real_strategy"), ("impact", "real_impact")):
+    for cond, key, subtype in (
+        ("strategy", "real_strategy", "real"),
+        ("impact", "real_impact", "real"),
+        ("strategy", "real_vision_pairs", "real-pair"),
+    ):
         for row in prov.get(key, []):
             path = RAW / row["file"]
             if not path.exists():
                 print(f"  ! missing {row['file']} --- skipped")
                 continue
-            pdfs.append((path, cond, "real", "web", "real", row))
+            pdfs.append((path, cond, "real", "web", subtype, row))
 
     stims = collect(pdfs)
 

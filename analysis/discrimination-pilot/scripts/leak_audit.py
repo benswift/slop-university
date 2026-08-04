@@ -66,21 +66,65 @@ EXCERPT:
 ---"""
 
 
+# The detector occasionally degenerates into repeating one span forever, and at
+# temperature 0 a retry reproduces it exactly. So the length is capped (a
+# 200--340-word excerpt has never needed more than a few dozen spans) and a
+# truncated body is salvaged for the objects that did complete, rather than
+# taking the whole run down with a JSONDecodeError.
+MAX_TOKENS = 2000
+LEAK_OBJ_RE = re.compile(
+    r'\{\s*"text"\s*:\s*("(?:[^"\\]|\\.)*")\s*,\s*"category"\s*:\s*("(?:[^"\\]|\\.)*")\s*\}'
+)
+
+
+def parse_leaks(content: str) -> tuple[list, bool]:
+    """Return (leaks, salvaged). Salvage keeps the complete objects of a
+    truncated array instead of discarding a whole excerpt's audit."""
+    try:
+        return json.loads(content).get("leaks", []), False
+    except json.JSONDecodeError:
+        pass
+    seen: set[tuple[str, str]] = set()
+    leaks = []
+    for t, c in LEAK_OBJ_RE.findall(content):
+        try:
+            pair = (json.loads(t), json.loads(c))
+        except json.JSONDecodeError:
+            continue
+        if pair not in seen:
+            seen.add(pair)
+            leaks.append({"text": pair[0], "category": pair[1]})
+    return leaks, True
+
+
 def detect_one(client: httpx.Client, stim: dict) -> dict:
-    r = client.post(
-        API,
-        headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
-        json={
-            "model": MODEL,
-            "messages": [{"role": "user", "content": PROMPT % stim["text"]}],
-            "temperature": 0,
-            "response_format": {"type": "json_object"},
-        },
-        timeout=180,
-    )
-    r.raise_for_status()
-    body = json.loads(r.json()["choices"][0]["message"]["content"])
-    return {"item": stim["id"], "leaks": body.get("leaks", [])}
+    last: Exception | None = None
+    for attempt in range(3):
+        try:
+            r = client.post(
+                API,
+                headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
+                json={
+                    "model": MODEL,
+                    "messages": [{"role": "user", "content": PROMPT % stim["text"]}],
+                    # a retry at temperature 0 would reproduce a degenerate
+                    # completion character for character
+                    "temperature": 0 if attempt == 0 else 0.3,
+                    "max_tokens": MAX_TOKENS,
+                    "response_format": {"type": "json_object"},
+                },
+                timeout=180,
+            )
+            r.raise_for_status()
+            leaks, salvaged = parse_leaks(r.json()["choices"][0]["message"]["content"])
+            if salvaged and attempt < 2:
+                continue  # a clean answer is worth one more call
+            return {"item": stim["id"], "leaks": leaks, "salvaged": salvaged}
+        except Exception as e:  # noqa: BLE001 - retried, then reported
+            last = e
+    # Fail visibly. The gazetteer pass has already run on this excerpt, so it is
+    # not unredacted, but the second pass did not cover it and detect() says so.
+    return {"item": stim["id"], "leaks": [], "detector_error": str(last)[:200]}
 
 
 def detect() -> None:
@@ -92,10 +136,12 @@ def detect() -> None:
     # pipeline fix, or after the corpus grows, pays only for excerpts that are
     # genuinely new. At 600-odd excerpts a full re-detect is not ruinous, but it
     # is pure waste, and this corpus is meant to keep growing.
+    # A failed detection is never cached: caching it would turn one bad call
+    # into a permanent hole in the second redaction pass.
     cached: dict[str, list] = {}
     if SPANS.exists():
         for row in json.loads(SPANS.read_text()):
-            if "text_sha1" in row:
+            if "text_sha1" in row and not row.get("detector_error"):
                 cached[row["text_sha1"]] = row["leaks"]
 
     def key(s: dict) -> str:
@@ -104,23 +150,34 @@ def detect() -> None:
     todo = [s for s in stims if key(s) not in cached]
     print(f"{len(stims) - len(todo)} excerpts cached, {len(todo)} to detect")
 
-    fresh: dict[str, list] = {}
+    fresh: dict[str, dict] = {}
     if todo:
         with httpx.Client() as client, ThreadPoolExecutor(max_workers=8) as pool:
             for r in pool.map(lambda s: detect_one(client, s), todo):
-                fresh[r["item"]] = r["leaks"]
+                fresh[r["item"]] = r
 
-    results = [
-        {
-            "item": s["id"],
-            "text_sha1": key(s),
-            "leaks": fresh.get(s["id"], cached.get(key(s), [])),
-        }
-        for s in stims
-    ]
+    results = []
+    for s in stims:
+        row = {"item": s["id"], "text_sha1": key(s)}
+        got = fresh.get(s["id"])
+        if got is None:
+            row["leaks"] = cached[key(s)]
+        else:
+            row["leaks"] = got["leaks"]
+            if got.get("salvaged"):
+                row["salvaged"] = True
+            if got.get("detector_error"):
+                row["detector_error"] = got["detector_error"]
+        results.append(row)
     SPANS.write_text(json.dumps(results, indent=1))
     n = sum(len(r["leaks"]) for r in results)
     print(f"detected {n} candidate leaks across {len(results)} excerpts")
+    salvaged = [r["item"] for r in results if r.get("salvaged")]
+    failed = [r["item"] for r in results if r.get("detector_error")]
+    if salvaged:
+        print(f"salvaged {len(salvaged)} truncated responses: {', '.join(salvaged)}")
+    if failed:
+        print(f"DETECTOR FAILED on {len(failed)}: {', '.join(failed)}")
 
 
 TAGS = {"ORGANISATION", "PERSON", "PLACE", "REF"}
@@ -187,9 +244,19 @@ def apply() -> None:
                 frag,
             ):
                 continue
-            if frag not in text:
+            # Substitute on word boundaries, not as a bare substring. A
+            # detector that flags the acronym `OU` and a `str.replace` turned
+            # "OUR STRATEGIC PROCESS" into "[ORGANISATION]R STRATEGIC PROCESS"
+            # --- a mangled word that reads as damaged extraction, which is the
+            # one thing this pipeline works hardest to keep off the real side.
+            pat = (
+                (r"\b" if frag[0].isalnum() else "")
+                + re.escape(frag)
+                + (r"\b" if frag[-1].isalnum() else "")
+            )
+            text, n = re.subn(pat, f"[{cat}]", text)
+            if not n:
                 continue
-            text = text.replace(frag, f"[{cat}]")
             applied.append({"text": frag, "category": cat})
         # tidy: collapse adjacent/possessive tag runs
         alt = "|".join(TAGS)

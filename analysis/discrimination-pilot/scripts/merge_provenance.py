@@ -32,6 +32,15 @@ OUT = ROOT / "corpus" / "provenance.json"
 # somewhere in a script.
 IMPACT_SHARD = "impact"
 
+# TASK-011 adds a second held-apart shard. These are ordinary strategic plans
+# fetched to pair with a vision document from the SAME institution, so that the
+# vision-document effect can be tested with house style controlled by
+# construction. They are deliberately kept out of `real_strategy`: the headline
+# discrimination sample is drawn from the corpus declared final at 164
+# documents, and folding five institution-matched extras into it would change
+# the headline table as a side effect of a sub-study.
+PAIRS_SHARD = "vision-pairs"
+
 FABRICATED_NOTE = {
     "note": (
         "Read-only from the slop-university repos; nothing in them was modified. "
@@ -98,11 +107,16 @@ def main() -> None:
         key=lambda r: (r.get("country", ""), r["institution"], r.get("year", 0))
     )
 
-    rows = [r for r in all_rows if r["shard"] != IMPACT_SHARD]
+    held_apart = {IMPACT_SHARD, PAIRS_SHARD}
+    rows = [r for r in all_rows if r["shard"] not in held_apart]
     impact = [r for r in all_rows if r["shard"] == IMPACT_SHARD]
+    pairs = [r for r in all_rows if r["shard"] == PAIRS_SHARD]
 
     report(rows)
     print(f"  (plus {len(impact)} impact-condition documents)")
+    print(
+        f"  (plus {len(pairs)} vision-pair documents, held out of the headline sample)"
+    )
     if warnings:
         print(f"\n{len(warnings)} warning(s):")
         for w in warnings:
@@ -126,6 +140,7 @@ def main() -> None:
                 ),
                 "real_strategy": rows,
                 "real_impact": impact,
+                "real_vision_pairs": pairs,
                 "fabricated": FABRICATED_NOTE,
             },
             indent=1,
