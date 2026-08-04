@@ -118,7 +118,11 @@ def _ask_once(model: str, text: str) -> dict:
 def _load_truth() -> dict[str, str]:
     prov = json.loads((ROOT / "corpus" / "provenance.json").read_text())
     out: dict[str, str] = {}
-    for row in prov.get("real_strategy", []) + prov.get("real_impact", []):
+    for row in (
+        prov.get("real_strategy", [])
+        + prov.get("real_impact", [])
+        + prov.get("real_vision_pairs", [])
+    ):
         stem = row["file"].rsplit(".", 1)[0]
         name = row["institution"].lower()
         # Match on the distinctive part: a judge naming "Manchester" should

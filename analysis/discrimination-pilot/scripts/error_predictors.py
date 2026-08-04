@@ -25,6 +25,21 @@ vagueness test used, so the two are read side by side:
   length      words in the excerpt, as a nuisance check
   vagueness   the lexical index, repeated here so the null has company
 
+and four surface-form candidates added for run 4 (TASK-011). The vagueness
+null leaves nearly all the real-side error variance unexplained, and the
+missing ingredient was a candidate rather than a test, so these are the
+properties a reader could plausibly be reacting to that the apparatus was
+not yet measuring:
+
+  sentence_len  mean words per sentence
+  burstiness    sd/mean of sentence length --- uniform sentence length is the
+                most-cited surface signature of generated prose, so a real
+                excerpt low on this axis may read as machine-written for a
+                reason that has nothing to do with what it says
+  first_person  we/our/us per 100 words: the institutional voice
+  listiness     share of lines shorter than a clause, i.e. how much of the
+                excerpt is list rather than prose after the filter
+
 and, categorically:
 
   tier        elite / research / regional / mid / specialist
@@ -50,6 +65,7 @@ import argparse
 import json
 import math
 import random
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -72,8 +88,61 @@ ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
 POOL = ROOT / "stimuli" / "pool_redacted.json"
 
-CONTINUOUS = ("merged", "age", "length", "vagueness")
+CONTINUOUS = (
+    "merged",
+    "age",
+    "length",
+    "vagueness",
+    "sentence_len",
+    "burstiness",
+    "first_person",
+    "listiness",
+)
 CATEGORICAL = ("damaged", "tier", "country", "doc_type", "recognised")
+
+WORD_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’\-]*")
+SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+FIRST_PERSON = re.compile(r"\b(?:we|our|ours|us|we’re|we'll|we’ll)\b", re.I)
+
+
+def sentence_lengths(text: str) -> list[int]:
+    return [
+        n for n in (len(WORD_RE.findall(s)) for s in SENTENCE_SPLIT.split(text)) if n
+    ]
+
+
+def burstiness(text: str) -> float:
+    """Coefficient of variation of sentence length.
+
+    Uniform sentence length is the most-cited surface signature of generated
+    prose, so the reading under test is the mirror of the vision-document one:
+    a real excerpt whose sentences are all the same length may read as
+    machine-written for that reason alone. Expressed as sd/mean so it does not
+    simply restate `sentence_len`.
+    """
+    lens = sentence_lengths(text)
+    if len(lens) < 2:
+        return 0.0
+    m = sum(lens) / len(lens)
+    if not m:
+        return 0.0
+    var = sum((x - m) ** 2 for x in lens) / (len(lens) - 1)
+    return math.sqrt(var) / m
+
+
+def listiness(text: str) -> float:
+    """Share of lines that are shorter than a clause.
+
+    The prose filter rejects a paragraph where more than 45% of lines are short,
+    which leaves a wide band of surviving passages that are still half bullet
+    list. A judge reading fragments rather than sentences is reading something
+    the genre produces and the press mostly does not.
+    """
+    lines = [ln for ln in text.split("\n") if ln.strip()]
+    if not lines:
+        return 0.0
+    return sum(len(ln.split()) < 8 for ln in lines) / len(lines)
+
 
 # A level with fewer than this many judgements is folded into "other". Chi-square
 # is unreliable on tiny cells even under permutation, and a country contributing
@@ -127,6 +196,14 @@ def load_axes() -> tuple[dict[str, dict[str, float]], dict[str, dict[str, str]]]
         if r.get("year"):
             numeric["age"][item] = 2026 - int(r["year"])
         numeric["length"][item] = float(r["words"])
+        text = r["text_redacted"]
+        lens = sentence_lengths(text)
+        numeric["sentence_len"][item] = sum(lens) / len(lens) if lens else 0.0
+        numeric["burstiness"][item] = burstiness(text)
+        numeric["first_person"][item] = (
+            len(FIRST_PERSON.findall(text)) / max(r["words"], 1) * 100
+        )
+        numeric["listiness"][item] = listiness(text)
         if item in vagueness:
             numeric["vagueness"][item] = vagueness[item]
         for a in ("tier", "country", "doc_type"):
