@@ -2,29 +2,14 @@
 
 === merged ===
 
-judge                     n  errors   axis|err   axis|ok       r   perm p   rank p
-deepseek-v4-flash        82      33       0.00      0.00     nan      nan   1.0000
-deepseek-v4-pro          82      32       0.00      0.00     nan      nan   1.0000
-gpt-5.6-luna             82      10       0.00      0.00     nan      nan   1.0000
-gpt-5.6-sol              82       3       0.00      0.00     nan      nan   1.0000
-gpt-5.6-terra            82       5       0.00      0.00     nan      nan   1.0000
-haiku                    82      26       0.00      0.00     nan      nan   1.0000
-opus                     82       0        nan      0.00     nan      nan      nan
-sonnet                   82       8       0.00      0.00     nan      nan   1.0000
-pooled                  656     117       0.00      0.00     nan      nan   1.0000
+  constant at 0 across all 656 judgements: no variance,
+  so no association is measurable and none is reported.
 
-Misclassification rate by merged decile (pooled):
-  decile      n   median index   called FABRICATED
-  1          65           0.00                26%  #####
-  2          66           0.00                20%  ####
-  3          65           0.00                18%  ####
-  4          66           0.00                18%  ####
-  5          66           0.00                23%  #####
-  6          65           0.00                14%  ###
-  7          66           0.00                17%  ###
-  8          65           0.00                20%  ####
-  9          66           0.00                11%  ##
-  10         66           0.00                12%  ##
+  build_stimuli.py fits the detector and calls repair() at extraction time,
+  so the pool on disk carries no merged tokens at all. A zero here is that
+  repair working --- it is NOT evidence that extraction damage fails to move
+  the judges, and this axis cannot test that claim either way. Measuring it
+  needs a pool built with the repair step disabled.
 
 === age ===
 
@@ -187,20 +172,11 @@ Misclassification rate by first_person decile (pooled):
 level                        n  errors    rate
 clean                      656     117     18%  ####
 
-pooled chi-square 0.00 on 0 df, permutation p 1.0000
-Pooling repeats each excerpt once per judge, so this p is anti-conservative,
-and the two DeepSeek judges contribute most of the errors. Read the per-judge
-rows for whether the effect is a panel-wide one or two judges' habit.
+Every judgement falls in the single level 'clean', so there is no contrast
+to test and no chi-square is reported.
 
-judge                           clean
-deepseek-v4-flash         33/82   40%
-deepseek-v4-pro           32/82   39%
-gpt-5.6-luna              10/82   12%
-gpt-5.6-sol                3/82    4%
-gpt-5.6-terra              5/82    6%
-haiku                     26/82   32%
-opus                       0/82    0%
-sonnet                     8/82   10%
+  Derived by thresholding `merged`, which is empty for the reason above, so
+  every excerpt lands in 'clean' and there is no contrast to draw.
 
 === tier ===
 
@@ -272,21 +248,22 @@ haiku                       0/7    0%      0/2    0%    23/67   34%      3/6   5
 opus                        0/7    0%      0/2    0%     0/67    0%      0/6    0%
 sonnet                      0/7    0%      0/2    0%     6/67    9%      2/6   33%
 
-(probed judges: deepseek-v4-flash, gpt-5.6-luna, gpt-5.6-sol, gpt-5.6-terra, haiku, opus, sonnet)
+(probed judges: deepseek-v4-flash, deepseek-v4-pro, gpt-5.6-luna, gpt-5.6-sol, gpt-5.6-terra, haiku, opus, sonnet)
 
 === recognised ===
 
 level                        n  errors    rate
-not recognised             422      67     16%  ###
-recognised                 152      18     12%  ##
+recognised                 218      42     19%  ####
+not recognised             438      75     17%  ###
 
-pooled chi-square 1.44 on 1 df, permutation p 0.2394
+pooled chi-square 0.46 on 1 df, permutation p 0.5317
 Pooling repeats each excerpt once per judge, so this p is anti-conservative,
 and the two DeepSeek judges contribute most of the errors. Read the per-judge
 rows for whether the effect is a panel-wide one or two judges' habit.
 
 judge                   not recognise     recognised
 deepseek-v4-flash         18/44   41%    15/38   39%
+deepseek-v4-pro            8/16   50%    24/66   36%
 gpt-5.6-luna               9/62   15%     1/20    5%
 gpt-5.6-sol                3/37    8%     0/45    0%
 gpt-5.6-terra              4/43    9%     1/39    3%

@@ -103,6 +103,26 @@ CONTINUOUS = (
 # survived the prose filter" is therefore not a property of the stimulus at all.
 CATEGORICAL = ("damaged", "tier", "country", "doc_type", "recognised")
 
+# An axis with no variance is not a null result, it is an absence of data, and
+# the two look identical in this report's output: the point-biserial is 0/0, the
+# permutation test has nothing to permute, and a decile table sorted on a
+# constant prints ten arbitrary buckets that read exactly like a tested-and-flat
+# axis. So a degenerate axis says why it is degenerate instead.
+DEGENERATE_NOTE = {
+    "merged": (
+        "build_stimuli.py fits the detector and calls repair() at extraction "
+        "time,\n  so the pool on disk carries no merged tokens at all. A zero "
+        "here is that\n  repair working --- it is NOT evidence that extraction "
+        "damage fails to move\n  the judges, and this axis cannot test that "
+        "claim either way. Measuring it\n  needs a pool built with the repair "
+        "step disabled."
+    ),
+    "damaged": (
+        "Derived by thresholding `merged`, which is empty for the reason above, "
+        "so\n  every excerpt lands in 'clean' and there is no contrast to draw."
+    ),
+}
+
 WORD_RE = re.compile(r"[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’\-]*")
 SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
 FIRST_PERSON = re.compile(r"\b(?:we|our|ours|us|we’re|we'll|we’ll)\b", re.I)
@@ -131,8 +151,6 @@ def burstiness(text: str) -> float:
         return 0.0
     var = sum((x - m) ** 2 for x in lens) / (len(lens) - 1)
     return math.sqrt(var) / m
-
-
 
 
 # A level with fewer than this many judgements is folded into "other". Chi-square
@@ -278,6 +296,16 @@ def tabulate(
 
 def report_continuous(axis: str, by_judge: dict[str, list[tuple[float, int]]]) -> None:
     print(f"\n=== {axis} ===\n")
+    all_scores = [s for pairs in by_judge.values() for s, _ in pairs]
+    if all_scores and len(set(all_scores)) == 1:
+        print(
+            f"  constant at {all_scores[0]:g} across all {len(all_scores)} "
+            "judgements: no variance,\n  so no association is measurable and "
+            "none is reported."
+        )
+        if axis in DEGENERATE_NOTE:
+            print(f"\n  {DEGENERATE_NOTE[axis]}")
+        return
     print(
         f"{'judge':<22}{'n':>5}{'errors':>8}{'axis|err':>11}{'axis|ok':>10}"
         f"{'r':>8}{'perm p':>9}{'rank p':>9}"
@@ -324,6 +352,18 @@ def report_categorical(axis: str, by_judge: dict[str, list[tuple[str, int]]]) ->
         n = e + o
         bar = "#" * round(20 * e / n)
         print(f"{level:<24}{n:>6}{e:>8}{e / n:>8.0%}  {bar}")
+    # One level is not a flat contingency table, it is no contingency table:
+    # chi-square on 0 df is nan and its permutation p is a vacuous 1.0000, which
+    # reads as "tested, nothing there".
+    if len(table) < 2:
+        only = next(iter(table), "(none)")
+        print(
+            f"\nEvery judgement falls in the single level {only!r}, so there is "
+            "no contrast\nto test and no chi-square is reported."
+        )
+        if axis in DEGENERATE_NOTE:
+            print(f"\n  {DEGENERATE_NOTE[axis]}")
+        return
     print(
         f"\npooled chi-square {stat:.2f} on {len(table) - 1} df, "
         f"permutation p {permutation_chi_p(pooled, stat):.4f}"
@@ -368,6 +408,19 @@ def main() -> None:
         f"{len({r['judge'] for r in rows})} judges, "
         f"{len({r['item'] for r in rows})} distinct excerpts"
     )
+
+    # The probe is checkpointed per model, so it can lag the judgements by a
+    # whole judge. That drops the judge from the `recognised` axis silently ---
+    # the per-judge rows simply do not list it, and the pooled table still looks
+    # complete. It cost run 4 a stale results file, so say it out loud.
+    judged = {r["judge"] for r in rows}
+    probed = {judge for judge, _ in recognition}
+    if missing := sorted(judged - probed):
+        print(
+            f"warning: no memorisation probe for {', '.join(missing)} --- the "
+            "`recognised`\naxis below covers only the rest; run "
+            "memorisation_probe.py to complete it"
+        )
 
     wanted = [args.axis] if args.axis else [*CONTINUOUS, *CATEGORICAL]
     for axis in wanted:
