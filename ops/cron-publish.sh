@@ -522,9 +522,14 @@ log "=== run finished at $(date -Iseconds) ==="
 # --- unit-oncall already dedups, so a one-off files one todo and the next
 # successful tick clears it.
 if [ -n "$AGENT_SHAS" ]; then
-  result "published" "$(echo "$AGENT_SHAS" | wc -l) agent commit(s) validated and pushed; preset=${PRESET}"
+  # Report the commit subject, not the rolled preset. The preset is an INPUT,
+  # and most rungs of the ladder never use it --- the tick that first published
+  # under this line committed a grant award while the line read "preset=
+  # brochure", which reads as a brochure nobody generated. The agent's own
+  # subject is the only description guaranteed to match what landed.
+  result "published" "$(echo "$AGENT_SHAS" | wc -l) agent commit(s) pushed: $(git log --format='%s' -1 "$(echo "$AGENT_SHAS" | head -1)")"
 elif [ "$AGENT_STATUS" -ne 0 ]; then
-  result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; preset=${PRESET}; site redeployed unchanged"
+  result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; rolled preset=${PRESET}; site redeployed unchanged"
   exit 4
 elif [ "$POSTED" = "yes" ]; then
   # A 2G tick, and a complete one. It sits above 2A on the ladder, so the
