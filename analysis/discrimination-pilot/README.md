@@ -1318,6 +1318,17 @@ three judges supplying 91 of the 117 errors, between a fifth and a third noise.
 An r of 0.26 against a signal that unstable is closer to its ceiling than it
 looks.
 
+It also settles, retrospectively, a reading run 3 offered and could not support.
+The merged-token repair was judged by the fact that it "moved no judge's
+accuracy by more than a point" and shifted the damaged excerpts from 22 false
+calls in 80 to 19. Against a pooled disagreement rate of 10%, a point of
+accuracy on 190 items is about two items and three calls in 80 is well inside
+what the same judge does to itself on the same text. Neither movement was
+interpretable, in either direction. The repair was still worth making --- a
+one-sided defect should go whether or not it is doing measurable harm --- but
+run 3's conclusion that it "was not the explanation" rested on a comparison the
+run had no yardstick for. This is the yardstick.
+
 Read the limits honestly. The arm reuses fabricated excerpts to stay balanced,
 so 38 of the 44 repeated items are fabricated and this is mostly a floor for
 that side. And both elicitations use the same text and the same prompt, so it
