@@ -235,6 +235,137 @@ def _choose(n: int, k: int) -> int:
     return comb(n, k)
 
 
+# Two rival explanations for the effect, both testable here.
+
+
+# 1. Vagueness in disguise. Vision excerpts sit higher on the lexical vagueness
+#    index than ordinary plans, and vagueness is what the judges name. If the
+#    contrast survives inside a vagueness stratum it is not the index restated.
+def stratified(rows: list[dict], pool: dict[str, dict]) -> None:
+    path = RESULTS / "vagueness-proxies.json"
+    if not path.exists():
+        print("\n=== within vagueness strata ===\n  (no proxies file)")
+        return
+    idx = {
+        r["item"]: r["vagueness_index"]
+        for r in json.loads(path.read_text())
+        if r.get("item")
+    }
+    tagged = [
+        (label(pool[r["item"]]), r)
+        for r in rows
+        if r["item"] in pool and label(pool[r["item"]]) and r["item"] in idx
+    ]
+    if not tagged:
+        return
+    scores = sorted(idx[r["item"]] for _, r in tagged)
+    cut = scores[len(scores) // 2]
+
+    print("\n=== within vagueness strata ===\n")
+    print(f"  median vagueness index {cut:.2f}; the contrast is run inside each half\n")
+    print(f"{'stratum':<24}{'vision':>16}{'plan':>16}{'difference':>13}")
+    for name, keep in (
+        ("less vague half", lambda v: v <= cut),
+        ("vaguer half", lambda v: v > cut),
+    ):
+        xs = [(lab, r) for lab, r in tagged if keep(idx[r["item"]])]
+        vh, vn = rate([r for lab, r in xs if lab == VISION])
+        ph, pn = rate([r for lab, r in xs if lab == "plan"])
+        d = (vh / vn - ph / pn) if vn and pn else float("nan")
+        print(f"{name:<24}{fmt(vh, vn):>16}{fmt(ph, pn):>16}{d:>12.0%}")
+    mv = mean_index([r for lab, r in tagged if lab == VISION], idx)
+    mp = mean_index([r for lab, r in tagged if lab == "plan"], idx)
+    print(f"\n  mean vagueness index: vision {mv:.2f}, plan {mp:.2f}")
+
+
+def mean_index(rows: list[dict], idx: dict[str, float]) -> float:
+    xs = [idx[r["item"]] for r in rows if r["item"] in idx]
+    return sum(xs) / len(xs) if xs else float("nan")
+
+
+# 2. Extraction damage. A vision document is a design-led brochure --- pull
+#    quotes, display type, marginal text, multi-column spreads --- and
+#    pdftotext mangles that harder than it mangles a text-heavy plan. Damage
+#    points real -> fabricated, which is the direction that manufactures this
+#    finding. The judges say which they reacted to, so count it: a keyword
+#    split of the stated reason, indicative rather than exact, but the two
+#    vocabularies barely overlap in practice.
+SURFACE = (
+    "grammatical",
+    "grammar",
+    "typo",
+    "malformed",
+    "merged",
+    "punctuation",
+    "garbled",
+    "artifact",
+    "artefact",
+    "glitch",
+    "misspell",
+    "spelling",
+    "missing a separator",
+    "duplicated",
+    "repetition '",
+    "mid-sentence",
+    "fragment",
+    "incoherence",
+    "disjointed",
+    "awkward",
+    "unnatural",
+    "inconsistent hyphen",
+)
+REGISTER = (
+    "generic",
+    "aspirational",
+    "buzzword",
+    "vague",
+    "slogan",
+    "boilerplate",
+    "platitude",
+    "no concrete",
+    "without concrete",
+    "lacks concrete",
+    "abstractions",
+    "clich",
+    "sweeping",
+    "promotional",
+    "grandiose",
+    "superlative",
+)
+
+
+def reasons(rows: list[dict], pool: dict[str, dict]) -> None:
+    print("\n=== what the vision-document errors cite ===\n")
+    print(
+        f"{'judge':<22}{'errors':>8}{'register':>10}{'surface':>9}{'both':>7}{'neither':>9}"
+    )
+    per: dict[str, list[str]] = defaultdict(list)
+    for r in rows:
+        rec = pool.get(r["item"])
+        if not rec or label(rec) != VISION or r["judgement"] != "FABRICATED":
+            continue
+        per[r["judge"]].append((r.get("reason") or "").lower())
+
+    tot = [0, 0, 0, 0]
+    for judge, xs in sorted(per.items()):
+        c = [0, 0, 0, 0]
+        for text in xs:
+            s = any(k in text for k in SURFACE)
+            g = any(k in text for k in REGISTER)
+            c[
+                0 if (g and not s) else 1 if (s and not g) else 2 if (s and g) else 3
+            ] += 1
+        tot = [a + b for a, b in zip(tot, c)]
+        print(f"{judge:<22}{len(xs):>8}{c[0]:>10}{c[1]:>9}{c[2]:>7}{c[3]:>9}")
+    print(f"{'pooled':<22}{sum(tot):>8}{tot[0]:>10}{tot[1]:>9}{tot[2]:>7}{tot[3]:>9}")
+    print(
+        "\n  Keyword split, so read the shape and not the decimals. What matters is\n"
+        "  whether the judges that carry the effect are reacting to the register or to\n"
+        "  damage our own pipeline introduced --- the second would make this finding an\n"
+        "  artefact of typesetting rather than a fact about institutional prose."
+    )
+
+
 def main() -> None:
     pool = load_pool()
     headline = load_side(RESULTS)
@@ -255,6 +386,8 @@ def main() -> None:
     contrast("unpaired, headline + arm pooled", merged, pool)
     contrast("the vision arm alone", arm, pool)
     paired(merged, pool)
+    stratified(merged, pool)
+    reasons(merged, pool)
 
 
 if __name__ == "__main__":
