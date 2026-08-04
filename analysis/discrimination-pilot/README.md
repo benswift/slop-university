@@ -1141,19 +1141,26 @@ corpus-level measurements; only the judged sample loses them.
 interesting finding does not work. The headline sample is capped by the
 fabricated side --- 30 press strategy PDFs --- not by the real side, so
 enlarging the corpus changes _which_ real excerpts are drawn without drawing
-more of them. Re-running as planned produced **seven** vision excerpts from five
-institutions, which is what run 3 had. The arm therefore takes every prose
-excerpt the vision documents yielded (30, from 11 documents --- two vision
-documents are such design-led brochures that the prose filter found nothing in
-them at all), adds ordinary planning documents gathered from five of the same
-institutions, and matches the lot against fabricated excerpts drawn afresh.
+more of them. Re-running as planned produced **six** vision excerpts from five
+institutions, which is what run 3 had. The arm therefore takes the prose
+excerpts the vision documents yielded --- 32 from 11 documents, of which 30
+found a fabricated partner within the tag-density caliper and 2 did not (two
+further vision documents are such design-led brochures that the prose filter
+found nothing in them at all) --- adds ordinary planning documents gathered from
+five of the same institutions (13 excerpts matched; 2 more were
+caliper-dropped), and matches the lot against fabricated excerpts drawn afresh.
+The caliper censoring is tag-density-correlated and touches both sides of the
+paired comparison, which is a small selection effect to keep in mind when
+reading the within-institution table.
 
 Reusing fabricated excerpts across the two sets is deliberate: it keeps the
 presented set balanced so the prompt's stated 50/50 base rate stays true, and
-because item ids are derived from the excerpt's text, **44 excerpts are the same
-judge reading the same words twice** in separate calls with independently
-shuffled order and no shared context. That is the noise floor the panel has
-never had.
+because a reused excerpt keeps its id, **44 excerpts are the same judge reading
+the same words twice** in separate calls with independently shuffled order and
+no shared context. That is the noise floor the panel has never had. (The id
+hashes the excerpt's position in its source document, not its text, so "same id"
+means "same words" only within one pool build; `repeatability.py` now verifies
+the repeated texts are byte-identical before comparing, and they are.)
 
 ### Three one-sided defects closed
 
@@ -1231,11 +1238,21 @@ institution-matched plans. The last row is the like-for-like comparison with run
 3's 35% against 14% --- same sampler, same kind of sample, no arm involved ---
 and on five times the excerpts it lands in the same place. Its p is from the
 permutation test on the full four-level `doc_type` table rather than on the
-vision/plan contrast alone.
+vision/plan contrast alone. The rows also do not share a definition of "plan":
+the first two count strategic, institutional and corporate plans, while the
+third is strategic plans only (under the first definition it would read 98/600 =
+16.3%).
 
 All three pool judgements across judges, which repeats each excerpt eight times
-and makes the p values anti-conservative. Read them as descriptions; the test is
-the per-judge table below.
+and makes the p values anti-conservative --- and the run-4 review (TASK-012, 4
+August 2026) measured how much. Recomputed with the clustering respected, none
+of the three quoted values survives: permuting the vision/plan label over
+excerpts (carrying each excerpt's eight judgements with it) gives 0.004, 0.031
+and 0.059 for the three rows, and permuting over source documents --- where the
+label actually lives, on eleven vision documents --- gives 0.075 and 0.16 for
+the first two. The 0.0005 is also the floor of a 2,000-draw test and should be
+read as p < 0.0005. So read the pooled rows as descriptions; the inferential
+weight rests entirely on the within-institution test below.
 
 **The within-institution test is the strongest form the claim has taken.** Four
 institutions contribute both a vision document and their own ordinary plan, so
@@ -1254,9 +1271,26 @@ house style, country, tier and institutional register all cancel:
 
 **Every judge that makes any error at all makes more of them on the vision
 document than on the same university's plan. Seven of seven, sign test p =
-0.016.** Opus makes no errors anywhere and contributes no sign.
+0.016.** Opus makes no errors anywhere and contributes no sign. Two caveats from
+the review belong next to that number. The seven signs come from seven judges
+reading the same twelve excerpts, so they are not independent draws; the errors
+spreading over ten of the twelve excerpts and all four institutions softens this
+but does not remove it. And the test is sensitive to pipeline damage: three of
+the twelve vision excerpts, all from Wollongong, carry verifiable artefacts ---
+a doubled redaction bracket (`[[ORGANISATION]]`), a merged year range
+(`20272030`), a duplicated heading ("Our approach Our vision") --- and in each
+case the judges that erred on the excerpt cited the artefact by name. Dropping
+those three excerpts flips one judge's sign (six of seven, p = 0.125); dropping
+Wollongong's vision document entirely keeps every erring judge on the vision
+side (five of five, p = 0.0625). The direction never reverses under any cut, but
+the paired test's _significance_ leans partly on excerpts our own pipeline
+damaged, and the honest statement is a consistent direction rather than an
+independent p = 0.016. (The `[[` and merged-digit families are now cue families
+in `leak_scan.py`; the scan finds 24 real excerpts against 1 fabricated carrying
+`[[`, and six real-side year-merges, so both point real → fabricated and both
+should be fixed before any run 5.)
 
-Two rival explanations were tested rather than argued about, and both fail.
+Two rival explanations were tested rather than argued about.
 
 **It is not the vagueness index restated.** Vision excerpts do sit higher on it
 (mean 5.13 against 4.62), and vagueness is the feature the judges name, so the
@@ -1278,7 +1312,7 @@ reason cites:
 | GPT-5.6 Luna      | 8      | 5        | 0       | 3    | 0       |
 | GPT-5.6 Sol       | 5      | 4        | 0       | 1    | 0       |
 | Claude Haiku 4.5  | 9      | 3        | 0       | 3    | 3       |
-| DeepSeek V4 Flash | 15     | 5        | 4       | 2    | 4       |
+| DeepSeek V4 Flash | 15     | 4        | 4       | 3    | 4       |
 | DeepSeek V4 Pro   | 13     | 3        | **7**   | 1    | 2       |
 
 Only DeepSeek Pro leans on surface cues. The five OpenAI and Anthropic judges
@@ -1287,7 +1321,11 @@ eight register calls: "vacuous strategic-jargon phrases ... stacked without a
 single concrete program, number, or specific partnership", "inspirational
 abstractions ... without a single concrete program, figure, or verifiable
 claim". The keyword split is indicative rather than exact, but the shape is not
-subtle.
+subtle --- and the review stress-tested it, hand-reading all 65 reasons and
+widening the surface list with nineteen extra terms (run-on, spacing,
+truncation, capitalisation, OCR, extraction, formatting, ...): the OpenAI and
+Anthropic judges still return zero surface-only reasons, their surface mentions
+all co-occurring with register language.
 
 So the reading run 3 offered survives its first real test: **the register a
 university adopts when imagining itself fifteen years out is the register the
@@ -1494,11 +1532,14 @@ Settled, and quotable from a single coherent run:
    identical stimuli, both ends supplied by the vendor that also writes the
    press, and the ordering survives a complete rebuild of corpus, sample and
    pipeline.
-2. **The vision-document effect is real.** It replicates at five times the
-   evidence, holds within institution 7--0 across every judge that errs, and
-   survives both rival explanations --- it is not the vagueness index restated,
-   and it is not extraction damage, because the five OpenAI and Anthropic judges
-   cite register and return no surface-only reasons between them.
+2. **The vision-document effect is real, and its edges are measured.** It
+   replicates at five times the evidence, holds within institution 7--0 across
+   every judge that errs, and is not the vagueness index restated. Nor is it
+   mainly extraction damage --- the five OpenAI and Anthropic judges cite
+   register and return no surface-only reasons between them --- but three of the
+   twelve paired vision excerpts carry real artefacts and the sign test softens
+   to p = 0.125 without them, so what survives every cut is the direction, not
+   an independent p = 0.016.
 3. **The panel has a noise floor**, and it is stratified: 100% self-agreement
    for Opus, Sol and Luna against 68% for DeepSeek Flash. Every earlier "within
    noise" claim in this file was an assertion; this is the first measurement.
