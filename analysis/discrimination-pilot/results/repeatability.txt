@@ -1,0 +1,27 @@
+44 excerpts appear in both the headline sample and the arm
+  38 fabricated, 6 real --- the arm reuses fabricated
+  excerpts to stay balanced, so this is mostly a noise floor for the
+  fabricated side. The real side, where the errors that matter live, is
+  measured on six excerpts and the per-judge figures should not be split by
+  truth value.
+
+judge                     n         agree  flips to FAB  flips to REAL  mean |dconf|
+deepseek-v4-flash        44   30/44 = 68%            10              4           7.6
+deepseek-v4-pro          44   35/44 = 80%             8              1           6.5
+gpt-5.6-luna             44  44/44 = 100%             0              0           3.7
+gpt-5.6-sol              44  44/44 = 100%             0              0           2.4
+gpt-5.6-terra            44   42/44 = 95%             1              1           4.0
+haiku                    44   36/44 = 82%             4              4           5.1
+opus                     44  44/44 = 100%             0              0           2.8
+sonnet                   44   42/44 = 95%             1              1           2.7
+
+pooled                  352 317/352 = 90%
+
+The disagreement rate is 9.9% pooled. That is the
+floor under every per-judge comparison in this report: a difference smaller
+than a judge's disagreement with itself is not evidence of anything.
+
+Note what this does and does not measure. Both elicitations are of the same
+text under the same prompt, so it captures sampling variability in the
+decoder and nothing else --- not drift in a served model, and not
+sensitivity to rewording the prompt.

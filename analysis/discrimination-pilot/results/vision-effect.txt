@@ -1,0 +1,84 @@
+656 real-side strategy judgements in the headline sample, 344 in the vision arm
+
+=== unpaired, headline + arm pooled ===
+
+judge                           vision            plan   difference
+deepseek-v4-flash        15/30 =   50%   33/88 =   38%         12%
+deepseek-v4-pro          13/30 =   43%   34/88 =   39%          5%
+gpt-5.6-luna              8/30 =   27%    8/88 =    9%         18%
+gpt-5.6-sol               5/30 =   17%    1/88 =    1%         16%
+gpt-5.6-terra             7/30 =   23%    2/88 =    2%         21%
+haiku                     9/30 =   30%   26/88 =   30%          0%
+opus                      0/30 =    0%    0/88 =    0%          0%
+sonnet                    8/30 =   27%    6/88 =    7%         20%
+pooled                  65/240 =   27% 110/704 =   16%         11%
+
+  permutation p 0.0005 on the pooled difference. Pooling repeats each
+  excerpt once per judge, so this p is anti-conservative; the per-judge rows
+  say whether the effect is panel-wide or one judge's habit.
+  30 distinct vision excerpts from 11 documents; 88 plan excerpts from 63 documents
+
+=== the vision arm alone ===
+
+judge                           vision            plan   difference
+deepseek-v4-flash        16/30 =   53%    4/13 =   31%         23%
+deepseek-v4-pro          14/30 =   47%    5/13 =   38%          8%
+gpt-5.6-luna              8/30 =   27%    0/13 =    0%         27%
+gpt-5.6-sol               5/30 =   17%    0/13 =    0%         17%
+gpt-5.6-terra             7/30 =   23%    0/13 =    0%         23%
+haiku                     9/30 =   30%    3/13 =   23%          7%
+opus                      0/30 =    0%    0/13 =    0%          0%
+sonnet                    8/30 =   27%    0/13 =    0%         27%
+pooled                  67/240 =   28%  12/104 =   12%         16%
+
+  permutation p 0.0015 on the pooled difference. Pooling repeats each
+  excerpt once per judge, so this p is anti-conservative; the per-judge rows
+  say whether the effect is panel-wide or one judge's habit.
+  30 distinct vision excerpts from 11 documents; 13 plan excerpts from 5 documents
+
+=== within-institution pairs ===
+
+  4 institutions: MacEwan University, University of Auckland, University of Oslo, University of Wollongong
+
+judge                           vision            plan   difference
+deepseek-v4-flash         7/12 =   58%    3/11 =   27%         31%
+deepseek-v4-pro           5/12 =   42%    4/11 =   36%          5%
+gpt-5.6-luna              4/12 =   33%    0/11 =    0%         33%
+gpt-5.6-sol               1/12 =    8%    0/11 =    0%          8%
+gpt-5.6-terra             2/12 =   17%    0/11 =    0%         17%
+haiku                     5/12 =   42%    3/11 =   27%         14%
+opus                      0/12 =    0%    0/11 =    0%          0%
+sonnet                    2/12 =   17%    0/11 =    0%         17%
+
+  sign test over 7 judges with a non-zero difference: 7 vision-worse, 0 plan-worse, p 0.0156
+  House style, country, tier and document age are all held constant here,
+  which the unpaired contrasts cannot claim. What is NOT held constant is
+  publication date: an institution's vision document and its ordinary plan
+  are rarely of the same year.
+
+=== within vagueness strata ===
+
+  median vagueness index 3.71; the contrast is run inside each half
+
+stratum                           vision            plan   difference
+less vague half           28/104 =   27%  53/376 =   14%         13%
+vaguer half               37/136 =   27%  57/328 =   17%         10%
+
+  mean vagueness index: vision 5.13, plan 4.62
+
+=== what the vision-document errors cite ===
+
+judge                   errors  register  surface   both  neither
+deepseek-v4-flash           15         5        4      2        4
+deepseek-v4-pro             13         3        7      1        2
+gpt-5.6-luna                 8         5        0      3        0
+gpt-5.6-sol                  5         4        0      1        0
+gpt-5.6-terra                7         5        0      2        0
+haiku                        9         3        0      3        3
+sonnet                       8         8        0      0        0
+pooled                      65        33       11     12        9
+
+  Keyword split, so read the shape and not the decimals. What matters is
+  whether the judges that carry the effect are reacting to the register or to
+  damage our own pipeline introduced --- the second would make this finding an
+  artefact of typesetting rather than a fact about institutional prose.

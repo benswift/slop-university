@@ -142,6 +142,18 @@ def _load_truth() -> dict[str, str]:
 TRUTH = _load_truth()
 
 
+def save(rows: list[dict]) -> None:
+    """Merge rather than overwrite: this file is the record for every judge, and
+    a run naming only some of them must not drop the rest."""
+    fresh = {r["model"] for r in rows}
+    kept = [
+        r
+        for r in (json.loads(OUT.read_text()) if OUT.exists() else [])
+        if r["model"] not in fresh
+    ]
+    OUT.write_text(json.dumps(kept + rows, indent=1))
+
+
 def main() -> None:
     stims = json.loads(STIM.read_text())
     rows = []
@@ -173,15 +185,11 @@ def main() -> None:
             f"{model}: claimed recognition on {len(claimed)}/{len(stims)}; "
             f"correctly named the real source on {len(real_hit)}/{n_real} real items"
         )
-    # Merge rather than overwrite: this file is the record for every judge, and
-    # a run naming only some of them must not drop the rest.
-    fresh = {r["model"] for r in rows}
-    kept = [
-        r
-        for r in (json.loads(OUT.read_text()) if OUT.exists() else [])
-        if r["model"] not in fresh
-    ]
-    OUT.write_text(json.dumps(kept + rows, indent=1))
+        # Checkpoint after every model rather than at the end. A probe over the
+        # slower judges takes the better part of an hour per model, and writing
+        # once at the end means a timeout or an interrupt discards every model
+        # that had already finished.
+        save(rows)
 
 
 if __name__ == "__main__":

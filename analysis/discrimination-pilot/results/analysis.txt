@@ -1,0 +1,301 @@
+
+========================================================================
+JUDGE: deepseek-v4-flash   n=164
+========================================================================
+accuracy 106/164 = 64.6%   95% CI [57.1%, 71.5%]   binomial p = 0.0002207
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              57      25
+real                    33      49
+
+sensitivity to fabrication 57/82 = 69.5%
+specificity (real called real) 49/82 = 59.8%
+response bias: called FABRICATED 54.9% of the time
+
+by condition:
+  strategy           106/164 =  64.6%  CI [57%,72%]
+
+by subtype:
+  anu-brand           42/63  =  66.7%  CI [54%,77%]
+  real                49/82  =  59.8%  CI [49%,70%]
+  slop-brand          15/19  =  78.9%  CI [57%,91%]
+
+by condition x truth:
+  strategy   fabricated   57/82  =  69.5%
+  strategy   real         49/82  =  59.8%
+
+calibration:
+  conf  50- 69  n= 47  stated  64.0%  actual  63.8%
+  conf  70- 84  n= 94  stated  72.9%  actual  60.6%
+  conf  85- 94  n= 14  stated  86.8%  actual  78.6%
+  conf  95-100  n=  9  stated  95.0%  actual  88.9%
+  mean confidence when right 73.6  when wrong 71.0
+
+========================================================================
+JUDGE: deepseek-v4-pro   n=164
+========================================================================
+accuracy 88/164 = 53.7%   95% CI [46.0%, 61.1%]   binomial p = 0.3904
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              38      44
+real                    32      50
+
+sensitivity to fabrication 38/82 = 46.3%
+specificity (real called real) 50/82 = 61.0%
+response bias: called FABRICATED 42.7% of the time
+
+by condition:
+  strategy            88/164 =  53.7%  CI [46%,61%]
+
+by subtype:
+  anu-brand           28/63  =  44.4%  CI [33%,57%]
+  real                50/82  =  61.0%  CI [50%,71%]
+  slop-brand          10/19  =  52.6%  CI [32%,73%]
+
+by condition x truth:
+  strategy   fabricated   38/82  =  46.3%
+  strategy   real         50/82  =  61.0%
+
+calibration:
+  conf  50- 69  n=  7  stated  65.0%  actual  57.1%
+  conf  70- 84  n= 74  stated  75.3%  actual  45.9%
+  conf  85- 94  n= 72  stated  86.9%  actual  54.2%
+  conf  95-100  n= 11  stated  95.5%  actual 100.0%
+  mean confidence when right 82.4  when wrong 80.1
+
+========================================================================
+JUDGE: gpt-5.6-luna   n=164
+========================================================================
+accuracy 144/164 = 87.8%   95% CI [81.9%, 92.0%]   binomial p = 2.412e-24
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              72      10
+real                    10      72
+
+sensitivity to fabrication 72/82 = 87.8%
+specificity (real called real) 72/82 = 87.8%
+response bias: called FABRICATED 50.0% of the time
+
+by condition:
+  strategy           144/164 =  87.8%  CI [82%,92%]
+
+by subtype:
+  anu-brand           53/63  =  84.1%  CI [73%,91%]
+  real                72/82  =  87.8%  CI [79%,93%]
+  slop-brand          19/19  = 100.0%  CI [83%,100%]
+
+by condition x truth:
+  strategy   fabricated   72/82  =  87.8%
+  strategy   real         72/82  =  87.8%
+
+calibration:
+  conf  50- 69  n= 20  stated  66.6%  actual  60.0%
+  conf  70- 84  n= 57  stated  79.4%  actual  86.0%
+  conf  85- 94  n= 46  stated  90.0%  actual  97.8%
+  conf  95-100  n= 41  stated  97.1%  actual  92.7%
+  mean confidence when right 86.4  when wrong 76.8
+
+========================================================================
+JUDGE: gpt-5.6-sol   n=164
+========================================================================
+accuracy 160/164 = 97.6%   95% CI [93.9%, 99.0%]   binomial p = 2.548e-42
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              81       1
+real                     3      79
+
+sensitivity to fabrication 81/82 = 98.8%
+specificity (real called real) 79/82 = 96.3%
+response bias: called FABRICATED 51.2% of the time
+
+by condition:
+  strategy           160/164 =  97.6%  CI [94%,99%]
+
+by subtype:
+  anu-brand           62/63  =  98.4%  CI [92%,100%]
+  real                79/82  =  96.3%  CI [90%,99%]
+  slop-brand          19/19  = 100.0%  CI [83%,100%]
+
+by condition x truth:
+  strategy   fabricated   81/82  =  98.8%
+  strategy   real         79/82  =  96.3%
+
+calibration:
+  conf  50- 69  n=  2  stated  68.0%  actual  50.0%
+  conf  70- 84  n= 24  stated  81.0%  actual  91.7%
+  conf  85- 94  n= 61  stated  90.1%  actual  98.4%
+  conf  95-100  n= 77  stated  97.4%  actual 100.0%
+  mean confidence when right 92.3  when wrong 78.5
+
+========================================================================
+JUDGE: gpt-5.6-terra   n=164
+========================================================================
+accuracy 153/164 = 93.3%   95% CI [88.4%, 96.2%]   binomial p = 3.778e-33
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              76       6
+real                     5      77
+
+sensitivity to fabrication 76/82 = 92.7%
+specificity (real called real) 77/82 = 93.9%
+response bias: called FABRICATED 49.4% of the time
+
+by condition:
+  strategy           153/164 =  93.3%  CI [88%,96%]
+
+by subtype:
+  anu-brand           57/63  =  90.5%  CI [81%,96%]
+  real                77/82  =  93.9%  CI [87%,97%]
+  slop-brand          19/19  = 100.0%  CI [83%,100%]
+
+by condition x truth:
+  strategy   fabricated   76/82  =  92.7%
+  strategy   real         77/82  =  93.9%
+
+calibration:
+  conf  50- 69  n=  7  stated  65.4%  actual  85.7%
+  conf  70- 84  n= 73  stated  79.8%  actual  89.0%
+  conf  85- 94  n= 56  stated  90.6%  actual  96.4%
+  conf  95-100  n= 28  stated  97.5%  actual 100.0%
+  mean confidence when right 86.3  when wrong 80.2
+
+========================================================================
+JUDGE: haiku   n=164
+========================================================================
+accuracy 85/164 = 51.8%   95% CI [44.2%, 59.3%]   binomial p = 0.6963
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              29      53
+real                    26      56
+
+sensitivity to fabrication 29/82 = 35.4%
+specificity (real called real) 56/82 = 68.3%
+response bias: called FABRICATED 33.5% of the time
+
+by condition:
+  strategy            85/164 =  51.8%  CI [44%,59%]
+
+by subtype:
+  anu-brand           21/63  =  33.3%  CI [23%,46%]
+  real                56/82  =  68.3%  CI [58%,77%]
+  slop-brand           8/19  =  42.1%  CI [23%,64%]
+
+by condition x truth:
+  strategy   fabricated   29/82  =  35.4%
+  strategy   real         56/82  =  68.3%
+
+calibration:
+  conf  50- 69  n= 66  stated  65.3%  actual  48.5%
+  conf  70- 84  n= 94  stated  73.7%  actual  52.1%
+  conf  85- 94  n=  4  stated  86.2%  actual 100.0%
+  mean confidence when right 71.1  when wrong 70.1
+
+========================================================================
+JUDGE: opus   n=164
+========================================================================
+accuracy 164/164 = 100.0%   95% CI [97.7%, 100.0%]   binomial p = 8.553e-50
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              82       0
+real                     0      82
+
+sensitivity to fabrication 82/82 = 100.0%
+specificity (real called real) 82/82 = 100.0%
+response bias: called FABRICATED 50.0% of the time
+
+by condition:
+  strategy           164/164 = 100.0%  CI [98%,100%]
+
+by subtype:
+  anu-brand           63/63  = 100.0%  CI [94%,100%]
+  real                82/82  = 100.0%  CI [96%,100%]
+  slop-brand          19/19  = 100.0%  CI [83%,100%]
+
+by condition x truth:
+  strategy   fabricated   82/82  = 100.0%
+  strategy   real         82/82  = 100.0%
+
+calibration:
+  conf  50- 69  n=  3  stated  67.3%  actual 100.0%
+  conf  70- 84  n= 60  stated  77.5%  actual 100.0%
+  conf  85- 94  n= 90  stated  90.0%  actual 100.0%
+  conf  95-100  n= 11  stated  95.5%  actual 100.0%
+
+========================================================================
+JUDGE: sonnet   n=164
+========================================================================
+accuracy 139/164 = 84.8%   95% CI [78.5%, 89.5%]   binomial p = 2.29e-20
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated              65      17
+real                     8      74
+
+sensitivity to fabrication 65/82 = 79.3%
+specificity (real called real) 74/82 = 90.2%
+response bias: called FABRICATED 44.5% of the time
+
+by condition:
+  strategy           139/164 =  84.8%  CI [78%,89%]
+
+by subtype:
+  anu-brand           46/63  =  73.0%  CI [61%,82%]
+  real                74/82  =  90.2%  CI [82%,95%]
+  slop-brand          19/19  = 100.0%  CI [83%,100%]
+
+by condition x truth:
+  strategy   fabricated   65/82  =  79.3%
+  strategy   real         74/82  =  90.2%
+
+calibration:
+  conf  50- 69  n= 49  stated  65.3%  actual  65.3%
+  conf  70- 84  n= 65  stated  77.6%  actual  92.3%
+  conf  85- 94  n= 39  stated  89.4%  actual  92.3%
+  conf  95-100  n= 11  stated  96.4%  actual 100.0%
+  mean confidence when right 79.4  when wrong 69.9
+
+========================================================================
+POOLED (all judges)   n=1312
+========================================================================
+accuracy 1039/1312 = 79.2%   95% CI [76.9%, 81.3%]   binomial p = 2.033e-105
+
+confusion (rows = truth, cols = judged)
+                fabricated    real
+fabricated             500     156
+real                   117     539
+
+sensitivity to fabrication 500/656 = 76.2%
+specificity (real called real) 539/656 = 82.2%
+response bias: called FABRICATED 47.0% of the time
+
+by condition:
+  strategy           1039/1312 =  79.2%  CI [77%,81%]
+
+by subtype:
+  anu-brand          372/504 =  73.8%  CI [70%,77%]
+  real               539/656 =  82.2%  CI [79%,85%]
+  slop-brand         128/152 =  84.2%  CI [78%,89%]
+
+by condition x truth:
+  strategy   fabricated  500/656 =  76.2%
+  strategy   real        539/656 =  82.2%
+
+calibration:
+  conf  50- 69  n=201  stated  65.1%  actual  59.7%
+  conf  70- 84  n=541  stated  76.4%  actual  73.2%
+  conf  85- 94  n=382  stated  89.3%  actual  88.7%
+  conf  95-100  n=188  stated  97.0%  actual  97.9%
+  mean confidence when right 83.3  when wrong 74.1
+
+unanimous on 42/164 items (26%)
+  of those, correct on 42/42 = 100%
+majority vote accuracy 146/164 = 89.0% CI [83%,93%] p=4.254e-26
+
+tag-density-only baseline (best single threshold, fitted on the test set): 50.6%
