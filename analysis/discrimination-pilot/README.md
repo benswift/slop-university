@@ -1569,8 +1569,38 @@ results/memorisation.json      per-item recall probe results
 results/analysis.txt           full analysis output
 results/vision-effect.txt      the vision-document contrasts and their rival explanations
 results/repeatability.txt      per-judge self-agreement
+results/vagueness-proxies.json lexical proxy scores per excerpt
+results/vagueness-model-*.json model concreteness ratings per excerpt, one file per rater
+results/vagueness-report.txt   corpus-level axis report (vagueness.py --report)
+results/vagueness-vs-error.txt the vagueness null, per judge
+results/error-predictors.txt   every other error predictor the corpus carries
 run-1/, run-3/                 archived stimuli and judgements from the earlier runs
 ```
+
+### Prerequisites
+
+Beyond a checkout of this repo at `~/projects/slop-university`:
+
+- **The fabricated-side PDFs are gitignored and nothing here rebuilds them.**
+  `build_stimuli.py` reads `output/pdf/{strategy,impact-report}/*.pdf` under
+  both `~/projects/slop-university` and `~/projects/slop-university-press` (a
+  separate repo), at those literal paths. Both trees are build products of the
+  press pipeline; copy them from an existing run before starting, or the pool
+  will have no fabricated side. The glob failing is silent.
+- system packages: `poppler-utils` (`pdftotext`, `pdfinfo`), `curl`, `file`, and
+  the Debian word lists `wbritish` and `wamerican` (`normalise.py` reads
+  `/usr/share/dict/{british,american}-english`)
+- `uv` (every script is a `uv run --script` with inline metadata), and an
+  authenticated `claude` CLI for the Anthropic judges
+- API keys in the environment: `OPENAI_API_KEY` and `DEEPSEEK_API_TOKEN`. (An
+  earlier note here pointed at the fnox config in
+  `~/projects/vlm-perception-experiments`; that repo's `mise.toml` only
+  _describes_ such a config in a comment, so set the two variables directly.)
+- the `claude:opus` / `claude:sonnet` / `claude:haiku` backends resolve through
+  the CLI's current aliases at run time, unlike the OpenAI and DeepSeek ids,
+  which are exact. Run 4's aliases resolved to Claude Opus 5, Claude Sonnet 5
+  and Claude Haiku 4.5; a later reproduction should pin or record what its
+  aliases mean.
 
 Reproduce run 4 with:
 
@@ -1587,10 +1617,13 @@ for j in openai:gpt-5.6-terra openai:gpt-5.6-sol openai:gpt-5.6-luna \
   uv run --script scripts/judge.py "$j"
   uv run --script scripts/judge.py --stimuli arm_vision "$j" "arm-vision/judgements-${j#*:}.json"
 done
-uv run --script scripts/memorisation_probe.py gpt-5.6-terra   # one model per call: the
-                                                              # slow judges take an hour each
+uv run --script scripts/memorisation_probe.py gpt-5.6-terra gpt-5.6-sol gpt-5.6-luna \
+    deepseek-v4-pro deepseek-v4-flash claude:opus claude:sonnet claude:haiku
+    # or one model per call --- results merge, and the slow judges take an hour each
 uv run --script scripts/vagueness.py --proxies
-uv run --script scripts/vagueness.py --model openai:gpt-5.6-terra   # and deepseek:deepseek-v4-pro
+uv run --script scripts/vagueness.py --model openai:gpt-5.6-terra
+uv run --script scripts/vagueness.py --model deepseek:deepseek-v4-pro
+uv run --script scripts/vagueness.py --report
 uv run --script scripts/analyse.py
 uv run --script scripts/vagueness_vs_error.py
 uv run --script scripts/error_predictors.py
@@ -1604,7 +1637,8 @@ process, so that run's exact order is not recoverable. This does not affect any
 result: every item is an independent stateless call with no shared context, so
 presentation order cannot influence a judgement.
 
-API keys come from the `fnox` config in `~/projects/vlm-perception-experiments`.
-Note that on this machine `fnox run` emits `Provider 'onepass' not configured`
-warnings and falls through to the ambient `OPENAI_API_KEY`; the calls succeed
-either way, but the 1Password backing is not actually wired up.
+API keys are read from the environment: `OPENAI_API_KEY` and
+`DEEPSEEK_API_TOKEN`, plus an authenticated `claude` CLI --- see Prerequisites
+above. (An earlier version of this note pointed at the fnox config in
+`~/projects/vlm-perception-experiments`; that repo's `mise.toml` only describes
+such a config in a comment, so set the variables directly.)
