@@ -26,7 +26,12 @@ autonomous publish agent, which grows this site over time.
   funder is a Slop University body; there is no registry to check it against)
   and may be stated exactly.
 - **No real people.** Every named person comes from `canon/roster.yml` (with
-  their canonical title and school); every org unit from `canon/schools.md`.
+  their canonical title and school); every org unit from `canon/schools.md`. The
+  single exception is the Vice-Chancellor in `canon/leadership.yml`, who is a
+  real person (the artist) and is therefore outside the roster and outside the
+  tick's reach: never credit him with an output, a grant, or a quote, never add
+  a second leadership entry, and in page prose name the office rather than the
+  occupant. His profile page already exists; the agent does not edit it.
 - **DOIs only under `10.5555/slop.<seed>`**, resolving via the site's own
   `/doi/` route. No external registry, ever.
 - **No Acknowledgement of Country** anywhere on the site (real institutional
@@ -90,24 +95,29 @@ built by hand (like this pass), not grown by the tick.
 
 - `people` and `schools` collections load the canon **in place** from
   `../canon/roster.yml` and `../canon/schools.yml` (see `src/content.config.ts`;
-  the schema is the shape enforcement). There are no people/school files under
-  `src/` --- editing the canon is how those pages change. Headshots resolve from
-  `canon/headshots/` via `src/lib/headshots.ts`. The content test
-  (`src/content/content.test.ts`) enforces the seams: output authors and schools
-  must exist in the canon.
+  the schema is the shape enforcement). A third collection, `leadership`, loads
+  `../canon/leadership.yml` on the same schema; `getPeople()` unions it with
+  `people` for the `/people/` pages, while everything resolving an author or
+  grantee reads the roster alone. That split is the mechanical guarantee that a
+  run drawing authors "from `canon/roster.yml`" can never reach the real person
+  in `leadership.yml`, and the content test asserts it. There are no
+  people/school files under `src/` --- editing the canon is how those pages
+  change. Headshots resolve from `canon/headshots/` via `src/lib/headshots.ts`.
+  The content test (`src/content/content.test.ts`) enforces the seams: output
+  authors and schools must exist in the canon.
 - `src/content/outputs/*.yml` --- one entry per published artefact (title,
   optional subtitle, authors, preset, school, date, optional `publishedAt`, doi,
   summary, topic, pdf, pages, version). `publishedAt` is the exact wrapper
   timestamp used to order same-day signage candidates; `date` remains the
-  human-facing publication date. `title` is the main/head title and `subtitle` the optional
-  deck; the two rejoin with ": " (`fullTitle` in `src/lib/outputs.ts`) for the
-  citation, document `<title>`, DOI resolver, and announcing news post. Only the
-  PDF lives in `public/` (`public/outputs/pdf/`); `robots.txt` disallows
-  `/outputs/pdf/`, which is load-bearing (it keeps fabricated citations out of
-  Google Scholar). The first-page thumbnail and the landscape hero are pipeline
-  assets under `src/assets/outputs/thumbs/<id>.avif` and
-  `src/assets/heroes/outputs/<id>.avif`, resolved by basename === entry id (no
-  yml field), via `src/lib/thumbnails.ts` and `src/lib/heroes.ts`.
+  human-facing publication date. `title` is the main/head title and `subtitle`
+  the optional deck; the two rejoin with ": " (`fullTitle` in
+  `src/lib/outputs.ts`) for the citation, document `<title>`, DOI resolver, and
+  announcing news post. Only the PDF lives in `public/` (`public/outputs/pdf/`);
+  `robots.txt` disallows `/outputs/pdf/`, which is load-bearing (it keeps
+  fabricated citations out of Google Scholar). The first-page thumbnail and the
+  landscape hero are pipeline assets under `src/assets/outputs/thumbs/<id>.avif`
+  and `src/assets/heroes/outputs/<id>.avif`, resolved by basename === entry id
+  (no yml field), via `src/lib/thumbnails.ts` and `src/lib/heroes.ts`.
 - `src/content/news/*.md` --- press releases; frontmatter `output:` references
   the outputs entry id. `title` is the punchy headline (hero h1 and listing
   card); the optional `subtitle` renders as a deck beneath the hero (mirroring

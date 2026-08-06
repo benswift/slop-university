@@ -5,13 +5,21 @@ import { type CollectionEntry, getCollection } from "astro:content";
 // person → school, school → researchers, entity → outputs --- in one place so
 // the pages stay declarative.
 
-export type Person = CollectionEntry<"people">;
+// A profile page's subject is either a fictional roster researcher or the real
+// Vice-Chancellor; the two collections share a schema, so the pages don't care
+// which. Everything that resolves an *author* or *grantee*, by contrast, reads
+// the roster alone --- see outputsByAuthor / grantsByGrantee.
+export type Person = CollectionEntry<"people"> | CollectionEntry<"leadership">;
 export type School = CollectionEntry<"schools">;
 export type Output = CollectionEntry<"outputs">;
 
-/** Roster, ordered by explicit displayOrder then name. */
+/** Roster plus leadership, ordered by explicit displayOrder then name. */
 export async function getPeople(): Promise<Person[]> {
-  return (await getCollection("people")).toSorted(
+  const people: Person[] = [
+    ...(await getCollection("leadership")),
+    ...(await getCollection("people")),
+  ];
+  return people.toSorted(
     (a, b) =>
       (a.data.displayOrder ?? Number.MAX_SAFE_INTEGER) -
         (b.data.displayOrder ?? Number.MAX_SAFE_INTEGER) || a.data.name.localeCompare(b.data.name),

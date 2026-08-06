@@ -340,9 +340,13 @@ fi
 # Note the tick may only touch heroes UNDER outputs/ and news/ --- the
 # hand-built index and homepage heroes elsewhere in src/assets/heroes are
 # deliberately excluded. The denylist carves the one out-of-fiction page
-# (colophon) back out of the otherwise-allowed pages/ dir.
+# (colophon) back out of the otherwise-allowed pages/ dir, and likewise the
+# Vice-Chancellor: canon/leadership.yml is already outside the allowlist, but
+# his portrait and profile hero sit INSIDE the allowlisted canon/headshots/ and
+# canon/heroes/ trees, and they are the one likeness in the project worked from
+# a real person's photographs. The tick never regenerates them.
 ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|website/src/assets/(outputs/thumbs|heroes/(outputs|news))/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
-DENYLIST_RE='(^|/)colophon\.md$'
+DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
 # references/*.avif photos. (references/slop-style/ is fine and unmatched ---

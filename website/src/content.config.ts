@@ -9,22 +9,39 @@ import { parse as parseYaml } from "yaml";
 // the project root, i.e. website/) --- canon is edited by the publish tick and
 // the site re-renders. No mirroring, no drift.
 
+// One person, whether fictional researcher or real Vice-Chancellor, renders
+// through the same profile page --- so both collections below share a schema.
+const personSchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  school: z.string(), // full school/unit name; resolved to a schools entry at render
+  email: z.string().regex(/^[a-z]+(\.[a-z]+)+@slop\.university$/), // id with dots; catch-all makes it real
+  bio: z.string(),
+  headshot: z.string(), // canon-root path; images resolved via lib/headshots.ts
+  web: z.url().optional(),
+  displayOrder: z.number().optional(),
+});
+
 // Researcher roster --- canon/roster.yml, an array nested under `researchers:`.
 // The custom parser unwraps that key; each item's `id` becomes the entry id.
 const people = defineCollection({
   loader: file("../canon/roster.yml", {
     parser: (text) => parseYaml(text).researchers,
   }),
-  schema: z.object({
-    name: z.string(),
-    title: z.string(),
-    school: z.string(), // full school name; resolved to a schools entry at render
-    email: z.string().regex(/^[a-z]+(\.[a-z]+)+@slop\.university$/), // id with dots; catch-all makes it real
-    bio: z.string(),
-    headshot: z.string(), // canon-root path; images resolved via lib/headshots.ts
-    web: z.url().optional(),
-    displayOrder: z.number().optional(),
+  schema: personSchema,
+});
+
+// University leadership --- canon/leadership.yml, one entry: the real
+// Vice-Chancellor. A SEPARATE collection rather than another key in the roster
+// file, because every preset blueprint tells its run to draw authors from
+// canon/roster.yml: kept apart, a real name cannot be rolled into an author
+// line. getPeople() unions the two for the /people/ pages; nothing that
+// resolves authors or grantees reads this collection.
+const leadership = defineCollection({
+  loader: file("../canon/leadership.yml", {
+    parser: (text) => parseYaml(text).leadership,
   }),
+  schema: personSchema,
 });
 
 // Org chart --- canon/schools.yml, grouped by section. The parser flattens the
@@ -144,4 +161,13 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { pages, people, schools, outputs, news, grants, grantSchemes };
+export const collections = {
+  pages,
+  people,
+  leadership,
+  schools,
+  outputs,
+  news,
+  grants,
+  grantSchemes,
+};

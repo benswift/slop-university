@@ -122,12 +122,20 @@ signatory, project lead --- comes from the persistent roster in
 `canon/roster.yml`, with their canonical title and school. Never a real person,
 never a name invented inside a run. Where a document genuinely shouldn't name
 anyone (aggregate acknowledgements, external-partner vignettes), attribution
-stays institutional, drawn from `canon/schools.md`. _Reference-list_ citations
-are the exception in the other direction: both academic presets cite **real,
-verified literature** (the paper's bibliography and the poster's references list
-alike --- every entry resolves via DOI or arXiv; see each blueprint), so a cited
-work's real authors are the one place outside real names legitimately appear.
-Never fabricate a citation.
+stays institutional, drawn from `canon/schools.md`.
+
+The **Vice-Chancellor is the one exception, and it runs the other way**: the
+office may be invoked in the institutional register wherever the genre calls for
+it --- a foreword, a delegated authority, a signature block, a line of executive
+endorsement --- but always as "the Vice-Chancellor" or "the Office of the
+Vice-Chancellor", **never by name**. The occupant is a real person
+(`canon/leadership.yml`), which is why the name stays off the page and out of
+every author line, quote attribution, and contact block. _Reference-list_
+citations are the exception in the other direction: both academic presets cite
+**real, verified literature** (the paper's bibliography and the poster's
+references list alike --- every entry resolves via DOI or arXiv; see each
+blueprint), so a cited work's real authors are the one place outside real names
+legitimately appear. Never fabricate a citation.
 
 ## Bad steering (voice cracks)
 

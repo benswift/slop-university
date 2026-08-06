@@ -46,8 +46,17 @@ researchers are fictional by construction. The branding is drawn from scratch;
 the
 [researcher roster](https://github.com/benswift/slop-university/tree/main/canon)
 is invented and collision-checked against real people; the headshots and every
-other image are generated illustrations. No real person is named or depicted,
-and no real institution's marks appear anywhere.
+other image are generated illustrations. No real institution's marks appear
+anywhere.
+
+Exactly one real person appears on this site, and it is the artist. He is the
+University's [Vice-Chancellor](/people/ben-swift/) --- not as a joke, since he
+does in fact decide what this institution publishes under its own name. It is
+the only place the two layers touch: the researchers below him do not exist and
+the work they produce is generated, while the office at the top of the org chart
+is occupied, accountable, and makes no difference to the output whatsoever. He
+authors nothing here, holds none of its grants, and is named nowhere in the
+documents themselves --- those invoke the office and never its occupant.
 
 The artist would also like to be clear that this project is not in any way a
 specific commentary on his current or previous employers. It is a comment about

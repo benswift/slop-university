@@ -1,0 +1,47 @@
+# The University's leadership --- deliberately NOT the researcher roster.
+#
+# This file holds one record, and it is the single place in the entire canon
+# where a REAL person appears. Ben Swift is the artist behind Slop University
+# (see the colophon) and its Vice-Chancellor; the role is not a fiction, since
+# he does in fact direct what this institution publishes.
+#
+# Why a separate file rather than a `leadership:` key in roster.yml: every
+# preset blueprint tells its run to draw authors from `canon/roster.yml`. Kept
+# in that file --- under any key --- a real name would eventually be rolled
+# into an author line, and the University would credit a real academic with
+# fabricated scholarship carrying a fabricated DOI. Holding leadership in a
+# separate file makes that impossible by construction rather than by prose.
+#
+# Rules for this file:
+#
+# - it takes no further entries. The University has exactly one real person and
+#   there is no reason for it to acquire a second.
+# - the Vice-Chancellor is NEVER an author, co-author, grantee, or named
+#   contact on any generated artefact. Generated documents may invoke the
+#   OFFICE ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
+#   institutional register --- a foreword, a delegated authority, a signature
+#   block --- but never the name.
+# - the schema is the roster's, so the site's people collection unions the two
+#   without a second shape to maintain (see website/src/content.config.ts).
+# - the bio stays in institutional register and is factually true. The only
+#   tell is the `web` link out. That is the intended design: the site breaks
+#   frame twice, once on the colophon and once here, and here it does it
+#   quietly.
+
+leadership:
+  - id: ben-swift
+    name: Ben Swift
+    title: Vice-Chancellor
+    school: Office of the Vice-Chancellor
+    email: ben.swift@slop.university
+    web: https://benswift.me
+    displayOrder: 0
+    headshot: canon/headshots/ben-swift.jpg
+    bio: >-
+      The Vice-Chancellor holds the University's founding appointment and its
+      final delegated authority over what is published under the institution's
+      name. He came to the office from computational creativity and live-coded
+      music, and retains a position at another institution, which the
+      University regards as complementary to its own programme. He convenes no
+      committee that meets, supervises no students, holds no grant, and has
+      authored none of the research collected on this site.

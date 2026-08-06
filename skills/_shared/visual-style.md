@@ -67,6 +67,14 @@ and between runs.
 - **resemblance guard**: stylisation makes accidental likeness unlikely, but
   still eyeball every portrait against "could this be read as a specific real
   person?" before it enters the canon; regenerate on any doubt
+- **the Vice-Chancellor inverts the guard, by consent**: his portrait
+  (`canon/headshots/ben-swift.jpg`) is worked from real reference photographs of
+  the artist and is meant to resemble him, which is allowed for exactly this one
+  person and no other. It still obeys the two-ink style in every other respect
+  --- flat shapes, no photorealism --- so it sits in the same visual register as
+  the fictional roster. The same figure may appear incidentally in the
+  background of a scene (a lecture hall, a corridor, a quad); keep him
+  incidental and unlabelled, and never let an image carry his name
 
 ## Person heroes (roster profile banners)
 

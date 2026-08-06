@@ -58,6 +58,14 @@ const researchers = (
   }
 ).researchers;
 
+// University leadership --- the one real person in the canon, held in a file of
+// his own so no run drawing authors "from canon/roster.yml" can reach him.
+const leadership = (
+  parseYaml(readFileSync(join(canonDir, "leadership.yml"), "utf8")) as {
+    leadership: { id: string; name: string; school: string; headshot: string }[];
+  }
+).leadership;
+
 const schoolDoc = parseYaml(readFileSync(join(canonDir, "schools.yml"), "utf8")) as Record<
   string,
   { id: string; name: string }[]
@@ -70,6 +78,7 @@ const schemes = (
 ).schemes;
 const schemeIds = new Set(schemes.map((s) => s.id));
 const schoolNames = new Set((schoolDoc.schools ?? []).map((s) => s.name));
+const unitNames = new Set((schoolDoc.units ?? []).map((s) => s.name));
 const allOrgNames = new Set(
   Object.values(schoolDoc)
     .flat()
@@ -324,6 +333,46 @@ describe("roster", () => {
   it("has a headshot on disk for every researcher", () => {
     for (const r of researchers) {
       expect(existsSync(join(repoRoot, r.headshot)), `${r.name} headshot`).toBe(true);
+    }
+  });
+});
+
+// The Vice-Chancellor is the one real person in the canon. These checks are the
+// mechanical half of the rule that keeps him out of the fiction's output: he
+// renders a profile page like anyone else, but the institution never credits
+// him with work it generated.
+describe("leadership", () => {
+  it("holds exactly one entry, kept out of the roster file", () => {
+    expect(leadership).toHaveLength(1);
+    for (const l of leadership) {
+      expect(
+        researchers.map((r) => r.id),
+        `${l.id} in roster.yml`,
+      ).not.toContain(l.id);
+      expect(researcherNames, `${l.name} in roster.yml`).not.toContain(l.name);
+    }
+  });
+
+  it("affiliates to a real org unit and has a headshot on disk", () => {
+    for (const l of leadership) {
+      expect(unitNames, `${l.name} → ${l.school}`).toContain(l.school);
+      expect(existsSync(join(repoRoot, l.headshot)), `${l.name} headshot`).toBe(true);
+    }
+  });
+
+  it("is never credited as an author on any output", () => {
+    for (const l of leadership) {
+      for (const output of outputs) {
+        expect(output.authors ?? [], `output author "${l.name}"`).not.toContain(l.name);
+      }
+    }
+  });
+
+  it("never holds a grant or prize", () => {
+    for (const l of leadership) {
+      for (const grant of grants) {
+        expect(grant.grantees ?? [], `grantee "${l.name}"`).not.toContain(l.name);
+      }
     }
   });
 });
