@@ -131,10 +131,14 @@ jobs:
       # deploy pinned at 20s throughout. Size is worth watching against the
       # 1 GB Pages ceiling, but it did not cause this.
       #
-      # 15 minutes is ~3x the new queue time; it sits under the job's
-      # timeout-minutes and costs nothing on a fast deploy.
+      # 600000 is the ceiling, not a preference --- the action clamps anything
+      # higher and says so only in a warning buried in the step log ("timeout
+      # value is greater than the allowed maximum"). Don't raise it expecting
+      # an effect. If queue time ever exceeds 10 minutes there is no knob for
+      # it: the run goes red while Pages usually completes the deployment
+      # anyway, and the next publish tick redeploys the whole site regardless.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
         with:
-          timeout: 900000
+          timeout: 600000
