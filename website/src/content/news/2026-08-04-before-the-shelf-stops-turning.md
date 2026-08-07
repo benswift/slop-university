@@ -11,6 +11,9 @@ description:
   street libraries, issuing the restocking call before a box's turnover falls
   away.
 grant: 2026-08-04-before-the-shelf-stops-turning
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The Anticipatory Capability Fund has made its newest award to a project about a

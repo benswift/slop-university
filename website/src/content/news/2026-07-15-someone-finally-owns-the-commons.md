@@ -8,6 +8,9 @@ description:
   Dr Renke Sabel has been named inaugural convenor of the Indicator Commons,
   the School of Continuous Improvement's shared library for the measures the
   University keeps once adopted.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Dr Renke Sabel has built a career asking why an institution's indicators

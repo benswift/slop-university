@@ -396,15 +396,15 @@ verifiable numbers). Then:
   every other surface (landing page, DOI, downloads) keeps using the light PDF.
   The thumbnail and hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
-  pipeline resizes rasters but cannot render a PDF), then optimised through
-  `astro:assets`, so it lives under `src/`, not `public/`:
+  pipeline resizes rasters but cannot render a PDF):
   `typst compile --root . --pages 1 --format png --ppi 144 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
-  then shrink the long edge to at most ~1200px (never upscale --- this only
-  normalises a large poster page; a booklet page already sits under it), then
-  `avifenc -j 4 -s 6 --min 0 --max 63 -a end-usage=q -a cq-level=28` →
-  `website/src/assets/outputs/thumbs/<run-id>.avif`. Display sizes are the
-  pipeline's job (the landing page renders a responsive `<Image>`); this asset
-  is the source, not a hand-sized thumbnail.
+  then encode its rung ladder into the staging tree (run from the REPO ROOT,
+  like the PDF staging step --- the encoder writes relative to
+  `data/pending-uploads/`):
+  `ops/encode-images.py encode thumb --source /tmp/<run-id>-thumb.png --id <run-id>`.
+  The command prints a `thumb:` dims snippet --- copy it verbatim into the
+  outputs entry's frontmatter. Nothing is committed under `website/src/assets/`;
+  the wrapper's allowlist rejects it.
 - Hero --- a landscape 16:9 banner in the two-ink house style, reused on the
   output landing page, its outputs-listing card, and the announcing news post (a
   post that announces an output has no image of its own; it inherits that
@@ -412,20 +412,24 @@ verifiable numbers). Then:
   institutional notice --- carries its own; see 2H and 2I). Author the prompt
   per `skills/_shared/visual-style.md` and pick refs per
   `skills/_shared/image-workflow.md`; generate at `--aspect-ratio 16:9`
-  `--resolution 2K` (the site never renders a hero wider than ~1600 CSS px; 2K
-  feeds the responsive `<Image>` with room to spare), encode to AVIF →
-  `website/src/assets/heroes/outputs/<run-id>.avif`.
+  `--resolution 2K` (the largest encoded rung is 2560 px; 2K feeds it with room
+  to spare), then encode its ladder + og card from the repo root:
+  `ops/encode-images.py encode hero --source output/<image-folder>/<name>.jpg --id <run-id>`
+  and copy the printed `hero:` dims snippet into the outputs entry's
+  frontmatter.
 
-Both the thumbnail and the hero resolve by basename === the output id
-(`src/lib/thumbnails.ts`, `src/lib/heroes.ts`), the same convention as
-`canon/headshots/`.
+Like the PDF, the images are served from a bucket (img.slop.university) keyed by
+the run id --- the entry records only the intrinsic dims; the wrapper validates
+that every new entry has its rungs staged and uploads them. The site derives all
+URLs and srcsets from the dims (`src/lib/images.ts`).
 
 The outputs entry is the canonical record of the run: the dedup check reads the
 collection, the outputs page charts it, and the People/Schools pages join on its
 `authors` and `school`.
 
-**Files this action commits:** the news post, the outputs entry, the PDF, the
-first-page thumbnail, and the output hero (see §4).
+**Files this action commits:** the news post and the outputs entry (with
+`hero:`/`thumb:` dims). The PDF and every image go to `data/pending-uploads/`,
+never into the commit (see §4).
 
 ---
 
@@ -552,9 +556,9 @@ reads straight, no winks.
 The post announces no output, so it has no output hero to inherit: generate its
 own, per **News heroes** below.
 
-**Files:** the one news post, its hero
-(`website/src/assets/heroes/news/<date>-<slug>.avif`), plus `canon/roster.yml`
-only for a title-changing appointment.
+**Files:** the one news post (with its `hero:` dims), its staged hero rungs in
+`data/pending-uploads/img/heroes/news/`, plus `canon/roster.yml` only for a
+title-changing appointment.
 
 ## 2I. Award a grant or prize
 
@@ -590,8 +594,8 @@ inherit, and it generates its own per **News heroes** below.
   The release may state the value exactly (the carve-out); the site appends the
   award's details box from the entry, so the body needn't restate every field.
 
-**Files:** the grant entry, the news post, and the post's hero
-(`website/src/assets/heroes/news/<date>-<slug>.avif`).
+**Files:** the grant entry, the news post (with its `hero:` dims), and the
+post's staged hero rungs in `data/pending-uploads/img/heroes/news/`.
 
 ---
 
@@ -604,10 +608,11 @@ carries its own, so that every page on the site has one.
 Same recipe as the output hero in 2A, keyed by the **news entry id** rather than
 a run id: author the prompt per `skills/_shared/visual-style.md`, pick refs per
 `skills/_shared/image-workflow.md`, generate at `--aspect-ratio 16:9`
-`--resolution 2K`, encode to AVIF →
-`website/src/assets/heroes/news/<date>-<slug>.avif` (basename === the news entry
-id, i.e. the post's filename with `.avif` for `.md`). It resolves through
-`newsHero` in `src/lib/heroes.ts`.
+`--resolution 2K`, then from the repo root
+`ops/encode-images.py encode news-hero --source <generated image> --id <date>-<slug>`
+(the id is the post's filename without `.md`) and copy the printed `hero:` dims
+snippet into the post's frontmatter. The site derives the URLs from the id +
+dims (`src/lib/images.ts`); nothing is committed under `website/src/assets/`.
 
 The scene is the post's own subject under the house style's flat two-ink
 treatment --- the apparatus the grant funds, the object the notice concerns ---
@@ -634,23 +639,22 @@ Stage exactly this run's files by name (never `git add -A`). The set depends on
 the action:
 
 - **2A:** `website/src/content/news/<date>-<slug>.md`,
-  `website/src/content/outputs/<run-id>.yml`,
-  `website/src/assets/outputs/thumbs/<run-id>.avif`,
-  `website/src/assets/heroes/outputs/<run-id>.avif`.
+  `website/src/content/outputs/<run-id>.yml` (carrying the `hero:` and `thumb:`
+  dims the encoder printed).
 - **2B / 2F:** `canon/roster.yml` or `canon/schools.yml`.
 - **2C:** `canon/schools.yml`.
 - **2D:** the one page under `website/src/content/pages/`.
 - **2E:** `canon/roster.yml`, `canon/headshots/<id>.jpg`.
-- **2H:** `website/src/content/news/<date>-<slug>.md`,
-  `website/src/assets/heroes/news/<date>-<slug>.avif` (plus `canon/roster.yml`
-  only for a title-changing appointment).
+- **2H:** `website/src/content/news/<date>-<slug>.md` (with `hero:` dims, plus
+  `canon/roster.yml` only for a title-changing appointment).
 - **2I:** `website/src/content/grants/<date>-<slug>.yml`,
-  `website/src/content/news/<date>-<slug>.md`,
-  `website/src/assets/heroes/news/<date>-<slug>.avif`.
+  `website/src/content/news/<date>-<slug>.md` (with `hero:` dims).
 
-Note what is **absent** from the 2A set: the PDFs. They stay in gitignored
-`data/pending-uploads/`, which the wrapper uploads to the bucket before it
-pushes. Committing one is a validation failure, not a tidiness matter.
+Note what is **absent** from every set: the PDFs and the images. They stay in
+gitignored `data/pending-uploads/` (PDFs at its root, image rungs under `img/`),
+which the wrapper validates and uploads to the buckets before it pushes.
+Committing one --- or anything under `website/src/assets/` --- is a validation
+failure, not a tidiness matter.
 
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,

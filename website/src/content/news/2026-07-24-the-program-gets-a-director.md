@@ -8,6 +8,9 @@ description:
   Associate Professor Kwame Lindqvist has been named inaugural Director of
   the Master of Priority Studies, the School of Emergent Priorities'
   flagship graduate program.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Associate Professor Kwame Lindqvist has spent his career tracing the moment

@@ -107,6 +107,14 @@ const grants = defineCollection({
 // Free-form pages (colophon, about, agent-grown pages).
 const pages = definePageCollection({ passthrough: true });
 
+// Intrinsic dimensions of a pre-encoded image served from img.slop.university.
+// Only dims are stored --- URLs derive from the entry id (see src/lib/images.ts,
+// whose rung ladder mirrors ops/encode-images.py, the thing that encoded them).
+const imageDims = z.object({
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+});
+
 // One entry per published artefact. Written by the /publish pipeline; the
 // per-output landing page and the DOI resolver route are generated from it.
 const outputs = defineCollection({
@@ -144,6 +152,13 @@ const outputs = defineCollection({
     pages: z.number().optional(),
     version: z.string().default("1.0"),
     grants: z.array(z.string()).default([]), // grants entry ids funding this work
+    // Like the PDF, the hero and thumbnail live in a bucket keyed by the entry
+    // id; the dims are the one fact the site can't derive. thumb is required
+    // (every output has a first page) --- the fail-closed hinge that makes a
+    // half-migrated tree a build error, never a broken live site. hero is
+    // optional in the schema but generated for every output.
+    hero: imageDims.optional(),
+    thumb: imageDims,
   }),
 });
 
@@ -158,6 +173,9 @@ const news = defineCollection({
     description: z.string().optional(),
     output: z.string().optional(),
     grant: z.string().optional(),
+    // Own-hero posts (grant awards, institutional notices) record their remote
+    // hero's dims; posts announcing an output inherit that output's hero.
+    hero: imageDims.optional(),
   }),
 });
 

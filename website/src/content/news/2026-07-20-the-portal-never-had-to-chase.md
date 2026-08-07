@@ -9,6 +9,9 @@ description:
   Dr Ingrid Vasseur, recognising a repository deposit filed complete before
   the Office's automated reminder was triggered.
 grant: 2026-07-20-the-portal-never-had-to-chase
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The Office of Research Outputs runs a reminder system for every deposit

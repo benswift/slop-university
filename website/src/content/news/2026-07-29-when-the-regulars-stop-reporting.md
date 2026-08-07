@@ -11,6 +11,9 @@ description:
   available-machine board against the machines themselves, with a successor
   named before the checking role can lapse.
 grant: 2026-07-29-when-the-regulars-stop-reporting
+hero:
+  width: 2752
+  height: 1536
 ---
 
 A laundromat's available-machine board tells a story that stops updating the

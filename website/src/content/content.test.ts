@@ -25,6 +25,8 @@ const outputs = outputIds.map(
       grants?: string[];
       preset?: string;
       pdfDark?: boolean;
+      hero?: { width: number; height: number };
+      thumb?: { width: number; height: number };
     },
 );
 
@@ -108,20 +110,18 @@ describe("news entries", () => {
     }
   });
 
-  it("carry a hero: an output post inherits its output's, any other has its own", () => {
-    // Mirrors newsPostHero() in lib/heroes.ts. A post announcing an output
-    // shows that output's hero; a grant award or an institutional notice
-    // announces none, so it must ship src/assets/heroes/news/<id>.avif.
-    const assetsDir = join(contentDir, "..", "assets", "heroes");
+  it("carry a hero: an output post inherits its output's, any other records its own dims", () => {
+    // Mirrors the news pages' hero resolution. A post announcing an output
+    // shows that output's remote hero; a grant award or an institutional
+    // notice announces none, so it must record its own remote hero's dims in
+    // frontmatter (the encoded rungs live in the img bucket, keyed by id ---
+    // see src/lib/images.ts).
     for (const file of newsFiles) {
       const id = file.replace(/\.mdx?$/, "");
-      const output = readFileSync(join(contentDir, "news", file), "utf8").match(
-        /^output:\s*(\S+)\s*$/m,
-      )?.[1];
-      const hero = output
-        ? join(assetsDir, "outputs", `${output}.avif`)
-        : join(assetsDir, "news", `${id}.avif`);
-      expect(existsSync(hero), `${id} hero (${hero})`).toBe(true);
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      const output = frontmatter.match(/^output:\s*(\S+)\s*$/m)?.[1];
+      if (output) continue; // inherits the output's hero, checked below
+      expect(/^hero:\s*$/m.test(frontmatter), `${id} hero dims`).toBe(true);
     }
   });
 
@@ -215,12 +215,31 @@ describe("outputs entries", () => {
     }
   });
 
-  it("have a first-page thumbnail on disk (optimised via src/, not public/)", () => {
-    // The publish pipeline writes each output's thumbnail to
-    // src/assets/outputs/thumbs/<id>.avif so astro:assets optimises it.
-    for (const id of outputIds) {
-      const thumb = join(contentDir, "..", "assets", "outputs", "thumbs", `${id}.avif`);
-      expect(existsSync(thumb), `${id} thumbnail`).toBe(true);
+  it("record positive intrinsic dims for the remote thumbnail (and hero when present)", () => {
+    // The publish pipeline encodes each output's thumbnail and hero into the
+    // img bucket and records only their dims here; the site derives every URL
+    // and the srcset rung list from these numbers (src/lib/images.ts mirrors
+    // ops/encode-images.py). Zero or missing dims would silently break that
+    // derivation, so they are load-bearing content.
+    for (let i = 0; i < outputs.length; i++) {
+      const output = outputs[i];
+      expect(output.thumb, `${outputIds[i]} thumb dims`).toBeDefined();
+      expect(output.thumb?.width ?? 0, `${outputIds[i]} thumb width`).toBeGreaterThan(0);
+      expect(output.thumb?.height ?? 0, `${outputIds[i]} thumb height`).toBeGreaterThan(0);
+      if (output.hero) {
+        expect(output.hero.width, `${outputIds[i]} hero width`).toBeGreaterThan(0);
+        expect(output.hero.height, `${outputIds[i]} hero height`).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("no longer ship per-tick image assets in the repo", () => {
+    // Tripwire against an agent following a stale publish skill: the per-tick
+    // image families moved to the img bucket, and these directories must not
+    // quietly come back (they were the artifact-ceiling problem).
+    const assetsDir = join(contentDir, "..", "assets");
+    for (const dir of ["heroes/outputs", "heroes/news", "outputs/thumbs"]) {
+      expect(existsSync(join(assetsDir, dir)), `${dir} resurrected`).toBe(false);
     }
   });
 

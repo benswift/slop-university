@@ -10,6 +10,9 @@ description:
   a grant to end a primary school newsletter's habit of reprinting the same
   "term ahead" paragraph term after term.
 grant: 2026-07-22-before-the-copy-paste-sets-in
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The School of Emergent Priorities has spent the past two years asking what a

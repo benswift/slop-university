@@ -10,6 +10,9 @@ description:
   Dr Dagny Okafor, recognising a repository deposit that corrected the
   portal's default format tag before submission.
 grant: 2026-07-26-fixed-the-tag-before-anyone-read-it
+hero:
+  width: 2848
+  height: 1600
 ---
 
 Every file uploaded to the University's research repository arrives

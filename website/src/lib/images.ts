@@ -54,12 +54,15 @@ export const thumbLargestUrl = (id: string, dims: ImageDims): string => {
   return `${IMG_BASE}/thumbs/${id}-${rs.at(-1) ?? dims.width}.avif`;
 };
 
+/** A pre-encoded og card: absolute URL + the dims the meta tags declare. */
+export interface OgCard {
+  url: string;
+  width: number;
+  height: number;
+}
+
 /** The pre-encoded og card (JPEG, width ≤1200, encoded at publish time). */
-export const ogImage = (
-  kind: "outputs" | "news",
-  id: string,
-  dims: ImageDims,
-): { url: string; width: number; height: number } => {
+export const ogImage = (kind: "outputs" | "news", id: string, dims: ImageDims): OgCard => {
   const width = Math.min(1200, dims.width);
   // round half-up, mirrored in encode-images.py og_dims()
   const height = Math.floor((dims.height * width) / dims.width + 0.5);

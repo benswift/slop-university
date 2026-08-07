@@ -1,9 +1,8 @@
 ---
-import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { fullTitle, presetLabels } from "../lib/outputs";
 import { pdfUrl } from "../lib/pdfs";
-import { thumbnail } from "../lib/thumbnails";
+import { thumbnail } from "../lib/images";
 
 // The jump-straight-to-the-document callout, carried at the top of both places
 // a reader meets an output: its landing page and the news post announcing it.
@@ -24,25 +23,23 @@ interface Props {
 
 const { id, data, showRecord = false } = Astro.props;
 const pdf = pdfUrl(id);
-const thumb = thumbnail(id);
+const thumb = thumbnail(id, data.thumb);
 const full = fullTitle(data);
 ---
 
 <aside class="callout">
-  {
-    thumb && (
-      <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
-        <Image
-          src={thumb}
-          alt=""
-          widths={[180, 360]}
-          sizes="9rem"
-          format="avif"
-          loading="lazy"
-        />
-      </a>
-    )
-  }
+  <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
+    {/* Pre-encoded in the bucket; at 9rem the browser picks the 320 rung. */}
+    <img
+      src={thumb.src}
+      srcset={thumb.srcset}
+      sizes="9rem"
+      width={thumb.width}
+      height={thumb.height}
+      alt=""
+      loading="lazy"
+    />
+  </a>
   <div class="callout-body">
     <p class="callout-kicker">{presetLabels[data.preset]}</p>
     {showRecord && <p class="callout-title">{full}</p>}

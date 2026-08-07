@@ -9,6 +9,9 @@ description:
   Futures in Committee, the School of Emergent Priorities' seminar series,
   turns this teaching period to how a priority's wording outlives the
   initiative it once described, with Dr Anouk Mensah presenting.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Futures in Committee, the School of Emergent Priorities' standing seminar

@@ -9,6 +9,9 @@ description:
   The School of Continuous Improvement's seminar series returns this teaching
   period with a session on indicators that keep reporting after their target has
   moved.
+hero:
+  width: 2048
+  height: 1144
 ---
 
 Improvement Grand Rounds, the School of Continuous Improvement's standing

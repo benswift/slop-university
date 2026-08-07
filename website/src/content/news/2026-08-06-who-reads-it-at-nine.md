@@ -10,6 +10,9 @@ description:
   a grant to run a season of side by side readings at a suburban rain gauge and
   to name a successor before its long serving volunteer reader stops.
 grant: 2026-08-06-who-reads-it-at-nine
+hero:
+  width: 2752
+  height: 1536
 ---
 
 A season of paired readings, a written record of the difference between them,

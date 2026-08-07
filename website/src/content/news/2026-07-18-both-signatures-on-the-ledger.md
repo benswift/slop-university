@@ -9,6 +9,9 @@ description:
   Mirela Hanke a grant to formalise the handover of a neighbourhood tool
   library's paper loan ledger between volunteer coordinators.
 grant: 2026-07-18-both-signatures-on-the-ledger
+hero:
+  width: 2752
+  height: 1536
 ---
 
 A neighbourhood tool library keeps track of every borrowed drill, saw, and

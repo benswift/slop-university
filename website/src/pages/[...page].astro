@@ -11,7 +11,7 @@ import BlueskyFeed from "../components/BlueskyFeed.astro";
 import OpenGraph from "../components/OpenGraph.astro";
 import OutputTypeBadge from "../components/OutputTypeBadge.astro";
 import { siteConfig } from "../site-config";
-import { newsPostHero } from "../lib/heroes";
+import { newsHero, outputHero } from "../lib/images";
 
 // Rest-param pagination: page 1 renders at /, later pages at /2, /3, ...
 export const getStaticPaths = (async ({ paginate }) => {
@@ -27,12 +27,19 @@ const { page } = Astro.props;
 const title =
   page.currentPage === 1 ? siteConfig.name : `${siteConfig.name} — news, page ${page.currentPage}`;
 
-// A news post that announces an output carries that output's type badge, the
-// same pill the outputs grid shows. Posts announcing a grant or an
-// institutional notice reference no output and go unbadged.
-const presetByOutputId = new Map(
-  (await getCollection("outputs")).map((entry) => [entry.id, entry.data.preset]),
-);
+// A news post that announces an output carries that output's type badge (the
+// same pill the outputs grid shows) and inherits its hero; posts announcing a
+// grant or an institutional notice reference no output, go unbadged, and
+// carry their own hero dims in frontmatter.
+const outputsById = new Map((await getCollection("outputs")).map((entry) => [entry.id, entry.data]));
+
+function newsCardImage(entry: (typeof page.data)[number]) {
+  if (entry.data.output) {
+    const output = outputsById.get(entry.data.output);
+    return output && outputHero(entry.data.output, output.hero);
+  }
+  return newsHero(entry.id, entry.data.hero);
+}
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
   day: "numeric",
@@ -88,14 +95,14 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   <CardGrid columns={2}>
     {
       page.data.map((entry) => {
-        const preset = entry.data.output ? presetByOutputId.get(entry.data.output) : undefined;
+        const preset = entry.data.output ? outputsById.get(entry.data.output)?.preset : undefined;
         return (
           <div class="news-card">
             {preset && <OutputTypeBadge preset={preset} />}
             <Card
               title={entry.data.title}
               href={`/news/${entry.id}/`}
-              image={newsPostHero(entry.id, entry.data.output)}
+              image={newsCardImage(entry)}
               imageAlt=""
               headingLevel="h2"
             >

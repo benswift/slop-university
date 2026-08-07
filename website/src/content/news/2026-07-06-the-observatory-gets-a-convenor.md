@@ -8,6 +8,9 @@ description:
   Dr Osei Vandermeer has been appointed to lead the School of Continuous
   Improvement's initiative charged with tracking when the University's own
   review cycles fall out of step.
+hero:
+  width: 2048
+  height: 1144
 ---
 
 The School of Continuous Improvement has named Dr Osei Vandermeer as the

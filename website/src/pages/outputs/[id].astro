@@ -8,8 +8,7 @@ import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
-import { outputHero } from "../../lib/heroes";
-import { thumbnail } from "../../lib/thumbnails";
+import { ogImage, outputHero, thumbnail } from "../../lib/images";
 
 export async function getStaticPaths() {
   const outputs = await getCollection("outputs");
@@ -21,8 +20,11 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const data = entry.data;
-const hero = outputHero(entry.id);
-const thumb = thumbnail(entry.id);
+const hero = outputHero(entry.id, data.hero);
+const thumb = thumbnail(entry.id, data.thumb);
+// og from the hero when one exists, else the first page — same preference as
+// the visible page.
+const og = ogImage("outputs", entry.id, data.hero ?? data.thumb);
 const citation = bibtex(entry.id, data);
 const citationTokens = bibtexTokens(citation);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
@@ -66,8 +68,8 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     title={full}
     description={data.summary}
     type="article"
-    image={hero ?? thumb}
-    imageAlt={hero ? `Illustration for ${full}` : thumb ? `First page of ${full}` : undefined}
+    image={og}
+    imageAlt={hero ? `Illustration for ${full}` : `First page of ${full}`}
   />
   {
     hero ? (

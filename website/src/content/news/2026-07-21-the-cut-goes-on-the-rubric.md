@@ -8,6 +8,9 @@ description:
   The School of Continuous Improvement's quarterly showcase turns its next
   cycle toward the cuts a demo makes before an audience ever sees it, under
   Demo Quarter convenor Dr Thandiwe Solberg.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Demo Quarter, the School of Continuous Improvement's quarterly

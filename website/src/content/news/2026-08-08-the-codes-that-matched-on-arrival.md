@@ -10,6 +10,9 @@ description:
   Ingeborg Nwachukwu, for a repository deposit whose site codes for six packing
   sheds required no correction before review.
 grant: 2026-08-08-the-codes-that-matched-on-arrival
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Six packing sheds, one growers' cooperative, and a season's worth of site codes

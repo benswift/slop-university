@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { fullTitle } from "../../lib/outputs";
 import { signagePdfUrl } from "../../lib/pdfs";
-import { thumbnail } from "../../lib/thumbnails";
+import { thumbLargestUrl } from "../../lib/images";
 
 // Chromeless, fullscreen e-signage view of the most recent poster-format
 // output (research poster or marketing poster) in a given orientation. Built
@@ -29,10 +29,9 @@ import { thumbnail } from "../../lib/thumbnails";
 // each new output, and the page reloads itself on an interval to pick up a
 // fresh deploy without anyone touching the display.
 //
-// Orientation isn't in the content schema, but the first-page thumbnail is
-// rendered from the PDF page, so its dimensions carry the true orientation. A
-// poster without a thumbnail is skipped (orientation unknowable) rather than
-// risk showing it in the wrong-shaped frame.
+// Orientation isn't a schema field of its own, but the first-page thumbnail
+// is rendered from the PDF page, so the thumb dims every entry records carry
+// the true orientation.
 export function getStaticPaths() {
   return [{ params: { orientation: "landscape" } }, { params: { orientation: "portrait" } }];
 }
@@ -42,8 +41,8 @@ const isLandscape = orientation === "landscape";
 
 const posters = (await getCollection("outputs"))
   .filter((entry) => entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster")
-  .map((entry) => ({ entry, thumb: thumbnail(entry.id) }))
-  .filter(({ thumb }) => thumb && (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
+  .map((entry) => ({ entry, thumb: entry.data.thumb }))
+  .filter(({ thumb }) => (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
   .sort((a, b) => {
     const aTime = a.entry.data.publishedAt?.getTime() ?? a.entry.data.date.getTime();
     const bTime = b.entry.data.publishedAt?.getTime() ?? b.entry.data.date.getTime();
@@ -58,16 +57,16 @@ const marketing = posters.filter(({ entry }) => entry.data.preset === "marketing
 const playlist = {
   research: research.map(({ entry, thumb }) => ({
     pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
-    thumb: thumb!.src,
-    width: thumb!.width,
-    height: thumb!.height,
+    thumb: thumbLargestUrl(entry.id, thumb),
+    width: thumb.width,
+    height: thumb.height,
     title: fullTitle(entry.data),
   })),
   marketing: marketing.map(({ entry, thumb }) => ({
     pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
-    thumb: thumb!.src,
-    width: thumb!.width,
-    height: thumb!.height,
+    thumb: thumbLargestUrl(entry.id, thumb),
+    width: thumb.width,
+    height: thumb.height,
     title: fullTitle(entry.data),
   })),
 };

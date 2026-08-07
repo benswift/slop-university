@@ -3,8 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import OutputTypeBadge from "./OutputTypeBadge.astro";
-import { outputHero } from "../lib/heroes";
-import { thumbnail } from "../lib/thumbnails";
+import { outputHero, thumbnail } from "../lib/images";
 
 interface Props {
   /** One page's worth of outputs, already sorted and paginated. */
@@ -27,7 +26,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
         <Card
           title={entry.data.title}
           href={`/outputs/${entry.id}/`}
-          image={outputHero(entry.id) ?? thumbnail(entry.id)}
+          image={outputHero(entry.id, entry.data.hero) ?? thumbnail(entry.id, entry.data.thumb)}
           imageAlt=""
         >
           <p class="meta">

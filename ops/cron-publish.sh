@@ -210,14 +210,17 @@ quarantine_pending_pdfs() {
   shopt -s nullglob
   pdfs=("$PENDING_DIR"/*.pdf)
   shopt -u nullglob
-  if [ ${#pdfs[@]} -eq 0 ]; then
-    return
-  fi
-
   rescue_dir="${PROJECT_DIR}/data/publish-rescue/${ts}"
-  mkdir -p "$rescue_dir"
-  mv "${pdfs[@]}" "$rescue_dir"/
-  log "preserved ${#pdfs[@]} staged PDF(s) in ${rescue_dir}"
+  if [ ${#pdfs[@]} -gt 0 ]; then
+    mkdir -p "$rescue_dir"
+    mv "${pdfs[@]}" "$rescue_dir"/
+    log "preserved ${#pdfs[@]} staged PDF(s) in ${rescue_dir}"
+  fi
+  if [ -d "${PENDING_DIR}/img" ]; then
+    mkdir -p "$rescue_dir"
+    mv "${PENDING_DIR}/img" "$rescue_dir"/img
+    log "preserved the staged image tree in ${rescue_dir}/img"
+  fi
 }
 
 # Args: <outcome-token> <detail> [exit-code]. Every abort names itself, so the
@@ -348,7 +351,7 @@ fi
 # his portrait and profile hero sit INSIDE the allowlisted canon/headshots/ and
 # canon/heroes/ trees, and they are the one likeness in the project worked from
 # a real person's photographs. The tick never regenerates them.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|website/src/assets/(outputs/thumbs|heroes/(outputs|news))/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
@@ -428,25 +431,62 @@ for stray_dir in "${WORKTREE_DIR}"/*/data/pending-uploads "${PROJECT_DIR}"/*/dat
   if [ ${#strays[@]} -gt 0 ]; then
     log "WARNING: ${#strays[@]} PDF(s) staged in the WRONG dir (${stray_dir}); moving to ${PENDING_DIR}"
     mv -n "${strays[@]}" "$PENDING_DIR"/ >> "$LOG_FILE" 2>&1 || log "WARNING: could not move strays out of ${stray_dir}"
-    rmdir -p --ignore-fail-on-non-empty "$stray_dir" 2>/dev/null || true
   fi
+  # The image tree mislands the same way the PDFs used to (relative staging
+  # path resolved against the wrong cwd); fold it into the real staging dir
+  # without clobbering anything already there.
+  if [ -d "${stray_dir}/img" ]; then
+    log "WARNING: staged image tree in the WRONG dir (${stray_dir}/img); merging into ${PENDING_DIR}/img"
+    mkdir -p "${PENDING_DIR}/img"
+    cp -an "${stray_dir}/img/." "${PENDING_DIR}/img/" >> "$LOG_FILE" 2>&1 \
+      && rm -rf "${stray_dir}/img" \
+      || log "WARNING: could not merge strays out of ${stray_dir}/img"
+  fi
+  rmdir -p --ignore-fail-on-non-empty "$stray_dir" 2>/dev/null || true
 done
 
 PENDING_PDFS=("$PENDING_DIR"/*.pdf)
 shopt -u nullglob
 
-# An empty staging dir is normal --- only a 2A run publishes an output; the
-# canon and news actions stage nothing. What must never happen is a NEW outputs
-# entry without its bytes, so check that pairing directly rather than inferring
-# the action. A dark render is required exactly when the entry flags one.
+# An empty staging dir is normal --- only a 2A run publishes an output; some
+# actions stage nothing. What must never happen is a NEW entry without its
+# bytes, so check the pairing directly rather than inferring the action. A dark
+# render is required exactly when the entry flags one. For images the check is
+# category presence (>=1 rung per family + the og card), not rung-exactness ---
+# the encoder owns the rung list; the wrapper owns the pairing invariant.
 MISSING_PDFS=""
+MISSING_IMGS=""
 for f in $(git diff --name-only --diff-filter=A "$BASE_REF" "$PRESS_BRANCH" -- 'website/src/content/outputs/*.yml'); do
   id="$(basename "$f" .yml)"
   [ -f "${PENDING_DIR}/${id}.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}.pdf"$'\n'
   if git show "${PRESS_BRANCH}:${f}" | grep -qE '^pdfDark: *true'; then
     [ -f "${PENDING_DIR}/${id}-dark.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}-dark.pdf"$'\n'
   fi
+  compgen -G "${PENDING_DIR}/img/thumbs/${id}-*.avif" > /dev/null \
+    || MISSING_IMGS="${MISSING_IMGS}  img/thumbs/${id}-*.avif"$'\n'
+  compgen -G "${PENDING_DIR}/img/heroes/outputs/${id}-*.avif" > /dev/null \
+    || MISSING_IMGS="${MISSING_IMGS}  img/heroes/outputs/${id}-*.avif"$'\n'
+  [ -f "${PENDING_DIR}/img/og/outputs/${id}.jpg" ] \
+    || MISSING_IMGS="${MISSING_IMGS}  img/og/outputs/${id}.jpg"$'\n'
 done
+
+# A new news post that announces no output carries its own hero (2H/2I); one
+# that announces an output inherits that output's, staged above.
+for f in $(git diff --name-only --diff-filter=A "$BASE_REF" "$PRESS_BRANCH" -- 'website/src/content/news/*.md' 'website/src/content/news/*.mdx'); do
+  id="$(basename "$f")"; id="${id%.*}"
+  if ! git show "${PRESS_BRANCH}:${f}" | grep -qE '^output:'; then
+    compgen -G "${PENDING_DIR}/img/heroes/news/${id}-*.avif" > /dev/null \
+      || MISSING_IMGS="${MISSING_IMGS}  img/heroes/news/${id}-*.avif"$'\n'
+    [ -f "${PENDING_DIR}/img/og/news/${id}.jpg" ] \
+      || MISSING_IMGS="${MISSING_IMGS}  img/og/news/${id}.jpg"$'\n'
+  fi
+done
+
+if [ -n "$MISSING_IMGS" ]; then
+  log "VALIDATION FAILURE: new entry with images missing from ${PENDING_DIR}/img:"
+  printf '%s' "$MISSING_IMGS" >> "$LOG_FILE"
+  rescue_and_abort "validation-failure" "new entry with no images staged in data/pending-uploads/img/"
+fi
 
 if [ -n "$MISSING_PDFS" ]; then
   log "VALIDATION FAILURE: new outputs entry with no PDF staged in ${PENDING_DIR}:"
@@ -492,6 +532,18 @@ else
   log "no PDFs staged for upload this run"
 fi
 
+if [ -d "${PENDING_DIR}/img" ]; then
+  log "=== uploading the staged image tree to the img bucket at $(date -Iseconds) ==="
+  if "${PROJECT_DIR}/ops/bucket-sync.py" upload --target img "${PENDING_DIR}/img" >> "$LOG_FILE" 2>&1; then
+    log "uploaded images; retaining local copies until the git push succeeds"
+  else
+    log "IMG BUCKET UPLOAD FAILED --- refusing to push an entry whose images are not served"
+    rescue_and_abort "failed-upload" "img bucket upload failed; the entry's images would not be served"
+  fi
+else
+  log "no images staged for upload this run"
+fi
+
 # Push press to main on origin (the documented per-repo exception to the
 # global manual-push rule, like the aps tracker's). When base was local main,
 # any unpushed human commits ride along --- same semantics as the old
@@ -504,6 +556,10 @@ if git push origin "${PRESS_BRANCH}:main" >> "$LOG_FILE" 2>&1; then
   if [ ${#PENDING_PDFS[@]} -gt 0 ]; then
     rm -f "${PENDING_PDFS[@]}"
     log "push succeeded; cleared uploaded PDFs from data/pending-uploads/"
+  fi
+  if [ -d "${PENDING_DIR}/img" ]; then
+    rm -rf "${PENDING_DIR}/img"
+    log "push succeeded; cleared uploaded images from data/pending-uploads/img/"
   fi
   if git merge --ff-only "$PRESS_BRANCH" >> "$LOG_FILE" 2>&1; then
     log "fast-forwarded local main to press"

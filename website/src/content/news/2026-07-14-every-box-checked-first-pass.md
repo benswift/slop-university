@@ -9,6 +9,9 @@ description:
   Dr Sten Okwuosa, recognising a repository deposit filed with complete
   metadata and no follow-up chase from the Office.
 grant: 2026-07-14-every-box-checked-first-pass
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The Office of Research Outputs judges every quarter's crop of deposits

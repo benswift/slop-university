@@ -7,6 +7,9 @@ date: 2026-07-30
 description:
   A new institutional review turns Evaluation of Evaluation's own audit method
   on the program that invented it, under convenor Dr Dagny Okafor.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The School of Continuous Improvement's Evaluation of Evaluation program has

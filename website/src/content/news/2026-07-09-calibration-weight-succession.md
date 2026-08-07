@@ -11,6 +11,9 @@ description:
   Lab's reference calibration weights, including a signed handover log and an
   annual drift check.
 grant: 2026-07-09-calibration-weight-succession
+hero:
+  width: 2048
+  height: 1144
 ---
 
 A reference calibration weight is only as reliable as the person who last

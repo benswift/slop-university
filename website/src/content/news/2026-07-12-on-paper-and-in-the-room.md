@@ -8,6 +8,9 @@ description:
   The School of Emergent Priorities has opened this year's fielding window for
   the Strategic Drift Survey, the instrument that tracks how far enacted
   priorities drift from the ones committees signed off on.
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The School of Emergent Priorities has opened the fielding window for this

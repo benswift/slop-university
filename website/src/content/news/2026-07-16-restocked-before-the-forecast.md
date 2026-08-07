@@ -11,6 +11,9 @@ description:
   from next-day heat forecasts rather than the empty-bottle reports that
   currently prompt it.
 grant: 2026-07-16-restocked-before-the-forecast
+hero:
+  width: 2752
+  height: 1536
 ---
 
 The sunscreen dispensers bolted to the Oval's fence line have refilled on

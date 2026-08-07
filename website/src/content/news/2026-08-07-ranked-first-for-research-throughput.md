@@ -8,6 +8,9 @@ description:
   research throughput, its placement recorded in the 2026 edition of the Global
   Index of Research Throughput.
 date: 2026-08-07
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Slop University is ranked first in the world for research throughput.

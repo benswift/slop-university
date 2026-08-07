@@ -10,6 +10,9 @@ description:
   Petra Umbile, for a repository deposit that documented which of its
   transcribed honour board names the painted board had already got wrong.
 grant: 2026-07-31-the-way-the-wall-had-it
+hero:
+  width: 2752
+  height: 1536
 ---
 
 A signwriter lettering a hall's honour board in 1974 put one L in a life

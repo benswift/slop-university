@@ -80,9 +80,9 @@ jobs:
         uses: actions/cache@v6
         with:
           path: website/node_modules/.astro
-          key: ${{ runner.os }}-astro-build-v2-${{ github.sha }}
+          key: ${{ runner.os }}-astro-build-v3-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-astro-build-v2-
+            ${{ runner.os }}-astro-build-v3-
 
       - name: Lint
         run: pnpm run lint

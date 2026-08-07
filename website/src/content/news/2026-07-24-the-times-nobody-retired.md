@@ -10,6 +10,9 @@ description:
   Sabel a grant to audit a junior swim squad's personal-best board each
   season, retiring entries that have outlasted the swimmers who set them.
 grant: 2026-07-24-the-times-nobody-retired
+hero:
+  width: 2752
+  height: 1536
 ---
 
 A junior swim squad's results board updates in one direction only: a new

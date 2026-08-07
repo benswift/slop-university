@@ -10,6 +10,9 @@ description:
   temporary detour signs a retirement date at the moment it goes up, logged
   against the work order that justified it.
 grant: 2026-07-28-the-sign-gets-an-end-date
+hero:
+  width: 2752
+  height: 1536
 ---
 
 Nothing about a temporary detour sign records how long it is meant to stay. It
