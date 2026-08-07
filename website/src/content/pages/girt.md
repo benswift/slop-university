@@ -3,6 +3,7 @@ title: Global Index of Research Throughput
 description:
   The annual whole-of-institution index of research throughput, compiled and
   published by the Office of Research Outputs.
+heroImage: ./_heroes/girt.avif
 ---
 
 The Global Index of Research Throughput (GIRT) is the annual,
