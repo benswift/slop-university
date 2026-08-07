@@ -35,13 +35,16 @@ Credentials come from the untracked `[env]` block in
 `~/.config/mise/config.local.toml`, which the cron wrapper's `mise activate`
 already exports --- the same channel as REPLICATE_API_TOKEN and SLOPU_TOKEN.
 They are deliberately not named AWS_* so they cannot hijack unrelated S3
-clients. Both buckets share the endpoint and key pair; only the bucket name
-env var differs per target.
+clients. The buckets share the endpoint but carry SEPARATE upload key pairs
+(SLOPU_S3_* for pdf, SLOPU_IMG_* for img): Tigris only lets a credential
+create policies for buckets it owns, so per-bucket keys are what a
+non-org-admin can actually mint --- and a second key also means adding the img
+bucket never required touching the pdf key the hourly tick was already using.
 
-The credential the publish tick carries is scoped to upload-only on these two
-buckets (see `upload_policy`). `setup` and `create-upload-key` need the admin
-key instead --- they are rare, deliberate operations, so supply it inline for
-the one run rather than leaving it in the env.
+The credentials the publish tick carries are each scoped to upload-only on
+their one bucket (see `upload_policy`). `setup` and `create-upload-key` need
+an admin key instead --- they are rare, deliberate operations, so supply it
+inline for the one run rather than leaving it in the env.
 
 Usage:
   ops/bucket-sync.py upload FILE...                 # upload PDFs, keyed by basename
@@ -49,11 +52,12 @@ Usage:
   ops/bucket-sync.py verify [ID]                    # check the served PDF origin
   ops/bucket-sync.py verify --target img [KEY]      # check the served image origin
   ops/bucket-sync.py setup [--target img]           # create/configure bucket (admin key)
-  ops/bucket-sync.py create-upload-key [NAME]       # mint the scoped key (admin key)
+  ops/bucket-sync.py create-upload-key [--target img] [NAME]  # mint the target's scoped key (admin key)
 """
 
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -100,6 +104,14 @@ class Target:
     flat_keys: bool
     cors: bool
     robots_txt: str
+    policy_name: str
+    # Env vars holding this target's upload credential. Two separate key
+    # pairs, not one shared key: Tigris only lets a credential create policies
+    # for buckets it owns, so a single key scoped across both buckets would
+    # need org-admin to mint, while per-bucket keys can be minted with each
+    # bucket's own admin credential.
+    key_id_env: str
+    key_secret_env: str
 
 
 TARGETS = {
@@ -110,6 +122,9 @@ TARGETS = {
         flat_keys=True,
         cors=True,
         robots_txt=PDF_ROBOTS_TXT,
+        policy_name="slopu-publish-upload-only",
+        key_id_env="SLOPU_S3_ACCESS_KEY_ID",
+        key_secret_env="SLOPU_S3_SECRET_ACCESS_KEY",
     ),
     "img": Target(
         bucket_env="SLOPU_IMG_BUCKET",
@@ -118,6 +133,9 @@ TARGETS = {
         flat_keys=False,
         cors=False,
         robots_txt=IMG_ROBOTS_TXT,
+        policy_name="slopu-img-upload-only",
+        key_id_env="SLOPU_IMG_ACCESS_KEY_ID",
+        key_secret_env="SLOPU_IMG_SECRET_ACCESS_KEY",
     ),
 }
 
@@ -143,7 +161,7 @@ UPLOAD_POLICY_ACTIONS = [
 ]
 
 
-def upload_policy(buckets: list[str]) -> dict:
+def upload_policy(bucket: str) -> dict:
     return {
         "Version": "2012-10-17",
         "Statement": [
@@ -151,21 +169,16 @@ def upload_policy(buckets: list[str]) -> dict:
                 "Sid": "PublishTickUploadOnly",
                 "Effect": "Allow",
                 "Action": UPLOAD_POLICY_ACTIONS,
-                "Resource": [f"arn:aws:s3:::{b}/*" for b in buckets],
+                "Resource": f"arn:aws:s3:::{bucket}/*",
             }
         ],
     }
 
 
-# v1 ("slopu-publish-upload-only") covered the PDF bucket alone; superseded when
-# images moved to their own bucket. Mint a NEW key against the new policy and
-# delete the old key --- never mutate the live key in place while the hourly
-# tick depends on it.
-POLICY_NAME = "slopu-publish-upload-only-v2"
-
-
-def create_upload_key(name: str) -> None:
-    """Mint the scoped upload credential. Run with an admin key in the env.
+def create_upload_key(target: Target, name: str) -> None:
+    """Mint the target's scoped upload credential. Run with an admin key in
+    the env (an org admin key, or the target bucket's own admin credential ---
+    Tigris lets a bucket's owner create policies for that bucket).
 
     Tigris implements a useful subset of the IAM API, and the shape matters:
     PutUserPolicy (inline policies) returns NotImplemented, so the policy has to
@@ -181,10 +194,7 @@ def create_upload_key(name: str) -> None:
     """
     import json
 
-    buckets = [
-        os.environ[TARGETS["pdf"].bucket_env],
-        os.environ[TARGETS["img"].bucket_env],
-    ]
+    bucket = os.environ[target.bucket_env]
     iam = boto3.client(
         "iam",
         endpoint_url=IAM_ENDPOINT,
@@ -197,7 +207,7 @@ def create_upload_key(name: str) -> None:
         (
             p["Arn"]
             for p in iam.list_policies().get("Policies", [])
-            if p["PolicyName"] == POLICY_NAME
+            if p["PolicyName"] == target.policy_name
         ),
         None,
     )
@@ -205,8 +215,8 @@ def create_upload_key(name: str) -> None:
         print(f"reusing existing policy {arn}")
     else:
         arn = iam.create_policy(
-            PolicyName=POLICY_NAME,
-            PolicyDocument=json.dumps(upload_policy(buckets)),
+            PolicyName=target.policy_name,
+            PolicyDocument=json.dumps(upload_policy(bucket)),
         )["Policy"]["Arn"]
         print(f"created policy {arn}")
 
@@ -214,31 +224,47 @@ def create_upload_key(name: str) -> None:
     try:
         # In Tigris the access key IS the user, so every subsequent call
         # identifies it by AccessKeyId --- passing the human-readable name here
-        # fails with "Access key doesn't exist".
-        iam.attach_user_policy(UserName=key["AccessKeyId"], PolicyArn=arn)
+        # fails with "Access key doesn't exist". The IAM gateway also times
+        # out on this call routinely (observed twice in a row on 2026-08-08),
+        # so retry a few times before concluding failure.
+        for attempt in range(4):
+            try:
+                iam.attach_user_policy(UserName=key["AccessKeyId"], PolicyArn=arn)
+                break
+            except Exception:
+                if attempt == 3:
+                    raise
+                print(f"attach attempt {attempt + 1} failed; retrying")
+                time.sleep(10)
     except Exception:
         # Never leave an unscoped credential alive on a partial failure.
         iam.delete_access_key(UserName=name, AccessKeyId=key["AccessKeyId"])
         print(f"attach failed; deleted the unscoped key {key['AccessKeyId']}")
         raise
 
-    print(f"\nscoped key '{name}': {UPLOAD_POLICY_ACTIONS} on {buckets} only\n")
-    print(f'SLOPU_S3_ACCESS_KEY_ID = "{key["AccessKeyId"]}"')
-    print(f'SLOPU_S3_SECRET_ACCESS_KEY = "{key["SecretAccessKey"]}"')
+    print(f"\nscoped key '{name}': {UPLOAD_POLICY_ACTIONS} on {bucket}/* only\n")
+    print(f'{target.key_id_env} = "{key["AccessKeyId"]}"')
+    print(f'{target.key_secret_env} = "{key["SecretAccessKey"]}"')
 
 
 def client(target: Target):
-    """S3 client for the target bucket, or exit with a usable message."""
+    """S3 client for the target bucket, or exit with a usable message.
+
+    Uses the target's own key pair when set, falling back to the shared
+    SLOPU_S3_* pair --- which covers both the pdf target (whose key pair IS
+    the shared one) and inline-admin runs of setup/create-upload-key.
+    """
+    key_id = os.environ.get(target.key_id_env) or os.environ.get(
+        "SLOPU_S3_ACCESS_KEY_ID"
+    )
+    key_secret = os.environ.get(target.key_secret_env) or os.environ.get(
+        "SLOPU_S3_SECRET_ACCESS_KEY"
+    )
     missing = [
-        k
-        for k in (
-            target.bucket_env,
-            "SLOPU_S3_ENDPOINT",
-            "SLOPU_S3_ACCESS_KEY_ID",
-            "SLOPU_S3_SECRET_ACCESS_KEY",
-        )
-        if not os.environ.get(k)
+        k for k in (target.bucket_env, "SLOPU_S3_ENDPOINT") if not os.environ.get(k)
     ]
+    if not key_id or not key_secret:
+        missing.append(f"{target.key_id_env} (or SLOPU_S3_ACCESS_KEY_ID)")
     if missing:
         sys.exit(
             f"missing bucket credentials in env: {', '.join(missing)}\n"
@@ -248,8 +274,8 @@ def client(target: Target):
     return boto3.client(
         "s3",
         endpoint_url=os.environ["SLOPU_S3_ENDPOINT"],
-        aws_access_key_id=os.environ["SLOPU_S3_ACCESS_KEY_ID"],
-        aws_secret_access_key=os.environ["SLOPU_S3_SECRET_ACCESS_KEY"],
+        aws_access_key_id=key_id,
+        aws_secret_access_key=key_secret,
         region_name="auto",
     )
 
@@ -260,7 +286,7 @@ def setup(target: Target) -> None:
 
     try:
         s3.head_bucket(Bucket=bucket)
-    except Exception:
+    except s3.exceptions.ClientError:
         s3.create_bucket(Bucket=bucket)
         print(f"created bucket {bucket}")
 
@@ -431,7 +457,12 @@ def main() -> None:
     elif cmd == "verify":
         verify(target, rest[0] if rest else None)
     elif cmd == "create-upload-key":
-        create_upload_key(rest[0] if rest else "slopu-publish-upload")
+        default_name = (
+            "slopu-publish-upload"
+            if target_name == "pdf"
+            else f"slopu-{target_name}-upload"
+        )
+        create_upload_key(target, rest[0] if rest else default_name)
     else:
         sys.exit(f"unknown command: {cmd}\n{__doc__}")
 
