@@ -62,6 +62,21 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   </p>
 
   {
+    page.currentPage === 1 && (
+      <p class="ranking-line">
+        Ranked <strong>1st in the world</strong> for research throughput —{" "}
+        <a
+          href="https://anucybernetics.github.io/world-university-index/slop-university/"
+          rel="external"
+        >
+          The World University Index
+        </a>
+        , 2026.
+      </p>
+    )
+  }
+
+  {
     page.total === 0 && (
       <p>
         Announcements of new research outputs appear here as they are
@@ -114,5 +129,13 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
     color: var(--at-text-muted);
     font-size: var(--at-font-size-sm);
     margin-block: 0 var(--at-spacing-xs);
+  }
+
+  /* The homepage ranking boast, as real university front pages carry. The
+     claim resolves via the linked index (which sources /girt/), so it sits
+     inside the ranking-claim carve-out in website/CLAUDE.md. */
+  .ranking-line {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
   }
 </style>

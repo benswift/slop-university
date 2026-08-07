@@ -455,7 +455,9 @@ Deepen an existing site page whose content is thin --- typically
 `website/src/content/pages/`. Institutional register; no visible satire signal;
 no verifiable claims; link only to pages that exist. **Never touch
 `colophon.md`** --- it is the one out-of-fiction page and the wrapper resets any
-commit that edits it.
+commit that edits it. **Never touch `girt.md`** either --- the ranking-index
+table is human-maintained (see the ranking-claim carve-out in
+`website/CLAUDE.md`).
 
 **Files:** a file under `website/src/content/pages/` (not `colophon.md`).
 

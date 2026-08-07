@@ -24,7 +24,11 @@ autonomous publish agent, which grows this site over time.
   partners. The one carve-out is **internal award values**: a dollar figure on a
   grant or prize from a `canon/grants.yml` scheme is fiction-internal (the
   funder is a Slop University body; there is no registry to check it against)
-  and may be stated exactly.
+  and may be stated exactly. A second carve-out is **the University's ranking
+  claim** (the homepage line and `/girt/`): checkable, and it checks out --- the
+  self-published GIRT table on this site and The World University Index (a
+  sibling satire project) both verify it. Both surfaces are human-maintained;
+  the tick never edits `girt.md` or restates the claim elsewhere.
 - **No real people.** Every named person comes from `canon/roster.yml` (with
   their canonical title and school); every org unit from `canon/schools.md`. The
   single exception is the Vice-Chancellor in `canon/leadership.yml`, who is a
