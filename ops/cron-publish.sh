@@ -284,6 +284,7 @@ AGENT_STATUS=0
       -u SLOPU_S3_SECRET_ACCESS_KEY \
       -u SLOPU_S3_BUCKET \
       -u SLOPU_S3_ENDPOINT \
+      -u SLOPU_IMG_BUCKET \
   /home/ben/.local/bin/claude \
     --dangerously-skip-permissions \
     -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
