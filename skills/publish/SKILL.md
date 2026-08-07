@@ -164,10 +164,18 @@ _The object of study must be picturable by a stranger._ Something a reader can
 see without knowing anything about Slop University --- and usually without
 setting foot on a campus: the supermarket self-checkout, bin night, the school
 pick-up queue, the bus stop, the dog park, the laundromat, loyalty cards, the
-group chat, the barbecue. Campus objects (the coffee queue, the pigeons, the
-tea-room biscuits) stay in the pool, but as one setting among many rather than
-the default --- most readers have never sat in a lecture theatre, and the joke
-must land for them too. The poster preset's steering examples set the register
+group chat, the barbecue. The furniture of work and commerce belongs in the pool
+just as much as household life: the open-plan office, the stand-up meeting, the
+café shift roster, the quarterly performance review, the food truck, the
+small-business EFTPOS terminal, the franchise onboarding video, the shopfront
+sandwich board. Business life is already metricised (KPIs, engagement surveys,
+NPS), which makes it prime territory for the pathology constraint below --- but
+businesses stay generic (the café, the franchise, the strip-mall barber), never
+a named real company: a claim about a real business is a verifiable claim.
+Campus objects (the coffee queue, the pigeons, the tea-room biscuits) stay in
+the pool, but as one setting among many rather than the default --- most readers
+have never sat in a lecture theatre, and the joke must land for them too. The
+poster preset's steering examples set the register
 (`../from-preset/presets/research-poster.md` --- magpies, bin-night telemetry,
 biscuit redistribution). If understanding the topic requires the reader to first
 learn a piece of the University's internal apparatus, the object is wrong.
@@ -216,10 +224,10 @@ all hard:
   dashboard, an index, a scorer, a committee process), the new object must be
   something physical and mundane from everyday life. Rotate the setting on the
   same read: if five or more of those eight objects were campus-bound, take the
-  new object from off-campus life (the home, the street, the shops, transit).
-  This axis is separate from topic-dedup because topic-dedup does not catch it:
-  twelve studies of twelve different registers are twelve distinct topics and
-  one exhausted joke.
+  new object from off-campus life (the home, the street, the shops, the
+  workplace, transit). This axis is separate from topic-dedup because
+  topic-dedup does not catch it: twelve studies of twelve different registers
+  are twelve distinct topics and one exhausted joke.
 - **Finding-shape**: the corpus must not converge on one study design. Read the
   last ~8 entries and identify their shapes; the new work must not repeat the
   dominant one. Shapes already burnt by overuse: "capability rose while human
@@ -231,7 +239,9 @@ all hard:
   good satire), a systems/tool paper, a quasi-experiment. Effect sizes must not
   cluster --- not every r lands in 0.68-0.82, not every study coins a
   purpose-built index, and not every abstract closes by proposing a randomised
-  trial.
+  trial. The business-school shapes are in the rotation too: a single-site case
+  study told in earnest case-method register, a maturity model, a 2×2 quadrant
+  framework (also a fine poster chart).
 
 **Claim the topic --- before generating anything.** The three checks above read
 the outputs ledger, which records what has been PUBLISHED. It cannot see what

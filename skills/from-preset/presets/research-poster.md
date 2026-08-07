@@ -90,6 +90,9 @@ project. 1-3 short sentences, or a phrase. Examples:
 - "a closed-loop controller for supermarket self-checkout patience"
 - "forecasting school pick-up congestion from parent group-chat activity"
 - "using soil moisture sensors to predict committee-meeting sentiment"
+- "a maturity model for the café loyalty-card punch economy"
+- "benchmarking food-truck queue abandonment against posted wait-time signage"
+- "an OKR framework for the office birthday-cake roster"
 
 The prompt is the project. The academic register (below) is the only floor;
 everything else --- title, aims, methods, results, charts, captions --- bends to
