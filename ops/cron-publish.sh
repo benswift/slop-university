@@ -290,6 +290,8 @@ AGENT_STATUS=0
       -u SLOPU_IMG_BUCKET \
       -u SLOPU_IMG_ACCESS_KEY_ID \
       -u SLOPU_IMG_SECRET_ACCESS_KEY \
+      -u SLOPU_IMG_ADMIN_ACCESS_KEY_ID \
+      -u SLOPU_IMG_ADMIN_SECRET_ACCESS_KEY \
   /home/ben/.local/bin/claude \
     --dangerously-skip-permissions \
     -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
