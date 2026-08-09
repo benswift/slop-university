@@ -1,0 +1,30 @@
+title: "The Batch Was Already Running"
+subtitle: "A Null-Result Comparison of Self-Service and Staff-Processed Gym Membership Freeze Requests"
+authors:
+  - Torun Ezeigwe
+  - Osei Vandermeer
+preset: paper
+school: School of Continuous Improvement
+date: 2026-08-10
+publishedAt: "2026-08-10T07:01:09+10:00"
+doi: 10.5555/slop.g6vece
+summary: >-
+  A paper from the School of Continuous Improvement compares
+  freeze-to-stopped-billing latency for self-service and staff-processed gym
+  membership freeze requests across 38 chains, finding both track a shared
+  weekly card-processor settlement cycle far more closely than they track
+  which workflow logged the request.
+topic: >-
+  a null-result quasi-experiment on gym membership freeze requests: whether
+  replacing a staff-processed freeze queue with a self-service toggle
+  actually shortens the gap between a freeze request and billing actually
+  stopping, once both feed the same fixed weekly card-processor batch cycle
+  underneath
+pages: 5
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
