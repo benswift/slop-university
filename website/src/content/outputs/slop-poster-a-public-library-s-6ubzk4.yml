@@ -1,0 +1,35 @@
+title: Late Before It's Sent
+subtitle: >-
+  Validating a Public Library Hold-Shelf System's Expiry Countdown Against
+  Its Own Notification Lag
+authors:
+  - Fenna Okoro
+  - Verity Marris
+preset: research-poster
+school: School of Emergent Priorities
+date: 2026-08-10
+publishedAt: "2026-08-10T13:04:03+10:00"
+doi: 10.5555/slop.6ubzk4
+summary: >-
+  A research poster from the School of Emergent Priorities audits nine
+  metropolitan library branches' hold-shelf systems, finding that a
+  scan-timed pickup countdown lets an already-delayed collection notice
+  still expire exactly on schedule, and that a substantial share of
+  nominally "expired" holds would have cleared inside a patron's true,
+  send-timed response window.
+topic: >-
+  a public library's hold-shelf system starts a reserved book's pickup
+  countdown from the moment it's scanned onto the shelf, not from when the
+  "ready for collection" email actually leaves the branch's mail queue, so
+  an already-delayed notification still expires exactly on schedule;
+  validating whether the library's uncollected-hold rate tracks patron
+  neglect or the queue's own lag
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 3573
+  height: 2286
