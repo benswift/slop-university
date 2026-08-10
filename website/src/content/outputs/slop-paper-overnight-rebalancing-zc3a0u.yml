@@ -1,0 +1,36 @@
+title: The Rack With No History
+subtitle: A Five-Level Demand-Sensing Maturity Model for Overnight Bike-Share Rebalancing
+authors:
+  - Anouk Mensah
+  - Lindiwe Achterberg
+  - Iben Chikere
+preset: paper
+school: School of Emergent Priorities
+date: 2026-08-11
+publishedAt: "2026-08-11T06:01:42+10:00"
+doi: 10.5555/slop.zc3a0u
+summary: >-
+  A paper from the School of Emergent Priorities scores all seventeen depots
+  of a city bike-share operator's network on a five-level demand-sensing
+  maturity model and tests whether a depot's maturity score predicts how
+  quickly its chronically empty racks, invisible to an overnight rebalancing
+  algorithm that infers demand only from where bikes were dropped the night
+  before, receive their next drop; maturity level correlates only weakly
+  with recovery time, and an ablation removing complaint-volume weighting
+  from the chronic-empty flag leaves the result unchanged.
+topic: >-
+  overnight rebalancing algorithms infer each rack's demand only from where
+  bikes were dropped the night before, so a rack that never receives an
+  early drop stays invisible to the algorithm no matter how many riders
+  report finding it empty; this study develops and applies a five-level
+  demand-sensing maturity model across a bike-share operator's depots to
+  test whether a depot's maturity score predicts how long its chronically
+  empty racks stay that way
+pages: 5
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
