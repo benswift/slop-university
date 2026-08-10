@@ -1,0 +1,39 @@
+title: Attended, Not Donated
+subtitle: >-
+  Validating a Blood Donation Centre's Next-Eligible-to-Donate Reminder
+  Against Its Own Completed-Draw Records
+authors:
+  - Verity Marris
+  - Anneke Tolan
+  - Marek Solheim
+preset: paper
+school: School of Emergent Priorities
+date: 2026-08-10
+publishedAt: "2026-08-10T18:01:26+10:00"
+doi: 10.5555/slop.dwyux3
+summary: >-
+  A paper from the School of Emergent Priorities links a blood donation
+  network's "attended" booking flag against its own phlebotomy outcome log
+  across 46 centres and 142,387 appointments, finding a fifth of "attended"
+  visits were early-stopped or self-withdrawn draws that still triggered
+  the same standard-interval reminder as a completed donation. Incomplete-
+  draw donors return well past the reminder clock's assumed interval, and a
+  supplementary "volume confirmed" toggle piloted at a subset of centres
+  leaves the mismatch rate statistically unchanged.
+topic: >-
+  a blood donation centre's next-eligible-to-donate text message is timed
+  from the date of a donor's last recorded appointment, not from whether
+  that appointment's draw actually completed to volume, so a donor stood
+  down early for a failed vein-find or low iron gets the same
+  standard-interval reminder as someone who gave a full unit; validating
+  whether the appointment date the centre's booking system logs as
+  'attended' is a reliable stand-in for a completed donation across its own
+  records
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
