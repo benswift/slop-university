@@ -1,0 +1,35 @@
+title: "The Grace Period Was Doing the Work"
+subtitle: >-
+  A Cross-Venue Comparison of Absence-Skipping and Strict Submission-Order
+  Song-Queue Policies on Karaoke Session Throughput and Walk-In Wait
+authors:
+  - Osei Vandermeer
+  - Torun Ezeigwe
+preset: paper
+school: School of Continuous Improvement
+date: 2026-08-12
+publishedAt: "2026-08-12T11:02:36+10:00"
+doi: 10.5555/slop.nr8unm
+summary: >-
+  A paper from the School of Continuous Improvement compares a 24-venue
+  karaoke bar chain's automatic absence-skipping song-queue policy against
+  calling names in strict submission order, finding auto-skip's throughput
+  gain over strict order is modest and is reproduced almost exactly by an
+  ablation that disables the skip step while leaving its grace-period
+  countdown running. The larger, steadier effect lands on walk-in singers,
+  whose median wait falls by close to four minutes, a population the
+  booking app was never built to track.
+topic: >-
+  a karaoke bar chain's song-queue app lets singers submit a request before
+  they're back in the room or even in the building; some venues started
+  skipping absent names to keep throughput up while others kept calling
+  names in strict submission order regardless, and a study compares session
+  throughput and walk-in wait times across the two policies
+pages: 5
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
