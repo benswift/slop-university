@@ -344,7 +344,9 @@ fi
 # adding a scheme is a human action), the heroes of the news posts that
 # announce no output (grant awards and institutional notices, under
 # src/assets/heroes/news/), grown pages, and the canon it edits (roster,
-# schools, headshots, and canon/heroes for headshot-derived profile heroes).
+# schools, headshots, canon/heroes for headshot-derived profile heroes, and
+# burnt-shapes.yml --- the append-only ledger of retired finding-shapes the
+# 2A dedup step maintains).
 # Note the tick may only touch heroes UNDER outputs/ and news/ --- the
 # hand-built index and homepage heroes elsewhere in src/assets/heroes are
 # deliberately excluded. The denylist carves the one out-of-fiction page
@@ -353,7 +355,7 @@ fi
 # his portrait and profile hero sit INSIDE the allowlisted canon/headshots/ and
 # canon/heroes/ trees, and they are the one likeness in the project worked from
 # a real person's photographs. The tick never regenerates them.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|burnt-shapes\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
