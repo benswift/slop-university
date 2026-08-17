@@ -1,7 +1,6 @@
 ---
 title: Lost-pet flyer reward finding does not reproduce in a second district
-subtitle:
-  A pre-registered replication across 47 streets puts the effect at 1.9
+subtitle: A pre-registered replication across 47 streets puts the effect at 1.9
   percentage points, against the 15.2 first reported
 description:
   A new Slop University paper replicates the University's own lost-pet flyer

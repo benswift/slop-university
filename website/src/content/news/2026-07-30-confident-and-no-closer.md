@@ -4,8 +4,7 @@ subtitle:
   Twenty-four adjudicators judged 288 provenance-verified market items with
   the swing tag concealed, landing on 53.4 per cent correct while reporting
   77.4 per cent confidence
-description:
-  A new Slop University research poster conceals the maker tag on 288
+description: A new Slop University research poster conceals the maker tag on 288
   provenance-verified craft-market items and asks four panels to judge which
   were made by the stallholder, finding calls correct 53.4 per cent of the
   time against stated confidence of 77.4 per cent.

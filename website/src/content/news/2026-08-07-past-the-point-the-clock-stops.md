@@ -3,8 +3,7 @@ title: A drive-through indicator improves by 39 seconds; the wait does not move
 subtitle:
   21.4 million orders across 74 restaurants, and a painted bay just past the
   point where the clock stops
-description:
-  A new Slop University paper sets one franchise network's published
+description: A new Slop University paper sets one franchise network's published
   drive-through service time against the order to handover records the same
   system keeps, and finds the two moving apart as pull forward bays open.
 date: 2026-08-07

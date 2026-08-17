@@ -3,8 +3,7 @@ title: Self-marked golf scorecards bend toward the handicap-band line
 subtitle:
   214 competition cards, sorted into five ways a scorecard's arithmetic can
   slip toward a handicap-band cutoff
-description:
-  A new Slop University research poster codes 214 self-marked golf
+description: A new Slop University research poster codes 214 self-marked golf
   competition scorecards for arithmetic near-misses around a handicap-band
   cutoff, and finds the errors clustering on the side that keeps a card off
   the line.

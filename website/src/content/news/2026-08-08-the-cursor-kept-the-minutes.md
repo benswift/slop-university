@@ -1,7 +1,6 @@
 ---
 title: A call-centre activity score predicts recognition, not call quality
-subtitle:
-  A forty-floor audit finds keystroke-and-idle tracking unrelated to
+subtitle: A forty-floor audit finds keystroke-and-idle tracking unrelated to
   escalations or complaints, but closely tied to quarterly recognition
 description:
   A new Slop University paper audits forty call-centre floors against a

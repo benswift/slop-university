@@ -1,7 +1,6 @@
 ---
 title: The freeze button doesn't set the date; the billing calendar does
-subtitle:
-  A matched comparison across 38 gym chains finds self-service and
+subtitle: A matched comparison across 38 gym chains finds self-service and
   staff-processed freeze requests wait on the same weekly settlement batch
 description:
   A new Slop University paper compares self-service and staff-processed gym

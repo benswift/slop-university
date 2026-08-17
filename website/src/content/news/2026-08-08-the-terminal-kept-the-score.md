@@ -4,8 +4,7 @@ subtitle:
   A five-month audit of 44 outlets finds a cafe franchise's point-of-sale
   dwell-time proxy predicts terminal age, not the tips customers actually
   leave
-description:
-  A new Slop University paper tests a cafe franchise's point-of-sale
+description: A new Slop University paper tests a cafe franchise's point-of-sale
   dwell-time "friendliness score" against realised tip percentage across 44
   outlets, finding it tracks terminal hardware generation rather than
   anything staff did.

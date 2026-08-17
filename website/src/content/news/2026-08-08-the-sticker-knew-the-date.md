@@ -4,8 +4,7 @@ subtitle:
   A 74-building records-linkage study finds certificate currency uncorrelated
   with recorded breakdowns and entrapments, while an independent condition
   audit and door-cycle volume both track them
-description:
-  A new Slop University paper links a facilities portfolio's lift
+description: A new Slop University paper links a facilities portfolio's lift
   inspection-certificate registry, maintenance log, and an independent
   condition audit, finding certificate currency carries almost no
   association with recorded breakdowns or entrapments.

@@ -1,11 +1,9 @@
 ---
 title: A laundromat's unpaid-cycle alert tracks the door, not the loss
-subtitle:
-  A 14-week audit finds a coin-op laundromat's sensor alerts track a
+subtitle: A 14-week audit finds a coin-op laundromat's sensor alerts track a
   machine's distance from the entrance rather than its owner-verified coin
   shortfall
-description:
-  A new Slop University research poster pairs 14 weeks of a coin-op
+description: A new Slop University research poster pairs 14 weeks of a coin-op
   laundromat's sensor-issued unpaid-cycle alerts against the owner's
   independently audited coin-meter counts, finding alert frequency tracks a
   machine's distance from the entrance rather than the shortfall it is meant

@@ -1,7 +1,6 @@
 ---
 title: Slop University makes its case for studying the ordinary occasion
-subtitle:
-  A new brochure sets out how the University's two Schools approach the
+subtitle: A new brochure sets out how the University's two Schools approach the
   reception, the working bee and the hall booking, and cites three published
   studies as the evidence for it
 description:

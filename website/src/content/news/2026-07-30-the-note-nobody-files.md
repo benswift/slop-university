@@ -4,8 +4,7 @@ subtitle:
   Most Rules Run on Exceptions draws four published studies and both Schools
   into one account of how an exception quietly becomes the procedure
 date: 2026-07-30
-description:
-  Slop University has published Most Rules Run on Exceptions, a
+description: Slop University has published Most Rules Run on Exceptions, a
   case-for-support brochure that opens at a suburban school gate and follows
   the note from home into four published studies of what an organisation's
   exceptions actually do.

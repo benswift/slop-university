@@ -1,7 +1,6 @@
 ---
 title: Street library stickers earn a null result, and stay on the lid
-subtitle:
-  A 16-week, 48-box field trial finds a suggested return-window sticker
+subtitle: A 16-week, 48-box field trial finds a suggested return-window sticker
   changes nothing measurable about how quickly street library books move,
   and the University keeps printing it anyway.
 description:

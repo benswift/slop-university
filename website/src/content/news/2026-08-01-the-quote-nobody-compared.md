@@ -1,7 +1,6 @@
 ---
 title: Third quotation costs strata schemes more than it saves them
-subtitle:
-  An activity-based costing of 412 works orders puts the median cost of
+subtitle: An activity-based costing of 412 works orders puts the median cost of
   obtaining the third quote at $486, against a median saving of $214
 description:
   A new Slop University research poster costs the three-quotation requirement

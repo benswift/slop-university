@@ -3,8 +3,7 @@ title: Slop University puts a price on what a veterinary care plan adds
 subtitle:
   4,812 animals across 22 clinics, and the distance between a plan's monthly
   sign-up count and the care that count is taken to stand for
-description:
-  A new Slop University research poster costs one veterinary group's
+description: A new Slop University research poster costs one veterinary group's
   preventive-care plan against matched unenrolled animals, and finds most of
   what the plan pays for was already being delivered.
 date: 2026-08-06

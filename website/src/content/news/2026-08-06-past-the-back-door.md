@@ -1,7 +1,6 @@
 ---
 title: Slop University makes its case for research that begins after the handover
-subtitle:
-  A new case-for-support brochure gathers four published studies of what
+subtitle: A new case-for-support brochure gathers four published studies of what
   happens once a transaction has been recorded and the file has closed
 date: 2026-08-06
 description:

@@ -1,10 +1,8 @@
 ---
 title: Strategic Drift Survey turns its instrument on a café's morning call
-subtitle:
-  A new signage campaign stages the School of Emergent Priorities' drift
+subtitle: A new signage campaign stages the School of Emergent Priorities' drift
   instrument on the ten seconds it takes to decide whether the awning goes up
-description:
-  A new Slop University advertising campaign puts the Strategic Drift
+description: A new Slop University advertising campaign puts the Strategic Drift
   Survey's method to work on a café's morning forecast call, joining the
   University's bus-stop panel and campus digital signage rotations.
 date: 2026-08-09

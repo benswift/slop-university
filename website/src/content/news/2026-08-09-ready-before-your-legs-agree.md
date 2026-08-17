@@ -1,7 +1,6 @@
 ---
 title: Master of Priority Studies recruits on a watch that won't wait for your legs
-subtitle:
-  A new campaign for the Master of Priority Studies stages a runner's
+subtitle: A new campaign for the Master of Priority Studies stages a runner's
   smartwatch clearing a hard session before the body has actually caught up
 description:
   A new Slop University advertising campaign for the Master of Priority

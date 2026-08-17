@@ -1,7 +1,6 @@
 ---
 title: Master of Priority Studies arrives on the University's signage rotation
-subtitle:
-  A campaign built around the chalk mark that starts a street's parking
+subtitle: A campaign built around the chalk mark that starts a street's parking
   limit, and the return visit meant to enforce it
 description:
   A new Slop University display campaign advertises the Master of Priority

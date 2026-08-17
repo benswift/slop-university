@@ -38,8 +38,7 @@ expects to be asking for a while yet, which is what a body does with a count it
 has always taken and never once used".
 
 The team notes that the pavilion floor plan is drawn from the schedule, so
-trestle length is set aside each year for classes that have held nothing since
-2021. A comparison across eleven societies' standing orders is planned.
+trestle length is set aside each year for classes that have held nothing since 2021. A comparison across eleven societies' standing orders is planned.
 
 The full poster is available from the University's research repository under an
 open licence, doi:10.5555/slop.jxwnjp.

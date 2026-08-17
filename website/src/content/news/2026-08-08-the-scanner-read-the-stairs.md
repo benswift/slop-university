@@ -4,8 +4,7 @@ subtitle:
   A taxonomy of 4,180 fall-detection alerts across nine depots finds only one
   of five trigger categories tracks a confirmed damaged-parcel claim, while
   the network's gentle-handling score treats all five alike
-description:
-  A new Slop University paper classifies what actually trips a parcel
+description: A new Slop University paper classifies what actually trips a parcel
   courier's handheld scanner drop-detection alarm, finding only genuine
   drops predict a confirmed damaged-parcel claim while a firmware
   recalibration leaves the network's per-driver gentle-handling score

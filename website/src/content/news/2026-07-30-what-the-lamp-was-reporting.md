@@ -1,7 +1,6 @@
 ---
 title: Seven in eight tyre-pressure warnings sit on tyres within specification
-subtitle:
-  A calibrated gauge behind 4,318 minibus pre-departure checks puts the
+subtitle: A calibrated gauge behind 4,318 minibus pre-departure checks puts the
   dashboard warning's positive predictive value at 12.2 per cent
 date: 2026-07-30
 description:

@@ -1,10 +1,8 @@
 ---
 title: A utility's near-perfect read rate says nothing about who can read a meter
-subtitle:
-  A pre-registered probe across 14 depots and 96 readers finds depot
+subtitle: A pre-registered probe across 14 depots and 96 readers finds depot
   read-completeness unrelated to what a reader can do at the pit
-description:
-  A new Slop University paper walks 96 water meter readers through a
+description: A new Slop University paper walks 96 water meter readers through a
   standardised twenty-installation route and finds a utility's 99.4 per cent
   read-completeness rate carries no information about their accuracy, with an
   equivalence test supporting the absence of an association.

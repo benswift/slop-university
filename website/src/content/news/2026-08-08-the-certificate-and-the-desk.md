@@ -1,7 +1,6 @@
 ---
 title: Impact Report follows Capability Sprint graduates back to their desks
-subtitle:
-  Five years of follow-up interviews find which changes held past twelve
+subtitle: Five years of follow-up interviews find which changes held past twelve
   months, and which didn't
 date: 2026-08-08
 description:
