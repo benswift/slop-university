@@ -1,0 +1,40 @@
+title: Towards a Discrete-Event Model of Container-Refund Depot Throughput
+subtitle: >-
+  Bag Opening as the Binding Constraint Across Eleven Privately Operated Sites
+authors:
+  - Fenna Okoro
+  - Anouk Mensah
+  - Solveig Adeyemi
+preset: paper
+school: School of Emergent Priorities
+date: 2026-08-17
+publishedAt: "2026-08-17T17:05:03+10:00"
+doi: 10.5555/slop.nkxa2l
+summary: >-
+  A paper from the School of Emergent Priorities and the School of Continuous
+  Improvement builds a discrete-event model of the over-the-counter
+  container-refund transaction from 14,208 timed handovers at eleven privately
+  operated depots, decomposing service time into presentation, opening,
+  counting and settlement stages. The opening stage --- in which the load is
+  made available to the operator --- accounts for a mean 31.4% of handover
+  duration and 54.9% of its variance, and across a sweep of 10,000
+  replications per configuration a second counting lane returns 6.0% more
+  throughput against 23.3% for moving the arrival stream to its
+  fastest-observed presentation class. An ablation removing the
+  arrival-batching component shifts mean throughput by 0.5% (n.s.) and is
+  retained for completeness.
+topic: >-
+  a discrete-event simulation of a privately run container-deposit refund
+  depot, where customers hand over knotted bin-bags of cans for ten cents
+  each, finds bag-untying dominates throughput, and the University turns the
+  model's optimum into a bag-presentation specification issued to operators
+grants:
+  - 2026-08-06-who-reads-it-at-nine
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
