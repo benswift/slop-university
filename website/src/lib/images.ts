@@ -54,17 +54,14 @@ export const thumbLargestUrl = (id: string, dims: ImageDims): string => {
   return `${IMG_BASE}/thumbs/${id}-${rs.at(-1) ?? dims.width}.avif`;
 };
 
-/** A pre-encoded og card: absolute URL + the dims the meta tags declare. */
-export interface OgCard {
-  url: string;
-  width: number;
-  height: number;
-}
-
-/** The pre-encoded og card (JPEG, width ≤1200, encoded at publish time). */
-export const ogImage = (kind: "outputs" | "news", id: string, dims: ImageDims): OgCard => {
+/** The pre-encoded og card (JPEG, width ≤1200, encoded at publish time).
+ *  A RemoteImage so it can go straight into the theme's `socialImage`, which
+ *  passes a remote source through untouched --- these are already the exact
+ *  recipe the card wants (ops/encode-images.py), so re-encoding is pointless
+ *  and the origin has no build-time pipeline to do it with anyway. */
+export const ogImage = (kind: "outputs" | "news", id: string, dims: ImageDims): RemoteImage => {
   const width = Math.min(1200, dims.width);
   // round half-up, mirrored in encode-images.py og_dims()
   const height = Math.floor((dims.height * width) / dims.width + 0.5);
-  return { url: `${IMG_BASE}/og/${kind}/${id}.jpg`, width, height };
+  return { src: `${IMG_BASE}/og/${kind}/${id}.jpg`, width, height };
 };

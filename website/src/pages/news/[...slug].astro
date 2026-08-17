@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import OpenGraph from "../../components/OpenGraph.astro";
 import OutputCallout from "../../components/OutputCallout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, personIdByName } from "../../lib/canon";
@@ -53,15 +52,10 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   heroImage={hero}
   heroImageAlt={hero ? entry.data.title : undefined}
   {...siteConfig}
+  socialType="article"
+  socialImage={og}
+  socialImageAlt={og ? entry.data.title : undefined}
 >
-  <OpenGraph
-    slot="head"
-    title={entry.data.title}
-    description={entry.data.description}
-    type="article"
-    image={og}
-    imageAlt={og ? entry.data.title : undefined}
-  />
   {entry.data.subtitle && <p class="deck">{entry.data.subtitle}</p>}
   <p class="dateline">
     <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>

@@ -8,7 +8,6 @@ import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import heroImage from "../assets/images/hero.avif";
 import BlueskyFeed from "../components/BlueskyFeed.astro";
-import OpenGraph from "../components/OpenGraph.astro";
 import OutputTypeBadge from "../components/OutputTypeBadge.astro";
 import { siteConfig } from "../site-config";
 import { newsHero, outputHero } from "../lib/images";
@@ -48,13 +47,12 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 });
 ---
 
-<BaseLayout title={title} {...siteConfig}>
-  <OpenGraph
-    slot="head"
-    title={title}
-    description="Research-led, metrics-forward, and continuously improving. News from the Office of Research Outputs."
-    image={heroImage}
-  />
+<BaseLayout
+  title={title}
+  description="Research-led, metrics-forward, and continuously improving. News from the Office of Research Outputs."
+  {...siteConfig}
+  socialImage={heroImage}
+>
   <link
     slot="head"
     rel="alternate"

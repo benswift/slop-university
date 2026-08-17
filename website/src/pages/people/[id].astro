@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import OpenGraph from "../../components/OpenGraph.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
 import { formatAud, getSchemes, grantsByGrantee, schemeById } from "../../lib/grants";
@@ -46,15 +45,10 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   heroImage={hero}
   heroImageAlt={hero ? `Portrait of ${person.name}` : undefined}
   {...siteConfig}
+  socialType="profile"
+  socialImage={hero ?? portrait}
+  socialImageAlt={hero || portrait ? `Portrait of ${person.name}` : undefined}
 >
-  <OpenGraph
-    slot="head"
-    title={person.name}
-    description={person.title}
-    type="profile"
-    image={hero ?? portrait}
-    imageAlt={hero || portrait ? `Portrait of ${person.name}` : undefined}
-  />
   <div class:list={["profile", { framed: showPortrait }]}>
     {
       showPortrait && (

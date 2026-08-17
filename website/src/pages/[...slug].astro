@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import OpenGraph from "../components/OpenGraph.astro";
 import { siteConfig } from "../site-config";
 
 export async function getStaticPaths() {
@@ -21,12 +20,7 @@ const { Content } = await render(entry);
   description={entry.data.description}
   heroImage={entry.data.heroImage}
   {...siteConfig}
+  socialImage={entry.data.heroImage}
 >
-  <OpenGraph
-    slot="head"
-    title={entry.data.title}
-    description={entry.data.description}
-    image={typeof entry.data.heroImage === "string" ? undefined : entry.data.heroImage}
-  />
   <Content />
 </ContentLayout>

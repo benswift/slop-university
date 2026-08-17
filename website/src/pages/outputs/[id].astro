@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
-import OpenGraph from "../../components/OpenGraph.astro";
 import OutputCallout from "../../components/OutputCallout.astro";
 import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
@@ -23,7 +22,9 @@ const data = entry.data;
 const hero = outputHero(entry.id, data.hero);
 const thumb = thumbnail(entry.id, data.thumb);
 // og from the hero when one exists, else the first page — same preference as
-// the visible page.
+// the visible page. Deliberately no citation_* (Highwire) meta alongside it:
+// robots.txt disallows /outputs/pdf/ to keep fabricated citations out of
+// scholarly indexers, and scholarly head meta would work against that.
 const og = ogImage("outputs", entry.id, data.hero ?? data.thumb);
 const citation = bibtex(entry.id, data);
 const citationTokens = bibtexTokens(citation);
@@ -62,15 +63,14 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 });
 ---
 
-<BaseLayout title={full} description={data.summary} {...siteConfig}>
-  <OpenGraph
-    slot="head"
-    title={full}
-    description={data.summary}
-    type="article"
-    image={og}
-    imageAlt={hero ? `Illustration for ${full}` : `First page of ${full}`}
-  />
+<BaseLayout
+  title={full}
+  description={data.summary}
+  {...siteConfig}
+  socialType="article"
+  socialImage={og}
+  socialImageAlt={hero ? `Illustration for ${full}` : `First page of ${full}`}
+>
   {
     hero ? (
       <Hero
