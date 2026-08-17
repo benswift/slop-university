@@ -1,0 +1,43 @@
+title: STANCE
+subtitle: >-
+  A Seat-Level Threshold Model of Standing-Ovation Onset at Community Concerts,
+  and the Running-Order Instrument Derived From It
+authors:
+  - Thandiwe Solberg
+  - Ingeborg Nwachukwu
+  - Osei Vandermeer
+preset: paper
+school: School of Continuous Improvement
+date: 2026-08-18
+publishedAt: "2026-08-18T03:04:19+10:00"
+doi: 10.5555/slop.5dlngx
+summary: >-
+  A paper from the School of Continuous Improvement specifies an agent-based
+  model in which every seat in a concert hall carries a private standing
+  threshold and observes only the seats its sightline reaches, with the visible
+  set computed from floor rake, row pitch and seat stagger. Thresholds are
+  calibrated against row-level standing counts recorded by two observers per
+  performance at 96 end-of-year concerts across 21 community venues, and the
+  fitted model reproduces standing share at ovation close to a mean absolute
+  error of 4.7 percentage points. A variance decomposition over eleven
+  parameters and 40,960 draws attributes a total-order Sobol index of 0.412 to
+  floor rake and 0.018 to the running-order position of an act; an ablation
+  removing the programme-quality term shifts mean onset latency by 0.11 s
+  (n.s.) and is retained. A running-order instrument derived from the fitted
+  model has been adopted by a regional concert association.
+topic: >-
+  Model the standing ovation at a suburban dance school's end-of-year concert
+  as a seat-level threshold cascade, calibrate it on observed concerts, and
+  find that the running order organisers can actually change explains almost
+  none of the onset variance while the rake of the hall floor explains most
+  --- after which the regional concert association adopts the running-order
+  instrument regardless and prints a predicted ovation likelihood beside every
+  act on the program.
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
