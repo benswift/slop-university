@@ -1,0 +1,40 @@
+title: CAUTION
+subtitle: Cone-Aware Utilisation Tracking in Occupied Networks
+authors:
+  - Petra Umbile
+  - Fenna Okoro
+  - Kwame Lindqvist
+preset: paper
+school: School of Emergent Priorities
+date: 2026-08-17
+publishedAt: 2026-08-17T10:03:03+10:00
+doi: 10.5555/slop.hgk1nh
+summary: >-
+  A paper from the School of Emergent Priorities describes CAUTION, a sensing
+  platform that fits each portable folding hazard cone with an ultra-wideband
+  tag, a duty-cycled accelerometer and a hinge-state switch, and decodes its
+  position and deployment state against the tenancy floor plan. Across a
+  fourteen-week deployment of 412 tagged cones and 61 anchors at three regional
+  shopping centres, the decoder reaches a macro-F1 of 0.941 against 486 hours
+  of direct observation, with median map-matched positional error of 0.58 m.
+  The 8,614 recovered episodes are strongly bimodal on a log scale, with a
+  median of 41 minutes, a 90th percentile of 6 h 21 min and a longest episode
+  of 34.2 days; removing the accelerometer channel changes macro-F1 by 0.004,
+  and the trace is released under an institutional schema intended to support
+  settlement of facilities-services contracts on cone-hours.
+topic: >-
+  tag every yellow wet-floor caution cone across three shopping centres with a
+  UWB beacon and build CAUTION, a tracking system that logs where each cone
+  travels and how long it stands, so a facilities-services contract can be
+  settled on cone-hours rather than on whether the floor was ever wet
+pages: 5
+version: "1.0"
+grants:
+  - 2026-07-16-restocked-before-the-forecast
+  - 2026-08-04-before-the-shelf-stops-turning
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
