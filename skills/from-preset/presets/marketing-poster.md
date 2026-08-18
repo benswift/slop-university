@@ -86,7 +86,10 @@ institutional:
   Studies, never an invented degree).
 - **Published outputs** --- a research-teaser ad quotes a real entry from
   `website/src/content/outputs/*.yml` (real title, real DOI in the small print).
-  Never invent an output or DOI.
+  Never invent an output or DOI. **Every ad, whatever its angle, closes with a
+  read-the-work line** naming 2-3 real published outputs by DOI (see "Read the
+  work line") --- the ad is the institution pointing at its own record, which is
+  the same recursive conceit the brochure runs on.
 - **The site** --- the CTA points to `slop.university` (rendered text and/or the
   QR). No other URLs, no phone numbers, no street addresses, no dates more
   specific than a month or teaching period.
@@ -104,19 +107,20 @@ it.
 
 Everything is `place`d over the full-bleed hero; there is no flowed body.
 
-| Element         | Placement                       | Notes                                                                                                     |
-| --------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Hero image      | full-bleed, whole page          | the run's one image; house-style scene keyed to the campaign; scrims baked at prep (see Imagery)          |
-| Masthead        | top, on the spine               | `slop-overlay-masthead` (white lockup, gold spine bisected around it); auto masthead hidden               |
-| Campaign line   | lower third, left-anchored      | steering-derived, ≤ 8 words, white display type (~64pt landscape / ~54pt portrait), ≤ 2 lines             |
-| Supporting line | under the campaign line         | one sentence, ≤ 18 words, white/near-white (~17pt); carries the rolled angle's substance                  |
-| Angle furniture | with the supporting line        | the rolled angle's one extra element (researcher name-line, program name, output title + DOI small print) |
-| CTA line        | under the supporting block      | short imperative + `slop.university` (~13pt); gold rule above it                                          |
-| QR              | bottom-right                    | `slop-qr-code("https://slop.university/", ...)` --- white-on-transparent reads over the baked-dark region |
-| Social line     | bottom-left, with the CTA block | `slop-social-line(fill: white)` --- butterfly + `@slop.university` + `#slopU`; fixed furniture            |
+| Element            | Placement                       | Notes                                                                                                     |
+| ------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Hero image         | full-bleed, whole page          | the run's one image; house-style scene keyed to the campaign; scrims baked at prep (see Imagery)          |
+| Masthead           | top, on the spine               | `slop-overlay-masthead` (white lockup, gold spine bisected around it); auto masthead hidden               |
+| Campaign line      | lower third, left-anchored      | steering-derived, ≤ 8 words, white display type (~64pt landscape / ~54pt portrait), ≤ 2 lines             |
+| Supporting line    | under the campaign line         | one sentence, ≤ 18 words, white/near-white (~17pt); carries the rolled angle's substance                  |
+| Angle furniture    | with the supporting line        | the rolled angle's one extra element (researcher name-line, program name, output title + DOI small print) |
+| CTA line           | under the supporting block      | short imperative + `slop.university` (~13pt); gold rule above it                                          |
+| Read-the-work line | under the CTA                   | 2-3 real ledger DOIs, ~10pt muted --- standing furniture on every angle (see "Read the work line")        |
+| QR                 | bottom-right                    | `slop-qr-code("https://slop.university/", ...)` --- white-on-transparent reads over the baked-dark region |
+| Social line        | bottom-left, with the CTA block | `slop-social-line(fill: white)` --- butterfly + `@slop.university` + `#slopU`; fixed furniture            |
 
-Total on-page text: 25-60 words. If a draft wants a third paragraph, it has
-drifted toward the brochure --- cut it.
+Total on-page text: 25-60 words (the read-the-work DOIs don't count). If a draft
+wants a third paragraph, it has drifted toward the brochure --- cut it.
 
 ## Per-run variation rolls
 
@@ -160,6 +164,26 @@ spring"). CTA invites registering interest.
 read it."). Angle furniture is the output's real title + `doi:` in small print.
 Prefer a recent, picturable output; skip this angle if the ledger has nothing
 that carries a headline.
+
+### Read the work line
+
+Standing furniture on every ad, under the CTA and above the social line: a muted
+one-line strip naming **2-3 real published outputs** by DOI ---
+`Read the work: doi:10.5555/slop.<seed> · doi:10.5555/slop.<seed>`, ~10pt, white
+at 70% over the darkened lower third. Titles are optional here (an ad's small
+print doesn't have room for three); the DOIs are not.
+
+A display ad carrying a lookup-able citation is exactly the register: an
+institution advertising itself by pointing at its own published record, in type
+too small to read from across the corridor. Every DOI must be a real ledger
+entry --- the site's `/doi/` route resolves them.
+
+Pick the outputs with `ops/extract-citations.py --suggest`, which ranks prior
+outputs by how much a citation would lift a researcher's h-index; prefer ones
+whose topic sits near the ad's campaign line, and never one that credits no
+researcher (an output with an empty author line lifts nobody). Angle **e**
+(research teaser) still renders its featured output's full title in the campaign
+block --- the read-the-work line sits below it and names the others.
 
 ### CTA reservoir
 
@@ -320,6 +344,10 @@ One parametric skeleton; the roll sets the geometry constants:
       #v(0.55em)
       #text(fill: white, size: 13pt)[<CTA from the reservoir> --- slop.university]
       #v(0.5em)
+      // Read-the-work line --- 2-3 real ledger DOIs, every angle (see "Read the
+      // work line"). Ledger-verified only; never a DOI that isn't an entry.
+      #text(fill: rgb("#ececec"), size: 10pt)[Read the work: doi:10.5555/slop.<seed> · doi:10.5555/slop.<seed>]
+      #v(0.5em)
       #slop-social-line(size: 10pt, fill: white)
     ])
   },
@@ -369,6 +397,8 @@ Generic format-aware items live in `../SKILL.md`. Marketing-poster items:
       brag is self-referential or unfalsifiable
 - [ ] Register holds: no exclamation marks, no winks, reads straight at a bus
       stop
+- [ ] Read-the-work line present (every angle): 2-3 DOIs, each a real
+      `outputs/*.yml` entry, none of them an output with an empty author line
 - [ ] PDF metadata title is
       `This Slop University Advertisement Does Not Exist: <steering verbatim>`;
       no other metadata fields populated

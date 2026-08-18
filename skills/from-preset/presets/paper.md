@@ -74,6 +74,7 @@ it in unbroken paper register.
 | Title block + abstract | spans both cols | Title, authors + affiliations (+ DOI on publish runs), 150-220 word abstract                                     |
 | Introduction           | ~350 words      | The gap, framed seriously; contributions as a 3-bullet list (each hedged)                                        |
 | Related work           | ~250 words      | Where most citations live; every claim about a cited work must be true of that work                              |
+| Prior work here        | ~60 words       | Run-in block citing 4-6 further Slop University outputs by DOI --- ledger-verified only (see "Prior work here")  |
 | Method                 | ~400 words      | Deadpan procedural; one display equation and/or a short code listing earn the costume                            |
 | Experiments / Results  | ~450 words      | 2-4 gribouille charts + optionally a table; baselines, an ablation that changes nothing                          |
 | Discussion             | ~200 words      | Hedged interpretation; "we observe consistent improvements in most settings"                                     |
@@ -185,6 +186,36 @@ verification above; they verify against the ledger instead:
 
 Self-citations count inside the 15-25 total; the bibliography's realness remains
 the point, so they stay a thread (4-8), never the fabric.
+
+### Prior work here (the internal citation block)
+
+Related work closes with a short run-in block --- "Prior work at Slop
+University" --- naming **4-6 further prior outputs** by title and DOI, on top of
+the bibliography's self-citations and never duplicating them:
+
+```typst
+#parbreak()
+#emph[Prior work at Slop University.] <One or two sentences placing this study
+against the canon>: <Title> (doi:10.5555/slop.<seed>); <Title>
+(doi:10.5555/slop.<seed>); …
+```
+
+Institutional papers really do carry a paragraph like this, and keeping it
+separate from the bibliography is what makes the density affordable in both
+directions. The bibliography's job is borrowed legitimacy: every external entry
+costs a web search and a resolution check, and a formal list that ran half
+self-citations would read as the fabric rather than a thread. This block costs
+neither --- it verifies against `website/src/content/outputs/*.yml` alone, and
+it sits outside the reference list, so the paper cites the canon 8-12 times
+without touching either constraint.
+
+Pick the entries with `ops/extract-citations.py --suggest`, which ranks prior
+outputs by how much a citation would lift a researcher's h-index and prints each
+one's topic line; take the ones this study can genuinely be read against. The
+prose sentence must be true of the outputs it names (citation honesty, judged
+against each entry's ledger `summary`), and a block padded with outputs the
+paper has no relation to is a hollow edge --- the failure mode this whole
+apparatus is trying to avoid.
 
 ## Figures and tables
 
@@ -299,6 +330,13 @@ span the title block + abstract across both with
 = Related work
 <...>
 
+// Prior work at Slop University --- 4-6 further prior outputs by title + DOI,
+// ledger-verified only, none duplicating a bibliography self-citation.
+#parbreak()
+#emph[Prior work at Slop University.] <one or two sentences placing this study
+against the canon>: <Title> (doi:10.5555/slop.<seed>); <Title>
+(doi:10.5555/slop.<seed>); <...>
+
 = Method
 <...display equation and/or short code listing...>
 
@@ -359,6 +397,9 @@ package --- not before.
 - [ ] 15+ references, **every external entry verified** (DOI resolves or arXiv
       ID returns a matching title); fields copied accurately; loaded via
       `bibliography(..., style: "ieee")` and actually cited in prose
+- [ ] A "Prior work at Slop University" block closing Related work: 4-6 further
+      outputs, titles and DOIs matching their ledger entries, none duplicating a
+      bibliography self-citation, each topically related
 - [ ] 4-8 slop self-citations, each matching its
       `website/src/content/outputs/*.yml` entry field-for-field, slop DOI
       rendered, cited in prose (skipped only if nothing in the ledger is

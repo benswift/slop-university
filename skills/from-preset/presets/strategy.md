@@ -75,6 +75,7 @@ initiatives, charts --- bends to the prompt.
 | Governance & accountability                 | ~250 words      | Heading drawn from the Governance reservoir; Council, Executive, reporting cadence                                                                                                                                                          |
 | Conclusion                                  | ~150 words      | Heading drawn from the Conclusion reservoir; future-tense aspirational close                                                                                                                                                                |
 | (Optional) Glossary / acronyms              | ~10-20 entries  | Only if rolled; sits before back cover                                                                                                                                                                                                      |
+| The evidence base                           | 4-6 entries     | Fixed, never rolled. A short list of published Slop University outputs underpinning the plan, each as real title + `doi:10.5555/slop.<seed>` (see "The evidence base")                                                                      |
 | Back cover                                  | 1 page          | Inverse-themed full-page Slop University lockup; emit via `#slop-back-cover()`                                                                                                                                                              |
 
 Total: ~6,500 words at the default 4-pillar / 3-initiative / 3-KPI shape. Counts
@@ -82,6 +83,24 @@ at the lower bound (3 / 2 / 2 / no optionals / 3 phases) trim ~1,500 words;
 counts at the upper bound (5 / 5 / 4 / 3 optionals / 5 phases) add ~2,000 words.
 
 Word counts are budgets, not targets. Vary by ±20% between runs.
+
+### The evidence base
+
+Before the back cover, a short fixed section --- "The evidence base", "Research
+underpinning this plan", "What this plan is built on" --- listing **4-6
+published outputs** from `website/src/content/outputs/*.yml`, each as its real
+title and `doi:10.5555/slop.<seed>`, with a half-sentence saying which pillar it
+speaks to. Real institutional plans gesture at an evidence base and almost never
+let you check it; this one lets you, and every DOI resolves on the site's
+`/doi/` route.
+
+Never invent an output or a DOI, and never claim a finding the entry's ledger
+`summary` doesn't support --- a plan misquoting its own research is the one
+error that reads as sloppy rather than institutional. Pick the entries with
+`ops/extract-citations.py --suggest`, which ranks prior outputs by how much a
+citation would lift a researcher's h-index and prints each one's topic line;
+prefer ones that speak to a pillar, and spread across schools rather than
+stacking one.
 
 ## Per-run variation rolls
 
@@ -328,6 +347,12 @@ import / metadata / back-cover patterns; no manual page breaks):
 = Looking ahead
 [conclusion paragraphs]
 
+= The evidence base
+// 4-6 published outputs from website/src/content/outputs/*.yml, real titles and
+// DOIs, each tied to a pillar in half a sentence. Never invented.
+- *<Title>* --- <which pillar it speaks to>. #text(size: 0.9em)[doi:10.5555/slop.<seed>]
+- *<Title>* --- <...>. #text(size: 0.9em)[doi:10.5555/slop.<seed>]
+
 #slop-back-cover(config: (bleed: 3mm))
 ```
 
@@ -357,6 +382,8 @@ present, etc.) live in `../SKILL.md`. Strategy-specific items:
       or alternative)
 - [ ] Section names (Foreword onwards, except "Executive summary") came from the
       reservoirs
+- [ ] The evidence base lists 4-6 real published outputs, titles and DOIs
+      matching their `outputs/*.yml` entries, each tied to a pillar
 - [ ] Page count is even and within **16-20 pages**
 
 ## Common failure modes (preset-specific)

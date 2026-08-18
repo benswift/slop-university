@@ -77,16 +77,17 @@ metrics, pull-quotes, charts, imagery --- bends to the prompt.
 
 ## The genre's structural skeleton
 
-| Section             | Length                                                     | Notes                                                                                                                                                                                                         |
-| ------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cover               | 1 page                                                     | Slop lockup; subtitle from reservoir                                                                                                                                                                          |
-| Director's foreword | ~250 words                                                 | Past-tense, reflective; content driven by the steering prompt; signed by role, not name                                                                                                                       |
-| At a glance         | ~1 page                                                    | Headline metrics in a card grid (`slop-highlight-card`); metrics can be driven by the steering prompt                                                                                                         |
-| Who we are          | ~200 words                                                 | Brief School framing; mission, ethos, who works there in aggregate                                                                                                                                            |
-| Impact areas × N    | ~2 pages each (chart-bearing areas may run a touch longer) | N = 3-5; each: framing paragraph + 1-2 vignettes (partner archetypes; roster researchers may be quoted) [+ one chart if this area carries one] + one pull-quote; ~50% of areas (⌊N/2⌋ to ⌈N/2⌉) carry a chart |
-| Looking ahead       | ~250 words                                                 | Future-tense close; the only future-tense section in the doc                                                                                                                                                  |
-| Acknowledgements    | ~150 words                                                 | Vague-aggregate ("we thank the dozens of organisations…")                                                                                                                                                     |
-| Back cover          | 1 page                                                     | `#slop-back-cover()`                                                                                                                                                                                          |
+| Section               | Length                                                     | Notes                                                                                                                                                                                                         |
+| --------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cover                 | 1 page                                                     | Slop lockup; subtitle from reservoir                                                                                                                                                                          |
+| Director's foreword   | ~250 words                                                 | Past-tense, reflective; content driven by the steering prompt; signed by role, not name                                                                                                                       |
+| At a glance           | ~1 page                                                    | Headline metrics in a card grid (`slop-highlight-card`); metrics can be driven by the steering prompt                                                                                                         |
+| Who we are            | ~200 words                                                 | Brief School framing; mission, ethos, who works there in aggregate                                                                                                                                            |
+| Impact areas × N      | ~2 pages each (chart-bearing areas may run a touch longer) | N = 3-5; each: framing paragraph + 1-2 vignettes (partner archetypes; roster researchers may be quoted) [+ one chart if this area carries one] + one pull-quote; ~50% of areas (⌊N/2⌋ to ⌈N/2⌉) carry a chart |
+| Looking ahead         | ~250 words                                                 | Future-tense close; the only future-tense section in the doc                                                                                                                                                  |
+| Underpinning research | 4-6 entries                                                | Fixed, never rolled. Published outputs behind the impact areas, each as real title + `doi:10.5555/slop.<seed>` (see "Underpinning research")                                                                  |
+| Acknowledgements      | ~150 words                                                 | Vague-aggregate ("we thank the dozens of organisations…")                                                                                                                                                     |
+| Back cover            | 1 page                                                     | `#slop-back-cover()`                                                                                                                                                                                          |
 
 Total: 12-18 pages, even. No manual page breaks anywhere (the template breaks
 after the contents).
@@ -94,6 +95,21 @@ after the contents).
 Lengths and counts above are baselines. Per-run variation, scoped by the rolled
 document persona, is in "Per-run variation rolls › Document persona" and
 "Per-run variation rolls › Structural counts".
+
+### Underpinning research
+
+Before the acknowledgements, a short fixed section listing **4-6 published
+outputs** from `website/src/content/outputs/*.yml` --- the research behind the
+impact areas --- each as its real title and `doi:10.5555/slop.<seed>`, with a
+half-sentence tying it to the area it belongs to. An impact report that shows
+its working is doing exactly what the genre claims to do, and the DOIs resolve
+on the site's `/doi/` route.
+
+Prefer outputs whose `school` is this School and whose topic sits inside an
+impact area the report actually covers. Never invent an output or DOI, and never
+claim a finding the entry's ledger `summary` doesn't support. Pick with
+`ops/extract-citations.py --suggest`, which ranks prior outputs by how much a
+citation would lift a researcher's h-index and prints each one's topic line.
 
 ## Per-run variation rolls
 
@@ -595,6 +611,12 @@ Imports include `slop-inline-figure` for charts. The skeleton:
 = Looking ahead
 [~250 words; future-tense close; the only future-tense section]
 
+= Underpinning research
+// 4-6 published outputs from website/src/content/outputs/*.yml, real titles and
+// DOIs, each tied to an impact area in half a sentence. Never invented.
+- *<Title>* --- <which impact area it sits under>. #text(size: 0.9em)[doi:10.5555/slop.<seed>]
+- *<Title>* --- <...>. #text(size: 0.9em)[doi:10.5555/slop.<seed>]
+
 = Acknowledgements
 [~150 words; vague-aggregate; no names]
 
@@ -682,6 +704,8 @@ Generic checklist items live in `../SKILL.md`. Impact-report-specific items:
 - [ ] Charts inline within their impact areas
 - [ ] Terminology follows the School's in-house forms (no "MAM"/"SCI" in prose,
       no "faculty", no "stakeholders", no invented college)
+- [ ] Underpinning research lists 4-6 real published outputs, titles and DOIs
+      matching their `outputs/*.yml` entries, each tied to an impact area
 - [ ] Page count is even and within **12-18 pages**
 
 ## Common failure modes (preset-specific)

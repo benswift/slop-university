@@ -95,12 +95,13 @@ The brochure markets the _existing_ fiction, so it quotes and references real
 site content rather than inventing institutional facts.
 
 - **Published outputs.** Read every `website/src/content/outputs/*.yml`. A
-  brochure may feature 2-4 published outputs: use the entry's real `title` (and
-  `subtitle`), its real `doi`, its `authors`, and paraphrase its `summary` into
-  one marketing sentence. Render a citation the reader could look up:
-  `<Title> --- doi:10.5555/slop.<seed>`. **Never invent an output, a title, or a
-  DOI**; if fewer than 2 published outputs exist, feature the schools and people
-  instead and skip the outputs showcase.
+  brochure features **5-8 published outputs** (the showcase is the point --- a
+  brochure that features two is a brochure with nothing to sell): use the
+  entry's real `title` (and `subtitle`), its real `doi`, its `authors`, and
+  paraphrase its `summary` into one marketing sentence. Render a citation the
+  reader could look up: `<Title> --- doi:10.5555/slop.<seed>`. **Never invent an
+  output, a title, or a DOI**; if fewer than 2 published outputs exist, feature
+  the schools and people instead and skip the outputs showcase.
 - **Schools, units, labs.** Name only entities that exist in `canon/schools.yml`
   / `canon/schools.md`, with their canonical names and (where present) blurbs.
   Don't invent an org unit.
@@ -125,7 +126,7 @@ imbalance steering, applied to what the brochure showcases).
 | Welcome / invitation   | ~200 words        | Aspirational opener framing the campaign theme; heading from reservoir; role-signed if signed at all (never a name)               |
 | At a glance            | ~1 page           | Marketing stat cards in a `#grid` of `slop-highlight-card` (3-4); reach/scale/research framing, no verifiable figures             |
 | Feature sections × N   | ~1-1.5 pages each | N = 3-4; each showcases a school / research theme / programme: framing + inline image + one roster pull-quote [+ chart if rolled] |
-| Featured research      | ~0.5-1 page       | 2-4 published outputs cited by real title + DOI, each with a one-sentence marketing gloss (see "Site cross-referencing")          |
+| Featured research      | ~0.5-1 page       | 5-8 published outputs cited by real title + DOI, each with a one-sentence marketing gloss (see "Site cross-referencing")          |
 | Our people             | ~0.5 page         | 2-3 roster researchers profiled in a sentence each (canonical name + title + school); optional if a feature already carried them  |
 | Come and join us (CTA) | ~150 words        | Warm close + call to action; may point to `slop.university`                                                                       |
 | Back cover             | 1 page            | `#slop-back-cover()`                                                                                                              |
@@ -188,7 +189,7 @@ One choice per section per run. Grow over time; aim for ~4-5 entries each.
 | Count                | prospectus    | case-for-support  | research showcase | civic / place |
 | -------------------- | ------------- | ----------------- | ----------------- | ------------- |
 | Feature sections (N) | 3-4           | 3                 | 3-4               | 3             |
-| Featured outputs     | 2             | 3-4               | 3-4               | 2-3           |
+| Featured outputs     | 5             | 6-8               | 6-8               | 5-6           |
 | People profiled      | 3             | 2                 | 2-3               | 2             |
 | At-a-glance cards    | 4             | 4                 | 3                 | 3             |
 | Pull-quotes          | 1 per feature | half the features | 1 per feature     | 1 per feature |
@@ -338,6 +339,13 @@ Render each as a real title + a lookup-able DOI (`doi:10.5555/slop.<seed>` from
 the entry's `doi` field). This is the recursive conceit: a brochure that markets
 the university by pointing at its own published record. The reader can resolve
 every DOI on the site's `/doi/` route --- so every one must be real.
+
+Choose them with `ops/extract-citations.py --suggest`, which ranks prior outputs
+by how much a citation would lift a researcher's h-index and prints each one's
+topic line: the brochure's showcase is one of the canon's densest sources of
+citation edges, and it costs nothing to point it where it does the most work.
+Fit still governs --- the spread-of-schools rule above outranks the ranking, and
+an output nothing in the campaign relates to has no business in the showcase.
 
 ## Pre-ship checklist (preset-specific)
 

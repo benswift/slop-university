@@ -123,18 +123,20 @@ the **feature-top** differences are in the Layout roll).
 | Methods                   | column flow                                  | ~3 terse bullets (n · instrument · sampling · duration; model; key control)                                                                                                |
 | Results                   | left cell                                    | one or two hedged sentences; the chart leads the right cell, with a caption stating a falsifiable claim                                                                    |
 | Discussion / conclusions  | column flow                                  | ~2-3 punchy, hedged lines + a "Next:" fragment                                                                                                                             |
-| References                | column flow (end)                            | 4-6 real, verified citations (DOI/arXiv-checked) in small (~8pt) text                                                                                                      |
+| References                | column flow (end)                            | 6-8 real, verified citations (DOI/arXiv-checked) in small (~8pt) text, 1-3 of them slop self-citations                                                                     |
+| Builds on                 | column flow, under the references            | run-in strip of 3-5 prior slop outputs by DOI --- ledger-verified, no external checking (see "Builds on")                                                                  |
 | Footer line               | column flow (end)                            | one deadpan acknowledgements / ethics / data line (never a person)                                                                                                         |
 
 Total body prose: ~200 words at 10pt --- the poster is telegraphic (fragments
 and bullets, not paragraphs; see "Voice"). Budget is a guide, not a target ---
 the hard constraint is that it fits on **one page** (see "Compile and one-page
 fit"), and the fill-probe check (step 3) owns the under-fill side. ~200 is a
-realistic ceiling for column 2 (chart + a 4-6 entry reference list + footer all
-sit in the right grid cell). The body image is a `height: 1fr` block, so it
-costs the column budget nothing --- it just expands or shrinks (cropped) to fill
-whatever the left column has spare. If the poster overflows, tighten the prose
-or shorten the chart plot --- never touch the reference list.
+realistic ceiling for column 2 (chart + a 6-8 entry reference list + the
+builds-on strip + footer all sit in the right grid cell). The body image is a
+`height: 1fr` block, so it costs the column budget nothing --- it just expands
+or shrinks (cropped) to fill whatever the left column has spare. If the poster
+overflows, tighten the prose or shorten the chart plot --- never touch the
+reference list.
 
 ## Per-run variation rolls
 
@@ -258,6 +260,35 @@ the wide field image `inline-1.jpg`. Counts, aspects, resolutions, and placement
 live in "Imagery (preset specifics)" below; the only rolled element is the scene
 content, which should read as the project's field site or apparatus.
 
+### Builds on (the internal citation strip)
+
+Under the reference list, a compact run-in strip naming **3-5 prior Slop
+University outputs** the project builds on --- real poster apparatus ("related
+work from our group"), played straight:
+
+```typst
+#text(size: 8pt, fill: slop-colors.ink.lighten(25%))[
+  *Builds on:* <Title> (doi:10.5555/slop.<seed>) · <Title> (doi:10.5555/slop.<seed>) · …
+]
+```
+
+This is deliberately **separate from the reference list**. The references borrow
+real literature and every entry must be externally verified; the strip cites the
+canon, so it verifies against `website/src/content/outputs/*.yml` alone --- no
+web search, no DOI resolution, no cost to the run. It is also where the poster's
+citation density lives: those DOIs are harvested into the ledger and the
+roster's h-indices are counted off them (see the repo's CLAUDE.md › "Citation
+graph").
+
+Pick the entries with `ops/extract-citations.py --suggest`, taking the ones your
+topic can genuinely be read against --- a shared instrument, a shared apparatus,
+an adjacent setting, an inverted finding. Titles come from the ledger entry
+verbatim; a strip entry that doesn't match its record is a fabricated citation.
+Never pad the strip with an output nothing in the poster relates to.
+
+If the foot overflows, drop the strip to titles-and-DOIs on one wrapped line
+before touching anything else; never cut it entirely.
+
 ### Footer furniture
 
 The column foot always ends with two fixed lines (already in the skeletons):
@@ -352,14 +383,14 @@ posters hedge away from.
 
 ## References --- real, verified (hard requirement)
 
-A **real** references list (4-6 entries) in small (~8pt) text: genuine adjacent
+A **real** references list (6-8 entries) in small (~8pt) text: genuine adjacent
 literature, every entry verified to resolve. This is the same rule the `paper`
 preset enforces (`paper.md` › "Bibliography --- real references, verified"),
 scaled to a poster's short list. The costume of research is worn straight ---
 the apparatus is real, so it holds up to a close read rather than rewarding one
 with a wink.
 
-- **Harvest** 4-6 candidates from the fabricated topic's real adjacent fields
+- **Harvest** 6-8 candidates from the fabricated topic's real adjacent fields
   (web search the topic's serious neighbours --- e.g. corvid foraging telemetry
   → animal-movement ecology, sensor networks, multi-agent resource allocation).
 - **Verify every entry** before it enters the list --- each must pass one of:
@@ -641,13 +672,20 @@ the feature image's white-on-scrim treatment is already the dark idiom.
       == References
       #block[
         #set text(size: 8pt)
-        // 4-6 REAL, verified citations (DOI resolves or arXiv id matches --- see the
-        // "References" section). Real authors, title, venue, year; render the DOI/arXiv
-        // id so a reader can resolve it. Never a fabricated entry.
+        // 6-8 REAL, verified citations (DOI resolves or arXiv id matches --- see the
+        // "References" section), 1-3 of them slop self-citations. Real authors, title,
+        // venue, year; render the DOI/arXiv id so a reader can resolve it. Never a
+        // fabricated entry.
         + <Real, A., & Author, B. (2023). Real title. Real Venue, 12(3), 45--67. doi:10.xxxx/yyyy>
         + <...>
         + <...>
         + <...>
+      ]
+
+      // Builds on --- 3-5 prior slop outputs by DOI, ledger-verified only (see
+      // "Builds on"). Separate from the references above: no external checking.
+      #text(size: 8pt, fill: slop-muted-auto)[
+        *Builds on:* <Title> (doi:10.5555/slop.<seed>) · <Title> (doi:10.5555/slop.<seed>) · <...>
       ]
 
       // Fill probe: this zero-height marker and the `<fill-bot>` label on the footer
@@ -925,7 +963,7 @@ The poster replaces the booklet parity-fix with a one-page check:
    is one page.
 
    A standard poster --- feature image, a `1fr` body image, one full-width
-   chart, telegraphic sections, and a 4-6 entry reference list --- fits one page
+   chart, telegraphic sections, and a 6-8 entry reference list --- fits one page
    once the prose is terse (~200 words). The body image is free (it absorbs
    slack); the budget is really each grid cell's text + chart + references +
    footer. **feature-top**'s hero band takes ~190mm, but the taller page leaves
@@ -985,6 +1023,9 @@ items:
       matches); real authors/titles/venues, DOI or arXiv id rendered; no
       fabricated entry; 1-3 of them slop self-citations, each matching its
       `outputs/*.yml` ledger entry field-for-field
+- [ ] Builds-on strip present under the references: 3-5 prior slop outputs,
+      titles and DOIs matching their ledger entries, every one topically related
+      to this project (see "Builds on")
 - [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs) in the
       academic-present register (past-tense methods, hedged findings); no
       exclamation marks, no satire signals on the page
@@ -995,7 +1036,8 @@ items:
 ## Common failure modes (preset-specific)
 
 - **Spills to a second page**: follow step 4 of "Compile and one-page fit"
-  (tighten prose, shorten the chart plot; never trim the references).
+  (tighten prose, shorten the chart plot; never trim the references or the
+  builds-on strip).
 - **Chart bleeds into the gutter / next column**: a chart (or image) was
   embedded with a bare `#figure(image(...))` or `slop-inline-figure`. Use the
   `chartfig` helper (a plain image).

@@ -359,27 +359,43 @@ fails unrecoverably, abort (delete nothing from `output/`; it's gitignored).
 
 ### Cite the canon
 
-Before compiling, pick the prior outputs this document will cite. Every preset
-cites: the paper preset through its bibliography, the poster presets through
-their reference list, the brochure through its campaign's featured DOIs. The
-canon's citation graph is the only bibliometric the University has, and it is
-built one reference list at a time.
+Before compiling, pick the prior outputs this document will cite. **Every preset
+cites, in every run** --- each blueprint carries its own internal-citation
+furniture, deliberately separate from any real-literature bibliography so the
+density costs no verification:
 
-Run `ops/extract-citations.py --suggest` (from the worktree root). It lists
-prior outputs sitting one citation short of lifting a researcher onto their next
-h-index rung, each with its topic line, most contested first. Pick from that
-list the ones **your topic can genuinely be read against** --- a shared
-measurement instrument, a shared institutional apparatus, an adjacent setting,
-an inverted finding --- and cite those. Aim for 4--8 internal citations where
-the format has room (a poster's furniture may only fit 1--2); prefer a
-suggestion over an unranked output whenever both fit the topic equally well.
+| Preset             | Where the internal citations go                                 | How many      |
+| ------------------ | --------------------------------------------------------------- | ------------- |
+| `paper`            | bibliography self-cites + "Prior work at Slop University" block | 8-12 distinct |
+| `research-poster`  | reference list self-cites + "Builds on" strip                   | 4-6 distinct  |
+| `marketing-poster` | the read-the-work line                                          | 2-3           |
+| `brochure`         | the featured-research showcase                                  | 5-8           |
+| `impact-report`    | "Underpinning research"                                         | 4-6           |
+| `strategy`         | "The evidence base"                                             | 4-6           |
+
+The canon's citation graph is the only bibliometric the University has, and it
+is built one reference list at a time. Volume is what moves it: the counts above
+are the floor, not a ceiling to trim toward when the layout gets tight.
+
+Run `ops/extract-citations.py --suggest` (from the worktree root). It ranks
+prior outputs by the shortfall standing between a researcher and their next
+h-index rung, cheapest first, each with its topic line. Pick from that list the
+ones **your topic can genuinely be read against** --- a shared measurement
+instrument, a shared institutional apparatus, an adjacent setting, an inverted
+finding --- and cite those. Two rules on top:
+
+- **At least half of a run's internal citations come off the suggestion list.**
+  Where two candidates fit the topic equally well, the ranked one wins. Make up
+  the rest with topically adjacent outputs of your own choosing --- those are
+  citations too.
+- **Never cite an output that credits no researcher.** Most marketing posters
+  have an empty author line, so a citation to one lifts nobody's indicators; the
+  suggestion list already excludes them.
 
 The judgement is topical fit, not the ranking: a reference to an unrelated study
-is a hollow edge, and a corpus of them reads as gamed rather than generous. If
-fewer than four suggestions fit, cite fewer --- and reach for topically adjacent
-outputs outside the list to make up the number, which is a citation too. Every
-prose claim about a cited slop output must be true of that output (the citation
-honesty rule in `paper.md`, applied to the whole canon).
+is a hollow edge, and a corpus of them reads as gamed rather than generous.
+Every prose claim about a cited slop output must be true of that output (the
+citation honesty rule in `paper.md`, applied to the whole canon).
 
 ### Mint the DOI
 
