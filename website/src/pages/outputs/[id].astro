@@ -8,6 +8,7 @@ import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
 import { ogImage, outputHero, thumbnail } from "../../lib/images";
+import { citedBy, references } from "../../lib/citations";
 
 export async function getStaticPaths() {
   const outputs = await getCollection("outputs");
@@ -50,6 +51,13 @@ const funding = data.grants
     grant: g,
     scheme: schemeById(schemes, g.data.scheme),
   }));
+
+// The canon's internal citation graph, both ways: what this output cites, and
+// what has cited it since. Both lists are the same edges the roster's
+// citation counts and h-indices are built from, so a reader can audit an
+// indicator by walking the graph (see src/lib/citations.ts).
+const citing = await citedBy(entry);
+const cited = await references(entry);
 
 // Hero h1 carries only the punchy title; the subtitle rides underneath as a
 // deck. The full title stays in the document <title> for the citable record.
@@ -158,6 +166,16 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
           </tr>
         )
       }
+      {
+        citing.length > 0 && (
+          <tr>
+            <th scope="row">Cited by</th>
+            <td>
+              {citing.length} output{citing.length === 1 ? "" : "s"}
+            </td>
+          </tr>
+        )
+      }
       <tr>
         <th scope="row">Version</th>
         <td>{data.version}</td>
@@ -170,6 +188,44 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
       </tr>
     </tbody>
   </table>
+
+  {
+    cited.length > 0 && (
+      <section class="graph" aria-labelledby="references-heading">
+        <h2 id="references-heading">Cites</h2>
+        <ul role="list">
+          {cited.map((o) => (
+            <li>
+              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+              <span class="meta">
+                {" "}
+                · {o.data.authors.join(", ")} · {dateFormat.format(o.data.date)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    citing.length > 0 && (
+      <section class="graph" aria-labelledby="cited-by-heading">
+        <h2 id="cited-by-heading">Cited by</h2>
+        <ul role="list">
+          {citing.map((o) => (
+            <li>
+              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+              <span class="meta">
+                {" "}
+                · {o.data.authors.join(", ")} · {dateFormat.format(o.data.date)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   <section class="cite-as" aria-labelledby="cite-as-heading">
     <h2 id="cite-as-heading">Cite as</h2>
@@ -214,6 +270,17 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
   /* One acknowledgement per line when an output holds several grants. */
   .funding-line {
     display: block;
+  }
+
+  /* The two halves of the citation graph, matching the profile page's output
+     lists: the link carries the title, the muted run carries attribution. */
+  .graph {
+    margin-block-start: var(--at-spacing-2xl);
+  }
+
+  .graph .meta {
+    color: var(--at-text-muted);
+    font-size: var(--at-font-size-sm);
   }
 
   .cite-as {

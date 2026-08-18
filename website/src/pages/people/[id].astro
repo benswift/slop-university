@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
+import { bibliometrics } from "../../lib/citations";
 import { formatAud, getSchemes, grantsByGrantee, schemeById } from "../../lib/grants";
 import { headshot } from "../../lib/headshots";
 import { personHero } from "../../lib/heroes";
@@ -30,6 +31,10 @@ const schemes = grants.length > 0 ? await getSchemes() : [];
 // collections --- deterministic dashboard-ware, nothing invented.
 // Collaboration breadth is the distinct co-authors credited alongside this
 // researcher; research income is the sum of their held grants and prizes.
+// Citation indicators come from the canon's own citation graph (see
+// src/lib/citations.ts): every edge is a DOI one published document actually
+// prints about another, counted under the university's generous house rules.
+const metrics = await bibliometrics(outputs);
 const coAuthors = new Set(
   outputs.flatMap((o) => o.data.authors).filter((name) => name !== person.name),
 );
@@ -92,6 +97,20 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
                   <th scope="row">Research outputs</th>
                   <td>{outputs.length}</td>
                 </tr>
+                <tr>
+                  <th scope="row">Citations</th>
+                  <td>{metrics.citations}</td>
+                </tr>
+                <tr>
+                  <th scope="row">h-index</th>
+                  <td>{metrics.hIndex}</td>
+                </tr>
+                {metrics.i10Index > 0 && (
+                  <tr>
+                    <th scope="row">i10-index</th>
+                    <td>{metrics.i10Index}</td>
+                  </tr>
+                )}
                 <tr>
                   <th scope="row">Collaboration breadth</th>
                   <td>
