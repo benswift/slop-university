@@ -89,6 +89,14 @@ Slop University is a persistent fiction: its people, schools, and units live in
 - Output filenames (prefix, slug, seed, and the per-preset `output/pdf/<group>/`
   folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
   declare their own prefix and group.
+- **Citation graph.** Where a document prints a prior output's DOI, that is a
+  citation. `ops/extract-citations.py` harvests those edges out of the compiled
+  `.typ`/`.bib` into the citing entry's `cites:` (the compiled source is the
+  evidence --- never hand-write the field), and the site counts citations,
+  "cited by" lists, and the roster's h-indices off them. `--suggest` ranks prior
+  outputs by how much a citation would lift a researcher's h-index; topical fit
+  still decides which get cited. The counting rules are the University's own and
+  generous by design --- they are stated in `website/src/lib/citations.ts`.
 - Never include footers, watermarks, or other "this is satire" signals on the
   rendered pages of a preset run. The PDF metadata title is the deliberate
   exception (per each preset's "Doc identity"). The booklets and posters must

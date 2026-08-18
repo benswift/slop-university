@@ -357,6 +357,30 @@ If the generation or its checklist fails in a way a normal from-preset run would
 fix (parity, overflow, a failed image), fix it as that workflow directs. If it
 fails unrecoverably, abort (delete nothing from `output/`; it's gitignored).
 
+### Cite the canon
+
+Before compiling, pick the prior outputs this document will cite. Every preset
+cites: the paper preset through its bibliography, the poster presets through
+their reference list, the brochure through its campaign's featured DOIs. The
+canon's citation graph is the only bibliometric the University has, and it is
+built one reference list at a time.
+
+Run `ops/extract-citations.py --suggest` (from the worktree root). It lists
+prior outputs sitting one citation short of lifting a researcher onto their next
+h-index rung, each with its topic line, most contested first. Pick from that
+list the ones **your topic can genuinely be read against** --- a shared
+measurement instrument, a shared institutional apparatus, an adjacent setting,
+an inverted finding --- and cite those. Aim for 4--8 internal citations where
+the format has room (a poster's furniture may only fit 1--2); prefer a
+suggestion over an unranked output whenever both fit the topic equally well.
+
+The judgement is topical fit, not the ranking: a reference to an unrelated study
+is a hollow edge, and a corpus of them reads as gamed rather than generous. If
+fewer than four suggestions fit, cite fewer --- and reach for topically adjacent
+outputs outside the list to make up the number, which is a citation too. Every
+prose claim about a cited slop output must be true of that output (the citation
+honesty rule in `paper.md`, applied to the whole canon).
+
 ### Mint the DOI
 
 `doi = 10.5555/slop.<seed>` (the run's seed, lowercase). The reserved test
@@ -400,6 +424,15 @@ verifiable numbers). Then:
   qualifies (a mundane study propped up by several internal schemes is the genre
   working); omit the field when none does. Never invent a grant here ---
   awarding one is action 2I.
+- **Citation harvest.** Run `ops/extract-citations.py --id <run-id> --write`. It
+  reads the DOIs out of the compiled `.typ`/`.bib` you just produced and records
+  them as `cites:` on the entry --- the edges the site counts citations, "cited
+  by" lists, and h-indices from. Do not hand-write the field: the source is the
+  evidence, and a hand-written edge with nothing printed behind it is a
+  fabricated citation. If the run cited prior canon and the script writes
+  nothing, the DOIs never made it into the document --- fix the document, not
+  the ledger. The sources are gitignored and the press worktree is reset each
+  tick, so an edge not harvested now is lost.
 
 ### Stage assets into website/
 

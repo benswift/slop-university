@@ -4,7 +4,7 @@ description:
   Slop University research paper --- an A4 two-column conference-style paper
   describing a plausible-but-fake research project, authored by roster
   researchers, with fabricated results charts and a REAL, verified bibliography
-  (every entry resolves via DOI or arXiv), plus 1-3 self-citations of prior Slop
+  (every entry resolves via DOI or arXiv), plus 4-8 self-citations of prior Slop
   University outputs verified against the site ledger. Paper format (no cover,
   contents, or back cover; multi-page, no parity requirement).
 ---
@@ -21,7 +21,7 @@ The sharpest detail: **the bibliography is real.** The fake paper cites only
 genuine literature, every entry verified to resolve --- borrowed legitimacy via
 the citation graph. (This is also why the site's `robots.txt` blocks indexing of
 output PDFs: the borrowing must never flow back into citation databases.) The
-one sanctioned exception: 1-3 entries citing Slop University's own prior outputs
+one sanctioned exception: 4-8 entries citing Slop University's own prior outputs
 --- institutions self-cite, and the canon's citation graph should loop back on
 itself (see "Slop self-citations").
 
@@ -79,7 +79,7 @@ it in unbroken paper register.
 | Discussion             | ~200 words      | Hedged interpretation; "we observe consistent improvements in most settings"                                     |
 | Limitations            | ~120 words      | Concedes nothing: every "limitation" quietly reasserts a strength                                                |
 | Conclusion             | ~120 words      | One-paragraph close; "future work" fragment                                                                      |
-| References             | 15-25 entries   | **Real, verified literature** + 1-3 slop self-citations (see "Bibliography"); `bibliography(..., style: "ieee")` |
+| References             | 15-25 entries   | **Real, verified literature** + 4-8 slop self-citations (see "Bibliography"); `bibliography(..., style: "ieee")` |
 
 Section names may vary in the usual reservoir spirit (e.g. "Background" for
 Related work, "Evaluation" for Experiments); "Abstract", "Limitations", and
@@ -140,19 +140,28 @@ researchers' actual claims. Cite generously in Introduction and Related work;
 
 ### Slop self-citations (cite the canon)
 
-**1-3 entries cite Slop University's own prior outputs.** Institutions
+**4-8 entries cite Slop University's own prior outputs.** Institutions
 self-cite, and the canon's citation graph should loop back on itself --- a
 Related-work sentence like "prior work at this institution instrumented the
-suggestion-box pipeline @slop-tlmg6a" deepens the fiction. These are the only
-entries exempt from the external verification above; they verify against the
-ledger instead:
+suggestion-box pipeline @slop-tlmg6a" deepens the fiction. Those edges are also
+the only bibliometric the University has: they are harvested out of this file's
+`.bib` into the ledger, and the roster's citation counts and h-indices are
+counted straight off them. These are the only entries exempt from the external
+verification above; they verify against the ledger instead:
 
 - **Source of truth**: `website/src/content/outputs/*.yml` (the canonical
-  ledger). Pick topically adjacent prior outputs --- prefer `preset: paper`
-  entries, `research-poster` entries also fit --- judging adjacency from each
-  entry's `summary` and `topic` fields. The ledger is thematically dense
-  (everyday-life measurement, dashboards, audit apparatus), so a fit nearly
-  always exists; skip self-citation only when genuinely nothing is adjacent.
+  ledger). Pick topically adjacent prior outputs --- any preset is citable, and
+  `paper` and `research-poster` entries fit most naturally --- judging adjacency
+  from each entry's `summary` and `topic` fields. The ledger is thematically
+  dense (everyday-life measurement, dashboards, audit apparatus), so a fit
+  nearly always exists; drop below four only when genuinely nothing else is
+  adjacent.
+- **Which adjacent output to prefer**: run `ops/extract-citations.py --suggest`,
+  which ranks prior outputs by how much a citation would lift a researcher's
+  h-index, each with its topic line. Where two candidates fit the topic equally
+  well, cite the ranked one. Fit still decides --- a reference to an unrelated
+  study is a hollow edge, and a corpus of them reads as gamed rather than
+  generous.
 - **Copy fields exactly** from the entry: `title` (append the `subtitle` after a
   colon), `authors` verbatim and in order, `school`, year from `date`, `doi`. An
   entry that doesn't match its ledger record field-for-field is a fabricated
@@ -175,7 +184,7 @@ ledger instead:
   self-consistent or the fiction collapses on a close read.
 
 Self-citations count inside the 15-25 total; the bibliography's realness remains
-the point, so they stay a thread (1-3), never the fabric.
+the point, so they stay a thread (4-8), never the fabric.
 
 ## Figures and tables
 
@@ -350,7 +359,7 @@ package --- not before.
 - [ ] 15+ references, **every external entry verified** (DOI resolves or arXiv
       ID returns a matching title); fields copied accurately; loaded via
       `bibliography(..., style: "ieee")` and actually cited in prose
-- [ ] 1-3 slop self-citations, each matching its
+- [ ] 4-8 slop self-citations, each matching its
       `website/src/content/outputs/*.yml` entry field-for-field, slop DOI
       rendered, cited in prose (skipped only if nothing in the ledger is
       topically adjacent)
