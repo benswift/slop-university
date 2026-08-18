@@ -23,6 +23,7 @@ const entry: CollectionEntry<"outputs">["data"] = {
   pdfDark: false,
   version: "1.0",
   grants: [],
+  cites: [],
   thumb: { width: 849, height: 1200 },
 };
 

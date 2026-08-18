@@ -23,6 +23,7 @@ const outputs = outputIds.map(
       doi?: string;
       date?: string;
       grants?: string[];
+      cites?: string[];
       preset?: string;
       pdfDark?: boolean;
       hero?: { width: number; height: number };
@@ -299,6 +300,43 @@ describe("outputs entries", () => {
           `${outputIds[i]} (${output.date}) predates its grant ${grant} (${grantDate})`,
         ).toBe(true);
       }
+    });
+  });
+
+  // The internal citation graph (`cites:`, harvested by
+  // ops/extract-citations.py) is load-bearing content: the roster's citation
+  // counts and h-indices are counted straight off these edges, so a dangling
+  // or impossible edge would inflate an indicator with nothing behind it.
+  describe("citation edges", () => {
+    const doiToId = new Map(outputs.map((o, i) => [o.doi, outputIds[i]]));
+
+    it("cite a DOI that resolves to a published output", () => {
+      outputs.forEach((output, i) => {
+        for (const doi of output.cites ?? []) {
+          expect(doiToId.get(doi), `${outputIds[i]} cites ${doi}`).toBeDefined();
+        }
+      });
+    });
+
+    it("cite each output at most once, and never themselves", () => {
+      outputs.forEach((output, i) => {
+        const cites = output.cites ?? [];
+        expect(new Set(cites).size, `${outputIds[i]} repeats a citation`).toBe(cites.length);
+        expect(cites, `${outputIds[i]} cites itself`).not.toContain(output.doi);
+      });
+    });
+
+    it("postdate every output they cite", () => {
+      outputs.forEach((output, i) => {
+        for (const doi of output.cites ?? []) {
+          const cited = outputs[outputIds.indexOf(doiToId.get(doi) ?? "")];
+          if (!output.date || !cited?.date) continue;
+          expect(
+            output.date >= cited.date,
+            `${outputIds[i]} (${output.date}) cites ${doi} (${cited.date}), which postdates it`,
+          ).toBe(true);
+        }
+      });
     });
   });
 });

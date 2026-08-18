@@ -152,6 +152,12 @@ const outputs = defineCollection({
     pages: z.number().optional(),
     version: z.string().default("1.0"),
     grants: z.array(z.string()).default([]), // grants entry ids funding this work
+    // Prior canon outputs this one cites, by DOI --- harvested from the
+    // compiled source by ops/extract-citations.py, which is where the canon's
+    // only real citation data lives. Every preset can both cite and be cited;
+    // the reverse index (src/lib/citations.ts) turns these into citation
+    // counts, "cited by" lists, and the roster's h-indices.
+    cites: z.array(z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/)).default([]),
     // Like the PDF, the hero and thumbnail live in a bucket keyed by the entry
     // id; the dims are the one fact the site can't derive. thumb is required
     // (every output has a first page) --- the fail-closed hinge that makes a
