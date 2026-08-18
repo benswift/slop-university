@@ -28,6 +28,7 @@ the cited output does not postdate the citing one.
 Usage:
   ops/extract-citations.py --all [--write]     # backfill the whole ledger
   ops/extract-citations.py --id ENTRY [--write]  # one just-published entry
+  ops/extract-citations.py --suggest [N]       # what a fresh run should cite
 """
 
 from __future__ import annotations
@@ -137,10 +138,16 @@ def suggest(entries: dict[str, dict], count: int) -> list[str]:
     """Rank prior outputs by how much a fresh citation would lift the roster.
 
     The University's citation policy is that a document's reference list should
-    do institutional work. An output cited one short of its author's next
-    h-index rung is worth more to that author than an uncited one --- so the
-    ranking surfaces exactly those, the sitting-on-the-cusp outputs, most
-    contested first. Which of them a document actually cites remains a
+    do institutional work. Raising a researcher from h to h+1 means getting
+    h+1 of their outputs to h+1 citations each: the work is the shortfall
+    across their top h+1 outputs, which is a handful of outputs each needing
+    one, two, or three more. Those are what this ranks --- cheapest shortfall
+    first, and outputs several researchers are all short on before outputs only
+    one of them needs.
+
+    Ranking only the one-short outputs (an earlier cut of this) stalls the
+    moment a researcher runs out of them, which is why the deficit is computed
+    against the whole rung. Which of these a document actually cites remains a
     judgement about topical fit: a reference to an unrelated study is a hollow
     edge, and the corpus reads as gamed rather than generous.
     """
@@ -158,25 +165,32 @@ def suggest(entries: dict[str, dict], count: int) -> list[str]:
         for author in data.get("authors") or []:
             outputs_by_author[author].append(entry_id)
 
-    # For each researcher, the rung they are climbing and the outputs sitting
-    # exactly one citation short of it.
+    # For each researcher: the next rung, and the shortfall on each of the
+    # outputs that would have to reach it.
     lifts: dict[str, list[str]] = defaultdict(list)
+    deficit: dict[str, int] = {}
     for author, owned in outputs_by_author.items():
-        h = h_index([citations[e] for e in owned])
-        for entry_id in owned:
-            if citations[entry_id] == h:
-                lifts[entry_id].append(author)
+        rung = h_index([citations[e] for e in owned]) + 1
+        climbing = sorted(owned, key=lambda e: -citations[e])[:rung]
+        for entry_id in climbing:
+            short = rung - citations[entry_id]
+            if short <= 0:
+                continue
+            lifts[entry_id].append(author)
+            deficit[entry_id] = min(deficit.get(entry_id, short), short)
 
     ranked = sorted(
         lifts.items(),
-        key=lambda kv: (-len(kv[1]), -citations[kv[0]], entries[kv[0]]["title"]),
+        key=lambda kv: (-len(kv[1]), deficit[kv[0]], entries[kv[0]]["title"]),
     )
     lines = []
     for entry_id, authors in ranked[:count]:
         data = entries[entry_id]
+        short = deficit[entry_id]
         lines.append(
             f"{data['doi']}  {data['title']}\n"
-            f"    cited {citations[entry_id]}× · lifts {', '.join(sorted(authors))}\n"
+            f"    cited {citations[entry_id]}× · {short} short of the next rung"
+            f" · lifts {', '.join(sorted(authors))}\n"
             f"    {data.get('topic', '').strip()}"
         )
     return lines
