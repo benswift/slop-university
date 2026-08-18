@@ -45,9 +45,20 @@ import yaml
 REPO = Path(__file__).resolve().parent.parent
 OUTPUTS_DIR = REPO / "website" / "src" / "content" / "outputs"
 
-# The two checkouts that hold compiled sources: this tree and the press
-# worktree the unattended pipeline runs in (see ops/cron-publish.sh).
-SOURCE_DIRS = [REPO / "output", REPO.parent / "slop-university-press" / "output"]
+# Compiled sources live in whichever checkouts exist side by side: the main
+# tree and the press worktree the unattended pipeline runs in (see
+# ops/cron-publish.sh). The script runs from either, so it names both rather
+# than assuming which one it is --- deduplicated, since from inside the press
+# worktree the sibling lookup resolves back onto itself.
+SOURCE_DIRS = list(
+    dict.fromkeys(
+        [
+            REPO / "output",
+            REPO.parent / "slop-university" / "output",
+            REPO.parent / "slop-university-press" / "output",
+        ]
+    )
+)
 
 DOI_RE = re.compile(r"10\.5555/slop\.([a-z0-9]+)")
 SLUG_RE = re.compile(r"-([a-z0-9]{6})\.(?:typ|bib)$")
