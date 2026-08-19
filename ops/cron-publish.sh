@@ -271,34 +271,56 @@ rescue_and_abort() {
 PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
 PUBLISHED_AT="$(date -Iseconds)"
 log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
-# Captured rather than appended straight to the log, because the classifier
-# below has to read what the agent said. It lands in the log either way; the
+
+# --- The model the unattended run generates on, pinned here rather than
+# inherited. The agent is a plain `claude` child of this wrapper, so with no
+# --model it takes whatever ~/.claude/settings.json says --- which is the
+# INTERACTIVE default, whatever was last chosen with /model. The press
+# transcripts show the pipeline riding that setting through four silent
+# changes (sonnet to late July, opus to 7 Aug, sonnet to the 12th, opus to the
+# 17th, fable after), not one of them a decision about this pipeline. On
+# 2026-08-20 that bit: the global default had moved to Fable, the account's
+# Fable credits ran out at 01:24, and every tick for the next seven hours died
+# three seconds in on "You're out of usage credits" while opus, sonnet and
+# haiku all still answered. Pinning makes the hourly run's model a property of
+# the pipeline; the env overrides ride out a bad limit day without an edit.
+AGENT_MODEL="${SLOPU_AGENT_MODEL:-sonnet}"
+AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-haiku}"
+
+# Captured rather than appended straight to the log, because the classifiers
+# below have to read what the agent said. It lands in the log either way; the
 # EXIT trap removes the temp copy on every path, including the aborts.
 AGENT_OUT="$(mktemp)"
 AGENT_STATUS=0
-(
-  cd "$WORKTREE_DIR"
-  GIT_AUTHOR_NAME="Slop University Press" \
-  GIT_AUTHOR_EMAIL="press@slop.university" \
-  SLOPU_PUBLIC_ONLY=1 \
-  SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
-  env -u SLOPU_TOKEN \
-      -u SLOPU_S3_ACCESS_KEY_ID \
-      -u SLOPU_S3_SECRET_ACCESS_KEY \
-      -u SLOPU_S3_BUCKET \
-      -u SLOPU_S3_ENDPOINT \
-      -u SLOPU_IMG_BUCKET \
-      -u SLOPU_IMG_ACCESS_KEY_ID \
-      -u SLOPU_IMG_SECRET_ACCESS_KEY \
-      -u SLOPU_IMG_ADMIN_ACCESS_KEY_ID \
-      -u SLOPU_IMG_ADMIN_SECRET_ACCESS_KEY \
-  /home/ben/.local/bin/claude \
-    --dangerously-skip-permissions \
-    -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
-) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
-cat "$AGENT_OUT" >> "$LOG_FILE"
-
-log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
+run_agent() {
+  local model="$1"
+  AGENT_STATUS=0
+  log "=== publish agent starting at $(date -Iseconds) (model ${model}) ==="
+  (
+    cd "$WORKTREE_DIR"
+    GIT_AUTHOR_NAME="Slop University Press" \
+    GIT_AUTHOR_EMAIL="press@slop.university" \
+    SLOPU_PUBLIC_ONLY=1 \
+    SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
+    env -u SLOPU_TOKEN \
+        -u SLOPU_S3_ACCESS_KEY_ID \
+        -u SLOPU_S3_SECRET_ACCESS_KEY \
+        -u SLOPU_S3_BUCKET \
+        -u SLOPU_S3_ENDPOINT \
+        -u SLOPU_IMG_BUCKET \
+        -u SLOPU_IMG_ACCESS_KEY_ID \
+        -u SLOPU_IMG_SECRET_ACCESS_KEY \
+        -u SLOPU_IMG_ADMIN_ACCESS_KEY_ID \
+        -u SLOPU_IMG_ADMIN_SECRET_ACCESS_KEY \
+    /home/ben/.local/bin/claude \
+      --model "$model" \
+      --dangerously-skip-permissions \
+      -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
+  ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
+  cat "$AGENT_OUT" >> "$LOG_FILE"
+  log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
+}
+run_agent "$AGENT_MODEL"
 
 # A dead credential is not a failed generation, and the difference is the whole
 # reason this check exists. A failed generation is transient --- a typst error,
@@ -316,6 +338,40 @@ if grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|pl
   log "AGENT AUTH FAILURE --- the unattended agent could not authenticate. No work was attempted."
   log "  Fix: run \`claude\` interactively as ben, complete /login, and let the next tick run."
   rescue_and_abort "failed-auth" "agent could not authenticate; a human must run: claude /login" 3
+fi
+
+# Out of usage credits is a third thing again --- not a dead credential (the
+# login is fine) and not a failed generation (nothing was attempted). It is the
+# account's limit for ONE model, which is exactly why the CLI's own advice is
+# "switch to another model", so the tick's best move is to do that once rather
+# than forfeit the hour. Only when the agent produced nothing, though: a
+# mid-run exhaustion leaves half a publish on press, and regenerating over the
+# top of that is how two outputs end up claiming one DOI. Anything already
+# staged --- a commit on press, a PDF in the handoff directory --- sends this
+# straight to the abort below, where rescue_and_abort preserves it.
+credits_exhausted() {
+  grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit" "$AGENT_OUT"
+}
+if credits_exhausted; then
+  log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
+  if [ "$(git rev-parse "$PRESS_BRANCH")" = "$BASE_REF" ] && [ -z "$(ls -A "$PENDING_DIR" 2>/dev/null)" ]; then
+    log "  nothing was generated; retrying this tick on the fallback model ${AGENT_FALLBACK_MODEL}"
+    git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
+    run_agent "$AGENT_FALLBACK_MODEL"
+  else
+    log "  the run had already staged work; not retrying (see the abort below)"
+  fi
+fi
+# Re-read, because a retry overwrote $AGENT_OUT: this now asks whether the
+# FALLBACK also refused. Both models out is a real stop --- the account has
+# nothing left to generate with, every later tick dies identically, and the
+# failed unit is what puts that in front of a human. Like the auth check it
+# does not write data/publish-blocked: a limit window un-breaks itself, and
+# blocking would turn a wait into a two-step fix.
+if credits_exhausted; then
+  log "AGENT OUT OF CREDITS --- ${AGENT_MODEL} and the fallback ${AGENT_FALLBACK_MODEL} both refused; no output was generated."
+  log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_MODEL at a model that still has credits."
+  rescue_and_abort "out-of-credits" "no usage credits for ${AGENT_MODEL} or fallback ${AGENT_FALLBACK_MODEL}; wait for the reset or set SLOPU_AGENT_MODEL" 5
 fi
 
 if [ "$AGENT_STATUS" -ne 0 ]; then
