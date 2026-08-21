@@ -1,0 +1,53 @@
+---
+import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
+import catalogueData from "../data/catalogue.json";
+import { validateCatalogue } from "../lib/catalogue";
+import { siteConfig } from "../site-config";
+
+const courses = validateCatalogue(catalogueData);
+---
+
+<BaseLayout
+  title="Programs and courses"
+  description="Find a course at Slop University by level, session or subject."
+  {...siteConfig}
+>
+  <div class="catalogue">
+    <header>
+      <p class="eyebrow">Slop University</p>
+      <h1>Programs and courses</h1>
+      <p class="lede">A complete register of courses somebody went to the trouble of inventing.</p>
+    </header>
+    <form class="filters" data-filters>
+      <label>Search <input type="search" name="query" placeholder="Code, title or tag" /></label>
+      <label>Level <select name="level"><option value="">All levels</option>{[1,2,3,4,6,7,8].map((level) => <option value={level}>{level}000</option>)}</select></label>
+    </form>
+    <p class="count" aria-live="polite" data-count>{courses.length} courses</p>
+    <div class="grid" data-grid>
+      {courses.map(({ course, canonicalUrl }) => (
+        <article data-course data-search={`${course.code} ${course.title} ${course.tags.join(" ")}`.toLowerCase()} data-level={course.level}>
+          <p class="code">{course.code}</p><h2><a href={canonicalUrl}>{course.title}</a></h2>
+          <p>{course.description}</p><p class="meta">Level {course.level} · {course.session} {course.year}</p>
+          <ul>{course.tags.map((tag) => <li>{tag}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+    {courses.length === 0 && <p class="empty">The register opens after the first course publication round.</p>}
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-filters]");
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-course]")];
+  const count = document.querySelector<HTMLElement>("[data-count]");
+  form?.addEventListener("input", () => {
+    const data = new FormData(form); const query = String(data.get("query") ?? "").trim().toLowerCase(); const level = String(data.get("level") ?? "");
+    let visible = 0;
+    for (const card of cards) { const show = (!query || card.dataset.search?.includes(query)) && (!level || card.dataset.level === level); card.hidden = !show; if (show) visible++; }
+    if (count) count.textContent = `${visible} course${visible === 1 ? "" : "s"}`;
+  });
+</script>
+
+<style>
+  .catalogue{width:min(72rem,calc(100% - 2rem));margin-inline:auto;padding:clamp(3rem,8vw,7rem) 0}.eyebrow,.code{font-weight:800;letter-spacing:.08em;text-transform:uppercase}.lede{font-size:clamp(1.15rem,2vw,1.5rem);max-width:42rem}.filters{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:3rem 0 1rem;padding:1rem;background:var(--at-background-muted,#eee8dc);border:1px solid currentColor}.filters label{display:grid;gap:.35rem;font-weight:700}.filters input,.filters select{min-height:44px;padding:.65rem;border:1px solid currentColor;background:white;font:inherit}.count{font-variant-numeric:tabular-nums}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:1rem}.grid article{padding:1.25rem;border:1px solid currentColor}.grid h2{margin-top:.25rem}.meta{font-weight:650}.grid ul{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none}.grid li{padding:.2rem .5rem;border:1px solid currentColor;border-radius:999px;font-size:.85rem}.empty{padding:3rem 0;font-size:1.2rem}@media(max-width:40rem){.filters{grid-template-columns:1fr}}
+</style>

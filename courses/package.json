@@ -1,0 +1,36 @@
+{
+  "name": "slop-course-catalogue",
+  "private": true,
+  "type": "module",
+  "engines": { "pnpm": ">=11" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "lint": "oxlint astro.config.ts scripts src",
+    "format": "oxfmt astro.config.ts scripts src",
+    "format:check": "oxfmt --check astro.config.ts scripts src",
+    "test": "vitest run",
+    "catalogue:sync": "tsx scripts/sync-courses.ts"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/svelte": "^9.0.1",
+    "@iconify-json/iconoir": "^1.2.11",
+    "astro": "^7.2.4",
+    "astro-theme-slop": "github:benswift/astro-theme-slop#v0.1.0",
+    "astro-theme-university": "git+https://github.com/ANUcybernetics/astro-theme-university.git#v0.12.0",
+    "svelte": "^5.55.10",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.0.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
