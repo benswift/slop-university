@@ -4,8 +4,7 @@ subtitle:
   A natural experiment across share-houses that adopted a bill-splitting app
   finds faster settlement and far less small-debt forgiveness
 date: 2026-08-21
-description:
-  A School of Continuous Improvement paper compares share-houses that
+description: A School of Continuous Improvement paper compares share-houses that
   adopted a cent-accurate bill-splitting app against households that kept
   an informal whiteboard tally, finding debts settle faster but small debts
   are forgiven far less often.

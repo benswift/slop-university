@@ -1,7 +1,6 @@
 ---
 title: Slop University brings conference-grade peer review to the fete cookbook
-subtitle:
-  A season-long deployment gave one primary school's fundraiser cookbook
+subtitle: A season-long deployment gave one primary school's fundraiser cookbook
   double-anonymous review, weighted conflict declarations and a rebuttal window
 date: 2026-08-18
 description:

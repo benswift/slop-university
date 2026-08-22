@@ -1,7 +1,6 @@
 ---
 title: Improvement Grand Rounds turns to the mystery shopper's scorecard
-subtitle:
-  Dr Torun Ezeigwe brings the School of Continuous Improvement's seminar
+subtitle: Dr Torun Ezeigwe brings the School of Continuous Improvement's seminar
   series to the checklist that grades a counter transaction, and the service
   that has learned to grade itself
 date: 2026-08-21

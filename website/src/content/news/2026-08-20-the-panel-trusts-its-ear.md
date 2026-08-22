@@ -1,7 +1,6 @@
 ---
 title: Research poster audits how well a theatre panel spots a prompted line
-subtitle:
-  A six-opening study finds the panel clears genuine memorisation with
+subtitle: A six-opening study finds the panel clears genuine memorisation with
   confidence but catches barely half of earpiece-prompted performances
 description:
   A School of Continuous Improvement research poster compares a community

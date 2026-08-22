@@ -55,8 +55,7 @@ export async function citedBy(output: Output): Promise<Output[]> {
 let byDoi: Promise<Map<string, Output>> | undefined;
 
 export function outputsByDoi(): Promise<Map<string, Output>> {
-  byDoi ??= (async () =>
-    new Map((await getCollection("outputs")).map((o) => [o.data.doi, o])))();
+  byDoi ??= (async () => new Map((await getCollection("outputs")).map((o) => [o.data.doi, o])))();
   return byDoi;
 }
 

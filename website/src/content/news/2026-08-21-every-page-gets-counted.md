@@ -1,7 +1,6 @@
 ---
 title: Slop University brochure argues for funding welcome-folder research
-subtitle:
-  Every Page Gets Counted gathers seven published studies behind the
+subtitle: Every Page Gets Counted gathers seven published studies behind the
   University's onboarding-folder programme, and a case for supporting where it
   goes next
 description:

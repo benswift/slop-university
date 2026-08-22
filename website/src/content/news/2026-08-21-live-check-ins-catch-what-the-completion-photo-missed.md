@@ -1,7 +1,6 @@
 ---
 title: Live check-ins catch what the completion photo missed, report finds
-subtitle:
-  Five years of the School of Continuous Improvement's work on the
+subtitle: Five years of the School of Continuous Improvement's work on the
   completion photo, the live check-in that followed it, and the group chat
   that got there first
 date: 2026-08-21

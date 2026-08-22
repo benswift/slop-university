@@ -3,8 +3,7 @@ title: Slop University scores tattoo studios on flash-wall distinctiveness
 subtitle:
   A coded audit of 46 studios finds AI-referenced flash walls converging on
   the same handful of archetypes
-description:
-  A School of Continuous Improvement research poster audits 46 tattoo
+description: A School of Continuous Improvement research poster audits 46 tattoo
   studios' AI-referenced commissions and finds portfolios converging on a
   shrinking set of archetypes.
 date: 2026-08-21

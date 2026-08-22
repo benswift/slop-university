@@ -1,7 +1,6 @@
 ---
 title: Slop University checks what a giveaway badge actually decides
-subtitle:
-  Self-reported reliance on a giveaway group's karma badge, and its far
+subtitle: Self-reported reliance on a giveaway group's karma badge, and its far
   larger revealed role in contested claims
 description:
   A School of Continuous Improvement paper surveys volunteer approvers in

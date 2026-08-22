@@ -1,7 +1,6 @@
 ---
 title: Slop University publishes a showcase of its fastest-deciding research
-subtitle:
-  A new brochure gathers seven published studies of the instant a system
+subtitle: A new brochure gathers seven published studies of the instant a system
   decides something before anyone looks up
 description:
   A new Slop University brochure showcases seven published studies of the

@@ -4,8 +4,7 @@ subtitle:
   A 14-week Adaptive Metrics Lab pilot scores three shared fridges against
   the floor's own meeting-room no-show record, week by week
 date: 2026-08-21
-description:
-  A School of Continuous Improvement pilot scores three shared office
+description: A School of Continuous Improvement pilot scores three shared office
   fridges for legibility and finds no association with the floor's own
   meeting-room no-show rate.
 output: slop-poster-a-contents-legibility-index-soisfz

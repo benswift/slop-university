@@ -1,7 +1,6 @@
 ---
 title: Slop University brochure finds governance on a suburban bowls green
-subtitle:
-  Every Green Has Its Committee gathers five published studies under the
+subtitle: Every Green Has Its Committee gathers five published studies under the
   instinct to convene, from a rink roster to a body corporate's forgotten
   by-law
 description:
