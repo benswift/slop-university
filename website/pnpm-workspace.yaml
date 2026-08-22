@@ -9,4 +9,5 @@ allowBuilds:
 # vulnerable version (svgo removeScripts bypass, GHSA fixed in 4.0.2). svgo@3
 # (iconify's major) deliberately untouched; drop once astro's floor passes it.
 overrides:
+  "nanoid@>=3.0.0 <3.3.18": "^3.3.18"
   "svgo@>=4.0.0 <4.0.2": "^4.0.2"
