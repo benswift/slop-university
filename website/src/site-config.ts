@@ -2,7 +2,7 @@ import { defineSiteConfig } from "astro-theme-university/types";
 // The Slop University branding preset — the web mirror of the
 // slop-university-brand typst package, extracted so other sites can wear the
 // identity. Spread into the site config (and from there into BaseLayout);
-// never import astro-theme-anu here.
+// never import a real institution's brand layer here.
 import { slopBranding } from "astro-theme-slop";
 
 export const siteConfig = defineSiteConfig({
