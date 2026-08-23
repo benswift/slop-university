@@ -26,6 +26,13 @@ Two slash commands:
   the ANU template. No rewriting; small editorial calls for heading hierarchy /
   lockup / cover theme only.
 
+`bin/slopu` is the common headless entry point for these commands and
+`/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the
+native Claude Code subscription. The generation commands retain `--effort max`,
+while publish retains its `sonnet` model default on that route; an alternative
+profile keeps its own model unless `--model` overrides it. This makes another
+route possible without changing the workflow prompts.
+
 Both paths cross-ref shared visual doctrine in `skills/_shared/` (parallel image
 workflow, the two-ink house visual style, typst layout discipline, output
 naming). The preset path additionally loads `skills/from-preset/genre.md` for

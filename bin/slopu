@@ -1,0 +1,94 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+readonly REPO_ROOT="${0:A:h:h}"
+readonly AGENT_RUN="${AGENT_RUN_BIN:-agent-run}"
+
+profile="${AGENT_PROFILE:-claude-sub}"
+model="${AGENT_MODEL:-}"
+
+usage() {
+  cat <<'EOF'
+Usage: slopu [--profile NAME] [--model MODEL] <command> [arguments]
+
+Commands:
+  from-preset <preset> [steering]  Generate a document from a named preset
+  from-source <source>             Typeset a source faithfully
+  publish                          Run the autonomous publication workflow
+
+Profiles come from ~/.config/agent-run/profiles.toml. The default is
+claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
+EOF
+}
+
+while (( $# > 0 )); do
+  case "$1" in
+    --profile)
+      (( $# >= 2 )) || { print -u2 "slopu: --profile needs a value"; exit 2; }
+      profile="$2"
+      shift 2
+      ;;
+    --model)
+      (( $# >= 2 )) || { print -u2 "slopu: --model needs a value"; exit 2; }
+      model="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      print -u2 "slopu: unknown option: $1"
+      usage >&2
+      exit 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+(( $# > 0 )) || { usage >&2; exit 2; }
+command="$1"
+shift
+
+agent_args=(
+  --profile "$profile"
+  --cwd "$REPO_ROOT"
+  --claude-dangerously-skip-permissions
+  --codex-sandbox danger-full-access
+)
+
+case "$command" in
+  from-preset)
+    (( $# > 0 )) || { print -u2 "slopu: from-preset needs a preset"; exit 2; }
+    agent_args+=(--claude-effort max)
+    prompt="Read skills/from-preset/SKILL.md and execute its workflow end-to-end. Argument: $* (first whitespace-separated word is the preset name; the rest is the steering prompt)."
+    ;;
+  from-source)
+    (( $# > 0 )) || { print -u2 "slopu: from-source needs a source"; exit 2; }
+    agent_args+=(--claude-effort max)
+    prompt="Read skills/from-source/SKILL.md and execute its workflow end-to-end. Source: $*"
+    ;;
+  publish)
+    (( $# == 0 )) || { print -u2 "slopu: publish takes no arguments"; exit 2; }
+    # Preserve the slash command's Sonnet default on its existing Claude
+    # subscription route. Alternative profiles keep their own model default.
+    if [[ -z "$model" && "$profile" == "claude-sub" ]]; then
+      model="sonnet"
+    fi
+    prompt="Read skills/publish/SKILL.md and execute its workflow end-to-end, non-interactively. No arguments."
+    ;;
+  *)
+    print -u2 "slopu: unknown command: $command"
+    usage >&2
+    exit 2
+    ;;
+esac
+
+[[ -z "$model" ]] || agent_args+=(--model "$model")
+exec "$AGENT_RUN" "${agent_args[@]}" "$prompt"

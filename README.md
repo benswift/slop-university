@@ -82,17 +82,43 @@ doctrine lives in `skills/_shared/`.
 
 ## Running
 
+`bin/slopu` sends all three workflows through the shared `agent-run` dispatcher.
+It defaults to the Claude Code subscription, retains maximum effort for document
+generation, and keeps `publish` on Sonnet. The launcher expands each slash
+command into its underlying skill prompt so the same invocation also works with
+Codex.
+
 Satirical:
 
 ```sh
-claude --dangerously-skip-permissions --effort max -p "/from-preset strategy <steering prompt>"
+bin/slopu from-preset strategy <steering prompt>
 ```
 
 Faithful:
 
 ```sh
-claude --dangerously-skip-permissions --effort max -p "/from-source <URL or path>"
+bin/slopu from-source <URL or path>
 ```
+
+Autonomous publication:
+
+```sh
+bin/slopu publish
+```
+
+Switch the provider and model without changing the workflow:
+
+```sh
+bin/slopu --profile codex-sub from-preset strategy <steering prompt>
+bin/slopu --profile deepseek from-source <URL or path>
+bin/slopu --profile openrouter --model "provider/model:free" publish
+```
+
+Profile definitions live in `~/.config/agent-run/profiles.toml`; credentials
+remain in each native CLI or in the untracked mise environment. A `--model`
+override wins over the profile default. On the default `claude-sub` route,
+`publish` selects Sonnet; an alternative profile keeps its own default unless
+you override it.
 
 Each command writes a typst file to `output/` and the final PDF to
 `output/pdf/<preset>/` (e.g. `output/pdf/research-poster/`). Outputs are

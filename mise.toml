@@ -3,3 +3,7 @@
 # backend worth the weight). node/pnpm live in website/mise.toml.
 [tools]
 typst = "0.15.0"
+
+[tasks.test]
+description = "Test the slopU launcher"
+run = "./tests/test_slopu.py"
