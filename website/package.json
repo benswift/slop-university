@@ -12,6 +12,8 @@
     "lint:fix": "oxlint --fix && pnpm lint:css:fix",
     "lint:css": "stylelint --allow-empty-input \"src/**/*.css\"",
     "lint:css:fix": "stylelint --allow-empty-input --fix \"src/**/*.css\"",
+    "format:content": "oxfmt src/content/news src/content/outputs src/content/pages src/content/grants",
+    "format:check:content": "oxfmt --check src/content/news src/content/outputs src/content/pages src/content/grants",
     "format": "oxfmt .",
     "format:check": "oxfmt --check ."
   },

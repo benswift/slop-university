@@ -719,9 +719,25 @@ convention exists to prevent).
 ## 3. Verify the site
 
 From `website/`:
-`mise exec -- pnpm typecheck && mise exec -- pnpm lint && mise exec -- pnpm run lint:css && mise exec -- pnpm test && mise exec -- pnpm build`
---- all green. The content test cross-checks the seams (output authors and
-schools must exist in the canon), so an entity edit that breaks a reference
+`mise exec -- pnpm format:content && mise exec -- pnpm typecheck && mise exec -- pnpm lint && mise exec -- pnpm run lint:css && mise exec -- pnpm test && mise exec -- pnpm build`
+--- all green.
+
+`format:content` comes FIRST and it WRITES --- it is not a check. Ten news posts
+and an outputs entry drifted out of oxfmt's format between 22 and 25 August
+without anything noticing, because `format:check` sits in no gate: not this
+chain, not `deploy.yml`. Formatting before the checks rather than asserting
+after them is deliberate. A check would go red on drift inherited from an
+EARLIER tick --- a file this run never touched and, under the stage-by-name rule
+below, must not commit --- and a gate a run cannot clear by doing its own job
+correctly is a gate that stops the pipeline. Writing first cannot deadlock: this
+run's files come out formatted, and any inherited drift is fixed in the
+worktree, left unstaged, and discarded by the next run's `reset --hard`.
+
+It is scoped to `news/`, `outputs/`, `pages/` and `grants/` --- exactly the
+wrapper's allowlist --- so it can never format a file this run would then be
+forbidden to commit. Do NOT substitute `pnpm format`, which is repo-wide and
+would do precisely that. The content test cross-checks the seams (output authors
+and schools must exist in the canon), so an entity edit that breaks a reference
 fails here. If the content-layer cache serves a stale collection,
 `rm -rf node_modules/.astro .astro` and rebuild. A red build = no publish:
 revert this run's changes (`git checkout -- .`, remove any new untracked files)
