@@ -1,0 +1,48 @@
+title: Scheduling Fairness at Queue Depth One
+subtitle: >-
+  A Cluster-Computing Job Scheduler Deployed on a Community Makerspace's
+  Single 3D Printer
+authors:
+  - Casimir Beng
+  - Mirela Hanke
+preset: paper
+school: School of Continuous Improvement
+date: 2026-08-25
+publishedAt: "2026-08-25T14:01:15+10:00"
+doi: 10.5555/slop.ji65cu
+summary: >-
+  A paper from the School of Continuous Improvement deploys an
+  exponentially-decayed fair-share job-scheduling algorithm, adapted from
+  classical multi-user computing practice, on a suburban community
+  makerspace's single 3D printer. Over a twelve-week term a weekly Jain's
+  fairness index rises from 0.61 to a plateau near 0.88, while aggregate
+  median queue wait falls by under an hour, the scheduler mostly
+  redistributing wait from casual and first-time visitors onto the site's
+  small population of heavy batch users rather than shortening it overall.
+  An ablation across three priority-weight exponents leaves both the
+  fairness index and the wait-time distribution statistically
+  indistinguishable.
+topic: >-
+  a suburban community makerspace's one 3D printer gets an enterprise-grade
+  fair-share job-scheduling algorithm bolted onto its booking kiosk, so
+  casual hobbyists queue behind a priority formula borrowed from cluster
+  computing
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.614b1z
+  - 10.5555/slop.8rf611
+  - 10.5555/slop.d7bnmg
+  - 10.5555/slop.fbwcgi
+  - 10.5555/slop.iis0cs
+  - 10.5555/slop.m0pulh
+  - 10.5555/slop.rssr33
+  - 10.5555/slop.sd7fi5
+  - 10.5555/slop.wd1e8f
+  - 10.5555/slop.xrw9lu
