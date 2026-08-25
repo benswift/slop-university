@@ -3,8 +3,7 @@ title: A spin studio's leaderboard now decides who teaches next week
 subtitle:
   CADENCE tracks pedal cadence, posture, and how often a rider looks at the
   screen; only one of those moved the roster
-description:
-  A School of Emergent Priorities research poster tracks what an
+description: A School of Emergent Priorities research poster tracks what an
   indoor-cycling franchise's real-time form-score leaderboard rewards once
   class hours start following it, and finds its most responsive component is
   not the one riders come back for.

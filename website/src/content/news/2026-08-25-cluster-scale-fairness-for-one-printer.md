@@ -1,10 +1,8 @@
 ---
 title: Slop University brings cluster-scale fairness to one 3D printer
-subtitle:
-  A twelve-week makerspace deployment lifts a fairness index into
+subtitle: A twelve-week makerspace deployment lifts a fairness index into
   cluster-computing range, while the wait it distributes barely shrinks
-description:
-  A School of Continuous Improvement paper deploys a fair-share
+description: A School of Continuous Improvement paper deploys a fair-share
   job-scheduling algorithm, adapted from forty-year-old multi-user computing
   practice, on a suburban community makerspace's single 3D printer, finding
   it redistributes queue wait across member types more than it reduces it

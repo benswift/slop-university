@@ -1,7 +1,6 @@
 ---
 title: Slop University campaign asks who a Saturday clipboard counted
-subtitle:
-  A ranking-brag poster for the School of Emergent Priorities stages an
+subtitle: A ranking-brag poster for the School of Emergent Priorities stages an
   independent bookshop storytime whose door list is the whole of who heard
   the book
 description:

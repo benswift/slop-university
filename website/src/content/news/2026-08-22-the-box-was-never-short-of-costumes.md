@@ -1,7 +1,6 @@
 ---
 title: A costume-box sign-out app didn't get more kids into costume
-subtitle:
-  Eighteen primary schools formalised Book Week's shared costume tub;
+subtitle: Eighteen primary schools formalised Book Week's shared costume tub;
   booking rates barely moved, but coordinator hours tripled
 description:
   A School of Emergent Priorities poster compares primary schools that

@@ -5,8 +5,7 @@ subtitle:
   glaze question they cannot honestly answer, most often by reciting someone
   else's recipe
 date: 2026-08-25
-description:
-  A paper from the School of Continuous Improvement and the School of
+description: A paper from the School of Continuous Improvement and the School of
   Emergent Priorities codes 161 pottery-guild kiln-slot interviews into a
   taxonomy of the verbal tactics applicants reach for when the honest answer
   is thin.

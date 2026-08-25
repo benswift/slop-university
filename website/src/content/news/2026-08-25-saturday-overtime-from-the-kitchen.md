@@ -4,8 +4,7 @@ subtitle:
   Eighteen grocery stores, 47,216 I'm-here taps, and a roster that counts a
   kitchen-table tap as a car in the bay
 date: 2026-08-25
-description:
-  A School of Continuous Improvement poster finds that 31 per cent of
+description: A School of Continuous Improvement poster finds that 31 per cent of
   overtime-authorising I'm-here taps sat inside a collect bay, and that
   Saturday overtime still followed the undifferentiated tap count.
 output: slop-poster-click-and-collect-bays-t6wyye

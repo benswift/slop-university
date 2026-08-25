@@ -1,7 +1,6 @@
 ---
 title: Slop University surveys what piano practice minutes were doing
-subtitle:
-  A household survey of metronome-app screenshots a music-teachers'
+subtitle: A household survey of metronome-app screenshots a music-teachers'
   association uses to rank its eisteddfod list
 description:
   A School of Emergent Priorities poster finds that most metronome-app

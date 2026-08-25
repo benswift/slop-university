@@ -1,7 +1,6 @@
 ---
 title: Slop University prints a credit on quotes that never return
-subtitle:
-  Sixteen shopping-centre phone-repair kiosks, a 28-day follow-up of
+subtitle: Sixteen shopping-centre phone-repair kiosks, a 28-day follow-up of
   cracked-screen quotes, and a Repairability Credit steered from paper
   issued rather than screens replaced
 description:

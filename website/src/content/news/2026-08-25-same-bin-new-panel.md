@@ -1,7 +1,6 @@
 ---
 title: Slop University finds a golf club's new dispute panel changes nothing
-subtitle:
-  A fourteen-club study finds the switch from an honesty box to forensic
+subtitle: A fourteen-club study finds the switch from an honesty box to forensic
   ball-matching leaves dispute rates and member trust exactly where they
   started
 description:

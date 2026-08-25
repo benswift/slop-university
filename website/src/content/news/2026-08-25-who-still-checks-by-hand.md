@@ -1,7 +1,6 @@
 ---
 title: Slop University's impact report tracks who still checks by hand
-subtitle:
-  The School of Continuous Improvement's 2021 to 2026 report counts the
+subtitle: The School of Continuous Improvement's 2021 to 2026 report counts the
   checkpoints, shifts and partner sites where a person's own estimate still
   runs before the app's number does
 description:
