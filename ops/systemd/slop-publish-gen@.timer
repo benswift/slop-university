@@ -2,14 +2,18 @@
 Description=Trigger publish generator slot %i
 
 [Timer]
-# Every 30 minutes. A slot's own flock makes this self-limiting: generation
-# takes ~20 minutes, so a tick that lands mid-run simply skips and the slot
-# keeps producing roughly two candidates an hour. The interval is a floor on
-# how soon a finished slot starts again, not a promise about pace.
-OnCalendar=*-*-* *:00/30
+# Every ten minutes, which is a floor on how soon a finished slot restarts, not
+# a promise about pace: the slot's own flock makes a mid-run tick skip.
+#
+# The period matters more than it looks. A slot's cycle is
+# period * ceil(duration / period), so with a 30-minute period a 22-minute run
+# cycles every 30 minutes (two candidates an hour) but a 31-minute run cycles
+# every SIXTY --- and at p90 = 29.5 minutes a real share of runs fall off that
+# cliff. Ten minutes keeps the same two an hour for a typical run and degrades
+# smoothly instead: a 31-minute run cycles every 40 minutes, not every 90.
+OnCalendar=*-*-* *:00/10
 # Spread the slots so they do not all hit the model, Replicate and the disk in
-# the same second. Each slot gets its own offset via a drop-in; this is the
-# default for slot 1.
+# the same second.
 RandomizedDelaySec=2min
 # Deliberately NOT Persistent=true. A catch-up burst of missed generator ticks
 # would fire several slots at once after a reboot and queue candidates nobody
