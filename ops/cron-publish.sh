@@ -306,9 +306,23 @@ AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$DEFAULT_FALLBACK_MODEL}"
 # EXIT trap removes the temp copy on every path, including the aborts.
 AGENT_OUT="$(mktemp)"
 AGENT_STATUS=0
+
+# Where the Grok StopFailure hook records how each turn ended. Grok classifies
+# its own API failures into six tokens and hands them to a hook, which is a
+# far better signal than grepping the agent's prose for phrasings lifted out of
+# the binary's strings. See ops/grok-stop-failure-hook.py (and note it does NOT
+# cover auth --- that fails before a session exists, so no hook fires; the
+# regex below is still the only detector for it).
+#
+# A gitignored file under data/, like the other handoff artefacts, and cleared
+# at the top of every attempt so the fallback-model retry reads its OWN verdict
+# rather than the first attempt's.
+STOP_FAILURE_LOG="${PROJECT_DIR}/data/stop-failures.jsonl"
+
 run_agent() {
   local model="$1"
   AGENT_STATUS=0
+  rm -f "$STOP_FAILURE_LOG"
   log "=== publish agent starting at $(date -Iseconds) (profile ${AGENT_PROFILE}, model ${model}) ==="
   (
     cd "$WORKTREE_DIR"
@@ -316,6 +330,7 @@ run_agent() {
     GIT_AUTHOR_EMAIL="press@slop.university" \
     SLOPU_PUBLIC_ONLY=1 \
     SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
+    SLOPU_STOP_FAILURE_LOG="$STOP_FAILURE_LOG" \
     env -u SLOPU_TOKEN \
         -u SLOPU_S3_ACCESS_KEY_ID \
         -u SLOPU_S3_SECRET_ACCESS_KEY \
@@ -334,6 +349,12 @@ run_agent() {
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
   cat "$AGENT_OUT" >> "$LOG_FILE"
   log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
+  # Verbatim, so the first real rate-limit carries its own evidence into the
+  # log rather than only its classification.
+  if [ -s "$STOP_FAILURE_LOG" ]; then
+    log "grok turn-end records:"
+    cat "$STOP_FAILURE_LOG" >> "$LOG_FILE"
+  fi
 }
 run_agent "$AGENT_MODEL"
 
@@ -374,11 +395,52 @@ fi
 # top of that is how two outputs end up claiming one DOI. Anything already
 # staged --- a commit on press, a PDF in the handoff directory --- sends this
 # straight to the abort below, where rescue_and_abort preserves it.
-credits_exhausted() {
+
+# Two detectors, and which one speaks depends on what the run actually had
+# available.
+#
+# The hook is authoritative when it ran: grok classified the failure itself and
+# said so in a field, so there is nothing to pattern-match. The regex survives
+# for the two cases the hook cannot serve --- a Claude profile (claude-sub has
+# no such hook) and a Grok run where the hook did not load at all.
+#
+# That second case is why the hook also records a SessionEnd heartbeat. An
+# absent StopFailure line means "no API error" if the hook was live and "I have
+# no detector" if it was not, and those must not read alike; the heartbeat is
+# what separates them. A silent fallback would be the same bug as the sixteen
+# green ticks that published nothing, one layer down, so it also shouts.
+hook_was_live() { [ -s "$STOP_FAILURE_LOG" ]; }
+
+hook_saw_rate_limit() {
+  # Matching a field this script's sibling writes, not prose xAI can reword ---
+  # the contract is between ops/grok-stop-failure-hook.py and this line.
+  # Capacity errors (503/529) also classify as rate_limit, which is why the
+  # hook records errorDetails verbatim: the retry below is the right response
+  # to both, and the log is what will eventually let the two be told apart.
+  grep -qE '"error": *"rate_limit"' "$STOP_FAILURE_LOG" 2>/dev/null
+}
+
+credits_exhausted_by_regex() {
   # "usage limit reached" happens to be common to both agents; the rest of
   # Grok's phrasings ("out of credits", "usage balance exhausted", "over your
   # spending limit") come from the strings in the grok binary itself.
   grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
+}
+
+credits_exhausted() {
+  case "$AGENT_PROFILE" in
+    grok-*)
+      if hook_was_live; then
+        hook_saw_rate_limit
+      else
+        log "WARNING: the Grok StopFailure hook left no record (not even a SessionEnd heartbeat)."
+        log "  Falling back to stdout matching. Check that ~/.grok/hooks/slopu-stop-failure.json"
+        log "  resolves to ops/grok-hooks/slopu-stop-failure.json and that the script is executable."
+        credits_exhausted_by_regex
+      fi
+      ;;
+    *) credits_exhausted_by_regex ;;
+  esac
 }
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."

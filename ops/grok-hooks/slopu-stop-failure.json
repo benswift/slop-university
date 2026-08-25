@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/ben/projects/slop-university/ops/grok-stop-failure-hook.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/ben/projects/slop-university/ops/grok-stop-failure-hook.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
