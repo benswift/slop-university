@@ -41,10 +41,23 @@ typst).
 
    > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>', `--jpg`,
    > `--resolution <RES>`, `--aspect-ratio <AR>`, and
-   > `--input-image <ref1> ... <refN>`. Output to
-   > `output/{image-folder}/<name>.jpg` (use `cover.jpg` for the cover,
-   > `inline-N.jpg` for inlines, `feature.jpg` for a poster feature). Report the
-   > output path or any errors. Do nothing else.
+   > `--input-image <ref1> ... <refN>`. Run it with an explicit Bash `timeout`
+   > of `600000`. Output to `output/{image-folder}/<name>.jpg` (use `cover.jpg`
+   > for the cover, `inline-N.jpg` for inlines, `feature.jpg` for a poster
+   > feature). Report the output path or any errors. Do nothing else.
+
+   **The explicit timeout is load-bearing --- do not drop it.**
+   `styled-image-gen` already survives Nano Banana Pro's capacity errors on its
+   own: it retries transient failures (`--retries`, 15s base backoff) and falls
+   back to `banana-2`. But that recovery legitimately takes minutes --- 15s +
+   30s of backoff plus two or three generations --- and Bash's DEFAULT timeout
+   is 120s, which kills the tool part-way through its own retry and hands the
+   subagent a bare failure. The agent then re-runs the whole slot from scratch.
+   Measured across three consecutive publish ticks, that turned an image phase
+   that should cost about one call (~40s, since the slots run in parallel) into
+   6--8 minutes for three or four images: three land inside a minute, then a ~6
+   minute gap. Ten minutes is not a target, it is headroom; a healthy call still
+   returns in well under a minute.
 
    Pass the aspect ratio explicitly --- `16:9`, `9:16`, `1:1`, and `3:4` are
    available. The calling preset declares which ratio each image slot uses; the
