@@ -269,8 +269,18 @@ rescue_and_abort() {
 # following the skill. REPLICATE_API_TOKEN deliberately stays: image generation
 # genuinely needs it, so bound that one with a spend cap on the key instead.
 PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
+# The rest of a 2A run's enumerable axes --- finding-shape, setting,
+# topic-sentence frame, title form, and the lead author (with them, the
+# school). Drawn out here for the same reason the preset is: the skill used to
+# infer each one by sampling the published corpus, which converges (the sample's
+# newest entries read as exemplars) and correlates concurrent slots (two runs
+# reading one corpus infer one dominant value and steer to one alternative).
+# See ops/draw-axes.py. Multi-line by design; it goes into the prompt verbatim.
+AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$WORKTREE_DIR")"
 PUBLISHED_AT="$(date -Iseconds)"
 log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
+log "=== drawn axes ==="
+printf '%s\n' "$AXES" >> "$LOG_FILE"
 
 # Which agent publishes. The run goes through the dotfiles dispatcher rather
 # than a hardcoded CLI, so switching the press from one agent to another is a
@@ -345,7 +355,9 @@ run_agent() {
       --profile "$AGENT_PROFILE" \
       --model "$model" \
       --bypass-permissions \
-      "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
+      "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; for a 2A output, compose the topic to FIT them, and do not infer, count or override any of them:
+${AXES}
+Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
   cat "$AGENT_OUT" >> "$LOG_FILE"
   log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
@@ -490,9 +502,11 @@ fi
 # adding a scheme is a human action), the heroes of the news posts that
 # announce no output (grant awards and institutional notices, under
 # src/assets/heroes/news/), grown pages, and the canon it edits (roster,
-# schools, headshots, canon/heroes for headshot-derived profile heroes, and
-# burnt-shapes.yml --- the append-only ledger of retired finding-shapes the
-# 2A dedup step maintains).
+# schools, headshots, and canon/heroes for headshot-derived profile heroes).
+# canon/burnt-shapes.yml is deliberately NOT here any more: it was the ledger
+# the 2A dedup appended to, and since the finding-shape became a draw
+# (ops/draw-axes.py) it is a static exclusion list the wrapper reads and no run
+# writes. That removed 2A's only shared-file write.
 # Note the tick may only touch heroes UNDER outputs/ and news/ --- the
 # hand-built index and homepage heroes elsewhere in src/assets/heroes are
 # deliberately excluded. The denylist carves the one out-of-fiction page
@@ -501,7 +515,7 @@ fi
 # his portrait and profile hero sit INSIDE the allowlisted canon/headshots/ and
 # canon/heroes/ trees, and they are the one likeness in the project worked from
 # a real person's photographs. The tick never regenerates them.
-ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|burnt-shapes\.yml|headshots/|heroes/))'
+ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level

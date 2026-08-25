@@ -1,9 +1,16 @@
-# Living ledger of burnt finding-shapes --- study designs the corpus has
-# overused to the point of self-parody. The publish skill's finding-shape dedup
-# (skills/publish/SKILL.md, rung 2A) reads this before composing a topic and
-# appends an entry when a shape not yet listed dominates its dedup sample.
-# Append-only: never rewrite or remove an entry. One entry per shape: the date
-# it was retired and a one-line description of the design.
+# Retired finding-shapes --- study designs the corpus overused to the point of
+# self-parody. A STATIC exclusion list, read by `ops/draw-axes.py` when it draws
+# a run's finding-shape from `canon/axes.yml`. No publish run appends to this
+# file, and no publish run may commit it: a uniform draw cannot overuse a shape
+# by construction, so there is nothing for a run to burn. Retiring a shape is a
+# human decision, made from the corpus with hindsight.
+#
+# `excludes:` names the `canon/axes.yml` finding-shape ids this entry retires,
+# and is what the drawer acts on --- an entry with no `excludes:` describes a
+# design that was never a pool value (the pool cannot draw it, and the wrapper
+# passes every entry's `shape:` to the run as prose so a composed topic does not
+# reinvent it). Never rewrite or remove an entry: the ledger is the record of
+# what the corpus already spent.
 - added: 2026-08-16
   shape:
     capability rose while human quality fell (negative correlation, r ≈ −0.7)
@@ -20,6 +27,7 @@
     discrete-event simulation) run wholesale over a domestic or community
     object, with its output adopted as a tolerance or specification
 - added: 2026-08-21
+  excludes: [instrument-validation]
   shape:
     an automated instrument, sensor, or scoring log validated against an
     independent manual observation or ground-truth check (does the

@@ -1,0 +1,159 @@
+# The enumerable axes of a 2A research output, drawn OUTSIDE the model.
+#
+# `ops/draw-axes.py` reads this file, draws one value per axis with OS
+# randomness, and the cron wrapper passes the draw on the /publish invocation
+# line --- exactly as `ops/select-preset.sh` already does for the preset. The
+# skill composes a topic that FITS the drawn values; it never infers them.
+#
+# Why a draw and not the agent's judgement: the old dedup asked the agent to
+# sample 20 published entries, infer the dominant value on each axis and steer
+# away from it. That is sampling-based inference standing in for a draw, and it
+# fails twice. It converges (the sample's newest entries read as exemplars ---
+# one topic-sentence frame went from 0% to 93% of weekly output that way), and
+# it collides under concurrency (two slots reading the same corpus infer the
+# same dominant value and steer to the same alternative). A uniform draw cannot
+# overuse a value by construction and two slots draw independently.
+#
+# Weights are relative within an axis and default to 1. They exist only where
+# the doctrine wants a value present but rationed, never to encode a house
+# style --- a value that should be rare is weighted down, not deleted.
+#
+# The lead author / school slot is NOT here: it is drawn from `roster.yml`
+# against the live attribution counts, so it needs no static pool.
+#
+# To retire a finding-shape, add it to `burnt-shapes.yml` (naming this file's
+# id in its `excludes:`); the drawer will stop drawing it. Do not delete pool
+# entries to retire them --- the ledger is where that decision is recorded.
+
+finding-shape:
+  - id: taxonomy
+    value: a taxonomy or framework that sorts the object into kinds
+  - id: qualitative
+    value: a qualitative or interview study, reported in participants' terms
+  - id: survey
+    value: a survey of a population, reported as distributions
+  - id: instrument-validation
+    value:
+      an instrument-validation study --- does the measure measure what it
+      claims
+  - id: null-result
+    value:
+      a null result reported as null, with no salvage and no "further work
+      is needed"
+  - id: failed-replication
+    value:
+      a failed replication of an earlier Slop University finding (the canon
+      failing to reproduce itself is good satire)
+  - id: systems-paper
+    value: a systems or tool paper --- something was built, here is how it works
+  - id: quasi-experiment
+    value: a quasi-experiment exploiting a naturally occurring cutoff
+  - id: case-study
+    value:
+      a single-site case study told in earnest case-method register, with a
+      teaching note's air
+  - id: maturity-model
+    value: a maturity model with named levels an organisation is scored against
+  - id: quadrant
+    value:
+      a 2x2 quadrant framework with the four cells named (also a fine poster
+      chart)
+
+title-form:
+  - id: epigram
+    # Burnt as a default, not as a form: roughly one run in four.
+    weight: 2
+    value:
+      the laconic ironic epigram ("Registered, Not Standing"; "Blank Means
+      Yes")
+  - id: colon
+    value: the overlong colon title, scene-setting phrase then a formal subtitle
+  - id: question
+    value: the earnest question title, ending in a question mark
+  - id: towards
+    value: the "Towards ..." title, promising a programme rather than a result
+  - id: acronym
+    value: the acronym-named system paper, the acronym expanded in the subtitle
+  - id: gerund
+    value: the gerund methodological title ("Measuring ...", "Rethinking ...")
+  - id: declarative
+    value: the plain declarative-sentence title, stating the finding flatly
+
+setting:
+  - id: domestic
+    weight: 3
+    value: domestic life --- the home, the kitchen, the yard, bin night
+  - id: retail
+    weight: 3
+    value:
+      shops and commerce --- the supermarket, the strip-mall trader, the food
+      truck, loyalty cards, the EFTPOS terminal
+  - id: workplace
+    weight: 3
+    value:
+      working life --- the open-plan office, the shift roster, the stand-up,
+      the performance review, franchise onboarding
+  - id: transit
+    weight: 3
+    value: transit and the street --- the bus stop, the car park, the school run
+  - id: online
+    weight: 3
+    value:
+      online and digital life --- the group chat, the neighbourhood forum, the
+      booking app, the review score
+  - id: club
+    weight: 3
+    value:
+      club and hobby life --- the sports club, the shed, the choir, the
+      allotment, the raffle
+  - id: civic
+    # One flavour, not the house style.
+    weight: 2
+    value:
+      civic-administrative life --- council, shire, a state scheme, compliance
+      paperwork (vary the jurisdictional flavour, or keep it placeless)
+  - id: campus
+    # In the pool, never the default: most readers have never sat in a lecture
+    # theatre and the joke has to land for them too.
+    weight: 2
+    value:
+      campus life as ordinary furniture --- the coffee queue, the pigeons, the
+      tea-room biscuits
+
+topic-frame:
+  # The frame of the one-line steering topic: which element is its grammatical
+  # subject. Varying the noun inside a fixed frame is not varying the frame.
+  - id: institution-first
+    value:
+      institution-first --- a unit, office or committee is the subject, doing
+      the governing
+  - id: instrument-first
+    value:
+      instrument-first --- the measure, index, register or scorer is the
+      subject, doing something to the world
+  - id: person-first
+    value:
+      person-first --- a role-holder (the duty officer, the volunteer
+      coordinator; a role, never a canon name) is the subject
+  - id: question-first
+    value: question-first --- the line is the question the work sets out to answer
+  - id: verb-first
+    value:
+      verb-first --- an infinitive or imperative, phrased as a mandate or aim
+      ("establish ...", "to determine whether ...")
+  - id: number-first
+    value:
+      number-first --- the line opens on the quantity, interval or threshold,
+      and the object arrives after it
+  - id: concessive
+    value:
+      concessive --- "although / despite X, Y", the tension stated before the
+      object
+  - id: object-plain
+    # One object-first frame is burnt outright --- "the [object rendered in
+    # cinematic detail], where a [authority]'s [instrument] [defines/reports] X
+    # as Y" --- and is deliberately absent from this pool. This is its plain
+    # cousin, which stays.
+    value:
+      object-first, plain --- a bare noun phrase naming the object, with no
+      scene-setting relative clause hung off it

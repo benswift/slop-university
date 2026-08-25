@@ -71,6 +71,13 @@ Slop University is a persistent fiction: its people, schools, and units live in
 - `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
   sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
   run.
+- `canon/axes.yml` + `canon/burnt-shapes.yml` --- the draw pools for a publish
+  run's enumerable choices (finding-shape, setting, topic-sentence frame, title
+  form) and the list of finding-shapes retired by overuse. `ops/draw-axes.py`
+  draws from them outside the model and the cron wrapper passes the result on
+  the `/publish` invocation line, alongside the preset `ops/select-preset.sh`
+  draws. Both files are static doctrine: a run reads neither and commits
+  neither.
 - `canon/grants.yml` --- the internal funding schemes and prizes (all funders
   are Slop University bodies; no external funder, real or invented). Never
   invent a scheme inside a run; award events reference schemes by id and live in

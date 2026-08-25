@@ -115,8 +115,8 @@ site content rather than inventing institutional facts.
   figures, or rankings --- those are verifiable and off-limits.
 
 When a run features outputs, prefer a spread of schools/authors over stacking
-the same author, and lean toward under-represented schools (the publish flow's
-imbalance steering, applied to what the brochure showcases).
+the same author, and lean toward the schools and researchers the corpus leans on
+least.
 
 ## The genre's structural skeleton
 
