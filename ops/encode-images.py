@@ -29,7 +29,8 @@ Usage:
   ops/encode-images.py encode thumb     --source F --id ID   # → thumbs (no og: outputs og from hero)
   ops/encode-images.py backfill [--write-frontmatter]        # all existing entries
 
-`encode` stages under data/pending-uploads/img/ (override: --pending-dir) and
+`encode` stages under data/pending-uploads/img/ --- or $SLOPU_PENDING_DIR/img
+when a generator slot set one (override: --pending-dir) --- and
 prints the dims snippet to record in the entry's frontmatter. `backfill`
 iterates every outputs entry and own-hero news post, encodes from the committed
 assets (AVIF→AVIF generational loss accepted: these are 2K+ masters going to
@@ -38,6 +39,7 @@ smaller display rungs), reports orphans in both directions, and with
 """
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -72,7 +74,20 @@ AVIFENC_ARGS = [
     "cq-level=28",
 ]
 
-DEFAULT_PENDING = REPO / "data" / "pending-uploads" / "img"
+# Where a run's encoded rungs wait for the wrapper to upload them. Resolved
+# against the repo, never the cwd --- the agent runs the site checks from
+# website/, and a cwd-relative default is what put three ticks' assets in
+# website/data/pending-uploads/ and threw the runs away.
+#
+# SLOPU_PENDING_DIR overrides it. A concurrent generator slot sets it to its own
+# data/pending-uploads/<run-id>/, so two slots encoding at the same moment
+# cannot see or clobber each other's rungs; unset, this is the serial
+# pipeline's single staging root, unchanged.
+DEFAULT_PENDING = (
+    Path(os.environ["SLOPU_PENDING_DIR"]) / "img"
+    if os.environ.get("SLOPU_PENDING_DIR")
+    else REPO / "data" / "pending-uploads" / "img"
+)
 
 OUTPUTS_DIR = REPO / "website" / "src" / "content" / "outputs"
 NEWS_DIR = REPO / "website" / "src" / "content" / "news"

@@ -1,0 +1,17 @@
+[Unit]
+Description=Trigger the Slop University publish lander
+
+[Timer]
+# Every five minutes. Landing costs a build plus an upload and a push --- two to
+# three minutes --- against an arrival rate of a few candidates an hour, so the
+# lander stays comfortably ahead of the queue and a finished candidate is live
+# within minutes rather than waiting on an hourly boundary.
+OnCalendar=*-*-* *:00/5
+RandomizedDelaySec=30s
+# Persistent=true would fire an immediate catch-up run on every daemon restart.
+# Harmless here (the lander is idempotent and skips when the queue is empty) but
+# unnecessary: the next tick is five minutes away.
+Unit=slop-publish-land.service
+
+[Install]
+WantedBy=timers.target

@@ -26,7 +26,31 @@ Two slash commands:
   the ANU template. No rewriting; small editorial calls for heading hierarchy /
   lockup / cover theme only.
 
-`bin/slopu` is the common headless entry point for these commands and
+### The publish pipeline
+
+`/publish` runs unattended on a timer. Two orchestrations share one set of
+safety-critical steps in `ops/publish-lib.sh` (base selection, commit validation
+against the allowlist/denylist/private-brand firewall, the entry-to-asset
+pairing check, the agent-failure classifiers):
+
+- `ops/cron-publish.sh` --- the serial pipeline: one process generates one
+  action and lands it, holding the lock throughout. Currently the live path.
+- `ops/publish-generate.sh <slot>` + `ops/publish-land.sh` --- the concurrent
+  split. Generators run in their own worktrees, never touch origin, never upload
+  and never push; each leaves a `press-gen-<run-id>` branch plus assets in
+  `data/pending-uploads/<run-id>/` and one marker file in `data/candidates/`.
+  One serial lander claims the oldest candidate, rebases it onto current
+  `origin/main`, runs the one authoritative build, validates, uploads and
+  pushes. Slot 1 runs the whole gap ladder; slots 2+ are pinned to 2A, because
+  the gardening rungs are gated on shared state and two slots reading it pick
+  the same gap.
+
+`ops/publish-selftest.sh` drives both against a throwaway clone with a fake
+agent standing in for the model --- run it after touching any of them. The
+pipeline has no deploy step: `ops/cron-publish.sh` is invoked from this
+checkout, so an edit is live at the next tick.
+
+`bin/slopu` is the common headless entry point for the generation commands and
 `/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the
 native Claude Code subscription. The generation commands retain `--effort max`,
 while publish retains its `sonnet` model default on that route; an alternative

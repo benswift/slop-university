@@ -103,6 +103,16 @@ already coherent.
 Whichever rung you land on, do **only** that one action. Record which action you
 chose --- the commit message names it (2G makes no commit; see below).
 
+**A 2A-only slot overrides the ladder.** When the invocation says this is a
+2A-only generator slot, take rung 2A regardless of what the ladder above would
+have chosen, and take none of 2B--2I. Concurrent slots must not garden: the
+gardening rungs are gated on shared state --- 2G if the socials are due, 2H if
+the newsroom is due, 2I picks "the researcher in no grant's grantees" --- so two
+slots reading that state pick the same gap and produce two files that merge
+perfectly and are semantically duplicates. Exactly one slot keeps the full
+ladder, and it is not this one. If 2A itself cannot proceed, do nothing and
+exit.
+
 **Attribution (applies when 2A is chosen).** The wrapper draws the lead author
 and, with them, the output's school, weighted against the live attribution
 counts so the draw corrects imbalance on its own. Use the drawn pair; do not
@@ -433,31 +443,40 @@ verifiable numbers). Then:
 
 ### Stage assets into website/
 
-- Stage the final PDF into the staging dir **at the repo root**, downsampling it
-  on the way in --- never copy it verbatim. The compiled PDF embeds imagery at
-  ~360 PPI and runs 1--5 MB; the served copy only needs screen resolution.
+- Stage the final PDF into the staging dir, downsampling it on the way in ---
+  never copy it verbatim. The compiled PDF embeds imagery at ~360 PPI and runs
+  1--5 MB; the served copy only needs screen resolution.
 
-  `cd` to the repo root first and keep both paths root-relative, or use absolute
-  paths. **Do not run this from `website/`.** A bare `data/pending-uploads/…`
-  resolved against `website/` silently creates `website/data/pending-uploads/`,
-  the wrapper finds nothing to upload, and the whole tick is rescued and thrown
-  away --- this went wrong for a run of ticks, so it is worth the care:
+  **Resolve the staging dir once, as an absolute path, and use it everywhere:**
 
-  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile=./data/pending-uploads/<run-id>.pdf ./output/pdf/<group>/<run-id>.pdf`
+  ```sh
+  STAGING="${SLOPU_PENDING_DIR:-$(git rev-parse --show-toplevel)/data/pending-uploads}"
+  mkdir -p "$STAGING"
+  ```
+
+  A concurrent generator slot sets `SLOPU_PENDING_DIR` to its own
+  `data/pending-uploads/<run-id>/`, so two runs staging at the same moment
+  cannot see or clobber each other's files; unset, this is the serial pipeline's
+  single staging root. Either way it is ABSOLUTE, which is the point: a bare
+  `data/pending-uploads/…` resolved against `website/` silently creates
+  `website/data/pending-uploads/`, the wrapper finds nothing to upload, and the
+  whole tick is rescued and thrown away. That went wrong for a run of ticks, so
+  use `$STAGING` and never a relative path.
+
+  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile="$STAGING/<run-id>.pdf" ./output/pdf/<group>/<run-id>.pdf`
 
   (~80% smaller on the image-heavy formats, visually identical at reading size;
   the PDF metadata title survives the round-trip). The full-resolution original
-  stays in gitignored `output/pdf/<group>/`. Create the staging dir if it is
-  missing (`mkdir -p ./data/pending-uploads`), and confirm the file landed there
-  before moving on --- `ls ./data/pending-uploads/` from the repo root.
+  stays in gitignored `output/pdf/<group>/`. Confirm the file landed before
+  moving on --- `ls "$STAGING"`.
 
   PDFs are **not committed** and do not live under `website/public/` --- they
   are served from the bucket at `pdf.slop.university` (why:
-  `website/src/lib/pdfs.ts`). The root `data/pending-uploads/` is the gitignored
-  handoff channel: you stage the file there, and the cron wrapper uploads it and
-  only then pushes. Same trust split as the social post --- the agent composes,
-  the wrapper publishes --- and it is what makes a failed upload abort the tick
-  rather than publish an entry pointing at a missing object. Never write to
+  `website/src/lib/pdfs.ts`). The staging dir is the gitignored handoff channel:
+  you stage the file there, and the wrapper uploads it and only then pushes.
+  Same trust split as the social post --- the agent composes, the wrapper
+  publishes --- and it is what makes a failed upload abort the tick rather than
+  publish an entry pointing at a missing object. Never write to
   `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
 
   The key is the run id, so nothing records a path: the entry carries no `pdf`
@@ -466,16 +485,16 @@ verifiable numbers). Then:
 - **Dark sibling (poster-format runs: `research-poster`, `marketing-poster`)**
   --- the from-preset step also compiled `output/pdf/<group>/<run-id>-dark.pdf`
   (same source, `--input theme=dark`); stage it through the identical gs
-  downsample → `./data/pending-uploads/<run-id>-dark.pdf` (repo root, as above)
-  and set `pdfDark: true` in the outputs entry. The signage endpoints prefer it;
-  every other surface (landing page, DOI, downloads) keeps using the light PDF.
-  The thumbnail and hero are rendered from the light variant as before.
+  downsample → `"$STAGING/<run-id>-dark.pdf"` and set `pdfDark: true` in the
+  outputs entry. The signage endpoints prefer it; every other surface (landing
+  page, DOI, downloads) keeps using the light PDF. The thumbnail and hero are
+  rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF):
   `typst compile --root . --pages 1 --format png --ppi 144 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
-  then encode its rung ladder into the staging tree (run from the REPO ROOT,
-  like the PDF staging step --- the encoder writes relative to
-  `data/pending-uploads/`):
+  then encode its rung ladder into the staging tree (the encoder resolves its
+  own destination --- the repo's staging dir, or `$SLOPU_PENDING_DIR` when a
+  generator slot set one --- so it is cwd-independent):
   `ops/encode-images.py encode thumb --source /tmp/<run-id>-thumb.png --id <run-id>`.
   The command prints a `thumb:` dims snippet --- copy it verbatim into the
   outputs entry's frontmatter. Nothing is committed under `website/src/assets/`;
@@ -503,8 +522,8 @@ collection, the outputs page charts it, and the People/Schools pages join on its
 `authors` and `school`.
 
 **Files this action commits:** the news post and the outputs entry (with
-`hero:`/`thumb:` dims). The PDF and every image go to `data/pending-uploads/`,
-never into the commit (see §4).
+`hero:`/`thumb:` dims). The PDF and every image go to `$STAGING`, never into the
+commit (see §4).
 
 ---
 
@@ -632,8 +651,8 @@ The post announces no output, so it has no output hero to inherit: generate its
 own, per **News heroes** below.
 
 **Files:** the one news post (with its `hero:` dims), its staged hero rungs in
-`data/pending-uploads/img/heroes/news/`, plus `canon/roster.yml` only for a
-title-changing appointment.
+`$STAGING/img/heroes/news/`, plus `canon/roster.yml` only for a title-changing
+appointment.
 
 ## 2I. Award a grant or prize
 
@@ -670,7 +689,7 @@ inherit, and it generates its own per **News heroes** below.
   award's details box from the entry, so the body needn't restate every field.
 
 **Files:** the grant entry, the news post (with its `hero:` dims), and the
-post's staged hero rungs in `data/pending-uploads/img/heroes/news/`.
+post's staged hero rungs in `$STAGING/img/heroes/news/`.
 
 ---
 
@@ -702,6 +721,15 @@ convention exists to prevent).
 From `website/`:
 `mise exec -- pnpm format:content && mise exec -- pnpm typecheck && mise exec -- pnpm lint && mise exec -- pnpm run lint:css && mise exec -- pnpm test && mise exec -- pnpm build`
 --- all green.
+
+**When `SLOPU_SKIP_BUILD` is set, drop the final `pnpm build`** and run the rest
+of the chain exactly as written. A concurrent generator slot sets it: the build
+is the expensive step (~2 minutes cold) and the lander runs the one
+authoritative build for every candidate it lands, so running it here too would
+put it on the parallel path N times over. The cheap checks (about nine seconds
+all up) stay, so a candidate reaching the lander with a red build is rare ---
+and when it happens the lander rescues that candidate for a human and takes the
+next one, rather than blocking the queue.
 
 `format:content` comes FIRST and it WRITES --- it is not a check. Ten news posts
 and an outputs entry drifted out of oxfmt's format between 22 and 25 August
@@ -744,10 +772,10 @@ the action:
   `website/src/content/news/<date>-<slug>.md` (with `hero:` dims).
 
 Note what is **absent** from every set: the PDFs and the images. They stay in
-gitignored `data/pending-uploads/` (PDFs at its root, image rungs under `img/`),
-which the wrapper validates and uploads to the buckets before it pushes.
-Committing one --- or anything under `website/src/assets/` --- is a validation
-failure, not a tidiness matter.
+the gitignored staging dir (`$STAGING`: PDFs at its root, image rungs under
+`img/`), which the wrapper validates and uploads to the buckets before it
+pushes. Committing one --- or anything under `website/src/assets/` --- is a
+validation failure, not a tidiness matter.
 
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,

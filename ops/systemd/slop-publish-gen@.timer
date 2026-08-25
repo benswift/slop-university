@@ -1,0 +1,20 @@
+[Unit]
+Description=Trigger publish generator slot %i
+
+[Timer]
+# Every 30 minutes. A slot's own flock makes this self-limiting: generation
+# takes ~20 minutes, so a tick that lands mid-run simply skips and the slot
+# keeps producing roughly two candidates an hour. The interval is a floor on
+# how soon a finished slot starts again, not a promise about pace.
+OnCalendar=*-*-* *:00/30
+# Spread the slots so they do not all hit the model, Replicate and the disk in
+# the same second. Each slot gets its own offset via a drop-in; this is the
+# default for slot 1.
+RandomizedDelaySec=2min
+# Deliberately NOT Persistent=true. A catch-up burst of missed generator ticks
+# would fire several slots at once after a reboot and queue candidates nobody
+# asked for; the next scheduled tick is soon enough.
+Unit=slop-publish-gen@%i.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,26 @@
+[Unit]
+Description=Slop University: publish generator slot %i (produce one candidate; never pushes)
+Documentation=file:///home/ben/projects/slop-university/ops/publish-generate.sh
+# No `After=network-online.target` here: that is a system target, so in the
+# user manager it silently resolves to nothing and orders nothing. The real
+# guard is the ExecStartPre below.
+#
+# A generator touches nothing outside its own worktree, its own staging
+# directory and its own candidate branch --- so a failed slot costs one
+# candidate, not the pipeline. It still alerts, because a slot that fails every
+# time is how the room quietly stops seeing new work: the dotfiles oncall
+# pattern files a deduped `nb` todo (with this unit's journal tail in the body)
+# on a non-zero exit and clears it on the next success. The wrapper only has to
+# exit non-zero and say why on stdout --- that is what its RESULT= line is for.
+OnFailure=unit-oncall@%n.service
+OnSuccess=unit-oncall-clear@%n.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/home/ben/.dotfiles/bin/wait-for-network
+WorkingDirectory=/home/ben/projects/slop-university
+ExecStart=/home/ben/projects/slop-university/ops/publish-generate.sh %i
+# Safety net: don't kill orphaned background tasks at the 600s print-mode
+# ceiling; TimeoutStartSec is the outer bound.
+Environment=CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
+TimeoutStartSec=2h
