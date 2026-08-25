@@ -3,8 +3,7 @@ title: Slop University writes next week's housekeeping roster from a door hanger
 subtitle:
   Fourteen hotels, a two-by-two of the do-not-disturb hanger against actual
   servicing, and a shift rule that retires the hanger
-description:
-  A School of Emergent Priorities poster finds that rostering hotel
+description: A School of Emergent Priorities poster finds that rostering hotel
   housekeeping from a hanger-by-servicing quadrant brings hangers down and
   leaves rooms unmade.
 date: 2026-08-25
