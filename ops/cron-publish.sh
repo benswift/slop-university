@@ -272,10 +272,17 @@ PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
 PUBLISHED_AT="$(date -Iseconds)"
 log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
 
+# Which agent publishes. The run goes through the dotfiles dispatcher rather
+# than a hardcoded CLI, so switching the press from one agent to another is a
+# profile name, not an edit to the invocation below. grok-sub runs Grok Build
+# on the SuperGrok subscription; claude-sub is the previous behaviour.
+AGENT_PROFILE="${SLOPU_AGENT_PROFILE:-grok-sub}"
+AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
+
 # --- The model the unattended run generates on, pinned here rather than
-# inherited. The agent is a plain `claude` child of this wrapper, so with no
-# --model it takes whatever ~/.claude/settings.json says --- which is the
-# INTERACTIVE default, whatever was last chosen with /model. The press
+# inherited. With no --model the runner takes its own default --- for Claude
+# that is ~/.claude/settings.json, i.e. the INTERACTIVE default, whatever was
+# last chosen with /model. The press
 # transcripts show the pipeline riding that setting through four silent
 # changes (sonnet to late July, opus to 7 Aug, sonnet to the 12th, opus to the
 # 17th, fable after), not one of them a decision about this pipeline. On
@@ -284,8 +291,15 @@ log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
 # three seconds in on "You're out of usage credits" while opus, sonnet and
 # haiku all still answered. Pinning makes the hourly run's model a property of
 # the pipeline; the env overrides ride out a bad limit day without an edit.
-AGENT_MODEL="${SLOPU_AGENT_MODEL:-sonnet}"
-AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-haiku}"
+#
+# Model names are per-agent, so the pin has to be too: pointing a Grok profile
+# at "sonnet" would fail every tick identically.
+case "$AGENT_PROFILE" in
+  grok-*) DEFAULT_MODEL="grok-4.6"; DEFAULT_FALLBACK_MODEL="grok-4.5" ;;
+  *)      DEFAULT_MODEL="sonnet";   DEFAULT_FALLBACK_MODEL="haiku" ;;
+esac
+AGENT_MODEL="${SLOPU_AGENT_MODEL:-$DEFAULT_MODEL}"
+AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$DEFAULT_FALLBACK_MODEL}"
 
 # Captured rather than appended straight to the log, because the classifiers
 # below have to read what the agent said. It lands in the log either way; the
@@ -295,7 +309,7 @@ AGENT_STATUS=0
 run_agent() {
   local model="$1"
   AGENT_STATUS=0
-  log "=== publish agent starting at $(date -Iseconds) (model ${model}) ==="
+  log "=== publish agent starting at $(date -Iseconds) (profile ${AGENT_PROFILE}, model ${model}) ==="
   (
     cd "$WORKTREE_DIR"
     GIT_AUTHOR_NAME="Slop University Press" \
@@ -312,10 +326,11 @@ run_agent() {
         -u SLOPU_IMG_SECRET_ACCESS_KEY \
         -u SLOPU_IMG_ADMIN_ACCESS_KEY_ID \
         -u SLOPU_IMG_ADMIN_SECRET_ACCESS_KEY \
-    /home/ben/.local/bin/claude \
+    "$AGENT_RUN" \
+      --profile "$AGENT_PROFILE" \
       --model "$model" \
-      --dangerously-skip-permissions \
-      -p "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
+      --bypass-permissions \
+      "/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
   cat "$AGENT_OUT" >> "$LOG_FILE"
   log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
@@ -334,10 +349,20 @@ run_agent "$AGENT_MODEL"
 # design and needs a human to clear it, whereas an expired credential un-breaks
 # itself the moment the human logs in --- blocking would turn a one-step fix
 # into two, and the failed unit already carries the alert.
-if grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in' "$AGENT_OUT"; then
+#
+# Each agent says this its own way. Grok's two signatures were captured by
+# running it with no credential ("Not signed in.") and with a mangled
+# auth.json ("Unauthorized (401) ... Invalid or expired credentials"); the
+# Claude patterns are the originals, still live whenever the profile is a
+# Claude one.
+if grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in|not signed in|invalid or expired credentials|unauthorized \(401\)' "$AGENT_OUT"; then
+  case "$AGENT_PROFILE" in
+    grok-*) RELOGIN="grok login --device-auth (on weddle, redeeming the code in a browser elsewhere)" ;;
+    *)      RELOGIN="claude /login" ;;
+  esac
   log "AGENT AUTH FAILURE --- the unattended agent could not authenticate. No work was attempted."
-  log "  Fix: run \`claude\` interactively as ben, complete /login, and let the next tick run."
-  rescue_and_abort "failed-auth" "agent could not authenticate; a human must run: claude /login" 3
+  log "  Fix: run: ${RELOGIN}, then let the next tick run."
+  rescue_and_abort "failed-auth" "agent could not authenticate; a human must run: ${RELOGIN}" 3
 fi
 
 # Out of usage credits is a third thing again --- not a dead credential (the
@@ -350,7 +375,10 @@ fi
 # staged --- a commit on press, a PDF in the handoff directory --- sends this
 # straight to the abort below, where rescue_and_abort preserves it.
 credits_exhausted() {
-  grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit" "$AGENT_OUT"
+  # "usage limit reached" happens to be common to both agents; the rest of
+  # Grok's phrasings ("out of credits", "usage balance exhausted", "over your
+  # spending limit") come from the strings in the grok binary itself.
+  grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
 }
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
