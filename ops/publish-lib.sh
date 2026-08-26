@@ -423,13 +423,20 @@ AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$(fallback_model_for_profile
 # dead as grok-4.6, so no model retry could have rescued a single one of them.
 #
 # When the failure is that hard exhaustion, the only move left is a different
-# account. Falling through to claude-sub also means the outage needs no human:
-# the pipeline stays pointed at grok-sub, each tick spends three seconds proving
-# the balance is still gone, and the run publishes on Claude meanwhile. The tick
-# Grok's balance returns, it is generating on Grok again with nothing reverted.
+# account. Falling through also means the outage needs no human: the pipeline
+# stays pointed at its usual route, each tick spends three seconds proving that
+# account is still dry, and publishes on the other meanwhile. The tick the
+# balance returns, it is back on the usual route with nothing reverted.
+#
+# Symmetric, because the two accounts fail the same way and neither is the
+# reliable one. Grok Build ran its balance dry on 2026-08-26 and cost eleven
+# ticks; the Claude subscription hit its WEEKLY limit on 2026-08-24 and cost
+# twenty-four, a whole day, resetting only the next morning. Either alone is a
+# single point of failure; either as the other's understudy is not.
 case "$AGENT_PROFILE" in
-  grok-*) DEFAULT_FALLBACK_PROFILE="claude-sub" ;;
-  *)      DEFAULT_FALLBACK_PROFILE="" ;;
+  grok-*)   DEFAULT_FALLBACK_PROFILE="claude-sub" ;;
+  claude-*) DEFAULT_FALLBACK_PROFILE="grok-sub" ;;
+  *)        DEFAULT_FALLBACK_PROFILE="" ;;
 esac
 AGENT_FALLBACK_PROFILE="${SLOPU_AGENT_FALLBACK_PROFILE:-$DEFAULT_FALLBACK_PROFILE}"
 
@@ -604,7 +611,14 @@ credits_exhausted_by_regex() {
   # "usage limit reached" happens to be common to both agents; the rest of
   # Grok's phrasings ("out of credits", "usage balance exhausted", "over your
   # spending limit") come from the strings in the grok binary itself.
-  grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
+  #
+  # "hit your <period> limit" is the Claude subscription's own wording and was
+  # missing until it cost a full day: on 2026-08-24 all twenty-four ticks died
+  # on "You've hit your weekly limit - resets Aug 25, 2am", which matched
+  # nothing here ("hit", not "exceeded") and so reported twenty-four times as a
+  # failed generation. The period is left open rather than enumerated, because
+  # the list of billing windows is theirs to change, not ours to guess.
+  grep -qiE "out of usage credits|usage limit reached|(exceeded|hit) your [a-z ]*limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
 }
 
 # The account balance is gone, as opposed to one model's window being shut.
@@ -615,9 +629,16 @@ credits_exhausted_by_regex() {
 # it (one balance, every model), and it is the one failure worth changing route
 # for. Read from the hook log as well as stdout, because the hook records the
 # message even when grok's own classification of it is uninformative.
+#
+# A Claude subscription's weekly limit belongs here for the same two reasons ---
+# it binds the account, not the model, and it resets in a WEEK, so a route that
+# waits it out loses a hundred ticks rather than one. 2026-08-24 lost twenty-four
+# to exactly that.
+HARD_EXHAUSTION_RE='usage balance exhausted|402 payment required|hit your [a-z ]*(weekly|daily|monthly) limit'
+
 credits_hard_exhausted() {
-  grep -qiE 'usage balance exhausted|402 payment required' "$AGENT_OUT" 2>/dev/null && return 0
-  grep -qiE 'usage balance exhausted|402 payment required' "$STOP_FAILURE_LOG" 2>/dev/null
+  grep -qiE "$HARD_EXHAUSTION_RE" "$AGENT_OUT" 2>/dev/null && return 0
+  grep -qiE "$HARD_EXHAUSTION_RE" "$STOP_FAILURE_LOG" 2>/dev/null
 }
 
 credits_exhausted() {

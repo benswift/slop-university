@@ -298,11 +298,25 @@ check "a typst error is neither" no \
 check "a Claude exhaustion still reads off the regex" yes \
   "$(classify claude-sub "${CLS}/claude.out" "${CLS}/claude.jsonl" credits_exhausted)"
 
+# Verbatim off logs/publish-2026-08-24.log, where this sentence went unmatched
+# twenty-four times in a row and each tick reported a failed generation.
+printf "You've hit your weekly limit \xc2\xb7 resets Aug 25, 2am (Australia/Melbourne)\n" > "${CLS}/weekly.out"
+: > "${CLS}/weekly.jsonl"
+check "a Claude WEEKLY limit is out of credits" yes \
+  "$(classify claude-sub "${CLS}/weekly.out" "${CLS}/weekly.jsonl" credits_exhausted)"
+check "...and is hard exhaustion: it resets in a week, not an hour" yes \
+  "$(classify claude-sub "${CLS}/weekly.out" "${CLS}/weekly.jsonl" credits_hard_exhausted)"
+
 # The route fallback, which is what turns a dead Grok balance into a published
 # output instead of a lost tick.
-route() { # <field>
+route() { # <starting profile> <field>
   (
-    PROJECT_DIR="$REPO_ROOT" LOG_FILE=/dev/null AGENT_PROFILE=grok-sub
+    # Via the env var, not the variable: publish-lib.sh derives AGENT_PROFILE
+    # (and the fallback that hangs off it) at source time, so a plain assignment
+    # here would simply be overwritten by the default.
+    PROJECT_DIR="$REPO_ROOT" LOG_FILE=/dev/null SLOPU_AGENT_PROFILE="$1"
+    export SLOPU_AGENT_PROFILE
+    shift
     # shellcheck source=ops/publish-lib.sh
     source "${REPO_ROOT}/ops/publish-lib.sh"
     if switch_to_fallback_profile; then
@@ -317,9 +331,11 @@ route() { # <field>
   )
 }
 
-check "a dead Grok balance falls through to claude-sub" claude-sub "$(route profile)"
-check "...on that profile's own model, not the Grok pin" sonnet "$(route model)"
-check "...and each route is tried once, never looped" no "$(route again)"
+check "a dead Grok balance falls through to claude-sub" claude-sub "$(route grok-sub profile)"
+check "...on that profile's own model, not the Grok pin" sonnet "$(route grok-sub model)"
+check "...and each route is tried once, never looped" no "$(route grok-sub again)"
+check "a spent Claude week falls through the other way" grok-sub "$(route claude-sub profile)"
+check "...onto a Grok model, not a Claude one" grok-4.6 "$(route claude-sub model)"
 
 echo
 echo "fixture safety"
