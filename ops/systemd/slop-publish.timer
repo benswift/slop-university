@@ -1,8 +1,17 @@
 [Unit]
-Description=Trigger a Slop University publish run every hour
+Description=Trigger a Slop University publish run every 90 minutes
 
 [Timer]
-OnCalendar=*-*-* *:00
+# Every 90 minutes, which systemd cannot say in one line: two calendars, offset
+# by 90 minutes from each other, interleave to an even 00:00, 01:30, 03:00, ...
+# 16 ticks a day rather than 24.
+#
+# Backed off from hourly on 2026-08-26, after a day of hourly ticks drank the
+# Grok Build balance dry by 11:17 and the press went eleven ticks without
+# publishing. A run costs roughly what it costs; the only lever on the daily
+# bill is how often one starts.
+OnCalendar=*-*-* 00,03,06,09,12,15,18,21:00
+OnCalendar=*-*-* 01,04,07,10,13,16,19,22:30
 RandomizedDelaySec=5min
 Persistent=true
 Unit=slop-publish.service
