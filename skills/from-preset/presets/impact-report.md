@@ -5,6 +5,11 @@ description:
   reflective institutional voice, steering-driven topic, impact-area / vignette
   / chart scaffolding. School-level doc; carries a persona system, chart
   workflow, and the School's in-house terminology.
+# The document IS this school's, so its authors must be too. Read by
+# ops/draw-axes.py, which confines the lead-author draw to this school rather
+# than letting the roster-wide draw hand an SCI impact report to a professor
+# from somewhere else.
+school: School of Continuous Improvement
 ---
 
 # Impact-report preset

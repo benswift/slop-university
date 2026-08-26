@@ -458,7 +458,11 @@ switch_to_fallback_profile() {
 draw_run_inputs() {
   local worktree="$1"
   PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
-  AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$worktree")"
+  # Preset first, then the axes drawn FOR it: a preset that fixes its school
+  # (impact-report) must not be handed a lead author from another one. Two
+  # independent draws produced exactly that contradiction on 2026-08-26, and an
+  # unattended agent has nobody to ask about it.
+  AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$worktree" --preset "$PRESET")"
   PUBLISHED_AT="$(date -Iseconds)"
   log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
   log "=== drawn axes ==="

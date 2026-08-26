@@ -120,6 +120,14 @@ count outputs, and do not pick a different lead to balance the ledger. Choosing
 the co-authors is still yours --- take them from `canon/roster.yml` by topical
 fit, and prefer researchers the corpus leans on least.
 
+The draw already knows which preset it drew for, so a preset whose blueprint
+fixes a school (`school:` in its frontmatter --- `impact-report` is the School
+of Continuous Improvement's report about itself) can only ever produce a lead
+from that school. If a drawn pair nonetheless contradicts the blueprint, the
+**blueprint wins**: take a lead from the school the blueprint names, and say so
+in the run's text output. Do not stop to ask --- nobody is reading, and a run
+that halts on the question publishes nothing.
+
 ---
 
 ## 2A. New research output (the default)

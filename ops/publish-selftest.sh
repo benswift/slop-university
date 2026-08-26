@@ -71,7 +71,8 @@ git -C "$REPO" config user.name "Ben Swift"
 # self-test checks what is about to be committed rather than what already was.
 for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
          ops/draw-axes.py ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
-         canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md; do
+         canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
+         skills/from-preset/presets/impact-report.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"
   cp "${REPO_ROOT}/${f}" "${REPO}/${f}"
 done
@@ -202,6 +203,22 @@ echo
 echo "the serial pipeline (ops/cron-publish.sh) still works"
 check "a full serial tick publishes"                published    "$(serial good)"
 check "a serial tick rejects an unstaged entry"     validation-failure "$(serial noassets)"
+
+# --- The author draw against the preset it is drawing for. impact-report is
+# the School of Continuous Improvement's report about itself; a lead from
+# anywhere else is a contradiction the agent can only stop and ask about.
+echo
+echo "preset-constrained attribution"
+draw_school() { # <preset-args...>
+  ( cd "$REPO" && ./ops/draw-axes.py --json "$@" ) \
+    | python3 -c 'import json,sys; print(json.load(sys.stdin)["school"])'
+}
+SCHOOLS="$(for _ in 1 2 3 4 5 6 7 8; do draw_school --preset impact-report; done | sort -u)"
+check "impact-report always leads from its own school" "School of Continuous Improvement" "$SCHOOLS"
+check "a preset that fixes no school still draws freely" ok \
+  "$( [ "$(for _ in 1 2 3 4 5 6 7 8; do draw_school --preset paper; done | sort -u | wc -l)" -gt 1 ] && echo ok || echo "only one school in 8 draws" )"
+check "a misspelt preset fails loudly rather than drawing unconstrained" 1 \
+  "$( ( cd "$REPO" && ./ops/draw-axes.py --json --preset no-such-preset >/dev/null 2>&1 ); echo $? )"
 
 # --- The credit/limit classifiers, against captured evidence rather than a
 # live account. This is the one part of the wrapper whose failure mode is

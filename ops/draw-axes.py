@@ -37,10 +37,21 @@ first (by that school's share of published outputs), then a lead author inside i
 school, so the school falls out of the author draw and is not a second
 decision.
 
+Some presets fix that school, though, and a draw that does not know which preset
+it is drawing for can contradict the document it is drawing for. `impact-report`
+is the School of Continuous Improvement's own report --- all fifteen published
+ones are written by that school about itself --- and on 2026-08-26 the draw
+handed one to a professor of Emergent Priorities. The agent, correctly, refused
+to guess past it and asked; unattended, that asked nobody and cost the tick. So
+`--preset` confines the school stage to whatever the blueprint's `school:` says,
+and the author stage inside it is unchanged. Presets that fix no school (most of
+them) draw exactly as before.
+
 Usage:
-  ops/draw-axes.py                    # prose lines, for the /publish invocation
-  ops/draw-axes.py --json             # the same draw as JSON, for spread checks
-  ops/draw-axes.py --root <checkout>  # draw against another checkout's corpus
+  ops/draw-axes.py                     # prose lines, for the /publish invocation
+  ops/draw-axes.py --json              # the same draw as JSON, for spread checks
+  ops/draw-axes.py --root <checkout>   # draw against another checkout's corpus
+  ops/draw-axes.py --preset <name>     # honour that preset's fixed school
 """
 
 from __future__ import annotations
@@ -62,6 +73,11 @@ import yaml
 DOCTRINE_DIR = Path(__file__).resolve().parent.parent
 AXES_PATH = DOCTRINE_DIR / "canon/axes.yml"
 BURNT_PATH = DOCTRINE_DIR / "canon/burnt-shapes.yml"
+# A preset's own blueprint is where its doc identity is declared, so it is also
+# where a fixed school belongs --- a second copy in this script would be a
+# second thing to keep true. Public registry only: the unattended pipeline sets
+# SLOPU_PUBLIC_ONLY and can never roll a private preset.
+PRESETS_DIR = DOCTRINE_DIR / "skills/from-preset/presets"
 
 # The roster and the outputs ledger are live state, so they come from the
 # checkout being drawn against (--root). The cron wrapper points that at the
@@ -152,7 +168,26 @@ def attribution_counts() -> tuple[Counter, Counter]:
     return schools, leads
 
 
-def author_slot() -> dict:
+def preset_school(preset: str | None) -> str | None:
+    """The school a preset's blueprint fixes, or None if it fixes none.
+
+    Exits on a preset that has no blueprint. A typo would otherwise read as
+    "this preset fixes no school" and silently restore the very draw this
+    argument exists to constrain --- the same failure mode as a misspelt
+    `excludes:` id above, and just as invisible."""
+    if not preset:
+        return None
+    blueprint = PRESETS_DIR / f"{preset}.md"
+    if not blueprint.is_file():
+        sys.exit(f"no preset blueprint at {blueprint}")
+    text = blueprint.read_text()
+    if not text.startswith("---\n"):
+        sys.exit(f"{blueprint} has no frontmatter")
+    front = yaml.safe_load(text.split("---\n", 2)[1]) or {}
+    return front.get("school")
+
+
+def author_slot(preset: str | None = None) -> dict:
     """Draw a lead author, inversely weighted by how much the corpus already
     leans on their school and on them.
 
@@ -161,7 +196,10 @@ def author_slot() -> dict:
     the collision this script exists to remove. A weighted draw corrects the
     same imbalance in expectation while staying independent per slot. 1/(1+n)
     keeps a fresh researcher's weight finite and, at today's spread, gives the
-    thinnest-published roughly three times the pull of the heaviest."""
+    thinnest-published roughly three times the pull of the heaviest.
+
+    A preset that fixes its school skips the school stage entirely; the
+    correction still operates where it can, over that school's own people."""
     roster = yaml.safe_load(ROSTER_PATH.read_text())["researchers"]
     schools, leads = attribution_counts()
 
@@ -169,11 +207,26 @@ def author_slot() -> dict:
     for person in roster:
         by_school.setdefault(person["school"], []).append(person)
 
-    school_pool = [
-        {"name": school, "weight": 1 / (1 + schools.get(school, 0)), "people": people}
-        for school, people in by_school.items()
-    ]
-    school = draw(school_pool)
+    if fixed := preset_school(preset):
+        if fixed not in by_school:
+            # The blueprint names a school no researcher belongs to, so there is
+            # nobody to lead the document. Loud, because the alternative is a
+            # run authored by whoever the unconstrained draw happened to pick.
+            sys.exit(
+                f"preset '{preset}' fixes school {fixed!r}, "
+                f"which no researcher in {ROSTER_PATH} belongs to"
+            )
+        school = {"name": fixed, "people": by_school[fixed]}
+    else:
+        school_pool = [
+            {
+                "name": school,
+                "weight": 1 / (1 + schools.get(school, 0)),
+                "people": people,
+            }
+            for school, people in by_school.items()
+        ]
+        school = draw(school_pool)
 
     people_pool = [
         {"person": person, "weight": 1 / (1 + leads.get(person["name"], 0))}
@@ -200,11 +253,15 @@ def main() -> int:
         default=Path("."),
         help="checkout to draw against (default: the working directory)",
     )
+    parser.add_argument(
+        "--preset",
+        help="the preset this run rolled, so a fixed school constrains the draw",
+    )
     args = parser.parse_args()
     os.chdir(args.root)
 
     drawn = pool_axes()
-    author = author_slot()
+    author = author_slot(args.preset)
     retired = [collapse(entry["shape"]) for entry in burnt_entries()]
 
     if args.json:

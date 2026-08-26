@@ -33,6 +33,13 @@ Optional sections to add if the preset needs them:
   `../../_shared/chart-workflow.md` if the preset generates charts; the
   orchestrator's chart step keys off this declaration, so no list elsewhere
   needs updating
+- `school:` in the frontmatter --- only if the document belongs to one school
+  and could not plausibly be authored from another (`impact-report` is the
+  School of Continuous Improvement's report about itself). `ops/draw-axes.py`
+  reads it and confines the publish run's lead-author draw to that school; the
+  value must match a `school` in `canon/roster.yml` exactly, and the draw exits
+  rather than guessing if it does not. Most presets want no such field: a poster
+  or paper can come from anywhere in the university
 - Any other section the preset needs that doesn't fit elsewhere
 
 Existing presets are the worked examples; copy the closest and edit.
