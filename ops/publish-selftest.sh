@@ -203,6 +203,92 @@ echo "the serial pipeline (ops/cron-publish.sh) still works"
 check "a full serial tick publishes"                published    "$(serial good)"
 check "a serial tick rejects an unstaged entry"     validation-failure "$(serial noassets)"
 
+# --- The credit/limit classifiers, against captured evidence rather than a
+# live account. This is the one part of the wrapper whose failure mode is
+# silent: a misclassified limit reports as a failed generation, the retry that
+# would have rescued the tick never fires, and the pipeline keeps ticking
+# green-ish while publishing nothing. That is exactly what happened on
+# 2026-08-26 --- the fixtures below are the real records off that outage.
+echo
+echo "credit classifiers"
+
+# Runs one predicate against a pair of fixture files, in a subshell so
+# publish-lib.sh's globals never leak into this harness. Echoes yes/no.
+classify() { # <profile> <agent-out fixture> <stop-failure fixture> <predicate>
+  (
+    set +e
+    PROJECT_DIR="$REPO_ROOT" LOG_FILE=/dev/null
+    # shellcheck source=ops/publish-lib.sh
+    source "${REPO_ROOT}/ops/publish-lib.sh"
+    AGENT_PROFILE="$1" AGENT_OUT="$2" STOP_FAILURE_LOG="$3"
+    if "$4"; then echo yes; else echo no; fi
+  )
+}
+
+CLS="${FIXTURE}/classifiers"
+mkdir -p "$CLS"
+
+# Verbatim from logs/publish-2026-08-26.log. Note the hook's own verdict:
+# "invalid_request", not "rate_limit" --- xAI classifies a dead balance as a
+# malformed request, which is why the hook cannot be the only detector.
+cat > "${CLS}/402.out" <<'EOF'
+Internal error: {
+  "message": "API error (status 402 Payment Required): Grok Build usage balance exhausted",
+  "http_status": 402
+}
+EOF
+cat > "${CLS}/402.jsonl" <<'EOF'
+{"event": "stop_failure", "sessionId": "01a03dbc", "error": "invalid_request", "errorDetails": "API error (status 402 Payment Required): Grok Build usage balance exhausted"}
+{"event": "session_end", "sessionId": "01a03dbc"}
+EOF
+
+printf 'Error: overloaded\n' > "${CLS}/429.out"
+printf '%s\n' '{"event": "stop_failure", "error": "rate_limit", "errorDetails": "API error (status 529): Overloaded"}' > "${CLS}/429.jsonl"
+
+printf 'error: expected semicolon\ntypst compile failed\n' > "${CLS}/typst.out"
+printf '%s\n' '{"event": "session_end", "sessionId": "x"}' > "${CLS}/typst.jsonl"
+
+printf "You're out of usage credits\n" > "${CLS}/claude.out"
+: > "${CLS}/claude.jsonl"
+
+check "a Grok 402 is out of credits, not a failed generation" yes \
+  "$(classify grok-sub "${CLS}/402.out" "${CLS}/402.jsonl" credits_exhausted)"
+check "...and is HARD exhaustion, so a model retry is futile" yes \
+  "$(classify grok-sub "${CLS}/402.out" "${CLS}/402.jsonl" credits_hard_exhausted)"
+check "...and is not mistaken for a dead credential" no \
+  "$(classify grok-sub "${CLS}/402.out" "${CLS}/402.jsonl" agent_auth_failed)"
+check "a capacity rate limit is retryable, not hard exhaustion" no \
+  "$(classify grok-sub "${CLS}/429.out" "${CLS}/429.jsonl" credits_hard_exhausted)"
+check "...but still counts as out of credits" yes \
+  "$(classify grok-sub "${CLS}/429.out" "${CLS}/429.jsonl" credits_exhausted)"
+check "a typst error is neither" no \
+  "$(classify grok-sub "${CLS}/typst.out" "${CLS}/typst.jsonl" credits_exhausted)"
+check "a Claude exhaustion still reads off the regex" yes \
+  "$(classify claude-sub "${CLS}/claude.out" "${CLS}/claude.jsonl" credits_exhausted)"
+
+# The route fallback, which is what turns a dead Grok balance into a published
+# output instead of a lost tick.
+route() { # <field>
+  (
+    PROJECT_DIR="$REPO_ROOT" LOG_FILE=/dev/null AGENT_PROFILE=grok-sub
+    # shellcheck source=ops/publish-lib.sh
+    source "${REPO_ROOT}/ops/publish-lib.sh"
+    if switch_to_fallback_profile; then
+      case "$1" in
+        profile)  echo "$AGENT_PROFILE" ;;
+        model)    echo "$AGENT_MODEL" ;;
+        again)    if switch_to_fallback_profile; then echo yes; else echo no; fi ;;
+      esac
+    else
+      echo no-fallback
+    fi
+  )
+}
+
+check "a dead Grok balance falls through to claude-sub" claude-sub "$(route profile)"
+check "...on that profile's own model, not the Grok pin" sonnet "$(route model)"
+check "...and each route is tried once, never looped" no "$(route again)"
+
 echo
 echo "fixture safety"
 check "no bucket upload was attempted from the fixture" 0 \

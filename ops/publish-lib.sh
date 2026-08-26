@@ -394,13 +394,58 @@ AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 # limit day without an edit.
 #
 # Model names are per-agent, so the pin has to be too: pointing a Grok profile
-# at "sonnet" would fail every tick identically.
+# at "sonnet" would fail every tick identically. Functions rather than a bare
+# case, because a fallback to another PROFILE (below) has to re-derive both
+# names for the profile it lands on.
+default_model_for_profile() {
+  case "$1" in
+    grok-*) echo "grok-4.6" ;;
+    *)      echo "sonnet" ;;
+  esac
+}
+
+fallback_model_for_profile() {
+  case "$1" in
+    grok-*) echo "grok-4.5" ;;
+    *)      echo "haiku" ;;
+  esac
+}
+
+AGENT_MODEL="${SLOPU_AGENT_MODEL:-$(default_model_for_profile "$AGENT_PROFILE")}"
+AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$(fallback_model_for_profile "$AGENT_PROFILE")}"
+
+# --- The route to fall back to when the whole ACCOUNT is out, not one model.
+#
+# The model fallback above assumes what is true of Claude: a usage limit binds
+# one model, so another model on the same subscription still answers. Grok Build
+# bills a single account-wide balance, and on 2026-08-26 that difference cost
+# eleven ticks --- the balance ran dry mid-run at 11:17 and grok-4.5 was just as
+# dead as grok-4.6, so no model retry could have rescued a single one of them.
+#
+# When the failure is that hard exhaustion, the only move left is a different
+# account. Falling through to claude-sub also means the outage needs no human:
+# the pipeline stays pointed at grok-sub, each tick spends three seconds proving
+# the balance is still gone, and the run publishes on Claude meanwhile. The tick
+# Grok's balance returns, it is generating on Grok again with nothing reverted.
 case "$AGENT_PROFILE" in
-  grok-*) DEFAULT_MODEL="grok-4.6"; DEFAULT_FALLBACK_MODEL="grok-4.5" ;;
-  *)      DEFAULT_MODEL="sonnet";   DEFAULT_FALLBACK_MODEL="haiku" ;;
+  grok-*) DEFAULT_FALLBACK_PROFILE="claude-sub" ;;
+  *)      DEFAULT_FALLBACK_PROFILE="" ;;
 esac
-AGENT_MODEL="${SLOPU_AGENT_MODEL:-$DEFAULT_MODEL}"
-AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$DEFAULT_FALLBACK_MODEL}"
+AGENT_FALLBACK_PROFILE="${SLOPU_AGENT_FALLBACK_PROFILE:-$DEFAULT_FALLBACK_PROFILE}"
+
+# Repoint the run at the fallback route, re-deriving both model names for it (a
+# grok model pin means nothing to Claude). Clears the fallback afterwards, so a
+# route can be tried once per run and the second credits check reads as "the
+# fallback refused too" rather than looping. Non-zero when there is nowhere to
+# go, which is what makes it safe to write as `... && switch_to_fallback_profile`.
+switch_to_fallback_profile() {
+  [ -n "$AGENT_FALLBACK_PROFILE" ] || return 1
+  [ "$AGENT_FALLBACK_PROFILE" != "$AGENT_PROFILE" ] || return 1
+  AGENT_PROFILE="$AGENT_FALLBACK_PROFILE"
+  AGENT_FALLBACK_PROFILE=""
+  AGENT_MODEL="$(default_model_for_profile "$AGENT_PROFILE")"
+  AGENT_FALLBACK_MODEL="$(fallback_model_for_profile "$AGENT_PROFILE")"
+}
 
 # Draw this run's inputs. The preset and the enumerable 2A axes are chosen with
 # OS randomness OUTSIDE the model (ops/select-preset.sh, ops/draw-axes.py) so a
@@ -558,18 +603,36 @@ credits_exhausted_by_regex() {
   grep -qiE "out of usage credits|usage limit reached|exceeded your [a-z ]*(usage|rate) limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
 }
 
+# The account balance is gone, as opposed to one model's window being shut.
+#
+# This is the split the hook's errorDetails field was recorded verbatim for, and
+# 2026-08-26 supplied the first real occurrence: a 402 carrying "Grok Build usage
+# balance exhausted". It matters twice over --- a model retry is futile against
+# it (one balance, every model), and it is the one failure worth changing route
+# for. Read from the hook log as well as stdout, because the hook records the
+# message even when grok's own classification of it is uninformative.
+credits_hard_exhausted() {
+  grep -qiE 'usage balance exhausted|402 payment required' "$AGENT_OUT" 2>/dev/null && return 0
+  grep -qiE 'usage balance exhausted|402 payment required' "$STOP_FAILURE_LOG" 2>/dev/null
+}
+
 credits_exhausted() {
+  # The hook's verdict is additive, not authoritative. It was authoritative
+  # until the 402 above, which grok classified as "invalid_request" --- so the
+  # hook said no, the regex that had "usage balance exhausted" right there in
+  # its pattern was never consulted, and eleven ticks reported the account
+  # running dry as a failed generation. A detector that can only ADD a verdict
+  # cannot take one away again.
   case "$AGENT_PROFILE" in
     grok-*)
       if hook_was_live; then
-        hook_saw_rate_limit
+        hook_saw_rate_limit && return 0
       else
         log "WARNING: the Grok StopFailure hook left no record (not even a SessionEnd heartbeat)."
         log "  Falling back to stdout matching. Check that ~/.grok/hooks/slopu-stop-failure.json"
         log "  resolves to ops/grok-hooks/slopu-stop-failure.json and that the script is executable."
-        credits_exhausted_by_regex
       fi
       ;;
-    *) credits_exhausted_by_regex ;;
   esac
+  credits_hard_exhausted || credits_exhausted_by_regex
 }

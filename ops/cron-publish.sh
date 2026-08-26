@@ -223,9 +223,17 @@ fi
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
   if [ "$(git rev-parse "$PRESS_BRANCH")" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
-    log "  nothing was generated; retrying this tick on the fallback model ${AGENT_FALLBACK_MODEL}"
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
-    run_agent "$WORKTREE_DIR" "$AGENT_FALLBACK_MODEL"
+    # Order matters: the hard-exhaustion test reads the attempt's output, and
+    # the switch it guards overwrites the profile that test would classify by.
+    if credits_hard_exhausted && switch_to_fallback_profile; then
+      log "  the whole account balance is gone, so another model billed to it would refuse too;"
+      log "  retrying this tick on the fallback profile ${AGENT_PROFILE} (model ${AGENT_MODEL})"
+      run_agent "$WORKTREE_DIR" "$AGENT_MODEL"
+    else
+      log "  nothing was generated; retrying this tick on the fallback model ${AGENT_FALLBACK_MODEL}"
+      run_agent "$WORKTREE_DIR" "$AGENT_FALLBACK_MODEL"
+    fi
   else
     log "  the run had already staged work; not retrying (see the abort below)"
   fi
@@ -237,9 +245,10 @@ fi
 # not write data/publish-blocked: a limit window un-breaks itself, and blocking
 # would turn a wait into a two-step fix.
 if credits_exhausted; then
-  log "AGENT OUT OF CREDITS --- ${AGENT_MODEL} and the fallback ${AGENT_FALLBACK_MODEL} both refused; no output was generated."
-  log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_MODEL at a model that still has credits."
-  rescue_and_abort "out-of-credits" "no usage credits for ${AGENT_MODEL} or fallback ${AGENT_FALLBACK_MODEL}; wait for the reset or set SLOPU_AGENT_MODEL" 5
+  log "AGENT OUT OF CREDITS --- the retry on ${AGENT_PROFILE}/${AGENT_MODEL} refused too; no output was generated."
+  log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_PROFILE / SLOPU_AGENT_MODEL"
+  log "  at a route that still has credits."
+  rescue_and_abort "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback; wait for the reset or set SLOPU_AGENT_PROFILE" 5
 fi
 
 if [ "$AGENT_STATUS" -ne 0 ]; then

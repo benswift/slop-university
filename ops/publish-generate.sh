@@ -166,9 +166,17 @@ fi
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
   if [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
-    log "  nothing was generated; retrying on the fallback model ${AGENT_FALLBACK_MODEL}"
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
-    run_agent "$WORKTREE_DIR" "$AGENT_FALLBACK_MODEL"
+    # Order matters: the hard-exhaustion test reads the attempt's output, and
+    # the switch it guards overwrites the profile that test would classify by.
+    if credits_hard_exhausted && switch_to_fallback_profile; then
+      log "  the whole account balance is gone, so another model billed to it would refuse too;"
+      log "  retrying on the fallback profile ${AGENT_PROFILE} (model ${AGENT_MODEL})"
+      run_agent "$WORKTREE_DIR" "$AGENT_MODEL"
+    else
+      log "  nothing was generated; retrying on the fallback model ${AGENT_FALLBACK_MODEL}"
+      run_agent "$WORKTREE_DIR" "$AGENT_FALLBACK_MODEL"
+    fi
   else
     log "  the run had already staged work; not retrying"
   fi
@@ -185,11 +193,12 @@ fi
 # that is the ceiling talking, and data/stop-failures-gen-*.jsonl carries xAI's
 # own classification plus errorDetails verbatim.
 if credits_exhausted; then
-  log "AGENT OUT OF CREDITS --- ${AGENT_MODEL} and the fallback ${AGENT_FALLBACK_MODEL} both refused."
-  log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_MODEL at a model that still has credits."
+  log "AGENT OUT OF CREDITS --- the retry on ${AGENT_PROFILE}/${AGENT_MODEL} refused too."
+  log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_PROFILE / SLOPU_AGENT_MODEL"
+  log "  at a route that still has credits."
   log "  If this began after adding a slot, the subscription is the ceiling: reduce slots."
   discard_candidate
-  result "out-of-credits" "no usage credits for ${AGENT_MODEL} or fallback ${AGENT_FALLBACK_MODEL} in slot ${SLOT}"
+  result "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback in slot ${SLOT}"
   exit 5
 fi
 
