@@ -72,7 +72,7 @@ git -C "$REPO" config user.name "Ben Swift"
 for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
          ops/draw-axes.py ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
-         skills/from-preset/presets/impact-report.md; do
+         skills/from-preset/presets/*.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"
   cp "${REPO_ROOT}/${f}" "${REPO}/${f}"
 done
@@ -234,6 +234,18 @@ check "a preset that fixes no school still draws freely" ok \
   "$( [ "$(for _ in 1 2 3 4 5 6 7 8; do draw_school --preset paper; done | sort -u | wc -l)" -gt 1 ] && echo ok || echo "only one school in 8 draws" )"
 check "a misspelt preset fails loudly rather than drawing unconstrained" 1 \
   "$( ( cd "$REPO" && ./ops/draw-axes.py --json --preset no-such-preset >/dev/null 2>&1 ); echo $? )"
+
+# Every preset the roll can actually produce, because the draw now READS the
+# blueprint and a blueprint is a human document. marketing-poster's description
+# has a colon inside a plain scalar; parsing the frontmatter rather than
+# scanning it for one key made that preset's every tick a crash, at a tenth of
+# all rolls. A per-preset smoke is the only check that sees that class of thing.
+check "every preset in the registry draws" "" \
+  "$( for b in "${REPO}"/skills/from-preset/presets/*.md; do
+        name="$(basename "$b" .md)"
+        [ "$name" = README ] && continue
+        ( cd "$REPO" && ./ops/draw-axes.py --json --preset "$name" >/dev/null 2>&1 ) || echo "$name"
+      done )"
 
 # --- The credit/limit classifiers, against captured evidence rather than a
 # live account. This is the one part of the wrapper whose failure mode is

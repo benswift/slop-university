@@ -171,6 +171,14 @@ def attribution_counts() -> tuple[Counter, Counter]:
 def preset_school(preset: str | None) -> str | None:
     """The school a preset's blueprint fixes, or None if it fixes none.
 
+    Scans the frontmatter for the one key it wants rather than parsing the
+    block, because a blueprint's frontmatter is a human document and its
+    `description:` is prose. `marketing-poster` has "(the e-signage panels'
+    native aspect): the snazzy, ..." in its, which is a colon inside a plain
+    scalar and makes PyYAML throw --- so a parse here would take the tenth of
+    all ticks that roll that preset down with it, over a comma in a sentence
+    nobody thought was load-bearing.
+
     Exits on a preset that has no blueprint. A typo would otherwise read as
     "this preset fixes no school" and silently restore the very draw this
     argument exists to constrain --- the same failure mode as a misspelt
@@ -180,11 +188,17 @@ def preset_school(preset: str | None) -> str | None:
     blueprint = PRESETS_DIR / f"{preset}.md"
     if not blueprint.is_file():
         sys.exit(f"no preset blueprint at {blueprint}")
-    text = blueprint.read_text()
-    if not text.startswith("---\n"):
+    lines = blueprint.read_text().splitlines()
+    if not lines or lines[0].strip() != "---":
         sys.exit(f"{blueprint} has no frontmatter")
-    front = yaml.safe_load(text.split("---\n", 2)[1]) or {}
-    return front.get("school")
+    for line in lines[1:]:
+        if line.strip() == "---":
+            break
+        # Top-level key only: a `school:` indented under something else belongs
+        # to that something else.
+        if line.startswith("school:"):
+            return line.removeprefix("school:").strip().strip("\"'") or None
+    return None
 
 
 def author_slot(preset: str | None = None) -> dict:
