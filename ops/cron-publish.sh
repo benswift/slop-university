@@ -397,5 +397,23 @@ elif [ "$POSTED" = "yes" ]; then
   # is the design, not a symptom.
   result "posted" "social post published; no commit, as a 2G tick stages a gitignored post; preset=${PRESET} unused"
 else
-  result "no-op" "agent exited cleanly, committed nothing and posted nothing; preset=${PRESET}"
+  # A clean exit having done nothing is a LOST TICK, and it exits non-zero so it
+  # reaches a human like one. The skill's own ladder says why: rung 5 ("nothing
+  # is due") is "rare now that 2A is uncapped --- reachable only when the
+  # generation itself aborts", so in practice this branch means the run gave up
+  # somewhere and said so to nobody. On 2026-08-26 it meant the agent had hit a
+  # contradiction in its instructions and stopped to ask the operator which way
+  # to go; unattended, the question went to a log file.
+  #
+  # Exiting zero here was the dangerous part. systemd fires OnSuccess= on a zero
+  # exit, which CLEARS any standing on-call todo --- so a pipeline stuck in this
+  # state would not merely stay quiet, it would actively tidy away the alert
+  # from the failure that preceded it. That is the sixteen-green-ticks bug with
+  # a fresh coat of paint, and the unit's own comments were written about it.
+  #
+  # Deliberately NOT pattern-matched on "did the agent ask a question": there
+  # are many ways to do nothing and only one thing worth reporting about all of
+  # them, which is that the tick published nothing.
+  result "no-op" "agent exited cleanly but committed nothing and posted nothing (a lost tick); preset=${PRESET}"
+  exit 6
 fi

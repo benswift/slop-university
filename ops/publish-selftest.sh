@@ -138,6 +138,14 @@ git add website/astro.config.mjs
 git commit -qm "publish: news — innocuous subject"
 AGENT
 
+# Exits clean having done nothing --- what an agent that stopped to ask the
+# operator a question looks like from out here.
+cat > "${FIXTURE}/agent-nothing" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+echo "I have hit a contradiction and would like to ask you which way to go."
+AGENT
+
 chmod +x "${FIXTURE}"/agent-*
 
 gen() { # gen <slot> <agent>
@@ -203,6 +211,13 @@ echo
 echo "the serial pipeline (ops/cron-publish.sh) still works"
 check "a full serial tick publishes"                published    "$(serial good)"
 check "a serial tick rejects an unstaged entry"     validation-failure "$(serial noassets)"
+check "a tick that does nothing is a lost tick, not a success" no-op "$(serial nothing)"
+check "...and exits non-zero, so it cannot clear the on-call todo" 6 \
+  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
+        SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/cron-publish.sh >/dev/null 2>&1 ); echo $? )"
+check "a generator that produces no candidate exits non-zero too" 6 \
+  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" \
+        SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/publish-generate.sh 1 >/dev/null 2>&1 ); echo $? )"
 
 # --- The author draw against the preset it is drawing for. impact-report is
 # the School of Continuous Improvement's report about itself; a lead from

@@ -234,8 +234,12 @@ if [ "$HEAD_SHA" = "$BASE_REF" ]; then
     result "failed-generation" "agent exited ${AGENT_STATUS} and committed nothing in slot ${SLOT}; rolled preset=${PRESET}"
     exit 4
   fi
-  result "no-op" "agent exited cleanly and committed nothing in slot ${SLOT}; preset=${PRESET}"
-  exit 0
+  # Non-zero for the same reason as the serial pipeline's no-op: a generator
+  # that exits clean having produced no candidate has lost its slot, and a zero
+  # exit would fire OnSuccess= and clear the standing on-call todo on its way
+  # out. See ops/cron-publish.sh for the long version.
+  result "no-op" "agent exited cleanly but committed nothing in slot ${SLOT} (a lost slot); preset=${PRESET}"
+  exit 6
 fi
 
 # --- Hand off. The marker is written LAST and atomically, so its existence is
