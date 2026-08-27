@@ -70,7 +70,8 @@ git -C "$REPO" config user.name "Ben Swift"
 # Carry the working tree's current version of everything under test, so the
 # self-test checks what is about to be committed rather than what already was.
 for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
-         ops/draw-axes.py ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
+         ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
+         ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
          skills/from-preset/presets/*.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"
@@ -146,7 +147,129 @@ set -euo pipefail
 echo "I have hit a contradiction and would like to ask you which way to go."
 AGENT
 
+# Stages a paired but visibly collapsed paper. This gets past the asset check,
+# proving the page-flow gate has its own place in the wrapper.
+cat > "${FIXTURE}/agent-sparse" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+ID="slop-paper-sparse-$$"
+STAGING="${SLOPU_PENDING_DIR:-$(git rev-parse --show-toplevel)/data/pending-uploads}"
+cat > "/tmp/${ID}.typ" <<'TYP'
+#set page(paper: "a4", margin: 1.4cm)
+= A stranded final page
+#for word in range(900) [substantive ]
+#pagebreak()
+Only one short paragraph made it onto this page.
+TYP
+mkdir -p "$STAGING" "${STAGING}/img/thumbs" "${STAGING}/img/heroes/outputs" "${STAGING}/img/og/outputs"
+typst compile "/tmp/${ID}.typ" "${STAGING}/${ID}.pdf"
+: > "${STAGING}/img/thumbs/${ID}-400.avif"
+: > "${STAGING}/img/heroes/outputs/${ID}-800.avif"
+: > "${STAGING}/img/og/outputs/${ID}.jpg"
+cat > "website/src/content/outputs/${ID}.yml" <<YML
+title: A stranded final page
+authors: []
+preset: paper
+school: School of Continuous Improvement
+date: 2026-08-26
+doi: 10.5555/slop.sparse
+summary: A fixture for the final-content-page quality gate.
+topic: Test the quality gate
+pages: 1
+version: "1.0"
+YML
+git add "website/src/content/outputs/${ID}.yml"
+git commit -qm "publish: sparse output fixture"
+AGENT
+
 chmod +x "${FIXTURE}"/agent-*
+
+echo
+echo "document quality helpers"
+quality() { # quality <preset> <pdf>
+  ( "${REPO}/ops/check-output-quality.py" --preset "$1" "$2" >/dev/null 2>&1 ); echo $?
+}
+
+# <name> <pages> <heading-or-empty>: a document whose PENULTIMATE page (the one
+# a booklet is judged on) carries a short closing block reaching a bit under
+# half the page, optionally under a section heading. At two pages the same block
+# is the final page, which is what a paper is judged on.
+fixture() {
+  { echo '#set page(paper: "a4", margin: 1.4cm)'
+    echo '#set text(size: 10pt)'
+    echo '#for word in range(420) [substantive ]'
+    echo '#pagebreak()'
+    if [ -n "$3" ]; then echo "#text(size: 20pt)[$3]"; fi
+    echo '#for word in range(12) [a closing line of ordinary prose ]'
+    echo '#place(top + left, dy: 45%, [The last line of the closing block.])'
+    if [ "$2" = 3 ]; then echo '#pagebreak()'; echo 'Back cover.'; fi
+  } > "${FIXTURE}/${1}.typ"
+  typst compile "${FIXTURE}/${1}.typ" "${FIXTURE}/${1}.pdf"
+}
+
+cat > "${FIXTURE}/dense.typ" <<'TYP'
+#set page(paper: "a4", margin: 1cm)
+#for word in range(130) [substantive ]
+#place(top + left, dy: 72%, [A final substantive line near the foot of the content area.])
+TYP
+typst compile "${FIXTURE}/dense.typ" "${FIXTURE}/dense.pdf"
+check "a substantially filled final page passes" 0 "$(quality paper "${FIXTURE}/dense.pdf")"
+
+# The calibration that keeps the gate off the published corpus. A booklet page
+# is one full-width column, so a heading-less half page is a visible hole; the
+# same page under a closing section heading is an ordinary sign-off. A paper
+# page is two columns and the measure only sees the deeper one, so references
+# stopping part-way down the left column --- which every real paper does --- has
+# to pass. Get either bar wrong and the gate rescues a quarter of the corpus.
+fixture closing-spill 3 ""
+fixture closing-section 3 "With thanks"
+fixture part-column 2 ""
+check "a booklet's heading-less half page is a spill, and fails" 1 \
+  "$(quality strategy "${FIXTURE}/closing-spill.pdf")"
+check "...but the same page under a closing heading passes" 0 \
+  "$(quality strategy "${FIXTURE}/closing-section.pdf")"
+check "a paper's part-column of references passes" 0 \
+  "$(quality paper "${FIXTURE}/part-column.pdf")"
+check "a poster format is out of scope, not a failure" 0 \
+  "$(quality research-poster "${FIXTURE}/part-column.pdf")"
+
+# The audit's whole value is telling a scaffold that has stopped rotating apart
+# from the blueprint's own furniture. Four references: one label and sentence
+# frame shared by two of them (a drifting scaffold), another shared by all four
+# (the template speaking, and not this run's to rewrite).
+language() { # language <name> <section-label>
+  { echo "= $2"
+    echo "This programme will continue to map ordinary conduct through a calibrated institutional lens."
+    echo
+    echo "= Office of Research Outputs"
+    echo "The University publishes each instrument alongside the rule it is meant to inform."
+  } > "${FIXTURE}/${1}.typ"
+  typst compile "${FIXTURE}/${1}.typ" "${FIXTURE}/${1}.pdf"
+}
+language language "Capability pathways"
+language language-a "Capability pathways"
+language language-b "Capability pathways"
+language language-c "Adjacent provisions"
+language language-d "Distinct provisions"
+LANGUAGE_REPORT="$("${REPO}/ops/check-recent-language.py" --preset paper \
+  --reference "${FIXTURE}/language-a.pdf" --reference "${FIXTURE}/language-b.pdf" \
+  --reference "${FIXTURE}/language-c.pdf" --reference "${FIXTURE}/language-d.pdf" \
+  "${FIXTURE}/language.pdf")"
+# under <heading> <needle>: is the needle listed beneath that report heading?
+under() {
+  awk -v head="$1" '$0 ~ head {inside=1; next} /^[^ ]/ {inside=0} inside' \
+    <<< "$LANGUAGE_REPORT" | grep -q "$2" && echo yes || echo no
+}
+check "the corpus audit spots a repeated section label" yes \
+  "$(grep -q 'Repeated non-fixed section labels' <<< "$LANGUAGE_REPORT" && echo yes || echo no)"
+check "...naming the drifting label, not the standing one" yes \
+  "$(under 'Repeated non-fixed' 'Capability pathways')"
+check "...and files the template's own furniture separately" yes \
+  "$(under 'Standing furniture' 'Office of Research Outputs')"
+check "...which is not mistaken for a drifting scaffold" no \
+  "$(under 'Repeated non-fixed' 'Office of Research Outputs')"
+check "the corpus audit spots a repeated sentence frame" yes \
+  "$(grep -q 'Repeated six-word sentence openings' <<< "$LANGUAGE_REPORT" && echo yes || echo no)"
 
 gen() { # gen <slot> <agent>
   ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_AGENT_RUN="${FIXTURE}/agent-$2" \
@@ -160,6 +283,7 @@ serial() {
   ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
       SLOPU_AGENT_RUN="${FIXTURE}/agent-$1" ./ops/cron-publish.sh 2>&1 ) | outcome
 }
+log_has() { grep -q "$1" "${REPO}"/logs/publish-*.log && echo yes || echo no; }
 
 echo
 echo "generate + land"
@@ -183,6 +307,11 @@ gen 2 noassets > /dev/null
 gen 3 good > /dev/null
 check "an entry with no staged assets is rescued"   rescued-pairing "$(land)"
 check "...and the queue keeps moving"               published    "$(land)"
+gen 2 sparse > /dev/null
+gen 3 good > /dev/null
+check "a sparse final content page is rescued"      rescued-quality "$(land)"
+check "...and the log names the collapsed final page" yes "$(log_has 'underfilled final content page')"
+check "...and a quality failure does not block the queue" published "$(land)"
 
 echo
 echo "sweeper"
@@ -211,6 +340,7 @@ echo
 echo "the serial pipeline (ops/cron-publish.sh) still works"
 check "a full serial tick publishes"                published    "$(serial good)"
 check "a serial tick rejects an unstaged entry"     validation-failure "$(serial noassets)"
+check "a serial tick rejects a sparse final page"   quality-failure "$(serial sparse)"
 check "a tick that does nothing is a lost tick, not a success" no-op "$(serial nothing)"
 check "...and exits non-zero, so it cannot clear the on-call todo" 6 \
   "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \

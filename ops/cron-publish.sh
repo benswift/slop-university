@@ -302,6 +302,10 @@ if ! check_pairing "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
   rescue_and_abort "validation-failure" "new outputs entry with no PDF staged in data/pending-uploads/"
 fi
 
+if ! check_output_quality "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
+  rescue_and_abort "quality-failure" "$QUALITY_ERROR"
+fi
+
 # Generation can take twenty minutes or more. A human push during that window
 # used to be noticed only after the PDFs had been uploaded, producing an orphan
 # object and a rescue branch. Refresh the remote immediately before the upload

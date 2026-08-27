@@ -365,6 +365,13 @@ if ! check_pairing "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
   exit 9
 fi
 
+if ! check_output_quality "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
+  rescue_candidate "$QUALITY_ERROR"
+  flush_pending_post
+  result "rescued-quality" "candidate ${RUN_ID}: ${QUALITY_ERROR}; rescued, queue continues"
+  exit 10
+fi
+
 if ! worktree_install "$WORKTREE_DIR"; then
   log "pnpm install failed in the press worktree; putting the candidate back"
   mv "$CLAIM" "${CANDIDATE_DIR}/${RUN_ID}.json"

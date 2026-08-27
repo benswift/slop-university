@@ -311,6 +311,30 @@ check_pairing() {
   [ -z "$MISSING_PDFS" ] && [ -z "$MISSING_IMGS" ]
 }
 
+# Reject the characteristic booklet/paper failure where the last paragraph or
+# reference block spills onto a mostly empty content page. The page checker
+# knows which page is content for each preset; posters retain their stricter
+# one-page preset checks. Pairing runs first, so every path passed here exists.
+#
+# Args: <base> <branch> <pending-dir>. Sets QUALITY_ERROR.
+check_output_quality() {
+  local base="$1" branch="$2" pending="$3" f id preset detail
+  QUALITY_ERROR=""
+
+  for f in $(git diff --name-only --diff-filter=A "$base" "$branch" -- 'website/src/content/outputs/*.yml'); do
+    id="$(basename "$f" .yml)"
+    preset="$(git show "${branch}:${f}" | sed -n 's/^preset:[[:space:]]*//p' | head -1)"
+    if ! detail="$("${PROJECT_DIR}/ops/check-output-quality.py" --preset "$preset" "${pending}/${id}.pdf" 2>&1)"; then
+      log "QUALITY FAILURE for ${id}:"
+      printf '%s\n' "$detail" >> "$LOG_FILE"
+      QUALITY_ERROR="${id} has an orphaned or substantially underfilled final content page"
+      return 1
+    fi
+    log "${detail}"
+  done
+  return 0
+}
+
 # Did THIS run stage any assets? Root-level PDFs plus the root img tree.
 #
 # Deliberately NOT "is the directory non-empty". While the concurrent split runs
