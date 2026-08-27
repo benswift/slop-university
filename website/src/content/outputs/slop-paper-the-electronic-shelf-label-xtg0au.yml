@@ -1,0 +1,46 @@
+title: Synchronising the Shelf Edge
+subtitle: >-
+  Gossip Consensus, Canary Rollouts, and the Price Tag That Missed the Beacon
+authors:
+  - Lindiwe Achterberg
+  - Verity Marris
+  - Osei Vandermeer
+preset: paper
+school: School of Emergent Priorities
+date: 2026-08-27
+publishedAt: "2026-08-27T13:32:51+10:00"
+doi: 10.5555/slop.xtg0au
+summary: >-
+  A paper from the School of Emergent Priorities builds a gossip-based
+  anti-entropy layer, staged canary rollout, and version-vector
+  reconciliation rule for a 40-store electronic shelf label network, and
+  finds the design compresses the tail of full-fleet price convergence
+  sharply while leaving its median largely unchanged. A canary-removal
+  ablation shows the staged rollout contributes nothing to convergence
+  speed, functioning instead as a conflict-containment mechanism.
+topic: >-
+  The electronic shelf-label network: a distributed consensus and
+  staged-rollout protocol -- gossip propagation, canary tags, conflict
+  resolution for a shelf edge that misses a beacon -- built to guarantee
+  every price tag in a supermarket converges on a change within a bounded
+  number of seconds, tested against how often a shopper still lifts an item
+  priced from a tag that hasn't caught up
+pages: 6
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.22tpz2
+  - 10.5555/slop.4e2id5
+  - 10.5555/slop.9pvjpl
+  - 10.5555/slop.b0njfs
+  - 10.5555/slop.fhlpyv
+  - 10.5555/slop.ipputw
+  - 10.5555/slop.m0pulh
+  - 10.5555/slop.u78aw8
+  - 10.5555/slop.vxfhl7
+  - 10.5555/slop.ws53l7
