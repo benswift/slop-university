@@ -356,6 +356,48 @@ If the generation or its checklist fails in a way a normal from-preset run would
 fix (parity, overflow, a failed image), fix it as that workflow directs. If it
 fails unrecoverably, abort (delete nothing from `output/`; it's gitignored).
 
+After the first clean compile, inspect the eight most recent published PDFs for
+the selected preset as a negative audit only --- never as exemplars. Track
+repeated non-fixed section labels and repeated sentence openings as a temporary
+avoid-list for this run; the preset's fixed furniture is exempt. Run:
+
+```sh
+ops/check-recent-language.py output/pdf/<group>/<run-id>.pdf --preset <preset>
+```
+
+It reports two groups. Rewrite everything under **repeated non-fixed section
+labels** and **repeated sentence openings**, then recompile and rerun the audit.
+Leave the **standing furniture** group alone unless the blueprint marks that
+element free --- a paper has a Related work section and a poster carries the
+Office of Research Outputs wordmark, and rotating those breaks the preset. The
+point is not synonym roulette inside fixed genre furniture; it is to stop a
+model route from quietly turning one successful section map and six-word prose
+frame into the house template.
+
+Then apply the commission test to the finished PDF. Complete one of these
+sentences from what is visibly central in the artefact:
+
+- `The proxy or rule causes …`
+- `On the strength of the finding, the institution binds itself to …`
+
+If neither can be completed, the method or scale must itself be something a
+serious institution could not commission unchanged. Otherwise revise the central
+consequence or action and recompile. If the finished artefact still reads as
+competent real work, release the topic claim and abort; do not stage or commit
+it.
+
+For papers and booklets, also run the final-content-page gate after the clean
+compile:
+
+```sh
+ops/check-output-quality.py --preset <preset> output/pdf/<group>/<run-id>.pdf
+```
+
+An orphaned or substantially underfilled final content page is a failed layout,
+not spare breathing room. Rebalance the preceding material and recompile until
+the check passes. The unattended wrapper repeats this check against the staged
+PDF before upload.
+
 ### Cite the canon
 
 Before compiling, pick the prior outputs this document will cite. **Every preset
