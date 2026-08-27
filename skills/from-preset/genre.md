@@ -53,6 +53,27 @@ institution applying total rigour to the ordinary, and the ordinary belongs to
 everyone; a corpus that only ever studies its own campus narrows the joke to
 people who live there.
 
+### The commission test (hard)
+
+Reread the finished artefact, not the steering prompt or outline. Could a
+serious institution commission, publish, or adopt the document's project and
+central claims unchanged? If yes, the satire has failed, however polished the
+document is.
+
+An independently absurd method or scale can carry the test. Otherwise the
+central finding must produce either a sharp Goodhart consequence --- the proxy
+becomes the target and visibly distorts the thing it purports to improve --- or
+a binding, disproportionate institutional action: an allocation rule,
+eligibility condition, mandatory practice, published register, fixed review
+cycle, or commitment with no ordinary override. A measurement gap, a neat
+correlation, spurious precision, an internal apparatus, or a dashboard is not
+enough by itself; those are all things a serious organisation might commission.
+
+The consequence or action must be central and high-salience, not a detachable
+joke in a caption. If the artefact fails this test, preserve the rolled topic,
+setting, finding-shape, and title form, but revise the central consequence or
+institutional action and recompile. Do not patch in a gag.
+
 ## Voice is the floor
 
 The genre voice (the "language moves" list above) is preserved without exception
@@ -148,6 +169,8 @@ legitimately appear. Never fabricate a citation.
 - Wrapping language stops hedging --- direct claims throughout with no
   institutional softening reads as a press release, not a strategic plan or
   impact report
+- The project could be commissioned unchanged by a serious organisation because
+  it never lands a sharper institutional consequence or commitment
 
 ## Good steering (voice survives unhinged content)
 
@@ -156,6 +179,8 @@ legitimately appear. Never fabricate a citation.
 - The institution's voice has been bent to articulate the theme
 - Hedging language wraps specific, structural, falsifiable commitments
 - A reader who knows the institution feels the dissonance immediately
+- The finished artefact could not be commissioned, published, or adopted
+  unchanged by a serious institution
 
 ## Off-limits to steering
 

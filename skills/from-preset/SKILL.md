@@ -187,6 +187,14 @@ format.
       activist verbs, no exclamation marks, no manifesto register)
 - [ ] Hedging language wraps the specific commitments (the doc is unhinged in
       content, not in prose register)
+- [ ] Rotates away from recent corpus scaffolds: no burnt section labels ("The
+      problem", "What we found", "What it means"), no literal "Next:" close, no
+      stock "three contributions" opener, no prompt leakage like "each hedged"
+      or "for completeness"
+- [ ] The finished artefact passes the hard commission test in `genre.md`: a
+      serious institution could not commission, publish, or adopt its project
+      and central claims unchanged. Its absurd method/scale, sharp Goodhart
+      consequence, or binding disproportionate action is central, not garnish
 - [ ] _(booklet format)_ No `#pagebreak()` calls anywhere in the typst source
       (the template breaks after the contents)
 - [ ] _(booklet format)_ Cover image set; inline figures placed within sections
@@ -212,6 +220,11 @@ format.
   exclamation marks, activist verbs, first-person passion, no hedging on the
   wrapped claims. Regenerate. The hedge wraps the unhinged commitment; if the
   wrapper goes too, the joke dies.
+- **Reads as competent real work**: a measurement gap, neat correlation, precise
+  dashboard, or internal apparatus can be perfectly plausible. Preserve the
+  roll, but make the proxy distort its target or make the institution bind
+  itself to a disproportionate rule; then recompile and rerun the commission
+  test.
 - **Figures isolated on near-empty pages** _(booklet format)_: there are stray
   `#pagebreak()` calls in the typst. Booklets carry none at all; remove any you
   find.

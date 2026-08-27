@@ -122,7 +122,7 @@ the **feature-top** differences are in the Layout roll).
 | Aims / Research questions | column flow                                  | 3 terse bullets                                                                                                                                                            |
 | Methods                   | column flow                                  | ~3 terse bullets (n · instrument · sampling · duration; model; key control)                                                                                                |
 | Results                   | left cell                                    | one or two hedged sentences; the chart leads the right cell, with a caption stating a falsifiable claim                                                                    |
-| Discussion / conclusions  | column flow                                  | ~2-3 punchy, hedged lines + a "Next:" fragment                                                                                                                             |
+| Discussion / conclusions  | column flow                                  | ~2-3 punchy, hedged lines + a one-line close naming the next trial, implication, or instrument change without the literal label "Next:"                                    |
 | References                | column flow (end)                            | 6-8 real, verified citations (DOI/arXiv-checked) in small (~8pt) text, 1-3 of them slop self-citations                                                                     |
 | Builds on                 | column flow, under the references            | run-in strip of 3-5 prior slop outputs by DOI --- ledger-verified, no external checking (see "Builds on")                                                                  |
 | Footer line               | column flow (end)                            | one deadpan acknowledgements / ethics / data line (never a person)                                                                                                         |
@@ -215,15 +215,15 @@ dimension the box doesn't fill, matching what `fit: cover` will show.)
 One choice per section per run. Reservoirs grow over time; aim for ~4 entries
 each.
 
-| Section role | Reservoir                                                             |
-| ------------ | --------------------------------------------------------------------- |
-| Background   | "Background", "Introduction", "Motivation", "The problem"             |
-| Aims         | "Aims", "Objectives", "Research questions", "What we set out to test" |
-| Methods      | "Methods", "Approach", "Materials & methods", "Study design"          |
-| Results      | "Results", "Findings", "What we found", "Results & analysis"          |
-| Discussion   | "Discussion", "Implications", "Interpretation", "What it means"       |
-| Conclusion   | "Conclusion", "Conclusions & future work", "Where next", "Takeaways"  |
-| References   | "References", "Selected references", "Further reading"                |
+| Section role | Reservoir                                                            |
+| ------------ | -------------------------------------------------------------------- |
+| Background   | "Background", "Introduction", "Motivation", "Context"                |
+| Aims         | "Aims", "Objectives", "Research questions", "Study aims"             |
+| Methods      | "Methods", "Approach", "Materials & methods", "Study design"         |
+| Results      | "Results", "Findings", "Observed pattern", "Results & analysis"      |
+| Discussion   | "Discussion", "Implications", "Interpretation", "Reading the result" |
+| Conclusion   | "Conclusion", "Conclusions & future work", "Where next", "Takeaways" |
+| References   | "References", "Selected references", "Further reading"               |
 
 ### Chart count and types
 
@@ -667,7 +667,7 @@ the feature image's white-on-scrim treatment is already the dark idiom.
       )
 
       == Discussion & conclusions
-      <2-3 punchy, hedged lines, then a "Next:" fragment>
+      <2-3 punchy, hedged lines, then a one-line close naming the next trial, implication, or instrument change without the literal label "Next:">
 
       == References
       #block[

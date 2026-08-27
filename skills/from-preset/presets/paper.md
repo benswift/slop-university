@@ -72,7 +72,7 @@ it in unbroken paper register.
 | Section                | Length          | Notes                                                                                                            |
 | ---------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Title block + abstract | spans both cols | Title, authors + affiliations (+ DOI on publish runs), 150-220 word abstract                                     |
-| Introduction           | ~350 words      | The gap, framed seriously; contributions as a 3-bullet list (each hedged)                                        |
+| Introduction           | ~350 words      | The gap, framed seriously; 2-3 specific contributions, in prose or bullets, phrased in ordinary paper register   |
 | Related work           | ~250 words      | Where most citations live; every claim about a cited work must be true of that work                              |
 | Prior work here        | ~60 words       | Run-in block citing 4-6 further Slop University outputs by DOI --- ledger-verified only (see "Prior work here")  |
 | Method                 | ~400 words      | Deadpan procedural; one display equation and/or a short code listing earn the costume                            |
