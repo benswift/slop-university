@@ -2,18 +2,17 @@
   "name": "slop-course-catalogue",
   "private": true,
   "type": "module",
-  "engines": {
-    "node": ">=24",
-    "pnpm": ">=11"
-  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "lint": "oxlint astro.config.ts scripts src",
-    "format": "oxfmt astro.config.ts scripts src",
-    "format:check": "oxfmt --check astro.config.ts scripts src",
+    "lint": "oxlint && pnpm lint:css",
+    "lint:fix": "oxlint --fix && pnpm lint:css:fix",
+    "lint:css": "stylelint --allow-empty-input \"src/**/*.css\"",
+    "lint:css:fix": "stylelint --allow-empty-input --fix \"src/**/*.css\"",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "test": "vitest run",
     "catalogue:sync": "tsx scripts/sync-courses.ts"
   },
@@ -29,11 +28,21 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@e18e/eslint-plugin": "^0.8.0",
     "@types/node": "^24.0.0",
+    "eslint-plugin-no-only-tests": "^3.4.0",
+    "eslint-plugin-perfectionist": "^5.11.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "oxfmt": "^0.66.0",
     "oxlint": "^1.81.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
     "tsx": "^4.23.13",
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=11"
   }
 }
