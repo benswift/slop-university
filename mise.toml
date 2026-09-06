@@ -1,6 +1,6 @@
 # Press-pipeline toolchain. typst is pinned because compiled output is
 # version-sensitive; avifenc and ffmpeg are system packages (no mise-native
-# backend worth the weight). node/pnpm live in website/mise.toml.
+# backend worth the weight). node/pnpm live in website/mise.toml and courses/mise.toml.
 [tools]
 typst = "0.15.0"
 

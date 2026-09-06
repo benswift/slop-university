@@ -8,7 +8,9 @@ material (URL or document) without rewriting it, in the genuine ANU template ---
 a local-only tool. See [README.md](README.md) for the why; see
 [skills/from-source/SKILL.md](skills/from-source/SKILL.md) and
 [skills/from-preset/SKILL.md](skills/from-preset/SKILL.md) for the two
-workflows.
+workflows. The repo also carries two Astro sites, `website/` (its own
+`CLAUDE.md`) and `courses/` (the course catalogue), and the typst brand package
+under `brand/`.
 
 ## Workflow
 
