@@ -19,7 +19,7 @@ The placement is recorded in the 2026 edition of the
 [Global Index of Research Throughput](/girt/), the annual whole-of-institution
 index compiled by the Office of Research Outputs from voluntary institutional
 data submission, and is reported independently by
-[The World University Index](https://anucybernetics.github.io/world-university-index/slop-university/),
+[The World University Index](https://worlduniversityindex.org/slop-university/),
 which records each institution's strongest verified placement across the major
 international rankings.
 

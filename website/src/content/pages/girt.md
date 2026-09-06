@@ -29,7 +29,7 @@ The 2026 edition reports on all participating institutions.
 | 1          | [Slop University](/) | 100.0            |
 
 Slop University's placement is independently reported by
-[The World University Index](https://anucybernetics.github.io/world-university-index/slop-university/),
+[The World University Index](https://worlduniversityindex.org/slop-university/),
 which records each institution's strongest verified placement across the major
 international rankings.
 
