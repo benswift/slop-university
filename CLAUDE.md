@@ -16,11 +16,9 @@ Two slash commands:
 
 - `/from-preset <preset-name> <steering>` → `skills/from-preset/SKILL.md` ---
   generate a fake doc from a named preset blueprint. The registry is
-  `skills/from-preset/presets/` (currently `strategy`, `impact-report`,
-  `research-poster`, `marketing-poster`, `paper`, `brochure`); each blueprint
-  declares its own format (`booklet`, `poster`, or `paper`), identity, and title
-  policy. Drop a new file in to add another (authoring guide:
-  `skills/from-preset/presets/README.md`).
+  `skills/from-preset/presets/`; each blueprint declares its own format
+  (`booklet`, `poster`, or `paper`), identity, and title policy. Drop a new file
+  in to add another (authoring guide: `skills/from-preset/presets/README.md`).
 - `/from-source <source>` → `skills/from-source/SKILL.md` --- typeset a URL or
   local file (`.docx`, `.odt`, `.md`, `.html`, `.typ`, `.txt`) faithfully into
   the ANU template. No rewriting; small editorial calls for heading hierarchy /
@@ -90,8 +88,10 @@ Slop University is a persistent fiction: its people, schools, and units live in
   researcher, or named contact. Generated documents may invoke the **office**
   ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
   institutional register; never the name. The file takes no further entries.
-- `canon/schools.md` --- school, unit, and lab names. Never invent an org unit
-  inside a run; add it to the canon first.
+- `canon/schools.yml` --- the org chart: school, unit, lab, program, and
+  initiative names, with their blurbs. `canon/schools.md` is the sibling
+  authoring doctrine (naming register, collision check). Never invent an org
+  unit inside a run; add it to `schools.yml` first.
 - `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
   sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
   run.
@@ -189,7 +189,7 @@ Slop University is a persistent fiction: its people, schools, and units live in
   section names, initiative or vignette wording, and KPI/metric targets even
   when the steering prompt is similar.
 - (Preset path) Don't name anyone outside `canon/roster.yml`, and don't invent
-  schools or units outside `canon/schools.md`. The Vice-Chancellor
+  schools or units outside `canon/schools.yml`. The Vice-Chancellor
   (`canon/leadership.yml`) is a real person: name the office, never the
   occupant, and never credit him with an output, a grant, or a quote.
 - (Faithful path) Don't paraphrase, summarise, or "improve" the source. Don't
