@@ -7,7 +7,7 @@ import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
-import { ogImage, outputHero, thumbnail } from "../../lib/images";
+import { ogImage, outputHero } from "../../lib/images";
 import { citedBy, references } from "../../lib/citations";
 
 export async function getStaticPaths() {
@@ -21,7 +21,6 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const data = entry.data;
 const hero = outputHero(entry.id, data.hero);
-const thumb = thumbnail(entry.id, data.thumb);
 // og from the hero when one exists, else the first page — same preference as
 // the visible page. Deliberately no citation_* (Highwire) meta alongside it:
 // robots.txt disallows /outputs/pdf/ to keep fabricated citations out of
