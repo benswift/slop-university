@@ -7,9 +7,10 @@ spread into the site config in `src/site-config.ts`. The repo-level `CLAUDE.md`
 satire rules apply to everything here; this file adds the doctrine for the
 autonomous publish agent, which grows this site over time.
 
-## Hard floors (mechanically enforced --- the push wrapper validates every
+## Hard floors
 
-## publish commit against a path allowlist; violating paths are reset)
+Mechanically enforced: the push wrapper validates every publish commit against a
+path allowlist, and resets violating paths.
 
 - **Never edit** `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
   `src/site-config.ts` (nav and branding), `canon/schools.md` (the org
@@ -21,19 +22,18 @@ autonomous publish agent, which grows this site over time.
   anywhere except the footer's existing "About this project" link.
 - **No verifiable factual claims.** Nothing checkable-and-falsifiable; no
   fabricated regulatory codes (CRICOS etc.); no real organisations named as
-  partners. The one carve-out is **internal award values**: a dollar figure on a
+  partners. Two carve-outs. **Internal award values**: a dollar figure on a
   grant or prize from a `canon/grants.yml` scheme is fiction-internal (the
   funder is a Slop University body; there is no registry to check it against)
-  and may be stated exactly. A second carve-out is **the University's ranking
-  claim** (the homepage line, `/girt/`, and the human-authored recognition news
-  post of 2026-08-07): checkable, and it checks out --- the self-published GIRT
-  table on this site and The World University Index (a sibling satire project)
-  both verify it. All three surfaces are human-maintained; the tick never edits
+  and may be stated exactly. **The University's ranking claim** (the homepage
+  line, `/girt/`, and the human-authored recognition news post): checkable, and
+  it checks out against the self-published GIRT table and The World University
+  Index. All three surfaces are human-maintained --- the tick never edits
   `girt.md` and never states a ranking itself (`skills/publish/comms.md`).
 - **No real people.** Every named person comes from `canon/roster.yml` (with
-  their canonical title and school); every org unit from `canon/schools.md`. The
-  single exception is the Vice-Chancellor in `canon/leadership.yml`, who is a
-  real person (the artist) and is therefore outside the roster and outside the
+  their canonical title and school); every org unit from `canon/schools.yml`.
+  The single exception is the Vice-Chancellor in `canon/leadership.yml`, who is
+  a real person (the artist) and is therefore outside the roster and outside the
   tick's reach: never credit him with an output, a grant, or a quote, never add
   a second leadership entry, and in page prose name the office rather than the
   occupant. His profile page already exists; the agent does not edit it.
@@ -57,42 +57,33 @@ fills one gap. Its editable surface is exactly the wrapper's allowlist:
   the About page. Never `colophon.md` (the wrapper's denylist rejects it).
 - **Research outputs** --- news posts and output entries (the tick's default
   action).
-- **Grants and prizes** --- award entries (`website/src/content/grants/`) from
-  the schemes in `canon/grants.yml`, each announced by a news post (the 2I
-  rung). The schemes themselves are human-added only --- `canon/grants.yml` is
-  outside the wrapper's allowlist.
+- **Grants and prizes** --- award entries (`src/content/grants/`) from the
+  schemes in `canon/grants.yml`, each announced by a news post (the 2I rung).
+  The schemes themselves are human-added only --- `canon/grants.yml` is outside
+  the wrapper's allowlist.
 
 The research-performance dashboard and the page routes under `src/pages/` are
-built by hand (like this pass), not grown by the tick.
+built by hand, not grown by the tick.
 
 - All imagery follows the two-ink house style
   (`skills/_shared/visual-style.md`), generated via `references/slop-style/`. No
   stock photos, no off-style one-offs.
-- **Every image goes through the Astro pipeline (`astro:assets`).** Import from
-  `src/` (or resolve via an `import.meta.glob` helper) and render with `<Image>`
-  or a theme component (`Hero`, `Card`) --- never a raw `<img src>` at a
-  `public/` path. `public/` holds only the download PDFs.
-- **Every page carries a hero.** Heroes are landscape 16:9, resolved by id/name
-  and rendered by the theme via `ContentLayout heroImage=` (or `Hero` directly).
-  Resolvers live in `src/lib/heroes.ts`: `pageHero(name)` for standalone/index
-  pages (`src/assets/heroes/<name>.avif`), `outputHero(id)` for outputs
-  (`src/assets/heroes/outputs/<id>.avif`, reused on the announcing news post),
-  `newsHero(id)` for a news post that announces no output --- a grant award or
-  an institutional notice --- (`src/assets/heroes/news/<id>.avif`), and
-  `personHero(id)` / `schoolHero(id)` for canon profiles
-  (`canon/heroes/{people,schools}/<id>.avif`, generated with the headshot as a
-  reference so the researcher appears in a landscape scene). A news post and its
-  listing card both resolve through `newsPostHero(id, outputId)`, which picks
-  between the output's hero and the post's own, so the two never disagree. A
-  missing hero resolves to `undefined` and the page falls back to a plain
-  `<h1>`, so pages render before their art exists.
+- **Every page carries a hero**, landscape 16:9, rendered by the theme via
+  `ContentLayout heroImage=` (or `Hero` directly). The slow-growing families ---
+  page, person and school heroes, plus roster headshots --- go through
+  `astro:assets` and resolve by id: `pageHero(name)`, `personHero(id)` and
+  `schoolHero(id)` in `src/lib/heroes.ts`, `headshot(id)` in
+  `src/lib/headshots.ts`. The per-tick families (output heroes, news heroes,
+  output thumbnails) are pre-encoded into the `img.slop.university` bucket, and
+  their URLs derive from the entry id plus the dims recorded in frontmatter
+  (`src/lib/images.ts`). A missing hero resolves to `undefined` and the page
+  falls back to a plain `<h1>`, so pages render before their art exists.
 - Longer pages may break up the text with the occasional inline image. In
   markdown, reference it by a **relative** path (`![alt](./foo.avif)`) so it
   routes through the pipeline --- never an absolute `public/` path or a remote
-  URL.
-- Any chart on a web page is Vega-Lite in the theme colours (`--at-primary`
-  gold, ink, greys) --- never library-default palettes. Generated PDFs keep
-  using gribouille; that pipeline is unchanged.
+  URL. `public/` holds only `CNAME` and `robots.txt`.
+- Any chart on a web page is Vega-Lite in the theme colours --- never
+  library-default palettes. Generated PDFs use gribouille instead.
 - Voice: pages stay in the institutional register (`skills/from-preset/`
   `genre.md`); news posts use the comms register (`skills/publish/comms.md`).
 
@@ -110,19 +101,15 @@ built by hand (like this pass), not grown by the tick.
   change. Headshots resolve from `canon/headshots/` via `src/lib/headshots.ts`.
   The content test (`src/content/content.test.ts`) enforces the seams: output
   authors and schools must exist in the canon.
-- `src/content/outputs/*.yml` --- one entry per published artefact (title,
-  optional subtitle, authors, preset, school, date, optional `publishedAt`, doi,
-  summary, topic, pdf, pages, version). `publishedAt` is the exact wrapper
-  timestamp used to order same-day signage candidates; `date` remains the
-  human-facing publication date. `title` is the main/head title and `subtitle`
-  the optional deck; the two rejoin with ": " (`fullTitle` in
+- `src/content/outputs/*.yml` --- one entry per published artefact; the schema
+  in `src/content.config.ts` is the field list. `title` is the main/head title
+  and `subtitle` the optional deck; the two rejoin with ": " (`fullTitle` in
   `src/lib/outputs.ts`) for the citation, document `<title>`, DOI resolver, and
-  announcing news post. Only the PDF lives in `public/` (`public/outputs/pdf/`);
-  `robots.txt` disallows `/outputs/pdf/`, which is load-bearing (it keeps
-  fabricated citations out of Google Scholar). The first-page thumbnail and the
-  landscape hero are pipeline assets under `src/assets/outputs/thumbs/<id>.avif`
-  and `src/assets/heroes/outputs/<id>.avif`, resolved by basename === entry id
-  (no yml field), via `src/lib/thumbnails.ts` and `src/lib/heroes.ts`.
+  announcing news post. `publishedAt` is the exact wrapper timestamp used to
+  order same-day signage candidates; `date` remains the human-facing publication
+  date. No entry stores a URL: the PDF (`src/lib/pdfs.ts`), hero and thumbnail
+  (`src/lib/images.ts`) all derive from the entry id, and only the images'
+  intrinsic dims are recorded.
 - `src/content/news/*.md` --- press releases; frontmatter `output:` references
   the outputs entry id. `title` is the punchy headline (hero h1 and listing
   card); the optional `subtitle` renders as a deck beneath the hero (mirroring
@@ -131,8 +118,7 @@ built by hand (like this pass), not grown by the tick.
   itself. A grant announcement instead carries `grant:` (the grants entry id);
   the post appends the award's details box and is the award's public record. A
   post announcing an output shows that output's hero; a post announcing a grant,
-  or announcing nothing (an institutional notice), carries its own at
-  `src/assets/heroes/news/<id>.avif`.
+  or announcing nothing (an institutional notice), records its own `hero:` dims.
 - `src/content/grants/*.yml` --- one entry per awarded grant or prize
   (`<date>-<slug>.yml`: name, scheme, date, grantees, value, summary), each
   referencing a scheme in `canon/grants.yml` (loaded in place as the
@@ -147,7 +133,6 @@ built by hand (like this pass), not grown by the tick.
 
 ## Checks
 
-Before any publish commit:
-`pnpm typecheck && pnpm lint && pnpm lint:css && pnpm test && pnpm build` all
-green, from this directory. A failed build means no publish --- never commit a
-red state.
+Before any publish commit, from this directory:
+`pnpm lint && pnpm typecheck && pnpm test && pnpm build` all green (`lint` runs
+`lint:css`). A failed build means no publish --- never commit a red state.
