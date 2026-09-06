@@ -1,4 +1,5 @@
 import sitemap from "@astrojs/sitemap";
+import svelte from "@astrojs/svelte";
 import { defineConfig } from "astro/config";
 import universityTheme from "astro-theme-university";
 
@@ -7,6 +8,7 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   integrations: [
+    svelte(),
     universityTheme({
       name: "Slop University Courses",
       brandCss: "astro-theme-slop/slop.css",
