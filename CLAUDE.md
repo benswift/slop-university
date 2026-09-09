@@ -41,14 +41,29 @@ pairing check, the agent-failure classifiers):
   `data/pending-uploads/<run-id>/` and one marker file in `data/candidates/`.
   One serial lander claims the oldest candidate, rebases it onto current
   `origin/main`, runs the one authoritative build, validates, uploads and
-  pushes. Slot 1 runs the whole gap ladder; slots 2+ are pinned to 2A, because
-  the gardening rungs are gated on shared state and two slots reading it pick
-  the same gap.
+  pushes. Slot 1 gets the full ladder assessment; slots 2+ are pinned to 2A,
+  because the gardening rungs are gated on shared state and two slots reading it
+  pick the same gap.
+
+The wrapper decides what a run does and meters what it cost; the model only
+composes. Everything a run used to work out by reading the corpus is a script
+(each one's docstring says why it exists): `ops/assess-ladder.py` names the rung
+and its parameters on the invocation line, `ops/scan-discourse.py` prints feed
+titles, `ops/topic-neighbours.py` prints the dedup shortlist,
+`ops/check-recent-language.py` reports stock language and self-reference,
+`ops/check-output-quality.py` catches a collapsed final page,
+`ops/verify-site.sh` runs the site chain quietly, and `ops/run-usage.py` logs
+each tick's tokens to `data/usage-ledger.jsonl` (`--weekly` for the trailing
+week --- the number the tick rate is tuned against). Route, model and effort are
+pinned in `ops/publish-lib.sh` and overridable with `SLOPU_AGENT_PROFILE`,
+`SLOPU_AGENT_MODEL` and `SLOPU_AGENT_EFFORT`.
 
 `ops/publish-selftest.sh` drives both against a throwaway clone with a fake
 agent standing in for the model --- run it after touching any of them. The
 pipeline has no deploy step: `ops/cron-publish.sh` is invoked from this
-checkout, so an edit is live at the next tick.
+checkout, so an edit is live at the next tick --- stop the timer while a
+multi-file edit is in flight (`systemctl --user stop slop-publish.timer`, then
+`start`; never `restart`, see the footgun note in ops/systemd/).
 
 `bin/slopu` is the common headless entry point for the generation commands and
 `/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the
