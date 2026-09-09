@@ -438,6 +438,14 @@ fallback_model_for_profile() {
 AGENT_MODEL="${SLOPU_AGENT_MODEL:-$(default_model_for_profile "$AGENT_PROFILE")}"
 AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$(fallback_model_for_profile "$AGENT_PROFILE")}"
 
+# --- Reasoning effort, pinned for the same reason the model is. Unset, the
+# Claude runner inherits ~/.claude/settings.json (the interactive default).
+# Effort is the cheapest lever on a run's token bill --- lower effort means
+# fewer, more consolidated tool calls --- so it has to be a property of the
+# pipeline, tunable per route without an edit. Only the Claude runner takes
+# the flag; agent-run ignores it on other profiles.
+AGENT_EFFORT="${SLOPU_AGENT_EFFORT:-high}"
+
 # --- The route to fall back to when the whole ACCOUNT is out, not one model.
 #
 # The model fallback above assumes what is true of Claude: a usage limit binds
@@ -487,7 +495,21 @@ switch_to_fallback_profile() {
 # Args: <worktree-dir> (the corpus the attribution draw reads). Sets PRESET,
 # AXES and PUBLISHED_AT.
 draw_run_inputs() {
-  local worktree="$1"
+  local worktree="$1" mode="${2:-}"
+  # The ladder (which rung is due) is assessed here, by ops/assess-ladder.py,
+  # not by the model. The model used to assess it each tick, and once the
+  # prompt started naming a 2A preset it anchored on 2A: rung 2H fired for the
+  # last time on 2026-08-25 and the newsroom sat silent for sixteen days
+  # behind a green pipeline. A script cannot be anchored, reads the ledger for
+  # free, and gives two concurrent slots the same answer. A generator slot
+  # other than slot 1 passes "2a-only" and the assessor returns 2A unread.
+  local assess_args=(--root "$worktree" --json)
+  [ "$mode" = "2a-only" ] && assess_args+=(--only-2a)
+  [ -n "${SLOPU_ASSESS_NO_NETWORK:-}" ] && assess_args+=(--no-network)
+  ACTION_JSON="$("${PROJECT_DIR}/ops/assess-ladder.py" "${assess_args[@]}")"
+  ACTION="$(printf '%s' "$ACTION_JSON" | jq -r .rung)"
+  ACTION_REASON="$(printf '%s' "$ACTION_JSON" | jq -r .reason)"
+  ACTION_PARAMS="$(printf '%s' "$ACTION_JSON" | jq -c .params)"
   PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
   # Preset first, then the axes drawn FOR it: a preset that fixes its school
   # (impact-report) must not be handed a lead author from another one. Two
@@ -495,22 +517,28 @@ draw_run_inputs() {
   # unattended agent has nobody to ask about it.
   AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$worktree" --preset "$PRESET")"
   PUBLISHED_AT="$(date -Iseconds)"
+  log "=== assessed action: ${ACTION} --- ${ACTION_REASON} ==="
+  log "action params: ${ACTION_PARAMS}"
   log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
   log "=== drawn axes ==="
   printf '%s\n' "$AXES" >> "$LOG_FILE"
 }
 
-# Build the /publish prompt from the drawn inputs. Sets AGENT_PROMPT.
+# Build the /publish prompt from the assessed action and the drawn inputs.
+# Sets AGENT_PROMPT.
 #
-# EXTRA_INSTRUCTIONS lets a generator slot narrow the ladder to 2A without a
-# second copy of the prompt: concurrent slots must not garden, because the
-# gardening rungs are gated on shared state and two slots reading it choose the
-# same gap (two bios for one thin researcher, two rewrites of the About page).
+# The action comes first and by name, so the run never re-reads the ledger to
+# decide what to do. The preset and axes are only sent on a 2A run: on any
+# other rung they are noise that pulled the model back toward 2A.
 compose_agent_prompt() {
   local extra="${1:-}"
-  AGENT_PROMPT="/publish. For a 2A output, the wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; for a 2A output, compose the topic to FIT them, and do not infer, count or override any of them:
-${AXES}
-Record publishedAt from SLOPU_PUBLISHED_AT in its output entry."
+  AGENT_PROMPT="/publish. This run's action is ${ACTION} --- assessed by ops/assess-ladder.py from the live ledger (${ACTION_REASON}). Take that action and no other; do not re-assess the ladder or read the corpus to second-guess it. Action parameters: ${ACTION_PARAMS}
+Record publishedAt from SLOPU_PUBLISHED_AT in any outputs entry."
+  if [ "$ACTION" = "2A" ]; then
+    AGENT_PROMPT="${AGENT_PROMPT}
+The wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; compose the topic to FIT them, and do not infer, count or override any of them:
+${AXES}"
+  fi
   [ -n "$extra" ] && AGENT_PROMPT="${AGENT_PROMPT}
 ${extra}"
   return 0
@@ -544,9 +572,11 @@ ${extra}"
 # so bound that one with a spend cap on the key instead.
 run_agent() {
   local worktree="$1" model="$2"
+  local started
+  started="$(date -Iseconds)"
   AGENT_STATUS=0
   rm -f "$STOP_FAILURE_LOG"
-  log "=== publish agent starting at $(date -Iseconds) (profile ${AGENT_PROFILE}, model ${model}) ==="
+  log "=== publish agent starting at ${started} (profile ${AGENT_PROFILE}, model ${model}, effort ${AGENT_EFFORT}) ==="
   (
     cd "$worktree"
     GIT_AUTHOR_NAME="Slop University Press" \
@@ -567,11 +597,19 @@ run_agent() {
     "$AGENT_RUN" \
       --profile "$AGENT_PROFILE" \
       --model "$model" \
+      --claude-effort "$AGENT_EFFORT" \
       --bypass-permissions \
       "$AGENT_PROMPT"
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
   cat "$AGENT_OUT" >> "$LOG_FILE"
   log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
+  # What the run cost, from the runner's own transcript. This is the meter
+  # the tick rate is tuned against: a subscription is a weekly token budget,
+  # and without a per-run number "saturate the plan" is a guess. Best effort
+  # --- a metering failure must never fail a tick.
+  "${PROJECT_DIR}/ops/run-usage.py" --profile "$AGENT_PROFILE" --since "$started" \
+    --worktree "$worktree" --label "${ACTION:-?}/${PRESET:-?}" >> "$LOG_FILE" 2>&1 \
+    || log "usage: metering failed (non-fatal)"
   # Verbatim, so the first real rate-limit carries its own evidence into the
   # log rather than only its classification.
   if [ -s "$STOP_FAILURE_LOG" ]; then

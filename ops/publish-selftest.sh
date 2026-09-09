@@ -24,6 +24,9 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# The ladder assessor's socials gate reads the live Bluesky feed; the fixture
+# must not depend on the network, and fail-closed means "not due" anyway.
+export SLOPU_ASSESS_NO_NETWORK=1
 FIXTURE="$(mktemp -d -t slopu-selftest-XXXXXX)"
 KEEP=0
 [ "${1:-}" = "--keep" ] && KEEP=1
@@ -72,6 +75,8 @@ git -C "$REPO" config user.name "Ben Swift"
 for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
          ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
+         ops/assess-ladder.py ops/run-usage.py ops/scan-discourse.py \
+         ops/topic-neighbours.py ops/verify-site.sh \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
          skills/from-preset/presets/*.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"

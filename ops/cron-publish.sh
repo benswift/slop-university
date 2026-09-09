@@ -393,13 +393,13 @@ if [ -n "$AGENT_SHAS" ]; then
   # subject is the only description guaranteed to match what landed.
   result "published" "$(echo "$AGENT_SHAS" | wc -l) agent commit(s) pushed: $(git log --format='%s' -1 "$(echo "$AGENT_SHAS" | head -1)")"
 elif [ "$AGENT_STATUS" -ne 0 ]; then
-  result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; rolled preset=${PRESET}; site redeployed unchanged"
+  result "failed-generation" "agent exited ${AGENT_STATUS} and published nothing; action=${ACTION} preset=${PRESET}; site redeployed unchanged"
   exit 4
 elif [ "$POSTED" = "yes" ]; then
   # A 2G tick, and a complete one. It sits above 2A on the ladder, so the rolled
   # preset goes unused and the next tick draws again --- the absence of a commit
   # is the design, not a symptom.
-  result "posted" "social post published; no commit, as a 2G tick stages a gitignored post; preset=${PRESET} unused"
+  result "posted" "social post published; no commit, as a 2G tick stages a gitignored post; action=${ACTION}"
 else
   # A clean exit having done nothing is a LOST TICK, and it exits non-zero so it
   # reaches a human like one. The skill's own ladder says why: rung 5 ("nothing
@@ -418,6 +418,6 @@ else
   # Deliberately NOT pattern-matched on "did the agent ask a question": there
   # are many ways to do nothing and only one thing worth reporting about all of
   # them, which is that the tick published nothing.
-  result "no-op" "agent exited cleanly but committed nothing and posted nothing (a lost tick); preset=${PRESET}"
+  result "no-op" "agent exited cleanly but committed nothing and posted nothing (a lost tick); action=${ACTION} preset=${PRESET}"
   exit 6
 fi

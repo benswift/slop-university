@@ -28,8 +28,8 @@
 # Slot 1 is the gardening slot: it runs the whole ladder (2B-2I), so bios,
 # blurbs, pages, news, grants and the social post keep flowing. Slots 2+ are
 # pinned to 2A. That asymmetry is deliberate --- the gardening rungs are gated
-# on shared state (2G if socials are due, 2H if the newsroom is due, 2I picks
-# "the researcher in no grant's grantees"), so two slots reading it choose the
+# on shared state (2G if socials are due, 2H if the newsroom is due, 2I picks the
+# researcher whose funding lags their output), so two slots reading it choose the
 # same gap, and no merge strategy catches a semantic duplicate.
 set -euo pipefail
 
@@ -121,14 +121,14 @@ if ! worktree_install "$WORKTREE_DIR"; then
   exit 1
 fi
 
-draw_run_inputs "$WORKTREE_DIR"
+if [ "$SLOT" = "1" ]; then
+  draw_run_inputs "$WORKTREE_DIR"
+else
+  draw_run_inputs "$WORKTREE_DIR" 2a-only
+fi
 
 # Slot 1 gardens; the rest are pinned to 2A. See the header.
-if [ "$SLOT" = "1" ]; then
-  compose_agent_prompt ""
-else
-  compose_agent_prompt "This is a 2A-only generator slot: take rung 2A (a new research output) regardless of what the ladder in phase 1 would otherwise choose, and do not take any of 2B-2I. If 2A itself cannot proceed, do nothing and exit."
-fi
+compose_agent_prompt ""
 
 # shellcheck disable=SC2034  # consumed by run_agent/publish_on_exit in publish-lib.sh
 AGENT_OUT="$(mktemp)"
@@ -231,14 +231,14 @@ if [ "$HEAD_SHA" = "$BASE_REF" ]; then
   log "agent committed nothing; no candidate produced"
   discard_candidate
   if [ "$AGENT_STATUS" -ne 0 ]; then
-    result "failed-generation" "agent exited ${AGENT_STATUS} and committed nothing in slot ${SLOT}; rolled preset=${PRESET}"
+    result "failed-generation" "agent exited ${AGENT_STATUS} and committed nothing in slot ${SLOT}; action=${ACTION} preset=${PRESET}"
     exit 4
   fi
   # Non-zero for the same reason as the serial pipeline's no-op: a generator
   # that exits clean having produced no candidate has lost its slot, and a zero
   # exit would fire OnSuccess= and clear the standing on-call todo on its way
   # out. See ops/cron-publish.sh for the long version.
-  result "no-op" "agent exited cleanly but committed nothing in slot ${SLOT} (a lost slot); preset=${PRESET}"
+  result "no-op" "agent exited cleanly but committed nothing in slot ${SLOT} (a lost slot); action=${ACTION} preset=${PRESET}"
   exit 6
 fi
 
