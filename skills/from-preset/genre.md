@@ -171,6 +171,14 @@ legitimately appear. Never fabricate a citation.
   impact report
 - The project could be commissioned unchanged by a serious organisation because
   it never lands a sharper institutional consequence or commitment
+- The document explains its own joke --- prose that names the paradox it is
+  performing ("replication treated as one more input the instrument absorbs",
+  "specificity is itself a form of institutional courage") is a wink. The
+  institution never notices the contradiction; only the reader does
+- The University's own prior outputs, instruments or programme are the subject
+  rather than the setting --- a retrospective of the corpus reads as an
+  institution admiring its apparatus, and the ordinary object the satire needs
+  has gone missing
 
 ## Good steering (voice survives unhinged content)
 
