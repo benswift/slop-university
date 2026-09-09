@@ -5,8 +5,10 @@
 """Compare a draft PDF with recent same-preset outputs for stock language.
 
 A negative audit, never a source of exemplars: it reports what the corpus is
-already saying so a run can say something else. Two things are counted --- the
-section labels a document uses, and the first six words of each sentence.
+already saying so a run can say something else. Three things are counted ---
+the section labels a document uses, the first six words of each sentence, and
+(within the current document only) self-reference to the University's own
+prior outputs.
 
 A label that appears in nearly every recent output is the blueprint's own
 furniture: a paper has a Related work section, a poster carries the Office of
@@ -15,6 +17,13 @@ template. A label in a middling number of them is the scaffold drifting into a
 house style --- six of the last eight posters opening with "The problem" is the
 thing worth rewriting. The two are reported separately rather than filtered,
 because which is which is the blueprint's call, not this script's.
+
+Between July and September the share of outputs whose prose is about the
+University's own prior programme (rather than the world) rose from 1% to 14%:
+brochures and strategies started reading as retrospectives of the corpus
+instead of studies of something out there. Citing prior outputs in the
+reference furniture is fine and encouraged; the prose treating them as the
+subject is the drift this check flags.
 """
 
 from __future__ import annotations
@@ -44,6 +53,30 @@ FIXED_LABELS = {
 }
 WORD_RE = re.compile(r"[a-z0-9]+(?:['’-][a-z0-9]+)?", re.IGNORECASE)
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z])")
+
+# A line matching one of these headings marks the start of the reference /
+# bibliography furniture. Self-reference is only counted in the body text
+# before the last such heading (best effort; if none is found, the whole text
+# is treated as body).
+FURNITURE_HEADING_RE = re.compile(
+    r"^(References|The evidence base|Read the work|Underpinning research|Builds on)"
+)
+DOI_RE = re.compile(r"10\.5555/slop\.[a-z0-9]+", re.IGNORECASE)
+# Short, easy to extend: phrases that treat a prior Slop University output as
+# the subject of the prose rather than reference furniture.
+SELF_REFERENCE_PATTERNS = [
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in [
+        r"the university's own (research|programme|instrument|finding|earlier)",
+        r"slop university's own",
+        r"an? earlier (slop university )?(finding|study|instrument)",
+        r"the (maturity-model|scoring|register) programme",
+        r"since published and cited",
+        r"the university's (research|measurement) programme",
+        r"(builds|building) on the university's",
+        r"the same (method|instrument|ladder) (that|the university)",
+    ]
+]
 
 
 @dataclass(frozen=True)
@@ -126,7 +159,104 @@ def sentence_frames(text: str) -> dict[str, str]:
     return found
 
 
-def compare(current: str, references: list[tuple[str, str]]) -> int:
+def ledger_titles(root: Path, current_id: str) -> dict[str, str]:
+    """Map output id -> title for every ledger entry except the current one.
+
+    Titles under 3 words are skipped: too short to count as a distinctive
+    verbatim match rather than a coincidence.
+    """
+    titles: dict[str, str] = {}
+    for path in (root / "website/src/content/outputs").glob("*.yml"):
+        if path.stem == current_id:
+            continue
+        title = scalar(path.read_text(), "title")
+        if len(WORD_RE.findall(title)) < 3:
+            continue
+        titles[path.stem] = title
+    return titles
+
+
+def prior_titles_named(body: str, titles: dict[str, str]) -> list[tuple[str, str]]:
+    """Prior output ids/titles that appear verbatim (case-insensitive,
+    whitespace-normalised) in the body text --- named by title, not just cited
+    by DOI."""
+    normalised_body = normalise(body)
+    found = [
+        (output_id, title)
+        for output_id, title in titles.items()
+        if normalise(title) in normalised_body
+    ]
+    found.sort(key=lambda item: item[1])
+    return found
+
+
+def body_before_furniture(text: str) -> str:
+    """Return the text up to (excluding) the last reference-furniture heading.
+
+    Best effort: scanning from the end of the document, the first line to
+    match `FURNITURE_HEADING_RE` marks the cut. If no such heading is found,
+    the whole text is returned.
+    """
+    lines = text.splitlines()
+    cut_index = len(lines)
+    for index in range(len(lines) - 1, -1, -1):
+        if FURNITURE_HEADING_RE.match(lines[index].strip()):
+            cut_index = index
+            break
+    return "\n".join(lines[:cut_index])
+
+
+def self_reference_findings(body: str) -> list[tuple[str, str]]:
+    flattened = " ".join(body.replace("\u00ad", "").split())
+    findings: list[tuple[str, str]] = []
+    for sentence in SENTENCE_RE.split(flattened):
+        for pattern in SELF_REFERENCE_PATTERNS:
+            match = pattern.search(sentence)
+            if match:
+                findings.append((match.group(0), sentence[:180].strip()))
+    return findings
+
+
+def self_reference_report(
+    current: str,
+    threshold: int,
+    prior_title_threshold: int,
+    root: Path,
+    current_id: str,
+) -> int:
+    body = body_before_furniture(current)
+    findings = self_reference_findings(body)
+    doi_count = len(set(DOI_RE.findall(body)))
+    count = len(findings)
+    named = prior_titles_named(body, ledger_titles(root, current_id))
+    prior_count = len(named)
+    print(
+        f"Self-reference: {count} phrases in the body (threshold {threshold}), "
+        f"{doi_count} DOIs cited in running prose, {prior_count} prior outputs "
+        f"named in the body (threshold {prior_title_threshold})"
+    )
+    for phrase, sentence in findings[:8]:
+        print(f'  "{phrase}" — {sentence}')
+    for output_id, title in named[:8]:
+        print(f"  {output_id} — {title!r}")
+    if count > threshold or prior_count > prior_title_threshold:
+        print(
+            "  → the document is about the University's own programme; "
+            "recompose the body so the object of study is in the world and "
+            "prior outputs stay in the reference furniture."
+        )
+        return 1
+    return 0
+
+
+def compare(
+    current: str,
+    references: list[tuple[str, str]],
+    self_reference_threshold: int,
+    prior_title_threshold: int,
+    root: Path,
+    current_id: str,
+) -> int:
     current_labels = labels(current)
     current_frames = sentence_frames(current)
     label_docs: dict[str, set[str]] = defaultdict(set)
@@ -173,7 +303,10 @@ def compare(current: str, references: list[tuple[str, str]]) -> int:
         )
         for count, label in sorted(furniture, reverse=True):
             print(f"  {label!r} — {count} recent documents")
-    return len(repeated_labels) + len(repeated_frames)
+    self_reference_extra = self_reference_report(
+        current, self_reference_threshold, prior_title_threshold, root, current_id
+    )
+    return len(repeated_labels) + len(repeated_frames) + self_reference_extra
 
 
 def parse_args() -> argparse.Namespace:
@@ -184,12 +317,32 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, default=8)
     parser.add_argument("--reference", action="append", type=Path, default=[])
     parser.add_argument("--base-url", default="https://pdf.slop.university")
+    parser.add_argument("--self-reference-threshold", type=int, default=3)
+    parser.add_argument("--prior-title-threshold", type=int, default=2)
+    parser.add_argument(
+        "--self-reference-only",
+        action="store_true",
+        help=(
+            "Skip the reference-PDF download/comparison and only report "
+            "self-reference for the current PDF. Cheap to run mid-draft "
+            "without network."
+        ),
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     current = pdf_text(args.pdf)
+    if args.self_reference_only:
+        self_reference_report(
+            current,
+            args.self_reference_threshold,
+            args.prior_title_threshold,
+            args.root,
+            args.pdf.stem,
+        )
+        return 0
     references: list[tuple[str, str]] = []
     if args.reference:
         references = [(path.stem, pdf_text(path)) for path in args.reference]
@@ -208,7 +361,14 @@ def main() -> int:
     if not references:
         print("recent-language: no reference PDFs were available")
         return 2
-    compare(current, references)
+    compare(
+        current,
+        references,
+        args.self_reference_threshold,
+        args.prior_title_threshold,
+        args.root,
+        args.pdf.stem,
+    )
     return 0
 
 
