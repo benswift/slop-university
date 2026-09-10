@@ -1,6 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
+# dependencies = [
+#     "httpx",
+# ]
 # ///
 """Fetch the publish skill's discourse feeds concurrently and print titles only.
 
@@ -26,13 +29,13 @@ import html
 import json
 import re
 import sys
-import urllib.error
 import urllib.parse
-import urllib.request
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime
+
+import httpx
 
 USER_AGENT = "slop-university-scan-discourse/1.0 (+https://slop.university)"
 
@@ -77,9 +80,14 @@ def sanitise(text: str, limit: int = 160) -> str:
 
 
 def fetch(url: str, timeout: float) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return response.read()
+    response = httpx.get(
+        url,
+        timeout=timeout,
+        headers={"User-Agent": USER_AGENT},
+        follow_redirects=True,
+    )
+    response.raise_for_status()
+    return response.content
 
 
 def extract_feed_titles(xml_bytes: bytes) -> list[str]:
@@ -114,14 +122,12 @@ def extract_bluesky_texts(payload: bytes) -> list[str]:
 def scan_feed(name: str, url: str, timeout: float) -> SourceResult:
     try:
         titles = extract_feed_titles(fetch(url, timeout))
-    except TimeoutError:
-        return SourceResult(name, None, "timeout")
-    except urllib.error.URLError as e:
-        return SourceResult(name, None, str(e.reason))
+    except httpx.HTTPStatusError as e:
+        return SourceResult(name, None, f"HTTP {e.response.status_code}")
+    except httpx.HTTPError as e:
+        return SourceResult(name, None, str(e) or type(e).__name__)
     except ET.ParseError as e:
         return SourceResult(name, None, f"unparseable feed ({e})")
-    except Exception as e:  # noqa: BLE001 - a bad feed must not sink the scan
-        return SourceResult(name, None, str(e) or type(e).__name__)
     return SourceResult(name, titles)
 
 
@@ -133,14 +139,12 @@ def scan_bluesky(query: str, timeout: float) -> SourceResult:
     )
     try:
         texts = extract_bluesky_texts(fetch(url, timeout))
-    except TimeoutError:
-        return SourceResult(name, None, "timeout")
-    except urllib.error.URLError as e:
-        return SourceResult(name, None, str(e.reason))
+    except httpx.HTTPStatusError as e:
+        return SourceResult(name, None, f"HTTP {e.response.status_code}")
+    except httpx.HTTPError as e:
+        return SourceResult(name, None, str(e) or type(e).__name__)
     except json.JSONDecodeError as e:
         return SourceResult(name, None, f"unparseable response ({e})")
-    except Exception as e:  # noqa: BLE001 - a bad response must not sink the scan
-        return SourceResult(name, None, str(e) or type(e).__name__)
     return SourceResult(name, texts)
 
 

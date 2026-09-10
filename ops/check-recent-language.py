@@ -1,6 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
+# dependencies = [
+#     "httpx",
+# ]
 # ///
 """Compare a draft PDF with recent same-preset outputs for stock language.
 
@@ -32,10 +35,11 @@ import argparse
 import re
 import subprocess
 import tempfile
-import urllib.request
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+
+import httpx
 
 # A label in at least this share of the recent outputs is the preset's standing
 # furniture rather than a scaffold that has stopped rotating.
@@ -352,11 +356,19 @@ def main() -> int:
             for entry in entries:
                 target = Path(directory) / f"{entry.id}.pdf"
                 try:
-                    urllib.request.urlretrieve(
-                        f"{args.base_url.rstrip('/')}/{entry.id}.pdf", target
+                    response = httpx.get(
+                        f"{args.base_url.rstrip('/')}/{entry.id}.pdf",
+                        timeout=30,
+                        follow_redirects=True,
                     )
+                    response.raise_for_status()
+                    target.write_bytes(response.content)
                     references.append((entry.id, pdf_text(target)))
-                except (OSError, subprocess.CalledProcessError) as error:
+                except (
+                    httpx.HTTPError,
+                    OSError,
+                    subprocess.CalledProcessError,
+                ) as error:
                     print(f"warning: could not inspect {entry.id}: {error}")
     if not references:
         print("recent-language: no reference PDFs were available")
