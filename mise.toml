@@ -7,3 +7,7 @@ typst = "0.15.0"
 [tasks.test]
 description = "Test the slopU launcher"
 run = "./tests/test_slopu.py"
+
+[tasks.typecheck]
+description = "ty over the ops scripts and tests, with the union of their inline deps"
+run = "uvx --with pyyaml --with types-PyYAML --with httpx --with pillow --with boto3 ty check ops tests"

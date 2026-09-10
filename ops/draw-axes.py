@@ -230,7 +230,7 @@ def author_slot(preset: str | None = None) -> dict:
                 f"preset '{preset}' fixes school {fixed!r}, "
                 f"which no researcher in {ROSTER_PATH} belongs to"
             )
-        school = {"name": fixed, "people": by_school[fixed]}
+        school: dict = {"name": fixed, "people": by_school[fixed]}
     else:
         school_pool = [
             {

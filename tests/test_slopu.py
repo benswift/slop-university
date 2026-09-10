@@ -28,7 +28,7 @@ class SlopuTest(unittest.TestCase):
                 'for arg in "$@"; do print -r -- "$arg"; done > "$CAPTURE"\n'
             )
             stub.chmod(0o755)
-            env = {
+            env: dict[str, str] = {
                 **os.environ,
                 "AGENT_RUN_BIN": str(stub),
                 "CAPTURE": str(capture),

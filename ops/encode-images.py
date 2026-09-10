@@ -111,7 +111,9 @@ def og_dims(width: int, height: int) -> tuple[int, int]:
 def encode_avif(img: Image.Image, width: int, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     h = int(img.height * width / img.width + 0.5)
-    resized = img if width == img.width else img.resize((width, h), Image.LANCZOS)
+    resized = (
+        img if width == img.width else img.resize((width, h), Image.Resampling.LANCZOS)
+    )
     with tempfile.NamedTemporaryFile(suffix=".png", delete_on_close=False) as tmp:
         tmp.close()
         resized.save(tmp.name, "PNG")
@@ -125,7 +127,7 @@ def encode_avif(img: Image.Image, width: int, dest: Path) -> None:
 def encode_og_jpeg(img: Image.Image, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     w, h = og_dims(img.width, img.height)
-    resized = img if w == img.width else img.resize((w, h), Image.LANCZOS)
+    resized = img if w == img.width else img.resize((w, h), Image.Resampling.LANCZOS)
     resized.convert("RGB").save(dest, "JPEG", quality=OG_JPEG_QUALITY, progressive=True)
 
 
