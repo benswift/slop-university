@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml>=6"]
+# dependencies = ["pyyaml>=6", "httpx>=0.27"]
 # ///
 """Assess the /publish gap ladder deterministically, outside the model.
 
@@ -50,10 +50,10 @@ import json
 import math
 import re
 import sys
-import urllib.error
-import urllib.request
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
+import httpx
 import yaml
 
 # Sections of canon/schools.yml that name an org unit with a blurb. `history`
@@ -83,10 +83,61 @@ BLUESKY_FEED_URL = (
     "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed"
     "?actor=slop.university&limit=5"
 )
+BLUESKY_HEADERS = {"Accept": "application/json"}
 
 
 class MalformedInput(Exception):
     """A canon or content file doesn't match the shape this script expects."""
+
+
+# --- the script's own results, as frozen dataclasses -----------------------
+#
+# Records parsed straight out of a canon/content YAML file (roster entries,
+# schools, grants) stay plain dicts --- pyyaml's own shape for them is fine.
+# These dataclasses are for structures this script derives itself.
+
+
+@dataclass(frozen=True)
+class MissingBlurb:
+    id: str | None
+    name: str | None
+    section: str
+
+
+@dataclass(frozen=True)
+class StubBio:
+    id: str
+    name: str
+
+
+@dataclass(frozen=True)
+class SocialsCheck:
+    due: bool
+    reason: str | None
+    last_post: str | None
+    hours_since: float | None
+
+
+@dataclass(frozen=True)
+class FundingLagCandidate:
+    id: str
+    name: str
+    lag: int
+    grants_held: int
+
+
+@dataclass(frozen=True)
+class Scheme:
+    id: str
+    name: str
+
+
+@dataclass(frozen=True)
+class Decision:
+    rung: str
+    reason: str
+    params: dict
+    checked: dict
 
 
 def parse_date(value: object) -> dt.date:
@@ -143,16 +194,14 @@ def load_schools(root: Path) -> dict:
     return data
 
 
-def find_missing_blurb(schools: dict) -> dict | None:
+def find_missing_blurb(schools: dict) -> MissingBlurb | None:
     for section in SCHOOL_SECTIONS:
         for entry in schools.get(section) or []:
             blurb = entry.get("blurb")
             if not blurb or not str(blurb).strip():
-                return {
-                    "id": entry.get("id"),
-                    "name": entry.get("name"),
-                    "section": section,
-                }
+                return MissingBlurb(
+                    id=entry.get("id"), name=entry.get("name"), section=section
+                )
     return None
 
 
@@ -173,12 +222,12 @@ def is_stub_bio(bio: str) -> bool:
     return words < BIO_STUB_WORDS or len(sentences) <= 1
 
 
-def find_stub_bio(roster: list[dict]) -> dict | None:
+def find_stub_bio(roster: list[dict]) -> StubBio | None:
     stubs = [p for p in roster if is_stub_bio(p.get("bio", ""))]
     if not stubs:
         return None
     shortest = min(stubs, key=lambda p: len(p.get("bio", "").split()))
-    return {"id": shortest["id"], "name": shortest["name"]}
+    return StubBio(id=shortest["id"], name=shortest["name"])
 
 
 # --- 2D: a thin page (about.md) --------------------------------------------
@@ -228,58 +277,56 @@ def find_school_without_lab(schools: dict) -> dict | None:
 # --- 2G: socials due ---------------------------------------------------------
 
 
-def assess_socials(root: Path, now: dt.datetime, no_network: bool) -> dict:
+def assess_socials(root: Path, now: dt.datetime, no_network: bool) -> SocialsCheck:
     if (root / "data" / "pending-post.json").exists():
-        return {
-            "due": False,
-            "reason": "a post is already staged",
-            "last_post": None,
-            "hours_since": None,
-        }
+        return SocialsCheck(
+            due=False,
+            reason="a post is already staged",
+            last_post=None,
+            hours_since=None,
+        )
     if no_network:
-        return {
-            "due": False,
-            "reason": "--no-network: feed not checked",
-            "last_post": None,
-            "hours_since": None,
-        }
+        return SocialsCheck(
+            due=False,
+            reason="--no-network: feed not checked",
+            last_post=None,
+            hours_since=None,
+        )
 
     try:
-        with urllib.request.urlopen(BLUESKY_FEED_URL, timeout=10) as response:
-            payload = json.load(response)
-    except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
-        return {
-            "due": False,
-            "reason": f"feed fetch failed: {exc}",
-            "last_post": None,
-            "hours_since": None,
-        }
+        response = httpx.get(BLUESKY_FEED_URL, timeout=10.0, headers=BLUESKY_HEADERS)
+        response.raise_for_status()
+        payload = response.json()
+    except (httpx.HTTPError, json.JSONDecodeError) as exc:
+        return SocialsCheck(
+            due=False,
+            reason=f"feed fetch failed: {exc}",
+            last_post=None,
+            hours_since=None,
+        )
 
     feed = payload.get("feed") or []
     if not feed:
-        return {
-            "due": False,
-            "reason": "feed empty",
-            "last_post": None,
-            "hours_since": None,
-        }
+        return SocialsCheck(
+            due=False, reason="feed empty", last_post=None, hours_since=None
+        )
     try:
         created = dt.datetime.fromisoformat(feed[0]["post"]["record"]["createdAt"])
     except (KeyError, TypeError, ValueError) as exc:
-        return {
-            "due": False,
-            "reason": f"feed shape unexpected: {exc}",
-            "last_post": None,
-            "hours_since": None,
-        }
+        return SocialsCheck(
+            due=False,
+            reason=f"feed shape unexpected: {exc}",
+            last_post=None,
+            hours_since=None,
+        )
 
     hours_since = (now - created).total_seconds() / 3600
-    return {
-        "due": hours_since > SOCIALS_QUIET_HOURS,
-        "reason": None,
-        "last_post": created.isoformat(),
-        "hours_since": round(hours_since, 2),
-    }
+    return SocialsCheck(
+        due=hours_since > SOCIALS_QUIET_HOURS,
+        reason=None,
+        last_post=created.isoformat(),
+        hours_since=round(hours_since, 2),
+    )
 
 
 # --- 2I: award a grant (funding lag) ---------------------------------------
@@ -307,7 +354,7 @@ def load_grant_schemes(root: Path) -> list[dict]:
 
 def find_funding_lag_candidate(
     roster: list[dict], outputs: list[dict], grants: list[dict]
-) -> dict | None:
+) -> FundingLagCandidate | None:
     """The researcher whose authored-output count since their most recent
     grant (or ever, if they hold none) is largest. Ties go to whoever holds
     fewer grants, then alphabetically, so a researcher never falls behind
@@ -332,21 +379,18 @@ def find_funding_lag_candidate(
         else:
             lag = len(output_dates)
         candidates.append(
-            {
-                "id": person["id"],
-                "name": name,
-                "lag": lag,
-                "grants_held": len(grant_dates),
-            }
+            FundingLagCandidate(
+                id=person["id"], name=name, lag=lag, grants_held=len(grant_dates)
+            )
         )
 
     if not candidates:
         return None
-    candidates.sort(key=lambda c: (-c["lag"], c["grants_held"], c["name"]))
+    candidates.sort(key=lambda c: (-c.lag, c.grants_held, c.name))
     return candidates[0]
 
 
-def least_recently_awarded_scheme(schemes: list[dict], grants: list[dict]) -> dict:
+def least_recently_awarded_scheme(schemes: list[dict], grants: list[dict]) -> Scheme:
     """The scheme id due for its turn: never-awarded first, then whichever
     was last awarded longest ago."""
     last_awarded: dict[str, dt.date] = {}
@@ -357,7 +401,8 @@ def least_recently_awarded_scheme(schemes: list[dict], grants: list[dict]) -> di
     ranked = sorted(
         schemes, key=lambda s: (last_awarded.get(s["id"], dt.date.min), s["id"])
     )
-    return ranked[0]
+    winner = ranked[0]
+    return Scheme(id=winner["id"], name=winner["name"])
 
 
 # --- 2H: institutional news due ---------------------------------------------
@@ -379,17 +424,13 @@ def load_news_without_output_or_grant(root: Path) -> list[dict]:
 
 
 def emit(rung: str, reason: str, params: dict, checked: dict, as_json: bool) -> int:
+    decision = Decision(rung=rung, reason=reason, params=params, checked=checked)
     if as_json:
-        print(
-            json.dumps(
-                {"rung": rung, "reason": reason, "params": params, "checked": checked},
-                default=str,
-            )
-        )
+        print(json.dumps(asdict(decision), default=str))
     else:
-        print(f"rung: {rung}")
-        print(f"reason: {reason}")
-        print(f"params: {json.dumps(params, default=str)}")
+        print(f"rung: {decision.rung}")
+        print(f"reason: {decision.reason}")
+        print(f"params: {json.dumps(decision.params, default=str)}")
     return 0
 
 
@@ -402,11 +443,11 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
     if missing_blurb:
         return emit(
             "2C",
-            f"{missing_blurb['section']} entry '{missing_blurb['id']}' has no blurb",
+            f"{missing_blurb.section} entry '{missing_blurb.id}' has no blurb",
             {
-                "id": missing_blurb["id"],
-                "name": missing_blurb["name"],
-                "section": missing_blurb["section"],
+                "id": missing_blurb.id,
+                "name": missing_blurb.name,
+                "section": missing_blurb.section,
             },
             checked,
             as_json,
@@ -418,8 +459,8 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
     if stub:
         return emit(
             "2B",
-            f"{stub['name']}'s bio reads as a stub",
-            {"id": stub["id"], "name": stub["name"]},
+            f"{stub.name}'s bio reads as a stub",
+            {"id": stub.id, "name": stub.name},
             checked,
             as_json,
         )
@@ -462,11 +503,11 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
 
     socials = assess_socials(root, now, no_network)
     checked["socials"] = socials
-    if socials["due"]:
+    if socials.due:
         return emit(
             "2G",
             "the account has been quiet past the socials gate",
-            {"last_post": socials["last_post"], "hours_since": socials["hours_since"]},
+            {"last_post": socials.last_post, "hours_since": socials.hours_since},
             checked,
             as_json,
         )
@@ -483,26 +524,27 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
     fires_2i = (
         grants_stale
         and lag_candidate is not None
-        and lag_candidate["lag"] >= FUNDING_LAG_FLOOR
+        and lag_candidate.lag >= FUNDING_LAG_FLOOR
     )
     checked["grants"] = {
         "newest_grant_date": iso(newest_grant_date),
         "stale": grants_stale,
-        "candidate": lag_candidate["name"] if lag_candidate else None,
-        "candidate_lag": lag_candidate["lag"] if lag_candidate else None,
+        "candidate": lag_candidate.name if lag_candidate else None,
+        "candidate_lag": lag_candidate.lag if lag_candidate else None,
     }
     if fires_2i:
+        assert lag_candidate is not None
         schemes = load_grant_schemes(root)
         scheme = least_recently_awarded_scheme(schemes, grants)
         return emit(
             "2I",
-            f"{lag_candidate['name']} has {lag_candidate['lag']} outputs since their last grant",
+            f"{lag_candidate.name} has {lag_candidate.lag} outputs since their last grant",
             {
-                "researcher": lag_candidate["name"],
-                "lag": lag_candidate["lag"],
-                "grants_held": lag_candidate["grants_held"],
-                "scheme": scheme["id"],
-                "scheme_name": scheme["name"],
+                "researcher": lag_candidate.name,
+                "lag": lag_candidate.lag,
+                "grants_held": lag_candidate.grants_held,
+                "scheme": scheme.id,
+                "scheme_name": scheme.name,
             },
             checked,
             as_json,
