@@ -574,9 +574,17 @@ run_agent() {
   local worktree="$1" model="$2"
   local started
   started="$(date -Iseconds)"
+  # The effort pin is a Claude option and agent-run REJECTS it on any other
+  # runner (exit 2, nothing attempted) rather than ignoring it; Grok runs on
+  # its own default.
+  local -a effort_args=()
+  local effort_note="runner default"
+  case "$AGENT_PROFILE" in
+    claude-*) effort_args=(--claude-effort "$AGENT_EFFORT"); effort_note="$AGENT_EFFORT" ;;
+  esac
   AGENT_STATUS=0
   rm -f "$STOP_FAILURE_LOG"
-  log "=== publish agent starting at ${started} (profile ${AGENT_PROFILE}, model ${model}, effort ${AGENT_EFFORT}) ==="
+  log "=== publish agent starting at ${started} (profile ${AGENT_PROFILE}, model ${model}, effort ${effort_note}) ==="
   (
     cd "$worktree"
     GIT_AUTHOR_NAME="Slop University Press" \
@@ -597,7 +605,7 @@ run_agent() {
     "$AGENT_RUN" \
       --profile "$AGENT_PROFILE" \
       --model "$model" \
-      --claude-effort "$AGENT_EFFORT" \
+      "${effort_args[@]}" \
       --bypass-permissions \
       "$AGENT_PROMPT"
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
