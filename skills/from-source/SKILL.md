@@ -2,10 +2,11 @@
 name: from-source
 description:
   Typeset arbitrary source material (URL, Word doc, ODT, markdown, plain text)
-  into a nicely-typeset PDF in the ANU visual identity. Faithful to the source
-  --- no rewriting, no invented prose. Small editorial calls (heading hierarchy
-  when ambiguous, lockup choice, cover-image theme) are allowed. Use when
-  invoked with `/from-source <source>`.
+  into a nicely-typeset PDF in the ANU visual identity, as either a booklet or
+  an A0 conference poster. Faithful to the source --- no rewriting, no invented
+  prose. Small editorial calls (heading hierarchy when ambiguous, lockup choice,
+  cover-image theme) are allowed. Use when invoked with `/from-source <source>
+  [--poster]`.
 ---
 
 # from-source
@@ -16,6 +17,10 @@ supplies the visual identity (cover, AoC, back cover, ANU lockup), and a
 generated cover image hints at the subject.
 
 ## What this skill does --- and does not --- do
+
+(Booklet format. The poster format's deltas are in `poster.md` --- most
+importantly, it may **select** which of the source's sentences appear, because a
+poster cannot hold a paper. It still never rewrites and never invents.)
 
 **Does:**
 
@@ -43,9 +48,22 @@ generated cover image hints at the subject.
 - Pad odd page counts with invented content. Parity is fixed with a blank page
   before the back cover (see step 7).
 
+## Document format
+
+Two formats, mirroring the preset path's:
+
+- **`booklet`** (default) --- a multi-page portrait booklet: cover image,
+  contents, Acknowledgement of Country, body, back cover, even page count. The
+  steps below describe this format.
+- **`poster`** (`--poster`) --- a single A0 conference poster. Load `poster.md`,
+  which carries the format's identity, its one doctrinal addition (selection is
+  allowed; rewriting still is not), and its workflow deltas. Steps 1-4 below
+  still apply unchanged.
+
 ## Inputs
 
-The slash-command argument is the **source identifier**. Examples:
+The slash-command argument is the **source identifier**, optionally followed by
+`--poster`. Examples:
 
 - A URL: `https://www.anu.edu.au/news/all-news/foo`
 - A local file path: `~/projects/foo/draft.md`, `~/Documents/proposal.docx`,
@@ -54,6 +72,10 @@ The slash-command argument is the **source identifier**. Examples:
 
 If the source identifier is ambiguous (e.g. multiple files match a bare name),
 stop and ask which one. Don't guess.
+
+`--poster` anywhere in the argument selects the poster format; it is never
+inferred from the source, since a source path may legitimately contain the word.
+Everything else is the source identifier.
 
 ## Doc identity (derived from the source)
 

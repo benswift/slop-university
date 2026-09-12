@@ -38,6 +38,11 @@ Faithful path:
 #import "@local/anu-typst-template:0.3.0": anu, anu-back-cover, anu-colors, anu-highlight-card
 ```
 
+The faithful **poster** format imports a different set (no back cover; it adds
+the overlay masthead and a poster-scale chart theme). Don't assemble it by hand
+--- copy it from the worked A0 example the template ships, at
+`~/.local/share/typst/packages/local/anu-typst-template/0.3.0/examples/poster.typ`.
+
 ## Document metadata
 
 Set the PDF title via `#set document(title: ...)`. **Title only ---** no author,
@@ -138,22 +143,23 @@ Verifying against the JSON before writing is cheaper than a failed compile.
   everything after it flows naturally. (Slop University documents carry no
   Acknowledgement of Country --- that is real institutional speech, not satire
   material, and the fictional institution has no standing to make it.)
-- **Faithful path: emit exactly one `#pagebreak()` call:** the one that closes
-  the Acknowledgement of Country block (see below). No other manual pagebreaks
-  anywhere.
+- **Faithful booklet path: emit exactly one `#pagebreak()` call:** the one that
+  closes the Acknowledgement of Country block (see below). No other manual
+  pagebreaks anywhere. The faithful **poster** path emits none at all --- it has
+  no contents page, no AoC and no back cover.
 - **Do not** put `#pagebreak()` before any heading. Typst flows headings
   naturally; if a section won't fit on the current page, typst pushes it to the
   next. Forced breaks isolate figures on near-empty pages and waste vertical
   space.
 
-## Acknowledgement of Country (faithful path only)
+## Acknowledgement of Country (faithful booklet path only)
 
-Every faithful from-source document includes an Acknowledgement of Country page
-immediately after the auto-generated contents page and before the next section
---- it is part of the genuine ANU template furniture. Preset-path documents
-never include one. The text is fixed and verbatim. **Do not paraphrase,
-abbreviate, reorder, or adjust punctuation.** Copy the block below into the
-typst source exactly as written:
+Every faithful from-source **booklet** includes an Acknowledgement of Country
+page immediately after the auto-generated contents page and before the next
+section --- it is part of the genuine ANU template furniture. Preset-path
+documents never include one. The text is fixed and verbatim. **Do not
+paraphrase, abbreviate, reorder, or adjust punctuation.** Copy the block below
+into the typst source exactly as written:
 
 ```typst
 #heading(level: 1, outlined: false)[Acknowledgement of Country]
@@ -168,6 +174,11 @@ The ANU community makes a commitment to always respect the land upon which we st
 
 #pagebreak()
 ```
+
+The faithful **poster** format carries no Acknowledgement of Country: it is a
+full page of fixed text that a single-page poster has nowhere to put, and the
+verbatim rule above forbids shortening it. See `../from-source/poster.md`, which
+also requires the run to say so in its output.
 
 The page must contain no image and no other content. The trailing `#pagebreak()`
 is the document's only manual pagebreak --- it pushes the following section to a
@@ -241,7 +252,10 @@ preset's one-page fit check).
    small content tweaks (trim or extend a paragraph) are an acceptable fallback
    --- don't recurse forever on figure placement.
 
-### Parity-fix workflow --- faithful from-source runs
+### Parity-fix workflow --- faithful from-source booklet runs
+
+(Poster-format runs have no parity rule --- they are one page. Their equivalent
+check is the one-page fit check in `../from-source/poster.md`.)
 
 The faithful path doesn't invent content, so the parity fix is mechanical
 instead of generative:

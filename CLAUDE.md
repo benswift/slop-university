@@ -21,10 +21,13 @@ Two slash commands:
   `skills/from-preset/presets/`; each blueprint declares its own format
   (`booklet`, `poster`, or `paper`), identity, and title policy. Drop a new file
   in to add another (authoring guide: `skills/from-preset/presets/README.md`).
-- `/from-source <source>` → `skills/from-source/SKILL.md` --- typeset a URL or
-  local file (`.docx`, `.odt`, `.md`, `.html`, `.typ`, `.txt`) faithfully into
-  the ANU template. No rewriting; small editorial calls for heading hierarchy /
-  lockup / cover theme only.
+- `/from-source <source> [--poster]` → `skills/from-source/SKILL.md` --- typeset
+  a URL or local file (`.docx`, `.odt`, `.md`, `.html`, `.typ`, `.txt`)
+  faithfully into the ANU template. No rewriting; small editorial calls for
+  heading hierarchy / lockup / cover theme only. Defaults to a booklet;
+  `--poster` selects the A0 conference poster format
+  (`skills/from-source/poster.md`), which may select which of the source's
+  sentences appear but still never rewrites or invents.
 
 ### The publish pipeline
 
