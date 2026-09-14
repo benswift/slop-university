@@ -178,6 +178,11 @@ two chapters must agree on lives here and nowhere else:
 Word targets sum into the budget with room to spare (aim near 45,000 words), and
 no chapter is targeted below 2,500 words except the conclusion.
 
+Write the master file now too, with the includes it will have and placeholder
+front matter, and compile it after every chapter batch lands. A run that is
+interrupted then leaves a compilable document rather than a directory of parts,
+and a chapter's compile errors surface while its author is still in hand.
+
 ### 2. Assemble `refs.bib` before drafting
 
 The bibliography is a dependency of every chapter, so it is built first and
@@ -228,8 +233,8 @@ Fix these in place. Redispatch a chapter only if it is unsalvageable.
 
 Write the abstract, acknowledgements and declaration **from the finished
 chapters**, never from the plan --- an abstract written first describes a thesis
-that no longer exists. Then the master file's includes, the contents, and the
-figure and table lists.
+that no longer exists. They replace the master file's placeholders; the contents
+and the figure and table lists are already there.
 
 ### 6. Compile, check, fix
 
@@ -328,9 +333,9 @@ ledger.
 
 - **Charts** per `../../_shared/chart-workflow.md`, into
   `output/slop-thesis-<slug>-<seed>/charts/`, imported by the chapter that uses
-  them and embedded with plain `figure`. Each chart type appears at most
-  once in the whole document --- a thesis carrying eight charts and reaching for
-  a line or a bar eight times has wasted the menu.
+  them and embedded with plain `figure`. Each chart type appears at most once in
+  the whole document --- a thesis carrying eight charts and reaching for a line
+  or a bar eight times has wasted the menu.
 - **Tables** are typst-native and expected --- participant characteristics, an
   instrument's items, a coding frame, a results matrix. A thesis carries more
   tables than a paper does.

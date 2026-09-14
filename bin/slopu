@@ -109,7 +109,19 @@ case "$command" in
       export SLOPU_DEADLINE
     fi
     export CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
-    exec "$REPO_ROOT/ops/publish-generate.sh" thesis
+    # The subscription's session window is shared with the generator slots,
+    # and a thesis that starts into a half-spent window dies at the session
+    # limit an hour in. Rest whichever generator timers are running for the
+    # run's duration and start them again on the way out.
+    resting=()
+    for t in slop-publish-gen@1.timer slop-publish-gen@2.timer; do
+      systemctl --user is-active --quiet "$t" && resting+=("$t")
+    done
+    (( ${#resting} == 0 )) || systemctl --user stop "${resting[@]}"
+    "$REPO_ROOT/ops/publish-generate.sh" thesis
+    status=$?
+    (( ${#resting} == 0 )) || systemctl --user start "${resting[@]}"
+    exit $status
     ;;
   *)
     print -u2 "slopu: unknown command: $command"
