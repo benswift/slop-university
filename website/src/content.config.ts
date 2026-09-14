@@ -20,6 +20,8 @@ const personSchema = z.object({
   headshot: z.string(), // canon-root path; images resolved via lib/headshots.ts
   web: z.url().optional(),
   displayOrder: z.number().optional(),
+  // Roster ids of this person's doctoral supervisors (thesis candidates only).
+  supervisors: z.array(z.string()).optional(),
 });
 
 // Researcher roster --- canon/roster.yml, an array nested under `researchers:`.
@@ -130,6 +132,7 @@ const outputs = defineCollection({
       "brochure",
       "strategy",
       "impact-report",
+      "thesis",
     ]),
     school: z.string().optional(),
     date: z.coerce.date(),

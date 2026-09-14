@@ -33,6 +33,10 @@ A lag rule --- outputs authored since a researcher's most recent grant,
 against all their outputs if they hold none --- keeps awarding as the corpus
 keeps growing instead of stopping once the roster is "covered" once.
 
+Rung 2T (a doctoral thesis) exists in the skill and is never returned here.
+It is run by hand (bin/slopu thesis) and only by hand: the one rung with no
+trigger, because it exists to spend a token budget a human chose to spend.
+
 Usage:
   ops/assess-ladder.py                  # human-readable decision
   ops/assess-ladder.py --json           # the same decision as JSON

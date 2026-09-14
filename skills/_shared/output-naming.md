@@ -30,6 +30,7 @@ The `<group>` subfolder and its `<prefix>` are fixed per calling path:
 | `marketing-poster`     | `marketing-poster`        | `slop-ad`       |
 | `paper`                | `paper`                   | `slop-paper`    |
 | `brochure`             | `brochure`                | `slop-brochure` |
+| `thesis`               | `thesis`                  | `slop-thesis`   |
 | `from-source`          | `from-source`             | `source`        |
 | `from-source --poster` | `from-source`             | `source-poster` |
 

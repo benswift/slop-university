@@ -233,3 +233,353 @@
       0.4em,
     )#"@slop.university · #slopU"]
 }
+
+// --- PhD thesis ---
+//
+// The one long-form output: front / main / appendix / back matter, each with
+// its own page and heading numbering. `slop-thesis` is the document wrapper
+// (house base styles via `slop(...)`, plus the title page and the thesis-wide
+// rules); the four matter wrappers switch numbering and the shape of a
+// level-1 heading. Everything else --- fonts, colours, tables, links, charts
+// --- is the ordinary house base.
+//
+// Two core behaviours are deliberately replaced here: the automatic masthead
+// (it keys off "page counter reads 1", which a thesis hits three times) and
+// the full-bleed image figure (a thesis figure stays in the text block).
+
+// Which matter the document is in. Read back at a heading's or figure's own
+// location, so the contents can label an entry "Chapter 3" or "Appendix A"
+// and figure numbers can follow the chapter they sit in.
+#let _thesis-matter = state("slop-thesis-matter", "front")
+
+// The masthead, drawn by hand on the title page: same geometry as the core's
+// automatic one (a bg-coloured rect masking the brand rule, the lockup's
+// crest axis on the spine), minus the page-counter trigger.
+#let _thesis-masthead() = {
+  let entry = slop-brand.lockups.slop
+  let dark = _slop-dark
+  pdf.artifact(place(top + left, dx: entry.mast-dx, dy: 2cm, rect(
+    fill: if dark { slop-colors.black } else { slop-colors.white },
+    width: entry.mast-width,
+    height: 2.5cm,
+    inset: 0pt,
+    place(
+      entry.mast-align + horizon,
+      slop-lockup(variant: if dark { "white" } else { "black" }),
+    ),
+  )))
+}
+
+// The gold eyebrow over a chapter or appendix title ("Chapter 3"). Public
+// Sans ships no small-cap feature, so the small-caps register is upper case
+// at small size with tracking.
+#let _thesis-eyebrow(body) = text(
+  size: 10pt,
+  weight: "medium",
+  tracking: 0.14em,
+  fill: slop-gold,
+  upper(body),
+)
+
+// A level-1 heading in thesis register: always opens a page, optional gold
+// eyebrow above the title. `eyebrow` is content or none.
+#let _thesis-h1(it, eyebrow: none, lead: 1.6cm) = {
+  pagebreak(weak: true)
+  v(lead)
+  block(above: 0em, below: 1.6em, {
+    if eyebrow != none {
+      eyebrow
+      v(0.5em, weak: true)
+    }
+    text(size: 26pt, weight: "regular", fill: slop-ink-auto, it.body)
+  })
+}
+
+// Chapter/appendix number of the level-1 heading being shown.
+#let _thesis-h1-number(pattern) = context counter(heading).display(pattern)
+
+// Figure and table numbers run within the chapter they sit in (Figure 3.2,
+// Table A.1). `chapters` is the heading counter and `n` the figure counter,
+// both read AT THE FIGURE'S OWN LOCATION --- typst evaluates a numbering
+// function wherever the number is printed (a cross-reference, a list of
+// figures), not where the figure is, so every caller resolves the two
+// counters itself and passes them in.
+#let _thesis-fig-number(matter, chapters, n) = {
+  if chapters.len() > 0 and matter == "main" {
+    numbering("1.1", chapters.first(), n)
+  } else if chapters.len() > 0 and matter == "appendix" {
+    numbering("A.1", chapters.first(), n)
+  } else {
+    numbering("1", n)
+  }
+}
+
+// The number a figure or table carries, resolved at its own location.
+#let _thesis-fig-number-at(el) = {
+  let loc = el.location()
+  _thesis-fig-number(
+    _thesis-matter.at(loc),
+    counter(heading).at(loc),
+    counter(figure.where(kind: el.kind)).at(loc).first(),
+  )
+}
+
+// "Figure" / "Table", however the element spells it.
+#let _thesis-fig-supplement(el) = {
+  let s = el.supplement
+  if s == auto or s == none {
+    if el.kind == table { [Table] } else { [Figure] }
+  } else { s }
+}
+
+// The standard Australian declaration page, deadpan. Returns content
+// (heading included); drop it into `slop-thesis-frontmatter`.
+#let slop-thesis-declaration(candidate: "", date: "") = {
+  heading(level: 1)[Declaration]
+  [
+    I declare that this thesis is my own original work. To the best of my
+    knowledge it contains no material previously published or written by another
+    person, except where due reference is made in the text of the thesis.
+
+    This thesis has not been submitted, in whole or in part, for any other
+    degree or diploma at Slop University or at any other institution. The
+    research reported here was carried out during the period of my candidature,
+    and any assistance received in its preparation, and all sources used, have
+    been acknowledged.
+  ]
+  v(2.4em)
+  block(text(weight: "medium", candidate))
+  v(0.3em)
+  block(text(size: 0.9em, fill: slop-muted-auto, date))
+}
+
+// A chapter epigraph: right-aligned italic, attribution beneath. Use
+// sparingly --- at most one per chapter, immediately after the opener.
+#let slop-thesis-epigraph(quote, attribution) = block(
+  width: 100%,
+  above: 0.6em,
+  below: 2.4em,
+  align(right, block(width: 72%, {
+    set align(left)
+    set par(justify: false, leading: 0.7em)
+    text(style: "italic", fill: slop-ink-auto, quote)
+    if attribution != none {
+      v(0.55em, weak: true)
+      text(size: 0.88em, fill: slop-muted-auto)[--- #attribution]
+    }
+  })),
+)
+
+// Front matter: roman numerals from i, unnumbered level-1 headings, each on
+// a new page. Declaration, Acknowledgements, Abstract, Contents, List of
+// figures, List of tables.
+#let slop-thesis-frontmatter(body) = {
+  set page(numbering: "i")
+  counter(page).update(1)
+  _thesis-matter.update("front")
+  set heading(numbering: none)
+  show heading.where(level: 1): it => _thesis-h1(it, lead: 0.6cm)
+  body
+}
+
+// Main matter: page counter restarts at 1 in arabic; headings numbered
+// "1.1" to depth 3; a level-1 heading opens a chapter.
+#let slop-thesis-mainmatter(body) = {
+  set page(numbering: "1")
+  counter(page).update(1)
+  _thesis-matter.update("main")
+  set heading(numbering: (..n) => if n.pos().len() <= 3 {
+    numbering("1.1", ..n.pos())
+  })
+  // `@ch-intro` reads "Chapter 1", `@sec-site` "Section 2.3".
+  set heading(supplement: h => if h.depth == 1 { [Chapter] } else { [Section] })
+  show heading.where(level: 1): it => {
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    _thesis-h1(it, eyebrow: _thesis-eyebrow[Chapter #_thesis-h1-number("1")])
+  }
+  body
+}
+
+// Appendices: numbering restarts as A, B, C (headings "A.1"); page numbering
+// carries on from the main matter.
+#let slop-thesis-appendices(body) = {
+  _thesis-matter.update("appendix")
+  counter(heading).update(0)
+  set heading(numbering: (..n) => if n.pos().len() <= 3 {
+    numbering("A.1", ..n.pos())
+  })
+  set heading(supplement: h => if h.depth == 1 { [Appendix] } else {
+    [Section]
+  })
+  show heading.where(level: 1): it => {
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    _thesis-h1(it, eyebrow: _thesis-eyebrow[Appendix #_thesis-h1-number("A")])
+  }
+  body
+}
+
+// Back matter: unnumbered level-1 headings on a new page. In practice the
+// bibliography, whose `title:` is a level-1 heading like any other.
+#let slop-thesis-backmatter(body) = {
+  _thesis-matter.update("back")
+  set heading(numbering: none)
+  show heading.where(level: 1): it => _thesis-h1(it)
+  body
+}
+
+// The thesis document wrapper: `#show: slop-thesis.with(...)`. Renders the
+// title page, then the body (which is the four matter wrappers in order).
+#let slop-thesis(
+  title: "",
+  subtitle: none,
+  candidate: "",
+  degree: "Doctor of Philosophy",
+  school: "",
+  supervisors: (),
+  submitted: "",
+  body,
+) = {
+  let muted = slop-muted-auto
+  let sup-line = if supervisors.len() > 0 {
+    let names = supervisors.map(s => [#s]).join([, ], last: [ and ])
+    [#if supervisors.len() == 1 [Supervisor:] else [Supervisors:] #names]
+  }
+
+  slop(
+    title: title,
+    subtitle: subtitle,
+    paper: "a4",
+    // Book margins: the binding edge is wider, and the brand rule (1.9cm
+    // from the paper's left edge) stays clear of the text block on both.
+    margin: (inside: 30mm, outside: 25mm, top: 28mm, bottom: 28mm),
+    config: (theme: slop-doc-theme, hide: ("title-block", "masthead")),
+    {
+      // No running header; the footer's centred page number is the only
+      // running furniture (it comes from the house base).
+      set page(header: none)
+      set par(justify: true, leading: 0.8em)
+      set outline(depth: 3)
+      show figure.where(kind: table): set figure.caption(position: top)
+
+      // Figures and tables number by the chapter they sit in (Figure 3.2,
+      // Table A.1); the matter wrappers reset the two counters per chapter.
+      set figure(numbering: n => context _thesis-fig-number(
+        _thesis-matter.get(),
+        counter(heading).get(),
+        n,
+      ))
+
+      // A cross-reference to a figure or table prints the number of the
+      // TARGET's chapter. Without this, `@fig-x` in chapter 5 renders a
+      // chapter-1 figure as "Figure 5.1" --- silently, and wrongly.
+      // Citations (`it.element` is none) and every other target fall
+      // through to the default reference.
+      show ref: it => {
+        let el = it.element
+        if el != none and el.func() == figure {
+          let supp = if it.supplement not in (auto, none) {
+            it.supplement
+          } else { _thesis-fig-supplement(el) }
+          // Ink, not link gold: typst's own cross-references are ink, and
+          // a thesis full of gold "Figure 3.2"s reads as noise.
+          link(
+            el.location(),
+            text(fill: slop-ink-auto, [#supp~#_thesis-fig-number-at(el)]),
+          )
+        } else { it }
+      }
+
+      // Thesis figures stay inside the text block --- the core's image
+      // figures bleed to the right page edge, which a bound thesis can't
+      // use. Caption left-aligned under the figure, as in the core.
+      show figure.where(kind: image): it => block(above: 2.2em, below: 2.2em, {
+        align(center, it.body)
+        if it.caption != none {
+          v(0.65em, weak: true)
+          it.caption
+        }
+      })
+      show figure.caption: it => align(
+        left,
+        text(size: 0.88em, fill: muted, it),
+      )
+
+      // Contents in thesis register: chapter entries carry their label and
+      // number, sub-entries indent, dot leaders to the page number. Replaces
+      // the core's booklet rule (rule-under-every-entry, number dropped).
+      show outline.entry: it => {
+        show link: set text(fill: slop-ink-auto)
+        let el = it.element
+        let top-level = it.level == 1
+        let label = if el.func() == heading and top-level {
+          let matter = _thesis-matter.at(el.location())
+          if matter == "main" { [Chapter ] } else if matter == "appendix" {
+            [Appendix ]
+          }
+        }
+        let prefix = if el.func() == figure {
+          [#_thesis-fig-supplement(el)~#_thesis-fig-number-at(el)]
+        } else { it.prefix() }
+        block(
+          width: 100%,
+          above: if top-level { 1.3em } else { 0.7em },
+          below: 0em,
+          link(el.location(), {
+            set text(weight: if top-level { "medium" } else { "light" })
+            if it.level > 1 { h((it.level - 1) * 1.2em) }
+            if prefix != none {
+              if label != none { label }
+              prefix
+              h(0.6em)
+            }
+            it.body()
+            box(width: 1fr, inset: (x: 0.4em), {
+              set text(fill: muted)
+              if it.fill != none { it.fill }
+            })
+            it.page()
+          }),
+        )
+      }
+
+      // --- Title page ---
+      page(footer: none, {
+        _thesis-masthead()
+        // The thesis body is justified and hyphenated; display type on the
+        // title page is neither.
+        set par(justify: false, leading: 0.42em)
+        set text(hyphenate: false)
+        v(5.2cm)
+        text(size: 30pt, weight: "regular", title)
+        if subtitle != none {
+          v(0.45em)
+          text(
+            size: 17pt,
+            weight: "regular",
+            style: "italic",
+            fill: slop-gold,
+            subtitle,
+          )
+        }
+        v(2.6cm)
+        text(size: 15pt, candidate)
+        v(1.4cm)
+        set text(size: 10.5pt, fill: muted)
+        set par(justify: false, leading: 0.9em)
+        [A thesis submitted for the degree of #degree]
+        linebreak()
+        [#school, Slop University]
+        if sup-line != none {
+          linebreak()
+          sup-line
+        }
+        v(1fr)
+        text(submitted)
+      })
+
+      body
+    },
+  )
+}

@@ -6,18 +6,22 @@ readonly AGENT_RUN="${AGENT_RUN_BIN:-agent-run}"
 
 profile="${AGENT_PROFILE:-claude-sub}"
 model="${AGENT_MODEL:-}"
+deadline=""
 
 usage() {
   cat <<'EOF'
-Usage: slopu [--profile NAME] [--model MODEL] <command> [arguments]
+Usage: slopu [--profile NAME] [--model MODEL] [--deadline TIME] <command> [arguments]
 
 Commands:
   from-preset <preset> [steering]  Generate a document from a named preset
   from-source <source>             Typeset a source faithfully
   publish                          Run the autonomous publication workflow
+  thesis                           Write a doctoral thesis (hours; opus by default)
 
 Profiles come from ~/.config/agent-run/profiles.toml. The default is
 claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
+--deadline (thesis only) is a local time the run must have committed by, e.g.
+"01:40 tomorrow"; the run paces itself against it.
 EOF
 }
 
@@ -31,6 +35,11 @@ while (( $# > 0 )); do
     --model)
       (( $# >= 2 )) || { print -u2 "slopu: --model needs a value"; exit 2; }
       model="$2"
+      shift 2
+      ;;
+    --deadline)
+      (( $# >= 2 )) || { print -u2 "slopu: --deadline needs a value"; exit 2; }
+      deadline="$2"
       shift 2
       ;;
     -h|--help)
@@ -82,6 +91,25 @@ case "$command" in
       model="sonnet"
     fi
     prompt="Read skills/publish/SKILL.md and execute its workflow end-to-end, non-interactively. No arguments."
+    ;;
+  thesis)
+    (( $# == 0 )) || { print -u2 "slopu: thesis takes no arguments"; exit 2; }
+    # The one publish rung with no timer. It is a generator slot, so the
+    # candidate it leaves is landed by the lander (ops/publish-land.sh, on its
+    # timer when the split is live; run it by hand otherwise). A stronger
+    # model and the highest effort by default, because this run exists to
+    # spend a budget on one document; --model overrides.
+    if [[ -z "$model" && "$profile" == claude-* ]]; then
+      model="opus"
+    fi
+    export SLOPU_AGENT_PROFILE="$profile" SLOPU_AGENT_EFFORT=max
+    [[ -z "$model" ]] || export SLOPU_AGENT_MODEL="$model"
+    if [[ -n "$deadline" ]]; then
+      SLOPU_DEADLINE="$(date -d "$deadline" '+%H:%M on %A %-d %B %Y (%Z)')" || { print -u2 "slopu: cannot parse deadline: $deadline"; exit 2; }
+      export SLOPU_DEADLINE
+    fi
+    export CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
+    exec "$REPO_ROOT/ops/publish-generate.sh" thesis
     ;;
   *)
     print -u2 "slopu: unknown command: $command"

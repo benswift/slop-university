@@ -9,6 +9,7 @@ export const presetLabels: Record<Preset, string> = {
   brochure: "Brochure",
   strategy: "Strategic plan",
   "impact-report": "Impact report",
+  thesis: "PhD thesis",
 };
 
 // Short forms for the type badge on output cards, where the icon already
@@ -19,6 +20,7 @@ export const presetBadgeLabels: Record<Preset, string> = {
   "research-poster": "Poster",
   "marketing-poster": "Ad",
   paper: "Paper",
+  thesis: "Thesis",
 };
 
 // The trend chart on the outputs index plots one line per series, and the type
@@ -37,6 +39,7 @@ export const presetSeries: Record<Preset, OutputSeries> = {
   brochure: "Other outputs",
   strategy: "Other outputs",
   "impact-report": "Other outputs",
+  thesis: "Other outputs",
 };
 
 // The URL segment each series filters under: /outputs/type/<slug>/. Slugs are
@@ -81,6 +84,7 @@ export const presetIcons: Record<Preset, string> = {
   brochure: "book",
   strategy: "strategy",
   "impact-report": "reports",
+  thesis: "graduation-cap",
 };
 
 // Titles are stored split: `title` is the punchy head (the hero h1 and listing
@@ -98,6 +102,22 @@ export function fullTitle(
 export function bibtex(id: string, entry: CollectionEntry<"outputs">["data"]): string {
   const seed = entry.doi.split(".").at(-1) ?? id;
   const author = entry.authors.length > 0 ? entry.authors.join(" and ") : "Slop University";
+
+  // A thesis is a @phdthesis, not a @misc: it has a degree-granting school,
+  // not a publisher, and no version (a thesis isn't revised in place).
+  if (entry.preset === "thesis") {
+    return [
+      `@phdthesis{slop_${seed},`,
+      `  author       = {${author}},`,
+      `  title        = {${fullTitle(entry)}},`,
+      `  year         = {${entry.date.getFullYear()}},`,
+      `  school       = {Slop University},`,
+      `  doi          = {${entry.doi}},`,
+      `  url          = {https://slop.university/outputs/${id}/},`,
+      `}`,
+    ].join("\n");
+  }
+
   return [
     `@misc{slop_${seed},`,
     `  author       = {${author}},`,

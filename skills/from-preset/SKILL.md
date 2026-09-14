@@ -34,8 +34,8 @@ how the name resolves.
 
 Run `ls skills/from-preset/presets/` (and `ls private/*/presets/` if present) to
 discover what's currently defined. As of this writing: `strategy.md`,
-`impact-report.md`, `research-poster.md`, `marketing-poster.md`, `paper.md`, and
-`brochure.md` in `presets/`.
+`impact-report.md`, `research-poster.md`, `marketing-poster.md`, `paper.md`,
+`brochure.md`, and `thesis.md` in `presets/`.
 
 Each preset is a single self-contained markdown file. To add a new one, drop a
 `presets/<name>.md` file shaped like the existing ones --- the authoring guide
@@ -44,7 +44,7 @@ is `presets/README.md` (not needed for generation runs).
 ## Document format
 
 Each preset declares a **format** in its "Doc identity" --- `booklet` (the
-default), `poster`, or `paper`. The format determines which of the
+default), `poster`, `paper`, or `thesis`. The format determines which of the
 booklet-shaped workflow steps and checklist items apply.
 
 - **`booklet`** (`strategy`, `impact-report`, `brochure`) --- a multi-page
@@ -65,6 +65,16 @@ booklet-shaped workflow steps and checklist items apply.
   booklet furniture), except the page-fit check: the paper's own blueprint
   replaces the one-page rule with its 4-8 page range and bibliography
   verification.
+- **`thesis`** (`thesis`) --- an A4 single-column doctoral thesis: no cover,
+  back cover, parity requirement or dark variant; 100-180 pages, its chapters
+  written as separate files under `output/<prefix>-<slug>-<seed>/` and pulled
+  into the master document with absolute-from-root `#include`s; a verified real
+  bibliography, at four times the paper's scale. Treat the poster-format
+  workflow tags as applying (no booklet furniture), except that the blueprint
+  replaces workflow steps 3-7 outright with its own working method --- a plan
+  file, a frozen bibliography, chapters dispatched to subagents, then a
+  consistency pass --- and the page-fit check with its 100-180 page range. It is
+  invoked on demand only; a run takes 3-4 hours.
 
 When a step or checklist item is format-specific, it's tagged "(booklet format)"
 or "(poster format)".

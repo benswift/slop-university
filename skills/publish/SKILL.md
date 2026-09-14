@@ -87,7 +87,9 @@ outputs ledger to second-guess it, and do not fall through to another rung if
 the named one looks thin --- log why it cannot proceed, leave the tree clean,
 and exit non-zero. A manual run without the wrapper runs the assessor itself
 (`ops/assess-ladder.py` from the worktree root) and follows its answer. The
-commit message names the action taken (2G makes no commit; see below).
+commit message names the action taken (2G makes no commit; see below). One rung
+is never on the line unless a human put it there: `2T`, the doctoral thesis
+(§2T), which the assessor never returns and no timer runs.
 
 **Attribution (applies when 2A is chosen).** The wrapper draws the lead author
 and, with them, the output's school, weighted against the live attribution
@@ -748,6 +750,51 @@ convention exists to prevent).
 
 ---
 
+## 2T. Doctoral thesis (manual only --- never assessed)
+
+The one rung no assessor returns and no timer fires. A human runs
+`bin/slopu thesis` when there is a token budget to spend; it starts a generator
+slot named `thesis` on a stronger model with a long leash, and the lander lands
+the candidate like any other. The invocation line names the action `2T`, the
+preset `thesis`, and the fiction the wrapper drew: the setting, the school, and
+a primary and an associate supervisor from that school. Everything else is yours
+--- this is the run with creative licence, bounded only by the blueprint's
+floors (`skills/from-preset/presets/thesis.md`): a thesis that would pass
+examination, that is also a Slop University output in the true sense.
+
+In order:
+
+1. **Admit the candidate** by the 2E procedure (name, collision check, headshot,
+   person hero) with `title: Doctoral Candidate`, the drawn school, and
+   `supervisors: [<primary id>, <associate id>]`. Their `bio` is a backstory in
+   the roster's register --- where the thesis sits in the school's programme,
+   what they did before --- and everything it says must agree with the thesis.
+   Admit them before composing, so the title page names a roster member.
+2. **Compose the topic** to fit the drawn setting; dedup and claim it exactly as
+   2A does (§2A, dedup and claim).
+3. **Generate** with `skills/from-preset/SKILL.md` and the `thesis` blueprint.
+   Its working method --- plan file first, references first, chapters to
+   subagents, front matter last --- is the run's shape, and its floors are the
+   only fixed structure. This run may take hours: the loop budgets in the
+   operating rules apply per chapter, not per run, and the subagent rule applies
+   with the model the blueprint names for each kind of work.
+4. **Post-compile checks** as 2A, with the thesis substitutions the blueprint
+   names (`ops/check-recent-language.py --preset thesis --self-reference-only`,
+   since there are no prior theses to compare against; the page floor in
+   `ops/check-output-quality.py --preset thesis`).
+5. **Cite the canon.** The blueprint's floor (30-60 prior outputs, each
+   characterised truly) replaces the per-preset table; run
+   `ops/extract-citations.py --suggest` and take at least half from it.
+6. **Mint the DOI, write the news post and the outputs entry, stage the assets**
+   as 2A, with `preset: thesis`, `authors:` the candidate alone, `pages` from
+   `pdfinfo`, no dark PDF. The news post announces the submission of the thesis
+   for examination and names the supervisors. The thumbnail is the title page.
+7. **Verify and commit** as below.
+
+**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
+`canon/heroes/people/<id>.avif`, `website/src/content/news/<date>-<slug>.md`,
+`website/src/content/outputs/<run-id>.yml`.
+
 ## 3. Verify the site
 
 ```sh
@@ -783,6 +830,7 @@ the action:
   `canon/roster.yml` only for a title-changing appointment).
 - **2I:** `website/src/content/grants/<date>-<slug>.yml`,
   `website/src/content/news/<date>-<slug>.md` (with `hero:` dims).
+- **2T:** the 2E set and the 2A set together, in one commit.
 
 Note what is **absent** from every set: the PDFs and the images. They stay in
 the gitignored staging dir (`$STAGING`: PDFs at its root, image rungs under
@@ -796,10 +844,12 @@ Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: school blurb — Trajectory Analytics Group`,
 `publish: news — Improvement Grand Rounds returns for spring`,
 `publish: grant — Indicator Stewardship Seed Fund to Okoro ($214,687)`,
-`publish: roster — add <name>`. One commit, on the current branch. **Do not
-push** --- the wrapper validates and pushes. Do not touch `.github/workflows/`,
-`public/CNAME`, `public/robots.txt`, `site-config.ts`, `colophon.md`, or any
-doctrine file; the wrapper resets commits that do.
+`publish: roster — add <name>`,
+`publish: thesis — <short title> (10.5555/slop.xxxxxx)`. One commit, on the
+current branch. **Do not push** --- the wrapper validates and pushes. Do not
+touch `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
+`site-config.ts`, `colophon.md`, or any doctrine file; the wrapper resets
+commits that do.
 
 ## Post-MVP (not yet enabled)
 

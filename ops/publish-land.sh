@@ -117,6 +117,15 @@ candidate_age_minutes() {
   echo $(( ( $(date +%s) - epoch ) / 60 ))
 }
 
+# A generator holds data/publish-gen-<slot>.lock for its whole run, so a held
+# lock is the one honest in-flight test; the age check below is only for a
+# generator that died. Without this a slow slot (the thesis runs for hours)
+# would have its branch expired under it.
+slot_in_flight() {
+  local slot="${1##*-slot}"
+  ! flock -n "${PROJECT_DIR}/data/publish-gen-${slot}.lock" true 2>/dev/null
+}
+
 sweep_candidates() {
   local marker run_id branch dir age_min landed
 
@@ -151,6 +160,7 @@ sweep_candidates() {
     # and writing its marker. Old enough that no in-flight run is caught by this.
     [ -f "${CANDIDATE_DIR}/${run_id}.json" ] && continue
     [ -f "${CANDIDATE_DIR}/${run_id}.claimed" ] && continue
+    slot_in_flight "$run_id" && continue
     age_min="$(candidate_age_minutes "$run_id")"
     if [ "$age_min" -ge "$ABANDON_MINUTES" ]; then
       log "sweeper: expiring abandoned candidate ${run_id} (branch ${age_min}m old, no marker)"
@@ -164,6 +174,7 @@ sweep_candidates() {
     [ -f "${CANDIDATE_DIR}/${run_id}.json" ] && continue
     [ -f "${CANDIDATE_DIR}/${run_id}.claimed" ] && continue
     git show-ref --verify --quiet "refs/heads/press-gen-${run_id}" && continue
+    slot_in_flight "$run_id" && continue
     age_min="$(candidate_age_minutes "$run_id")"
     if [ "$age_min" -ge "$ABANDON_MINUTES" ]; then
       log "sweeper: expiring orphaned staging dir ${run_id} (${age_min}m old, no branch, no marker)"

@@ -52,6 +52,13 @@ Usage:
   ops/draw-axes.py --json              # the same draw as JSON, for spread checks
   ops/draw-axes.py --root <checkout>   # draw against another checkout's corpus
   ops/draw-axes.py --preset <name>     # honour that preset's fixed school
+  ops/draw-axes.py --thesis            # a thesis run's fiction: setting, school, supervisors
+
+A thesis run (rung 2T, run by hand) draws no finding-shape, frame or title
+form: the blueprint gives that run creative licence. What it does draw is the
+fiction the corpus must stay spread across --- the setting, and the school the
+new doctoral candidate joins --- plus two supervisors from that school, the
+primary weighted exactly as a lead author is.
 """
 
 from __future__ import annotations
@@ -125,8 +132,8 @@ def burnt_entries() -> list[dict]:
     return yaml.safe_load(BURNT_PATH.read_text()) or []
 
 
-def pool_axes() -> dict[str, dict]:
-    """Draw the four static axes, with retired finding-shapes removed first."""
+def load_axes() -> dict[str, list[dict]]:
+    """The static pools, with retired finding-shapes removed."""
     axes = yaml.safe_load(AXES_PATH.read_text())
     missing = [axis for axis in POOL_AXES if not axes.get(axis)]
     if missing:
@@ -148,6 +155,12 @@ def pool_axes() -> dict[str, dict]:
     if not axes["finding-shape"]:
         sys.exit("every finding-shape is retired; nothing left to draw")
 
+    return axes
+
+
+def pool_axes() -> dict[str, dict]:
+    """Draw the four static axes."""
+    axes = load_axes()
     return {axis: draw(axes[axis]) for axis in POOL_AXES}
 
 
@@ -256,6 +269,40 @@ def author_slot(preset: str | None = None) -> dict:
     }
 
 
+def thesis_slot() -> dict:
+    """Draw a thesis run's fiction: the candidate's school and two supervisors.
+
+    The candidate does not exist yet --- the run fabricates them --- so the
+    author stage draws the primary supervisor instead, with the inverse
+    weighting a lead author gets, and an associate uniformly from the rest of
+    the school. A school with nobody else lends its associate from the whole
+    remaining roster, uniformly."""
+    roster = yaml.safe_load(ROSTER_PATH.read_text())["researchers"]
+    schools, leads = attribution_counts()
+
+    by_school: dict[str, list[dict]] = {}
+    for person in roster:
+        by_school.setdefault(person["school"], []).append(person)
+
+    school = draw(
+        [
+            {"name": name, "weight": 1 / (1 + schools.get(name, 0)), "people": people}
+            for name, people in by_school.items()
+        ]
+    )
+    primary = draw(
+        [
+            {"person": person, "weight": 1 / (1 + leads.get(person["name"], 0))}
+            for person in school["people"]
+        ]
+    )["person"]
+    others = [p for p in school["people"] if p["id"] != primary["id"]]
+    if not others:
+        others = [p for p in roster if p["id"] != primary["id"]]
+    associate = RNG.choice(others)
+    return {"school": school["name"], "primary": primary, "associate": associate}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -271,12 +318,43 @@ def main() -> int:
         "--preset",
         help="the preset this run rolled, so a fixed school constrains the draw",
     )
+    parser.add_argument(
+        "--thesis",
+        action="store_true",
+        help="draw a thesis run's fiction (setting, school, supervisors) and nothing else",
+    )
     args = parser.parse_args()
     os.chdir(args.root)
 
+    retired = [collapse(entry["shape"]) for entry in burnt_entries()]
+
+    if args.thesis:
+        setting = draw(load_axes()["setting"])
+        fiction = thesis_slot()
+        if args.json:
+            print(
+                json.dumps(
+                    {
+                        "setting": setting["id"],
+                        "school": fiction["school"],
+                        "primary_supervisor": fiction["primary"]["id"],
+                        "associate_supervisor": fiction["associate"]["id"],
+                    }
+                )
+            )
+            return 0
+        print(f"setting: {collapse(setting['value'])}")
+        print(f"school: {fiction['school']}")
+        for role in ("primary", "associate"):
+            person = fiction[role]
+            print(
+                f"{role} supervisor: {person['name']} ({person['id']}, {person['school']})"
+            )
+        print("retired finding-shapes, never the primary design: " + "; ".join(retired))
+        return 0
+
     drawn = pool_axes()
     author = author_slot(args.preset)
-    retired = [collapse(entry["shape"]) for entry in burnt_entries()]
 
     if args.json:
         payload = {axis: drawn[axis]["id"] for axis in POOL_AXES}

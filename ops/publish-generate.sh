@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # A concurrent generator slot: produce ONE publish candidate and stop.
 #
-# Usage: ops/publish-generate.sh <slot>       (slot is a small integer, 1..N)
+# Usage: ops/publish-generate.sh <slot>       (slot is a small integer, 1..N,
+#                                              or the word `thesis`)
 #
 # The generator never touches origin, never uploads and never pushes. It runs
 # the agent in its own worktree, keeps whatever the agent committed on a branch
@@ -31,6 +32,13 @@
 # on shared state (2G if socials are due, 2H if the newsroom is due, 2I picks the
 # researcher whose funding lags their output), so two slots reading it choose the
 # same gap, and no merge strategy catches a semantic duplicate.
+#
+# The `thesis` slot is the one rung with no timer: a human runs it (bin/slopu
+# thesis) to spend a token budget on a doctoral thesis, action 2T. It is a
+# generator like the others --- its own worktree, branch and staging dir, a
+# candidate the lander lands --- with two differences: its inputs are the
+# thesis fiction rather than an assessed rung, and it has no fallback model,
+# because a run that exists to spend a budget either has it or does not.
 set -euo pipefail
 
 # Overridable ONLY so the pipeline can be exercised end-to-end against a
@@ -41,7 +49,8 @@ source "${PROJECT_DIR}/ops/publish-lib.sh"
 
 SLOT="${1:?usage: publish-generate.sh <slot>}"
 case "$SLOT" in
-  ''|*[!0-9]*) echo "slot must be a positive integer" >&2; exit 2 ;;
+  thesis) ;;
+  ''|*[!0-9]*) echo "slot must be a positive integer, or 'thesis'" >&2; exit 2 ;;
 esac
 
 WORKTREE_DIR="${PROJECT_DIR}/../slop-university-gen-${SLOT}"
@@ -123,11 +132,14 @@ fi
 
 if [ "$SLOT" = "1" ]; then
   draw_run_inputs "$WORKTREE_DIR"
+elif [ "$SLOT" = "thesis" ]; then
+  draw_run_inputs "$WORKTREE_DIR" thesis
 else
   draw_run_inputs "$WORKTREE_DIR" 2a-only
 fi
 
-# Slot 1 gardens; the rest are pinned to 2A. See the header.
+# Slot 1 gardens; the thesis slot writes a thesis; the rest are pinned to 2A.
+# See the header.
 compose_agent_prompt ""
 
 # shellcheck disable=SC2034  # consumed by run_agent/publish_on_exit in publish-lib.sh
@@ -165,7 +177,9 @@ fi
 # top of that is how two outputs end up claiming one DOI.
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
-  if [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
+  if [ "$SLOT" = "thesis" ]; then
+    log "  a thesis run has no fallback: it spends the budget it was given or stops"
+  elif [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
     # Order matters: the hard-exhaustion test reads the attempt's output, and
     # the switch it guards overwrites the profile that test would classify by.

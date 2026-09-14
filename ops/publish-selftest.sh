@@ -423,6 +423,27 @@ check "a generator that produces no candidate exits non-zero too" 6 \
         SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/publish-generate.sh 1 >/dev/null 2>&1 ); echo $? )"
 
 echo
+echo "the thesis slot"
+check "a thesis run is a generator candidate like any other" candidate "$(gen thesis good)"
+check "...composed as rung 2T"                      yes          "$(log_has 'assessed action: 2T')"
+check "...with a drawn school and supervisors"      yes          "$(log_has 'primary supervisor:')"
+check "...and the lander lands it"                  published    "$(land)"
+
+echo
+echo "the sweeper leaves a slot that still holds its lock"
+git -C "$REPO" branch press-gen-20260101T000000Z-slot8 main
+flock "${REPO}/data/publish-gen-8.lock" sleep 6 &
+HOLDER=$!
+sleep 1
+land --sweep-only > /dev/null
+check "a held slot is in flight, not abandoned" "press-gen-20260101T000000Z-slot8" \
+  "$(git -C "$REPO" branch --list 'press-gen-20260101T000000Z-slot8' | tr -d ' +*')"
+wait "$HOLDER"
+land --sweep-only > /dev/null
+check "...and is expired once the lock is released" "" \
+  "$(git -C "$REPO" branch --list 'press-gen-20260101T000000Z-slot8' | tr -d ' +*')"
+
+echo
 echo "the serial pipeline replays onto a base that moved mid-run"
 check "a human push during generation no longer costs the tick" published "$(serial good-pushed)"
 check "...and the log says the base moved"          yes          "$(log_has 'base moved during generation')"

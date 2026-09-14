@@ -590,6 +590,22 @@ draw_run_inputs() {
   # behind a green pipeline. A script cannot be anchored, reads the ledger for
   # free, and gives two concurrent slots the same answer. A generator slot
   # other than slot 1 passes "2a-only" and the assessor returns 2A unread.
+  if [ "$mode" = "thesis" ]; then
+    # Never assessed: the rung is fixed by the human who ran
+    # ops/publish-generate.sh thesis, the preset is the thesis's own, and the
+    # only inputs drawn are the fiction (setting, school, supervisors).
+    ACTION="2T"
+    ACTION_REASON="a doctoral thesis, run by hand; never assessed and never timed"
+    ACTION_PARAMS="{}"
+    PRESET="thesis"
+    AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$worktree" --thesis)"
+    PUBLISHED_AT="$(date -Iseconds)"
+    log "=== assessed action: ${ACTION} --- ${ACTION_REASON} ==="
+    log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
+    log "=== drawn fiction ==="
+    printf '%s\n' "$AXES" >> "$LOG_FILE"
+    return 0
+  fi
   local assess_args=(--root "$worktree" --json)
   [ "$mode" = "2a-only" ] && assess_args+=(--only-2a)
   [ -n "${SLOPU_ASSESS_NO_NETWORK:-}" ] && assess_args+=(--no-network)
@@ -615,16 +631,22 @@ draw_run_inputs() {
 # Sets AGENT_PROMPT.
 #
 # The action comes first and by name, so the run never re-reads the ledger to
-# decide what to do. The preset and axes are only sent on a 2A run: on any
-# other rung they are noise that pulled the model back toward 2A.
+# decide what to do. The preset and axes are only sent on a 2A or 2T run: on
+# any other rung they are noise that pulled the model back toward 2A.
 compose_agent_prompt() {
   local extra="${1:-}"
   AGENT_PROMPT="/publish. This run's action is ${ACTION} --- assessed by ops/assess-ladder.py from the live ledger (${ACTION_REASON}). Take that action and no other; do not re-assess the ladder or read the corpus to second-guess it. Action parameters: ${ACTION_PARAMS}
 Record publishedAt from SLOPU_PUBLISHED_AT in any outputs entry."
-  if [ "$ACTION" = "2A" ]; then
+  if [ "$ACTION" = "2A" ] || [ "$ACTION" = "2T" ]; then
     AGENT_PROMPT="${AGENT_PROMPT}
 The wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; compose the topic to FIT them, and do not infer, count or override any of them:
 ${AXES}"
+  fi
+  # A run started to spend a budget that resets at a known time (the thesis)
+  # has to finish before it; the agent is the only party that can pace itself.
+  if [ -n "${SLOPU_DEADLINE:-}" ]; then
+    AGENT_PROMPT="${AGENT_PROMPT}
+Hard deadline: this run must have committed by ${SLOPU_DEADLINE} (local time; the token budget it spends resets then). Plan the work backwards from that time, check the clock (\`date\`) between phases, and scale the document toward the lower end of its range rather than run past it. A run that has not committed by the deadline publishes nothing."
   fi
   [ -n "$extra" ] && AGENT_PROMPT="${AGENT_PROMPT}
 ${extra}"

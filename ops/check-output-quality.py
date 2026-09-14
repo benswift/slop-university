@@ -50,6 +50,11 @@ from pathlib import Path
 # are deliberately sparse, so their penultimate page is the one that matters.
 BOOKLETS = {"brochure", "impact-report", "strategy"}
 PAPERS = {"paper"}
+# A thesis ends on an appendix page, whose fill says nothing; what a collapsed
+# thesis run looks like is a short document. The blueprint's range starts at
+# 100 pages; the floor sits under it so a lean but complete thesis passes.
+THESES = {"thesis"}
+THESIS_MIN_PAGES = 80
 # Booklets: published defects reach 0.375, the shallowest legitimate page 0.656.
 BOOKLET_MIN_FILL = 0.66
 # Papers: two lines alone on a page reach 0.11; three reference entries reach
@@ -163,6 +168,16 @@ def main() -> int:
         raise FileNotFoundError(args.pdf)
 
     pages = page_count(args.pdf)
+    if args.preset in THESES:
+        if pages < THESIS_MIN_PAGES:
+            print(
+                f"quality failure: thesis has {pages} pages; "
+                f"the floor is {THESIS_MIN_PAGES}",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"quality: thesis has {pages} pages (floor {THESIS_MIN_PAGES})")
+        return 0
     chosen = target(args.preset, pages)
     if chosen is None:
         print(f"quality: {args.preset} uses its preset-specific one-page fit check")

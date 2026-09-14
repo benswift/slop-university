@@ -43,6 +43,14 @@ describe("bibtex", () => {
     expect(cite).toContain("author       = {Slop University},");
   });
 
+  it("renders a @phdthesis entry for a thesis, not a @misc", () => {
+    const cite = bibtex("slop-thesis-x", { ...entry, preset: "thesis" });
+    expect(cite).toContain("@phdthesis{slop_sn9kzr,");
+    expect(cite).toContain("school       = {Slop University},");
+    expect(cite).not.toMatch(/^@misc/m);
+    expect(cite).not.toContain("publisher");
+  });
+
   it("cites the full title, rejoining the subtitle", () => {
     const cite = bibtex("slop-poster-x", {
       ...entry,
@@ -103,6 +111,7 @@ describe("presetLabels", () => {
       "brochure",
       "strategy",
       "impact-report",
+      "thesis",
     ] as const) {
       expect(presetLabels[preset]).toBeTruthy();
     }

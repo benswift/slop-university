@@ -24,6 +24,21 @@ const showPortrait = !hero && portrait;
 const schools = await getSchools();
 const schoolId = schoolIdByName(schools, person.school);
 const outputs = await outputsByAuthor(person.name);
+
+// Doctoral supervision, both directions. `supervisors` on a candidate's own
+// roster entry names ids; a supervisor's page instead finds its candidates by
+// scanning the roster for entries that name this person's id. An id that
+// doesn't resolve (a typo, a not-yet-admitted candidate) is dropped rather
+// than crashing the build.
+const allPeople = await getPeople();
+const supervisors = (person.supervisors ?? [])
+  .map((id) => allPeople.find((p) => p.id === id))
+  .filter((p): p is (typeof allPeople)[number] => p !== undefined);
+const candidates = allPeople.filter((p) => p.data.supervisors?.includes(entry.id));
+
+// Separator before the i-th name (0-indexed) of an n-name list, en-AU style
+// (no serial comma before "and"): "A and B", "A, B and C".
+const joinSeparator = (i: number, n: number) => (i === 0 ? "" : i === n - 1 ? " and " : ", ");
 const grants = await grantsByGrantee(person.name);
 const schemes = grants.length > 0 ? await getSchemes() : [];
 
@@ -69,6 +84,28 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
     }
     <div class="profile-body">
       <p class="title">{person.title}</p>
+      {supervisors.length > 0 && (
+        <p class="supervisors">
+          Supervised by{" "}
+          {supervisors.map((s, i) => (
+            <>
+              {joinSeparator(i, supervisors.length)}
+              <a href={`/people/${s.id}/`}>{s.data.name}</a>
+            </>
+          ))}
+        </p>
+      )}
+      {candidates.length > 0 && (
+        <p class="candidates">
+          Doctoral candidates:{" "}
+          {candidates.map((c, i) => (
+            <>
+              {joinSeparator(i, candidates.length)}
+              <a href={`/people/${c.id}/`}>{c.data.name}</a>
+            </>
+          ))}
+        </p>
+      )}
       <p class="school">
         {
           schoolId ? (
@@ -192,6 +229,12 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   .profile-body .title {
     font-size: var(--at-font-size-h4);
     font-weight: 600;
+    margin-block: 0 var(--at-spacing-xs);
+  }
+
+  .profile-body .supervisors,
+  .profile-body .candidates {
+    color: var(--at-text-muted);
     margin-block: 0 var(--at-spacing-xs);
   }
 
