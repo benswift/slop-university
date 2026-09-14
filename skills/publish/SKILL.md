@@ -632,21 +632,21 @@ add the record to the right section of `canon/schools.yml` (`labs`, `programs`,
 
 ## 2G. Post to socials (no commit)
 
-Compose one post for the `@slop.university` Bluesky account about an existing,
-already-live aspect of the department --- an older output worth resurfacing, a
-researcher, a school, or the institution --- and stage it as
-`data/pending-post.json`. The assessor has already applied the due-ness gate;
-follow `../post-to-bluesky/SKILL.md` for the subject choice (its feed read
-doubles as subject history), the click-through hook compose rules, and the
-staged-file schema.
+Pick one existing, already-live aspect of the department --- an older output
+worth resurfacing, a researcher, a school, or the institution --- and compose a
+post about it for each platform the `platforms` parameter names (Bluesky, the
+LinkedIn Page, or both), each in its own platform's conventions. The assessor
+has already applied the due-ness gates; follow `../post-to-socials/SKILL.md` for
+the subject choice, the per-platform compose rules, and the staged-file schema.
 
-This action **holds no live credentials and makes no commit**. The staged file
-is gitignored; the cron wrapper runs `ops/post-to-bluesky.py` after its
-validated push and is the only thing that posts. Verify (§3) and commit (§4) do
-not apply --- once the file is written and the choice logged, the run is done.
+This action **holds no live credentials and makes no commit**. The staged files
+are gitignored; the cron wrapper runs the posters after its validated push and
+is the only thing that posts. Verify (§3) and commit (§4) do not apply --- once
+the files are written and the choice logged, the run is done.
 
-**Files:** `data/pending-post.json` (gitignored working-tree only; never
-committed).
+**Files:** `data/pending-post.json` (Bluesky) and
+`data/pending-linkedin-post.json` (LinkedIn), gitignored working-tree only;
+never committed.
 
 ## 2H. Institutional news (no new output)
 
