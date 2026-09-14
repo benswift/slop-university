@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # The serial publish pipeline: one process generates one action and lands it.
 #
-# This is the original single-threaded tick, and it remains the live pipeline.
-# It shares every safety-critical step with the concurrent split
+# This is the original single-threaded tick, kept as the fallback path behind
+# the concurrent split (slop-publish.timer stays stopped while the split's
+# timers are live). It shares every safety-critical step with the split
 # (ops/publish-generate.sh + ops/publish-land.sh) through ops/publish-lib.sh ---
 # base selection, commit validation, the entry-to-asset pairing check, the
 # agent-failure classifiers. One copy, so the two paths cannot drift on the
@@ -246,6 +247,40 @@ if [ -n "$RESIDUE" ]; then
   echo "$RESIDUE" >> "$LOG_FILE"
 fi
 
+# --- Replay the agent's commits onto the current base before judging them.
+#
+# The base is pinned at run start and generation takes an hour or more. A human
+# commit reaching main or origin/main inside that window used to cost the whole
+# tick: with press fast-forwarded onto it, validation found a foreign commit in
+# ${BASE_REF}..press; without, the race guard below refused the push. Either
+# way the agent's work went to a rescue branch nobody relands. The concurrent
+# lander (ops/publish-land.sh) replays a candidate onto the current base, and
+# this is the same move: rebase drops a commit already upstream (which is all a
+# fast-forwarded human commit is) and carries the agent's own on top, author
+# intact, so validation still sees only press@ commits. Candidates touch
+# disjoint files by construction, so a conflict means an assumption broke:
+# rescue it, as before. select_base refuses a main/origin divergence, which is
+# the one situation that still needs a human.
+OLD_BASE_REF="$BASE_REF"
+OLD_BASE_NAME="$BASE_NAME"
+REBASED=0
+if ! select_base; then
+  BASE_REF="$OLD_BASE_REF"; BASE_NAME="$OLD_BASE_NAME"
+  rescue_and_abort "diverged" "main and origin/main diverged during generation; a human must rebase"
+fi
+if [ "$BASE_REF" != "$OLD_BASE_REF" ]; then
+  log "base moved during generation: ${OLD_BASE_NAME} ${OLD_BASE_REF:0:8} -> ${BASE_NAME} ${BASE_REF:0:8}; replaying press onto it"
+  git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
+  if git -C "$WORKTREE_DIR" rebase --onto "$BASE_REF" "$OLD_BASE_REF" "$PRESS_BRANCH" >> "$LOG_FILE" 2>&1; then
+    REBASED=1
+  else
+    log "REBASE CONFLICT replaying ${OLD_BASE_REF:0:8}..${PRESS_BRANCH} onto ${BASE_REF:0:8}"
+    git -C "$WORKTREE_DIR" rebase --abort >> "$LOG_FILE" 2>&1 || true
+    BASE_REF="$OLD_BASE_REF"; BASE_NAME="$OLD_BASE_NAME"
+    rescue_and_abort "rebase-conflict" "press conflicted when replayed onto the current base"
+  fi
+fi
+
 if ! validate_commits "$BASE_REF" "$PRESS_BRANCH"; then
   rescue_and_abort "validation-failure" "$VALIDATION_ERROR"
 fi
@@ -286,6 +321,18 @@ fi
 
 if ! check_output_quality "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
   rescue_and_abort "quality-failure" "$QUALITY_ERROR"
+fi
+
+# A replayed tree is one the agent never verified (the moved base may carry a
+# dependency bump under a finished output), so it gets the authoritative build
+# the lander always runs --- after the cheap gates, so a validation failure is
+# still reported as one. Install first: the moved base may have changed the
+# lockfile.
+if [ "$REBASED" = 1 ]; then
+  log "=== authoritative build on the replayed tree at $(date -Iseconds) ==="
+  if ! worktree_install "$WORKTREE_DIR" || ! (cd "${WORKTREE_DIR}/website" && pnpm build) >> "$LOG_FILE" 2>&1; then
+    rescue_and_abort "build-failure" "the replayed tree failed the authoritative build"
+  fi
 fi
 
 # Generation can take twenty minutes or more. A human push during that window

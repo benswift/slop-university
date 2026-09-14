@@ -199,7 +199,63 @@ printf '%s' '{"text":"Staged by the self-test.","link":"https://slop.university"
   > data/pending-linkedin-post.json
 AGENT
 
-chmod +x "${FIXTURE}"/agent-*
+# A human pushes to origin main while the agent is mid-generation. Their commit
+# touches a file no agent ever writes, so the only question is whether the
+# wrapper replays the agent's work onto it or throws the tick away.
+cat > "${FIXTURE}/human-push" <<'HUMAN'
+#!/usr/bin/env bash
+set -euo pipefail
+SCRATCH="$(mktemp -d)"
+git clone -q "$(git remote get-url origin)" "${SCRATCH}/human"
+git -C "${SCRATCH}/human" config user.email ben@benswift.me
+git -C "${SCRATCH}/human" config user.name "Ben Swift"
+echo "bumped $$ $RANDOM" >> "${SCRATCH}/human/${1:-README.md}"
+git -C "${SCRATCH}/human" add -A
+git -C "${SCRATCH}/human" commit -qm "deps: a human bump landing mid-run"
+git -C "${SCRATCH}/human" push -q origin main
+rm -rf "$SCRATCH"
+HUMAN
+
+cat > "${FIXTURE}/agent-good-pushed" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+"$(dirname "$0")/human-push"
+exec "$(dirname "$0")/agent-good"
+AGENT
+
+# The same, but something has also fast-forwarded press onto the human commit
+# before the agent commits --- so the foreign commit sits INSIDE base..press.
+cat > "${FIXTURE}/agent-good-racing" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+"$(dirname "$0")/human-push"
+git fetch -q origin && git merge -q --ff-only origin/main
+exec "$(dirname "$0")/agent-good"
+AGENT
+
+# The human commit and the agent's commit write the same new file with
+# different content: a real conflict, which must be rescued rather than guessed.
+cat > "${FIXTURE}/agent-good-conflict" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+"$(dirname "$0")/human-push" website/src/content/news/2026-08-26-collision.md
+cat > website/src/content/news/2026-08-26-collision.md <<MD
+---
+title: "Collision"
+date: 2026-08-26
+summary: the agent's version of a file a human also wrote
+hero:
+  width: 2752
+  height: 1536
+---
+
+Body text.
+MD
+git add website/src/content/news/2026-08-26-collision.md
+git commit -qm "publish: news — collision"
+AGENT
+
+chmod +x "${FIXTURE}"/agent-* "${FIXTURE}/human-push"
 
 echo
 echo "document quality helpers"
@@ -365,6 +421,19 @@ check "...and exits non-zero, so it cannot clear the on-call todo" 6 \
 check "a generator that produces no candidate exits non-zero too" 6 \
   "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" \
         SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/publish-generate.sh 1 >/dev/null 2>&1 ); echo $? )"
+
+echo
+echo "the serial pipeline replays onto a base that moved mid-run"
+check "a human push during generation no longer costs the tick" published "$(serial good-pushed)"
+check "...and the log says the base moved"          yes          "$(log_has 'base moved during generation')"
+check "...and the replayed tree got the authoritative build" yes "$(log_has 'authoritative build on the replayed tree')"
+check "press fast-forwarded over a human commit still lands" published "$(serial good-racing)"
+RESCUES_BEFORE="$(git -C "$REPO" branch --list 'publish-rescue/*' | wc -l | tr -d ' ')"
+check "a real conflict is rescued, not guessed at"  rebase-conflict "$(serial good-conflict)"
+check "...onto a rescue branch"                     "$((RESCUES_BEFORE + 1))" \
+  "$(git -C "$REPO" branch --list 'publish-rescue/*' | wc -l | tr -d ' ')"
+check "...and origin kept the human's version"      yes \
+  "$(git -C "$REPO" fetch -q origin && git -C "$REPO" show origin/main:website/src/content/news/2026-08-26-collision.md | grep -q bumped && echo yes || echo no)"
 
 # --- The author draw against the preset it is drawing for. impact-report is
 # the School of Continuous Improvement's report about itself; a lead from
