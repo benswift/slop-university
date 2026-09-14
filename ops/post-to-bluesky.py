@@ -38,8 +38,11 @@ text (the house tag is #slopU) is faceted as a tappable tag, so the composer
 only ever writes literal text.
 
 Exit 0 on a successful (or deduped) post; the wrapper deletes the file only
-then. Any non-zero exit leaves it staged for the next run to retry --- the dedup
-guard means a lost-response retry can't double-post.
+then. Exit 65 (EX_DATAERR) when the file itself can never be accepted ---
+malformed JSON, no text, over the cap --- and the wrapper quarantines it rather
+than retrying a refusal forever. Any other non-zero exit leaves it staged for the
+next run to retry --- the dedup guard means a lost-response retry can't
+double-post.
 """
 
 from __future__ import annotations
@@ -68,11 +71,17 @@ MAX_CHARS = (
 # Bluesky rejects image blobs at/above 1,000,000 bytes; over this we post the
 # card without a thumbnail (title + description still render) rather than fail.
 MAX_BLOB_BYTES = 1_000_000
+EXIT_REJECTED = 65  # EX_DATAERR: the staged file is unpostable, so don't retry it
 
 
 def fail(msg: str):
     print(f"error: {msg}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def reject(msg: str):
+    print(f"rejected: {msg}", file=sys.stderr)
+    raise SystemExit(EXIT_REJECTED)
 
 
 def get_session() -> dict:
@@ -248,10 +257,15 @@ def main() -> None:
         print("no pending post; nothing to do")
         return
 
-    post = json.loads(path.read_text())
+    try:
+        post = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        reject(f"{path} is not valid JSON: {exc}")
+    if not isinstance(post, dict):
+        reject(f"{path} is not a JSON object")
     text = (post.get("text") or "").strip()
     if not text:
-        fail(f"{path} has no 'text'")
+        reject(f"{path} has no 'text'")
     link = post.get("link")
     now = post.get("createdAt") or dt.datetime.now(dt.UTC).strftime(
         "%Y-%m-%dT%H:%M:%S.000Z"
@@ -262,7 +276,7 @@ def main() -> None:
         text, facets = link_facet(text, link)
     facets.extend(tag_facets(text))
     if len(text) > MAX_CHARS:
-        fail(f"post is {len(text)} chars; Bluesky caps at {MAX_CHARS}")
+        reject(f"post is {len(text)} chars; Bluesky caps at {MAX_CHARS}")
 
     session = get_session()
     dup = recent_duplicate(session, text)

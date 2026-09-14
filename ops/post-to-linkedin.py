@@ -41,9 +41,11 @@ delivery. A LinkedIn-side failure after Make accepts shows up in the scenario's
 history, not here.
 
 Exit 0 on a delivered (or deduped) post; the wrapper deletes the staged file
-only then. A definite failure (no connection, or a non-2xx from Make: a bad key
-is 401, a scenario switched off is 410) exits non-zero and leaves the file
-staged for the next run to retry. A failure that may have delivered anyway (the
+only then. Exit 65 (EX_DATAERR) when the file itself can never be accepted ---
+malformed JSON, no text, over the cap --- and the wrapper quarantines it. A
+definite failure (no connection, or a non-2xx from Make: a bad key is 401, a
+scenario switched off is 410) exits 1 and leaves the file staged for the next
+run to retry. A failure that may have delivered anyway (the
 request went out and the response was lost) is recorded as `uncertain` and
 exits non-zero; the retry then finds it in the ledger and stands down, because
 a missing post is cheaper than a doubled one.
@@ -66,11 +68,17 @@ TIMEOUT = 30.0
 DEDUP_WINDOW = dt.timedelta(hours=24)
 MAX_CHARS = 3000  # LinkedIn's post commentary cap
 LEDGER_NAME = "linkedin-ledger.jsonl"
+EXIT_REJECTED = 65  # EX_DATAERR: the staged file is unpostable, so don't retry it
 
 
 def fail(msg: str) -> NoReturn:
     print(f"error: {msg}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def reject(msg: str) -> NoReturn:
+    print(f"rejected: {msg}", file=sys.stderr)
+    raise SystemExit(EXIT_REJECTED)
 
 
 def compose_text(post: dict) -> str:
@@ -115,12 +123,17 @@ def main() -> None:
         print("no pending LinkedIn post; nothing to do")
         return
 
-    post = json.loads(path.read_text())
+    try:
+        post = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        reject(f"{path} is not valid JSON: {exc}")
+    if not isinstance(post, dict):
+        reject(f"{path} is not a JSON object")
     text = compose_text(post)
     if not text:
-        fail(f"{path} has no 'text'")
+        reject(f"{path} has no 'text'")
     if len(text) > MAX_CHARS:
-        fail(f"post is {len(text)} chars; LinkedIn caps at {MAX_CHARS}")
+        reject(f"post is {len(text)} chars; LinkedIn caps at {MAX_CHARS}")
 
     url = os.environ.get("SLOPU_LINKEDIN_WEBHOOK")
     key = os.environ.get("SLOPU_LINKEDIN_WEBHOOK_KEY")

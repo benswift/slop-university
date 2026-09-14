@@ -550,6 +550,37 @@ check "a re-staged identical post is deduped from the ledger" posted "$(land)"
 check "...without reaching the relay again" "$BEFORE_REQUESTS" "$(requests)"
 rm -f "${REPO}"/data/pending-post.json "${REPO}"/data/pending-linkedin-post.json
 
+# A post its poster can never accept is quarantined, not retried every tick.
+# Each poster is run directly on the bad inputs, without credentials, so a
+# refusal that isn't a rejection surfaces as exit 1 rather than as the network.
+poster_exit() { # poster_exit <poster> <file-contents>
+  printf '%s' "$2" > "${FIXTURE}/staged.json"
+  ( cd "$REPO" && env -u SLOPU_TOKEN -u SLOPU_LINKEDIN_WEBHOOK -u SLOPU_LINKEDIN_WEBHOOK_KEY \
+      uv run "ops/$1" "${FIXTURE}/staged.json" >/dev/null 2>&1 ); echo $?
+}
+long_post() { python3 -c "import json,sys; print(json.dumps({'text': 'x' * int(sys.argv[1])}))" "$1"; }
+for poster in post-to-bluesky.py post-to-linkedin.py; do
+  check "${poster} rejects malformed JSON" 65 "$(poster_exit "$poster" '{"text": ')"
+  check "${poster} rejects a post with no text" 65 "$(poster_exit "$poster" '{"text": "  "}')"
+  check "${poster} keeps exit 1 for a missing credential" 1 "$(poster_exit "$poster" '{"text":"Fine copy."}')"
+done
+check "post-to-bluesky.py rejects a post over 300 once the link is appended" 65 \
+  "$(poster_exit post-to-bluesky.py '{"text":"'"$(printf 'x%.0s' $(seq 255))"'","link":"https://slop.university/people/marek-solheim"}')"
+check "post-to-linkedin.py rejects a post over 3000" 65 "$(poster_exit post-to-linkedin.py "$(long_post 3001)")"
+
+land_result() {
+  ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
+      ./ops/publish-land.sh 2>&1 ) | sed -n 's/^RESULT=\([a-z-]*\) exit=\([0-9]*\) .*/\1 exit=\2/p' | tail -1
+}
+BEFORE_REQUESTS="$(requests)"
+long_post 3001 > "${REPO}/data/pending-linkedin-post.json"
+check "a rejected post is its own outcome, and reaches on-call" "rejected-post exit=65" "$(land_result)"
+check "...moves the post out of the staging slot" cleared "$(staged pending-linkedin-post.json)"
+check "...into data/rejected-posts/" 1 "$(find "${REPO}/data/rejected-posts" -name '*-pending-linkedin-post.json' | wc -l | tr -d ' ')"
+check "...without reaching the relay" "$BEFORE_REQUESTS" "$(requests)"
+check "the next tick is not rejected again" "idle exit=0" "$(land_result)"
+rm -rf "${REPO}/data/rejected-posts"
+
 echo
 echo "fixture safety"
 check "no bucket upload was attempted from the fixture" 0 \

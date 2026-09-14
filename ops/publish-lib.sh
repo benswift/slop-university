@@ -69,6 +69,13 @@ bucket_upload_allowed() {
 # is switched off must not hold back a Bluesky post, or double-post one. Each
 # poster exits 0 on a sent or deduped post, and only then is its file removed.
 #
+# A retry only fixes a transient failure. A post the poster refuses on its
+# content (over the cap, no text, malformed JSON) exits POSTER_REJECTED, and is
+# moved to data/rejected-posts/ so the platform can stage its next post. Left in
+# place it is refused every tick and holds the socials gate shut, while the runs
+# report published. REJECTED_POSTS makes the run's outcome say so
+# (publish_on_exit).
+#
 # Posting is shared external infrastructure, like the buckets, so a fixture
 # never posts to Bluesky, and posts to LinkedIn only through the loopback stub
 # named in SLOPU_SELFTEST_LINKEDIN_WEBHOOK. It is a separate variable because
@@ -77,6 +84,8 @@ STAGED_POSTS=(
   "pending-post.json:post-to-bluesky.py"
   "pending-linkedin-post.json:post-to-linkedin.py"
 )
+POSTER_REJECTED=65
+REJECTED_POSTS=""
 
 # Returns 0 when any platform has a post staged.
 staged_post_exists() {
@@ -89,7 +98,7 @@ staged_post_exists() {
 
 # Sets POSTED=yes when any platform posted.
 flush_staged_posts() {
-  local pair staged poster
+  local pair staged poster status quarantined
   local -a fixture_env
   for pair in "${STAGED_POSTS[@]}"; do
     staged="${pair%%:*}"
@@ -105,10 +114,18 @@ flush_staged_posts() {
       fixture_env=(SLOPU_LINKEDIN_WEBHOOK="$SLOPU_SELFTEST_LINKEDIN_WEBHOOK" SLOPU_LINKEDIN_WEBHOOK_KEY=selftest)
     fi
     log "=== posting data/${staged} at $(date -Iseconds) ==="
-    if env "${fixture_env[@]}" uv run "${PROJECT_DIR}/ops/${poster}" "${PROJECT_DIR}/data/${staged}" >> "$LOG_FILE" 2>&1; then
+    status=0
+    env "${fixture_env[@]}" uv run "${PROJECT_DIR}/ops/${poster}" "${PROJECT_DIR}/data/${staged}" >> "$LOG_FILE" 2>&1 || status=$?
+    if [ "$status" = 0 ]; then
       rm -f "${PROJECT_DIR}/data/${staged}"
       POSTED="yes"
       log "posted and cleared data/${staged}"
+    elif [ "$status" = "$POSTER_REJECTED" ]; then
+      quarantined="data/rejected-posts/$(date +%Y%m%d-%H%M%S)-${staged}"
+      mkdir -p "${PROJECT_DIR}/data/rejected-posts"
+      mv "${PROJECT_DIR}/data/${staged}" "${PROJECT_DIR}/${quarantined}"
+      REJECTED_POSTS="${REJECTED_POSTS:+${REJECTED_POSTS}, }${quarantined}"
+      log "${poster} can never accept data/${staged}; moved it to ${quarantined}"
     else
       log "${poster} failed; leaving data/${staged} staged for retry"
     fi
@@ -140,13 +157,27 @@ result() {
 }
 
 # Callers may define on_exit_cleanup() to add their own teardown; it runs first.
+#
+# A rejected post outranks a successful outcome and exits POSTER_REJECTED, since
+# the run's own work is fine and only a human can fix the copy. A failed run
+# keeps its own outcome and carries the rejection in its detail.
 publish_on_exit() {
   local code=$?
   if declare -F on_exit_cleanup > /dev/null; then on_exit_cleanup || true; fi
   rm -f "${AGENT_OUT:-}"
+  if [ -n "$REJECTED_POSTS" ]; then
+    if [ "$code" = 0 ]; then
+      RUN_DETAIL="unpostable social post quarantined in ${REJECTED_POSTS}; the run was ${RUN_RESULT}: ${RUN_DETAIL}"
+      RUN_RESULT="rejected-post"
+      code=$POSTER_REJECTED
+    else
+      RUN_DETAIL="${RUN_DETAIL}; also quarantined an unpostable social post in ${REJECTED_POSTS}"
+    fi
+  fi
   local line="RESULT=${RUN_RESULT} exit=${code} detail=${RUN_DETAIL}"
   echo "$line"
   log "$line"
+  exit "$code"
 }
 
 install_exit_trap() { trap publish_on_exit EXIT; }
