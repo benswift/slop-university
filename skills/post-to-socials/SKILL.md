@@ -144,6 +144,12 @@ that the satire lives in how little separates them. Write a different post from
 the Bluesky one, not a longer version of it: a new angle and new sentences on
 the same subject.
 
+The moves below are fixed; their wording is not. The quoted lines and the
+example file show the register, so write every stock move fresh --- the opener,
+the congratulations, the question, the link line, the tag set. A Page whose
+posts all open "We're proud to share" and close "We'd welcome your thoughts"
+reads as a template, and the Page posts daily.
+
 - **Hook above the fold.** LinkedIn shows roughly the first 200 characters and
   then "...see more". Open with one or two short lines that make the fold worth
   opening: a pride opener ("We're proud to share new work from the School of
