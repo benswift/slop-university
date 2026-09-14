@@ -332,10 +332,9 @@
   } else { s }
 }
 
-// The standard Australian declaration page, deadpan. Returns content
-// (heading included); drop it into `slop-thesis-frontmatter`.
+// The standard Australian declaration, deadpan. Returns the body only; put it
+// under your own `= Declaration` heading inside `slop-thesis-frontmatter`.
 #let slop-thesis-declaration(candidate: "", date: "") = {
-  heading(level: 1)[Declaration]
   [
     I declare that this thesis is my own original work. To the best of my
     knowledge it contains no material previously published or written by another

@@ -55,6 +55,8 @@ PAPERS = {"paper"}
 # 100 pages; the floor sits under it so a lean but complete thesis passes.
 THESES = {"thesis"}
 THESIS_MIN_PAGES = 80
+# A runaway run repeating itself is the other failure a page count sees.
+THESIS_MAX_PAGES = 220
 # Booklets: published defects reach 0.375, the shallowest legitimate page 0.656.
 BOOKLET_MIN_FILL = 0.66
 # Papers: two lines alone on a page reach 0.11; three reference entries reach
@@ -176,7 +178,17 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 1
-        print(f"quality: thesis has {pages} pages (floor {THESIS_MIN_PAGES})")
+        if pages > THESIS_MAX_PAGES:
+            print(
+                f"quality failure: thesis has {pages} pages; "
+                f"the ceiling is {THESIS_MAX_PAGES}",
+                file=sys.stderr,
+            )
+            return 1
+        print(
+            f"quality: thesis has {pages} pages "
+            f"(floor {THESIS_MIN_PAGES}, ceiling {THESIS_MAX_PAGES})"
+        )
         return 0
     chosen = target(args.preset, pages)
     if chosen is None:

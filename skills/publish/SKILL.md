@@ -25,8 +25,8 @@ picks a fresh action. Never ask the user anything; this skill runs unattended.
 Run every step in the foreground --- never launch a background task. Under
 `claude -p` the invocation returns while background work is still running, which
 kills the run half-done (this has burnt a full tick before). Beware: the Agent
-tool backgrounds subagents _by default_ --- when delegating, always pass
-`run_in_background: false` so the run stays inside one turn.
+tool runs subagents in the background --- when delegating, wait for each one's
+completion before the run's final message, so the run stays inside one turn.
 
 The trust boundary: **this skill commits; it never pushes.** The cron wrapper
 (`ops/cron-publish.sh`) validates the commit's diff against a path allowlist
@@ -54,7 +54,10 @@ newest published state before each tick and pushes to `main` after validation
 A run is billed on the context it re-sends every turn, so its cost grows with
 the square of its turn count. Before these rules a September run averaged 220
 model calls and 52M tokens sent, with context peaking at 350--450k --- four
-times what the job needs. The budget is 80 calls and a peak under 150k.
+times what the job needs. The budget is 80 calls and a peak under 150k. A 2T
+thesis run is exempt from the call count --- the clock budgets it instead ---
+but not from the peak: it delegates chapters precisely so the parent's context
+stays small.
 
 - Never `Read` a PDF, and never Read an image to check something a script can
   measure: page counts come from `pdfinfo`, fit and layout collapse from the
@@ -66,9 +69,9 @@ times what the job needs. The budget is 80 calls and a peak under 150k.
   most 2, chart fixes at most 2. When a budget runs out, take the structural fix
   the preset prescribes (drop a chart, trim a section) instead of iterating.
 - Delegate the compile-and-fit loop, the chart pass, and the site verify to
-  subagents (`Agent`, `run_in_background: false`, model sonnet or haiku) with a
-  one-paragraph brief and a one-paragraph verdict --- their reads and outputs
-  die with them, and the parent keeps its context for composition.
+  subagents (`Agent`, model sonnet or haiku) with a one-paragraph brief and a
+  one-paragraph verdict --- their reads and outputs die with them, and the
+  parent keeps its context for composition.
 - After the first Write of a `.typ`, revise it with `Edit`; do not re-Read the
   whole file and do not Write it whole again.
 - Use the ops scripts where this skill names them and never reimplement their
