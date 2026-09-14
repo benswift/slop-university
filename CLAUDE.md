@@ -37,7 +37,10 @@ against the allowlist/denylist/private-brand firewall, the entry-to-asset
 pairing check, the agent-failure classifiers):
 
 - `ops/cron-publish.sh` --- the serial pipeline: one process generates one
-  action and lands it, holding the lock throughout. Currently the live path.
+  action and lands it, holding the lock throughout. The fallback path
+  (`slop-publish.timer`, kept stopped while the split is live). Before
+  validating it replays the agent's commits onto the current base, so a human
+  push mid-run costs a build, not the tick.
 - `ops/publish-generate.sh <slot>` + `ops/publish-land.sh` --- the concurrent
   split. Generators run in their own worktrees, never touch origin, never upload
   and never push; each leaves a `press-gen-<run-id>` branch plus assets in
@@ -46,7 +49,10 @@ pairing check, the agent-failure classifiers):
   `origin/main`, runs the one authoritative build, validates, uploads and
   pushes. Slot 1 gets the full ladder assessment; slots 2+ are pinned to 2A,
   because the gardening rungs are gated on shared state and two slots reading it
-  pick the same gap.
+  pick the same gap. The live path: `slop-publish-gen@1.timer`,
+  `slop-publish-gen@2.timer` and `slop-publish-land.timer`. `bin/slopu thesis`
+  runs the one rung with no timer (2T, a doctoral thesis) as a generator slot
+  named `thesis`; nothing assesses or schedules it.
 
 The wrapper decides what a run does and meters what it cost; the model only
 composes. Everything a run used to work out by reading the corpus is a script
@@ -63,10 +69,10 @@ pinned in `ops/publish-lib.sh` and overridable with `SLOPU_AGENT_PROFILE`,
 
 `ops/publish-selftest.sh` drives both against a throwaway clone with a fake
 agent standing in for the model --- run it after touching any of them. The
-pipeline has no deploy step: `ops/cron-publish.sh` is invoked from this
-checkout, so an edit is live at the next tick --- stop the timer while a
-multi-file edit is in flight (`systemctl --user stop slop-publish.timer`, then
-`start`; never `restart`, see the footgun note in ops/systemd/).
+pipeline has no deploy step: the wrappers are invoked from this checkout, so an
+edit is live at the next tick --- stop the timers while a multi-file edit is in
+flight (`systemctl --user stop 'slop-publish-*.timer'`, then `start` each; never
+`restart`, see the footgun note in ops/systemd/).
 
 `bin/slopu` is the common headless entry point for the generation commands and
 `/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the
