@@ -211,9 +211,17 @@ if credits_exhausted; then
   log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_PROFILE / SLOPU_AGENT_MODEL"
   log "  at a route that still has credits."
   log "  If this began after adding a slot, the subscription is the ceiling: reduce slots."
-  discard_candidate
-  result "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback in slot ${SLOT}"
-  exit 5
+  if [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" != "$BASE_REF" ]; then
+    # The limit arrived after the agent had committed (or the transcript merely
+    # quotes the limit wording): that is a candidate, not nothing. The marker
+    # path below hands it to the lander, which validates it like any other; a
+    # half-finished one fails pairing there and is rescued, never deleted.
+    log "  the run had already committed; keeping the candidate for the lander"
+  else
+    discard_candidate
+    result "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback in slot ${SLOT}"
+    exit 5
+  fi
 fi
 
 if [ "$AGENT_STATUS" -ne 0 ]; then
