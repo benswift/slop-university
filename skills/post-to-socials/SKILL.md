@@ -129,10 +129,12 @@ pure hook: don't summarise the thing, bait the tap.
   straight.
 
 Length: **at most ~280 characters** including the URL and the `#slopU` tag, so
-it fits Bluesky's 300-grapheme cap with margin. The poster refuses anything over
-300, and a refused post blocks the account until someone fixes it by hand, so
-count. One sharp idea, teased not told. You may place the URL inline where it
-reads naturally, or leave it out of the text and let the `link` field append it.
+it fits Bluesky's 300-grapheme cap with margin. A `link` left out of the text is
+appended after a blank line, so it costs its length plus two. The poster refuses
+anything over 300 and the wrapper discards the refused post, so the run's work
+never reaches Bluesky --- count. One sharp idea, teased not told. You may place
+the URL inline where it reads naturally, or leave it out of the text and let the
+`link` field append it.
 
 ## LinkedIn: the Page post
 
