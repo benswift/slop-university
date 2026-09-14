@@ -49,37 +49,19 @@ cd "$PROJECT_DIR"
 
 log "=== publish run started at $(date -Iseconds) ==="
 
-# --- Publish the staged social post, if one is waiting. A staged post
-# references already-live site content, so it is valid to send regardless of
-# what this run goes on to do (including aborting) --- which is why the flush
-# lives in a function called from every exit path, not only after a clean push.
-# Posted only on success; a failure leaves the file staged for the next run to
-# retry (the poster dedups, so a lost-response retry can't double-post).
-# data/pending-post.json is a gitignored working-tree artefact, never committed:
-# the agent COMPOSES it, this wrapper POSTS it --- the same trust split as "the
-# agent commits, the wrapper pushes". Note what that split does and does not
-# buy. It is STRUCTURAL for the action: the agent has no path to send a post,
-# because only this wrapper calls the poster. It is NOT isolation of the
-# credential --- see run_agent's `env -u` list in publish-lib.sh, which is where
-# that half is done.
+# --- Publish the staged social posts, if any are waiting (flush_staged_posts in
+# publish-lib.sh says why every exit path flushes). Note what the compose/post
+# split does and does not buy. It is STRUCTURAL for the action: the agent has no
+# path to send a post, because only this wrapper calls the posters. It is NOT
+# isolation of the credentials --- see run_agent's `env -u` list in
+# publish-lib.sh, which is where that half is done.
 #
 # POSTED records whether this run actually sent one, because otherwise the
 # outcome line libels a good run: a 2G tick does its whole job without
-# committing anything (the post is a gitignored artefact), so judging the run by
-# its commits alone reports "committed nothing" for a tick that worked.
+# committing anything (the posts are gitignored artefacts), so judging the run
+# by its commits alone reports "committed nothing" for a tick that worked.
 POSTED="no"
-flush_pending_post() {
-  if [ -f "${PROJECT_DIR}/data/pending-post.json" ]; then
-    log "=== posting staged social update at $(date -Iseconds) ==="
-    if uv run "${PROJECT_DIR}/ops/post-to-bluesky.py" >> "$LOG_FILE" 2>&1; then
-      rm -f "${PROJECT_DIR}/data/pending-post.json"
-      POSTED="yes"
-      log "posted and cleared data/pending-post.json"
-    else
-      log "social post failed; leaving data/pending-post.json staged for retry"
-    fi
-  fi
-}
+flush_pending_post() { flush_staged_posts; }
 
 if pipeline_blocked; then
   log "=== run refused at $(date -Iseconds) ==="

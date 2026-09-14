@@ -38,7 +38,7 @@ Usage:
   ops/assess-ladder.py --json           # the same decision as JSON
   ops/assess-ladder.py --root <dir>     # assess another checkout (default: cwd)
   ops/assess-ladder.py --only-2a        # concurrent generator slot: always 2A
-  ops/assess-ladder.py --no-network     # skip the Bluesky feed fetch (2G)
+  ops/assess-ladder.py --no-network     # skip the socials check (2G never fires)
   ops/assess-ladder.py --now <iso>      # override the clock, for tests
 """
 
@@ -84,6 +84,10 @@ BLUESKY_FEED_URL = (
     "?actor=slop.university&limit=5"
 )
 BLUESKY_HEADERS = {"Accept": "application/json"}
+# The Page cannot be read back (the posts go through a Make relay; see
+# ops/post-to-linkedin.py), so LinkedIn's quiet gate reads the poster's own
+# delivery ledger instead of a feed.
+LINKEDIN_LEDGER = "linkedin-ledger.jsonl"
 
 
 class MalformedInput(Exception):
@@ -275,9 +279,54 @@ def find_school_without_lab(schools: dict) -> dict | None:
 
 
 # --- 2G: socials due ---------------------------------------------------------
+#
+# Each platform has its own staged file and its own gate, so a platform that
+# keeps failing to post holds back only itself. 2G fires when any platform is
+# due and names the due ones; the run composes for exactly those.
 
 
-def assess_socials(root: Path, now: dt.datetime, no_network: bool) -> SocialsCheck:
+def assess_socials(
+    root: Path, now: dt.datetime, no_network: bool
+) -> dict[str, SocialsCheck]:
+    return {
+        "bluesky": assess_bluesky(root, now, no_network),
+        "linkedin": assess_linkedin(root, now, no_network),
+    }
+
+
+def not_due(reason: str) -> SocialsCheck:
+    return SocialsCheck(due=False, reason=reason, last_post=None, hours_since=None)
+
+
+def quiet_since(created: dt.datetime, now: dt.datetime) -> SocialsCheck:
+    hours_since = (now - created).total_seconds() / 3600
+    return SocialsCheck(
+        due=hours_since > SOCIALS_QUIET_HOURS,
+        reason=None,
+        last_post=created.isoformat(),
+        hours_since=round(hours_since, 2),
+    )
+
+
+def assess_linkedin(root: Path, now: dt.datetime, no_network: bool) -> SocialsCheck:
+    if (root / "data" / "pending-linkedin-post.json").exists():
+        return not_due("a post is already staged")
+    if no_network:
+        return not_due("--no-network: socials not checked")
+    ledger = root / "data" / LINKEDIN_LEDGER
+    if not ledger.exists():
+        return SocialsCheck(
+            due=True, reason="nothing delivered yet", last_post=None, hours_since=None
+        )
+    try:
+        last = json.loads(ledger.read_text().splitlines()[-1])
+        created = dt.datetime.fromisoformat(last["at"])
+    except (IndexError, KeyError, TypeError, ValueError) as exc:
+        return not_due(f"ledger unreadable: {exc}")
+    return quiet_since(created, now)
+
+
+def assess_bluesky(root: Path, now: dt.datetime, no_network: bool) -> SocialsCheck:
     if (root / "data" / "pending-post.json").exists():
         return SocialsCheck(
             due=False,
@@ -320,13 +369,7 @@ def assess_socials(root: Path, now: dt.datetime, no_network: bool) -> SocialsChe
             hours_since=None,
         )
 
-    hours_since = (now - created).total_seconds() / 3600
-    return SocialsCheck(
-        due=hours_since > SOCIALS_QUIET_HOURS,
-        reason=None,
-        last_post=created.isoformat(),
-        hours_since=round(hours_since, 2),
-    )
+    return quiet_since(created, now)
 
 
 # --- 2I: award a grant (funding lag) ---------------------------------------
@@ -503,11 +546,16 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
 
     socials = assess_socials(root, now, no_network)
     checked["socials"] = socials
-    if socials.due:
+    due = [platform for platform, check in socials.items() if check.due]
+    if due:
         return emit(
             "2G",
-            "the account has been quiet past the socials gate",
-            {"last_post": socials.last_post, "hours_since": socials.hours_since},
+            f"quiet past the socials gate on {', '.join(due)}",
+            {
+                "platforms": due,
+                "last_post": {p: socials[p].last_post for p in due},
+                "hours_since": {p: socials[p].hours_since for p in due},
+            },
             checked,
             as_json,
         )
@@ -601,7 +649,7 @@ def main() -> int:
     parser.add_argument(
         "--no-network",
         action="store_true",
-        help="skip the Bluesky feed fetch (2G reads as not due)",
+        help="skip the socials check (2G reads as not due)",
     )
     parser.add_argument("--now", help="override the clock (ISO datetime), for tests")
     args = parser.parse_args()

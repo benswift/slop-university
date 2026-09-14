@@ -75,29 +75,12 @@ fi
 activate_mise
 cd "$PROJECT_DIR"
 
-# --- Publish the staged social post, if one is waiting.
-#
-# A staged post references already-live site content, so it is valid to send
-# regardless of what this run goes on to do (including aborting) --- which is
-# why the flush lives in a function called from every exit path, not only after
-# a clean push. Posted only on success; a failure leaves the file staged for the
-# next run to retry (the poster dedups, so a lost-response retry cannot
-# double-post). data/pending-post.json is a gitignored working-tree artefact,
-# never committed: the agent COMPOSES it, the wrapper POSTS it --- the same
-# trust split as "the agent commits, the wrapper pushes".
+# --- Publish the staged social posts, if any are waiting (flush_staged_posts in
+# publish-lib.sh says why every exit path flushes).
 POSTED="no"
 flush_pending_post() {
   [ "$DRY_RUN" = 1 ] && { log "dry run: leaving any staged social post alone"; return 0; }
-  if [ -f "${PROJECT_DIR}/data/pending-post.json" ]; then
-    log "=== posting staged social update at $(date -Iseconds) ==="
-    if uv run "${PROJECT_DIR}/ops/post-to-bluesky.py" >> "$LOG_FILE" 2>&1; then
-      rm -f "${PROJECT_DIR}/data/pending-post.json"
-      POSTED="yes"
-      log "posted and cleared data/pending-post.json"
-    else
-      log "social post failed; leaving data/pending-post.json staged for retry"
-    fi
-  fi
+  flush_staged_posts
 }
 
 if pipeline_blocked; then

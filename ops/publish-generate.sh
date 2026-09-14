@@ -222,7 +222,7 @@ HEAD_SHA="$(git -C "$WORKTREE_DIR" rev-parse HEAD)"
 if [ "$HEAD_SHA" = "$BASE_REF" ]; then
   # No commit is a legitimate outcome: a 2G tick posts without committing, and
   # "nothing is due" is a real rung. Neither leaves a candidate to land.
-  if [ -f "${PROJECT_DIR}/data/pending-post.json" ]; then
+  if staged_post_exists; then
     log "no commit, but a social post is staged for the lander to flush"
     discard_candidate
     result "staged-post" "agent staged a social post; no candidate to land"

@@ -34,6 +34,7 @@ KEEP=0
 PASS=0
 FAIL=0
 cleanup() {
+  [ -n "${STUB_PID:-}" ] && kill "$STUB_PID" 2>/dev/null
   if [ "$KEEP" = 1 ]; then
     echo "fixture kept at ${FIXTURE}"
   else
@@ -77,6 +78,7 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
          ops/assess-ladder.py ops/run-usage.py ops/scan-discourse.py \
          ops/topic-neighbours.py ops/verify-site.sh \
+         ops/post-to-bluesky.py ops/post-to-linkedin.py \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
          skills/from-preset/presets/*.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"
@@ -185,6 +187,16 @@ version: "1.0"
 YML
 git add "website/src/content/outputs/${ID}.yml"
 git commit -qm "publish: sparse output fixture"
+AGENT
+
+# Stages a LinkedIn post and commits nothing (a 2G tick), and records whether
+# the posting credentials reached it.
+cat > "${FIXTURE}/agent-socials" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+env | grep -c '^SLOPU_LINKEDIN_WEBHOOK' > data/agent-saw-linkedin-creds || true
+printf '%s' '{"text":"Staged by the self-test.","link":"https://slop.university","subject":"institution"}' \
+  > data/pending-linkedin-post.json
 AGENT
 
 chmod +x "${FIXTURE}"/agent-*
@@ -483,6 +495,60 @@ check "...on that profile's own model, not the Grok pin" sonnet "$(route grok-su
 check "...and each route is tried once, never looped" no "$(route grok-sub again)"
 check "a spent Claude week falls through the other way" grok-sub "$(route claude-sub profile)"
 check "...onto a Grok model, not a Claude one" grok-4.6 "$(route claude-sub model)"
+
+# --- The staged social posts. LinkedIn is exercised end-to-end against a stub
+# standing in for the Make webhook, which answers with the status in
+# stub-status and appends every request it receives to stub-requests.jsonl.
+echo
+echo "social posts"
+cat > "${FIXTURE}/stub-webhook.py" <<'STUB'
+import http.server, json, pathlib, sys
+here = pathlib.Path(sys.argv[1])
+class Hook(http.server.BaseHTTPRequestHandler):
+    def do_POST(self):
+        body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        with (here / "stub-requests.jsonl").open("a") as f:
+            f.write(json.dumps({"key": self.headers.get("x-make-apikey"), "body": body}) + "\n")
+        status = int((here / "stub-status").read_text())
+        self.send_response(status)
+        self.end_headers()
+        self.wfile.write(b"Accepted" if status == 200 else b"There is no scenario listening for this webhook.")
+    def log_message(self, *args):
+        pass
+server = http.server.HTTPServer(("127.0.0.1", 0), Hook)
+(here / "stub-port").write_text(str(server.server_address[1]))
+server.serve_forever()
+STUB
+echo 200 > "${FIXTURE}/stub-status"
+python3 "${FIXTURE}/stub-webhook.py" "$FIXTURE" & STUB_PID=$!
+for _ in $(seq 50); do [ -s "${FIXTURE}/stub-port" ] && break; sleep 0.1; done
+SLOPU_SELFTEST_LINKEDIN_WEBHOOK="http://127.0.0.1:$(cat "${FIXTURE}/stub-port")/hook"
+export SLOPU_SELFTEST_LINKEDIN_WEBHOOK
+requests() { cat "${FIXTURE}/stub-requests.jsonl" 2>/dev/null | wc -l | tr -d ' '; }
+staged() { [ -f "${REPO}/data/$1" ] && echo staged || echo cleared; }
+
+check "a generator that only stages a post hands it to the lander" staged-post "$(gen 1 socials)"
+check "...and the agent never saw the LinkedIn credentials" 0 "$(cat "${REPO}/data/agent-saw-linkedin-creds")"
+rm -f "${REPO}/data/pending-linkedin-post.json"
+
+printf '%s' '{"text":"Bluesky copy."}' > "${REPO}/data/pending-post.json"
+printf '%s' '{"text":"LinkedIn copy.","link":"https://slop.university"}' > "${REPO}/data/pending-linkedin-post.json"
+echo 410 > "${FIXTURE}/stub-status"
+check "a relay that refuses the post is not a posted tick" idle "$(land)"
+check "...and leaves the LinkedIn post staged for retry" staged "$(staged pending-linkedin-post.json)"
+echo 200 > "${FIXTURE}/stub-status"
+check "the retry posts once the relay accepts" posted "$(land)"
+check "...and clears the LinkedIn post" cleared "$(staged pending-linkedin-post.json)"
+check "...while a fixture never posts to Bluesky" staged "$(staged pending-post.json)"
+check "...and says so in the log" yes "$(log_has 'refusing to run post-to-bluesky.py')"
+check "...having sent the key, with the link inside the text" \
+  "selftest|LinkedIn copy.  https://slop.university" \
+  "$(tail -1 "${FIXTURE}/stub-requests.jsonl" | python3 -c 'import json,sys; r=json.load(sys.stdin); print(r["key"] + "|" + r["body"]["text"].replace("\n", " "))')"
+BEFORE_REQUESTS="$(requests)"
+printf '%s' '{"text":"LinkedIn copy.","link":"https://slop.university"}' > "${REPO}/data/pending-linkedin-post.json"
+check "a re-staged identical post is deduped from the ledger" posted "$(land)"
+check "...without reaching the relay again" "$BEFORE_REQUESTS" "$(requests)"
+rm -f "${REPO}"/data/pending-post.json "${REPO}"/data/pending-linkedin-post.json
 
 echo
 echo "fixture safety"

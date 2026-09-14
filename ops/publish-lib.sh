@@ -59,6 +59,62 @@ bucket_upload_allowed() {
   return 0
 }
 
+# --- The staged social posts, one file per platform.
+#
+# The agent COMPOSES these gitignored working-tree files and the wrapper POSTS
+# them --- the same trust split as "the agent commits, the wrapper pushes". A
+# staged post references already-live site content, so it is valid to send
+# whatever the run goes on to do, which is why each wrapper flushes from every
+# exit path. One file per platform so each retries alone: a LinkedIn relay that
+# is switched off must not hold back a Bluesky post, or double-post one. Each
+# poster exits 0 on a sent or deduped post, and only then is its file removed.
+#
+# Posting is shared external infrastructure, like the buckets, so a fixture
+# never posts to Bluesky, and posts to LinkedIn only through the loopback stub
+# named in SLOPU_SELFTEST_LINKEDIN_WEBHOOK. It is a separate variable because
+# activate_mise re-exports the live webhook into every wrapper, fixture or not.
+STAGED_POSTS=(
+  "pending-post.json:post-to-bluesky.py"
+  "pending-linkedin-post.json:post-to-linkedin.py"
+)
+
+# Returns 0 when any platform has a post staged.
+staged_post_exists() {
+  local pair
+  for pair in "${STAGED_POSTS[@]}"; do
+    [ -f "${PROJECT_DIR}/data/${pair%%:*}" ] && return 0
+  done
+  return 1
+}
+
+# Sets POSTED=yes when any platform posted.
+flush_staged_posts() {
+  local pair staged poster
+  local -a fixture_env
+  for pair in "${STAGED_POSTS[@]}"; do
+    staged="${pair%%:*}"
+    poster="${pair##*:}"
+    [ -f "${PROJECT_DIR}/data/${staged}" ] || continue
+    fixture_env=()
+    if [ "$IS_FIXTURE" = 1 ]; then
+      if [ "$poster" != post-to-linkedin.py ] ||
+          [[ "${SLOPU_SELFTEST_LINKEDIN_WEBHOOK:-}" != http://127.0.0.1:* ]]; then
+        log "FIXTURE RUN: refusing to run ${poster} against a live account; data/${staged} stays staged"
+        continue
+      fi
+      fixture_env=(SLOPU_LINKEDIN_WEBHOOK="$SLOPU_SELFTEST_LINKEDIN_WEBHOOK" SLOPU_LINKEDIN_WEBHOOK_KEY=selftest)
+    fi
+    log "=== posting data/${staged} at $(date -Iseconds) ==="
+    if env "${fixture_env[@]}" uv run "${PROJECT_DIR}/ops/${poster}" "${PROJECT_DIR}/data/${staged}" >> "$LOG_FILE" 2>&1; then
+      rm -f "${PROJECT_DIR}/data/${staged}"
+      POSTED="yes"
+      log "posted and cleared data/${staged}"
+    else
+      log "${poster} failed; leaving data/${staged} staged for retry"
+    fi
+  done
+}
+
 # --- The run's outcome, reported to the JOURNAL and not only to logs/.
 #
 # Everything here says what it is doing in $LOG_FILE and nothing on stdout, so
@@ -593,6 +649,8 @@ run_agent() {
     SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
     SLOPU_STOP_FAILURE_LOG="$STOP_FAILURE_LOG" \
     env -u SLOPU_TOKEN \
+        -u SLOPU_LINKEDIN_WEBHOOK \
+        -u SLOPU_LINKEDIN_WEBHOOK_KEY \
         -u SLOPU_S3_ACCESS_KEY_ID \
         -u SLOPU_S3_SECRET_ACCESS_KEY \
         -u SLOPU_S3_BUCKET \
