@@ -111,14 +111,13 @@ case "$command" in
     export CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
     # The subscription's session window is shared with the generator slots,
     # and a thesis that starts into a half-spent window dies at the session
-    # limit an hour in. Rest whichever generator timers are running for the
-    # run's duration and start them again on the way out.
-    resting=(${(f)"$(systemctl --user list-units --type=timer --state=active --plain --no-legend 'slop-publish-gen@*.timer' | cut -d' ' -f1)"})
-    (( ${#resting} == 0 )) || systemctl --user stop "${resting[@]}"
-    "$REPO_ROOT/ops/publish-generate.sh" thesis
-    status=$?
-    (( ${#resting} == 0 )) || systemctl --user start "${resting[@]}"
-    exit $status
+    # limit an hour in. Hold slot 1's lock for the run: it waits out slot 1's
+    # current run, slot 1's ticks skip until the thesis ends, and the lock dies
+    # with the process however it exits. -o keeps the agent's background
+    # processes from inheriting it. Slots 2+ are not held.
+    lock="$REPO_ROOT/data/publish-gen-1.lock"
+    flock -n "$lock" true || print -u2 "slopu: waiting for slot 1's current run to finish"
+    exec flock -o "$lock" "$REPO_ROOT/ops/publish-generate.sh" thesis
     ;;
   *)
     print -u2 "slopu: unknown command: $command"

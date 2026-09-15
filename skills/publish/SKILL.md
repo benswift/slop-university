@@ -759,13 +759,13 @@ convention exists to prevent).
 
 The one rung no assessor returns and no timer fires. A human runs
 `bin/slopu thesis` when there is a token budget to spend; it starts a generator
-slot named `thesis` on a stronger model with a long leash, rests the generator
-timers while it runs, and the lander lands the candidate like any other. Start
-it at the beginning of a fresh session window: the subscription's five-hour
-session limit, not the weekly one, is what ends a thesis run early. A run that
-dies after drafting leaves its work in the slot's worktree under `output/`; it
-can be finished by hand (assemble, the blueprint's read-every-chapter pass,
-compile, the publish steps below) as a candidate on a fresh
+slot named `thesis` on a stronger model with a long leash, holds slot 1 off
+until it finishes, and the lander lands the candidate like any other. Start it
+at the beginning of a fresh session window: the subscription's five-hour session
+limit, not the weekly one, is what ends a thesis run early. A run that dies
+after drafting leaves its work in the slot's worktree under `output/`; it can be
+finished by hand (assemble, the blueprint's read-every-chapter pass, compile,
+the publish steps below) as a candidate on a fresh
 `press-gen-<run-id>-slotthesis` branch. The invocation line names the action
 `2T`, the preset `thesis`, and the fiction the wrapper drew: the setting, the
 school, and a primary and an associate supervisor from that school. Everything
