@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
+import { newestFirst } from "../../lib/chronology";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import { siteConfig } from "../../site-config";
@@ -15,9 +16,7 @@ import OutputsDashboard from "../../components/OutputsDashboard.astro";
 // with the /outputs/[id]/ landing pages. The per-type views live under
 // /outputs/type/<slug>/ and paginate the same way --- see the sibling route.
 export const getStaticPaths = (async ({ paginate }) => {
-  const outputs = (await getCollection("outputs")).toSorted(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const outputs = (await getCollection("outputs")).toSorted(newestFirst);
   return paginate(outputs, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 

@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import type { Output } from "./canon";
+import { newestFirst } from "./chronology";
 
 // The canon's internal citation graph, and the indicators derived from it.
 //
@@ -39,7 +40,7 @@ export function citationIndex(): Promise<Map<string, Output[]>> {
       }
     }
     for (const citing of map.values()) {
-      citing.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+      citing.sort(newestFirst);
     }
     return map;
   })();
@@ -69,7 +70,7 @@ export async function references(output: Output): Promise<Output[]> {
   return output.data.cites
     .map((doi) => map.get(doi))
     .filter((o) => o !== undefined)
-    .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    .toSorted(newestFirst);
 }
 
 /**

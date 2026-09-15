@@ -105,20 +105,22 @@ built by hand, not grown by the tick.
   in `src/content.config.ts` is the field list. `title` is the main/head title
   and `subtitle` the optional deck; the two rejoin with ": " (`fullTitle` in
   `src/lib/outputs.ts`) for the citation, document `<title>`, DOI resolver, and
-  announcing news post. `publishedAt` is the exact wrapper timestamp used to
-  order same-day signage candidates; `date` remains the human-facing publication
-  date. No entry stores a URL: the PDF (`src/lib/pdfs.ts`), hero and thumbnail
-  (`src/lib/images.ts`) all derive from the entry id, and only the images'
-  intrinsic dims are recorded.
+  announcing news post. `publishedAt` is the exact wrapper timestamp every
+  newest-first list sorts on (`src/lib/chronology.ts`); `date` remains the
+  human-facing publication date. No entry stores a URL: the PDF
+  (`src/lib/pdfs.ts`), hero and thumbnail (`src/lib/images.ts`) all derive from
+  the entry id, and only the images' intrinsic dims are recorded.
 - `src/content/news/*.md` --- press releases; frontmatter `output:` references
   the outputs entry id. `title` is the punchy headline (hero h1 and listing
   card); the optional `subtitle` renders as a deck beneath the hero (mirroring
-  the output landing page), carrying the specificity the headline trims.
-  `description` is the card body and social/meta text --- not shown on the post
-  itself. A grant announcement instead carries `grant:` (the grants entry id);
-  the post appends the award's details box and is the award's public record. A
-  post announcing an output shows that output's hero; a post announcing a grant,
-  or announcing nothing (an institutional notice), records its own `hero:` dims.
+  the output landing page), carrying the specificity the headline trims. A post
+  announcing an output sorts at that output's `publishedAt`; any other post
+  records its own. `description` is the card body and social/meta text --- not
+  shown on the post itself. A grant announcement instead carries `grant:` (the
+  grants entry id); the post appends the award's details box and is the award's
+  public record. A post announcing an output shows that output's hero; a post
+  announcing a grant, or announcing nothing (an institutional notice), records
+  its own `hero:` dims.
 - `src/content/grants/*.yml` --- one entry per awarded grant or prize
   (`<date>-<slug>.yml`: name, scheme, date, grantees, value, summary), each
   referencing a scheme in `canon/grants.yml` (loaded in place as the

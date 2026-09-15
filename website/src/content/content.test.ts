@@ -22,6 +22,7 @@ const outputs = outputIds.map(
       school?: string;
       doi?: string;
       date?: string;
+      publishedAt?: string;
       grants?: string[];
       cites?: string[];
       preset?: string;
@@ -53,6 +54,16 @@ const grantDateById = new Map(grantIds.map((id, i) => [id, grants[i].date]));
 const outputDateById = new Map(outputIds.map((id, i) => [id, outputs[i].date]));
 
 const newsFiles = readdirSync(join(contentDir, "news")).filter((f) => /\.mdx?$/.test(f));
+
+// Newest-first lists sort on the exact publish time (src/lib/chronology.ts); an
+// entry without one falls back to its bare day and sinks below that day's posts.
+function isTimestamp(value: string | undefined): boolean {
+  return (
+    value !== undefined &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/.test(value) &&
+    !Number.isNaN(Date.parse(value))
+  );
+}
 
 const repoRoot = join(process.cwd(), "..");
 const researchers = (
@@ -123,6 +134,15 @@ describe("news entries", () => {
       const output = frontmatter.match(/^output:\s*(\S+)\s*$/m)?.[1];
       if (output) continue; // inherits the output's hero, checked below
       expect(/^hero:\s*$/m.test(frontmatter), `${id} hero dims`).toBe(true);
+    }
+  });
+
+  it("record publishedAt unless they announce an output, whose time they take", () => {
+    for (const file of newsFiles) {
+      const frontmatter = readFileSync(join(contentDir, "news", file), "utf8");
+      if (/^output:\s*\S/m.test(frontmatter)) continue;
+      const publishedAt = frontmatter.match(/^publishedAt:\s*"?([^"\n]+?)"?\s*$/m)?.[1];
+      expect(isTimestamp(publishedAt), `${file} publishedAt`).toBe(true);
     }
   });
 
@@ -242,6 +262,12 @@ describe("outputs entries", () => {
     for (const dir of ["heroes/outputs", "heroes/news", "outputs/thumbs"]) {
       expect(existsSync(join(assetsDir, dir)), `${dir} resurrected`).toBe(false);
     }
+  });
+
+  it("record an exact publishedAt timestamp", () => {
+    outputIds.forEach((id, i) => {
+      expect(isTimestamp(outputs[i].publishedAt), `${id} publishedAt`).toBe(true);
+    });
   });
 
   it("mint a unique DOI per entry", () => {

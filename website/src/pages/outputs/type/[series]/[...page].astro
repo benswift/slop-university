@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
+import { newestFirst } from "../../../../lib/chronology";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
 import { siteConfig } from "../../../../site-config";
@@ -17,9 +18,7 @@ import OutputsDashboard from "../../../../components/OutputsDashboard.astro";
 // series the trend chart plots, and only non-empty ones are built, so the
 // filter never offers a pill that leads nowhere.
 export const getStaticPaths = (async ({ paginate }) => {
-  const outputs = (await getCollection("outputs")).toSorted(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const outputs = (await getCollection("outputs")).toSorted(newestFirst);
   return seriesFacets(outputs.map((o) => o.data)).flatMap(({ series, slug }) =>
     paginate(
       outputs.filter((o) => presetSeries[o.data.preset] === series),

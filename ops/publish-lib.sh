@@ -636,7 +636,7 @@ draw_run_inputs() {
 compose_agent_prompt() {
   local extra="${1:-}"
   AGENT_PROMPT="/publish. This run's action is ${ACTION} --- assessed by ops/assess-ladder.py from the live ledger (${ACTION_REASON}). Take that action and no other; do not re-assess the ladder or read the corpus to second-guess it. Action parameters: ${ACTION_PARAMS}
-Record publishedAt from SLOPU_PUBLISHED_AT in any outputs entry."
+Record publishedAt from SLOPU_PUBLISHED_AT in any outputs entry, and in any news post that announces no output."
   if [ "$ACTION" = "2A" ] || [ "$ACTION" = "2T" ]; then
     AGENT_PROMPT="${AGENT_PROMPT}
 The wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; compose the topic to FIT them, and do not infer, count or override any of them:

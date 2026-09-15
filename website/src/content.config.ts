@@ -136,9 +136,9 @@ const outputs = defineCollection({
     ]),
     school: z.string().optional(),
     date: z.coerce.date(),
-    // Exact publish time, supplied by the unattended wrapper. `date` remains
-    // the human-facing publication date; signage uses this to order same-day
-    // outputs consistently.
+    // Exact publish time, supplied by the publish wrapper; `date` remains the
+    // human-facing publication date. Newest-first lists sort on this (see
+    // src/lib/chronology.ts).
     publishedAt: z.coerce.date().optional(),
     doi: z.string().regex(/^10\.5555\/slop\.[a-z0-9]+$/),
     summary: z.string(),
@@ -179,6 +179,9 @@ const news = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     date: z.coerce.date(),
+    // Required on posts announcing no output; a post announcing an output
+    // sorts at its output's publishedAt (src/lib/chronology.ts).
+    publishedAt: z.coerce.date().optional(),
     description: z.string().optional(),
     output: z.string().optional(),
     grant: z.string().optional(),

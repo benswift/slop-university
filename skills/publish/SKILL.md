@@ -659,8 +659,9 @@ A news post that announces something other than a research artefact --- the
 genre that makes a university newsroom read as a newsroom. One post per run,
 `website/src/content/news/<date>-<slug>.md`, same frontmatter as a 2A news post
 but with **no `output` field** (the page and homepage card render fine without
-one). Comms register per `comms.md`; every name and unit from the canon; no
-verifiable claims; reads straight.
+one) and with `publishedAt` (the `SLOPU_PUBLISHED_AT` value), which a post with
+no output needs to sort among the day's posts. Comms register per `comms.md`;
+every name and unit from the canon; no verifiable claims; reads straight.
 
 Write the ONE kind the assessor named (it rotates the three):
 
@@ -721,9 +722,10 @@ inherit, and it generates its own per **News heroes** below.
   filename prefix), `grantees` (roster names), `value`, `summary` (1-2
   sentences, institutional register: what the money is for).
 - **News post** → `website/src/content/news/<date>-<slug>.md`, comms register
-  per `comms.md`, frontmatter `grant: <grant entry id>` and no `output` field.
-  The release may state the value exactly (the carve-out); the site appends the
-  award's details box from the entry, so the body needn't restate every field.
+  per `comms.md`, frontmatter `grant: <grant entry id>`, `publishedAt` (the
+  `SLOPU_PUBLISHED_AT` value) and no `output` field. The release may state the
+  value exactly (the carve-out); the site appends the award's details box from
+  the entry, so the body needn't restate every field.
 
 **Files:** the grant entry, the news post (with its `hero:` dims), and the
 post's staged hero rungs in `$STAGING/img/heroes/news/`.

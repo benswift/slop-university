@@ -11,12 +11,12 @@ import BlueskyFeed from "../components/BlueskyFeed.astro";
 import OutputTypeBadge from "../components/OutputTypeBadge.astro";
 import { siteConfig } from "../site-config";
 import { newsHero, outputHero } from "../lib/images";
+import { sortNews } from "../lib/chronology";
 
 // Rest-param pagination: page 1 renders at /, later pages at /2, /3, ...
 export const getStaticPaths = (async ({ paginate }) => {
-  const news = (await getCollection("news")).toSorted(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const outputs = new Map((await getCollection("outputs")).map((o) => [o.id, o]));
+  const news = sortNews(await getCollection("news"), outputs);
   return paginate(news, { pageSize: 12 });
 }) satisfies GetStaticPaths;
 

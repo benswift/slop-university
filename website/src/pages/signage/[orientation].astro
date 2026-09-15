@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { newestFirst } from "../../lib/chronology";
 import { fullTitle } from "../../lib/outputs";
 import { signagePdfUrl } from "../../lib/pdfs";
 import { thumbLargestUrl } from "../../lib/images";
@@ -43,11 +44,7 @@ const posters = (await getCollection("outputs"))
   .filter((entry) => entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster")
   .map((entry) => ({ entry, thumb: entry.data.thumb }))
   .filter(({ thumb }) => (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
-  .sort((a, b) => {
-    const aTime = a.entry.data.publishedAt?.getTime() ?? a.entry.data.date.getTime();
-    const bTime = b.entry.data.publishedAt?.getTime() ?? b.entry.data.date.getTime();
-    return bTime - aTime || b.entry.id.localeCompare(a.entry.id);
-  });
+  .sort((a, b) => newestFirst(a.entry, b.entry));
 
 // Signage is research-led: four research slots followed by one ad slot. Keep a
 // bounded recent pool so a screen changes regularly without resurrecting old

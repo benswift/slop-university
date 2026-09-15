@@ -1,4 +1,5 @@
 import { type CollectionEntry, getCollection } from "astro:content";
+import { newestFirst } from "./chronology";
 
 // Cross-reference helpers over the canon-backed collections. People and schools
 // are loaded from canon/ (see content.config.ts); these keep the join logic ---
@@ -49,12 +50,12 @@ export function researchersOf(people: Person[], schoolName: string): Person[] {
 export async function outputsByAuthor(name: string): Promise<Output[]> {
   return (await getCollection("outputs"))
     .filter((o) => o.data.authors.includes(name))
-    .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    .toSorted(newestFirst);
 }
 
 /** Published outputs attributed to a school (by full name), newest first. */
 export async function outputsBySchool(name: string): Promise<Output[]> {
   return (await getCollection("outputs"))
     .filter((o) => o.data.school === name)
-    .toSorted((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    .toSorted(newestFirst);
 }
