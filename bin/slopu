@@ -113,10 +113,7 @@ case "$command" in
     # and a thesis that starts into a half-spent window dies at the session
     # limit an hour in. Rest whichever generator timers are running for the
     # run's duration and start them again on the way out.
-    resting=()
-    for t in slop-publish-gen@1.timer slop-publish-gen@2.timer; do
-      systemctl --user is-active --quiet "$t" && resting+=("$t")
-    done
+    resting=(${(f)"$(systemctl --user list-units --type=timer --state=active --plain --no-legend 'slop-publish-gen@*.timer' | cut -d' ' -f1)"})
     (( ${#resting} == 0 )) || systemctl --user stop "${resting[@]}"
     "$REPO_ROOT/ops/publish-generate.sh" thesis
     status=$?
