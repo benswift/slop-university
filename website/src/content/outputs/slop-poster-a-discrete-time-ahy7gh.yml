@@ -1,0 +1,37 @@
+title: "Does a Controller Built for Admissions Oscillate the Same Way at a Coffee Cart?"
+subtitle: "A Failed Replication of the University's Discrete-Time PID Controller on the Morning Coffee Queue"
+authors:
+  - Mirela Hanke
+  - Osei Vandermeer
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-09-15
+publishedAt: "2026-09-15T10:30:01+10:00"
+doi: 10.5555/slop.ahy7gh
+summary: >-
+  A research poster from the School of Continuous Improvement redeploys the
+  University's admissions PID controller, unmodified, on the campus coffee
+  cart's morning queue. Across nine review cycles the controller's signature
+  oscillation-versus-setpoint-lag relationship does not reproduce (r = 0.13
+  against the original's 0.74), and the Service Standards Steering Group has
+  adopted the original 2.8-week benchmark as the cart's target regardless.
+topic: >-
+  replicating the university's PID controller for oscillating setpoints,
+  originally built for weekly admissions offers, on the campus coffee cart's
+  own morning queue, caught between Facilities' service-time target and the
+  student ombuds's wait-time cap on separate review cycles
+pdfDark: true
+pages: 1
+version: "1.0"
+cites:
+  - 10.5555/slop.gb7aki
+  - 10.5555/slop.mkmhgm
+  - 10.5555/slop.t29aao
+  - 10.5555/slop.vcpl4k
+  - 10.5555/slop.vh4mkq
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
