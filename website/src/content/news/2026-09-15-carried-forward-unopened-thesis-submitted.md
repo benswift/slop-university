@@ -32,7 +32,7 @@ supervisor.
 >
 > --- Dr Ronja Oyelaran, Senior Lecturer, School of Emergent Priorities
 
-The work builds on a procedure Anyanwu calls the packing-day protocol, under
+The work culminates in a procedure Anyanwu calls the packing-day protocol, under
 which a unit's priorities for a planning cycle are read off what it packs into a
 fixed crate allocation rather than off a separate planning document. The School
 of Emergent Priorities has adopted the protocol for its own priority-setting
