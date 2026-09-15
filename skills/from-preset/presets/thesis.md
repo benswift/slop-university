@@ -171,7 +171,20 @@ two chapters must agree on lives here and nowhere else:
 - the **fixed numbers**: sample sizes, sites, waves, dates, instrument names and
   their abbreviations, participant or site labels, the named levels of any
   framework, every headline figure. A thesis that reports n = 214 in chapter 4
-  and n = 217 in chapter 6 fails examination; this list is the only defence
+  and n = 217 in chapter 6 fails examination; this list is the only defence.
+  Check the numbers are possible, not only that they sum: wherever a count is
+  bounded by a rule (workers × allocation ≥ crates, per site), write the
+  identity beside it and check it
+- the **procedures**, as ordered lists: coding precedence, decision rules, and
+  the variant used when a condition changes (an absent informant, a different
+  sample). The appendix reproduces them verbatim and chapters point to them
+  rather than restating them. A headline comparison that joins two measurement
+  conditions names the difference here, and the chapter reporting it concedes it
+- the **fixed gloss** for each headline finding --- one sentence the abstract,
+  introduction, discussion and conclusion all reuse. Paraphrases ("mostly",
+  "roughly halved") are where findings drift from their chapter
+- the **names of anything referred to across chapters**: literature strands,
+  themes, the theory, each prior study's design lineage
 - the **reference list**: every bib key, with a one-line note on what each work
   is for and which chapter uses it. No chapter may cite a key that is not here
 
@@ -225,16 +238,28 @@ and set up the next --- and if not, where do the connective sentences go? Has
 any chapter drifted out of register, explained the joke, re-derived something
 already established, or invented a person, unit, scheme or instrument that is in
 neither the canon nor the plan? Do the captions carry falsifiable claims rather
-than restating their axes?
+than restating their axes? Is every forward promise ("I return to this in
+Chapter 9") kept where it points, and does every stated expectation, direction
+of effect or borrowed design agree with what an earlier chapter reported? Is a
+work glossed at length more than once? Summarise it where it is reviewed and
+cite it plainly everywhere else.
 
-Fix these in place. Redispatch a chapter only if it is unsalvageable.
+Fix these in place. Redispatch a chapter only if it is unsalvageable. A run
+finished by hand still owes this read before it lands.
 
 ### 5. Front matter last
 
 Write the abstract, acknowledgements and declaration **from the finished
 chapters**, never from the plan --- an abstract written first describes a thesis
-that no longer exists. They replace the master file's placeholders; the contents
-and the figure and table lists are already there.
+that no longer exists. Every factual claim in them traces to a chapter line (who
+was interviewed, what was photographed, what each study found, in the plan's
+glosses), and the acknowledgements carry no jokes. They replace the master
+file's placeholders; the contents and the figure and table lists are already
+there.
+
+Check the ethics appendix against the analyses at the same time: every data
+linkage a chapter uses (records joined to identifiers, departures, dates) is one
+the approval covers.
 
 ### 6. Compile, check, fix
 
@@ -549,7 +574,11 @@ dark variant: the thesis is a submitted document, not signage.
       citation graph is harvestable
 - [ ] Citation honesty holds throughout: no claim attributed to a real work that
       the work does not make
-- [ ] The fixed numbers in `plan.md` are the numbers in every chapter
+- [ ] The fixed numbers in `plan.md` are possible and are the numbers in every
+      chapter, the abstract and the appendices; procedures appear once, in the
+      appendix, and no chapter contradicts them
+- [ ] Acknowledgements thank the supervisors by canon name and title, carry no
+      jokes, and claim nothing the method chapters don't
 - [ ] Charts in brand styling, each type used at most once; captions carry
       falsifiable claims; at most three generated images
 - [ ] Voice holds for the whole length: no exclamation marks, no enthusiasm, no

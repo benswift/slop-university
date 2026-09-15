@@ -762,14 +762,14 @@ timers while it runs, and the lander lands the candidate like any other. Start
 it at the beginning of a fresh session window: the subscription's five-hour
 session limit, not the weekly one, is what ends a thesis run early. A run that
 dies after drafting leaves its work in the slot's worktree under `output/`; it
-can be finished by hand (assemble, compile, the publish steps below) as a
-candidate on a fresh `press-gen-<run-id>-slotthesis` branch. The invocation line
-names the action `2T`, the preset `thesis`, and the fiction the wrapper drew:
-the setting, the school, and a primary and an associate supervisor from that
-school. Everything else is yours --- this is the run with creative licence,
-bounded only by the blueprint's floors (`skills/from-preset/presets/thesis.md`):
-a thesis that would pass examination, that is also a Slop University output in
-the true sense.
+can be finished by hand (assemble, the blueprint's read-every-chapter pass,
+compile, the publish steps below) as a candidate on a fresh
+`press-gen-<run-id>-slotthesis` branch. The invocation line names the action
+`2T`, the preset `thesis`, and the fiction the wrapper drew: the setting, the
+school, and a primary and an associate supervisor from that school. Everything
+else is yours --- this is the run with creative licence, bounded only by the
+blueprint's floors (`skills/from-preset/presets/thesis.md`): a thesis that would
+pass examination, that is also a Slop University output in the true sense.
 
 In order:
 
