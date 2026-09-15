@@ -8,6 +8,7 @@ description:
   research throughput, its placement recorded in the 2026 edition of the Global
   Index of Research Throughput.
 date: 2026-08-07
+publishedAt: "2026-08-07T16:44:52+10:00"
 hero:
   width: 2752
   height: 1536

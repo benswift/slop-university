@@ -5,6 +5,7 @@ subtitle:
   the portal's default paper classification to a poster before it ever
   reached the Office's queue
 date: 2026-07-26
+publishedAt: "2026-07-26T00:49:44+10:00"
 description:
   The Office of Research Outputs awards its Deposit of the Quarter Prize to
   Dr Dagny Okafor, recognising a repository deposit that corrected the

@@ -4,6 +4,7 @@ subtitle:
   The School of Continuous Improvement's meta-review program opens a review of
   its own five-yearly cycle, convened by Dr Dagny Okafor
 date: 2026-07-30
+publishedAt: "2026-07-30T07:48:55+10:00"
 description:
   A new institutional review turns Evaluation of Evaluation's own audit method
   on the program that invented it, under convenor Dr Dagny Okafor.

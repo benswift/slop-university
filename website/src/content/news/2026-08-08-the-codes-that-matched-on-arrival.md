@@ -5,6 +5,7 @@ subtitle:
   deposit whose packing-shed codes held steady across six sites and one growing
   season
 date: 2026-08-08
+publishedAt: "2026-08-08T02:50:21+10:00"
 description:
   The Office of Research Outputs awards its Deposit of the Quarter Prize to Dr
   Ingeborg Nwachukwu, for a repository deposit whose site codes for six packing

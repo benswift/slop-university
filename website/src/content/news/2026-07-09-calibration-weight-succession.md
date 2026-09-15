@@ -5,6 +5,7 @@ subtitle:
   reference calibration weights a documented custodian, and a named successor,
   before the current one leaves
 date: 2026-07-09
+publishedAt: "2026-07-09T21:44:56+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Associate Professor Casimir Beng
   and Dr Renke Sabel a grant to formalise custodianship of the Adaptive Metrics

@@ -4,6 +4,7 @@ subtitle:
   The annual instrument comparing stated and enacted priorities returns for
   another fielding round, with Dr Petra Umbile again on its design team
 date: 2026-07-12
+publishedAt: "2026-07-12T01:46:20+10:00"
 description:
   The School of Emergent Priorities has opened this year's fielding window for
   the Strategic Drift Survey, the instrument that tracks how far enacted

@@ -4,6 +4,7 @@ subtitle: The prize recognises Associate Professor Casimir Beng's repository
   deposit for a four-site allotment telemetry study, in which every missed
   sensor reading is filed with the reason it is missing.
 date: 2026-09-10
+publishedAt: "2026-09-10T11:47:09+10:00"
 description: >-
   The Office of Research Outputs awards its Deposit of the Quarter Prize to
   Associate Professor Casimir Beng, recognising a repository deposit that

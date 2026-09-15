@@ -4,6 +4,7 @@ subtitle: Dr Torun Ezeigwe brings the School of Continuous Improvement's seminar
   series to the checklist that grades a counter transaction, and the service
   that has learned to grade itself
 date: 2026-08-21
+publishedAt: "2026-08-21T04:50:47+10:00"
 description:
   The School of Continuous Improvement's seminar series opens its next
   session on how a mystery-shopper checklist reshapes the counter service it

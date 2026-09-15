@@ -5,6 +5,7 @@ subtitle:
   Kwame Lindqvist, whose project calls a book box in for restocking before the
   stall is visible to anyone walking past
 date: 2026-08-04
+publishedAt: "2026-08-04T09:49:16+10:00"
 description:
   The Anticipatory Capability Fund awards Dr Runa Adegoke and Associate
   Professor Kwame Lindqvist a grant to build a stocking forecast for a council's

@@ -5,6 +5,7 @@ subtitle:
   Ezeigwe's audit of a laundromat's available-machine board, with a named
   successor lined up before the checking lapses
 date: 2026-07-29
+publishedAt: "2026-07-29T18:49:01+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Dr Marit Osayande and Dr Torun
   Ezeigwe a grant to run a weekly physical check of a laundromat's

@@ -5,6 +5,7 @@ subtitle:
   to consult a volunteer surf club on its patrol roster months before the next
   handover note has to be written
 date: 2026-08-10
+publishedAt: "2026-08-10T00:00:00+10:00"
 description:
   The Anticipatory Capability Fund awards Dr Ronja Oyelaran and Dr Iben Chikere
   a grant to open a stakeholder consultation on a volunteer surf club's patrol

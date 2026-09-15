@@ -5,6 +5,7 @@ subtitle:
   for a season of paired readings at a volunteer rain gauge, with the next reader
   named and trained before the current one stops
 date: 2026-08-06
+publishedAt: "2026-08-06T03:48:48+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Dr Bram Ntuli and Dr Solveig Adeyemi
   a grant to run a season of side by side readings at a suburban rain gauge and

@@ -5,6 +5,7 @@ subtitle:
   trace which strategic phrasing survives a planning cycle even after the
   initiative behind it has quietly changed shape
 date: 2026-07-27
+publishedAt: "2026-07-27T06:47:42+10:00"
 description:
   Futures in Committee, the School of Emergent Priorities' seminar series,
   turns this teaching period to how a priority's wording outlives the

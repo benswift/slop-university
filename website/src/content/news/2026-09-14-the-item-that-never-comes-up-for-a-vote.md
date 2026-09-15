@@ -5,6 +5,7 @@ subtitle: >-
   School of Emergent Priorities' seminar series, chaired by convenor Dr
   Ingrid Vasseur.
 date: 2026-09-14
+publishedAt: "2026-09-14T10:15:29+10:00"
 description: >-
   The School of Emergent Priorities' seminar series turns its next session to
   programs kept alive on renewed provisional budgets long after the review

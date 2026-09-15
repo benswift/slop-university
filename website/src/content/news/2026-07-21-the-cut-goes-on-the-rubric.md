@@ -4,6 +4,7 @@ subtitle:
   Sprint teams presenting this cycle will be assessed in part on what didn't
   make the stage, under convenor Dr Thandiwe Solberg
 date: 2026-07-21
+publishedAt: "2026-07-21T02:45:43+10:00"
 description:
   The School of Continuous Improvement's quarterly showcase turns its next
   cycle toward the cuts a demo makes before an audience ever sees it, under

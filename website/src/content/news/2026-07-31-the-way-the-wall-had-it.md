@@ -5,6 +5,7 @@ subtitle:
   dictionary separates a signwriter's misspelling from a transcriber's across
   4,918 painted honour board entries
 date: 2026-07-31
+publishedAt: "2026-07-31T00:00:00+10:00"
 description:
   The Office of Research Outputs awards its Deposit of the Quarter Prize to Dr
   Petra Umbile, for a repository deposit that documented which of its

@@ -5,6 +5,7 @@ subtitle:
   Renke Sabel matching every name in a community hall's key-sign-out log
   against who still holds a copy
 date: 2026-08-12
+publishedAt: "2026-08-12T01:58:42+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Dr Thandiwe Solberg and Dr Renke
   Sabel a grant to reconcile a community hall's key-sign-out register against

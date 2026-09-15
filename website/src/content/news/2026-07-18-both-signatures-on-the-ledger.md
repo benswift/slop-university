@@ -4,6 +4,7 @@ subtitle: A new grant funds a witnessed sign-off between a neighbourhood tool
   library's volunteer coordinators, so a loan's condition notes survive the
   handover intact
 date: 2026-07-18
+publishedAt: "2026-07-18T00:00:00+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Dr Osei Vandermeer and Dr
   Mirela Hanke a grant to formalise the handover of a neighbourhood tool

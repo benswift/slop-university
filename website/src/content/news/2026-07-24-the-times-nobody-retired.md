@@ -5,6 +5,7 @@ subtitle:
   personal-best entry on a junior swim squad's poolside board against who is
   still actually registered to the squad
 date: 2026-07-24
+publishedAt: "2026-07-24T00:52:13+10:00"
 description:
   The Indicator Stewardship Seed Fund awards Dr Joost Nwosu and Dr Renke
   Sabel a grant to audit a junior swim squad's personal-best board each

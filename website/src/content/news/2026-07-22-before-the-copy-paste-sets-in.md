@@ -5,6 +5,7 @@ subtitle:
   school parent committee to draft its "term ahead" column against the actual
   plan, rather than carrying the previous term's paragraph forward unread
 date: 2026-07-22
+publishedAt: "2026-07-22T00:49:25+10:00"
 description:
   The Anticipatory Capability Fund awards Dr Anneke Tolan and Dr Anouk Mensah
   a grant to end a primary school newsletter's habit of reprinting the same

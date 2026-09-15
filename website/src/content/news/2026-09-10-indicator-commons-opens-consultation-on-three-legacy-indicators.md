@@ -8,6 +8,7 @@ description: >-
   long-idle measures from its shared library, under convenor Dr Renke Sabel,
   after quietly dropping them from the dashboard ahead of the vote.
 date: 2026-09-10
+publishedAt: "2026-09-10T13:14:46+10:00"
 hero:
   width: 2752
   height: 1536

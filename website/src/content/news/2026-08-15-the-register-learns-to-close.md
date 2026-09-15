@@ -4,6 +4,7 @@ subtitle: >-
   Dr Marek Solheim, who studies how institutions stop doing things, takes a
   second seat on a register whose entries have only ever been added
 date: 2026-08-15
+publishedAt: "2026-08-15T01:46:48+10:00"
 description: >-
   Dr Marek Solheim has been named the Horizon Register's first deputy convenor,
   with a standing brief to retire entries the School of Emergent Priorities has

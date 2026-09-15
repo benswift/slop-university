@@ -4,6 +4,7 @@ subtitle: The Anticipatory Capability Fund backs Dr Marek Solheim and Dr Lindiwe
   Achterberg's kerbside register, which gives every temporary traffic sign a
   retirement date on the day it is installed
 date: 2026-07-28
+publishedAt: "2026-07-28T02:48:23+10:00"
 description:
   The Anticipatory Capability Fund awards Dr Marek Solheim and Dr Lindiwe
   Achterberg a grant to build a register that assigns each of a suburb's

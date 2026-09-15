@@ -4,6 +4,7 @@ subtitle: >-
   Her brief is to flag which of the wall's screens have quietly become the
   decision an area makes, rather than the measurement it takes
 date: 2026-08-25
+publishedAt: "2026-08-25T01:46:52+10:00"
 description: >-
   The School of Continuous Improvement has appointed Dr Mirela Hanke deputy
   convenor of the Living Dashboard, with a standing brief to audit which of

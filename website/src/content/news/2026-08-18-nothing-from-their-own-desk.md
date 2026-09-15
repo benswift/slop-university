@@ -5,6 +5,7 @@ subtitle: >-
   own workplaces and onto a row of trolley bays nobody in the room has a prior
   view about
 date: 2026-08-18
+publishedAt: "2026-08-18T00:48:33+10:00"
 description: >-
   The School of Continuous Improvement's short-course line opens the next intake
   of Deciding Under Measurement, with the assessment set on a suburban

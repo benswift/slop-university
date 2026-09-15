@@ -5,6 +5,7 @@ subtitle:
   empty-bottle report to a next-day heat forecast, with a dashboard logging
   the gap between the two
 date: 2026-07-16
+publishedAt: "2026-07-16T00:00:00+10:00"
 description:
   The Anticipatory Capability Fund awards Dr Fenna Okoro and Professor
   Verity Marris a grant to trigger the Oval's sunscreen-dispenser restocking

@@ -5,6 +5,7 @@ subtitle:
   seminar series into a session on metrics that outlast the process they were
   built to track
 date: 2026-07-09
+publishedAt: "2026-07-09T00:43:06+10:00"
 description:
   The School of Continuous Improvement's seminar series returns this teaching
   period with a session on indicators that keep reporting after their target has

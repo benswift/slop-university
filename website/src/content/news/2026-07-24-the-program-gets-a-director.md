@@ -4,6 +4,7 @@ subtitle: Associate Professor Kwame Lindqvist, who studies how a priority gets a
   budget line before it gets a definition, now leads a program that gave
   itself both
 date: 2026-07-24
+publishedAt: "2026-07-24T07:49:30+10:00"
 description:
   Associate Professor Kwame Lindqvist has been named inaugural Director of
   the Master of Priority Studies, the School of Emergent Priorities'

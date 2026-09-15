@@ -4,6 +4,7 @@ subtitle: The prize recognises Dr Ingrid Vasseur's repository deposit, lodged
   complete before the Office of Research Outputs' automated reminder email
   ever went out
 date: 2026-07-20
+publishedAt: "2026-07-20T00:00:00+10:00"
 description:
   The Office of Research Outputs awards its Deposit of the Quarter Prize to
   Dr Ingrid Vasseur, recognising a repository deposit filed complete before

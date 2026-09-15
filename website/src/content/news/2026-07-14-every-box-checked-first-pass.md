@@ -4,6 +4,7 @@ subtitle:
   A new prize rewards Dr Sten Okwuosa's repository deposit, filed with every
   metadata field complete and no follow-up chase required
 date: 2026-07-14
+publishedAt: "2026-07-14T02:51:34+10:00"
 description:
   The Office of Research Outputs awards its Deposit of the Quarter Prize to
   Dr Sten Okwuosa, recognising a repository deposit filed with complete

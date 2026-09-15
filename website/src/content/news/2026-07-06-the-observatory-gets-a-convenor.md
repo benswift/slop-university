@@ -4,6 +4,7 @@ subtitle:
   Dr Osei Vandermeer will lead the initiative tracking when the University's
   review cycles fall out of step
 date: 2026-07-06
+publishedAt: "2026-07-06T20:44:50+10:00"
 description:
   Dr Osei Vandermeer has been appointed to lead the School of Continuous
   Improvement's initiative charged with tracking when the University's own

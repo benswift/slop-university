@@ -5,6 +5,7 @@ subtitle:
   trace how a horizon-register item is admitted, and how it is finally struck
   off
 date: 2026-07-18
+publishedAt: "2026-07-18T18:46:25+10:00"
 description:
   Futures in Committee, the School of Emergent Priorities' seminar series,
   turns this teaching period to the Horizon Register's own admissions and
