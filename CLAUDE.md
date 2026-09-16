@@ -58,9 +58,9 @@ pairing check, the agent-failure classifiers):
 `ops/publish-check.py` is the dead-man check on all of that, run hourly by
 `slop-publish-watchdog.timer`: are both live timers armed (a stop is given an
 hour's grace, since stopping them is also how an edit lands), and has anything
-reached `main` inside six hours. Every other alert on this pipeline is a
-failure alert, and a pipeline that simply stops never fails --- which matters
-more with one generator slot carrying it.
+reached `main` inside six hours. Every other alert on this pipeline is a failure
+alert, and a pipeline that simply stops never fails --- which matters more with
+one generator slot carrying it.
 
 The wrapper decides what a run does and meters what it cost; the model only
 composes. Everything a run used to work out by reading the corpus is a script
