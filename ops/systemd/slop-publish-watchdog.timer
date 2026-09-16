@@ -1,0 +1,17 @@
+[Unit]
+Description=Trigger the Slop University publish dead-man check
+
+[Timer]
+# Hourly, off the hour so it does not land in the same second as the generator
+# and lander ticks it is asking about. The six-hour freshness limit sets how
+# fast a stall is noticed; checking oftener than that only sharpens the timer
+# half of the check, which is the half worth sharpening --- a stopped timer is
+# found within the hour instead of within six.
+OnCalendar=*-*-* *:43:00
+RandomizedDelaySec=2min
+# Persistent=true would fire a catch-up run at every daemon restart, which is
+# the one moment the timers it watches are legitimately between states.
+Unit=slop-publish-watchdog.service
+
+[Install]
+WantedBy=timers.target

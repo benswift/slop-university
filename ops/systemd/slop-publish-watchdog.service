@@ -1,0 +1,17 @@
+[Unit]
+Description=Dead-man check: is the Slop University publish pipeline still landing?
+Documentation=file:///home/ben/projects/slop-university/ops/publish-check.py
+# The only alert here that a stopped pipeline can trip. Every other unit in the
+# pipeline reports by failing, and neither a disabled timer nor a generator
+# that no-ops every run ever fails.
+OnFailure=unit-oncall@%n.service
+OnSuccess=unit-oncall-clear@%n.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ben/projects/slop-university
+Environment=PATH=/home/ben/.local/share/mise/shims:/home/ben/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/ben/projects/slop-university/ops/publish-check.py
+# Reads systemd and the local git log; it touches neither the network nor the
+# course lock, so a minute is already generous.
+TimeoutStartSec=1min

@@ -55,6 +55,13 @@ pairing check, the agent-failure classifiers):
   runs the one rung with no timer (2T, a doctoral thesis) as a generator slot
   named `thesis`; nothing assesses or schedules it.
 
+`ops/publish-check.py` is the dead-man check on all of that, run hourly by
+`slop-publish-watchdog.timer`: are both live timers armed (a stop is given an
+hour's grace, since stopping them is also how an edit lands), and has anything
+reached `main` inside six hours. Every other alert on this pipeline is a
+failure alert, and a pipeline that simply stops never fails --- which matters
+more with one generator slot carrying it.
+
 The wrapper decides what a run does and meters what it cost; the model only
 composes. Everything a run used to work out by reading the corpus is a script
 (each one's docstring says why it exists): `ops/assess-ladder.py` names the rung

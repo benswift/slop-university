@@ -5,8 +5,8 @@
 typst = "0.15.0"
 
 [tasks.test]
-description = "Test the slopU launcher"
-run = "./tests/test_slopu.py"
+description = "Unit tests (launcher, publish dead-man check)"
+run = ["./tests/test_slopu.py", "./tests/test_publish_check.py"]
 
 [tasks.typecheck]
 description = "ty over the ops scripts and tests, with the union of their inline deps"
