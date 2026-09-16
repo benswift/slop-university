@@ -50,8 +50,8 @@ pairing check, the agent-failure classifiers):
   pushes. Slot 1 gets the full ladder assessment; slots 2+ are pinned to 2A,
   because the gardening rungs are gated on shared state and two slots reading it
   pick the same gap. The live path: `slop-publish-gen@1.timer` and
-  `slop-publish-land.timer`; slot 2 is disabled to halve throughput, since each
-  enabled slot runs back to back (see the timer's comment). `bin/slopu thesis`
+  `slop-publish-land.timer`; slot 2 is disabled, and slot 1 rests between runs
+  (the rest period in the timer is the throughput lever). `bin/slopu thesis`
   runs the one rung with no timer (2T, a doctoral thesis) as a generator slot
   named `thesis`; nothing assesses or schedules it.
 

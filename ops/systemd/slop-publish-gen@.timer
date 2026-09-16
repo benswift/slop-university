@@ -2,18 +2,19 @@
 Description=Trigger publish generator slot %i
 
 [Timer]
-# Every ten minutes, which in practice means back to back. systemd computes the
-# next elapse from when the last run started, so a run longer than the period
-# (every real run) is already overdue when it finishes and the slot restarts in
-# the same second. Throughput is set by run length and how many slots are
-# enabled, not by this period; enable or disable a slot to change it.
-OnCalendar=*-*-* *:00/10
+# Rest twenty minutes after each run ends, then start the next. A run takes
+# about twenty minutes, so a slot produces one candidate every forty or so ---
+# half the back-to-back rate a calendar period shorter than a run gives.
+# Lengthen the rest to meter throughput further; enabling another slot doubles it.
+OnUnitInactiveSec=20min
+# OnUnitInactiveSec never fires for a unit that has not run since the timer
+# started, so this kicks the first run after a start or a reboot.
+OnActiveSec=2min
 # Spread the slots so they do not all hit the model, Replicate and the disk in
 # the same second.
 RandomizedDelaySec=2min
-# Deliberately NOT Persistent=true. A catch-up burst of missed generator ticks
-# would fire several slots at once after a reboot and queue candidates nobody
-# asked for; the next scheduled tick is soon enough.
+# Deliberately NOT Persistent=true (it only applies to OnCalendar anyway). A
+# catch-up burst would fire several slots at once after a reboot.
 Unit=slop-publish-gen@%i.service
 
 [Install]
