@@ -17,6 +17,8 @@
 import { IconifyIcon } from "astro-theme-university/components/Icon.astro";
 
 const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
+// The LinkedIn Page can't be read client-side, so it gets a follow link only.
+const LINKEDIN_PAGE = "https://www.linkedin.com/company/slop-university/";
 ---
 
 <section class="bsky-feed" aria-labelledby="bsky-feed-heading">
@@ -24,7 +26,13 @@ const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
     <h2 id="bsky-feed-heading">
       Slop University <span class="on-bsky">on <IconifyIcon name="bluesky" class="bsky-mark" role="img" aria-label="Bluesky" focusable="false" /></span>
     </h2>
-    <a class="follow" href={BSKY_PROFILE}>Follow @slop.university</a>
+    <p class="follows">
+      <a href={BSKY_PROFILE}>Follow @slop.university</a>
+      <a href={LINKEDIN_PAGE}>
+        <IconifyIcon name="linkedin" class="linkedin-mark" aria-hidden="true" focusable="false" />
+        Follow on LinkedIn
+      </a>
+    </p>
   </div>
   <ul class="posts" hidden></ul>
 </section>
@@ -156,8 +164,20 @@ const BSKY_PROFILE = "https://bsky.app/profile/slop.university";
     vertical-align: -0.05em;
   }
 
-  .follow {
+  .follows {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--at-spacing-xs) var(--at-spacing-md);
+    margin-block: 0;
     font-size: var(--at-font-size-sm);
+  }
+
+  .follows :global(.linkedin-mark) {
+    display: inline-block;
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline-end: 0.3em;
+    vertical-align: -0.125em;
   }
 
   .posts {
