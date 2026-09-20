@@ -277,6 +277,8 @@ the approval covers.
   literature-review chapter discussing prior outputs is the point, a results
   chapter whose object of study is the corpus is the drift.
 - `ops/check-output-quality.py <pdf> --preset thesis` --- the page floor.
+- `ops/check-table-fit.py --preset thesis <chapter-dir>/*.typ` --- table
+  columns that cannot fit the text block. Run it before the final compile.
 - Look at a render once, after the page count is right, rasterised at
   `--ppi 72`: the title page, one chapter opener, one page carrying a figure,
   and the first page of the references.
@@ -363,7 +365,10 @@ ledger.
   or a bar eight times has wasted the menu.
 - **Tables** are typst-native and expected --- participant characteristics, an
   instrument's items, a coding frame, a results matrix. A thesis carries more
-  tables than a paper does.
+  tables than a paper does, and the text block holds five columns, one of them
+  prose: size and budget them per `../../_shared/typst-layout.md` › "Tables".
+  A site-by-site or study-by-study summary is the table that overruns; give it
+  short headers and abbreviated cells, or split it in two.
 - **Generated imagery** is optional and sparing: at most two or three, house
   style per `visual-style.md`, references from `references/slop-style/` only,
   into `output/slop-thesis-<slug>-<seed>-images/`. A thesis is chart-shaped and
@@ -585,9 +590,10 @@ dark variant: the thesis is a submitted document, not signage.
       prose that names the paradox it is performing
 - [ ] The commission test passes on the finished PDF: the binding institutional
       consequence is central and appears in the abstract and the conclusion
-- [ ] `ops/check-recent-language.py <pdf> --preset thesis --self-reference-only`
-      and `ops/check-output-quality.py <pdf> --preset thesis` both run and their
-      findings addressed
+- [ ] `ops/check-recent-language.py <pdf> --preset thesis --self-reference-only`,
+      `ops/check-output-quality.py <pdf> --preset thesis` and
+      `ops/check-table-fit.py --preset thesis <chapter-dir>/*.typ` all run and
+      their findings addressed
 - [ ] PDF metadata title matches the formula; no other metadata populated
 - [ ] Output at `output/pdf/thesis/slop-thesis-<slug>-<seed>.pdf`
 

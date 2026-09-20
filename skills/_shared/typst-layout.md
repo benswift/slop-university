@@ -135,6 +135,46 @@ jq -r '.icons | keys[]' \
 Pick one match per card that fits its actual content, not a generic theme.
 Verifying against the JSON before writing is cheaper than a failed compile.
 
+## Tables
+
+An `fr` column is handed a share of the width rather than sized to what is in
+it: beside `auto` columns the share is whatever they leave over, and among
+other `fr`s it is a fixed fraction. Either way it never grows to fit, so a word
+wider than the share prints **on top of** the next column --- no compile error,
+no warning. `auto` columns negotiate instead: typst shrinks them together and
+wraps. So:
+
+- **Size every table column `auto`** --- `columns: 5`, or
+  `columns: (auto, auto, auto)`. No `fr`, ever, in a table. The cost is a table
+  that sometimes stops short of the right margin; the alternative is one that
+  sometimes prints over itself. (Layout grids are a different thing:
+  `grid(columns: (1fr, 1fr))` arranges blocks, not lines of text, and `fr` is
+  right there.)
+- **Budget the measure the table sits in, not the page width.** A paper's body
+  column is ~73mm; a thesis or booklet text block is ~155mm. Short labels and
+  numbers want ~20mm of column, running prose ~40mm. That is **three columns
+  inside a paper's body column** and **six in a thesis or booklet** --- six only
+  when they are numbers; five once one of them carries prose.
+- **A paper table wider than three columns spans both**, floated to the top of
+  the page where it has the full ~155mm:
+
+  ```typst
+  #place(top, scope: "parent", float: true, [
+    #figure(table(...), caption: [...]) <tab:x>
+  ])
+  ```
+
+- **At most one column of running prose**, and never two beside a third that is
+  also wordy. A table of three prose columns is a list wearing a table's
+  clothes --- recast it, or cut the cells to phrases.
+- **Header words are content.** "Workers issued crates" claims more width than
+  any number under it and starves every other column. Head a column with one or
+  two short words; the unit and the gloss go in the caption.
+- **`ops/check-table-fit.py --preset <preset> <source.typ ...>` enforces the
+  first two**, which is what stands in for looking: nothing in the toolchain
+  reports a starved column, and the render budget does not stretch to a look at
+  every table's page.
+
 ## Page-break discipline
 
 - **Preset (satirical) path: emit no manual `#pagebreak()` at all.** The

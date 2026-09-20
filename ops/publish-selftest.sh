@@ -75,6 +75,7 @@ git -C "$REPO" config user.name "Ben Swift"
 # self-test checks what is about to be committed rather than what already was.
 for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
          ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
+         ops/check-table-fit.py \
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
          ops/assess-ladder.py ops/run-usage.py ops/scan-discourse.py \
          ops/topic-neighbours.py ops/verify-site.sh \

@@ -286,10 +286,12 @@
 #let _thesis-h1(it, eyebrow: none, lead: 1.6cm) = {
   pagebreak(weak: true)
   v(lead)
-  block(above: 0em, below: 1.6em, {
+  block(above: 0em, below: 0.85cm, {
     if eyebrow != none {
       eyebrow
-      v(0.5em, weak: true)
+      // The eyebrow is 10pt against a 26pt title, so a gap that looks right
+      // between two body lines reads as a collision here.
+      v(0.35cm)
     }
     text(size: 26pt, weight: "regular", fill: slop-ink-auto, it.body)
   })
@@ -461,6 +463,13 @@
       set par(justify: true, leading: 0.8em)
       set outline(depth: 3)
       show figure.where(kind: table): set figure.caption(position: top)
+
+      // Tables run tighter than the house default and set ragged-right. Over
+      // five columns the default 0.75em of padding either side of every one
+      // spends a fifth of the text block on air, and justifying a cell that
+      // narrow rivers it.
+      set table(inset: (x: 0.5em, y: 0.55em))
+      show table.cell: set par(justify: false)
 
       // Figures and tables number by the chapter they sit in (Figure 3.2,
       // Table A.1); the matter wrappers reset the two counters per chapter.

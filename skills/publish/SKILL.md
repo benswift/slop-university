@@ -385,6 +385,17 @@ not spare breathing room. Rebalance the preceding material and recompile until
 the check passes. The unattended wrapper repeats this check against the staged
 PDF before upload.
 
+Any document carrying a table also runs the table gate, on the source:
+
+```sh
+ops/check-table-fit.py --preset <preset> output/<run-id>.typ
+```
+
+A starved column prints one cell over the next and nothing in the toolchain
+says so, so this check --- not a look at the page --- is what catches it. Fix
+what it names and recompile; the doctrine it enforces is
+`skills/_shared/typst-layout.md` › "Tables".
+
 ### Cite the canon
 
 Before compiling, pick the prior outputs this document will cite. **Every preset

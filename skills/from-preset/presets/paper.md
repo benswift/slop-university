@@ -233,7 +233,9 @@ apparatus is trying to avoid.
   `slop-inline-figure` (single-column) --- captions state a falsifiable claim
   with a figure in it.
 - **Tables welcome** (hyperparameters, dataset statistics) --- typst-native,
-  small, 8-9pt.
+  small, 8-9pt. Sizing and the column budget are in
+  `../../_shared/typst-layout.md` › "Tables": three columns fit a paper's body
+  column, and a wider table floats across both.
 - **At most one generated image** (apparatus/setting, house style per
   `visual-style.md`, `references/slop-style/` refs) --- papers are chart-shaped,
   not photo-shaped. Most runs carry none.

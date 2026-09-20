@@ -69,6 +69,7 @@ and its parameters on the invocation line, `ops/scan-discourse.py` prints feed
 titles, `ops/topic-neighbours.py` prints the dedup shortlist,
 `ops/check-recent-language.py` reports stock language and self-reference,
 `ops/check-output-quality.py` catches a collapsed final page,
+`ops/check-table-fit.py` catches a table whose columns cannot fit the measure,
 `ops/verify-site.sh` runs the site chain quietly, and `ops/run-usage.py` logs
 each tick's tokens to `data/usage-ledger.jsonl` (`--weekly` for the trailing
 week --- the number the tick rate is tuned against). Route, model and effort are
