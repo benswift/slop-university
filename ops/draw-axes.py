@@ -25,11 +25,11 @@ invocation line. Judgement stays in the skill --- composing a topic that fits
 these values, choosing citations by topical fit, deciding whether a bio reads
 thin. Constraints first, composition second, which is better generation anyway.
 
-Four axes come from the static pools in `canon/axes.yml`, minus any
-finding-shape retired in `canon/burnt-shapes.yml`. Both are doctrine and are
-read from this script's own checkout, never from `--root`. The fifth --- the
-lead author and, with them, the output's school --- has no static pool: it is
-drawn from the `--root` checkout's `canon/roster.yml` against its live
+Four axes come from the static pools in `canon/axes.yml`, minus any value
+retired in `canon/burnt-shapes.yml`. Both are doctrine and are read from this
+script's own checkout, never from `--root`. The fifth --- the lead author and,
+with them, the output's school --- has no static pool: it is drawn from the
+`--root` checkout's `canon/roster.yml` against its live
 attribution counts, inversely weighted so the draw corrects imbalance instead of
 a run inferring it. Two stages, because the two imbalances are separate: school
 first (by that school's share of published outputs), then a lead author inside it
@@ -133,7 +133,10 @@ def burnt_entries() -> list[dict]:
 
 
 def load_axes() -> dict[str, list[dict]]:
-    """The static pools, with retired finding-shapes removed."""
+    """The static pools, with retired values removed.
+
+    An `excludes:` id may name a value on any pool axis, not just a
+    finding-shape: a title form can be spent the same way a study design can."""
     axes = yaml.safe_load(AXES_PATH.read_text())
     missing = [axis for axis in POOL_AXES if not axes.get(axis)]
     if missing:
@@ -143,17 +146,16 @@ def load_axes() -> dict[str, list[dict]]:
         shape for entry in burnt_entries() for shape in (entry.get("excludes") or [])
     }
 
-    unknown = retired - {entry["id"] for entry in axes["finding-shape"]}
+    unknown = retired - {e["id"] for axis in POOL_AXES for e in axes[axis]}
     if unknown:
         # A typo in an `excludes:` would silently retire nothing, which is the
         # one failure mode of this file that nobody would notice.
-        sys.exit(
-            f"burnt-shapes.yml excludes unknown finding-shape id(s): {sorted(unknown)}"
-        )
+        sys.exit(f"burnt-shapes.yml excludes unknown pool id(s): {sorted(unknown)}")
 
-    axes["finding-shape"] = [e for e in axes["finding-shape"] if e["id"] not in retired]
-    if not axes["finding-shape"]:
-        sys.exit("every finding-shape is retired; nothing left to draw")
+    for axis in POOL_AXES:
+        axes[axis] = [e for e in axes[axis] if e["id"] not in retired]
+        if not axes[axis]:
+            sys.exit(f"every {axis} value is retired; nothing left to draw")
 
     return axes
 

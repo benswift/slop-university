@@ -21,9 +21,9 @@
 # The lead author / school slot is NOT here: it is drawn from `roster.yml`
 # against the live attribution counts, so it needs no static pool.
 #
-# To retire a finding-shape, add it to `burnt-shapes.yml` (naming this file's
-# id in its `excludes:`); the drawer will stop drawing it. Do not delete pool
-# entries to retire them --- the ledger is where that decision is recorded.
+# To retire a value on any axis, add it to `burnt-shapes.yml` (naming this
+# file's id in its `excludes:`); the drawer will stop drawing it. Do not delete
+# pool entries to retire them --- the ledger is where that decision is recorded.
 
 finding-shape:
   - id: taxonomy
@@ -60,6 +60,11 @@ finding-shape:
       chart)
 
 title-form:
+  # A form is a SHAPE, not an opening word. A form whose every instance opens on
+  # the same word has collapsed even while the draw is working: each form here
+  # lands at its expected one-in-ten, and the corpus still read as repetitive
+  # because one form supplied its opening word every time. Where a form has a
+  # signature word, its value names alternatives; use them.
   - id: epigram
     # Burnt as a default, not as a form: roughly one run in four.
     weight: 2
@@ -71,11 +76,30 @@ title-form:
   - id: question
     value: the earnest question title, ending in a question mark
   - id: towards
-    value: the "Towards ..." title, promising a programme rather than a result
+    value:
+      the programmatic title, promising a direction rather than a result ---
+      "Towards ...", but equally "On the Way to ...", "Before ...", "Groundwork
+      for ...", "The Case for ..."
   - id: acronym
     value: the acronym-named system paper, the acronym expanded in the subtitle
   - id: gerund
+    # Retired in burnt-shapes.yml: nine of the nine gerund titles in the last
+    # sixty outputs opened "Measuring the ...".
     value: the gerund methodological title ("Measuring ...", "Rethinking ...")
+  - id: quote
+    # Folded scalar: the example carries a colon, which a plain one cannot.
+    value: >-
+      the quoted-phrase title --- a participant's words, or a notice's own
+      wording, in quotation marks, then a formal subtitle ("'Not Mine to
+      Open': Custody in the Office Restack")
+  - id: as-reframe
+    value:
+      the "X as Y" reframing title, the ordinary object named as the
+      instrument it turns out to be ("The Raffle Tin as Allocation Device")
+  - id: notes-on
+    value:
+      the modest scholarly title --- "Notes on ...", "A Case of ...", "Remarks
+      on ..." --- understating a document that then does not understate itself
   - id: declarative
     value: the plain declarative-sentence title, stating the finding flatly
 
