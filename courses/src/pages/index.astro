@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import catalogueData from "../data/catalogue.json";
-import { validateCatalogue } from "../lib/catalogue";
+import type { CatalogueEntry } from "../lib/catalogue";
 import { siteConfig } from "../site-config";
 
-const courses = validateCatalogue(catalogueData);
+// The sync validates every entry before it is written, so this reads the file
+// rather than re-parsing it: revalidating here would only let one bad row fail
+// the whole site build. The assertion is what the sync guarantees --- a JSON
+// import widens the level union to number and an empty catalogue to never[].
+const courses = catalogueData as CatalogueEntry[];
 ---
 
 <BaseLayout
@@ -24,7 +28,7 @@ const courses = validateCatalogue(catalogueData);
     </form>
     <p class="count" aria-live="polite" data-count>{courses.length} courses</p>
     <div class="grid" data-grid>
-      {courses.map(({ course, canonicalUrl }) => (
+      {courses.map(({ feed: { course, canonicalUrl } }) => (
         <article data-course data-search={`${course.code} ${course.title} ${course.tags.join(" ")}`.toLowerCase()} data-level={course.level}>
           <p class="code">{course.code}</p><h2><a href={canonicalUrl}>{course.title}</a></h2>
           <p>{course.description}</p><p class="meta">Level {course.level} · {course.session} {course.year}</p>
