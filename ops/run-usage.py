@@ -14,7 +14,9 @@ Two profiles, two transcript formats, because the two subscriptions log
 differently:
 
 - `claude-sub`: `~/.claude/projects/<encoded worktree>/*.jsonl`, one line per
-  message. Sum `message.usage` on every `message.role == "assistant"` line.
+  CONTENT BLOCK, not one per message: an assistant turn of thinking plus two
+  tool calls is three lines, each repeating that turn's whole `message.usage`.
+  So sum usage once per `message.id` and count tool_use blocks per line.
   Subagent transcripts live under a subdirectory of the same project dir
   (`<session>/subagents/*.jsonl`), so the glob is recursive.
 - `grok-sub`: `~/.grok/sessions/<url-encoded worktree>/<session-id>/
@@ -104,6 +106,12 @@ def collect_claude_usage(
     if not project_dir.is_dir():
         return usage
 
+    # One API call's usage, counted once, however many lines the transcript
+    # spreads that call's content over. Across the project dir rather than per
+    # file: an id identifies the API response, so a line repeating one already
+    # seen in a sibling transcript is the same tokens either way.
+    counted_calls: set[str] = set()
+
     for path in project_dir.rglob("*.jsonl"):
         try:
             mtime = path.stat().st_mtime
@@ -128,7 +136,13 @@ def collect_claude_usage(
 
                 if message.get("role") == "assistant":
                     msg_usage = message.get("usage")
-                    if isinstance(msg_usage, dict):
+                    # An id-less line cannot be proved a repeat, so it counts:
+                    # under-reporting a tick's cost is the worse failure.
+                    message_id = message.get("id")
+                    repeat = isinstance(message_id, str) and message_id in counted_calls
+                    if isinstance(message_id, str):
+                        counted_calls.add(message_id)
+                    if isinstance(msg_usage, dict) and not repeat:
                         usage.calls += 1
                         input_tokens = msg_usage.get("input_tokens", 0) or 0
                         cache_read = msg_usage.get("cache_read_input_tokens", 0) or 0
@@ -142,6 +156,9 @@ def collect_claude_usage(
                         usage.output_tokens += output_tokens
                         call_context = input_tokens + cache_read + cache_creation
                         usage.peak_context = max(usage.peak_context, call_context)
+                    # Not guarded by `repeat`: every line of a message holds
+                    # its own block, so the second line of a two-tool turn is
+                    # the second tool, not a duplicate of the first.
                     if isinstance(content, list):
                         for block in content:
                             if (
