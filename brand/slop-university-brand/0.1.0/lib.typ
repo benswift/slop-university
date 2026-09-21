@@ -192,9 +192,9 @@
 // levels in the order you want them coloured; override `palette` for a
 // different ramp (e.g. slop-ordinal-auto, slop-gold-tints). The default
 // follows the document theme. Key the result by aesthetic in gribouille's
-// `scales(...)` binder --- e.g. `scales: scales(fill: slop-fill(levels))`;
-// since gribouille 0.5.0 the spec is aesthetic-agnostic, so slop-colour and
-// slop-fill are the same function under two readable names.
+// `scales(...)` binder --- e.g. `scales: scales(fill: slop-fill(levels))`.
+// A scale spec is aesthetic-agnostic, so slop-colour and slop-fill are the
+// same function under two readable names.
 #let slop-colour(levels, palette: slop-categorical-auto) = chart-colour(
   levels,
   palette,

@@ -33,7 +33,7 @@ slop values below.
    in plausible bands; chart type per the preset's variation roll. Skeleton:
 
    ```typst
-   #import "@preview/gribouille:0.5.0": *
+   #import "@preview/gribouille:0.7.0": *
    #import "@local/slop-university-brand:0.1.0": (
      slop-theme-auto, slop-fill, slop-colour, slop-gold, slop-ink-auto,
      slop-ordinal-auto, slop-gold-tints,
@@ -55,7 +55,7 @@ slop values below.
    ))
    ```
 
-   **Gribouille 0.5.0 API notes** (the 0.3.0-era names fail to compile):
+   **Gribouille 0.7.0 API notes** (older names from memory fail to compile):
    - `labels(...)` --- the old `labs(...)` was renamed.
    - `scales:` takes the keyed `scales(x: ..., colour: ..., fill: ...)` binder,
      not a positional tuple. Scale constructors are aesthetic-agnostic
@@ -63,6 +63,12 @@ slop values below.
      aesthetic comes from the `scales()` key. `slop-colour(...)` /
      `slop-fill(...)` return such specs --- key them explicitly:
      `scales(colour: slop-colour(...))`.
+   - A chart that cannot fit its tick labels or its side legend **fails the
+     compile** with the room it needs; it no longer draws past the canvas edge.
+     Give the chart more height, shorten the labels, or move the legend to
+     `position: "top"` --- don't shrink the type to silence it.
+   - `axis-ticks: element-blank()` turns tick marks off; the old `tick-length`
+     and `tick-labels` theme keys are gone.
    - Typst gotcha (not gribouille): a `#let` binding ends at the line break, so
      a method chain split across lines (`#let order = data\n.sorted(...)`)
      silently binds only `data`. Keep derivations on one line or wrap the whole
@@ -257,10 +263,13 @@ images are referenced elsewhere; the document is compiled with
   under the examples' neutral names instead of the brand package's `slop-*`
   names. Isolate a suspect chart with the scratch-compile in step 3.
 - **`unknown variable: labs` / `expected string, found dictionary` in scale
-  training**: 0.3.0-era API from memory. `labs` is `labels` since 0.4.0, and
-  `scales:` takes the keyed `scales(...)` binder since 0.5.0 --- a positional
-  tuple (or a limits list that accidentally bound whole records; see the
-  `#let`-line-break gotcha in step 1) produces exactly these errors.
+  training**: an older API recalled from memory. `labs` is `labels`, and
+  `scales:` takes the keyed `scales(...)` binder --- a positional tuple (or a
+  limits list that accidentally bound whole records; see the `#let`-line-break
+  gotcha in step 1) produces exactly these errors.
+- **`theme: unknown element "tick-length"`**: the chart imports a different
+  gribouille version from the one the brand package built its theme against.
+  Both must be 0.7.0.
 - **Year axis shows `2,024`**: a quantitative year picks up thousands
   separators. Format it plainly with
   `scales(x: scale-continuous(labels: format-number(big-mark: "", digits: 0)))`.
