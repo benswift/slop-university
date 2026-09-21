@@ -252,25 +252,15 @@
 // and figure numbers can follow the chapter they sit in.
 #let _thesis-matter = state("slop-thesis-matter", "front")
 
-// The masthead, drawn by hand on the title page: same geometry as the core's
-// automatic one (a bg-coloured rect masking the brand rule, the lockup's
-// crest axis on the spine), minus the page-counter trigger. Like the core's,
-// it MUST go in the title page's `background`, not its flow: `place` in the
-// flow anchors to the text block, and the book margins would then throw the
-// crest 30mm right of the spine and 28mm down.
+// The core's own masthead, placed on the title page by hand because
+// `slop-thesis` hides the automatic one. Never re-derive the geometry here:
+// a hand-rolled copy drifts from the core's and the crest leaves the spine.
+// Like the core's, this MUST go in the title page's `background`, not its
+// flow --- `place` in the flow anchors to the text block, and the book
+// margins would then throw the crest 30mm right of the spine and 28mm down.
 #let _thesis-masthead() = {
-  let entry = slop-brand.lockups.slop
-  let dark = _slop-dark
-  pdf.artifact(place(top + left, dx: entry.mast-dx, dy: 2cm, rect(
-    fill: if dark { slop-colors.black } else { slop-colors.white },
-    width: entry.mast-width,
-    height: 2.5cm,
-    inset: 0pt,
-    place(
-      entry.mast-align + horizon,
-      slop-lockup(variant: if dark { "white" } else { "black" }),
-    ),
-  )))
+  let (bg-color, ..) = _uni._theme-colors(slop-brand, _slop-dark)
+  _uni._place-masthead(slop-brand, bg-color, _slop-dark, 2cm, lockup: "slop")
 }
 
 // The gold eyebrow over a chapter or appendix title ("Chapter 3"). Public
@@ -309,11 +299,11 @@
 // function wherever the number is printed (a cross-reference, a list of
 // figures), not where the figure is, so every caller resolves the two
 // counters itself and passes them in.
+#let _thesis-chapter-patterns = (main: "1.1", appendix: "A.1")
 #let _thesis-fig-number(matter, chapters, n) = {
-  if chapters.len() > 0 and matter == "main" {
-    numbering("1.1", chapters.first(), n)
-  } else if chapters.len() > 0 and matter == "appendix" {
-    numbering("A.1", chapters.first(), n)
+  let pattern = _thesis-chapter-patterns.at(matter, default: none)
+  if pattern != none and chapters.len() > 0 {
+    numbering(pattern, chapters.first(), n)
   } else {
     numbering("1", n)
   }
@@ -332,7 +322,7 @@
 // "Figure" / "Table", however the element spells it.
 #let _thesis-fig-supplement(el) = {
   let s = el.supplement
-  if s == auto or s == none {
+  if s in (auto, none) {
     if el.kind == table { [Table] } else { [Figure] }
   } else { s }
 }
@@ -386,23 +376,38 @@
   body
 }
 
+// What the two numbered matters share: headings numbered to depth 3, a
+// cross-reference supplement per depth, and a level-1 heading that opens a
+// chapter with its gold eyebrow and restarts the per-chapter figure and table
+// counters. `name` is the word for a level-1 unit ("Chapter" / "Appendix"),
+// `pattern` the heading numbering ("1.1" / "A.1") and `chapter-pattern` the
+// eyebrow's own number ("1" / "A").
+#let _thesis-numbered-matter(name, pattern, chapter-pattern, body) = {
+  set heading(
+    numbering: (..n) => if n.pos().len() <= 3 {
+      numbering(pattern, ..n.pos())
+    },
+    // `@ch-intro` reads "Chapter 1", `@sec-site` "Section 2.3".
+    supplement: h => if h.depth == 1 { name } else { [Section] },
+  )
+  show heading.where(level: 1): it => {
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    _thesis-h1(
+      it,
+      eyebrow: _thesis-eyebrow[#name #_thesis-h1-number(chapter-pattern)],
+    )
+  }
+  body
+}
+
 // Main matter: page counter restarts at 1 in arabic; headings numbered
 // "1.1" to depth 3; a level-1 heading opens a chapter.
 #let slop-thesis-mainmatter(body) = {
   set page(numbering: "1")
   counter(page).update(1)
   _thesis-matter.update("main")
-  set heading(numbering: (..n) => if n.pos().len() <= 3 {
-    numbering("1.1", ..n.pos())
-  })
-  // `@ch-intro` reads "Chapter 1", `@sec-site` "Section 2.3".
-  set heading(supplement: h => if h.depth == 1 { [Chapter] } else { [Section] })
-  show heading.where(level: 1): it => {
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    _thesis-h1(it, eyebrow: _thesis-eyebrow[Chapter #_thesis-h1-number("1")])
-  }
-  body
+  _thesis-numbered-matter([Chapter], "1.1", "1", body)
 }
 
 // Appendices: numbering restarts as A, B, C (headings "A.1"); page numbering
@@ -410,18 +415,7 @@
 #let slop-thesis-appendices(body) = {
   _thesis-matter.update("appendix")
   counter(heading).update(0)
-  set heading(numbering: (..n) => if n.pos().len() <= 3 {
-    numbering("A.1", ..n.pos())
-  })
-  set heading(supplement: h => if h.depth == 1 { [Appendix] } else {
-    [Section]
-  })
-  show heading.where(level: 1): it => {
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    _thesis-h1(it, eyebrow: _thesis-eyebrow[Appendix #_thesis-h1-number("A")])
-  }
-  body
+  _thesis-numbered-matter([Appendix], "A.1", "A", body)
 }
 
 // Back matter: unnumbered level-1 headings on a new page. In practice the
@@ -432,6 +426,97 @@
   show heading.where(level: 1): it => _thesis-h1(it)
   body
 }
+
+// A contents entry in thesis register: chapter entries carry their unit word
+// and number, sub-entries indent, dot leaders to the page number. Replaces
+// the core's booklet rule (rule-under-every-entry, number dropped).
+#let _thesis-outline-entry(it) = {
+  show link: set text(fill: slop-ink-auto)
+  let el = it.element
+  let top-level = it.level == 1
+  let unit = if el.func() == heading and top-level {
+    let matter = _thesis-matter.at(el.location())
+    if matter == "main" { [Chapter ] } else if matter == "appendix" {
+      [Appendix ]
+    }
+  }
+  let prefix = if el.func() == figure {
+    [#_thesis-fig-supplement(el)~#_thesis-fig-number-at(el)]
+  } else { it.prefix() }
+  block(
+    width: 100%,
+    above: if top-level { 1.3em } else { 0.7em },
+    below: 0em,
+    link(el.location(), {
+      set text(weight: if top-level { "medium" } else { "light" })
+      if it.level > 1 { h((it.level - 1) * 1.2em) }
+      if prefix != none {
+        if unit != none { unit }
+        prefix
+        h(0.6em)
+      }
+      it.body()
+      box(width: 1fr, inset: (x: 0.4em), {
+        set text(fill: slop-muted-auto)
+        if it.fill != none { it.fill }
+      })
+      it.page()
+    }),
+  )
+}
+
+// The title page. The masthead and the brand rule go in the page background,
+// not its flow --- passing `background` overrides the core's for this page,
+// so the rule is redrawn alongside the masthead that masks it.
+#let _thesis-title-page(
+  title: "",
+  subtitle: none,
+  candidate: "",
+  degree: "",
+  school: "",
+  supervisors: (),
+  submitted: "",
+) = page(
+  footer: none,
+  background: {
+    _uni._brand-rule(slop-brand)
+    _thesis-masthead()
+  },
+  {
+    // The thesis body is justified and hyphenated; display type on the title
+    // page is neither.
+    set par(justify: false, leading: 0.42em)
+    set text(hyphenate: false)
+    v(5.2cm)
+    text(size: 30pt, weight: "regular", title)
+    if subtitle != none {
+      v(0.45em)
+      text(
+        size: 17pt,
+        weight: "regular",
+        style: "italic",
+        fill: slop-gold,
+        subtitle,
+      )
+    }
+    v(2.6cm)
+    text(size: 15pt, candidate)
+    v(1.4cm)
+    set text(size: 10.5pt, fill: slop-muted-auto)
+    set par(justify: false, leading: 0.9em)
+    [A thesis submitted for the degree of #degree]
+    linebreak()
+    [#school, Slop University]
+    if supervisors.len() > 0 {
+      linebreak()
+      if supervisors.len() == 1 [Supervisor:] else [Supervisors:]
+      [ ]
+      supervisors.map(s => [#s]).join([, ], last: [ and ])
+    }
+    v(1fr)
+    text(submitted)
+  },
+)
 
 // The thesis document wrapper: `#show: slop-thesis.with(...)`. Renders the
 // title page, then the body (which is the four matter wrappers in order).
@@ -445,12 +530,6 @@
   submitted: "",
   body,
 ) = {
-  let muted = slop-muted-auto
-  let sup-line = if supervisors.len() > 0 {
-    let names = supervisors.map(s => [#s]).join([, ], last: [ and ])
-    [#if supervisors.len() == 1 [Supervisor:] else [Supervisors:] #names]
-  }
-
   slop(
     title: title,
     subtitle: subtitle,
@@ -514,88 +593,19 @@
       })
       show figure.caption: it => align(
         left,
-        text(size: 0.88em, fill: muted, it),
+        text(size: 0.88em, fill: slop-muted-auto, it),
       )
 
-      // Contents in thesis register: chapter entries carry their label and
-      // number, sub-entries indent, dot leaders to the page number. Replaces
-      // the core's booklet rule (rule-under-every-entry, number dropped).
-      show outline.entry: it => {
-        show link: set text(fill: slop-ink-auto)
-        let el = it.element
-        let top-level = it.level == 1
-        let label = if el.func() == heading and top-level {
-          let matter = _thesis-matter.at(el.location())
-          if matter == "main" { [Chapter ] } else if matter == "appendix" {
-            [Appendix ]
-          }
-        }
-        let prefix = if el.func() == figure {
-          [#_thesis-fig-supplement(el)~#_thesis-fig-number-at(el)]
-        } else { it.prefix() }
-        block(
-          width: 100%,
-          above: if top-level { 1.3em } else { 0.7em },
-          below: 0em,
-          link(el.location(), {
-            set text(weight: if top-level { "medium" } else { "light" })
-            if it.level > 1 { h((it.level - 1) * 1.2em) }
-            if prefix != none {
-              if label != none { label }
-              prefix
-              h(0.6em)
-            }
-            it.body()
-            box(width: 1fr, inset: (x: 0.4em), {
-              set text(fill: muted)
-              if it.fill != none { it.fill }
-            })
-            it.page()
-          }),
-        )
-      }
+      show outline.entry: _thesis-outline-entry
 
-      // --- Title page ---
-      // Passing `background` overrides the core's for this page, so the brand
-      // rule is redrawn alongside the masthead that masks it.
-      page(
-        footer: none,
-        background: {
-          _uni._brand-rule(slop-brand)
-          _thesis-masthead()
-        },
-        {
-          // The thesis body is justified and hyphenated; display type on the
-          // title page is neither.
-          set par(justify: false, leading: 0.42em)
-          set text(hyphenate: false)
-          v(5.2cm)
-          text(size: 30pt, weight: "regular", title)
-          if subtitle != none {
-            v(0.45em)
-            text(
-              size: 17pt,
-              weight: "regular",
-              style: "italic",
-              fill: slop-gold,
-              subtitle,
-            )
-          }
-          v(2.6cm)
-          text(size: 15pt, candidate)
-          v(1.4cm)
-          set text(size: 10.5pt, fill: muted)
-          set par(justify: false, leading: 0.9em)
-          [A thesis submitted for the degree of #degree]
-          linebreak()
-          [#school, Slop University]
-          if sup-line != none {
-            linebreak()
-            sup-line
-          }
-          v(1fr)
-          text(submitted)
-        },
+      _thesis-title-page(
+        title: title,
+        subtitle: subtitle,
+        candidate: candidate,
+        degree: degree,
+        school: school,
+        supervisors: supervisors,
+        submitted: submitted,
       )
 
       body
