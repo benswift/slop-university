@@ -117,6 +117,21 @@ candidate_age_minutes() {
   echo $(( ( $(date +%s) - epoch ) / 60 ))
 }
 
+# How long a finished candidate has waited for the lander, from its marker's
+# mtime. Distinct from candidate_age_minutes, which asks when a run STARTED ---
+# the right clock for the abandonment checks, the wrong one here: a marker is
+# written at the END of a run, so ageing it by its run id reports any run longer
+# than STALE_MINUTES as already-late the moment it lands (a thesis takes about
+# an hour, so its marker would be born "62m old").
+marker_age_minutes() {
+  local marker="$1" epoch
+  if ! epoch="$(stat -c %Y "$marker" 2>/dev/null)"; then
+    echo 0
+    return
+  fi
+  echo $(( ( $(date +%s) - epoch ) / 60 ))
+}
+
 # A generator holds data/publish-gen-<slot>.lock for its whole run, so a held
 # lock is the one honest in-flight test; the age check below is only for a
 # generator that died. Without this a slow slot (the thesis runs for hours)
@@ -188,7 +203,7 @@ sweep_candidates() {
   # publishing while every unit stays green.
   for marker in "${CANDIDATE_DIR}"/*.json; do
     run_id="$(basename "$marker" .json)"
-    age_min="$(candidate_age_minutes "$run_id")"
+    age_min="$(marker_age_minutes "$marker")"
     if [ "$age_min" -ge "$STALE_MINUTES" ]; then
       STALE_REPORT="${STALE_REPORT}${run_id} (${age_min}m) "
     fi
