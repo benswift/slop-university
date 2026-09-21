@@ -277,8 +277,8 @@ the approval covers.
   literature-review chapter discussing prior outputs is the point, a results
   chapter whose object of study is the corpus is the drift.
 - `ops/check-output-quality.py <pdf> --preset thesis` --- the page floor.
-- `ops/check-table-fit.py --preset thesis <chapter-dir>/*.typ` --- table
-  columns that cannot fit the text block. Run it before the final compile.
+- `ops/check-table-fit.py --preset thesis <chapter-dir>/*.typ` --- table columns
+  that cannot fit the text block. Run it before the final compile.
 - Look at a render once, after the page count is right, rasterised at
   `--ppi 72`: the title page, one chapter opener, one page carrying a figure,
   and the first page of the references.
@@ -366,8 +366,8 @@ ledger.
 - **Tables** are typst-native and expected --- participant characteristics, an
   instrument's items, a coding frame, a results matrix. A thesis carries more
   tables than a paper does, and the text block holds five columns, one of them
-  prose: size and budget them per `../../_shared/typst-layout.md` › "Tables".
-  A site-by-site or study-by-study summary is the table that overruns; give it
+  prose: size and budget them per `../../_shared/typst-layout.md` › "Tables". A
+  site-by-site or study-by-study summary is the table that overruns; give it
   short headers and abbreviated cells, or split it in two.
 - **Generated imagery** is optional and sparing: at most two or three, house
   style per `visual-style.md`, references from `references/slop-style/` only,
