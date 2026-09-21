@@ -90,9 +90,11 @@ institutional:
   read-the-work line** naming 2-3 real published outputs by DOI (see "Read the
   work line") --- the ad is the institution pointing at its own record, which is
   the same recursive conceit the brochure runs on.
-- **The site** --- the CTA points to `slop.university` (rendered text and/or the
-  QR). No other URLs, no phone numbers, no street addresses, no dates more
-  specific than a month or teaching period.
+- **The site** --- the CTA points to a University address (rendered text and/or
+  the QR): `slop.university`, or `courses.slop.university` where the ad is
+  selling study rather than the institution. No third-party URLs, no phone
+  numbers, no street addresses, no dates more specific than a month or teaching
+  period.
 
 **Rankings are the trap in this genre.** A real-world ranking claim ("top 50
 worldwide", any named ranking body) is a verifiable factual claim --- forbidden.
@@ -114,9 +116,9 @@ Everything is `place`d over the full-bleed hero; there is no flowed body.
 | Campaign line      | lower third, left-anchored      | steering-derived, ≤ 8 words, white display type (~64pt landscape / ~54pt portrait), ≤ 2 lines             |
 | Supporting line    | under the campaign line         | one sentence, ≤ 18 words, white/near-white (~17pt); carries the rolled angle's substance                  |
 | Angle furniture    | with the supporting line        | the rolled angle's one extra element (researcher name-line, program name, output title + DOI small print) |
-| CTA line           | under the supporting block      | short imperative + `slop.university` (~13pt); gold rule above it                                          |
+| CTA line           | under the supporting block      | short imperative + the University address (~13pt); gold rule above it                                     |
 | Read-the-work line | under the CTA                   | 2-3 real ledger DOIs, ~10pt muted --- standing furniture on every angle (see "Read the work line")        |
-| QR                 | bottom-right                    | `slop-qr-code("https://slop.university/", ...)` --- white-on-transparent reads over the baked-dark region |
+| QR                 | bottom-right                    | `slop-qr-code(<the CTA's address>, ...)` --- white-on-transparent reads over the baked-dark region        |
 | Social line        | bottom-left, with the CTA block | `slop-social-line(fill: white)` --- butterfly + `@slop.university` + `#slopU`; fixed furniture            |
 
 Total on-page text: 25-60 words (the read-the-work DOIs don't count). If a draft
@@ -189,8 +191,8 @@ block --- the read-the-work line sits below it and names the others.
 
 One per run (grow over time): "Come and count with us", "Apply now", "See the
 work", "Visit us --- slop.university", "Register your interest", "Meet the
-researchers". Render with `slop.university` unless the QR + social line already
-crowd the corner.
+researchers", "Build your program". Render with the CTA's address unless the QR
++ social line already crowd the corner.
 
 ### Hero scene
 
@@ -326,6 +328,7 @@ One parametric skeleton; the roll sets the geometry constants:
     slop-overlay-masthead(page-h, variant: "white", dy: 1.2cm, height: 1.7cm)
     // QR bottom-right
     place(bottom + right, dx: -1.8cm, dy: -1.8cm, slop-qr-code(
+      // the CTA's address --- https://courses.slop.university/ for a study ad
       "https://slop.university/",
       width: 2.6cm,
       config: (theme: slop-doc-theme),
@@ -384,7 +387,7 @@ Generic format-aware items live in `../SKILL.md`. Marketing-poster items:
       page; dark sibling compiled from the same source
 - [ ] Full-bleed house-style hero with baked scrims (no typst gradient scrims);
       white overlaid lockup on the bisected gold spine (auto masthead hidden);
-      QR to slop.university
+      QR to the same University address the CTA names
 - [ ] Campaign line is steering-derived, ≤ 8 words, ≤ 2 lines; total on-page
       text 25-60 words; no section headings, charts, or references
 - [ ] `#slop-social-line(fill: white)` present (butterfly + `@slop.university` +
