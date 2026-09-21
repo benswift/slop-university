@@ -9,8 +9,10 @@ export const siteConfig = defineSiteConfig({
   ...slopBranding,
   name: "Slop University",
 
+  // The logo already renders as the home link, so "News" duplicated it; the
+  // homepage is the news listing.
   links: [
-    { text: "News", href: "/" },
+    { text: "Courses", href: "https://courses.slop.university/" },
     { text: "People", href: "/people/" },
     { text: "Schools", href: "/schools/" },
     { text: "Outputs", href: "/outputs/" },
