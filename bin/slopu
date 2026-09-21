@@ -68,19 +68,20 @@ shift
 agent_args=(
   --profile "$profile"
   --cwd "$REPO_ROOT"
-  --claude-dangerously-skip-permissions
-  --codex-sandbox danger-full-access
+  # The runner-agnostic form. agent-run REJECTS a runner-specific flag on any
+  # other runner (exit 2, nothing attempted) rather than ignoring it.
+  --bypass-permissions
 )
 
 case "$command" in
   from-preset)
     (( $# > 0 )) || { print -u2 "slopu: from-preset needs a preset"; exit 2; }
-    agent_args+=(--claude-effort max)
+    if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/from-preset/SKILL.md and execute its workflow end-to-end. Argument: $* (first whitespace-separated word is the preset name; the rest is the steering prompt)."
     ;;
   from-source)
     (( $# > 0 )) || { print -u2 "slopu: from-source needs a source"; exit 2; }
-    agent_args+=(--claude-effort max)
+    if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/from-source/SKILL.md and execute its workflow end-to-end. Source: $*"
     ;;
   publish)
