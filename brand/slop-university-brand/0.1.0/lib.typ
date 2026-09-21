@@ -252,17 +252,6 @@
 // and figure numbers can follow the chapter they sit in.
 #let _thesis-matter = state("slop-thesis-matter", "front")
 
-// The core's own masthead, placed on the title page by hand because
-// `slop-thesis` hides the automatic one. Never re-derive the geometry here:
-// a hand-rolled copy drifts from the core's and the crest leaves the spine.
-// Like the core's, this MUST go in the title page's `background`, not its
-// flow --- `place` in the flow anchors to the text block, and the book
-// margins would then throw the crest 30mm right of the spine and 28mm down.
-#let _thesis-masthead() = {
-  let (bg-color, ..) = _uni._theme-colors(slop-brand, _slop-dark)
-  _uni._place-masthead(slop-brand, bg-color, _slop-dark, 2cm, lockup: "slop")
-}
-
 // The gold eyebrow over a chapter or appendix title ("Chapter 3"). Public
 // Sans ships no small-cap feature, so the small-caps register is upper case
 // at small size with tracking.
@@ -465,9 +454,10 @@
   )
 }
 
-// The title page. The masthead and the brand rule go in the page background,
-// not its flow --- passing `background` overrides the core's for this page,
-// so the rule is redrawn alongside the masthead that masks it.
+// The title page. The masthead comes from the core, which draws it on the
+// physical first page --- this is it. Never `place` one in the flow here:
+// `place` anchors to the text block, and the book margins would throw the
+// crest 30mm right of the spine and 28mm down.
 #let _thesis-title-page(
   title: "",
   subtitle: none,
@@ -478,10 +468,6 @@
   submitted: "",
 ) = page(
   footer: none,
-  background: {
-    _uni._brand-rule(slop-brand)
-    _thesis-masthead()
-  },
   {
     // The thesis body is justified and hyphenated; display type on the title
     // page is neither.
@@ -537,7 +523,7 @@
     // Book margins: the binding edge is wider, and the brand rule (1.9cm
     // from the paper's left edge) stays clear of the text block on both.
     margin: (inside: 30mm, outside: 25mm, top: 28mm, bottom: 28mm),
-    config: (theme: slop-doc-theme, hide: ("title-block", "masthead")),
+    config: (theme: slop-doc-theme, hide: ("title-block",)),
     {
       // No running header; the footer's centred page number is the only
       // running furniture (it comes from the house base).
