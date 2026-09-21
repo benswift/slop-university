@@ -254,7 +254,10 @@
 
 // The masthead, drawn by hand on the title page: same geometry as the core's
 // automatic one (a bg-coloured rect masking the brand rule, the lockup's
-// crest axis on the spine), minus the page-counter trigger.
+// crest axis on the spine), minus the page-counter trigger. Like the core's,
+// it MUST go in the title page's `background`, not its flow: `place` in the
+// flow anchors to the text block, and the book margins would then throw the
+// crest 30mm right of the spine and 28mm down.
 #let _thesis-masthead() = {
   let entry = slop-brand.lockups.slop
   let dark = _slop-dark
@@ -553,39 +556,47 @@
       }
 
       // --- Title page ---
-      page(footer: none, {
-        _thesis-masthead()
-        // The thesis body is justified and hyphenated; display type on the
-        // title page is neither.
-        set par(justify: false, leading: 0.42em)
-        set text(hyphenate: false)
-        v(5.2cm)
-        text(size: 30pt, weight: "regular", title)
-        if subtitle != none {
-          v(0.45em)
-          text(
-            size: 17pt,
-            weight: "regular",
-            style: "italic",
-            fill: slop-gold,
-            subtitle,
-          )
-        }
-        v(2.6cm)
-        text(size: 15pt, candidate)
-        v(1.4cm)
-        set text(size: 10.5pt, fill: muted)
-        set par(justify: false, leading: 0.9em)
-        [A thesis submitted for the degree of #degree]
-        linebreak()
-        [#school, Slop University]
-        if sup-line != none {
+      // Passing `background` overrides the core's for this page, so the brand
+      // rule is redrawn alongside the masthead that masks it.
+      page(
+        footer: none,
+        background: {
+          _uni._brand-rule(slop-brand)
+          _thesis-masthead()
+        },
+        {
+          // The thesis body is justified and hyphenated; display type on the
+          // title page is neither.
+          set par(justify: false, leading: 0.42em)
+          set text(hyphenate: false)
+          v(5.2cm)
+          text(size: 30pt, weight: "regular", title)
+          if subtitle != none {
+            v(0.45em)
+            text(
+              size: 17pt,
+              weight: "regular",
+              style: "italic",
+              fill: slop-gold,
+              subtitle,
+            )
+          }
+          v(2.6cm)
+          text(size: 15pt, candidate)
+          v(1.4cm)
+          set text(size: 10.5pt, fill: muted)
+          set par(justify: false, leading: 0.9em)
+          [A thesis submitted for the degree of #degree]
           linebreak()
-          sup-line
-        }
-        v(1fr)
-        text(submitted)
-      })
+          [#school, Slop University]
+          if sup-line != none {
+            linebreak()
+            sup-line
+          }
+          v(1fr)
+          text(submitted)
+        },
+      )
 
       body
     },
