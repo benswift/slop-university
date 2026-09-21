@@ -6,8 +6,8 @@ description:
   verified bibliography (60-100 entries) and a long engagement with the Slop
   University canon (30-60 prior outputs by DOI). Thesis format (title page,
   front matter, chapters as separate included files, appendices, references; no
-  parity requirement, no dark variant). On-demand only; a run takes 3-4 hours
-  and delegates chapters to subagents.
+  parity requirement, no dark variant). On-demand only; a run takes about an
+  hour and delegates chapters to subagents.
 ---
 
 # Thesis preset
@@ -149,7 +149,7 @@ Everything not on this list is the run's call.
    chapters to look busy.
 9. **100-180 pages, 35,000-60,000 words, Australian English.**
 
-## Working method (a 3-4 hour run)
+## Working method (an hour-long run)
 
 This section replaces workflow steps 3-7 in `../SKILL.md`. The orchestrator
 never drafts chapters itself; it decides everything a chapter needs to be
