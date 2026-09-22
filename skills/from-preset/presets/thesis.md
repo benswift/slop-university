@@ -174,7 +174,10 @@ two chapters must agree on lives here and nowhere else:
   and n = 217 in chapter 6 fails examination; this list is the only defence.
   Check the numbers are possible, not only that they sum: wherever a count is
   bounded by a rule (workers × allocation ≥ crates, per site), write the
-  identity beside it and check it
+  identity beside it and check it. A dispersion statistic is bounded the same
+  way --- a standard deviation the plan fixes must be attainable given the
+  extremes and the n the plan also fixes, and a chapter that computes from it
+  is where an impossible one surfaces, three chapters too late
 - the **procedures**, as ordered lists: coding precedence, decision rules, and
   the variant used when a condition changes (an absent informant, a different
   sample). The appendix reproduces them verbatim and chapters point to them

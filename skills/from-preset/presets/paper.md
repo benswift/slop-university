@@ -123,6 +123,12 @@ Per-run `references.bib` harvested from genuine literature:
    are the one place real names appear --- as authors of their own real work,
    correctly attributed. Never fabricate an entry, never pad with an unverified
    one; 15 verified beats 25 mixed.
+
+   **Nobiliary particles**: hayagriva reads an unbraced `von`, `van`, `de` or
+   `di` as a middle name and drops it, printing Heinz von Foerster as
+   "Foerster". Brace the whole surname --- `author = {{von Foerster}, Heinz}`,
+   `author = {{van Niekerk}, Johan}` --- and check the rendered reference list,
+   because this misnames a real person and the bib file looks right.
 4. Write `output/slop-paper-<slug>-<seed>.bib` and load it with
    `#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References", style: "ieee")`.
    (The whole `output/` tree is gitignored, the per-run bib included.)
