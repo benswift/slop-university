@@ -7,14 +7,16 @@ readonly AGENT_RUN="${AGENT_RUN_BIN:-agent-run}"
 profile="${AGENT_PROFILE:-claude-sub}"
 model="${AGENT_MODEL:-}"
 deadline=""
+land=0
 
 usage() {
   cat <<'EOF'
-Usage: slopu [--profile NAME] [--model MODEL] [--deadline TIME] <command> [arguments]
+Usage: slopu [--profile NAME] [--model MODEL] [--deadline TIME] [--land] <command> [arguments]
 
 Commands:
   from-preset <preset> [steering]  Generate a document from a named preset
   from-source <source>             Typeset a source faithfully
+  land <run-id> [--dry-run]        Publish a generated document to the site
   publish                          Run the autonomous publication workflow
   thesis [steering]                Write a doctoral thesis (hours; opus by default)
 
@@ -24,6 +26,11 @@ claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
 "01:40 tomorrow"; the run paces itself against it. A thesis takes an optional
 steering prompt naming its topic; the setting, school and supervisors are drawn
 either way.
+
+Hand-steered publishing is two steps. `from-preset --land` writes the site
+entry, any news post and the staged assets alongside the PDF; look at the PDF,
+then `slopu land <run-id>` gates, uploads and pushes it. `slopu land --list`
+shows what is staged, and --dry-run rehearses without sending anything.
 EOF
 }
 
@@ -38,6 +45,10 @@ while (( $# > 0 )); do
       (( $# >= 2 )) || { print -u2 "slopu: --model needs a value"; exit 2; }
       model="$2"
       shift 2
+      ;;
+    --land)
+      land=1
+      shift
       ;;
     --deadline)
       (( $# >= 2 )) || { print -u2 "slopu: --deadline needs a value"; exit 2; }
@@ -67,6 +78,11 @@ done
 command="$1"
 shift
 
+if (( land )) && [[ "$command" != from-preset ]]; then
+  print -u2 "slopu: --land applies to from-preset only"
+  exit 2
+fi
+
 agent_args=(
   --profile "$profile"
   --cwd "$REPO_ROOT"
@@ -79,12 +95,20 @@ case "$command" in
   from-preset)
     (( $# > 0 )) || { print -u2 "slopu: from-preset needs a preset"; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
+    # Step 9 of the skill --- write the site entry, any news post and the
+    # staged assets --- runs only for a run that is meant to be published.
+    if (( land )); then export SLOPU_LAND=1; fi
     prompt="Read skills/from-preset/SKILL.md and execute its workflow end-to-end. Argument: $* (first whitespace-separated word is the preset name; the rest is the steering prompt)."
     ;;
   from-source)
     (( $# > 0 )) || { print -u2 "slopu: from-source needs a source"; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/from-source/SKILL.md and execute its workflow end-to-end. Source: $*"
+    ;;
+  land)
+    # Mechanical: no model, no agent-run. ops/land.sh takes the publish lock,
+    # gates the staged artefact, uploads and pushes.
+    exec "$REPO_ROOT/ops/land.sh" "$@"
     ;;
   publish)
     (( $# == 0 )) || { print -u2 "slopu: publish takes no arguments"; exit 2; }

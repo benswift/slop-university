@@ -178,7 +178,28 @@ each step.
      page, follow the preset's one-page fit procedure (trim, then drop a chart
      to the smaller end of its range); recompile. Never add a page break.
 
-8. **Stop.** Generated outputs are gitignored. Don't commit; don't tag the run.
+8. **Stop**, unless the run is landing (step 9). Generated outputs are
+   gitignored. Don't commit; don't tag the run.
+
+9. **Prepare the landing** --- only when `SLOPU_LAND=1`
+   (`slopu from-preset --land`). Follow the outputs-entry and asset-staging
+   recipe in `../publish/SKILL.md` §2A: mint the DOI from the seed, write
+   `website/src/content/outputs/<run-id>.yml`, and stage the PDFs, thumbnail and
+   hero. Three things differ for a hand run:
+   - Stage into `data/pending-uploads/<run-id>/`, creating it. A generator slot
+     is handed `SLOPU_PENDING_DIR`; a hand run is not, and the bare
+     `data/pending-uploads/` that `ops/encode-images.py` falls back to is not
+     where `ops/land.sh` looks.
+   - **Leave the entry and any news post uncommitted.** `ops/land.sh` commits
+     them itself, after its gates pass, so the human can read them first.
+   - Write a news post only if the document warrants one, per
+     `../publish/comms.md` (including its read-the-recent-eight check). An
+     institutional notice records its own `hero:` dims and needs its hero staged
+     under `img/heroes/news/`; a post announcing this output carries `output:`
+     and inherits the output's hero. The content test enforces that one or the
+     other is true.
+
+   Then stop --- don't commit, upload or push. `slopu land <run-id>` does that.
 
 ## Generic pre-ship checklist
 

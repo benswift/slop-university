@@ -91,6 +91,16 @@ while publish retains its `sonnet` model default on that route; an alternative
 profile keeps its own model unless `--model` overrides it. This makes another
 route possible without changing the workflow prompts.
 
+Hand-steered publishing is two steps, mirroring the pipeline's own split
+between the agent that writes and the wrapper that ships.
+`bin/slopu from-preset --land` sets `SLOPU_LAND=1`, so the run also writes the
+outputs entry, any news post and the staged assets under
+`data/pending-uploads/<run-id>/` and leaves them uncommitted (step 9 of
+`skills/from-preset/SKILL.md`). `bin/slopu land <run-id>` then runs
+`ops/land.sh`: it takes `data/publish.lock` so it cannot race the autonomous
+lander, harvests citations, commits, gates on pairing/quality/verify, uploads
+and pushes. `--list` shows what is staged; `--dry-run` rehearses.
+
 Both paths cross-ref shared visual doctrine in `skills/_shared/` (parallel image
 workflow, the two-ink house visual style, typst layout discipline, output
 naming). The preset path additionally loads `skills/from-preset/genre.md` for
