@@ -53,9 +53,7 @@ class SlopuTest(unittest.TestCase):
                 "claude-sub",
                 "--cwd",
                 str(ROOT),
-                "--claude-dangerously-skip-permissions",
-                "--codex-sandbox",
-                "danger-full-access",
+                "--bypass-permissions",
                 "--claude-effort",
                 "max",
                 (
