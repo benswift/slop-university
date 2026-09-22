@@ -140,7 +140,18 @@ fi
 
 # Slot 1 gardens; the thesis slot writes a thesis; the rest are pinned to 2A.
 # See the header.
-compose_agent_prompt ""
+#
+# A thesis run may be steered: `bin/slopu thesis "<topic>"` sets SLOPU_STEER and
+# the topic arrives named on the invocation line, exactly as the preset and the
+# axes do. It replaces the topic the run would compose, never the drawn fiction
+# --- a steered thesis still sits in the setting and school the wrapper drew, so
+# the corpus does not acquire a run whose every choice a human made.
+STEER=""
+if [ "$SLOT" = "thesis" ] && [ -n "${SLOPU_STEER:-}" ]; then
+  STEER="This run's topic was steered by the human who started it: ${SLOPU_STEER}
+Take that as the topic instead of composing one (§2T step 2); dedup and claim it as usual. The drawn fiction above still stands: site the work in the drawn setting, and compose the title, the studies and the findings to satisfy both."
+fi
+compose_agent_prompt "$STEER"
 
 # shellcheck disable=SC2034  # consumed by run_agent/publish_on_exit in publish-lib.sh
 AGENT_OUT="$(mktemp)"

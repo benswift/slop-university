@@ -51,9 +51,10 @@ pairing check, the agent-failure classifiers):
   because the gardening rungs are gated on shared state and two slots reading it
   pick the same gap. The live path: `slop-publish-gen@1.timer` and
   `slop-publish-land.timer`; slot 2 is disabled, and slot 1 ticks hourly (the
-  timer period is the throughput lever). `bin/slopu thesis` runs the one rung
-  with no timer (2T, a doctoral thesis) as a generator slot named `thesis`;
-  nothing assesses or schedules it.
+  timer period is the throughput lever). `bin/slopu thesis [steering]` runs the
+  one rung with no timer (2T, a doctoral thesis) as a generator slot named
+  `thesis`; nothing assesses or schedules it, and the optional steering prompt
+  fixes the topic while the fiction is still drawn.
 
 `ops/publish-check.py` is the dead-man check on all of that, run hourly by
 `slop-publish-watchdog.timer`: are both live timers armed (a stop is given an

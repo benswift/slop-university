@@ -16,12 +16,14 @@ Commands:
   from-preset <preset> [steering]  Generate a document from a named preset
   from-source <source>             Typeset a source faithfully
   publish                          Run the autonomous publication workflow
-  thesis                           Write a doctoral thesis (hours; opus by default)
+  thesis [steering]                Write a doctoral thesis (hours; opus by default)
 
 Profiles come from ~/.config/agent-run/profiles.toml. The default is
 claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
 --deadline (thesis only) is a local time the run must have committed by, e.g.
-"01:40 tomorrow"; the run paces itself against it.
+"01:40 tomorrow"; the run paces itself against it. A thesis takes an optional
+steering prompt naming its topic; the setting, school and supervisors are drawn
+either way.
 EOF
 }
 
@@ -94,7 +96,11 @@ case "$command" in
     prompt="Read skills/publish/SKILL.md and execute its workflow end-to-end, non-interactively. No arguments."
     ;;
   thesis)
-    (( $# == 0 )) || { print -u2 "slopu: thesis takes no arguments"; exit 2; }
+    # An optional steering prompt: the thesis's topic, in the register the
+    # other academic presets take. Without it the run composes its own topic to
+    # fit the drawn fiction; with it, the topic is fixed and the fiction is
+    # still drawn. ops/publish-generate.sh says what the wrapper does with it.
+    if (( $# > 0 )); then export SLOPU_STEER="$*"; fi
     # The one publish rung with no timer. It is a generator slot, so the
     # candidate it leaves is landed by the lander (ops/publish-land.sh, on its
     # timer when the split is live; run it by hand otherwise). A stronger

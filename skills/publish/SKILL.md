@@ -778,9 +778,9 @@ after drafting leaves its work in the slot's worktree under `output/`; it can be
 finished by hand (assemble, the blueprint's read-every-chapter pass, compile,
 the publish steps below) as a candidate on a fresh
 `press-gen-<run-id>-slotthesis` branch. The invocation line names the action
-`2T`, the preset `thesis`, and the fiction the wrapper drew: the setting, the
-school, and a primary and an associate supervisor from that school. Everything
-else is yours --- this is the run with creative licence, bounded only by the
+`2T`, the preset `thesis`, the fiction the wrapper drew --- the setting, the
+school, and a primary and an associate supervisor from that school --- and, when
+the human steered the run, the topic. Everything else is yours --- this is the run with creative licence, bounded only by the
 blueprint's floors (`skills/from-preset/presets/thesis.md`): a thesis that would
 pass examination, that is also a Slop University output in the true sense.
 
@@ -793,7 +793,9 @@ In order:
    what they did before --- and everything it says must agree with the thesis.
    Admit them before composing, so the title page names a roster member.
 2. **Compose the topic** to fit the drawn setting; dedup and claim it exactly as
-   2A does (§2A, dedup and claim).
+   2A does (§2A, dedup and claim). A steered run is handed its topic on the
+   invocation line instead --- take it as given, dedup and claim it the same
+   way, and compose only what the drawn fiction still decides.
 3. **Generate** with `skills/from-preset/SKILL.md` and the `thesis` blueprint.
    Its working method --- plan file first, references first, chapters to
    subagents, front matter last --- is the run's shape, and its floors are the
