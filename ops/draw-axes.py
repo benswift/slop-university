@@ -94,6 +94,9 @@ PRESETS_DIR = DOCTRINE_DIR / "skills/from-preset/presets"
 ROSTER_PATH = Path("canon/roster.yml")
 OUTPUTS_DIR = Path("website/src/content/outputs")
 
+# The one roster title that cannot supervise; see thesis_slot().
+DOCTORAL_TITLE = "Doctoral Candidate"
+
 # Order matters: it is the order the values reach the agent, and it is the order
 # a run should apply them (shape and setting bound the object; the frame and the
 # title form dress it).
@@ -278,12 +281,22 @@ def thesis_slot() -> dict:
     author stage draws the primary supervisor instead, with the inverse
     weighting a lead author gets, and an associate uniformly from the rest of
     the school. A school with nobody else lends its associate from the whole
-    remaining roster, uniformly."""
+    remaining roster, uniformly.
+
+    Doctoral candidates are excluded from both supervisor pools, and so from
+    the school draw: a student cannot supervise a student. The filter has to be
+    here rather than left to the run's judgement because the inverse weighting
+    actively selects for candidates --- a candidate's only possible output is
+    their own thesis, so they sit at the top of the lead-authorship draw --- and
+    every thesis that lands admits another one. On 2026-09-22 the draw named the
+    author of the first thesis as a primary supervisor, and the run substituted
+    an eligible member without saying so."""
     roster = yaml.safe_load(ROSTER_PATH.read_text())["researchers"]
     schools, leads = attribution_counts()
 
+    supervisors = [p for p in roster if p["title"] != DOCTORAL_TITLE]
     by_school: dict[str, list[dict]] = {}
-    for person in roster:
+    for person in supervisors:
         by_school.setdefault(person["school"], []).append(person)
 
     school = draw(
@@ -300,7 +313,7 @@ def thesis_slot() -> dict:
     )["person"]
     others = [p for p in school["people"] if p["id"] != primary["id"]]
     if not others:
-        others = [p for p in roster if p["id"] != primary["id"]]
+        others = [p for p in supervisors if p["id"] != primary["id"]]
     associate = RNG.choice(others)
     return {"school": school["name"], "primary": primary, "associate": associate}
 
