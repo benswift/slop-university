@@ -18,7 +18,8 @@ The University's programs and courses are now published in a single register,
 which does something a prospective student may not expect of one: it lets them
 build the program themselves.
 
-Every course on offer is listed at courses.slop.university with its level, its
+Every course on offer is listed at
+[courses.slop.university](https://courses.slop.university/) with its level, its
 teaching session and an account of what it proposes to teach. A visitor marks
 the courses that interest them, and the register reports what the selection
 amounts to, whether it satisfies an undergraduate program, a masters, or neither
@@ -45,6 +46,7 @@ Fenna Okoro, Senior Lecturer and Convenor of the Horizon Register. "This one can
 be read in any order at all, which we think is nearer to the way people actually
 choose."
 
-A program assembled in the register carries its own link, so a selection can be
-sent to a friend, a family member or an adviser without either of them needing
-an account to see it.
+A program assembled in
+[the register's program builder](https://courses.slop.university/program/)
+carries its own link, so a selection can be sent to a friend, a family member
+or an adviser without either of them needing an account to see it.
