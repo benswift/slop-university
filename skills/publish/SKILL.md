@@ -391,9 +391,9 @@ Any document carrying a table also runs the table gate, on the source:
 ops/check-table-fit.py --preset <preset> output/<run-id>.typ
 ```
 
-A starved column prints one cell over the next and nothing in the toolchain
-says so, so this check --- not a look at the page --- is what catches it. Fix
-what it names and recompile; the doctrine it enforces is
+A starved column prints one cell over the next and nothing in the toolchain says
+so, so this check --- not a look at the page --- is what catches it. Fix what it
+names and recompile; the doctrine it enforces is
 `skills/_shared/typst-layout.md` › "Tables".
 
 ### Cite the canon
@@ -511,12 +511,14 @@ verifiable numbers). Then:
   whole tick is rescued and thrown away. That went wrong for a run of ticks, so
   use `$STAGING` and never a relative path.
 
-  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sOutputFile="$STAGING/<run-id>.pdf" ./output/pdf/<group>/<run-id>.pdf`
+  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sColorConversionStrategy=RGB -sOutputFile="$STAGING/<run-id>.pdf" ./output/pdf/<group>/<run-id>.pdf`
 
   (~80% smaller on the image-heavy formats, visually identical at reading size;
-  the PDF metadata title survives the round-trip). The full-resolution original
-  stays in gitignored `output/pdf/<group>/`. Confirm the file landed before
-  moving on --- `ls "$STAGING"`.
+  the PDF metadata title survives the round-trip). Keep the explicit RGB
+  strategy: without it `/ebook` falls back to a legacy one that paints
+  translucent fills opaque on the Ghostscript mise.toml pins. The
+  full-resolution original stays in gitignored `output/pdf/<group>/`. Confirm
+  the file landed before moving on --- `ls "$STAGING"`.
 
   PDFs are **not committed** and do not live under `website/public/` --- they
   are served from the bucket at `pdf.slop.university` (why:
@@ -780,9 +782,10 @@ the publish steps below) as a candidate on a fresh
 `press-gen-<run-id>-slotthesis` branch. The invocation line names the action
 `2T`, the preset `thesis`, the fiction the wrapper drew --- the setting, the
 school, and a primary and an associate supervisor from that school --- and, when
-the human steered the run, the topic. Everything else is yours --- this is the run with creative licence, bounded only by the
-blueprint's floors (`skills/from-preset/presets/thesis.md`): a thesis that would
-pass examination, that is also a Slop University output in the true sense.
+the human steered the run, the topic. Everything else is yours --- this is the
+run with creative licence, bounded only by the blueprint's floors
+(`skills/from-preset/presets/thesis.md`): a thesis that would pass examination,
+that is also a Slop University output in the true sense.
 
 In order:
 

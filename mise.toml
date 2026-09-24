@@ -1,8 +1,10 @@
-# Press-pipeline toolchain. typst is pinned because compiled output is
-# version-sensitive; avifenc and ffmpeg are system packages (no mise-native
-# backend worth the weight). node/pnpm live in website/mise.toml.
+# Press-pipeline toolchain. typst and Ghostscript are pinned because compiled
+# and compressed output are version-sensitive; avifenc and ffmpeg are system
+# packages (no mise-native backend worth the weight). node/pnpm live in
+# website/mise.toml.
 [tools]
 typst = "0.15.0"
+"conda:ghostscript" = "10.08.0"
 
 [tasks.test]
 description = "Unit tests (launcher, publish dead-man check, axes drawer)"
