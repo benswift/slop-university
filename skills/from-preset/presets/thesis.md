@@ -174,10 +174,13 @@ two chapters must agree on lives here and nowhere else:
   and n = 217 in chapter 6 fails examination; this list is the only defence.
   Check the numbers are possible, not only that they sum: wherever a count is
   bounded by a rule (workers × allocation ≥ crates, per site), write the
-  identity beside it and check it. A dispersion statistic is bounded the same
-  way --- a standard deviation the plan fixes must be attainable given the
-  extremes and the n the plan also fixes, and a chapter that computes from it
-  is where an impossible one surfaces, three chapters too late
+  identity beside it and check it. Fieldwork staffing is one: every observer,
+  interviewer or coder post the procedures fill on a given day needs a named
+  person to fill it (people ≥ posts × concurrent sites). A dispersion statistic
+  is bounded the same way --- a standard deviation the plan fixes must be
+  attainable given the extremes and the n the plan also fixes, and a chapter
+  that computes from it is where an impossible one surfaces, three chapters too
+  late
 - the **procedures**, as ordered lists: coding precedence, decision rules, and
   the variant used when a condition changes (an absent informant, a different
   sample). The appendix reproduces them verbatim and chapters point to them
@@ -306,7 +309,9 @@ entries. Never fabricate one; never pad with an unverified one.
 3. **Copy fields accurately**: real authors, real title, real venue, real year,
    the verified DOI or the arXiv form `paper.md` documents (typst drops
    `eprint`/`archivePrefix`, so arXiv entries carry
-   `journal = {arXiv preprint arXiv:<id>}`).
+   `journal = {arXiv preprint arXiv:<id>}`). Brace a lowercase surname particle
+   into the surname (`author = {Kim, Jungsoo and {de Dear}, Richard}`);
+   unbraced, the citation style drops it and prints "Kim & Dear".
 4. **Citation honesty**: every prose claim about a cited work is true of that
    work. Engaging with sources at length multiplies the chances of
    misattribution --- if a chapter wants a work to have said something it did
@@ -342,9 +347,14 @@ unchanged from `paper.md` except in scale:
   At this density a bare name-drop list is obvious; the literature review should
   read the canon as a programme, with periods, turns and unresolved
   disagreements in it.
-- **Placement**: mostly the literature review, but a study's method may cite the
-  prior output whose instrument it adapts, and the discussion the one whose
-  finding it fails to reproduce. Spread them.
+- **Placement**: mostly the literature review, but a study's method may cite a
+  prior output its instrument resembles, and the discussion one whose finding it
+  fails to reproduce. Spread them.
+- **Chronology**: the ledger starts in mid-2026, so every prior output postdates
+  any plausible fieldwork window. A study may compare itself with the canon or
+  be corroborated by it, but never adapt, borrow from or be prompted by a prior
+  output --- the design predates it. The read-through checks every canon
+  citation in a method or design passage for this.
 
 **Harvest copy (load-bearing).** `ops/extract-citations.py` globs `output/*.typ`
 and `output/*.bib` non-recursively, so nothing inside
