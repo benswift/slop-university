@@ -17,6 +17,10 @@ at that instead.
   the Wayland session is up, and restarts it if Chromium dies.
 - `signage-kiosk-restart.{service,timer}` --- restarts the kiosk daily at 04:00
   to clear any browser memory creep on a long-running display.
+- `signage-kiosk-watchdog` + `signage-kiosk-watchdog.{service,timer}` ---
+  restarts the kiosk if Chromium is stuck on anything other than the signage
+  page (e.g. a GitHub Pages error served during a deploy). Install the script
+  alongside the launcher.
 - `labwc-rc.xml` --- a labwc window rule that forces the kiosk window fullscreen
   on a chosen HDMI output.
 
@@ -45,15 +49,16 @@ as the _kiosk user_).
 
 ```bash
 # 1. Launcher
-sudo install -m 0755 signage-kiosk-launch /usr/local/bin/signage-kiosk-launch
+sudo install -m 0755 signage-kiosk-launch signage-kiosk-watchdog /usr/local/bin/
 
 # 2. systemd user units
 mkdir -p ~/.config/systemd/user
 install -m 0644 signage-kiosk.service signage-kiosk-restart.service \
-    signage-kiosk-restart.timer ~/.config/systemd/user/
+    signage-kiosk-restart.timer signage-kiosk-watchdog.service \
+    signage-kiosk-watchdog.timer ~/.config/systemd/user/
 systemctl --user daemon-reload
 systemctl --user enable signage-kiosk.service
-systemctl --user enable --now signage-kiosk-restart.timer
+systemctl --user enable --now signage-kiosk-restart.timer signage-kiosk-watchdog.timer
 
 # 3. labwc window rule --- set the HDMI output first (see the file's comment)
 mkdir -p ~/.config/labwc

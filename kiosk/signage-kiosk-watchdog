@@ -1,0 +1,21 @@
+#!/bin/bash
+# Restart the kiosk if Chromium is showing something other than the signage
+# page. The page's hourly self-reload is its own JS, so a load that lands on an
+# upstream error (a GitHub Pages 5xx, a network error page) would otherwise
+# stay on screen until the daily 04:00 restart. A second check a minute later
+# keeps a page that is merely mid-load from triggering a restart.
+set -u
+
+systemctl --user is-active --quiet signage-kiosk.service || exit 0
+
+on_signage() {
+    curl -sf --max-time 5 http://127.0.0.1:9222/json |
+        grep -q '"title": ".*Slop University signage"'
+}
+
+on_signage && exit 0
+sleep 60
+on_signage && exit 0
+
+echo "kiosk not showing the signage page; restarting"
+systemctl --user restart signage-kiosk.service
