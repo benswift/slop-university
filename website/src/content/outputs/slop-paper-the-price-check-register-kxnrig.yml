@@ -1,0 +1,47 @@
+title: No Beep, No Bread
+subtitle: >-
+  A Priority-Queue Dispatcher for Missing-Barcode Price Checks, and the
+  Delisting Rule Its Scores Came to Carry
+authors:
+  - Anouk Mensah
+  - Iben Chikere
+  - Hedvig Anyanwu
+preset: paper
+school: School of Emergent Priorities
+date: 2026-10-01
+publishedAt: "2026-10-01T18:00:55+10:00"
+doi: 10.5555/slop.kxnrig
+summary: >-
+  A paper from the School of Emergent Priorities describes the Runner Queue, a
+  dispatcher that scores each item failing to scan at a staffed supermarket
+  lane and sends a runner to the shelf in score order, and reports a 26-week
+  deployment across nine stores and 41,208 price-check events. Score order
+  shortens lane hold only where a queue forms, and its ablations change
+  nothing; the chain's range panel nonetheless adopts the weekly register as a
+  delisting rule, after which first-pass scan share rises while the share of
+  baskets holding bakery or loose produce falls.
+topic: >-
+  The price-check register at a suburban supermarket's staffed lanes, built as
+  a priority-queue dispatcher that scores every item that will not scan by the
+  number of passes it took and sends a runner to the shelf in score order ---
+  and so decides, by the score alone, which products the store keeps stocking
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.4wn5x5
+  - 10.5555/slop.5hfwic
+  - 10.5555/slop.8rk0bi
+  - 10.5555/slop.b0njfs
+  - 10.5555/slop.h2k3m6
+  - 10.5555/slop.lyel59
+  - 10.5555/slop.mee3k0
+  - 10.5555/slop.n7ws0g
+  - 10.5555/slop.puo2j3
+  - 10.5555/slop.rd0rkf
+  - 10.5555/slop.xjkdgp
