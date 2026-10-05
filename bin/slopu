@@ -7,11 +7,12 @@ readonly AGENT_RUN="${AGENT_RUN_BIN:-agent-run}"
 profile="${AGENT_PROFILE:-claude-sub}"
 model="${AGENT_MODEL:-}"
 deadline=""
+slot=""
 land=0
 
 usage() {
   cat <<'EOF'
-Usage: slopu [--profile NAME] [--model MODEL] [--deadline TIME] [--land] <command> [arguments]
+Usage: slopu [--profile NAME] [--model MODEL] [--deadline TIME] [--slot N] [--land] <command> [arguments]
 
 Commands:
   from-preset <preset> [steering]  Generate a document from a named preset
@@ -25,7 +26,8 @@ claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
 --deadline (thesis only) is a local time the run must have committed by, e.g.
 "01:40 tomorrow"; the run paces itself against it. A thesis takes an optional
 steering prompt naming its topic; the setting, school and supervisors are drawn
-either way.
+either way. --slot N (thesis only, N >= 2) runs a further thesis alongside the
+first, in its own worktree. Options go before the command.
 
 Hand-steered publishing is two steps. `from-preset --land` writes the site
 entry, any news post and the staged assets alongside the PDF; look at the PDF,
@@ -49,6 +51,11 @@ while (( $# > 0 )); do
     --land)
       land=1
       shift
+      ;;
+    --slot)
+      (( $# >= 2 )) || { print -u2 "slopu: --slot needs a value"; exit 2; }
+      slot="$2"
+      shift 2
       ;;
     --deadline)
       (( $# >= 2 )) || { print -u2 "slopu: --deadline needs a value"; exit 2; }
@@ -124,6 +131,10 @@ case "$command" in
     # other academic presets take. Without it the run composes its own topic to
     # fit the drawn fiction; with it, the topic is fixed and the fiction is
     # still drawn. ops/publish-generate.sh says what the wrapper does with it.
+    if [[ "${1:-}" == -* ]]; then
+      print -u2 "slopu: options go before the command: slopu $1 ... thesis"
+      exit 2
+    fi
     if (( $# > 0 )); then export SLOPU_STEER="$*"; fi
     # The one publish rung with no timer. It is a generator slot, so the
     # candidate it leaves is landed by the lander (ops/publish-land.sh, on its
@@ -146,6 +157,13 @@ case "$command" in
     # current run, slot 1's ticks skip until the thesis ends, and the lock dies
     # with the process however it exits. -o keeps the agent's background
     # processes from inheriting it. Slots 2+ are not held.
+    #
+    # A further thesis slot (--slot N) is started beside the first, which
+    # already holds that lock, so it takes none.
+    if [[ -n "$slot" ]]; then
+      [[ "$slot" == <2-> ]] || { print -u2 "slopu: --slot takes an integer >= 2"; exit 2; }
+      exec "$REPO_ROOT/ops/publish-generate.sh" "thesis${slot}"
+    fi
     lock="$REPO_ROOT/data/publish-gen-1.lock"
     flock -n "$lock" true || print -u2 "slopu: waiting for slot 1's current run to finish"
     exec flock -o "$lock" "$REPO_ROOT/ops/publish-generate.sh" thesis

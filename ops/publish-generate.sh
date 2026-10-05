@@ -2,7 +2,7 @@
 # A concurrent generator slot: produce ONE publish candidate and stop.
 #
 # Usage: ops/publish-generate.sh <slot>       (slot is a small integer, 1..N,
-#                                              or the word `thesis`)
+#                                              or `thesis`, or `thesis<N>`)
 #
 # The generator never touches origin, never uploads and never pushes. It runs
 # the agent in its own worktree, keeps whatever the agent committed on a branch
@@ -39,6 +39,13 @@
 # candidate the lander lands --- with two differences: its inputs are the
 # thesis fiction rather than an assessed rung, and it has no fallback model,
 # because a run that exists to spend a budget either has it or does not.
+#
+# `thesis<N>` (thesis2, thesis3, ...) are further thesis slots, identical but for
+# their own worktree and lock, so several theses can be written at once
+# (bin/slopu --slot <N> thesis). Every thesis admits its candidate to
+# canon/roster.yml, so concurrent ones conflict in the lander: the first lands
+# and the rest are rescued, to be rebased by hand and re-queued with a candidate
+# marker.
 set -euo pipefail
 
 # Overridable ONLY so the pipeline can be exercised end-to-end against a
@@ -48,9 +55,12 @@ PROJECT_DIR="${SLOPU_PROJECT_DIR:-/home/ben/projects/slop-university}"
 source "${PROJECT_DIR}/ops/publish-lib.sh"
 
 SLOT="${1:?usage: publish-generate.sh <slot>}"
+THESIS=0
 case "$SLOT" in
-  thesis) ;;
-  ''|*[!0-9]*) echo "slot must be a positive integer, or 'thesis'" >&2; exit 2 ;;
+  thesis) THESIS=1 ;;
+  thesis*[!0-9]*) echo "a thesis slot is 'thesis' or 'thesis<N>'" >&2; exit 2 ;;
+  thesis*) THESIS=1 ;;
+  ''|*[!0-9]*) echo "slot must be a positive integer, 'thesis' or 'thesis<N>'" >&2; exit 2 ;;
 esac
 
 WORKTREE_DIR="${PROJECT_DIR}/../slop-university-gen-${SLOT}"
@@ -132,7 +142,7 @@ fi
 
 if [ "$SLOT" = "1" ]; then
   draw_run_inputs "$WORKTREE_DIR"
-elif [ "$SLOT" = "thesis" ]; then
+elif [ "$THESIS" = 1 ]; then
   draw_run_inputs "$WORKTREE_DIR" thesis
 else
   draw_run_inputs "$WORKTREE_DIR" 2a-only
@@ -147,7 +157,7 @@ fi
 # --- a steered thesis still sits in the setting and school the wrapper drew, so
 # the corpus does not acquire a run whose every choice a human made.
 STEER=""
-if [ "$SLOT" = "thesis" ] && [ -n "${SLOPU_STEER:-}" ]; then
+if [ "$THESIS" = 1 ] && [ -n "${SLOPU_STEER:-}" ]; then
   STEER="This run's topic was steered by the human who started it: ${SLOPU_STEER}
 Take that as the topic instead of composing one (§2T step 2); dedup and claim it as usual. The drawn fiction above still stands: site the work in the drawn setting, and compose the title, the studies and the findings to satisfy both."
 fi
@@ -188,7 +198,7 @@ fi
 # top of that is how two outputs end up claiming one DOI.
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
-  if [ "$SLOT" = "thesis" ]; then
+  if [ "$THESIS" = 1 ]; then
     log "  a thesis run has no fallback: it spends the budget it was given or stops"
   elif [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1

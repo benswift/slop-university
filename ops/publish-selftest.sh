@@ -429,6 +429,11 @@ check "a thesis run is a generator candidate like any other" candidate "$(gen th
 check "...composed as rung 2T"                      yes          "$(log_has 'assessed action: 2T')"
 check "...with a drawn school and supervisors"      yes          "$(log_has 'primary supervisor:')"
 check "...and the lander lands it"                  published    "$(land)"
+check "a further thesis slot is a thesis run too"   candidate    "$(gen thesis2 good)"
+check "...in its own worktree"                      yes          "$([ -d "${REPO}/../slop-university-gen-thesis2" ] && echo yes || echo no)"
+check "...and the lander lands it"                  published    "$(land)"
+check "a malformed thesis slot is refused"          2 \
+  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" ./ops/publish-generate.sh thesis-2 >/dev/null 2>&1 ); echo $? )"
 
 echo
 echo "the sweeper leaves a slot that still holds its lock"
