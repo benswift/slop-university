@@ -432,6 +432,11 @@ check "...and the lander lands it"                  published    "$(land)"
 check "a further thesis slot is a thesis run too"   candidate    "$(gen thesis2 good)"
 check "...in its own worktree"                      yes          "$([ -d "${REPO}/../slop-university-gen-thesis2" ] && echo yes || echo no)"
 check "...and the lander lands it"                  published    "$(land)"
+echo "half an admission" >> "${REPO}/../slop-university-gen-thesis2/canon/roster.yml"
+check "a thesis slot will not reset an unfinished thesis" unfinished-thesis "$(gen thesis2 good)"
+check "...and leaves the work where it was"         yes \
+  "$(grep -q 'half an admission' "${REPO}/../slop-university-gen-thesis2/canon/roster.yml" && echo yes || echo no)"
+git -C "${REPO}/../slop-university-gen-thesis2" checkout -q -- canon/roster.yml
 check "a malformed thesis slot is refused"          2 \
   "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" ./ops/publish-generate.sh thesis-2 >/dev/null 2>&1 ); echo $? )"
 

@@ -123,6 +123,19 @@ if ! ensure_worktree "$WORKTREE_DIR" "$CAND_BRANCH" "$BASE_REF"; then
   exit 1
 fi
 
+# A thesis run that died at the session limit leaves its candidate's admission
+# (roster entry, headshot, person hero) and its site entries uncommitted in the
+# worktree, beside an hour of drafting under output/. The reset below would
+# erase all of it but output/, so a thesis slot refuses to start over unfinished
+# work: a human finishes it by hand (skills/publish/SKILL.md §2T) or clears it.
+if [ "$THESIS" = 1 ] && [ -n "$(git -C "$WORKTREE_DIR" status --porcelain)" ]; then
+  log "slot ${SLOT} holds an unfinished thesis in ${WORKTREE_DIR}; not resetting it:"
+  git -C "$WORKTREE_DIR" status --short >> "$LOG_FILE" 2>&1
+  rmdir "$PENDING_DIR" 2>/dev/null || true
+  result "unfinished-thesis" "${WORKTREE_DIR} has uncommitted work from an earlier thesis run; finish or clear it before running slot ${SLOT} again"
+  exit 1
+fi
+
 # Fresh branch per run, off the chosen base. -B rather than a new worktree each
 # time: the worktree is persistent so node_modules, the typst cache and the
 # pnpm store survive between runs, which is most of why a generator can be
