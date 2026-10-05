@@ -18,6 +18,13 @@
 
 PROJECT_DIR="${PROJECT_DIR:-/home/ben/projects/slop-university}"
 LOG_DIR="${PROJECT_DIR}/logs"
+
+# The roster's merge driver (.gitattributes names it; ops/merge-roster.py says
+# why it exists), defined in the environment so every git the pipeline runs has
+# it without anything being written to a config file.
+export GIT_CONFIG_COUNT=1
+export GIT_CONFIG_KEY_0="merge.roster.driver"
+export GIT_CONFIG_VALUE_0="${PROJECT_DIR}/ops/merge-roster.py %O %A %B"
 LOG_FILE="${LOG_FILE:-${LOG_DIR}/publish-$(date +%Y-%m-%d).log}"
 
 # Where generated PDFs and images wait for the lander to upload them. Under the

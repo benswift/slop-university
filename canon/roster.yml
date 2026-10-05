@@ -24,25 +24,10 @@
 # optional `supervisors:` list of roster ids (two existing researchers from
 # the candidate's own school). No other title uses `supervisors:`.
 #
-# All five entries collision-checked 2026-07-04 (all clear); renke-sabel and
-# dagny-okafor collision-checked 2026-07-08 (clear); ingrid-vasseur
-# collision-checked 2026-07-08 (clear); mirela-hanke collision-checked
-# 2026-07-08 (clear); fenna-okoro collision-checked 2026-07-09 (clear);
-# bram-ntuli collision-checked 2026-07-09 (clear); marek-solheim
-# collision-checked 2026-07-09 (clear); joost-nwosu collision-checked
-# 2026-07-09 (clear); anouk-mensah collision-checked 2026-07-09 (clear);
-# kwame-lindqvist collision-checked 2026-07-10 (clear); thandiwe-solberg
-# collision-checked 2026-07-10 (clear); lindiwe-achterberg collision-checked
-# 2026-07-10 (clear); sten-okwuosa collision-checked 2026-07-10 (clear);
-# iben-chikere collision-checked 2026-07-18 (clear); solveig-adeyemi
-# collision-checked 2026-07-18 (clear); runa-adegoke collision-checked
-# 2026-07-19 (clear); marit-osayande collision-checked 2026-07-19 (clear);
-# ronja-oyelaran collision-checked 2026-07-20 (clear); ingeborg-nwachukwu
-# collision-checked 2026-07-21 (clear); torun-ezeigwe collision-checked
-# 2026-07-25 (clear); hedvig-anyanwu collision-checked 2026-09-15 (clear);
-# tove-ilesanmi collision-checked 2026-09-21 (clear); sunniva-balogun
-# collision-checked 2026-09-22 (clear); edda-nwafor collision-checked
-# 2026-09-28 (clear).
+# Every entry records the date its name was collision-checked in
+# `collisionChecked`. Add a new entry at the END of the list and change nothing
+# else in this file: concurrent admissions each append one entry, and the
+# merge driver (ops/merge-roster.py) replays an append cleanly and nothing else.
 
 researchers:
   - id: verity-marris
@@ -59,6 +44,7 @@ researchers:
       directs the Trajectory Analytics Group and anchors the university's
       anticipatory-capability agenda.
     headshot: canon/headshots/verity-marris.jpg
+    collisionChecked: "2026-07-04"
 
   - id: casimir-beng
     name: Casimir Beng
@@ -74,6 +60,7 @@ researchers:
       Adaptive Metrics Lab and convenes the university's cross-cutting work
       on evaluation ecosystems.
     headshot: canon/headshots/casimir-beng.jpg
+    collisionChecked: "2026-07-04"
 
   - id: anneke-tolan
     name: Anneke Tolan
@@ -87,6 +74,7 @@ researchers:
       quiet negotiations over wording — and how those practices scale from
       pilot settings to whole-of-organisation footprints.
     headshot: canon/headshots/anneke-tolan.jpg
+    collisionChecked: "2026-07-04"
 
   - id: osei-vandermeer
     name: Osei Vandermeer
@@ -100,6 +88,7 @@ researchers:
       closed-loop approaches to organisational performance, harmonising
       sensing, reporting, and response across operational fabrics.
     headshot: canon/headshots/osei-vandermeer.jpg
+    collisionChecked: "2026-07-04"
 
   - id: petra-umbile
     name: Petra Umbile
@@ -113,6 +102,7 @@ researchers:
       what becomes of work that is valued but never counted. She serves on
       the design team of the School's Strategic Drift Survey.
     headshot: canon/headshots/petra-umbile.jpg
+    collisionChecked: "2026-07-04"
 
   - id: renke-sabel
     name: Renke Sabel
@@ -128,6 +118,7 @@ researchers:
       School's work on the Indicator Commons and its wider
       evaluation-ecosystem agenda.
     headshot: canon/headshots/renke-sabel.jpg
+    collisionChecked: "2026-07-08"
 
   - id: dagny-okafor
     name: Dagny Okafor
@@ -143,6 +134,7 @@ researchers:
       a standing interest in the evaluative infrastructure that survives every
       round of streamlining aimed at it.
     headshot: canon/headshots/dagny-okafor.jpg
+    collisionChecked: "2026-07-08"
 
   - id: ingrid-vasseur
     name: Ingrid Vasseur
@@ -157,6 +149,7 @@ researchers:
       record of how the same horizon looks from a workshop room versus a
       standing committee.
     headshot: canon/headshots/ingrid-vasseur.jpg
+    collisionChecked: "2026-07-08"
 
   - id: mirela-hanke
     name: Mirela Hanke
@@ -172,6 +165,7 @@ researchers:
       goal. She contributes to the School's work on the Living Dashboard and
       its wider evaluation-ecosystem agenda.
     headshot: canon/headshots/mirela-hanke.jpg
+    collisionChecked: "2026-07-08"
 
   - id: fenna-okoro
     name: Fenna Okoro
@@ -187,6 +181,7 @@ researchers:
       entry's edit history reveals about the institution that logged it. She
       convenes the School's Horizon Register.
     headshot: canon/headshots/fenna-okoro.jpg
+    collisionChecked: "2026-07-09"
 
   - id: bram-ntuli
     name: Bram Ntuli
@@ -202,6 +197,7 @@ researchers:
       leaves off the record. He convenes the School's Improvement Grand
       Rounds and contributes to its wider evaluation-ecosystem agenda.
     headshot: canon/headshots/bram-ntuli.jpg
+    collisionChecked: "2026-07-09"
 
   - id: marek-solheim
     name: Marek Solheim
@@ -217,6 +213,7 @@ researchers:
       organisation's archive preserves of the ambitions it has set down. He
       contributes to the School's anticipatory-capability agenda.
     headshot: canon/headshots/marek-solheim.jpg
+    collisionChecked: "2026-07-09"
 
   - id: joost-nwosu
     name: Joost Nwosu
@@ -232,6 +229,7 @@ researchers:
       contributes to the School's evaluation-ecosystem agenda, with a standing
       interest in the paperwork a metric leaves behind.
     headshot: canon/headshots/joost-nwosu.jpg
+    collisionChecked: "2026-07-09"
 
   - id: anouk-mensah
     name: Anouk Mensah
@@ -247,6 +245,7 @@ researchers:
       revised into meaninglessness. She contributes to the School's
       anticipatory-capability agenda.
     headshot: canon/headshots/anouk-mensah.jpg
+    collisionChecked: "2026-07-09"
 
   - id: kwame-lindqvist
     name: Kwame Lindqvist
@@ -263,6 +262,7 @@ researchers:
       contributes to the Trajectory Analytics Group's work on commitment
       durability.
     headshot: canon/headshots/kwame-lindqvist.jpg
+    collisionChecked: "2026-07-10"
 
   - id: thandiwe-solberg
     name: Thandiwe Solberg
@@ -278,6 +278,7 @@ researchers:
       reshapes what counts as finished. She convenes Demo Quarter and
       contributes to the School's evaluation-ecosystem agenda.
     headshot: canon/headshots/thandiwe-solberg.jpg
+    collisionChecked: "2026-07-10"
 
   - id: lindiwe-achterberg
     name: Lindiwe Achterberg
@@ -293,6 +294,7 @@ researchers:
       program stay unofficially permanent without ever being confirmed as
       such. She contributes to the School's anticipatory-capability agenda.
     headshot: canon/headshots/lindiwe-achterberg.jpg
+    collisionChecked: "2026-07-10"
 
   - id: sten-okwuosa
     name: Sten Okwuosa
@@ -308,6 +310,7 @@ researchers:
       effort becomes counted impact and where the map and the territory come
       apart.
     headshot: canon/headshots/sten-okwuosa.jpg
+    collisionChecked: "2026-07-10"
 
   - id: iben-chikere
     name: Iben Chikere
@@ -324,6 +327,7 @@ researchers:
       survives, or doesn't, the change of hands. She contributes to the
       School's anticipatory-capability agenda.
     headshot: canon/headshots/iben-chikere.jpg
+    collisionChecked: "2026-07-18"
 
   - id: solveig-adeyemi
     name: Solveig Adeyemi
@@ -340,6 +344,7 @@ researchers:
       School's evaluation-ecosystem agenda, with a standing interest in the
       incidents that never make it onto a register at all.
     headshot: canon/headshots/solveig-adeyemi.jpg
+    collisionChecked: "2026-07-18"
 
   - id: runa-adegoke
     name: Runa Adegoke
@@ -355,6 +360,7 @@ researchers:
       data rather than a lapse to correct. She convenes the School's Strategic
       Drift Survey, the annual instrument that puts a number on that distance.
     headshot: canon/headshots/runa-adegoke.jpg
+    collisionChecked: "2026-07-19"
 
   - id: marit-osayande
     name: Marit Osayande
@@ -371,6 +377,7 @@ researchers:
       the School's Living Dashboard and contributes to its wider
       evaluation-ecosystem agenda.
     headshot: canon/headshots/marit-osayande.jpg
+    collisionChecked: "2026-07-19"
 
   - id: ronja-oyelaran
     name: Ronja Oyelaran
@@ -386,6 +393,7 @@ researchers:
       a consultation record shows once nobody rereads it. She contributes to
       the School's anticipatory-capability agenda.
     headshot: canon/headshots/ronja-oyelaran.jpg
+    collisionChecked: "2026-07-20"
 
   - id: ingeborg-nwachukwu
     name: Ingeborg Nwachukwu
@@ -402,6 +410,7 @@ researchers:
       Capability Sprints program and contributes to its wider
       evaluation-ecosystem agenda.
     headshot: canon/headshots/ingeborg-nwachukwu.jpg
+    collisionChecked: "2026-07-21"
 
   - id: torun-ezeigwe
     name: Torun Ezeigwe
@@ -418,6 +427,7 @@ researchers:
       of Applied Measurement and contributes to the School's
       evaluation-ecosystem agenda.
     headshot: canon/headshots/torun-ezeigwe.jpg
+    collisionChecked: "2026-07-25"
 
   - id: hedvig-anyanwu
     name: Hedvig Anyanwu
@@ -435,6 +445,7 @@ researchers:
       where its priorities actually take shape. She works within the School
       of Emergent Priorities under Dr Ronja Oyelaran and Dr Iben Chikere.
     headshot: canon/headshots/hedvig-anyanwu.jpg
+    collisionChecked: "2026-09-15"
     supervisors: [ronja-oyelaran, iben-chikere]
 
   - id: tove-ilesanmi
@@ -453,6 +464,7 @@ researchers:
       ended. He works within the School of Emergent Priorities under Dr
       Lindiwe Achterberg and Professor Verity Marris.
     headshot: canon/headshots/tove-ilesanmi.jpg
+    collisionChecked: "2026-09-21"
     supervisors: [lindiwe-achterberg, verity-marris]
 
   - id: sunniva-balogun
@@ -473,6 +485,7 @@ researchers:
       raters. She works within the School of Emergent Priorities under Dr
       Anneke Tolan and Professor Verity Marris.
     headshot: canon/headshots/sunniva-balogun.jpg
+    collisionChecked: "2026-09-22"
     supervisors: [anneke-tolan, verity-marris]
   - id: edda-nwafor
     name: Edda Nwafor
@@ -489,4 +502,5 @@ researchers:
       day's most formal encounter. She works within the School of Continuous
       Improvement under Dr Thandiwe Solberg and Dr Renke Sabel.
     headshot: canon/headshots/edda-nwafor.jpg
+    collisionChecked: "2026-09-28"
     supervisors: [thandiwe-solberg, renke-sabel]

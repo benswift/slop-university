@@ -627,10 +627,13 @@ and the repo `CLAUDE.md`), in order:
    2K; the new headshot as the lead reference, scene themed to their research
    focus), and eyeball it for style compliance (two inks, no baked-in text, no
    recognisable real place).
-5. Add the entry to `canon/roster.yml` (`id`, `name`, `title`, `school` from
-   `canon/schools.yml`, `email` --- the id with its hyphen(s) replaced by dots
-   at slop.university, per the roster header's rule --- a 2-3 sentence `bio`,
-   `headshot`).
+5. Append the entry to the end of `canon/roster.yml` (`id`, `name`, `title`,
+   `school` from `canon/schools.yml`, `email` --- the id with its hyphen(s)
+   replaced by dots at slop.university, per the roster header's rule --- a 2-3
+   sentence `bio`, `headshot`, `collisionChecked` --- today's date, quoted).
+   Touch nothing else in the file, its header included: another run may be
+   admitting someone at the same moment, and two appends merge where two edits
+   to a shared line do not.
 
 If the collision check is inconclusive, or the headshot or hero can't be
 generated, abort the run rather than admit a shaky entry.

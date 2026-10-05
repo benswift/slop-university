@@ -30,7 +30,9 @@ const people = defineCollection({
   loader: file("../canon/roster.yml", {
     parser: (text) => parseYaml(text).researchers,
   }),
-  schema: personSchema,
+  // The day the invented name was checked against real people. Required, and
+  // kept in the entry so that admitting a researcher is one append to the roster.
+  schema: personSchema.extend({ collisionChecked: z.iso.date() }),
 });
 
 // University leadership --- canon/leadership.yml, one entry: the real

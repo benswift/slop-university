@@ -1,0 +1,5 @@
+# Admitting a researcher appends one entry to the roster (see its header), so
+# concurrent admissions --- several theses written at once --- replay cleanly in
+# the lander instead of conflicting at the end of the file. ops/merge-roster.py
+# is the driver; ops/publish-lib.sh defines it for the pipeline.
+canon/roster.yml merge=roster
