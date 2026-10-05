@@ -172,20 +172,25 @@ two chapters must agree on lives here and nowhere else:
   their abbreviations, participant or site labels, the named levels of any
   framework, every headline figure. A thesis that reports n = 214 in chapter 4
   and n = 217 in chapter 6 fails examination; this list is the only defence.
-  Check the numbers are possible, not only that they sum: wherever a count is
-  bounded by a rule (workers × allocation ≥ crates, per site), write the
-  identity beside it and check it. Fieldwork staffing is one: every observer,
-  interviewer or coder post the procedures fill on a given day needs a named
-  person to fill it (people ≥ posts × concurrent sites). A dispersion statistic
-  is bounded the same way --- a standard deviation the plan fixes must be
-  attainable given the extremes and the n the plan also fixes, and a chapter
-  that computes from it is where an impossible one surfaces, three chapters too
-  late
+  Wherever an analysed n is smaller than the n enrolled, the exclusion and its
+  reason are fixed here too, and the chapter that first reports the smaller
+  number states them. Check the numbers are possible, not only that they sum:
+  wherever a count is bounded by a rule (workers × allocation ≥ crates, per
+  site), write the identity beside it and check it. Fieldwork staffing is one:
+  every observer, interviewer or coder post the procedures fill on a given day
+  needs a named person to fill it (people ≥ posts × concurrent sites). A
+  dispersion statistic is bounded the same way --- a standard deviation the plan
+  fixes must be attainable given the extremes and the n the plan also fixes, and
+  a chapter that computes from it is where an impossible one surfaces, three
+  chapters too late
 - the **procedures**, as ordered lists: coding precedence, decision rules, and
   the variant used when a condition changes (an absent informant, a different
   sample). The appendix reproduces them verbatim and chapters point to them
   rather than restating them. A headline comparison that joins two measurement
-  conditions names the difference here, and the chapter reporting it concedes it
+  conditions names the difference here, and the chapter reporting it concedes
+  it. So does a rate the instrument itself helped produce: where a procedure
+  prompts the behaviour a study counts, the plan fixes the unprompted figure as
+  well, and the findings report both
 - the **fixed gloss** for each headline finding --- one sentence the abstract,
   introduction, discussion and conclusion all reuse. Paraphrases ("mostly",
   "roughly halved") are where findings drift from their chapter
@@ -200,7 +205,10 @@ no chapter is targeted below 2,500 words except the conclusion.
 Write the master file now too, with the includes it will have and placeholder
 front matter, and compile it after every chapter batch lands. A run that is
 interrupted then leaves a compilable document rather than a directory of parts,
-and a chapter's compile errors surface while its author is still in hand.
+and a chapter's compile errors surface while its author is still in hand. For
+the same reason every working file --- a chapter redraft, an image awaiting its
+eyeball, a review copy --- lives under the run's output directory, never in
+`/tmp`: whoever finishes an interrupted run looks nowhere else.
 
 ### 2. Assemble `refs.bib` before drafting
 
@@ -208,7 +216,9 @@ The bibliography is a dependency of every chapter, so it is built first and
 frozen. Write `output/slop-thesis-<slug>-<seed>/refs.bib` with all 60-100
 verified external entries and all canon entries, then copy it to the harvest
 location (see "Citing the canon"). Add nothing to it after the chapters start;
-if a chapter needs a work that isn't there, it cites something that is.
+if a chapter needs a work that isn't there, it cites something that is. The
+ceiling binds as the floor does: verify more candidates than 100 if the search
+turns them up, then freeze the 100 the chapters will use.
 
 ### 3. Dispatch the chapters
 

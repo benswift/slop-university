@@ -776,19 +776,30 @@ convention exists to prevent).
 The one rung no assessor returns and no timer fires. A human runs
 `bin/slopu thesis` when there is a token budget to spend; it starts a generator
 slot named `thesis` on a stronger model with a long leash, holds slot 1 off
-until it finishes, and the lander lands the candidate like any other. Start it
-at the beginning of a fresh session window: the subscription's five-hour session
-limit, not the weekly one, is what ends a thesis run early. A run that dies
-after drafting leaves its work in the slot's worktree under `output/`; it can be
-finished by hand (assemble, the blueprint's read-every-chapter pass, compile,
-the publish steps below) as a candidate on a fresh
-`press-gen-<run-id>-slotthesis` branch. The invocation line names the action
-`2T`, the preset `thesis`, the fiction the wrapper drew --- the setting, the
-school, and a primary and an associate supervisor from that school --- and, when
-the human steered the run, the topic. Everything else is yours --- this is the
-run with creative licence, bounded only by the blueprint's floors
-(`skills/from-preset/presets/thesis.md`): a thesis that would pass examination,
-that is also a Slop University output in the true sense.
+until it finishes, and the lander lands the candidate like any other.
+`bin/slopu --slot N thesis` starts a further one beside it. Start at the
+beginning of a fresh session window, and no more than two at once: the
+subscription's five-hour session limit, not the weekly one, is what ends a
+thesis run early, and four concurrent runs spend a fresh window in under an
+hour.
+
+A run that dies at that limit leaves its drafting under `output/` and its
+admission and site entries uncommitted in the slot's worktree, and the slot
+refuses to run again until that work is finished or cleared. Finish it by hand,
+in that worktree, once the window resets: branch
+`press-gen-<new-run-id>-slot<slot>` off `main` carrying the uncommitted work,
+whatever of steps 1-7 below is still owed (the blueprint's read-every-chapter
+pass always is), staged into `data/pending-uploads/<new-run-id>/`, one commit
+authored as the Press, then the candidate marker `ops/publish-generate.sh` would
+have written. The lander does the rest.
+
+The invocation line names the action `2T`, the preset `thesis`, the fiction the
+wrapper drew --- the setting, the school, and a primary and an associate
+supervisor from that school --- and, when the human steered the run, the topic.
+Everything else is yours --- this is the run with creative licence, bounded only
+by the blueprint's floors (`skills/from-preset/presets/thesis.md`): a thesis
+that would pass examination, that is also a Slop University output in the true
+sense.
 
 In order:
 
@@ -797,7 +808,11 @@ In order:
    `supervisors: [<primary id>, <associate id>]`. Their `bio` is a backstory in
    the roster's register --- where the thesis sits in the school's programme,
    what they did before --- and everything it says must agree with the thesis.
-   Admit them before composing, so the title page names a roster member.
+   Read the other candidates' bios first and open this one differently; a stock
+   frame ("came to the University after nine years in...") shows by the second
+   use. Admit them before composing, so the title page names a roster member,
+   and write the roster entry in this step, beside the images: an interrupted
+   run is finished from what is on disk.
 2. **Compose the topic** to fit the drawn setting; dedup and claim it exactly as
    2A does (§2A, dedup and claim). A steered run is handed its topic on the
    invocation line instead --- take it as given, dedup and claim it the same
