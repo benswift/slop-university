@@ -165,10 +165,10 @@ Slop University is a persistent fiction: its people, schools, and units live in
   See `skills/from-source/SKILL.md`.
 - Titles: each preset's blueprint ("Doc identity" table) declares its title
   policy --- the `strategy` and `impact-report` booklets fix their cover titles;
-  `research-poster`, `marketing-poster`, `paper`, and the `brochure` booklet
-  derive the visible title from the steering prompt (a poster's, paper's, ad's,
-  or brochure campaign's title _is_ its content). The satirical formula lives
-  only in the PDF metadata title, for every preset.
+  `research-poster`, `marketing-poster`, `banner`, `paper`, and the `brochure`
+  booklet derive the visible title from the steering prompt (a poster's,
+  paper's, ad's, or brochure campaign's title _is_ its content). The satirical
+  formula lives only in the PDF metadata title, for every preset.
 - Output filenames (prefix, slug, seed, and the per-preset `output/pdf/<group>/`
   folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
   declare their own prefix and group.

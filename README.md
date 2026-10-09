@@ -55,10 +55,10 @@ Two slash commands:
   reads as a recognisably institutional document. Current presets: `strategy`
   and `impact-report` (multi-page booklets), `brochure` (a glossy marketing
   booklet), `research-poster` (a single-page, screen-format, chart-heavy
-  poster), `marketing-poster` (a display ad for the signage screens), and
-  `paper` (an A4 two-column research paper whose bibliography is real, verified
-  literature). New presets land by dropping a file in
-  `skills/from-preset/presets/`.
+  poster), `marketing-poster` (a display ad for the signage screens), `banner`
+  (a two-metre printed pull-up banner), and `paper` (an A4 two-column research
+  paper whose bibliography is real, verified literature). New presets land by
+  dropping a file in `skills/from-preset/presets/`.
 
 - `/from-source <source>` --- ingest a URL or local document and typeset it
   through the same layout core, faithfully. No rewriting; the source's voice,

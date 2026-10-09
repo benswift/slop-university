@@ -35,7 +35,7 @@ how the name resolves.
 Run `ls skills/from-preset/presets/` (and `ls private/*/presets/` if present) to
 discover what's currently defined. As of this writing: `strategy.md`,
 `impact-report.md`, `research-poster.md`, `marketing-poster.md`, `paper.md`,
-`brochure.md`, and `thesis.md` in `presets/`.
+`brochure.md`, `thesis.md`, and `banner.md` in `presets/`.
 
 Each preset is a single self-contained markdown file. To add a new one, drop a
 `presets/<name>.md` file shaped like the existing ones --- the authoring guide
@@ -52,12 +52,12 @@ booklet-shaped workflow steps and checklist items apply.
   full-page back cover; no manual page breaks (the template breaks after the
   contents); even page count, parity-fixed. The steps below assume this format
   unless a preset says otherwise.
-- **`poster`** (`research-poster`, `marketing-poster`) --- a single-page poster:
-  no cover, no contents, no back cover, no manual page breaks. It drives
-  `slop(...)` directly for a light, single page (landscape or portrait per the
-  layout roll). Steps 4, 6, and 7 and several generic checklist items have
-  poster-specific behaviour, flagged inline below; the preset's blueprint
-  carries the details.
+- **`poster`** (`research-poster`, `marketing-poster`, `banner`) --- a
+  single-page poster: no cover, no contents, no back cover, no manual page
+  breaks. It drives `slop(...)` directly for a light, single page (landscape or
+  portrait per the layout roll). Steps 4, 6, and 7 and several generic checklist
+  items have poster-specific behaviour, flagged inline below; the preset's
+  blueprint carries the details.
 - **`paper`** (`paper`) --- an A4 two-column conference-style paper: no cover,
   contents, or back cover; multi-page (4-8) with **no parity requirement**; a
   verified real bibliography step (the poster verifies its shorter references
