@@ -177,16 +177,15 @@ at thumbnail size. See "Imagery" for the composition clause.
   sides to refill the 3:4 band, so re-roll if what remains would fill the band
   from under ~2400 px of width.
 
-- **Resolution at print size is ≈ 85 dpi** (about 2850 px across 850 mm after
-  the crop). That is the generator's ceiling and it is enough: the image is flat
-  two-ink shapes with print grain, read from a metre or more, and everything a
-  visitor reads up close is vector. Check it by opening `hero.jpg` at 100% on an
-  ordinary-density monitor, which is roughly life size. Reject any hero whose
-  subject depends on fine linework.
+- **Then double it**: `mise exec -- ops/upscale-image.py <images>/hero.jpg` (the
+  script's docstring says why). The generator's ceiling is about 85 dpi across
+  850 mm; doubled, the hero prints at 145--185 dpi. Crop first, upscale second,
+  so the trim's thresholds see the image they were tuned on. The 1× file is kept
+  beside it as `hero-1x.jpg`.
 - **Lettering creeps in on instruments.** Compass points on a weathervane,
   numerals on a dial, a maker's plate on a machine. Name the instrument's blank
   form in the scene ("cup anemometers", "blank-faced meters") and check every
-  hero at 100% before it ships.
+  hero at 100% before upscaling it.
 - No scrim bake, no inline images, no charts, no parity spare.
 
 ## Style references
@@ -355,9 +354,9 @@ Generic format-aware items live in `../SKILL.md`. Banner items:
       furniture on the hero band
 - [ ] Campaign line is steering-derived, ≤ 6 words, ≤ 4 lines, clear of the gold
       rule; total text ≤ 40 words
-- [ ] Hero is 3:4 at 4K, margin-cropped, no blank band and no lettering, nothing
-      that matters in its lowest tenth; reads at thumbnail size and holds at
-      100%
+- [ ] Hero is 3:4 at 4K, margin-cropped then doubled (≥ 5600 px wide), no blank
+      band and no lettering, nothing that matters in its lowest tenth; reads at
+      thumbnail size and holds at 100%
 - [ ] Eyebrow and everything else named is canon; read-the-work line carries 2-3
       real ledger DOIs; CTA from the reservoir; QR resolves to the CTA's address
 - [ ] No verifiable claims; any brag is self-referential or unfalsifiable; no
