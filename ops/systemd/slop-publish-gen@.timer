@@ -2,11 +2,11 @@
 Description=Trigger publish generator slot %i
 
 [Timer]
-# Half-hourly. A run takes ten minutes or so, well inside the period, so each
-# slot produces at most two candidates an hour; the period is the throughput
-# lever. A run that overruns the period makes the next tick start as it
-# finishes.
-OnCalendar=*:00/30
+# Hourly. A run takes ten minutes or so, well inside the period, so each slot
+# produces at most one candidate an hour; the period is the throughput lever. A
+# tick that fires while the previous run is still going never starts a second
+# one beside it: the slot lock in ops/publish-generate.sh makes it skip.
+OnCalendar=hourly
 # Spread the slots so they do not all hit the model, Replicate and the disk in
 # the same second.
 RandomizedDelaySec=2min
