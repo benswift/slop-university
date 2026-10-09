@@ -1,106 +1,82 @@
 ---
 name: paper
 description:
-  Slop University research paper --- an A4 two-column conference-style paper
-  describing a plausible-but-fake research project, authored by roster
-  researchers, with fabricated results charts and a REAL, verified bibliography
-  (every entry resolves via DOI or arXiv), plus 4-8 self-citations of prior Slop
-  University outputs verified against the site ledger. Paper format (no cover,
-  contents, or back cover; multi-page, no parity requirement).
+  Slop University research paper --- an A4 scholarly paper reporting a fictional
+  piece of research in whatever form its tradition publishes, authored by roster
+  researchers, with a REAL, verified bibliography (every entry resolves via DOI
+  or arXiv). Paper format (no cover, contents, or back cover; multi-page, no
+  parity requirement).
 ---
 
 # Paper preset
 
-Produce one Slop University research paper from a single steering prompt. The
-output should pass for a real short conference paper --- two columns, title
-block and abstract spanning both, numbered citations resolving to a references
-section --- academically straight on a close read, with the joke living entirely
-in the fictional project it reports.
+Produce one Slop University paper. It should pass, on a close read, for a real
+paper in its field: the form, the apparatus and the prose are what a specialist
+would expect, and the work it reports is invented.
 
-The sharpest detail: **the bibliography is real.** The fake paper cites only
-genuine literature, every entry verified to resolve --- borrowed legitimacy via
-the citation graph. (This is also why the site's `robots.txt` blocks indexing of
-output PDFs: the borrowing must never flow back into citation databases.) The
-one sanctioned exception: 4-8 entries citing Slop University's own prior
-outputs --- institutions self-cite, and the canon's citation graph should loop
-back on itself (see "Slop self-citations").
+**The bibliography is real.** The paper cites genuine literature, every entry
+verified to resolve --- borrowed legitimacy via the citation graph. (This is
+also why the site's `robots.txt` blocks indexing of output PDFs: the borrowing
+must never flow back into citation databases.)
 
-Loaded by `skills/from-preset/SKILL.md`. Defers to:
-
-- `../genre.md` for the steering philosophy, the voice floor, and the roster
-  rule
-- `../../_shared/chart-workflow.md` for the gribouille chart pipeline and brand
-  styling
-- `../../_shared/image-workflow.md` + `../../_shared/visual-style.md` for the
-  (at most one) generated image
-- `../../_shared/output-naming.md` for slug, seed, output paths
-- `../../_shared/typst-layout.md` for the template import and PDF-metadata
-  rules --- **not** the booklet cover / back-cover / parity sections
-- `canon/roster.yml` and `canon/schools.md` for authors and affiliations
+Loaded by `skills/from-preset/SKILL.md`. Defers to `../genre.md` (the brief and
+its floors), `../../_shared/chart-workflow.md` (charts),
+`../../_shared/image-workflow.md` + `../../_shared/visual-style.md` (generated
+images), `../../_shared/output-naming.md` (slug, seed, paths) and
+`../../_shared/typst-layout.md` (template import, PDF metadata, tables --- not
+its booklet sections).
 
 ## Doc identity
 
-| Field                      | Value                                                                                      |
-| -------------------------- | ------------------------------------------------------------------------------------------ |
-| Canonical name             | Slop University research paper                                                             |
-| Format                     | **paper** (A4 portrait, two-column body, title block spanning both)                        |
-| Visible title              | the fabricated project's title --- **steering-derived** (a paper's title _is_ its content) |
-| Authors                    | 2-4 from `canon/roster.yml`, with school affiliations                                      |
-| Theme                      | `light`                                                                                    |
-| Filename prefix            | `slop-paper`                                                                               |
-| PDF subfolder (`<group>`)  | `paper`                                                                                    |
-| Page count                 | 4-8 (no parity requirement --- papers aren't saddle-stitched)                              |
-| Register                   | methods-section deadpan (see "Voice")                                                      |
-| PDF metadata title formula | `This Slop University Paper Does Not Exist: <steering verbatim>`                           |
+| Field                      | Value                                                            |
+| -------------------------- | ---------------------------------------------------------------- |
+| Format                     | **paper** (A4 portrait)                                          |
+| Visible title              | the paper's own title                                            |
+| Authors                    | 1-4 from `canon/roster.yml`, with school affiliations            |
+| Theme                      | `light`                                                          |
+| Filename prefix            | `slop-paper`                                                     |
+| PDF subfolder (`<group>`)  | `paper`                                                          |
+| Page count                 | 4-8 (no parity requirement)                                      |
+| PDF metadata title formula | `This Slop University Paper Does Not Exist: <steering verbatim>` |
 
-PDF metadata title is the deliberate satirical tell (not visible on rendered
-pages). No other metadata fields populated. The DOI (`10.5555/slop.<seed>`, when
-the run is a /publish run) renders in the title block --- papers are the one
-genre where an inline DOI is expected furniture. For a manual (non-publish) run,
-omit the DOI line.
+The PDF metadata title is the one satirical tell and is not visible on the page.
+No other metadata fields are populated. On a publish run the DOI
+(`10.5555/slop.<seed>`) renders in the title block; on a manual run, omit it.
 
-## Inputs
+## Form follows the field
 
-One free-text **steering prompt** describing a subversive fictional research
-project. Same register as the research-poster examples ("a reinforcement-
-learning model for optimal tea-room biscuit redistribution"). The prompt is the
-project; everything --- title, abstract, method, results, ablations --- bends to
-it in unbroken paper register.
+There is no fixed section map. An experimental paper has methods and results; a
+proof has definitions, lemmas and a theorem; a close reading has an argument
+that moves through its texts; a legal note has its authorities; an ethnography
+has its scenes. Give the paper the sections, apparatus and length its tradition
+would, and name them as that tradition does. Only the abstract (where the field
+uses one) and the reference list are constant.
 
-## The genre's structural skeleton
+- **Columns.** Two-column is the default and what the skeleton below sets up.
+  Fields that publish single-column (most of the humanities, law, mathematics)
+  may drop `#set page(columns: 2)` and set the body at 10.5pt.
+- **Citation style.** Pass the field's own to `bibliography(style: ...)`:
+  `"ieee"`, `"apa"`, `"chicago-author-date"`, `"chicago-notes"` (footnotes),
+  `"mla"` or `"harvard-cite-them-right"`.
+- **Figures.** Whatever the field would carry, and nothing it would not:
+  gribouille charts (per `../../_shared/chart-workflow.md`, into
+  `output/slop-paper-<slug>-<seed>-charts/`, embedded with
+  `slop-inline-figure`), typst-native tables (sizing in
+  `../../_shared/typst-layout.md` › "Tables"), display equations, theorem
+  statements, code listings, block quotations, and at most two generated images
+  in the house style. A paper with no figures at all is fine.
 
-| Section                | Length          | Notes                                                                                                            |
-| ---------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Title block + abstract | spans both cols | Title, authors + affiliations (+ DOI on publish runs), 150-220 word abstract                                     |
-| Introduction           | ~350 words      | The gap, framed seriously; 2-3 specific contributions, in prose or bullets, phrased in ordinary paper register   |
-| Related work           | ~250 words      | Where most citations live; every claim about a cited work must be true of that work                              |
-| Prior work here        | ~60 words       | Run-in block citing 4-6 further Slop University outputs by DOI --- ledger-verified only (see "Prior work here")  |
-| Method                 | ~400 words      | Deadpan procedural; one display equation and/or a short code listing earn the costume                            |
-| Experiments / Results  | ~450 words      | 2-4 gribouille charts + optionally a table; baselines, an ablation that changes nothing                          |
-| Discussion             | ~200 words      | Hedged interpretation; "we observe consistent improvements in most settings"                                     |
-| Limitations            | ~120 words      | Concedes nothing: every "limitation" quietly reasserts a strength                                                |
-| Conclusion             | ~120 words      | One-paragraph close; "future work" fragment                                                                      |
-| References             | 15-25 entries   | **Real, verified literature** + 4-8 slop self-citations (see "Bibliography"); `bibliography(..., style: "ieee")` |
+## Authors
 
-Section names may vary in the usual reservoir spirit (e.g. "Background" for
-Related work, "Evaluation" for Experiments); "Abstract", "Limitations", and
-"References" are load-bearing genre conventions --- keep them.
+The lead author and school arrive on the invocation line when the wrapper drew
+them; otherwise choose a lead from `canon/roster.yml`. Add co-authors only if
+the field would (a sole-authored essay is normal in many). Affiliations are the
+authors' canonical schools plus "Slop University".
 
-## Authors (roster)
-
-Roll 2-4 researchers from `canon/roster.yml` --- a plausible rank mix (a
-professor or associate professor plus fellows reads right; four postdocs
-doesn't). Affiliations are their canonical schools + "Slop University".
-Superscript affiliation markers only when the authors span two schools. Never
-anyone off-roster; never a real person. Author order: lead author is the one
-whose school the project best fits.
-
-**Contact emails.** The title block carries the authors' addresses in the
-brace-group form CS papers use ---
+The title block carries the authors' addresses in the brace-group form ---
 `{verity.marris, casimir.beng}@slop.university` --- built from each author's
-`email` field in `canon/roster.yml` (the id with dots; the domain catch-all
-makes every address real and deliverable). Never invent an address in any other
-shape.
+`email` field in the roster; a sole author's address is printed plainly, without
+braces. Never invent an address in any other shape.
 
 ## Bibliography --- real references, verified (hard requirement)
 
@@ -109,8 +85,9 @@ Per-run `references.bib` harvested from genuine literature:
 1. **Search** the fabricated topic's real adjacent fields (web search: the
    steering topic's serious neighbours --- e.g. biscuit redistribution →
    multi-agent resource allocation, fair division, workplace commensality
-   studies). Collect 15-25 candidate entries: journal/conference papers and
-   arXiv preprints, mixed venues and years.
+   studies). Collect the candidate entries the field would carry (ten at the
+   least): journal/conference papers and arXiv preprints, mixed venues and
+   years.
 2. **Verify every entry** before it enters the bib --- each must pass one of:
    - **DOI check**:
      `curl -sI -o /dev/null -w '%{http_code}' https://doi.org/<doi>` returns
@@ -122,7 +99,7 @@ Per-run `references.bib` harvested from genuine literature:
    the verified `doi = {...}` or `eprint`/`archivePrefix` fields. The entries
    are the one place real names appear --- as authors of their own real work,
    correctly attributed. Never fabricate an entry, never pad with an unverified
-   one; 15 verified beats 25 mixed.
+   one; ten verified beats twenty mixed.
 
    **Nobiliary particles**: hayagriva reads an unbraced `von`, `van`, `de` or
    `di` as a middle name and drops it, printing Heinz von Foerster as
@@ -146,130 +123,31 @@ The fictional project borrows the field's legitimacy; it does not misrepresent
 real researchers' actual claims. Cite generously in Introduction and Related
 work; 2-4 callbacks in Method/Results keep the costume on.
 
-### Slop self-citations (cite the canon)
+### Citing the University's own outputs
 
-**4-8 entries cite Slop University's own prior outputs.** Institutions
-self-cite, and the canon's citation graph should loop back on itself --- a
-Related-work sentence like "prior work at this institution instrumented the
-suggestion-box pipeline @slop-tlmg6a" deepens the fiction. Those edges are also
-the only bibliometric the University has: they are harvested out of this file's
-`.bib` into the ledger, and the roster's citation counts and h-indices are
-counted straight off them. These are the only entries exempt from the external
-verification above; they verify against the ledger instead:
+Cite **at least two** prior Slop University outputs, as a scholar cites
+colleagues down the corridor: for a method borrowed, a setting shared, a finding
+this paper extends or declines to. The citation graph is the University's only
+bibliometric and is built one reference list at a time. Find them with
+`ops/topic-neighbours.py "<this paper's topic>"` (nearest prior topics) and
+`ops/extract-citations.py --suggest` (ranked by what a citation would do for a
+colleague's h-index); cite the ones the paper can honestly be read against, and
+never pad with one it cannot.
 
-- **Source of truth**: `website/src/content/outputs/*.yml` (the canonical
-  ledger). Pick topically adjacent prior outputs --- any preset is citable, and
-  `paper` and `research-poster` entries fit most naturally --- judging adjacency
-  from each entry's `summary` and `topic` fields. The ledger is thematically
-  dense (everyday-life measurement, dashboards, audit apparatus), so a fit
-  nearly always exists; drop below four only when genuinely nothing else is
-  adjacent.
-- **Which adjacent output to prefer**: run `ops/extract-citations.py --suggest`,
-  which ranks prior outputs by how much a citation would lift a researcher's
-  h-index, each with its topic line. Where two candidates fit the topic equally
-  well, cite the ranked one. Fit still decides --- a reference to an unrelated
-  study is a hollow edge, and a corpus of them reads as gamed rather than
-  generous.
-- **Copy fields exactly** from the entry: `title` (append the `subtitle` after a
-  colon), `authors` verbatim and in order, `school`, year from `date`, `doi`. An
-  entry that doesn't match its ledger record field-for-field is a fabricated
-  reference --- hard failure, same as an unverified external entry. A bonus when
-  it happens naturally: if one of this run's own roster authors appears in an
-  adjacent prior output, cite that one --- genuine self-citation reads even
-  straighter.
-- **Verify against the ledger**, not doi.org (the `10.5555` test prefix never
-  resolves there, by design):
+- **Source of truth**: `website/src/content/outputs/*.yml`. Copy `title` (append
+  the `subtitle` after a colon), `authors` verbatim and in order, year from
+  `date`, and `doi`. An entry that does not match its ledger record
+  field-for-field is a fabricated reference.
+- **Verify against the ledger**, not doi.org:
   `grep -l '10.5555/slop.<seed>' website/src/content/outputs/*.yml` must hit
   exactly the entry you copied from.
-- **BibTeX shape** (same workaround family as the arXiv entry form above ---
-  typst's BibTeX conversion drops `@techreport`'s `institution`, so carry the
-  institution in an `@article`'s `journal` field):
-  `@article{slop-<seed>, author = {...}, title = {...}, journal = {Slop University technical report}, year = {...}, doi = {10.5555/slop.<seed>}}`.
-  This renders authors, title, institution, year, and the DOI; the site's
-  `/doi/` route is the DOI's resolver, so a curious reader can chase it.
-- **Citation honesty applies unchanged**: a prose claim about a cited slop
-  output must be true of that output's ledger `summary`. The canon stays
-  self-consistent or the fiction collapses on a close read.
-
-Self-citations count inside the 15-25 total; the bibliography's realness remains
-the point, so they stay a thread (4-8), never the fabric.
-
-### Prior work here (the internal citation block)
-
-Related work closes with a short run-in block --- "Prior work at Slop
-University" --- naming **4-6 further prior outputs** by title and DOI, on top of
-the bibliography's self-citations and never duplicating them:
-
-```typst
-#parbreak()
-#emph[Prior work at Slop University.] <One or two sentences placing this study
-against the canon>: <Title> (doi:10.5555/slop.<seed>); <Title>
-(doi:10.5555/slop.<seed>); …
-```
-
-Institutional papers really do carry a paragraph like this, and keeping it
-separate from the bibliography is what makes the density affordable in both
-directions. The bibliography's job is borrowed legitimacy: every external entry
-costs a web search and a resolution check, and a formal list that ran half
-self-citations would read as the fabric rather than a thread. This block costs
-neither --- it verifies against `website/src/content/outputs/*.yml` alone, and
-it sits outside the reference list, so the paper cites the canon 8-12 times
-without touching either constraint.
-
-Pick the entries with `ops/extract-citations.py --suggest`, which ranks prior
-outputs by how much a citation would lift a researcher's h-index and prints each
-one's topic line; take the ones this study can genuinely be read against. The
-prose sentence must be true of the outputs it names (citation honesty, judged
-against each entry's ledger `summary`), and a block padded with outputs the
-paper has no relation to is a hollow edge --- the failure mode this whole
-apparatus is trying to avoid.
-
-## Figures and tables
-
-- **2-4 gribouille charts** in the results-figure register: a baselines
-  comparison (line, grouped-bar, or dumbbell), an ablation (grouped-bar,
-  boxplot, or violin --- the ablation that changes nothing: distributions
-  statistically indistinguishable, reported straight), error bars where the type
-  supports them. Draw types from the full menu in
-  `../../_shared/chart-workflow.md` › "Chart types" --- the distinctive forms
-  (ridgeline, beeswarm, bump, heatmap, difference band) are exactly what a
-  methods-heavy paper's figures should reach for, and the menu's variation
-  pressure applies across the corpus. Charts are authored per
-  `../../_shared/chart-workflow.md` into
-  `output/slop-paper-<slug>-<seed>-charts/` and embedded with
-  `slop-inline-figure` (single-column) --- captions state a falsifiable claim
-  with a figure in it.
-- **Tables welcome** (hyperparameters, dataset statistics) --- typst-native,
-  small, 8-9pt. Sizing and the column budget are in
-  `../../_shared/typst-layout.md` › "Tables": three columns fit a paper's body
-  column, and a wider table floats across both.
-- **At most one generated image** (apparatus/setting, house style per
-  `visual-style.md`, `references/slop-style/` refs) --- papers are chart-shaped,
-  not photo-shaped. Most runs carry none.
-
-## Voice (methods-section deadpan)
-
-The paper register is **methods-section deadpan** --- fuller-sentence
-academic-present, where the poster's variant is telegraphic. It defers to
-`../genre.md` for the floor and specialises:
-
-- **Hedged contributions.** "We observe consistent improvements in most
-  settings"; "our results suggest the approach may generalise". The
-  contributions list makes three claims, each pre-softened.
-- **An ablation that changes nothing**, reported with full apparatus: "removing
-  the commensality prior degrades mean utility by 0.3% (n.s.); we retain it for
-  completeness."
-- **A limitations section that concedes nothing.** Every limitation is a
-  strength wearing a hedge: "our evaluation is limited to eight tea rooms,
-  though the consistency across all eight suggests broader applicability."
-- **Past-tense method, present-tense findings**, passive voice tolerated in
-  Method only. No enthusiasm anywhere; the deadpan is the joke.
-- Plausible bands as per the poster preset (n, accuracies, effect sizes); "(p <
-  0.05)" sparingly.
-
-Never signals satire on the page: no winks, no absurd venue names in _this_
-doc's own header (the venue is simply absent --- a preprint), no exclamation
-marks.
+- **BibTeX shape**, under `"ieee"`:
+  `@article{slop-<seed>, author = {...}, title = {...}, journal = {Slop University technical report}, year = {...}, doi = {10.5555/slop.<seed>}}`
+  (typst's BibTeX conversion drops `@techreport`'s `institution`). Under the
+  author-date and notes styles that shape prints "ahead of print"; use
+  `@techreport{slop-<seed>, ..., type = {Slop University technical report}, doi = {...}}`
+  there, and check how the entry renders.
+- A prose claim about a cited output must be true of that entry's `summary`.
 
 ## Typst structure
 
@@ -314,7 +192,7 @@ span the title block + abstract across both with
   // the lockup.
   #v(2.4cm)
   #set align(center)
-  #text(size: 17pt, weight: "medium")[<Paper title --- steering-derived>]
+  #text(size: 17pt, weight: "medium")[<Paper title>]
   #v(0.5em)
   #text(size: 10.5pt)[<Author A>, <Author B>, <Author C>]
   #v(0.15em)
@@ -329,47 +207,27 @@ span the title block + abstract across both with
     #set align(left)
     #set text(size: 9pt)
     #set par(justify: true)
-    *Abstract.* <150-220 words, hedged throughout>
+    *Abstract.* <150-220 words>
   ]
 ]
 
-= Introduction
+= <First section, named as the field would>
 <...body flows in two columns; #cite entries as @key...>
 
-= Related work
-<...>
-
-// Prior work at Slop University --- 4-6 further prior outputs by title + DOI,
-// ledger-verified only, none duplicating a bibliography self-citation.
-#parbreak()
-#emph[Prior work at Slop University.] <one or two sentences placing this study
-against the canon>: <Title> (doi:10.5555/slop.<seed>); <Title>
-(doi:10.5555/slop.<seed>); <...>
-
-= Method
-<...display equation and/or short code listing...>
-
-= Results
+// a figure, where the paper has one:
 #slop-inline-figure(
   chart-1,
-  caption: [<falsifiable claim with a figure in it>],
+  caption: [<caption>],
 )
-<...>
 
-= Discussion
-<...>
-
-= Limitations
-<...>
-
-= Conclusion
+= <...the sections this paper needs...>
 <...>
 
 #bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References", style: "ieee")
 ```
 
-(`title: "References"` matters --- the default heading is "Bibliography", and
-"References" is the load-bearing genre convention.)
+(Set `title:` to what the field calls its list --- "References", "Works cited",
+"Bibliography". The default heading is "Bibliography".)
 
 Structural reference: the ANU layer's worked example at
 `~/projects/anu-typst-template/packages/anu-typst-template/0.3.0/examples/paper.typ`
@@ -397,56 +255,25 @@ package --- not before.
 
 ## Pre-ship checklist (preset-specific)
 
-- [ ] A4 portrait, two-column body; title block + abstract span both columns;
-      4-8 pages
-- [ ] 2-4 authors, all from `canon/roster.yml`, affiliations from
-      `canon/schools.md`; no other person named outside the References
-- [ ] Title block lists the authors' contact emails (brace-group form, each
-      address from the roster's `email` field --- no invented shapes)
-- [ ] 15+ references, **every external entry verified** (DOI resolves or arXiv
-      ID returns a matching title); fields copied accurately; loaded via
-      `bibliography(..., style: "ieee")` and actually cited in prose
-- [ ] A "Prior work at Slop University" block closing Related work: 4-6 further
-      outputs, titles and DOIs matching their ledger entries, none duplicating a
-      bibliography self-citation, each topically related
-- [ ] 4-8 slop self-citations, each matching its
-      `website/src/content/outputs/*.yml` entry field-for-field, slop DOI
-      rendered, cited in prose (skipped only if nothing in the ledger is
-      topically adjacent)
-- [ ] Citation honesty: every prose claim about a cited work is true of that
-      work (for slop self-citations, true of the ledger entry's `summary`)
-- [ ] 2+ gribouille charts in brand styling (incl. the do-nothing ablation);
-      captions carry falsifiable claims; at most one generated image
-- [ ] Voice holds: hedged contributions, deadpan method, limitations that
-      concede nothing, no exclamation marks, no satire signals on the page
+- [ ] A4 portrait, 4-8 pages; the title block (and abstract, where present)
+      spans the full width
+- [ ] Authors all from `canon/roster.yml`, with roster emails in the brace-group
+      form; no other person named outside the reference list
+- [ ] **Every external reference verified** (DOI resolves or arXiv ID returns a
+      matching title), fields copied accurately, each one cited in the prose
+- [ ] Every claim about a cited work is true of that work
+- [ ] At least two Slop University self-citations, each matching its ledger
+      entry field-for-field and honestly related to the paper
+- [ ] Charts in brand styling; every figure and table sits inside its column
 - [ ] PDF metadata title matches the formula; no other metadata populated
 - [ ] Output at `output/pdf/paper/slop-paper-<slug>-<seed>.pdf`
 
 ## Common failure modes (preset-specific)
 
-- **An unverified or fabricated reference slips in**: hard failure --- the
-  entire point is that the bibliography is real. Re-verify the full list; drop
-  anything that doesn't resolve.
-- **A slop self-citation drifts from its ledger entry** (remixed title, wrong
-  authors, invented DOI): the same hard failure wearing a gown --- re-copy the
-  fields from the `outputs/*.yml` entry or drop the citation.
+- **An unverified or fabricated reference slips in**: hard failure. Re-verify
+  the full list; drop anything that does not resolve.
 - **Prose misattributes a claim to a real cited work**: rewrite the sentence to
-  a claim that is true of that work (or generalise to the field).
-- **Reads like a poster**: prose too telegraphic. A paper carries full sentences
-  and connective tissue; the compression lives in the hedges, not in fragments.
-- **Reads bland**: the title, abstract, and chart captions aren't visibly driven
-  by the prompt. Crank the commitment shapes (a too-clean headline number, a
-  pre-registered-protocol methods detail) while keeping the paper register
-  intact.
-- **Column overflow / floats stacking at one column**: shorten the chart plots,
-  check every float has `float: true` placement via `slop-inline-figure`, and
-  keep the single full-width float (if any) early in Results.
-
-## What this preset is not
-
-- Not a booklet and not a poster: no cover, contents, back cover, parity, or
-  one-page fit; its own two-column mechanics live here.
-- Not a venue submission. It's a preprint-shaped object; it never claims
-  acceptance anywhere.
-- Not a place for new chart or genre conventions --- those belong in
-  `../../_shared/chart-workflow.md` / `../genre.md`.
+  a claim that is true of that work, or generalise to the field.
+- **Column overflow / floats stacking in one column**: shorten the chart plots,
+  check every float goes through `slop-inline-figure`, and keep the single
+  full-width float (if any) early.

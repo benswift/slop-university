@@ -27,6 +27,10 @@ straight at a glance ("Emergent Priorities", "Continuous Improvement"). The
 close read is where they land. Avoid names that wink (nothing with "slop",
 "fake", "synergy"), and avoid names that collide with real institutions.
 
+A school's blurb is where its field is stated plainly: what it studies and how.
+The name stays in the register above; the blurb tells a reader which part of the
+academy they are in.
+
 ## Structure
 
 Schools sit directly under the University --- Slop University has no faculties

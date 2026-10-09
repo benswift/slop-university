@@ -11,20 +11,14 @@ description:
 
 # Research-poster preset
 
-Produce one Slop University research poster from a single steering prompt. The
-output should pass for a real conference poster pinned to a corridor board ---
-recognisably institutional at a glance, academically straight on a close read,
-with the joke living entirely in the subversive fictional project it describes.
-
-The genre is the **academic research poster**: title, group/affiliation,
-background, aims, methods, results (charts), discussion, conclusion, references.
-Present-tense findings, past-tense methods, hedged claims, deadpan throughout.
-The reader knows immediately what the steering prompt was; the pleasure is
-watching the poster render it in unbroken research register.
+Produce one Slop University research poster. It should pass for a real
+conference poster pinned to a corridor board --- recognisably institutional at a
+glance, and on a close read exactly what a specialist in its field would expect
+of a poster. The work it reports is invented.
 
 Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
-- `../genre.md` for the steering philosophy and the voice floor
+- `../genre.md` for the brief and its floors
 - `../../_shared/chart-workflow.md` for the gribouille → SVG chart pipeline and
   brand styling
 - `../../_shared/image-workflow.md` for the concept image generation
@@ -46,7 +40,6 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 | Cover lockup               | `slop` --- feature-right: rendered automatically (top-left masthead); feature-top: overlaid white on the hero via `slop-overlay-masthead` (auto masthead hidden)                                                                  |
 | Filename prefix            | `slop-poster`                                                                                                                                                                                                                     |
 | Page count                 | exactly **1** (no parity-fix; "fits one page" check instead)                                                                                                                                                                      |
-| Register                   | academic-present (present-tense findings, past-tense methods, hedged)                                                                                                                                                             |
 | PDF metadata title formula | `This Slop University Research Poster Does Not Exist: <steering verbatim>`                                                                                                                                                        |
 
 **Title is steering-driven (unlike the booklet presets).** `strategy` and
@@ -81,25 +74,8 @@ attributed; never a fabricated entry.
 
 ## Inputs
 
-One free-text **steering prompt** describing a subversive fictional research
-project. 1-3 short sentences, or a phrase. Examples:
-
-- "training magpies as a distributed suburban surveillance network"
-- "a reinforcement-learning model for optimal tea-room biscuit redistribution"
-- "measuring neighbourhood sentiment via bin-night compliance telemetry"
-- "a closed-loop controller for supermarket self-checkout patience"
-- "forecasting school pick-up congestion from parent group-chat activity"
-- "using soil moisture sensors to predict committee-meeting sentiment"
-- "a maturity model for the café loyalty-card punch economy"
-- "benchmarking food-truck queue abandonment against posted wait-time signage"
-- "an OKR framework for the office birthday-cake roster"
-
-The prompt is the project. The academic register (below) is the only floor;
-everything else --- title, aims, methods, results, charts, captions --- bends to
-the prompt. The institution's voice keeps wrapping the absurd in methods prose,
-plausible bands, and hedged findings. Objects of study range across everyday
-life --- the home, the street, the shops, transit --- with campus one setting
-among many (see `../genre.md`).
+An optional one-line topic (see `../SKILL.md` › Inputs). The poster reports one
+piece of work on the subject, and in the tradition, the run was given.
 
 ## The genre's structural skeleton
 
@@ -113,30 +89,23 @@ references, and a bottom-pinned footer. What differs is only where the feature
 image and title sit (the "Placement" column below describes **feature-right**;
 the **feature-top** differences are in the Layout roll).
 
-| Region                    | Placement                                    | Length / notes                                                                                                                                                                                                                                     |
-| ------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Title band                | full width (left two-thirds), below masthead | Project title (gold, ~32pt) + one-line subtitle. No affiliation line --- attribution rides in the lockup + margin wordmark                                                                                                                         |
-| Feature image             | full-bleed right third                       | tall (9:16) `references/`-styled photo with a baked-in scrim + white hero quote --- the visual hook                                                                                                                                                |
-| Body image (field)        | foot of the left grid column                 | wide (21:9) `references/`-styled photo as a `height: 1fr` block, cropped (`fit: cover`) to fill the column's leftover height --- pads the left column to balance the right                                                                         |
-| Background                | column flow                                  | ~30-45 words; the gap, ideally framed as a question                                                                                                                                                                                                |
-| Aims / Research questions | column flow                                  | 3 terse bullets                                                                                                                                                                                                                                    |
-| Methods                   | column flow                                  | ~3 terse bullets (n · instrument · sampling · duration; model; key control)                                                                                                                                                                        |
-| Results                   | left cell                                    | one or two hedged sentences; the chart leads the right cell, with a caption stating a falsifiable claim                                                                                                                                            |
-| Discussion / conclusions  | column flow                                  | ~2-3 punchy, hedged lines that state the rule, mandate, or allocation the finding produced (the commission test lives here, not only in the title) + a one-line close naming the next trial or instrument change without the literal label "Next:" |
-| References                | column flow (end)                            | 6-8 real, verified citations (DOI/arXiv-checked) in small (~8pt) text, 1-3 of them slop self-citations                                                                                                                                             |
-| Builds on                 | column flow, under the references            | run-in strip of 3-5 prior slop outputs by DOI --- ledger-verified, no external checking (see "Builds on")                                                                                                                                          |
-| Footer line               | column flow (end)                            | one deadpan acknowledgements / ethics / data line (never a person)                                                                                                                                                                                 |
+| Region        | Placement                                    | Notes                                                                                                             |
+| ------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Title band    | full width (left two-thirds), below masthead | Poster title (gold, ~32pt) + one-line subtitle                                                                    |
+| Feature image | full-bleed right third                       | tall (9:16) house-style image with a baked-in scrim + a white pull line --- the visual hook                       |
+| Text sections | left cell, column flow                       | the poster's argument in the sections its field uses, named as that field names them                              |
+| Body image    | foot of the left cell                        | wide (21:9) house-style image as a `height: 1fr` block, cropped to fill the column's leftover height              |
+| Exhibit       | head of the right cell                       | the poster's central exhibit --- a chart by default; a table or a typeset passage where the field would show that |
+| Closing       | right cell, column flow                      | what the work concludes, in a few lines                                                                           |
+| References    | right cell (end)                             | 4-8 real, verified citations in small (~8pt) text                                                                 |
+| Footer        | right cell, bottom-pinned                    | acknowledgements or ethics line (never a person), contact line, social line                                       |
 
-Total body prose: ~200 words at 10pt --- the poster is telegraphic (fragments
-and bullets, not paragraphs; see "Voice"). Budget is a guide, not a target ---
-the hard constraint is that it fits on **one page** (see "Compile and one-page
-fit"), and the fill-probe check (step 3) owns the under-fill side. ~200 is a
-realistic ceiling for column 2 (chart + a 6-8 entry reference list + the
-builds-on strip + footer all sit in the right grid cell). The body image is a
-`height: 1fr` block, so it costs the column budget nothing --- it just expands
-or shrinks (cropped) to fill whatever the left column has spare. If the poster
-overflows, tighten the prose or shorten the chart plot --- never touch the
-reference list.
+Total body prose: ~200 words at 10pt. A poster is scanned, not read: short
+declarative fragments and bullets, not paragraphs. The hard constraint is that
+it fits on **one page** (see "Compile and one-page fit"); the fill-probe check
+(step 3) owns the under-fill side. The body image is a `height: 1fr` block, so
+it costs the column budget nothing. If the poster overflows, tighten the prose
+or shorten the chart plot --- never touch the reference list.
 
 ## Per-run variation rolls
 
@@ -210,21 +179,6 @@ geometry (everything else --- content, rolls, voice, images --- is unchanged):
 generated image, while at screen aspect it is less extreme --- always crop the
 dimension the box doesn't fill, matching what `fit: cover` will show.)
 
-### Section-name reservoirs
-
-One choice per section per run. Reservoirs grow over time; aim for ~4 entries
-each.
-
-| Section role | Reservoir                                                            |
-| ------------ | -------------------------------------------------------------------- |
-| Background   | "Background", "Introduction", "Motivation", "Context"                |
-| Aims         | "Aims", "Objectives", "Research questions", "Study aims"             |
-| Methods      | "Methods", "Approach", "Materials & methods", "Study design"         |
-| Results      | "Results", "Findings", "Observed pattern", "Results & analysis"      |
-| Discussion   | "Discussion", "Implications", "Interpretation", "Reading the result" |
-| Conclusion   | "Conclusion", "Conclusions & future work", "Where next", "Takeaways" |
-| References   | "References", "Selected references", "Further reading"               |
-
 ### Chart count and types
 
 Roll **1 chart** (a 2nd only if the prose stays lean) --- the data spine,
@@ -260,11 +214,11 @@ the wide field image `inline-1.jpg`. Counts, aspects, resolutions, and placement
 live in "Imagery (preset specifics)" below; the only rolled element is the scene
 content, which should read as the project's field site or apparatus.
 
-### Builds on (the internal citation strip)
+### Builds on
 
-Under the reference list, a compact run-in strip naming **3-5 prior Slop
-University outputs** the project builds on --- real poster apparatus ("related
-work from our group"), played straight:
+Name one to four prior Slop University outputs this poster can honestly be read
+against, in a run-in strip under the reference list. The citation graph is the
+University's only bibliometric and is built one strip at a time.
 
 ```typst
 #text(size: 8pt, fill: slop-colors.ink.lighten(25%))[
@@ -272,22 +226,10 @@ work from our group"), played straight:
 ]
 ```
 
-This is deliberately **separate from the reference list**. The references borrow
-real literature and every entry must be externally verified; the strip cites the
-canon, so it verifies against `website/src/content/outputs/*.yml` alone --- no
-web search, no DOI resolution, no cost to the run. It is also where the poster's
-citation density lives: those DOIs are harvested into the ledger and the
-roster's h-indices are counted off them (see the repo's CLAUDE.md › "Citation
-graph").
-
-Pick the entries with `ops/extract-citations.py --suggest`, taking the ones your
-topic can genuinely be read against --- a shared instrument, a shared apparatus,
-an adjacent setting, an inverted finding. Titles come from the ledger entry
-verbatim; a strip entry that doesn't match its record is a fabricated citation.
-Never pad the strip with an output nothing in the poster relates to.
-
-If the foot overflows, drop the strip to titles-and-DOIs on one wrapped line
-before touching anything else; never cut it entirely.
+Titles and DOIs come from `website/src/content/outputs/*.yml` verbatim; a strip
+entry that does not match its record is a fabricated citation. Find candidates
+with `ops/topic-neighbours.py "<the poster's topic>"` and
+`ops/extract-citations.py --suggest`.
 
 ### Footer furniture
 
@@ -304,95 +246,25 @@ The column foot always ends with two fixed lines (already in the skeletons):
   not a satire signal --- it renders muted at footnote size.
 
 Above those, fill the trailing column (and vary the foot between runs) with 1-2
-rolled items after the references --- real poster apparatus, played deadpan:
+rolled items after the references --- real poster apparatus:
 
-- **Acknowledgements / funding** --- aggregate only ("we thank the staff of the
-  monitored common rooms"; "we thank the households of the instrumented street";
-  "supported by a School of Continuous Improvement seed grant" --- schools from
-  `canon/schools.md`); no person names beyond the author line.
-- **Ethics / data statement** --- often the funniest line on the poster, played
-  straight ("animal ethics approval 2025/047; no birds harmed"; "de-identified
-  occupancy only; no number plates retained"; "thresholds pre-registered").
+- **Acknowledgements / funding** --- aggregate only; schools and schemes from
+  the canon; no person names beyond the author line.
+- **Ethics / data statement**, where the field would carry one.
 
 Keep furniture small (8-9pt); if the foot would overflow, compress the rolled
 items to a single line (the contact and social lines stay).
 
-### Result / metric plausible bands
-
-Fabricated numbers should be specific enough to feel real and vague enough to be
-unfalsifiable (commitment-shaped metrics can be more specific):
-
-- sample sizes: n = 12-400 (participants, sites, sensors, birds…)
-- accuracy / agreement: 60-95%
-- effect sizes / correlations: r = 0.3-0.8, "p < 0.05" sparingly
-- deployment duration: 3-24 months
-- improvement vs baseline: 1.2×-4×
-
-## Voice (academic-present register)
-
-The poster's register is **academic-present** (distinct from the booklets'
-future-tense and past-tense-reflective registers). It defers to `../genre.md`
-for the steering philosophy --- institutional/academic voice wrapping an
-unhinged topic, hedges at the edges, no exclamation marks, no first-person
-passion, no manifesto register --- and specialises it for a research poster:
-
-- **Telegraphic, not prose.** A poster is scanned, not read. Write short
-  declarative fragments; bullet the Aims and Methods; frame Background as the
-  gap, often a question. Cut the articles and filler a paragraph would carry ---
-  each section should land in one glance (Background 1-2 sentences, Methods ~3
-  bullets, Discussion / Conclusion a line or two). The academic register below
-  still holds; it is just compressed hard.
-- **Methods: terse and procedural.** Bullets or short past-tense fragments ("8
-  rooms · mass sensors · 5-min sampling · 14 weeks"; "soft actor-critic on the
-  redistribution MDP"). No enthusiasm; the deadpan is the joke.
-- **Findings in present tense, hedged.** "Results suggest…", "The model
-  achieves…", "Performance is consistent with…", "We observe a moderate
-  association between…". Hedge even when the wrapped claim is absurd.
-- **Background frames the absurd premise as a serious gap.** "Despite growing
-  interest in X, little is known about Y" --- the standard poster opener,
-  applied straight to a ridiculous Y.
-- **Captions state a falsifiable claim straight** (see commitment shapes below).
-- **Citations and apparatus complete the costume** --- a references list, an
-  optional funding line, plausible bands, the occasional "(p < 0.05)". These are
-  the costume of research, worn without a wink.
-
-The poster never signals satire on the page. If the register cracks --- an
-exclamation mark, a knowing aside, advocacy for the theme --- the joke dies.
-
-## Voice-preserving commitment shapes (poster)
-
-Charts, captions, and headline numbers are the poster's commitment vectors. Use
-these as a menu throughout (the general catalogue in `../genre.md` also
-applies):
-
-- **A chart caption that names a falsifiable result with a checkable figure and
-  date.** Hedge: "Engagement increased over the trial." One notch: "Mean corvid
-  dwell time at monitored nodes rose from 4.2 to 11.8 minutes between March and
-  August 2025 (n = 37 birds), tracking the redeployment schedule exactly."
-- **A headline number that's too clean.** "92% of monitored car-park bays
-  produced a usable sentiment signal at 6-month follow-up, with no drift across
-  the cohort."
-- **An aim phrased as a precise, structural hypothesis** the data then
-  "confirms".
-- **A methods detail that commits to an audited, published protocol** with no
-  override ("All thresholds were pre-registered; none were adjusted post hoc").
-
-All stay in academic register --- still hedged at the edges, still
-procedural --- while committing to something specific, structural, and checkable
-that real posters hedge away from.
-
 ## References --- real, verified (hard requirement)
 
-A **real** references list (6-8 entries) in small (~8pt) text: genuine adjacent
+A **real** references list (4-8 entries) in small (~8pt) text: genuine adjacent
 literature, every entry verified to resolve. This is the same rule the `paper`
 preset enforces (`paper.md` › "Bibliography --- real references, verified"),
 scaled to a poster's short list. The costume of research is worn straight ---
 the apparatus is real, so it holds up to a close read rather than rewarding one
 with a wink.
 
-- **Harvest** 6-8 candidates from the fabricated topic's real adjacent fields
-  (web search the topic's serious neighbours --- e.g. corvid foraging telemetry
-  → animal-movement ecology, sensor networks, multi-agent resource allocation).
+- **Harvest** candidates from the topic's real literature (web search).
 - **Verify every entry** before it enters the list --- each must pass one of:
   - **DOI check**:
     `curl -sI -o /dev/null -w '%{http_code}' https://doi.org/<doi>` returns
@@ -410,18 +282,11 @@ with a wink.
 - **Citation honesty**: neither the list nor the prose may claim something a
   cited work doesn't support. The fictional project borrows the field's
   legitimacy; it never puts words in a real researcher's mouth.
-- **Slop self-citations** (1-3 of the list): cite topically adjacent prior Slop
-  University outputs from `website/src/content/outputs/*.yml`, following
-  `paper.md` › "Slop self-citations (cite the canon)" --- fields copied
-  field-for-field from the ledger entry (title + subtitle, authors, school,
-  year, DOI), slop DOI rendered (the site's `/doi/` route resolves it), exempt
-  from the external DOI check above but verified against the ledger, citation
-  honesty judged against the entry's `summary`.
-  `ops/extract-citations.py --suggest` ranks the candidates by how much a
-  citation would lift a researcher's h-index; where two fit the topic equally
-  well, cite the ranked one. Drop below one only if nothing in the ledger fits
-  the topic.
-- Roughly 6-8 entries --- a poster's list is short; verified beats full.
+- **Slop self-citations** are optional: cite a prior Slop University output
+  where it genuinely bears on the work, following `paper.md` › "Citing the
+  University's own outputs" (fields copied from the ledger entry, verified
+  against the ledger rather than doi.org).
+- Roughly 4-8 entries --- a poster's list is short; verified beats full.
 
 ## Imagery (preset specifics for image-workflow.md)
 
@@ -495,11 +360,9 @@ normalised stacked bar; legends top/bottom). Poster specifics:
 
 - 1 chart (a 2nd only if the prose stays lean), leading the right grid cell,
   alongside the two concept images.
-- **Omit the chart `title`** (the caption carries the falsifiable claim). The
-  chart is `layout`-responsive, so it fills the right grid cell with no side
-  padding and no upscaling --- keep it wide and short (`height` ~0.3 of width).
-- Each chart's falsifiable claim goes in the typst `caption:`, not the chart
-  title.
+- **Omit the chart `title`** (the caption carries the claim). The chart is
+  `layout`-responsive, so it fills the right grid cell with no side padding and
+  no upscaling --- keep it wide and short (`height` ~0.3 of width).
 
 ## Style references
 
@@ -611,7 +474,7 @@ idiom.
   place(bottom + left, dx: 10mm, dy: -11mm, box(width: 156mm)[
     #text(fill: white, size: 19pt, weight: "medium")[“<hero quote --- a punchy finding or strapline>”]
     #v(0.35em)
-    #text(fill: rgb("#e0e0e0"), size: 10pt)[<one supporting line --- a falsifiable claim>]
+    #text(fill: rgb("#e0e0e0"), size: 10pt)[<one supporting line>]
   ])
 }))
 
@@ -652,7 +515,7 @@ idiom.
       - <terse bullet: key control --- pre-registered, held constant>
 
       == Results
-      <one or two punchy, hedged sentences>
+      <one or two sentences>
 
       // Body image: `height: 1fr` makes this block consume exactly the column's
       // leftover height, and `fit: "cover"` crops the wide (21:9) image symmetrically
@@ -664,11 +527,11 @@ idiom.
     [
       #chartfig(
         chart-1,
-        [<falsifiable, slightly-whacked claim with a checkable figure/date>],
+        [<caption>],
       )
 
       == Discussion & conclusions
-      <2-3 punchy, hedged lines, then a one-line close naming the next trial, implication, or instrument change without the literal label "Next:">
+      <the closing lines>
 
       == References
       #block[
@@ -683,7 +546,7 @@ idiom.
         + <...>
       ]
 
-      // Builds on --- 3-5 prior slop outputs by DOI, ledger-verified only (see
+      // Builds on --- 1-4 prior slop outputs by DOI, ledger-verified (see
       // "Builds on"). Separate from the references above: no external checking.
       #text(size: 8pt, fill: slop-muted-auto)[
         *Builds on:* <Title> (doi:10.5555/slop.<seed>) · <Title> (doi:10.5555/slop.<seed>) · <...>
@@ -695,7 +558,7 @@ idiom.
       #box(width: 100%, height: 0pt)<fill-top>
       // Pin the footer to the bottom of the column so both columns reach the page foot.
       #v(1fr)
-      #text(size: 8.5pt, fill: slop-muted-auto)[<deadpan ethics / data line>]<fill-bot>
+      #text(size: 8.5pt, fill: slop-muted-auto)[<acknowledgements / ethics / data line>]<fill-bot>
       #v(0.35em)
       #text(size: 8.5pt, fill: slop-muted-auto)[Contact: <lead author's roster email> · Office of Research Outputs]
       #v(0.3em)
@@ -1003,33 +866,27 @@ items:
       overlaid white masthead, title, subtitle, and gold rule; 2-column body
       fills the page below. Neither skeleton draws a typst gradient scrim (the
       bake carries them)
-- [ ] Section names drawn from the reservoirs
 - [ ] Two house-style images (`references/slop-style/` refs): the 4K feature
       (9:16 for feature-right / 16:9 for feature-top) and the wide (21:9, 2K)
       body image as a `height: 1fr` block (`fit: cover`) filling the left grid
       cell's foot; plus one full-width chart (a 2nd only with room) leading the
-      right cell, via `chartfig`, none bleeding past the column; chart captions
-      carry the falsifiable claim
+      right cell, via `chartfig`, none bleeding past the column; each with a
+      caption
 - [ ] Both grid columns balanced and full to the page foot (the `1fr` body image
       and the `#v(1fr)` footer pin do this; fill-probe band ≲ 40 mm per step 3
-      of "Compile and one-page fit"); the deadpan ethics / data footer line is
-      **on-page** (not clipped off the bottom), no person
+      of "Compile and one-page fit"); the footer line is **on-page** (not
+      clipped off the bottom), no person
 - [ ] Footer carries the fixed contact line (lead author's `email` from
       `canon/roster.yml` --- never an invented address shape) and
       `#slop-social-line()` (Bluesky butterfly + `@slop.university` + `#slopU`)
 - [ ] Charts use brand styling per `../../_shared/chart-workflow.md` (no rainbow
       bars; legends top/bottom) and **fill the column** (responsive `layout`,
       wide-short aspect --- no side padding)
-- [ ] 6-8 **real, verified** references (each external DOI resolves or arXiv id
+- [ ] 4-8 **real, verified** references (each external DOI resolves or arXiv id
       matches); real authors/titles/venues, DOI or arXiv id rendered; no
-      fabricated entry; 1-3 of them slop self-citations, each matching its
-      `outputs/*.yml` ledger entry field-for-field
-- [ ] Builds-on strip present under the references: 3-5 prior slop outputs,
-      titles and DOIs matching their ledger entries, every one topically related
-      to this project (see "Builds on")
-- [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs) in the
-      academic-present register (past-tense methods, hedged findings); no
-      exclamation marks, no satire signals on the page
+      fabricated entry; any slop self-citation matches its ledger entry
+- [ ] Builds-on strip names 1-4 prior outputs, each matching its ledger record
+- [ ] Telegraphic, scannable body (fragments and bullets, not paragraphs)
 - [ ] PDF metadata title is
       `This Slop University Research Poster Does Not Exist: <steering     verbatim>`;
       no other metadata fields populated
@@ -1037,18 +894,10 @@ items:
 ## Common failure modes (preset-specific)
 
 - **Spills to a second page**: follow step 4 of "Compile and one-page fit"
-  (tighten prose, shorten the chart plot; never trim the references or the
-  builds-on strip).
+  (tighten prose, shorten the chart plot; never trim the references).
 - **Chart bleeds into the gutter / next column**: a chart (or image) was
   embedded with a bare `#figure(image(...))` or `slop-inline-figure`. Use the
   `chartfig` helper (a plain image).
-- **Reads bland**: the title, aims, captions, and headline numbers aren't
-  visibly driven by the prompt. Crank the commitment shapes --- a falsifiable
-  caption with a checkable figure and date, a too-clean headline number ---
-  while keeping the academic register intact.
-- **Voice cracks into advocacy or jokeyness**: an exclamation mark, a knowing
-  aside, first-person enthusiasm. Regenerate. The poster reads straight; the
-  genre is the joke.
 - **Title looks like a heading, not a banner**: the project title was written as
   `=` / `==` instead of a manual `text()` block. Use the title-band block ---
   gold-on-white for feature-right, white-on-scrim in the hero for feature-top.

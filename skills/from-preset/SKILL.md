@@ -23,8 +23,10 @@ The slash command argument splits on the first whitespace:
 - **preset name** (first whitespace-separated word) --- one of the blueprints in
   `presets/`. Examples: `strategy`, `impact-report`.
 - **steering prompt** (everything after the first whitespace) --- 1-3 short
-  sentences, or a phrase. The preset's blueprint defines what the prompt is
-  allowed to drive; `genre.md` defines the voice floor.
+  sentences, or a phrase, naming the document's topic. Optional: with none,
+  compose the topic yourself under `genre.md` and write it down as one line
+  before anything else. That line is the steering prompt from then on (slug,
+  seed, PDF metadata title).
 
 Example: `/from-preset strategy lean into sovereign capability` → preset =
 `strategy`, steering = `lean into sovereign capability`. Workflow step 1 defines
@@ -101,9 +103,8 @@ each step.
 2. **Read references** (in order):
    - the resolved blueprint (`presets/<preset-name>.md`, or the private overlay
      fallback)
-   - `genre.md` --- voice doctrine and steering rules (a private-overlay
-     blueprint may point at a sibling doctrine snapshot instead --- follow the
-     blueprint)
+   - `genre.md` --- the brief and its hard floors (a private-overlay blueprint
+     may point at a sibling doctrine snapshot instead --- follow the blueprint)
    - `../_shared/image-workflow.md` --- parallel image generation
    - `../_shared/chart-workflow.md` --- chart pipeline + brand styling (only if
      the preset declares charts)
@@ -215,18 +216,7 @@ format.
       (`<formula>: <steering verbatim>`), set via `#set document(title: ...)`.
       No other metadata fields populated --- no author, description, keywords,
       date, Claude attribution. Verify with `pdfinfo`
-- [ ] Voice holds the preset's register throughout (no first-person passion, no
-      activist verbs, no exclamation marks, no manifesto register)
-- [ ] Hedging language wraps the specific commitments (the doc is unhinged in
-      content, not in prose register)
-- [ ] Rotates away from recent corpus scaffolds: no burnt section labels ("The
-      problem", "What we found", "What it means"), no literal "Next:" close, no
-      stock "three contributions" opener, no prompt leakage like "each hedged"
-      or "for completeness"
-- [ ] The finished artefact passes the hard commission test in `genre.md`: a
-      serious institution could not commission, publish, or adopt its project
-      and central claims unchanged. Its absurd method/scale, sharp Goodhart
-      consequence, or binding disproportionate action is central, not garnish
+- [ ] Holds every floor in `genre.md`, and its register without a break
 - [ ] _(booklet format)_ No `#pagebreak()` calls anywhere in the typst source
       (the template breaks after the contents)
 - [ ] _(booklet format)_ Cover image set; inline figures placed within sections
@@ -248,15 +238,6 @@ format.
   at `brand/slop-university-brand/0.1.0` in this repo;
   `@local/university-typst-template:0.1.0` at `0.1.0/` in the
   `university-typst-template` repo).
-- **Voice cracks**: the document drops out of the preset's register ---
-  exclamation marks, activist verbs, first-person passion, no hedging on the
-  wrapped claims. Regenerate. The hedge wraps the unhinged commitment; if the
-  wrapper goes too, the joke dies.
-- **Reads as competent real work**: a measurement gap, neat correlation, precise
-  dashboard, or internal apparatus can be perfectly plausible. Preserve the
-  roll, but make the proxy distort its target or make the institution bind
-  itself to a disproportionate rule; then recompile and rerun the commission
-  test.
 - **Figures isolated on near-empty pages** _(booklet format)_: there are stray
   `#pagebreak()` calls in the typst. Booklets carry none at all; remove any you
   find.

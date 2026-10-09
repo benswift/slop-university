@@ -27,8 +27,8 @@ Optional sections to add if the preset needs them:
 
 - "Terminology" --- if the preset relies on a specific institutional vocabulary
   (the impact-report preset has a large one)
-- "Voice-preserving commitment shapes" --- doc-specific elaborations on the
-  general menu in `../genre.md`
+- "Voice-preserving commitment shapes" --- the shapes a commitment takes in this
+  document (institutional presets only)
 - "Chart workflow" --- a short section pointing at
   `../../_shared/chart-workflow.md` if the preset generates charts; the
   orchestrator's chart step keys off this declaration, so no list elsewhere

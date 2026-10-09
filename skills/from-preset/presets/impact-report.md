@@ -255,8 +255,7 @@ aggregate ("a state government department") over adding to the set mid-draft.
 ## Voice-preserving commitment shapes (charts and metrics)
 
 Charts and metrics are commitment vectors specific to the impact report. Use
-these shapes as a menu throughout the document. (The general voice-preserving
-commitment shapes catalogue in `../genre.md` is also applicable.)
+these shapes as a menu throughout the document.
 
 - **A metric that's too round and too specific.** Hedge (real report):
   "Participants reported sustained behaviour change at follow-up." One notch:

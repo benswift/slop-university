@@ -50,9 +50,9 @@ pairing check, the agent-failure classifiers):
   pushes. Slot 1 gets the full ladder assessment; slots 2+ are pinned to 2A,
   because the gardening rungs are gated on shared state and two slots reading it
   pick the same gap. The live path: `slop-publish-gen@1.timer` and
-  `slop-publish-land.timer`; slot 2 is disabled, and slot 1 ticks half-hourly
-  (the timer period is the throughput lever). `bin/slopu thesis [steering]` runs
-  the one rung with no timer (2T, a doctoral thesis) as a generator slot named
+  `slop-publish-land.timer`; slot 2 is disabled, and slot 1 ticks hourly (the
+  timer period is the throughput lever). `bin/slopu thesis [steering]` runs the
+  one rung with no timer (2T, a doctoral thesis) as a generator slot named
   `thesis`; nothing assesses or schedules it, and the optional steering prompt
   fixes the topic while the fiction is still drawn.
 
@@ -66,9 +66,9 @@ one generator slot carrying it.
 The wrapper decides what a run does and meters what it cost; the model only
 composes. Everything a run used to work out by reading the corpus is a script
 (each one's docstring says why it exists): `ops/assess-ladder.py` names the rung
-and its parameters on the invocation line, `ops/scan-discourse.py` prints feed
-titles, `ops/topic-neighbours.py` prints the dedup shortlist,
-`ops/check-recent-language.py` reports stock language and self-reference,
+and its parameters on the invocation line, `ops/draw-axes.py` draws a 2A run's
+subject, tradition and lead author, `ops/subject-primer.py` prints real recent
+titles on that subject, `ops/topic-neighbours.py` prints the dedup shortlist,
 `ops/check-output-quality.py` catches a collapsed final page,
 `ops/check-table-fit.py` catches a table whose columns cannot fit the measure,
 `ops/verify-site.sh` runs the site chain quietly, and `ops/run-usage.py` logs
@@ -140,13 +140,13 @@ Slop University is a persistent fiction: its people, schools, and units live in
 - `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
   sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
   run.
-- `canon/axes.yml` + `canon/burnt-shapes.yml` --- the draw pools for a publish
-  run's enumerable choices (finding-shape, setting, topic-sentence frame, title
-  form) and the list of finding-shapes retired by overuse. `ops/draw-axes.py`
-  draws from them outside the model and the cron wrapper passes the result on
-  the `/publish` invocation line, alongside the preset `ops/select-preset.sh`
-  draws. Both files are static doctrine: a run reads neither and commits
-  neither.
+- `canon/axes.yml` + `canon/subjects.tsv` --- the draw pools for a publish run:
+  the scholarly traditions, and the subjects (a snapshot of OpenAlex's research
+  topics). `ops/draw-axes.py` draws from them outside the model and the cron
+  wrapper passes the result on the `/publish` invocation line, alongside the
+  preset `ops/select-preset.sh` draws. `axes.yml` also holds the two pools the
+  thesis reads, which `canon/burnt-shapes.yml` retires values from. All three
+  are static doctrine: a run commits none of them.
 - `canon/grants.yml` --- the internal funding schemes and prizes (all funders
   are Slop University bodies; no external funder, real or invented). Never
   invent a scheme inside a run; award events reference schemes by id and live in
@@ -156,9 +156,10 @@ Slop University is a persistent fiction: its people, schools, and units live in
 
 ## Conventions
 
-- **Preset path:** one steering prompt per run. The prompt is the document's
-  topic; the institutional voice is the only floor. See
-  `skills/from-preset/genre.md`.
+- **Preset path:** one topic per run, given as a steering prompt or composed by
+  the run. `skills/from-preset/genre.md` is the brief: a short list of hard
+  floors, and everything else left to the model's judgement. Keep it that
+  way --- a rule added to stop one repeated habit becomes the next one.
 - **Faithful path:** no rewriting. The source's prose, structure, and voice pass
   through verbatim. Small editorial calls (heading levels when ambiguous, lockup
   choice, cover-image theme) are allowed and surfaced in the run's text output.

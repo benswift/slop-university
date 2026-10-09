@@ -242,10 +242,10 @@ Everything in "Per-run variation rolls" varies per run. These don't, ever:
 
 - document title (`Slop University Strategic Plan 2026-2031`)
 - cover and contents (position); the "Executive summary" heading
-- genre voice and tone (institutional, future-tense-heavy; steering doctrine per
+- genre voice and tone (institutional, future-tense-heavy; the register is in
   `../genre.md`)
 - image workflow (cover + 4-5 inline + parity fix)
-- hard-infrastructure off-limits set (`../genre.md` › Off-limits to steering)
+- hard-infrastructure off-limits set (`../genre.md` › Fixed per preset)
 - length envelope (16-20 pages, even)
 
 ## Imagery (preset specifics for image-workflow.md)
@@ -368,7 +368,7 @@ present, etc.) live in `../SKILL.md`. Strategy-specific items:
       imagery --- can be driven by it)
 - [ ] No real person's name appears anywhere; the foreword signature is the
       unnamed role "Vice-Chancellor and President" (roster researchers may be
-      quoted in body sections, per `../genre.md` › People and attribution)
+      quoted in body sections, per `../genre.md` › Floors)
 - [ ] Executive summary contains a `#grid` of `slop-highlight-card`s --- one per
       pillar --- with Iconoir glyphs that match each pillar's theme
 - [ ] Pillar count is 3, 4, or 5; the exec-summary card grid matches that count
