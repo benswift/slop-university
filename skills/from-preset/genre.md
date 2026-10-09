@@ -76,9 +76,9 @@ institutional action and recompile. Do not patch in a gag.
 
 ## Voice is the floor
 
-The genre voice (the "language moves" list above) is preserved without exception
---- every move on that list holds even when the wrapped claim is unhinged. The
-steering prompt opens up content, never register.
+The genre voice (the "language moves" list above) is preserved without
+exception --- every move on that list holds even when the wrapped claim is
+unhinged. The steering prompt opens up content, never register.
 
 ## Voice-preserving commitment shapes
 
@@ -199,8 +199,8 @@ blueprint):
 - Period covered (per preset)
 - Back cover lockup
 - PDF metadata title formula
-- Any heading the preset explicitly fixes (e.g. strategy's "Executive summary"
-  --- a load-bearing genre convention; or strategy's implementation-phase
-  verb-set, abstract by definition)
+- Any heading the preset explicitly fixes (e.g. strategy's "Executive
+  summary" --- a load-bearing genre convention; or strategy's
+  implementation-phase verb-set, abstract by definition)
 
 Everything else is fair game.

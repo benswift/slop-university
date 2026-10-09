@@ -21,9 +21,9 @@ The sharpest detail: **the bibliography is real.** The fake paper cites only
 genuine literature, every entry verified to resolve --- borrowed legitimacy via
 the citation graph. (This is also why the site's `robots.txt` blocks indexing of
 output PDFs: the borrowing must never flow back into citation databases.) The
-one sanctioned exception: 4-8 entries citing Slop University's own prior outputs
---- institutions self-cite, and the canon's citation graph should loop back on
-itself (see "Slop self-citations").
+one sanctioned exception: 4-8 entries citing Slop University's own prior
+outputs --- institutions self-cite, and the canon's citation graph should loop
+back on itself (see "Slop self-citations").
 
 Loaded by `skills/from-preset/SKILL.md`. Defers to:
 
@@ -34,8 +34,8 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
 - `../../_shared/image-workflow.md` + `../../_shared/visual-style.md` for the
   (at most one) generated image
 - `../../_shared/output-naming.md` for slug, seed, output paths
-- `../../_shared/typst-layout.md` for the template import and PDF-metadata rules
-  --- **not** the booklet cover / back-cover / parity sections
+- `../../_shared/typst-layout.md` for the template import and PDF-metadata
+  rules --- **not** the booklet cover / back-cover / parity sections
 - `canon/roster.yml` and `canon/schools.md` for authors and affiliations
 
 ## Doc identity
@@ -129,6 +129,7 @@ Per-run `references.bib` harvested from genuine literature:
    "Foerster". Brace the whole surname --- `author = {{von Foerster}, Heinz}`,
    `author = {{van Niekerk}, Johan}` --- and check the rendered reference list,
    because this misnames a real person and the bib file looks right.
+
 4. Write `output/slop-paper-<slug>-<seed>.bib` and load it with
    `#bibliography("/output/slop-paper-<slug>-<seed>.bib", title: "References", style: "ieee")`.
    (The whole `output/` tree is gitignored, the per-run bib included.)
@@ -139,11 +140,11 @@ Per-run `references.bib` harvested from genuine literature:
    `@article{key, author = {...}, title = {...}, year = {...}, journal = {arXiv preprint arXiv:<id>}}`.
 
 **Citation honesty rule**: prose claims about a cited work must be true of that
-work ("resource-allocation mechanisms have been studied extensively @real2019"
---- fine; "@real2019 first proposed biscuit telemetry" --- never). The fictional
-project borrows the field's legitimacy; it does not misrepresent real
-researchers' actual claims. Cite generously in Introduction and Related work;
-2-4 callbacks in Method/Results keep the costume on.
+work ("resource-allocation mechanisms have been studied extensively
+@real2019" --- fine; "@real2019 first proposed biscuit telemetry" --- never).
+The fictional project borrows the field's legitimacy; it does not misrepresent
+real researchers' actual claims. Cite generously in Introduction and Related
+work; 2-4 callbacks in Method/Results keep the costume on.
 
 ### Slop self-citations (cite the canon)
 
@@ -373,8 +374,8 @@ against the canon>: <Title> (doi:10.5555/slop.<seed>); <Title>
 Structural reference: the ANU layer's worked example at
 `~/projects/anu-typst-template/packages/anu-typst-template/0.3.0/examples/paper.typ`
 (single-column, but demonstrates `bibliography()` + `references.bib`, subpar
-grouped figures, display equations, code listings, and a gribouille chart import
---- copy those moves, not its import block). If the two-column pattern
+grouped figures, display equations, code listings, and a gribouille chart
+import --- copy those moves, not its import block). If the two-column pattern
 stabilises after a few runs, consider promoting a `paper` mode into the template
 package --- not before.
 

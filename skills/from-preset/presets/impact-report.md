@@ -199,10 +199,11 @@ chart count.
 
 ### Chart types
 
-Drawn from the full menu in `../../_shared/chart-workflow.md` › "Chart types"
---- the distinctive forms (waffle, bump, dumbbell, heatmap, difference band)
-carry the institutional-dashboard register this genre lives in; don't default to
-line/bar. Each type appears at most once per run unless chart count exceeds 4.
+Drawn from the full menu in `../../_shared/chart-workflow.md` › "Chart
+types" --- the distinctive forms (waffle, bump, dumbbell, heatmap, difference
+band) carry the institutional-dashboard register this genre lives in; don't
+default to line/bar. Each type appears at most once per run unless chart count
+exceeds 4.
 
 ### Vignette substance
 
@@ -530,8 +531,8 @@ rules (palette helpers, legend placement, title vs caption) live in
 Read these before generating:
 
 - **Closest typst reference**:
-  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
-  --- it carries the highlight-card grid, feature-page, and inline-figure chart
+  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ` ---
+  it carries the highlight-card grid, feature-page, and inline-figure chart
   usage (under the core's neutral names). Copy the structural moves --- NOT the
   import block or content; this preset imports the slop brand package and uses
   its `slop-*` names.
@@ -544,8 +545,8 @@ Read these before generating:
   the available helpers and theme machinery. Branding comes from
   `@local/slop-university-brand:0.1.0`.
 - **Chart examples**:
-  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/charts/`
-  --- one worked `*.typ` per chart type. Theme + palettes come from the brand
+  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/charts/` ---
+  one worked `*.typ` per chart type. Theme + palettes come from the brand
   package (no theme file to copy); author each `#plot`, then import it inline.
 
 ## Typst structure

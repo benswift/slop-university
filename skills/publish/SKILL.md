@@ -34,8 +34,8 @@ The trust boundary: **this skill commits; it never pushes.** The cron wrapper
 `website/CLAUDE.md` and the repo `CLAUDE.md`; the wrapper enforces them
 mechanically. Unattended runs happen in a dedicated worktree
 (`../slop-university-press`, branch `press`) that the wrapper resets to the
-newest published state before each tick and pushes to `main` after validation
---- the human checkout is never touched.
+newest published state before each tick and pushes to `main` after
+validation --- the human checkout is never touched.
 
 ## 0. Preconditions
 
@@ -62,9 +62,9 @@ stays small.
 - Never `Read` a PDF, and never Read an image to check something a script can
   measure: page counts come from `pdfinfo`, fit and layout collapse from the
   preset probes and `ops/check-output-quality.py`, wording from
-  `ops/check-recent-language.py`. Look at a render at most three times in a run
-  --- once for the chart(s), once for the finished page or poster, once for a
-  generated hero --- and rasterise at `--ppi 72` for those looks.
+  `ops/check-recent-language.py`. Look at a render at most three times in a
+  run --- once for the chart(s), once for the finished page or poster, once for
+  a generated hero --- and rasterise at `--ppi 72` for those looks.
 - Loops have budgets: page-fit at most 3 recompiles, recent-language rewrite at
   most 2, chart fixes at most 2. When a budget runs out, take the structural fix
   the preset prescribes (drop a chart, trim a section) instead of iterating.
@@ -208,10 +208,10 @@ yours to make: the **finding-shape** (the study design), the **setting** (where
 in ordinary life the object sits), the **topic-sentence frame** (which element
 is the steering line's grammatical subject), and the **title form**. The
 invocation line carries one drawn value for each, plus the retired
-finding-shapes that may never be a primary design. Compose the topic to fit them
---- constraints first, composition second --- and never infer, count, sample or
-override them. The pool they are drawn from is `canon/axes.yml`; the drawer is
-`ops/draw-axes.py`.
+finding-shapes that may never be a primary design. Compose the topic to fit
+them --- constraints first, composition second --- and never infer, count,
+sample or override them. The pool they are drawn from is `canon/axes.yml`; the
+drawer is `ops/draw-axes.py`.
 
 They are drawn rather than inferred because inference here converged: sampling
 the corpus and steering away from the dominant value reads the newest entries as
@@ -464,8 +464,8 @@ verifiable numbers). Then:
   `authors` (the roster authors used), `preset`, `school` (the lead author's
   school), `date`, `publishedAt` (the exact `SLOPU_PUBLISHED_AT` value supplied
   by the unattended wrapper; omit only for a manual run without it), `doi`,
-  `summary` (1-2 sentence abstract of the fictional work, institutional register
-  --- not the press release's standfirst), `topic` (the steering line),
+  `summary` (1-2 sentence abstract of the fictional work, institutional
+  register --- not the press release's standfirst), `topic` (the steering line),
   `pdfDark` (poster-format runs only --- `research-poster`, `marketing-poster`:
   `true`, meaning a dark signage render exists --- see staging below), `pages`
   (from pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
@@ -532,13 +532,13 @@ verifiable numbers). Then:
   The key is the run id, so nothing records a path: the entry carries no `pdf`
   field at all.
 
-- **Dark sibling (poster-format runs: `research-poster`, `marketing-poster`)**
-  --- the from-preset step also compiled `output/pdf/<group>/<run-id>-dark.pdf`
-  (same source, `--input theme=dark`); stage it through the identical gs
-  downsample → `"$STAGING/<run-id>-dark.pdf"` and set `pdfDark: true` in the
-  outputs entry. The signage endpoints prefer it; every other surface (landing
-  page, DOI, downloads) keeps using the light PDF. The thumbnail and hero are
-  rendered from the light variant as before.
+- **Dark sibling (poster-format runs: `research-poster`,
+  `marketing-poster`)** --- the from-preset step also compiled
+  `output/pdf/<group>/<run-id>-dark.pdf` (same source, `--input theme=dark`);
+  stage it through the identical gs downsample → `"$STAGING/<run-id>-dark.pdf"`
+  and set `pdfDark: true` in the outputs entry. The signage endpoints prefer it;
+  every other surface (landing page, DOI, downloads) keeps using the light PDF.
+  The thumbnail and hero are rendered from the light variant as before.
 - Thumbnail --- the PDF's first page, rasterised here at publish time (the image
   pipeline resizes rasters but cannot render a PDF):
   `typst compile --root . --pages 1 --format png --ppi 144 output/<run-id>.typ /tmp/<run-id>-thumb.png`,

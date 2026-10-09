@@ -377,9 +377,9 @@ applies):
 - **A methods detail that commits to an audited, published protocol** with no
   override ("All thresholds were pre-registered; none were adjusted post hoc").
 
-All stay in academic register --- still hedged at the edges, still procedural
---- while committing to something specific, structural, and checkable that real
-posters hedge away from.
+All stay in academic register --- still hedged at the edges, still
+procedural --- while committing to something specific, structural, and checkable
+that real posters hedge away from.
 
 ## References --- real, verified (hard requirement)
 
@@ -506,30 +506,30 @@ normalised stacked bar; legends top/bottom). Poster specifics:
 Read these before generating:
 
 - **Poster layout cues (feature-right)**:
-  `~/projects/perceptron_apparatus/docs/mnist-poster.typ` and `poker-poster.typ`
-  --- the `hide: ("page-numbers", "title-block")` recipe and the column-grid
-  body (page size differs: those are A3, this preset is screen-format via
-  explicit `page-settings` width/height). **Note:** those are dark-mode with
-  custom display fonts; this preset uses **the template defaults** (Public Sans,
-  gold accents), light unless the dark compile flag is set. Copy the page-setup
-  moves, not the custom styling or fonts.
+  `~/projects/perceptron_apparatus/docs/mnist-poster.typ` and
+  `poker-poster.typ` --- the `hide: ("page-numbers", "title-block")` recipe and
+  the column-grid body (page size differs: those are A3, this preset is
+  screen-format via explicit `page-settings` width/height). **Note:** those are
+  dark-mode with custom display fonts; this preset uses **the template
+  defaults** (Public Sans, gold accents), light unless the dark compile flag is
+  set. Copy the page-setup moves, not the custom styling or fonts.
 - **Hero overlay (feature-top)**:
-  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
-  --- the core's `feature-page` and cover block both do the white-text-on-scrim
+  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ` ---
+  the core's `feature-page` and cover block both do the white-text-on-scrim
   treatment the top band emulates (the band's own scrims are baked into the
   image at prep --- see Imagery); `slop-overlay-masthead` (from the brand
   package) overlays the lockup on the photo with the gold spine drawn in two
   segments around it (no masking rect; crest axis on the spine). There is no
   perceptron analogue for this layout --- the core is the reference.
 - **Chart + card layout**:
-  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
-  --- chart-in-column usage and the highlight-card grid (under the core's
-  neutral names; this preset uses the brand package's `slop-*` names). The
-  poster uses the tighter `chartfig` helper instead of inline figures, for the
-  reasons in "Critical gotchas".
+  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ` ---
+  chart-in-column usage and the highlight-card grid (under the core's neutral
+  names; this preset uses the brand package's `slop-*` names). The poster uses
+  the tighter `chartfig` helper instead of inline figures, for the reasons in
+  "Critical gotchas".
 - **Layout core source**:
-  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ`
-  --- the `slop(...)` options used here (`page-settings: (width: …, height: …)`,
+  `~/.local/share/typst/packages/local/university-typst-template/0.1.0/lib.typ` ---
+  the `slop(...)` options used here (`page-settings: (width: …, height: …)`,
   `config: (theme, hide, qr-url)`). The first-page branding (gold rule + slop
   lockup) renders automatically from the brand package.
 - **Chart pipeline**: `../../_shared/chart-workflow.md`.
@@ -551,9 +551,10 @@ source compiles to both the light poster and its dark signage sibling, keyed off
 call); muted furniture text (captions, ethics line, credits, author line) uses
 `slop-muted-auto`, never a hardcoded grey; charts use `slop-theme-auto` and the
 `-auto` palettes (see the chart workflow); any stroke or outline authored
-against the page ground uses `slop-ink-auto`. Imagery needs no dark treatment
---- the light, cream-paper images read as framed prints on the dark page, and
-the feature image's white-on-scrim treatment is already the dark idiom.
+against the page ground uses `slop-ink-auto`. Imagery needs no dark
+treatment --- the light, cream-paper images read as framed prints on the dark
+page, and the feature image's white-on-scrim treatment is already the dark
+idiom.
 
 ### Skeleton A --- feature-right (landscape)
 
@@ -845,8 +846,8 @@ poster lands on one page first time.
   columns fill to the page foot and balance, the image is free, and it can't
   overlap the text (it's in its own cell). NB `#v(1fr)`/`height: 1fr` do **not**
   behave inside `#columns` --- the grid with `rows: 1fr` is what gives the `1fr`
-  units a definite height (and in feature-right that grid must itself be nested
-  --- see the next point).
+  units a definite height (and in feature-right that grid must itself be
+  nested --- see the next point).
 - **(feature-right) Title + body sit in an OUTER `#grid(rows: (auto, 1fr))`.** A
   top-level `#grid(rows: 1fr)` resolves `1fr` against the _full_ page height,
   not the height left below the in-flow title --- so on its own it overshoots
@@ -967,8 +968,8 @@ The poster replaces the booklet parity-fix with a one-page check:
    once the prose is terse (~200 words). The body image is free (it absorbs
    slack); the budget is really each grid cell's text + chart + references +
    footer. **feature-top**'s hero band takes ~190mm, but the taller page leaves
-   it the deeper body columns of the two layouts; its risk is the opposite one
-   --- under-fill, which step 3 owns.
+   it the deeper body columns of the two layouts; its risk is the opposite
+   one --- under-fill, which step 3 owns.
 
 ## Pre-ship checklist (preset-specific)
 
