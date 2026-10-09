@@ -159,12 +159,12 @@ each step.
      root).
    - If the blueprint declares a **dark variant** (the poster presets:
      `research-poster`, `marketing-poster`), also compile
-     `typst compile --root . --input theme=dark output/<prefix>-<slug>-<seed>.typ output/pdf/<group>/<prefix>-<slug>-<seed>-dark.pdf`
-     --- same source, themed by the `--input` flag (the blueprint's skeletons
-     wire `slop-doc-theme` and the `-auto` chart exports for exactly this). The
+     `typst compile --root . --input theme=dark output/<prefix>-<slug>-<seed>.typ output/pdf/<group>/<prefix>-<slug>-<seed>-dark.pdf` ---
+     same source, themed by the `--input` flag (the blueprint's skeletons wire
+     `slop-doc-theme` and the `-auto` chart exports for exactly this). The
      page-fit check runs on the light one (the layout is identical); look at a
-     render only once the page count is right, once, rasterised at `--ppi 72`
-     --- the dark variant needs no separate look.
+     render only once the page count is right, once, rasterised at
+     `--ppi 72` --- the dark variant needs no separate look.
    - Check `pdfinfo output/pdf/<group>/<prefix>-<slug>-<seed>.pdf | grep Pages`.
      (`pdfinfo` prints a benign `Syntax Error ... Suspects object is wrong type`
      line to stderr on Typst-generated PDFs --- a metadata-parser quirk, not a

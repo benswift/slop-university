@@ -6,11 +6,11 @@ one real output: glossy, plausible scholarship. Strategic plans, impact reports,
 research posters, in the full dress of a real university, none of it true and
 all of it, by the only measures the sector actually counts, research.
 
-**The satirical path:** named presets generate complete institutional documents
---- a "Slop University Strategic Plan 2026-2031", a five-year school impact
-report, a chart-heavy A3 research poster --- typeset into print-ready PDFs in
-the Slop University identity, authored by researchers from the persistent
-fictional roster in `canon/`.
+**The satirical path:** named presets generate complete institutional
+documents --- a "Slop University Strategic Plan 2026-2031", a five-year school
+impact report, a chart-heavy A3 research poster --- typeset into print-ready
+PDFs in the Slop University identity, authored by researchers from the
+persistent fictional roster in `canon/`.
 
 The genre is an LLM-shaped object: vague nouns, bridging verbs, transformations
 between adjacent abstractions, language designed to commit to nothing in
