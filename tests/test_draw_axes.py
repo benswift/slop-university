@@ -3,7 +3,7 @@
 # requires-python = ">=3.12"
 # dependencies = []
 # ///
-"""Integration checks for the axes drawer's thesis fiction."""
+"""Integration checks for the axes drawer."""
 
 from __future__ import annotations
 
@@ -75,6 +75,36 @@ class ThesisFictionTest(unittest.TestCase):
     def test_a_school_with_no_eligible_supervisor_is_never_drawn(self) -> None:
         for fiction in self.draw(12):
             self.assertEqual(fiction["school"], "School of Present Supervisors")
+
+
+class OutputDrawTest(unittest.TestCase):
+    def test_a_run_is_given_a_subject_a_tradition_and_a_lead(self) -> None:
+        subjects = {
+            line.split("\t")[0]: line.split("\t")[3]
+            for line in (ROOT / "canon" / "subjects.tsv").read_text().splitlines()
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "canon").mkdir()
+            (root / "canon" / "roster.yml").write_text(ROSTER)
+            (root / "website" / "src" / "content" / "outputs").mkdir(parents=True)
+            traditions = set()
+            for _ in range(24):
+                result = subprocess.run(
+                    [str(SCRIPT), "--json", "--root", str(root)],
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                )
+                drawn = json.loads(result.stdout)
+                # A clinical-looking fabrication is the one harmful kind.
+                self.assertNotEqual(subjects[drawn["subject"]], "Health Sciences")
+                self.assertTrue(drawn["lead_author"])
+                traditions.add(drawn["tradition"])
+            # Mostly the subject's own field, sometimes an outsider's reading:
+            # 24 draws that are all one or all the other mean the share broke.
+            self.assertIn("native", traditions)
+            self.assertGreater(len(traditions), 1)
 
 
 if __name__ == "__main__":

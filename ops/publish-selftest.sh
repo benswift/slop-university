@@ -77,7 +77,8 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron
          ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
          ops/check-table-fit.py \
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
-         ops/assess-ladder.py ops/run-usage.py ops/scan-discourse.py \
+         ops/assess-ladder.py ops/run-usage.py \
+         ops/subject-primer.py canon/subjects.tsv \
          ops/topic-neighbours.py ops/verify-site.sh \
          ops/post-to-bluesky.py ops/post-to-linkedin.py \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
@@ -592,7 +593,7 @@ route() { # <starting profile> <field>
 }
 
 check "a dead Grok balance falls through to claude-sub" claude-sub "$(route grok-sub profile)"
-check "...on that profile's own model, not the Grok pin" sonnet "$(route grok-sub model)"
+check "...on that profile's own model, not the Grok pin" opus "$(route grok-sub model)"
 check "...and each route is tried once, never looped" no "$(route grok-sub again)"
 check "a spent Claude week falls through the other way" grok-sub "$(route claude-sub profile)"
 check "...onto a Grok model, not a Claude one" grok-4.6 "$(route claude-sub model)"

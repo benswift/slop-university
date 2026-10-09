@@ -3,49 +3,45 @@
 # requires-python = ">=3.12"
 # dependencies = ["pyyaml>=6"]
 # ///
-"""Draw a 2A run's enumerable axes outside the model, like select-preset.sh.
+"""Draw a publish run's givens outside the model, like select-preset.sh.
 
-The publish skill used to derive these axes by inference: sample twenty
-published outputs entries, classify each on six axes, work out the dominant
-value, steer away from it. That is a draw done badly, and it fails twice.
+A model left to choose a run's discipline, subject or lead author converges on
+its favourites, and two slots reading the same corpus choose alike. So the
+givens are drawn here, with OS randomness, and passed on the invocation line;
+everything else about the piece is the run's own judgement (the brief is
+`skills/from-preset/genre.md`).
 
-It CONVERGES. The sample was weighted towards the newest entries, which read to
-a generating model as exemplars rather than as a list of moves to avoid --- over
-July and August one topic-sentence frame went from 0% to 93% of weekly output
-that way. A draw needs no corpus-tail read at all, which is also why this script
-buys throughput: the reads it removes were a meaningful slice of a run.
+A 2A run is given three things:
 
-It COLLIDES. Two runs assessing the same base corpus infer the same dominant
-value and steer to the same alternative, so the inference is worse than useless
-once 2A slots run concurrently (TASK-12): it actively correlates them. The topic
-itself is protected by `ops/topic-claim.py`; nothing else on the list was.
+- a **subject**, from `canon/subjects.tsv` --- what the piece is about. The
+  pool is a snapshot of OpenAlex's research topics (CC0), drawn field-first so
+  the fields are equally likely whatever their topic counts. Left free, the
+  subject was the one choice every run made alike (a humble everyday object,
+  every time). `ops/subject-primer.py` prints real recent titles for the drawn
+  id. The Health Sciences domain is never drawn: a fabricated paper that looks
+  clinical is the one kind that could hurt someone who believed it.
+- a **tradition** --- the scholarly tradition the piece is written from.
+  Usually the subject's own field. One run in three (CROSS_READING_SHARE) it
+  is instead drawn from the pool in `canon/axes.yml`, independently of the
+  subject, so that some of the corpus is one discipline reading another's
+  material; all of it would be a formula.
+- a **lead author** and, with them, the output's school, drawn from the
+  `--root` checkout's `canon/roster.yml` against its live attribution counts,
+  inversely weighted so the draw corrects imbalance instead of a run inferring
+  it. Two stages, because the two imbalances are separate: school first (by
+  that school's share of published outputs), then a lead author inside it (by
+  their share of lead authorships).
 
-So: the enumerable axes are drawn here, with OS randomness, and passed on the
-invocation line. Judgement stays in the skill --- composing a topic that fits
-these values, choosing citations by topical fit, deciding whether a bio reads
-thin. Constraints first, composition second, which is better generation anyway.
+The pools are doctrine and are read from this script's own checkout, never
+from `--root`.
 
-Four axes come from the static pools in `canon/axes.yml`, minus any value
-retired in `canon/burnt-shapes.yml`. Both are doctrine and are read from this
-script's own checkout, never from `--root`. The fifth --- the lead author and,
-with them, the output's school --- has no static pool: it is drawn from the
-`--root` checkout's `canon/roster.yml` against its live
-attribution counts, inversely weighted so the draw corrects imbalance instead of
-a run inferring it. Two stages, because the two imbalances are separate: school
-first (by that school's share of published outputs), then a lead author inside it
-(by their share of lead authorships). Every output's school is its lead author's
-school, so the school falls out of the author draw and is not a second
-decision.
-
-Some presets fix that school, though, and a draw that does not know which preset
-it is drawing for can contradict the document it is drawing for. `impact-report`
-is the School of Continuous Improvement's own report --- all fifteen published
-ones are written by that school about itself --- and on 2026-08-26 the draw
-handed one to a professor of Emergent Priorities. The agent, correctly, refused
-to guess past it and asked; unattended, that asked nobody and cost the tick. So
-`--preset` confines the school stage to whatever the blueprint's `school:` says,
-and the author stage inside it is unchanged. Presets that fix no school (most of
-them) draw exactly as before.
+Some presets fix the school, and a draw that does not know which preset it is
+drawing for can contradict the document it is drawing for. `impact-report`
+is the School of Continuous Improvement's own report, and on 2026-08-26 the
+draw handed one to a professor of Emergent Priorities. The agent, correctly,
+refused to guess past it and asked; unattended, that asked nobody and cost the
+tick. So `--preset` confines the school stage to whatever the blueprint's
+`school:` says.
 
 Usage:
   ops/draw-axes.py                     # prose lines, for the /publish invocation
@@ -54,11 +50,11 @@ Usage:
   ops/draw-axes.py --preset <name>     # honour that preset's fixed school
   ops/draw-axes.py --thesis            # a thesis run's fiction: setting, school, supervisors
 
-A thesis run (rung 2T, run by hand) draws no finding-shape, frame or title
-form: the blueprint gives that run creative licence. What it does draw is the
-fiction the corpus must stay spread across --- the setting, and the school the
-new doctoral candidate joins --- plus two supervisors from that school, the
-primary weighted exactly as a lead author is.
+A thesis run (rung 2T, run by hand) draws neither tradition nor subject: its
+blueprint gives that run its own licence. What it does draw is a setting from
+`canon/axes.yml`, the school the new doctoral candidate joins, and two
+supervisors from that school, the primary weighted exactly as a lead author
+is. `canon/burnt-shapes.yml` retires values from the thesis pools.
 """
 
 from __future__ import annotations
@@ -79,6 +75,7 @@ import yaml
 # therefore run against a worktree whose commit predates the pool.
 DOCTRINE_DIR = Path(__file__).resolve().parent.parent
 AXES_PATH = DOCTRINE_DIR / "canon/axes.yml"
+SUBJECTS_PATH = DOCTRINE_DIR / "canon/subjects.tsv"
 BURNT_PATH = DOCTRINE_DIR / "canon/burnt-shapes.yml"
 # A preset's own blueprint is where its doc identity is declared, so it is also
 # where a fixed school belongs --- a second copy in this script would be a
@@ -97,17 +94,12 @@ OUTPUTS_DIR = Path("website/src/content/outputs")
 # The one roster title that cannot supervise; see thesis_slot().
 DOCTORAL_TITLE = "Doctoral Candidate"
 
-# Order matters: it is the order the values reach the agent, and it is the order
-# a run should apply them (shape and setting bound the object; the frame and the
-# title form dress it).
-POOL_AXES = ("finding-shape", "setting", "topic-frame", "title-form")
+# The pools canon/axes.yml must carry: one a 2A run draws from, and the two the
+# thesis reads.
+POOL_AXES = ("tradition", "finding-shape", "setting")
 
-LABELS = {
-    "finding-shape": "finding-shape",
-    "setting": "setting",
-    "topic-frame": "topic-sentence frame",
-    "title-form": "title form",
-}
+CROSS_READING_SHARE = 1 / 3
+UNDRAWN_DOMAINS = frozenset({"Health Sciences"})
 
 # os.urandom under the hood, so two slots drawing in the same second draw
 # independently --- which is the whole point.
@@ -163,10 +155,24 @@ def load_axes() -> dict[str, list[dict]]:
     return axes
 
 
-def pool_axes() -> dict[str, dict]:
-    """Draw the four static axes."""
-    axes = load_axes()
-    return {axis: draw(axes[axis]) for axis in POOL_AXES}
+def draw_subject() -> dict:
+    """One research topic, field first.
+
+    OpenAlex files 4,500 topics under 26 fields very unevenly (medicine has
+    hundreds, the arts and humanities a few dozen), so a uniform draw over
+    topics would make the corpus a medical school. Drawing the field first
+    gives every part of the academy the same chance."""
+    by_field: dict[str, list[dict]] = {}
+    for line in SUBJECTS_PATH.read_text().splitlines():
+        topic_id, name, field, domain = line.split("\t")
+        if domain in UNDRAWN_DOMAINS:
+            continue
+        by_field.setdefault(field, []).append(
+            {"id": topic_id, "name": name, "field": field}
+        )
+    if not by_field:
+        sys.exit(f"{SUBJECTS_PATH} is empty")
+    return RNG.choice(by_field[RNG.choice(sorted(by_field))])
 
 
 def attribution_counts() -> tuple[Counter, Counter]:
@@ -368,20 +374,35 @@ def main() -> int:
         print("retired finding-shapes, never the primary design: " + "; ".join(retired))
         return 0
 
-    drawn = pool_axes()
+    subject = draw_subject()
+    if RNG.random() < CROSS_READING_SHARE:
+        tradition = draw(load_axes()["tradition"])
+    else:
+        tradition = {
+            "id": "native",
+            "value": f"the subject's own field ({subject['field']})",
+        }
     author = author_slot(args.preset)
 
     if args.json:
-        payload = {axis: drawn[axis]["id"] for axis in POOL_AXES}
-        payload["lead_author"] = author["id"]
-        payload["school"] = author["school"]
-        print(json.dumps(payload))
+        print(
+            json.dumps(
+                {
+                    "tradition": tradition["id"],
+                    "subject": subject["id"],
+                    "subject_name": subject["name"],
+                    "lead_author": author["id"],
+                    "school": author["school"],
+                }
+            )
+        )
         return 0
 
-    for axis in POOL_AXES:
-        print(f"{LABELS[axis]}: {collapse(drawn[axis]['value'])}")
+    print(f"tradition: {collapse(tradition['value'])}")
+    print(
+        f"subject: {subject['name']} (id {subject['id']}, filed under {subject['field']})"
+    )
     print(f"lead author: {author['name']} ({author['school']})")
-    print("retired finding-shapes, never the primary design: " + "; ".join(retired))
     return 0
 
 

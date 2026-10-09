@@ -1,29 +1,99 @@
-# The enumerable axes of a 2A research output, drawn OUTSIDE the model.
+# The draw pools for a publish run, drawn OUTSIDE the model.
 #
-# `ops/draw-axes.py` reads this file, draws one value per axis with OS
-# randomness, and the cron wrapper passes the draw on the /publish invocation
-# line --- exactly as `ops/select-preset.sh` already does for the preset. The
-# skill composes a topic that FITS the drawn values; it never infers them.
+# `ops/draw-axes.py` reads this file, draws with OS randomness, and the cron
+# wrapper passes the draw on the /publish invocation line --- exactly as
+# `ops/select-preset.sh` does for the preset.
 #
-# Why a draw and not the agent's judgement: the old dedup asked the agent to
-# sample 20 published entries, infer the dominant value on each axis and steer
-# away from it. That is sampling-based inference standing in for a draw, and it
-# fails twice. It converges (the sample's newest entries read as exemplars ---
-# one topic-sentence frame went from 0% to 93% of weekly output that way), and
-# it collides under concurrency (two slots reading the same corpus infer the
-# same dominant value and steer to the same alternative). A uniform draw cannot
-# overuse a value by construction and two slots draw independently.
+# Why a draw and not the agent's judgement: a model left to choose converges on
+# its favourites (one topic-sentence frame went from 0% to 93% of weekly output
+# that way), and two slots reading the same corpus choose alike. A draw cannot
+# overuse a value and two slots draw independently.
 #
-# Weights are relative within an axis and default to 1. They exist only where
-# the doctrine wants a value present but rationed, never to encode a house
-# style --- a value that should be rare is weighted down, not deleted.
+# A 2A run draws a `tradition` here and a subject from `subjects.tsv`. A thesis
+# run (2T) draws a `setting` and reads `finding-shape` as a menu; those two
+# pools serve the thesis alone (`skills/from-preset/presets/thesis.md`).
 #
-# The lead author / school slot is NOT here: it is drawn from `roster.yml`
-# against the live attribution counts, so it needs no static pool.
+# Weights are relative within a pool and default to 1.
 #
-# To retire a value on any axis, add it to `burnt-shapes.yml` (naming this
-# file's id in its `excludes:`); the drawer will stop drawing it. Do not delete
-# pool entries to retire them --- the ledger is where that decision is recorded.
+# To retire a thesis value, add it to `burnt-shapes.yml` (naming this file's id
+# in its `excludes:`); do not delete pool entries to retire them.
+
+# The scholarly tradition a 2A output is written from: its conventions of
+# evidence, argument, citation and title. Broad on purpose --- the run chooses
+# where inside it to stand.
+tradition:
+  - id: analytic-philosophy
+    value: analytic philosophy
+  - id: literary-criticism
+    value: literary criticism (close reading)
+  - id: art-history
+    value: art history
+  - id: musicology
+    value: musicology
+  - id: classics-and-philology
+    value: classics and philology
+  - id: social-and-cultural-history
+    value: social and cultural history
+  - id: the-history-and-philosophy-of-science
+    value: the history and philosophy of science
+  - id: legal-scholarship
+    value: legal scholarship (the doctrinal case note)
+  - id: jurisprudence
+    value: jurisprudence
+  - id: pure-mathematics
+    value: pure mathematics
+  - id: theoretical-computer-science
+    value: theoretical computer science
+  - id: statistics-and-methodology
+    value: statistics and methodology
+  - id: theoretical-physics
+    value: theoretical physics
+  - id: experimental-psychology
+    value: experimental psychology
+  - id: field-ecology
+    value: field ecology
+  - id: geology-and-physical-geography
+    value: geology and physical geography
+  - id: materials-science-and-engineering
+    value: materials science and engineering
+  - id: human-computer-interaction
+    value: human-computer interaction
+  - id: software-engineering-research
+    value: software engineering research
+  - id: machine-learning-research
+    value: machine learning research
+  - id: economics
+    value: economics (theory)
+  - id: economic-history
+    value: economic history
+  - id: ethnographic-sociology
+    value: ethnographic sociology
+  - id: cultural-anthropology
+    value: cultural anthropology
+  - id: linguistics
+    value: linguistics
+  - id: archaeology
+    value: archaeology
+  - id: architecture-and-design-criticism
+    value: architecture and design criticism
+  - id: urban-planning
+    value: urban planning
+  - id: education-research
+    value: education research
+  - id: science-and-technology-studies
+    value: science and technology studies
+  - id: media-and-communication-studies
+    value: media and communication studies
+  - id: information-and-library-science
+    value: information and library science
+  - id: theology-and-religious-studies
+    value: theology and religious studies
+  - id: political-theory
+    value: political theory
+  - id: organisation-and-management-studies
+    value: organisation and management studies
+  - id: operations-research
+    value: operations research
 
 finding-shape:
   - id: taxonomy
@@ -58,50 +128,6 @@ finding-shape:
     value:
       a 2x2 quadrant framework with the four cells named (also a fine poster
       chart)
-
-title-form:
-  # A form is a SHAPE, not an opening word. A form whose every instance opens on
-  # the same word has collapsed even while the draw is working: each form here
-  # lands at its expected one-in-ten, and the corpus still read as repetitive
-  # because one form supplied its opening word every time. Where a form has a
-  # signature word, its value names alternatives; use them.
-  - id: epigram
-    # Burnt as a default, not as a form: roughly one run in four.
-    weight: 2
-    value:
-      the laconic ironic epigram ("Registered, Not Standing"; "Blank Means
-      Yes")
-  - id: colon
-    value: the overlong colon title, scene-setting phrase then a formal subtitle
-  - id: question
-    value: the earnest question title, ending in a question mark
-  - id: towards
-    value:
-      the programmatic title, promising a direction rather than a result ---
-      "Towards ...", but equally "On the Way to ...", "Before ...", "Groundwork
-      for ...", "The Case for ..."
-  - id: acronym
-    value: the acronym-named system paper, the acronym expanded in the subtitle
-  - id: gerund
-    # Retired in burnt-shapes.yml: nine of the nine gerund titles in the last
-    # sixty outputs opened "Measuring the ...".
-    value: the gerund methodological title ("Measuring ...", "Rethinking ...")
-  - id: quote
-    # Folded scalar: the example carries a colon, which a plain one cannot.
-    value: >-
-      the quoted-phrase title --- a participant's words, or a notice's own
-      wording, in quotation marks, then a formal subtitle ("'Not Mine to
-      Open': Custody in the Office Restack")
-  - id: as-reframe
-    value:
-      the "X as Y" reframing title, the ordinary object named as the
-      instrument it turns out to be ("The Raffle Tin as Allocation Device")
-  - id: notes-on
-    value:
-      the modest scholarly title --- "Notes on ...", "A Case of ...", "Remarks
-      on ..." --- understating a document that then does not understate itself
-  - id: declarative
-    value: the plain declarative-sentence title, stating the finding flatly
 
 setting:
   - id: domestic
@@ -143,41 +169,3 @@ setting:
     value:
       campus life as ordinary furniture --- the coffee queue, the pigeons, the
       tea-room biscuits
-
-topic-frame:
-  # The frame of the one-line steering topic: which element is its grammatical
-  # subject. Varying the noun inside a fixed frame is not varying the frame.
-  - id: institution-first
-    value:
-      institution-first --- a unit, office or committee is the subject, doing
-      the governing
-  - id: instrument-first
-    value:
-      instrument-first --- the measure, index, register or scorer is the
-      subject, doing something to the world
-  - id: person-first
-    value:
-      person-first --- a role-holder (the duty officer, the volunteer
-      coordinator; a role, never a canon name) is the subject
-  - id: question-first
-    value: question-first --- the line is the question the work sets out to answer
-  - id: verb-first
-    value:
-      verb-first --- an infinitive or imperative, phrased as a mandate or aim
-      ("establish ...", "to determine whether ...")
-  - id: number-first
-    value:
-      number-first --- the line opens on the quantity, interval or threshold,
-      and the object arrives after it
-  - id: concessive
-    value:
-      concessive --- "although / despite X, Y", the tension stated before the
-      object
-  - id: object-plain
-    # One object-first frame is burnt outright --- "the [object rendered in
-    # cinematic detail], where a [authority]'s [instrument] [defines/reports] X
-    # as Y" --- and is deliberately absent from this pool. This is its plain
-    # cousin, which stays.
-    value:
-      object-first, plain --- a bare noun phrase naming the object, with no
-      scene-setting relative clause hung off it

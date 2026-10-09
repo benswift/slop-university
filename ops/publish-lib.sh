@@ -287,10 +287,10 @@ select_base() {
 # pages, and the canon it edits (roster, schools, headshots, and canon/heroes
 # for headshot-derived profile heroes).
 #
-# canon/burnt-shapes.yml and canon/axes.yml are deliberately absent: since the
-# finding-shape became a draw (ops/draw-axes.py) they are static doctrine the
-# wrapper reads and no run writes. That removed 2A's only shared-file write,
-# which is what makes concurrent 2A slots touch genuinely disjoint files.
+# The draw pools (canon/axes.yml, canon/subjects.tsv, canon/burnt-shapes.yml)
+# are deliberately absent: they are static doctrine the wrapper reads
+# (ops/draw-axes.py) and no run writes, which is what makes concurrent 2A slots
+# touch genuinely disjoint files.
 #
 # The denylist carves the one out-of-fiction page (colophon) back out of the
 # otherwise-allowed pages/ dir, and likewise the Vice-Chancellor:
@@ -493,9 +493,10 @@ rescue_stray_staging() {
 
 # Which agent publishes. The run goes through the dotfiles dispatcher rather
 # than a hardcoded CLI, so switching the press from one agent to another is a
-# profile name, not an edit to the invocation. grok-sub runs Grok Build on the
-# SuperGrok subscription; claude-sub is the previous behaviour.
-AGENT_PROFILE="${SLOPU_AGENT_PROFILE:-grok-sub}"
+# profile name, not an edit to the invocation. claude-sub is the Claude
+# subscription; grok-sub runs Grok Build on the SuperGrok subscription and is
+# the understudy (see the fallback route below).
+AGENT_PROFILE="${SLOPU_AGENT_PROFILE:-claude-sub}"
 AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 
 # --- The model the unattended run generates on, pinned here rather than
@@ -518,14 +519,16 @@ AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 default_model_for_profile() {
   case "$1" in
     grok-*) echo "grok-4.6" ;;
-    *)      echo "sonnet" ;;
+    # The brief (skills/from-preset/genre.md) leaves the piece to the model's
+    # judgement, so the model is where the quality comes from.
+    *)      echo "opus" ;;
   esac
 }
 
 fallback_model_for_profile() {
   case "$1" in
     grok-*) echo "grok-4.5" ;;
-    *)      echo "haiku" ;;
+    *)      echo "sonnet" ;;
   esac
 }
 
@@ -580,11 +583,12 @@ switch_to_fallback_profile() {
   AGENT_FALLBACK_MODEL="$(fallback_model_for_profile "$AGENT_PROFILE")"
 }
 
-# Draw this run's inputs. The preset and the enumerable 2A axes are chosen with
-# OS randomness OUTSIDE the model (ops/select-preset.sh, ops/draw-axes.py) so a
-# run receives one unambiguous selection instead of inferring it from the
-# corpus --- inference converged on its own tail, and it correlates concurrent
-# slots, which is precisely what a second generator must not do.
+# Draw this run's inputs. The preset and a 2A run's givens (subject, tradition,
+# lead author) are chosen with OS randomness OUTSIDE the model
+# (ops/select-preset.sh, ops/draw-axes.py) so a run receives one unambiguous
+# selection instead of choosing --- a model's choice converges on its
+# favourites, and it correlates concurrent slots, which is precisely what a
+# second generator must not do.
 #
 # Args: <worktree-dir> (the corpus the attribution draw reads). Sets PRESET,
 # AXES and PUBLISHED_AT.
@@ -646,7 +650,7 @@ compose_agent_prompt() {
 Record publishedAt from SLOPU_PUBLISHED_AT in any outputs entry, and in any news post that announces no output."
   if [ "$ACTION" = "2A" ] || [ "$ACTION" = "2T" ]; then
     AGENT_PROMPT="${AGENT_PROMPT}
-The wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew this run's axes; compose the topic to FIT them, and do not infer, count or override any of them:
+The wrapper selected preset: ${PRESET}. You must use that preset; do not roll a preset yourself. The wrapper also drew what this run is given; take each as given, and do not infer, count or override any of them:
 ${AXES}"
   fi
   # A run started to spend a budget that resets at a known time (the thesis)
