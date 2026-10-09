@@ -33,6 +33,14 @@ A lag rule --- outputs authored since a researcher's most recent grant,
 against all their outputs if they hold none --- keeps awarding as the corpus
 keeps growing instead of stopping once the roster is "covered" once.
 
+Rung 2S (found a school) is the one rung on a calendar rather than a gap: it
+fires when the newest school's `founded:` date is SCHOOL_FOUNDING_DAYS old (a
+school with no date counts as old). It sits below 2E and 2F on purpose. A
+founded school arrives empty, 2F then gives it a lab and 2E staffs it to
+SCHOOL_MIN_RESEARCHERS, and only a fully furnished University founds another
+--- so the rate is about one a month and never faster than the roster can
+follow.
+
 Rung 2T (a doctoral thesis) exists in the skill and is never returned here.
 It is run by hand (bin/slopu thesis) and only by hand: the one rung with no
 trigger, because it exists to spend a token budget a human chose to spend.
@@ -76,6 +84,9 @@ ABOUT_STUB_WORDS = 200
 
 ROSTER_CAP = 24
 OUTPUTS_PER_RESEARCHER = 12
+
+SCHOOL_FOUNDING_DAYS = 30
+SCHOOL_MIN_RESEARCHERS = 3
 
 SOCIALS_QUIET_HOURS = 20
 GRANTS_STALE_DAYS = 2
@@ -280,6 +291,34 @@ def find_school_without_lab(schools: dict) -> dict | None:
         if school.get("id") not in lab_school_ids:
             return school
     return None
+
+
+def find_understaffed_school(schools: dict, roster: list[dict]) -> dict | None:
+    """The first school with fewer than SCHOOL_MIN_RESEARCHERS staff.
+
+    Doctoral candidates are not staff: a school of three students and no
+    supervisor is still empty.
+    """
+    staff: dict[str, int] = {}
+    for person in roster:
+        if person.get("title") != "Doctoral Candidate":
+            staff[person.get("school")] = staff.get(person.get("school"), 0) + 1
+    for school in schools.get("schools") or []:
+        if staff.get(school.get("name"), 0) < SCHOOL_MIN_RESEARCHERS:
+            return school
+    return None
+
+
+def days_since_last_founding(schools: dict, now: dt.datetime) -> int | None:
+    """Days since the newest school was founded; None if no school is dated."""
+    founded = [
+        parse_date(school["founded"])
+        for school in schools.get("schools") or []
+        if school.get("founded")
+    ]
+    if not founded:
+        return None
+    return (now.date() - max(founded)).days
 
 
 # --- 2G: socials due ---------------------------------------------------------
@@ -526,6 +565,16 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
     outputs = load_outputs(root)
     required = required_roster_size(len(outputs))
     checked["roster_vs_required"] = {"roster": len(roster), "required": required}
+    understaffed = find_understaffed_school(schools, roster)
+    checked["understaffed_school"] = understaffed["id"] if understaffed else None
+    if understaffed:
+        return emit(
+            "2E",
+            f"{understaffed['name']} has fewer than {SCHOOL_MIN_RESEARCHERS} researchers",
+            {"school": understaffed["name"]},
+            checked,
+            as_json,
+        )
     if len(roster) < required:
         return emit(
             "2E",
@@ -544,6 +593,19 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
             "2F",
             f"{missing_lab_school['name']} has no lab or group",
             {"school": missing_lab_school["id"]},
+            checked,
+            as_json,
+        )
+
+    founding_age = days_since_last_founding(schools, now)
+    checked["days_since_last_founding"] = founding_age
+    if founding_age is None or founding_age >= SCHOOL_FOUNDING_DAYS:
+        return emit(
+            "2S",
+            "no school has ever been founded on the ladder"
+            if founding_age is None
+            else f"the newest school was founded {founding_age} days ago",
+            {"existing": [s["name"] for s in schools.get("schools") or []]},
             checked,
             as_json,
         )

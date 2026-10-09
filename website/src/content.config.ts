@@ -75,6 +75,8 @@ const schools = defineCollection({
     blurb: z.string().optional(),
     school: z.string().optional(), // parent school id (labs, programs, initiatives)
     acronym: z.string().optional(),
+    // schools only: the date the ladder founded it (ops/assess-ladder.py, 2S)
+    founded: z.union([z.string(), z.date()]).optional(),
   }),
 });
 
