@@ -1,0 +1,33 @@
+title: Thirty-Two Subsets of Five Axioms
+subtitle: A Dependency Atlas for BCK-Algebras by Refutation and Small-Model Search
+authors:
+  - Eivind Onwuka
+  - Solveig Adeyemi
+preset: paper
+school: School of Continuous Improvement
+date: 2026-10-10
+publishedAt: "2026-10-10T18:01:55+11:00"
+doi: 10.5555/slop.kvlnic
+summary: >-
+  A paper from the School of Continuous Improvement takes the five conditions
+  that define a BCK-algebra and determines, for each of their thirty-two
+  subsets, which of six standard consequences still hold. Of the 192 cells of
+  the resulting atlas, 163 are refuted by a countermodel of at most four
+  elements, 15 are proved by solver refutation, 6 are proved by hand and 8 are
+  left open; only one consequence, the bound of a difference by its first
+  term, requires all five axioms.
+topic: >-
+  an automated-reasoning ablation of Iseki's five BCK-algebra axioms: for every
+  subset of them, which order-theoretic consequences survive, settled by machine
+  refutation proofs and minimal finite countermodels
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.8xhbum
+  - 10.5555/slop.9d8yvs
