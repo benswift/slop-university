@@ -1,0 +1,35 @@
+title: Stopped When Flat
+subtitle: >-
+  Optional Stopping, Batch Length and the Coverage of Time-Averaged Quantities
+  in a Fluid–Structure Simulation
+authors:
+  - Vigdis Emenike
+  - Brynjar Obiora
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-13
+publishedAt: "2026-10-13T02:32:53+11:00"
+doi: 10.5555/slop.mdga34
+summary: >-
+  A paper from the School of Underlying Conditions tests whether ending a flow
+  simulation when its running mean looks flat degrades the confidence interval
+  reported afterwards, using 240 realisations of one fluid–structure simulation
+  and a yoked control for every stopped run. The stopping habit cost no
+  detectable coverage, 803 of 1,200 intervals covering in each arm, while
+  square-root batching held coverage near two-thirds at every run length
+  because its batches never outgrew a slow modulation of the wake.
+topic: >-
+  optional stopping in the time-averaging of a fluid-structure simulation: what
+  happens to interval coverage when a run is ended because the running mean
+  looks flat
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.dbmrhp
+  - 10.5555/slop.x27jfz
