@@ -1,0 +1,33 @@
+title: Silent Below the Break
+subtitle: Distributed Detection on a Daisy-Chained Sensor String That the Event May Sever
+authors:
+  - Ragnhild Uzoma
+  - Vigdis Emenike
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-13
+publishedAt: "2026-10-13T02:05:30+11:00"
+doi: 10.5555/slop.vweh68
+summary: >-
+  A paper from the School of Underlying Conditions derives the exact fusion
+  rule for a censoring sensor string wired in series down a borehole, where a
+  silent node may be withholding an uninformative reading or may lie below a
+  break in the cable caused by the event under detection. In simulation on a
+  string of twenty-four nodes the classical censoring rule's error probability
+  rises from 0.105 to 0.361 as severance becomes likely, while a rule that
+  weighs the trailing run of silence as a whole stays below 0.11.
+topic: >-
+  silent sensors in distributed detection: a fusion rule for a downhole
+  acoustic string whose nodes may be censoring or dead, when the event being
+  detected is also what silences them
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.nmd5q6
+  - 10.5555/slop.wh2bfv
