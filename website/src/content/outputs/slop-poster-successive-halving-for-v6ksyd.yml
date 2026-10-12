@@ -1,0 +1,37 @@
+title: The Sandpaper Budget
+subtitle: Successive halving for abrasion-durability screening of water-repellent coatings
+authors:
+  - Brynjar Obiora
+  - Signy Okpara
+  - Joost Nwosu
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-13
+publishedAt: "2026-10-13T02:14:29+11:00"
+doi: 10.5555/slop.v6ksyd
+summary: >-
+  A research poster from the School of Underlying Conditions treats the
+  linear-abrasion test of 81 water-repellent spray coatings as a training
+  curve and screens them by successive halving at 4.5% of the full sandpaper
+  budget, against an oracle run that abrades every coating to 810 cycles.
+  Halving returns the third-best formulation and discards the best at the
+  first rung in 94% of bootstrap replays, because the coatings' rankings cross
+  late; a variant that makes no cuts before the third rung and promotes on an
+  extrapolated wear curve recovers the best in 71% of replays at 16% of the
+  budget.
+topic: >-
+  successive halving for sandpaper: treating a linear-abrasion durability test
+  of water-repellent spray coatings as a training curve, and asking what early
+  stopping costs when the coating that lasts is not the one that starts best
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.2fnq3p
+  - 10.5555/slop.ca2ea6
