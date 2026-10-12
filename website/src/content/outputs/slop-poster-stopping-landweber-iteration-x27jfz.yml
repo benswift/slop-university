@@ -1,0 +1,35 @@
+title: Stopping Before the Valley Floor
+subtitle: Discrepancy principle versus oracle stopping in a backward heat problem
+authors:
+  - Osei Vandermeer
+  - Bram Ntuli
+  - Casimir Beng
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-10-12
+publishedAt: "2026-10-12T19:44:10+11:00"
+doi: 10.5555/slop.x27jfz
+summary: >-
+  A research poster from the School of Continuous Improvement runs Landweber
+  iteration on a synthetic backward heat problem at five noise levels, 200
+  draws each, and compares the discrepancy principle with the stopping index
+  that minimises the true error. The rule stopped before that index in all
+  1,000 runs, by a median factor of 4.5 to 55 in iterations, at a median cost
+  of 1.5 to 1.8 times the best attainable error.
+topic: >-
+  Stopping Landweber iteration early on a backward heat problem: the
+  discrepancy principle against the oracle stopping index across noise levels
+pdfDark: true
+pages: 1
+version: "1.0"
+grants:
+  - 2026-09-16-a-second-thermometer-in-the-compost
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.emdr27
+  - 10.5555/slop.u4nfsj
