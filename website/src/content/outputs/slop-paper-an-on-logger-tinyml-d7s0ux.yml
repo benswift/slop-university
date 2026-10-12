@@ -1,0 +1,34 @@
+title: Somebody Was Here
+subtitle: On-Logger Recognition of the Manual Dip in a Monitoring Bore's Pressure Trace
+authors:
+  - Vigdis Emenike
+  - Brynjar Obiora
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-13
+publishedAt: "2026-10-13T01:21:47+11:00"
+doi: 10.5555/slop.d7s0ux
+summary: >-
+  A paper from the School of Underlying Conditions describes a 4.1 kB
+  convolutional classifier that runs on a groundwater pressure logger's own
+  microcontroller and tags, in two bits, the moment a technician lowers a dip
+  tape beside it. Trained on 1,912 bursts from 23 bores, it reaches a macro-F1
+  of 0.91 on bores it has not seen but recalls only 0.69 of the dips made by a
+  technician it has not seen, having learned the speed of the hand on the reel;
+  time-warping augmentation restores this to 0.86, and a three-month deployment
+  on six bores tagged 17 of 18 dips.
+topic: >-
+  An on-logger tinyML classifier that recognises, in a monitoring bore's
+  pressure trace, the disturbance made by the technician who comes to dip it
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.3wbie1
+  - 10.5555/slop.nmd5q6
+  - 10.5555/slop.vyej86
