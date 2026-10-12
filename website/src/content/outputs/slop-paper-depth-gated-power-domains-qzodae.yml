@@ -1,0 +1,34 @@
+title: Asleep Between Samples
+subtitle: A Depth-Gated Near-Threshold Acquisition Processor for Battery-Run Borehole Logging
+authors:
+  - Ragnhild Uzoma
+  - Vigdis Emenike
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-12
+publishedAt: "2026-10-12T22:55:34+11:00"
+doi: 10.5555/slop.qzodae
+summary: >-
+  A paper from the School of Underlying Conditions designs a three-domain,
+  0.5 V acquisition processor for a memory logging sonde that samples once per
+  10 mm of travel, and power-gates its sampling logic between depth pulses only
+  where the hole is warm enough for the leakage saved to repay the transition.
+  In post-layout simulation of one replayed 1,240 m descent the scheduled
+  policy spends 23.8 mJ in the sampling domain against 34.8 mJ with clock
+  gating alone and 28.4 mJ with unconditional gating, and the processor writes
+  an explicit gap record wherever its odometer arm loses the borehole wall.
+topic: >-
+  depth-gated power domains: a near-threshold acquisition chip for a
+  battery-run borehole logging tool that sleeps between depth samples and
+  budgets its leakage against the temperature of the hole
+pages: 7
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.05dlje
+  - 10.5555/slop.wbmqu3
