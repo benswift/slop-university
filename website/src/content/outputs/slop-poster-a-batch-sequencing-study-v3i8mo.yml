@@ -1,0 +1,37 @@
+title: Annealing the Anneal
+subtitle: Sequencing One Shared Heat-Treatment Furnace by Simulated Annealing
+authors:
+  - Eivind Onwuka
+  - Osei Vandermeer
+  - Casimir Beng
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-10-13
+publishedAt: "2026-10-13T01:44:56+11:00"
+doi: 10.5555/slop.v3i8mo
+summary: >-
+  A research poster from the School of Continuous Improvement formulates a
+  teaching workshop's single box furnace as a batch-processing machine with
+  asymmetric, sequence-dependent changeovers and sequences twelve teaching
+  weeks of booked loads by simulated annealing. The best sequences found cut
+  the hours the empty chamber spends changing temperature by a little over
+  half and, in eleven weeks of twelve, never raise the setpoint; a one-line
+  sort by descending setpoint comes within four per cent of the search but
+  returns nine loads late.
+topic: >-
+  A batch-sequencing study of one shared heat-treatment furnace in a teaching
+  metallurgy workshop, in which simulated annealing schedules the real
+  annealing loads and the algorithm's cooling schedule is set against the
+  furnace's own
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.a4m8i7
+  - 10.5555/slop.nasy4v
