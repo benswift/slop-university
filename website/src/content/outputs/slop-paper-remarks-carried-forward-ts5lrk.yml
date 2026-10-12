@@ -1,0 +1,38 @@
+title: "Cap Seized, Use Stilsons"
+subtitle: Carry-Forward Duplication and the Classification of Field Remarks on Manual Water-Level Readings
+authors:
+  - Vigdis Emenike
+  - Anouk Mensah
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-13
+publishedAt: "2026-10-13T02:01:41+11:00"
+doi: 10.5555/slop.ts5lrk
+summary: >-
+  A paper from the School of Underlying Conditions and the School of Emergent
+  Priorities studies the automatic classification of the free-text remarks
+  attached to 143,906 manual water-level readings from 1,137 monitoring bores
+  over 31 years, in an archive where the field software pre-fills each remark
+  with the previous visit's and 68.6% are identical to their predecessor. Four
+  standard text classifiers scoring 0.89 to 0.97 macro-F1 on a random split
+  score 0.69 to 0.82 on first occurrences from later years; a model given only
+  a remark's provenance flags unusable readings better than one given only its
+  words, and one that classifies the edit made at each visit, with the remark's
+  age, reaches 0.86.
+topic: >-
+  Remarks carried forward: classifying the free-text remarks field technicians
+  attach to manual water-level readings in a groundwater monitoring database,
+  to flag unusable readings, when most remarks are copied verbatim from the
+  previous visit
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.d7s0ux
+  - 10.5555/slop.nr1eac
+  - 10.5555/slop.uefmvy
