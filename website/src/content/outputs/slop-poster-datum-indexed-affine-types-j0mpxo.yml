@@ -1,0 +1,36 @@
+title: Depth Is Not a Number
+subtitle: Datum-indexed affine types for water-level arithmetic
+authors:
+  - Vigdis Emenike
+  - Brynjar Obiora
+  - Eivind Onwuka
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-12
+publishedAt: "2026-10-12T21:31:28+11:00"
+doi: 10.5555/slop.j0mpxo
+summary: >-
+  A research poster from the School of Underlying Conditions presents a type
+  system in which a groundwater level is a point indexed by its datum rather
+  than a length, so that levels may be differenced, shifted, rebased and
+  averaged but never added. Checked against 318 archived processing scripts
+  annotated only where files are read, it rejects 61 expressions in 47
+  scripts, of which 23 are correct means written as a sum and 4 are the unit
+  mismatches a dimension checker would have found.
+topic: >-
+  Datum-indexed affine types for groundwater-level arithmetic: a
+  units-of-measure type system in which a water level is a point relative to a
+  named datum rather than a number, checked against a legacy archive of
+  bore-processing scripts
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.3wbie1
+  - 10.5555/slop.xvr7xh
