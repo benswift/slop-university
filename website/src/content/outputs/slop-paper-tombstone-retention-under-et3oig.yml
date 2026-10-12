@@ -1,0 +1,35 @@
+title: The Block Stays in the Tray
+subtitle: Tombstone Retention under Heavy-Tailed Peer Absence in an Infrastructure-Free Replicated Store
+authors:
+  - Ragnhild Uzoma
+  - Brynjar Obiora
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-12
+publishedAt: "2026-10-12T19:51:09+11:00"
+doi: 10.5555/slop.et3oig
+summary: >-
+  A paper from the School of Underlying Conditions asks how long a peer in a
+  serverless replicated store must keep the marker of a deletion before a
+  device that was away can no longer hand the deleted record back. From
+  nineteen months of synchronisation logs on 23 field devices at a drill-core
+  shed it finds absence durations heavy-tailed, derives the probability that an
+  absent peer outlasts a retention window, shows that this falls too slowly for
+  any timer to be a practical control, and recommends that the store keep every
+  deletion marker, at a cost of 362 kB per device.
+topic: >-
+  Tombstone retention under heavy-tailed peer absence: how long a peer-to-peer
+  replicated store must remember a deletion before a long-absent device can no
+  longer resurrect it
+pages: 7
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.jhcs44
+  - 10.5555/slop.jof0p6
+  - 10.5555/slop.sujuaj
