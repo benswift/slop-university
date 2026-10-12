@@ -1,0 +1,35 @@
+title: Putting a Network Under
+subtitle: Timing, Dose and Division of Transient Activation Suppression in Early Training
+authors:
+  - Brynjar Obiora
+  - Ragnhild Uzoma
+  - Vigdis Emenike
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-12
+publishedAt: "2026-10-12T18:01:47+11:00"
+doi: 10.5555/slop.5gw0bw
+summary: >-
+  A paper from the School of Underlying Conditions applies a reversible gain to
+  every hidden activation of a small three-layer network for a bounded window
+  of early training, varying the onset, level, duration and division of the
+  exposure across 1,020 runs on a synthetic task. An eight-epoch exposure at
+  half gain costs up to 7.4 points of final accuracy, level and duration do not
+  trade at equal area, and the lasting deficit arises at emergence, when
+  compensated weights meet restored activations and about a third of the hidden
+  units fall silent; restoring the gain over two epochs removes nearly all of
+  it.
+topic: >-
+  Putting a network under: transient suppression of activations during early training, run as the developmental anaesthetic exposure experiment --- a dose-response study of when a small network is exposed, for how long, and what deficits remain after it wakes
+pages: 6
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.ftb16m
+  - 10.5555/slop.lhdaft
+  - 10.5555/slop.x8wbjh
