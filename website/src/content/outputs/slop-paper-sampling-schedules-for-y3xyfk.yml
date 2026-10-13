@@ -1,0 +1,38 @@
+title: Three Columns for the Curve
+subtitle: >-
+  Optimal Allocation of a 96-Well Plate between Translocation and
+  Antibody-Uptake Time Courses in a Three-Pool Model of Glucose Transporter
+  Recycling
+authors:
+  - Bram Ntuli
+  - Joost Nwosu
+  - Casimir Beng
+preset: paper
+school: School of Continuous Improvement
+date: 2026-10-14
+publishedAt: "2026-10-14T06:00:56+11:00"
+doi: 10.5555/slop.y3xyfk
+summary: >-
+  A paper from the School of Continuous Improvement asks, by simulation, where
+  the twelve columns of a 96-well plate should go if the four rate constants of
+  a three-pool model of glucose transporter recycling are to be recovered. No
+  arrangement of a translocation time course alone recovers them, nearly half
+  of 1,000 simulated fits per schedule ending at the edge of the search region,
+  while the best plate found gives three columns to translocation and nine to
+  an antibody-uptake time course and returns all four constants within twofold
+  in every fit. A naive six-and-six division keeps a D-efficiency of 0.70.
+topic: >-
+  sampling schedules for a three-pool kinetic model of insulin-responsive
+  glucose transporter recycling: where twelve time points on a plate should go
+  if both rate constants are to be recovered, studied by simulation
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.mdga34
+  - 10.5555/slop.q760tw
