@@ -1,0 +1,34 @@
+title: The Cube Root of the Book
+subtitle: Optimal Granularity of an Internal Rating Scale under Backtesting
+authors:
+  - Runa Adegoke
+  - Iben Chikere
+preset: paper
+school: School of Emergent Priorities
+date: 2026-10-13
+publishedAt: "2026-10-13T23:00:56+11:00"
+doi: 10.5555/slop.w1970n
+summary: >-
+  A paper from the School of Emergent Priorities treats the number of grades on
+  a lender's internal rating scale as a histogram bin-width problem. It shows
+  that the loss-minimising number of equal-width grades grows with the cube
+  root of the number of obligors, derives the optimal width of each grade when
+  boundaries are free, and finds that a supervisor who backtests every grade
+  but sanctions the whole book places a ceiling on the scale that no amount of
+  data lifts.
+topic: >-
+  How many grades an internal credit rating scale should have: grade count as a
+  histogram bin-width problem, where finer grades price risk better but leave
+  each grade too few obligors to backtest, giving a cube-root rule in portfolio
+  size and a supervisory cap from multiple testing
+pages: 8
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.g0qn6j
+  - 10.5555/slop.kum49s
