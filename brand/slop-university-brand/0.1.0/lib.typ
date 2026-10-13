@@ -530,13 +530,18 @@
       set page(header: none)
       set par(justify: true, leading: 0.8em)
       set outline(depth: 3)
-      show figure.where(kind: table): set figure.caption(position: top)
-
       // Tables run tighter than the house default and set ragged-right. Over
-      // five columns the default 0.75em of padding either side of every one
-      // spends a fifth of the text block on air, and justifying a cell that
-      // narrow rivers it.
-      set table(inset: (x: 0.5em, y: 0.55em))
+      // five columns the default 1.5em between every pair spends a fifth of
+      // the text block on air, and justifying a cell that narrow rivers it.
+      // Same shape as the house rule: the gap sits on each cell's left so the
+      // outer edges stay flush with the text block.
+      set table(
+        inset: (x, y) => (
+          left: if x == 0 { 0pt } else { 1em },
+          right: 0pt,
+          y: 0.55em,
+        ),
+      )
       show table.cell: set par(justify: false)
 
       // Figures and tables number by the chapter they sit in (Figure 3.2,
