@@ -20,12 +20,12 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "@iconify-json/iconoir": "^1.2.11",
-    "astro": "^7.3.2",
+    "@iconify-json/iconoir": "^1.2.12",
+    "astro": "^7.3.8",
     "astro-theme-slop": "github:benswift/astro-theme-slop#v0.2.0",
     "astro-theme-university": "git+https://github.com/ANUcybernetics/astro-theme-university.git#v0.20.0",
-    "pdfjs-dist": "^6.3.289",
-    "sharp": "^0.35.4"
+    "pdfjs-dist": "^6.4.299",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
@@ -33,16 +33,16 @@
     "eslint-plugin-no-only-tests": "^3.4.0",
     "eslint-plugin-perfectionist": "^5.12.1",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "lightningcss": "^1.32.0",
-    "oxfmt": "^0.71.0",
-    "oxlint": "^1.86.0",
+    "lightningcss": "^1.33.0",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
     "pagefind": "^1.5.2",
-    "stylelint": "^17.15.0",
+    "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
     "vega": "^6.4.0",
-    "vega-lite": "^6.4.3",
-    "vitest": "^5.0.0",
+    "vega-lite": "^6.5.0",
+    "vitest": "^5.0.4",
     "yaml": "^2.9.1"
   },
   "engines": {
