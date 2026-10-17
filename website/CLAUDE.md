@@ -130,6 +130,9 @@ built by hand, not grown by the tick.
   the outputs dashboard (funding tiles and chart). The content test enforces the
   seams: grantees resolve to roster pages, schemes exist in the canon, and
   attached grants exist and predate their outputs.
+- `src/content/videos/*.yml` --- the videos the signage screens play between
+  posters, each naming its two signage encodes in the PDF bucket. Hand-added
+  from `video/` (`video/STYLE.md`); the tick never writes them.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
   generated from the outputs collection --- no per-output page authoring.
 
