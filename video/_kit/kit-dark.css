@@ -1,0 +1,20 @@
+/* The ink cut: kit.css on astro-theme-slop's ink stage
+   (brand/video/slop-dark.css), cream type and lockup gold on the house ink. A
+   composition that links it sets data-theme="dark" on its stage. */
+
+@import url("kit.css");
+@import url("brand/video/slop-dark.css");
+
+:root {
+  --rule: rgb(248 240 220 / 85%); /* cream linework */
+  --muted: rgb(248 240 220 / 50%);
+  --hairline: rgb(248 240 220 / 18%);
+  --quote-scrim: rgb(26 26 26 / 86%);
+  --video-scrim: linear-gradient(
+    to top,
+    rgb(26 26 26 / 94%) 18%,
+    rgb(26 26 26 / 72%) 55%,
+    rgb(26 26 26 / 25%) 76%,
+    rgb(26 26 26 / 85%) 100%
+  );
+}

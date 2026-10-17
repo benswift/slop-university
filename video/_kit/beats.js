@@ -53,7 +53,7 @@ export function figure(value, { format = "number", prefix = "", suffix = "" } = 
 // Load everything a spec needs before the build (the build itself is sync).
 export async function prepare() {
   const root = document.getElementById("stage");
-  const theme = root.dataset.theme === "light" ? "light" : "dark";
+  const theme = root.dataset.theme === "dark" ? "dark" : "light";
   const spec = await fetch("spec.json").then((r) => r.json());
   const people = await fetch("assets/people.json")
     .then((r) => (r.ok ? r.json() : {}))

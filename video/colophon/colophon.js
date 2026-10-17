@@ -1,14 +1,14 @@
 // Welcome to Slop University: the colophon as a video. One build serves both aspects;
 // every cue lands on a word of the script (video/scripts/colophon.md) through
 // T.word. assets/ is filled by fetch-assets.py: the colophon hero, real output
-// covers and the roster's headshots. A stage with data-theme="light" is the
-// cream cut (its composition links kit/kit-light.css).
+// covers and the roster's headshots. A stage with data-theme="dark" is the ink
+// cut (its composition links kit/kit-dark.css).
 
 import * as M from "./kit/motion/motion.js";
 import * as B from "./kit/motion/brand.js";
 import { lockups, logos } from "./kit/brand/video/brand.js";
 
-const THEME = document.getElementById("stage").dataset.theme === "light" ? "light" : "dark";
+const THEME = document.getElementById("stage").dataset.theme === "dark" ? "dark" : "light";
 const DATA = await fetch("assets/outputs.json").then((r) => r.json());
 const HERO = await B.image("assets/hero.avif", "Slop University");
 const LOGO = await B.image(logos[THEME], "Slop University");

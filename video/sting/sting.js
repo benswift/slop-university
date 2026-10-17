@@ -6,7 +6,7 @@ import * as M from "./kit/motion/motion.js";
 import * as B from "./kit/motion/brand.js";
 import { lockups, logos } from "./kit/brand/video/brand.js";
 
-const THEME = document.getElementById("stage").dataset.theme === "light" ? "light" : "dark";
+const THEME = document.getElementById("stage").dataset.theme === "dark" ? "dark" : "light";
 
 const OUTPUT = await fetch("output.json").then((r) => r.json());
 const HERO = await B.image("assets/hero.avif", OUTPUT.title);
