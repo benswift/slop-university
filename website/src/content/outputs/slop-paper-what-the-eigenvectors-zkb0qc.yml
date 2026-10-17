@@ -1,0 +1,36 @@
+title: Lapsed Couplings
+subtitle: >-
+  Eigenvector Memory and Spectral Ageing in Randomly Diluted Wigner Matrices
+authors:
+  - Marek Solheim
+preset: paper
+school: School of Emergent Priorities
+date: 2026-10-17
+publishedAt: "2026-10-17T22:00:56+11:00"
+doi: 10.5555/slop.zkb0qc
+summary: >-
+  A paper from the School of Emergent Priorities switches off the couplings of
+  a random symmetric matrix one at a time, at independent exponential times,
+  and shows that while the matrix stays dense its eigenvectors forget at a rate
+  set only by elapsed time, exactly as under Dyson's Ornstein–Uhlenbeck
+  process. Once fewer than a handful of couplings per row remain, forgetting
+  slows with the age of the system, the memory half-life rising from 0.89 to
+  1.41 and beyond 2, because what is left sits on small isolated clusters that
+  change only when one of their own couplings lapses.
+topic: >-
+  what the eigenvectors of a random matrix remember as its couplings lapse one
+  at a time: random-time dilution, Dyson Brownian motion and spectral ageing
+pages: 5
+version: "1.0"
+grants:
+  - 2026-07-28-the-sign-gets-an-end-date
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.lhdaft
+  - 10.5555/slop.lrsa1x
+  - 10.5555/slop.u5cqgg
