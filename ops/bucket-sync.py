@@ -7,19 +7,20 @@
 
 Two buckets, two policies, selected with `--target` (default `pdf`):
 
-- **pdf** (`pdf.slop.university`, env `SLOPU_S3_BUCKET`): output PDFs, keyed by
-  bare basename. The PDFs used to live in `website/public/outputs/pdf/` and
-  ship inside the GitHub Pages artifact; they were the largest and
-  fastest-growing category there and, being committed, they grew `.git`
-  permanently too. Two properties of this bucket are load-bearing and applied
-  by `setup`:
+- **pdf** (`pdf.slop.university`, env `SLOPU_S3_BUCKET`): output PDFs, and the
+  signage screens' video encodes, keyed by bare basename. The PDFs used to live
+  in `website/public/outputs/pdf/` and ship inside the GitHub Pages artifact;
+  they were the largest and fastest-growing category there and, being
+  committed, they grew `.git` permanently too. Two properties of this bucket
+  are load-bearing and applied by `setup`:
 
   - **robots.txt with `Disallow: /`.** This is what keeps fabricated documents
     citing real literature out of Google Scholar (the rationale is published on
     /colophon/). S3 has no way to attach an `X-Robots-Tag` header, and the
     site's own robots.txt does not reach this origin.
   - **CORS.** The signage kiosk (`/signage/<orientation>/`) fetches PDFs
-    client-side with pdf.js, a cross-origin read.
+    client-side with pdf.js, and downloads each video whole before it plays
+    it: both are cross-origin reads.
 
 - **img** (`img.slop.university`, env `SLOPU_IMG_BUCKET`): per-publish images
   (hero/thumb AVIF ladders + og JPEGs), keyed by their path relative to the
@@ -47,7 +48,7 @@ an admin key instead --- they are rare, deliberate operations, so supply it
 inline for the one run rather than leaving it in the env.
 
 Usage:
-  ops/bucket-sync.py upload FILE...                 # upload PDFs, keyed by basename
+  ops/bucket-sync.py upload FILE...                 # upload PDFs or videos, keyed by basename
   ops/bucket-sync.py upload --target img ROOT_DIR   # upload a staged image tree
   ops/bucket-sync.py verify [ID]                    # check the served PDF origin
   ops/bucket-sync.py verify --target img [KEY]      # check the served image origin
@@ -118,7 +119,7 @@ TARGETS = {
     "pdf": Target(
         bucket_env="SLOPU_S3_BUCKET",
         public_base="https://pdf.slop.university",
-        content_types={".pdf": "application/pdf"},
+        content_types={".pdf": "application/pdf", ".mp4": "video/mp4"},
         flat_keys=True,
         cors=True,
         robots_txt=PDF_ROBOTS_TXT,
@@ -348,7 +349,9 @@ def upload(target: Target, args: list[str]) -> None:
             if not p.is_file():
                 sys.exit(f"not a file: {p}")
             if p.suffix not in target.content_types:
-                sys.exit(f"refusing to upload a non-PDF: {p}")
+                sys.exit(
+                    f"refusing to upload {p}: not one of {list(target.content_types)}"
+                )
         pairs = [(p, p.name) for p in paths]
     else:
         if len(args) != 1 or not Path(args[0]).is_dir():
@@ -365,8 +368,9 @@ def upload(target: Target, args: list[str]) -> None:
             key,
             ExtraArgs={
                 "ContentType": target.content_types[p.suffix],
-                # Content-addressed by seed: a given key's bytes never change,
-                # so this can be cached hard.
+                # Content-addressed (by seed, or a video by the hash in its
+                # name): a given key's bytes never change, so this can be
+                # cached hard.
                 "CacheControl": "public, max-age=31536000, immutable",
             },
         )
