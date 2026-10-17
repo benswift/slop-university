@@ -195,6 +195,20 @@ const news = defineCollection({
   }),
 });
 
+// Videos the e-signage screens play between posters. Hand-added, never grown by
+// the tick. Each names its signage encodes (the dark cuts, from the video
+// project's `video.py signage`) by file in the PDF bucket: the file name
+// carries a hash of its bytes, which is what lets the bucket serve it
+// immutable.
+const signageFile = z.string().regex(/^[a-z0-9-]+-[0-9a-f]{10}\.mp4$/);
+const videos = defineCollection({
+  loader: glob({ pattern: "**/*.yml", base: "src/content/videos" }),
+  schema: z.object({
+    title: z.string(),
+    signage: z.object({ landscape: signageFile, portrait: signageFile }),
+  }),
+});
+
 export const collections = {
   pages,
   people,
@@ -204,4 +218,5 @@ export const collections = {
   news,
   grants,
   grantSchemes,
+  videos,
 };

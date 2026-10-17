@@ -11,7 +11,7 @@
 // The key is always the entry id, so nothing about the location is stored per
 // entry --- there is exactly one place that knows where a PDF lives, and the
 // publish tick cannot write a path that disagrees with it.
-const PDF_BASE = "https://pdf.slop.university";
+export const PDF_BASE = "https://pdf.slop.university";
 
 export const pdfUrl = (id: string): string => `${PDF_BASE}/${id}.pdf`;
 

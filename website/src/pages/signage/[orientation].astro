@@ -1,20 +1,24 @@
 ---
-import { getCollection } from "astro:content";
-import { newestFirst } from "../../lib/chronology";
-import { fullTitle } from "../../lib/outputs";
-import { signagePdfUrl } from "../../lib/pdfs";
-import { thumbLargestUrl } from "../../lib/images";
+import { orientations, signagePlaylist, type Orientation } from "../../lib/signage";
 
-// Chromeless, fullscreen e-signage view of the most recent poster-format
-// output (research poster or marketing poster) in a given orientation. Built
-// for kiosk browsers: any number of panels, each
-// pointed at the route matching its mounting (/signage/landscape or
-// /signage/portrait), with no site chrome and no theme layout --- just the
-// poster, letterboxed on black. Posters are generated at the panels' native
-// 16:9 / 9:16 aspect, so current ones fill the screen edge-to-edge; older
-// A3-era posters keep their letterbox. The actual PDF page is rendered to a
-// canvas at device resolution via PDF.js, so the vector text stays crisp at any
-// display size.
+// Chromeless, fullscreen e-signage player. Built for kiosk browsers: any number
+// of panels, each pointed at the route matching its mounting
+// (/signage/landscape or /signage/portrait), with no site chrome and no theme
+// layout. It shows one poster an hour, letterboxed on black, and plays a video
+// between posters, crossfading in over the old poster and out onto the new
+// one. Posters are generated at the panels' native 16:9 / 9:16 aspect, so
+// current ones fill the screen edge-to-edge; older A3-era posters keep their
+// letterbox. The actual PDF page is rendered to a canvas at device resolution
+// via PDF.js, so the vector text stays crisp at any display size.
+//
+// The page never reloads to change what it shows, because a reload is never
+// seamless. Ahead of each change it fetches the playlist again
+// (/signage/<orientation>.json, rebuilt with every deploy), renders the next
+// poster into a spare canvas and downloads the whole video into memory, so a
+// network blip can stall neither. Anything not ready at the change is skipped:
+// no video means a straight crossfade between posters, and no poster means the
+// current one stays. The page reloads itself once a day, to pick up changes
+// to this player.
 //
 // A panel that is physically portrait but whose framebuffer is landscape (a
 // landscape-native screen mounted on its side, with no OS-level rotation) can
@@ -25,73 +29,22 @@ import { thumbLargestUrl } from "../../lib/images";
 // letterbox maths and the PDF render resolution stay correct. Flip cw/ccw to
 // match the way the panel was turned --- read client-side, so no rebuild needed.
 //
-// Because the site is static, the candidate list is resolved at build time; the
-// browser chooses its hour's item from that list. The /publish tick rebuilds on
-// each new output, and the page reloads itself on an interval to pick up a
-// fresh deploy without anyone touching the display.
-//
-// Orientation isn't a schema field of its own, but the first-page thumbnail
-// is rendered from the PDF page, so the thumb dims every entry records carry
-// the true orientation.
+// `?every=<seconds>` shortens the hour, for testing a panel.
 export function getStaticPaths() {
-  return [{ params: { orientation: "landscape" } }, { params: { orientation: "portrait" } }];
+  return orientations.map((orientation) => ({ params: { orientation } }));
 }
 
-const { orientation } = Astro.params;
-const isLandscape = orientation === "landscape";
-
-const posters = (await getCollection("outputs"))
-  .filter((entry) => entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster")
-  .map((entry) => ({ entry, thumb: entry.data.thumb }))
-  .filter(({ thumb }) => (isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width))
-  .sort((a, b) => newestFirst(a.entry, b.entry));
-
-// Signage is research-led: four research slots followed by one ad slot. Keep a
-// bounded recent pool so a screen changes regularly without resurrecting old
-// material from deep in the archive. The browser advances the pool hourly.
-const research = posters.filter(({ entry }) => entry.data.preset === "research-poster").slice(0, 12);
-const marketing = posters.filter(({ entry }) => entry.data.preset === "marketing-poster").slice(0, 6);
-const playlist = {
-  research: research.map(({ entry, thumb }) => ({
-    pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
-    thumb: thumbLargestUrl(entry.id, thumb),
-    width: thumb.width,
-    height: thumb.height,
-    title: fullTitle(entry.data),
-  })),
-  marketing: marketing.map(({ entry, thumb }) => ({
-    pdf: signagePdfUrl(entry.id, entry.data.pdfDark),
-    thumb: thumbLargestUrl(entry.id, thumb),
-    width: thumb.width,
-    height: thumb.height,
-    title: fullTitle(entry.data),
-  })),
-};
+const orientation = Astro.params.orientation as Orientation;
+const playlist = await signagePlaylist(orientation);
 
 // A usable first frame for browsers with JavaScript disabled or still loading.
 const initial = playlist.research[0] ?? playlist.marketing[0];
-const pdfUrl = initial?.pdf;
-const thumb = initial;
 const title = initial?.title ?? "Slop University";
-
-// Refresh the whole page hourly to pick up new deploys.
-const RELOAD_MS = 60 * 60 * 1000;
-
-// A poster PDF that wouldn't load retries on this much shorter cycle instead.
-// A cold boot on wifi can drop a large asset mid-flight --- the clock steps on
-// first NTP sync, tailscaled reads the jump as a wake and rebinds the link,
-// and anything still streaming dies.
-// Waiting a full hour to recover from a blip is the wrong trade for an
-// unattended sign.
-//
-// An orientation with no poster at all isn't degraded in this sense: only a
-// rebuild can fill it, so it waits for the hourly reload like everything else.
-const RETRY_MS = 60 * 1000;
 
 // The poster's aspect ratio, known at build time from the thumbnail. Drives the
 // CSS box so the poster scales up to fill a large panel, not just down to fit a
 // small one --- `max-width`/`max-height` alone would cap it and never enlarge.
-const posterAspect = thumb ? thumb.width / thumb.height : 1;
+const posterAspect = initial ? initial.width / initial.height : 1;
 ---
 
 <!doctype html>
@@ -130,8 +83,9 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
         height: 100vh;
       }
 
-      /* Both the canvas and the fallback image occupy the same cell and fit
-         the viewport preserving the poster's aspect ratio.
+      /* The two poster canvases and the fallback image share the one grid cell
+         and fit the viewport preserving the poster's aspect ratio, which each
+         carries as its own --poster-aspect.
 
          Size the box from the aspect ratio rather than `max-width`/`max-height`:
          those cap a large intrinsic size down to the viewport but never scale a
@@ -139,17 +93,38 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
          width on a 7680px 8K panel. Taking the smaller of the width- and
          height-bound fit reproduces `object-fit: contain`, but as the element's
          real box, so the shadow still hugs the poster's edge. */
-      #poster,
+      .poster,
       #fallback {
+        grid-area: 1 / 1;
         aspect-ratio: var(--poster-aspect);
         width: min(100vw, calc(100vh * var(--poster-aspect)));
         height: auto;
         object-fit: contain;
       }
 
-      #poster[hidden],
+      .poster,
+      #video {
+        opacity: 0;
+        transition: opacity 1.2s ease-in-out;
+      }
+
+      .poster.shown,
+      #video.shown {
+        opacity: 1;
+      }
+
       #fallback[hidden] {
         display: none;
+      }
+
+      /* The video lies over the posters, filling the stage. */
+      #video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
       }
 
       /* Physically-portrait panel with a landscape framebuffer (see the head
@@ -169,7 +144,7 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
 
       /* Same contain-fit as the un-rotated poster, but measured against the
          rotated stage (vw/vh swapped) rather than the raw viewport. */
-      body.rotate #poster,
+      body.rotate .poster,
       body.rotate #fallback {
         width: min(100vh, calc(100vw * var(--poster-aspect)));
       }
@@ -178,20 +153,25 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
   <body>
     <main
       id="stage"
-      aria-label={`Research poster: ${title}`}
-      data-pdf={pdfUrl}
+      aria-label={`Poster: ${title}`}
       data-playlist={JSON.stringify(playlist)}
       data-orientation={orientation}
-      data-reload-ms={RELOAD_MS}
-      data-retry-ms={RETRY_MS}
       style={`--poster-aspect: ${posterAspect}`}
     >
-      <canvas id="poster" hidden></canvas>
+      <canvas class="poster"></canvas>
+      <canvas class="poster"></canvas>
       {
-        thumb && (
-          <img id="fallback" src={thumb.thumb} alt={`Poster: ${title}`} width={thumb.width} height={thumb.height} />
+        initial && (
+          <img
+            id="fallback"
+            src={initial.thumb}
+            alt={`Poster: ${title}`}
+            width={initial.width}
+            height={initial.height}
+          />
         )
       }
+      <video id="video" muted playsinline preload="auto"></video>
     </main>
 
     <script>
@@ -201,70 +181,53 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       //
       // Use pdf.js's *legacy* build: it transpiles + polyfills for older
       // engines (both main thread and worker). The Raspberry Pi signage kiosk
-      // runs Chromium 136, which lacks Map.prototype.getOrInsertComputed (V8
+      // ran Chromium 136, which lacks Map.prototype.getOrInsertComputed (V8
       // ~13.9 / Chrome ~137); the default build calls it during render and
       // throws, silently falling back to the thumbnail. The legacy build ships
       // its own polyfill, so the poster actually renders there.
       import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
       import workerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
+      import type { Playlist, Poster, Video } from "../../lib/signage";
 
       pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
-      const stage = document.getElementById("stage");
-      const reloadMs = Number(stage?.dataset.reloadMs) || 0;
-      const retryMs = Number(stage?.dataset.retryMs) || 0;
+      const stage = document.getElementById("stage")!;
+      const orientation = stage.dataset.orientation;
+      const canvases = [...document.querySelectorAll<HTMLCanvasElement>(".poster")];
+      const fallback = document.getElementById("fallback") as HTMLImageElement | null;
+      const video = document.getElementById("video") as HTMLVideoElement;
+      const params = new URLSearchParams(location.search);
 
-      type Poster = { pdf: string; thumb: string; width: number; height: number; title: string };
-      type Playlist = { research: Poster[]; marketing: Poster[] };
-      const playlist = JSON.parse(stage?.dataset.playlist ?? '{"research":[],"marketing":[]}') as Playlist;
-
-      // Give the two physical orientations different positions in the same
-      // five-hour cadence. Research occupies four slots; an ad gets the fifth.
-      // If an orientation has no candidate of the requested type, use the
-      // other type rather than leaving a blank screen.
-      const hour = Math.floor(Date.now() / (60 * 60 * 1000));
-      const offset = stage?.dataset.orientation === "portrait" ? 2 : 0;
-      const wantsMarketing = (hour + offset) % 5 === 4;
-      const preferred = wantsMarketing ? playlist.marketing : playlist.research;
-      const fallbackPool = wantsMarketing ? playlist.research : playlist.marketing;
-      const pool = preferred.length ? preferred : fallbackPool;
-      const selected = pool.length ? pool[(hour + offset) % pool.length] : undefined;
-      let pdfUrl = selected?.pdf ?? stage?.dataset.pdf;
+      // One slot per hour (or per `?every=` seconds); each change is prepared
+      // this far ahead of it.
+      const SLOT_MS = (Number(params.get("every")) || 3600) * 1000;
+      const PREPARE_MS = Math.min(5 * 60 * 1000, SLOT_MS / 2);
+      // The first poster that wouldn't load retries on this much shorter
+      // cycle. A cold boot on wifi can drop a large asset mid-flight --- the
+      // clock steps on first NTP sync, tailscaled reads the jump as a wake and
+      // rebinds the link, and anything still streaming dies. Waiting a full
+      // hour to recover from a blip is the wrong trade for an unattended sign.
+      const RETRY_MS = 60 * 1000;
+      const FADE_MS = 1200;
+      // The daily reload, at the first change after this local hour.
+      const RELOAD_HOUR = 4;
+      // Chromium's max canvas dimension. Exceeding it yields a blank canvas.
+      const MAX_CANVAS_PX = 8192;
 
       // A physically-portrait panel with a landscape framebuffer asks for
       // rotation via `?rotate=cw|ccw`. Toggle the CSS mode up front, before the
       // first render, so fitScale measures the rotated (portrait) stage box.
-      const rotate = new URLSearchParams(location.search).get("rotate");
+      const rotate = params.get("rotate");
       if (rotate === "cw" || rotate === "ccw") {
         document.body.classList.add("rotate");
         document.body.style.setProperty("--rotate", rotate === "ccw" ? "-90deg" : "90deg");
       }
 
-      const canvas = document.getElementById("poster") as HTMLCanvasElement | null;
-      const fallback = document.getElementById("fallback") as HTMLImageElement | null;
-
-      if (selected && stage) {
-        stage.dataset.pdf = selected.pdf;
-        stage.setAttribute("aria-label", `Poster: ${selected.title}`);
-        stage.style.setProperty("--poster-aspect", String(selected.width / selected.height));
-        document.title = `${selected.title} --- Slop University signage`;
-        if (fallback) {
-          fallback.src = selected.thumb;
-          fallback.alt = `Poster: ${selected.title}`;
-          fallback.width = selected.width;
-          fallback.height = selected.height;
-          fallback.hidden = false;
-        }
-      }
-
-      // Chromium's max canvas dimension. Exceeding it yields a blank canvas.
-      const MAX_CANVAS_PX = 8192;
-
       const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+      const slotAt = (t: number) => Math.floor(t / SLOT_MS);
 
       // Exponential backoff, capped: a boot-time blip clears in seconds, but a
-      // genuinely unreachable origin shouldn't be hammered until the next
-      // whole-page retry comes round.
+      // genuinely unreachable origin shouldn't be hammered.
       const backoff = (attempt: number) => Math.min(30_000, 500 * 2 ** attempt);
 
       async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
@@ -280,6 +243,21 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
         throw last;
       }
 
+      // Give the two physical orientations different positions in the same
+      // five-slot cadence. Research occupies four slots; an ad gets the fifth.
+      // If an orientation has no candidate of the requested type, use the
+      // other type rather than leaving a blank screen.
+      function posterFor(list: Playlist, slot: number): Poster | undefined {
+        const offset = orientation === "portrait" ? 2 : 0;
+        const wantsMarketing = (slot + offset) % 5 === 4;
+        const preferred = wantsMarketing ? list.marketing : list.research;
+        const pool = preferred.length ? preferred : wantsMarketing ? list.research : list.marketing;
+        return pool.length ? pool[(slot + offset) % pool.length] : undefined;
+      }
+
+      const videoFor = (list: Playlist, slot: number): Video | undefined =>
+        list.videos.length ? list.videos[slot % list.videos.length] : undefined;
+
       // Render at exactly the device pixels the poster will occupy: the CSS box
       // is the viewport-fitted rectangle, so multiplying by the device pixel
       // ratio gives a 1:1 buffer. Crisp on a 1080p test monitor and on a native
@@ -288,65 +266,163 @@ const posterAspect = thumb ? thumb.width / thumb.height : 1;
       function fitScale(base: { width: number; height: number }) {
         const dpr = window.devicePixelRatio || 1;
         const box = Math.min(
-          (stage!.clientWidth || window.innerWidth) / base.width,
-          (stage!.clientHeight || window.innerHeight) / base.height,
+          (stage.clientWidth || window.innerWidth) / base.width,
+          (stage.clientHeight || window.innerHeight) / base.height,
         );
         return Math.min(box * dpr, MAX_CANVAS_PX / base.width, MAX_CANVAS_PX / base.height);
       }
 
-      let renderTask: { cancel: () => void; promise: Promise<void> } | null = null;
-
       async function draw(el: HTMLCanvasElement, page: any) {
-        renderTask?.cancel();
         const base = page.getViewport({ scale: 1 });
         const vp = page.getViewport({ scale: fitScale(base) });
         el.width = Math.round(vp.width);
         el.height = Math.round(vp.height);
-        renderTask = page.render({ canvas: el, viewport: vp });
-        await renderTask!.promise;
-        renderTask = null;
-
-        // Pin the box to the page's true ratio (the thumbnail's, used for the
-        // fallback, can differ by a rounding step).
-        stage!.style.setProperty("--poster-aspect", String(vp.width / vp.height));
-        el.hidden = false;
-        if (fallback) fallback.hidden = true;
+        await page.render({ canvas: el, viewport: vp }).promise;
+        // Pin the box to the page's true ratio (the thumbnail's can differ by
+        // a rounding step).
+        el.style.setProperty("--poster-aspect", String(vp.width / vp.height));
       }
 
-      async function renderPoster() {
-        // Bind to non-null locals so the closures keep the narrowing (the
-        // placeholder page has no canvas and no pdf: nothing to do).
-        if (!pdfUrl || !canvas || !stage) return;
-        const el = canvas;
+      type Shown = { canvas: HTMLCanvasElement; page: any; doc: any; poster: Poster };
+      let current: Shown | undefined;
 
-        const page = await withRetry(async () => {
-          const pdf = await pdfjs.getDocument({ url: pdfUrl }).promise;
-          const first = await pdf.getPage(1);
-          await draw(el, first);
-          return first;
+      // Render a poster into whichever canvas isn't showing.
+      async function prepare(poster: Poster): Promise<Shown> {
+        const canvas = canvases.find((c) => c !== current?.canvas)!;
+        return withRetry(async () => {
+          const doc = pdfjs.getDocument({ url: poster.pdf });
+          try {
+            const page = await (await doc.promise).getPage(1);
+            await draw(canvas, page);
+            return { canvas, page, doc, poster };
+          } catch (err) {
+            void doc.destroy();
+            throw err;
+          }
         });
+      }
+
+      function show(next: Shown) {
+        const old = current;
+        next.canvas.classList.add("shown");
+        old?.canvas.classList.remove("shown");
+        current = next;
+        stage.setAttribute("aria-label", `Poster: ${next.poster.title}`);
+        document.title = `${next.poster.title} --- Slop University signage`;
+        if (fallback) setTimeout(() => (fallback.hidden = true), FADE_MS);
+        if (old) setTimeout(() => void old.doc.destroy(), FADE_MS);
+      }
+
+      // The whole video, in memory: once this resolves, playback can't stall
+      // on the network.
+      async function load(v: Video): Promise<string> {
+        const blob = await withRetry(async () => {
+          const r = await fetch(v.src);
+          if (!r.ok) throw new Error(`${v.src}: HTTP ${r.status}`);
+          return r.blob();
+        });
+        const url = URL.createObjectURL(blob);
+        video.src = url;
+        await new Promise<void>((resolve, reject) => {
+          video.oncanplaythrough = () => resolve();
+          video.onerror = () => reject(video.error);
+        });
+        return url;
+      }
+
+      // Fade the video in over the poster, swap the poster underneath it, and
+      // fade it out at its end onto the new one.
+      async function play(url: string, next: Shown | undefined) {
+        video.currentTime = 0;
+        await video.play();
+        video.classList.add("shown");
+        await sleep(FADE_MS);
+        if (next) show(next);
+        await new Promise<void>((resolve) => {
+          video.onended = () => resolve();
+          video.onerror = () => resolve();
+        });
+        video.classList.remove("shown");
+        await sleep(FADE_MS);
+        video.removeAttribute("src");
+        video.load();
+        URL.revokeObjectURL(url);
+      }
+
+      async function fetchPlaylist(fallbackList: Playlist): Promise<Playlist> {
+        try {
+          const r = await fetch(`/signage/${orientation}.json`, { cache: "no-store" });
+          if (r.ok) return (await r.json()) as Playlist;
+        } catch (err) {
+          console.error("signage: playlist fetch failed, keeping the last one", err);
+        }
+        return fallbackList;
+      }
+
+      let playlist = JSON.parse(stage.dataset.playlist ?? '{"research":[],"marketing":[],"videos":[]}') as Playlist;
+      const startedOn = new Date().toDateString();
+
+      // Prepare the change at the start of `slot`, wait for it, then make it.
+      async function change(slot: number) {
+        const at = slot * SLOT_MS;
+        await sleep(Math.max(0, at - PREPARE_MS - Date.now()));
+
+        // The once-a-day reload happens in place of a change, early in the
+        // morning, so the player itself stays current.
+        const now = new Date(at);
+        if (now.toDateString() !== startedOn && now.getHours() >= RELOAD_HOUR) {
+          await sleep(Math.max(0, at - Date.now()));
+          location.reload();
+          return;
+        }
+
+        playlist = await fetchPlaylist(playlist);
+        const poster = posterFor(playlist, slot);
+        const clip = videoFor(playlist, slot);
+        const [next, url] = await Promise.all([
+          poster ? prepare(poster).catch((err) => console.error("signage: poster not ready", err)) : undefined,
+          clip ? load(clip).catch((err) => console.error("signage: video not ready", err)) : undefined,
+        ]);
+
+        await sleep(Math.max(0, at - Date.now()));
+        if (url) await play(url, next ?? undefined).catch((err) => console.error("signage: video failed", err));
+        else if (next) show(next);
+      }
+
+      async function run() {
+        const first = posterFor(playlist, slotAt(Date.now()));
+        if (!first) return; // only a rebuild can fill an empty orientation
+        if (fallback) {
+          fallback.src = first.thumb;
+          fallback.alt = `Poster: ${first.title}`;
+          fallback.width = first.width;
+          fallback.height = first.height;
+          fallback.style.setProperty("--poster-aspect", String(first.width / first.height));
+        }
+        try {
+          show(await prepare(first));
+        } catch (err) {
+          // Leave the fallback thumbnail on screen; log for the kiosk console.
+          console.error("signage: PDF render failed, showing thumbnail fallback", err);
+          setTimeout(() => location.reload(), RETRY_MS);
+          return;
+        }
 
         // The panel can change mode under us --- a fresh EDID on hotplug, or a
-        // compositor scale change. Re-render at the new device resolution rather
-        // than letting the browser rescale a stale buffer.
+        // compositor scale change. Re-render at the new device resolution
+        // rather than letting the browser rescale a stale buffer.
         let debounce: ReturnType<typeof setTimeout>;
         window.addEventListener("resize", () => {
           clearTimeout(debounce);
-          debounce = setTimeout(() => void draw(el, page).catch(() => {}), 250);
+          debounce = setTimeout(() => current && void draw(current.canvas, current.page).catch(() => {}), 250);
         });
+
+        for (let slot = slotAt(Date.now()) + 1; ; slot = Math.max(slot + 1, slotAt(Date.now()) + 1)) {
+          await change(slot);
+        }
       }
 
-      // Reload on an interval so a new deploy's poster appears without anyone
-      // touching the display. Armed unconditionally and up front: a hung fetch
-      // must never leave the sign with no path back.
-      if (reloadMs) setTimeout(() => location.reload(), reloadMs);
-
-      // A degraded render comes back around sooner than the hourly tick.
-      void renderPoster().catch((err) => {
-        // Leave the fallback thumbnail on screen; log for the kiosk console.
-        console.error("signage: PDF render failed, showing thumbnail fallback", err);
-        if (retryMs) setTimeout(() => location.reload(), retryMs);
-      });
+      void run();
     </script>
   </body>
 </html>
