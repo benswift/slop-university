@@ -10,6 +10,8 @@ export const presetLabels: Record<Preset, string> = {
   strategy: "Strategic plan",
   "impact-report": "Impact report",
   thesis: "PhD thesis",
+  "video-explainer": "Research explainer video",
+  "video-promo": "Promotional video",
 };
 
 // Short forms for the type badge on output cards, where the icon already
@@ -21,6 +23,8 @@ export const presetBadgeLabels: Record<Preset, string> = {
   "marketing-poster": "Ad",
   paper: "Paper",
   thesis: "Thesis",
+  "video-explainer": "Explainer",
+  "video-promo": "Video",
 };
 
 // The trend chart on the outputs index plots one line per series, and the type
@@ -40,6 +44,8 @@ export const presetSeries: Record<Preset, OutputSeries> = {
   strategy: "Other outputs",
   "impact-report": "Other outputs",
   thesis: "Other outputs",
+  "video-explainer": "Other outputs",
+  "video-promo": "Other outputs",
 };
 
 // The URL segment each series filters under: /outputs/type/<slug>/. Slugs are
@@ -85,6 +91,8 @@ export const presetIcons: Record<Preset, string> = {
   strategy: "strategy",
   "impact-report": "reports",
   thesis: "graduation-cap",
+  "video-explainer": "video-camera",
+  "video-promo": "media-video",
 };
 
 // Titles are stored split: `title` is the punchy head (the hero h1 and listing

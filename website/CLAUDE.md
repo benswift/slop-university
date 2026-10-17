@@ -130,10 +130,12 @@ built by hand, not grown by the tick.
   the outputs dashboard (funding tiles and chart). The content test enforces the
   seams: grantees resolve to roster pages, schemes exist in the canon, and
   attached grants exist and predate their outputs.
-- `src/content/videos/*.yml` --- the videos the signage screens play between
-  posters, each naming its encodes in the PDF bucket; a page opens with one
-  through `video: <id>` in its frontmatter (the colophon does). Hand-added from
-  `video/` (`video/STYLE.md`); the tick never writes them.
+- `src/content/videos/*.yml` --- each video's encodes in the PDF bucket. A
+  templated video is also an outputs entry under the same id (presets
+  `video-explainer`, `video-promo`: no PDF, so its callout plays it), and the
+  output or researcher it is about opens with it; a page names one through
+  `video: <id>` in its frontmatter (the colophon does). Hand-added from `video/`
+  (`video/STYLE.md`, `bin/slopu video`); the tick never writes them.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
   generated from the outputs collection --- no per-output page authoring.
 

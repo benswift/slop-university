@@ -142,6 +142,10 @@ const outputs = defineCollection({
       "strategy",
       "impact-report",
       "thesis",
+      // a video output (video/): no PDF; its encodes are its videos entry,
+      // under the same id
+      "video-explainer",
+      "video-promo",
     ]),
     school: z.string().optional(),
     date: z.coerce.date(),

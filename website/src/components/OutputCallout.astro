@@ -1,5 +1,6 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, getEntry } from "astro:content";
+import PageVideo from "./PageVideo.astro";
 import { fullTitle, presetLabels } from "../lib/outputs";
 import { pdfUrl } from "../lib/pdfs";
 import { thumbnail } from "../lib/images";
@@ -25,8 +26,22 @@ const { id, data, showRecord = false } = Astro.props;
 const pdf = pdfUrl(id);
 const thumb = thumbnail(id, data.thumb);
 const full = fullTitle(data);
+// A video output has no PDF: the callout is the video itself (its videos
+// entry, under the same id), with the way back to its record.
+const video = data.preset.startsWith("video-") ? (await getEntry("videos", id))?.data : undefined;
 ---
 
+{
+  video ? (
+    <>
+      <PageVideo video={video} />
+      {showRecord && (
+        <p class="callout-meta">
+          <a href={`/outputs/${id}/`}>Full record and citation</a>
+        </p>
+      )}
+    </>
+  ) : (
 <aside class="callout">
   <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
     {/* Pre-encoded in the bucket; at 9rem the browser picks the 320 rung. */}
@@ -58,6 +73,8 @@ const full = fullTitle(data);
     </p>
   </div>
 </aside>
+  )
+}
 
 <style>
   /* Reads as a printed compliments slip laid on the page: the two inks, a
