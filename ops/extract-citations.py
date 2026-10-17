@@ -6,7 +6,8 @@
 """Harvest the canon's internal citation graph from published source files.
 
 Every generated document is compiled from a `.typ` (plus a companion `.bib` for
-the paper preset) under a checkout's gitignored `output/`. Where those sources
+the paper preset) under a checkout's gitignored `output/`, and every video
+output from its committed `video/<id>/spec.json`. Where those sources
 name a prior output's DOI --- a paper's bibliography entry, a poster's "prior
 work" line --- that is a real citation edge, and it is the only citation data
 the canon has. This script reads the edges out of the sources and records them
@@ -34,6 +35,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from collections import defaultdict
@@ -60,6 +62,7 @@ SOURCE_DIRS = list(
     )
 )
 
+VIDEO_DIR = REPO / "video"
 DOI_RE = re.compile(r"10\.5555/slop\.([a-z0-9]+)")
 SLUG_RE = re.compile(r"-([a-z0-9]{6})\.(?:typ|bib)$")
 
@@ -113,11 +116,47 @@ def harvest(entries: dict[str, dict]) -> tuple[dict[str, set[str]], list[str]]:
                     continue
                 edges[citing].add(entries[cited]["doi"])
 
+    # A video output's compiled source is its spec (video/<id>/spec.json,
+    # committed): the output it explains and every output it shows are cited.
+    for spec_path in sorted(VIDEO_DIR.glob("*/spec.json")):
+        citing = spec_path.parent.name
+        if citing not in entries:
+            continue
+        for cited in video_refs(json.loads(spec_path.read_text())):
+            if cited == citing or cited not in entries:
+                continue
+            if (a := dated[citing]) and (b := dated[cited]) and b > a:
+                continue
+            edges[citing].add(entries[cited]["doi"])
+
     if unpublished:
         notes.append(
             f"{len(unpublished)} local source(s) with no ledger entry (drafts), ignored"
         )
     return edges, notes
+
+
+def video_refs(spec: dict) -> set[str]:
+    """The output ids a video spec explains or shows."""
+    found = {spec["output"]} if spec.get("output") else set()
+
+    def walk(x) -> None:
+        if isinstance(x, dict):
+            if x.get("type") == "pages":
+                found.update(x.get("outputs", []))
+            for key in ("output", "thumb"):
+                if isinstance(x.get(key), str):
+                    found.add(x[key])
+            if isinstance(x.get("page"), list):
+                found.add(x["page"][0])
+            for v in x.values():
+                walk(v)
+        elif isinstance(x, list):
+            for v in x:
+                walk(v)
+
+    walk(spec.get("beats", []))
+    return found
 
 
 def as_date(value) -> date | None:

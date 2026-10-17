@@ -378,7 +378,15 @@ check_pairing() {
 
   for f in $(git diff --name-only --diff-filter=A "$base" "$branch" -- 'website/src/content/outputs/*.yml'); do
     id="$(basename "$f" .yml)"
-    [ -f "${pending}/${id}.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}.pdf"$'\n'
+    if git show "${branch}:${f}" | grep -qE '^preset: *video-'; then
+      # A video output has no PDF: its encodes and covers, which its videos
+      # entry names, stand in for one.
+      for v in $(git show "${branch}:website/src/content/videos/${id}.yml" 2>/dev/null | grep -oE '[a-z0-9-]+-[0-9a-f]{10}\.(mp4|jpg)' || echo "videos/${id}.yml"); do
+        [ -f "${pending}/${v}" ] || MISSING_PDFS="${MISSING_PDFS}  ${v}"$'\n'
+      done
+    else
+      [ -f "${pending}/${id}.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}.pdf"$'\n'
+    fi
     if git show "${branch}:${f}" | grep -qE '^pdfDark: *true'; then
       [ -f "${pending}/${id}-dark.pdf" ] || MISSING_PDFS="${MISSING_PDFS}  ${id}-dark.pdf"$'\n'
     fi
@@ -418,6 +426,8 @@ check_output_quality() {
   for f in $(git diff --name-only --diff-filter=A "$base" "$branch" -- 'website/src/content/outputs/*.yml'); do
     id="$(basename "$f" .yml)"
     preset="$(git show "${branch}:${f}" | sed -n 's/^preset:[[:space:]]*//p' | head -1)"
+    # a video's gate is its run's own review; it has no pages to check
+    [[ "$preset" == video-* ]] && continue
     if ! detail="$("${PROJECT_DIR}/ops/check-output-quality.py" --preset "$preset" "${pending}/${id}.pdf" 2>&1)"; then
       log "QUALITY FAILURE for ${id}:"
       printf '%s\n' "$detail" >> "$LOG_FILE"

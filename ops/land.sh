@@ -2,7 +2,8 @@
 # Land a hand-steered document: the mechanical half of publishing one.
 #
 # `bin/slopu from-preset --land` generates the artefact AND writes its site
-# entry, news post and staged assets (skills/from-preset/SKILL.md step 9). This
+# entry, news post and staged assets (skills/from-preset/SKILL.md step 9), as
+# `bin/slopu video` does for a video output (skills/video/SKILL.md). This
 # script does everything after that: gate, commit, upload, push. It is the hand
 # path's equivalent of ops/publish-land.sh, minus the candidate queue --- there
 # is no marker to claim and no worktree to rebase, because a hand run works in
@@ -178,7 +179,13 @@ PY
 PRESET="$(sed -n 's/^preset:[[:space:]]*//p' "$ENTRY" | head -1)"
 DOI="$(sed -n 's/^doi:[[:space:]]*//p' "$ENTRY" | head -1)"
 
-git add "$ENTRY" "${NEWS[@]}"
+# A video output carries its sources and its videos entry with it.
+VIDEO_FILES=()
+if [ -f "website/src/content/videos/${RUN_ID}.yml" ]; then
+  VIDEO_FILES=("website/src/content/videos/${RUN_ID}.yml" "video/${RUN_ID}" "video/scripts/${RUN_ID}.md")
+fi
+
+git add "$ENTRY" "${NEWS[@]}" "${VIDEO_FILES[@]}"
 git commit -q -m "publish: ${PRESET} — ${TITLE} (${DOI})"
 log "committed $(git rev-parse --short HEAD)"
 
@@ -219,8 +226,9 @@ if ! git merge-base --is-ancestor origin/main HEAD; then
   exit 1
 fi
 
+# The PDFs, or a video output's encodes and covers: all go to the PDF bucket.
 shopt -s nullglob
-PENDING_PDFS=("$PENDING_DIR"/*.pdf)
+PENDING_PDFS=("$PENDING_DIR"/*.pdf "$PENDING_DIR"/*.mp4 "$PENDING_DIR"/*.jpg)
 shopt -u nullglob
 
 if [ "$DRY_RUN" = 1 ]; then
