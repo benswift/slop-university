@@ -185,8 +185,10 @@ if [ -f "website/src/content/videos/${RUN_ID}.yml" ]; then
   VIDEO_FILES=("website/src/content/videos/${RUN_ID}.yml" "video/${RUN_ID}" "video/scripts/${RUN_ID}.md")
 fi
 
+# Commit exactly this run's paths: a rehearsal (--dry-run) or an earlier failed
+# landing leaves its files staged, and a bare commit would sweep them in.
 git add "$ENTRY" "${NEWS[@]}" "${VIDEO_FILES[@]}"
-git commit -q -m "publish: ${PRESET} — ${TITLE} (${DOI})"
+git commit -q -m "publish: ${PRESET} — ${TITLE} (${DOI})" -- "$ENTRY" "${NEWS[@]}" "${VIDEO_FILES[@]}"
 log "committed $(git rev-parse --short HEAD)"
 
 if ! check_pairing HEAD~1 HEAD "$PENDING_DIR"; then
