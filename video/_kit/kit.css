@@ -84,7 +84,7 @@
   white-space: nowrap;
 }
 
-.stage[data-aspect="portrait"] .doi-big {
+#stage[data-aspect="portrait"] .doi-big {
   font-size: 64px;
 }
 
@@ -115,7 +115,7 @@
   text-wrap: balance;
 }
 
-.stage[data-aspect="portrait"] .statement-text {
+#stage[data-aspect="portrait"] .statement-text {
   font-size: 64px;
 }
 
@@ -149,7 +149,7 @@
   text-wrap: balance;
 }
 
-.stage[data-aspect="portrait"] .stat-num {
+#stage[data-aspect="portrait"] .stat-num {
   font-size: 128px;
 }
 
@@ -218,6 +218,6 @@
   color: var(--video-text-2);
 }
 
-.stage[data-aspect="portrait"] .card-title {
+#stage[data-aspect="portrait"] .card-title {
   font-size: 46px;
 }
