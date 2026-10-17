@@ -227,7 +227,10 @@ Slop University is a persistent fiction: its people, schools, and units live in
 ## Video style
 
 Videos (`video/`) use the `styled-video` skill. `video/STYLE.md` is the style
-guide: read it before planning a video.
+guide: read it before planning a video. The recurring kinds, a research
+explainer of an output and a promo, are templated: `bin/slopu video` runs
+`skills/video/SKILL.md`, which writes a script and a beat spec for the engine in
+`video/_kit/` and stages the result; `bin/slopu land-video` publishes it.
 
 ## Don't
 

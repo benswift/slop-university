@@ -20,6 +20,11 @@ Commands:
   land <run-id> [--dry-run]        Publish a generated document to the site
   publish                          Run the autonomous publication workflow
   thesis [steering]                Write a doctoral thesis (hours; opus by default)
+  video explainer <output-id> [steering]
+                                   Make a research explainer video of an output
+  video promo [subject] [steering] Make a promo video: a researcher's id,
+                                   "university", or anything the steering names
+  land-video <slug> [--dry-run]    Publish a made video to the site and screens
 
 Profiles come from ~/.config/agent-run/profiles.toml. The default is
 claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
@@ -32,7 +37,9 @@ first, in its own worktree. Options go before the command.
 Hand-steered publishing is two steps. `from-preset --land` writes the site
 entry, any news post and the staged assets alongside the PDF; look at the PDF,
 then `slopu land <run-id>` gates, uploads and pushes it. `slopu land --list`
-shows what is staged, and --dry-run rehearses without sending anything.
+shows what is staged, and --dry-run rehearses without sending anything. A video
+is the same: `slopu video ...` makes it and stages it; watch the drafts in
+video/out/<slug>/, then `slopu land-video <slug>` (or --list).
 EOF
 }
 
@@ -111,6 +118,17 @@ case "$command" in
     (( $# > 0 )) || { print -u2 "slopu: from-source needs a source"; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/from-source/SKILL.md and execute its workflow end-to-end. Source: $*"
+    ;;
+  video)
+    (( $# > 0 )) || { print -u2 "slopu: video needs a kind: explainer or promo"; exit 2; }
+    [[ "$1" == explainer || "$1" == promo ]] || { print -u2 "slopu: video kind is explainer or promo"; exit 2; }
+    if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
+    prompt="Read skills/video/SKILL.md and execute its workflow end-to-end. Arguments: $* (the first word is the kind; for an explainer the second is the output id; for a promo the second is a researcher id or \"university\" when it is one, and the rest is the steering prompt)."
+    ;;
+  land-video)
+    # Mechanical, like land: ops/land-video.sh takes the lock, gates the
+    # staged video, uploads and pushes.
+    exec "$REPO_ROOT/ops/land-video.sh" "$@"
     ;;
   land)
     # Mechanical: no model, no agent-run. ops/land.sh takes the publish lock,

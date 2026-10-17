@@ -20,6 +20,9 @@ University.
   `node_modules` (run `pnpm install` here first): `motion ->` astromotion's
   `video/`, `brand ->` astro-theme-slop.
 - `out/`: renders, stills and the TTS cache (gitignored).
+- Templated videos (`bin/slopu video`, `skills/video/SKILL.md`): a script and a
+  `spec.json` of beats on `_kit/beats.js`, scaffolded, filled and staged by
+  `_kit/templated.py`. `./video.sh` runs the skill's `video.py`.
 
 `sting/` is the smallest composition: one output's hero and title block, then
 the lockup, with no voice. `output.json` names the output; its hero is
