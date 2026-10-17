@@ -101,8 +101,9 @@ University promo is the narrator. The register is the comms one
 
 ## Beats
 
-A beat starts on its `line` (an index into the spoken lines, from 0) and holds
-until the next beat. `at` is a word of that line, or `[line, word]`. Images are
+A beat starts on its `line` (an index into the spoken lines, from 0), or on the
+word `from` names in it, and holds until the next beat: a long line can carry
+two beats. `at` is a word of that line, or `[line, word]`. Images are
 references: `{"output": id}` (its hero), `{"thumb": id}` (its first page),
 `{"page": [id, n]}` (page n of its PDF), `{"person": id}` (a researcher's hero),
 `{"headshot": id}`. `video/_kit/beats.js` is the engine.

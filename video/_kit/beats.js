@@ -98,7 +98,11 @@ export function build(tl, S, T, A) {
 
   // when beat k starts and must be gone by; a close on its line ends the last,
   // or its call to action lands on top of it
-  const starts = beats.map((b) => Math.max(0, T.start(b.line) - LEAD));
+  // a beat starts on its line, or on the word `from` names in it, so a long
+  // line can carry two beats
+  const starts = beats.map((b) =>
+    Math.max(0, (b.from ? T.word(b.line, b.from) : T.start(b.line)) - LEAD),
+  );
   const closing =
     close.line != null ? Math.max(0, T.start(close.line) - LEAD) : T.end(lastLine) + 0.6;
   const ends = beats.map((_, k) => (k + 1 < beats.length ? starts[k + 1] : closing));
