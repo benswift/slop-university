@@ -5,8 +5,9 @@
 id = "WLKp2jV6nrS8aMkPPDRO" # Paul: Australian professional presenter, warm and articulate
 
 [music]
-prompt = """Instrumental underscore for a university research explainer. Warm \
-felt piano and soft marimba playing a slow, patient, repeating pattern over a \
-gentle analogue synth pad. Earnest and quietly optimistic, like a corporate \
-brand film played very straight, no drums, no vocals, no build or climax, even \
-dynamics throughout so it loops unobtrusively. 76 bpm."""
+loudness = -22.0 # a little forward of the default -25
+prompt = """Bright, modern instrumental underscore for a polished tech explainer. A \
+bouncy analogue synth arpeggio, muted electric guitar plucks and soft \
+handclaps over a tight, laid-back groove with a warm bass line. Optimistic \
+and a little quirky, with small surprising flourishes, even energy \
+throughout, no vocals. 104 bpm."""
