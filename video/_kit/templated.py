@@ -47,6 +47,20 @@ HERO_WIDTHS = [800, 1600, 2560]
 THUMB_WIDTHS = [320, 640, 960]
 TEMPLATE = VIDEO / "_kit" / "template"
 
+
+class HouseDumper(yaml.SafeDumper):
+    """The outputs entries' own style: list items indented under their key."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False):
+        return super().increase_indent(flow, False)
+
+
+def dump(data: dict) -> str:
+    return yaml.dump(
+        data, Dumper=HouseDumper, sort_keys=False, allow_unicode=True, width=80
+    )
+
+
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 
@@ -294,9 +308,7 @@ def stage(vid: str) -> None:
         "thumb": {"width": w, "height": h},
     }
     outputs = ROOT / "website" / "src" / "content" / "outputs" / f"{vid}.yml"
-    outputs.write_text(
-        yaml.safe_dump(entry, sort_keys=False, allow_unicode=True, width=80)
-    )
+    outputs.write_text(dump(entry))
     videos = {
         "title": spec["title"],
         **({"output": spec["output"]} if spec.get("output") else {}),
@@ -305,9 +317,7 @@ def stage(vid: str) -> None:
         "web": web,
     }
     dest = ROOT / "website" / "src" / "content" / "videos" / f"{vid}.yml"
-    dest.write_text(
-        yaml.safe_dump(videos, sort_keys=False, allow_unicode=True, width=100)
-    )
+    dest.write_text(dump(videos))
     print(f"{outputs}\n{dest}\n{pending}")
 
 
