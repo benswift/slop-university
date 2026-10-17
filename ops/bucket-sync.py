@@ -8,7 +8,7 @@
 Two buckets, two policies, selected with `--target` (default `pdf`):
 
 - **pdf** (`pdf.slop.university`, env `SLOPU_S3_BUCKET`): output PDFs, and the
-  signage screens' video encodes, keyed by bare basename. The PDFs used to live
+  videos' encodes and covers, keyed by bare basename. The PDFs used to live
   in `website/public/outputs/pdf/` and ship inside the GitHub Pages artifact;
   they were the largest and fastest-growing category there and, being
   committed, they grew `.git` permanently too. Two properties of this bucket
@@ -119,7 +119,11 @@ TARGETS = {
     "pdf": Target(
         bucket_env="SLOPU_S3_BUCKET",
         public_base="https://pdf.slop.university",
-        content_types={".pdf": "application/pdf", ".mp4": "video/mp4"},
+        content_types={
+            ".pdf": "application/pdf",
+            ".mp4": "video/mp4",
+            ".jpg": "image/jpeg",
+        },
         flat_keys=True,
         cors=True,
         robots_txt=PDF_ROBOTS_TXT,
