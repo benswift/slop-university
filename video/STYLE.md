@@ -67,6 +67,9 @@ the lockup, with no voice. `output.json` names the output; its hero is
 
 ## Sound
 
-The narrator is an ElevenLabs voice (`video.toml`), never a real person's. The
-music is an ElevenLabs bed composed from the prompt in `video.toml`;
-`video.py mix` ducks it under the voice and fades it to silence at both ends.
+The narrator is an ElevenLabs Voice Library voice (`video.toml`), used by id. A
+library voice is licensed for this use on a paid plan; pick one with no
+non-commercial or usage flag, and never one that sounds like a recognisable
+public figure. The music is an ElevenLabs bed composed from the prompt in
+`video.toml`; `video.py mix` ducks it under the voice, fades it to silence at
+both ends and masters the whole to −14 LUFS.
