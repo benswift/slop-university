@@ -108,17 +108,27 @@ references: `{"output": id}` (its hero), `{"thumb": id}` (its first page),
 `{"page": [id, n]}` (page n of its PDF), `{"person": id}` (a researcher's hero),
 `{"headshot": id}`. `video/_kit/beats.js` is the engine.
 
-| type        | fields                                                                              | for                                                        |
-| ----------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `hero`      | `image`, `title`, `tagline`, `byline`, `clear` (word)                               | the opening, always first                                  |
-| `statement` | `text`, `highlight` (a phrase of it, in gold), `kicker`, `at`                       | a claim or finding in type                                 |
-| `stat`      | `value`, `label`, `format` (`number`, `money`, `decimal`), `prefix`, `suffix`, `at` | one number, counting up                                    |
-| `stats`     | `items`: two or three stats, each with its own `at`                                 | numbers side by side                                       |
-| `figure`    | `image` (a `page`), `crop` [x, y, w, h], `label`, `focus`: [{`at`, `box`}]          | a page or figure, pushing in                               |
-| `pages`     | `outputs` (ids), `at`, `until`                                                      | covers dropping into a grid                                |
-| `people`    | `people` (ids), `at` (one word, or one per person)                                  | the researchers; one is shown large                        |
-| `cards`     | `items`: [{`title`, `text`, `at`}] (two to four)                                    | steps or points in turn                                    |
-| `close`     | `line` (the call to action's line), `cta`: true                                     | where to find the University, then the lockup; always last |
+| type        | fields                                                                                           | for                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `hero`      | `image`, `title`, `tagline`, `byline`, `clear` (word)                                            | the opening, always first                                  |
+| `statement` | `text`, `highlight` (a phrase of it, in gold), `kicker`, `at`                                    | a claim or finding in type                                 |
+| `stat`      | `value`, `label`, `format` (`number`, `money`, `decimal`), `prefix`, `suffix`, `at`              | one number, counting up                                    |
+| `stats`     | `items`: two or three stats, each with its own `at`                                              | numbers side by side                                       |
+| `figure`    | `image` (a `page`), `crop` [x, y, w, h], `label`, `focus`: [{`at`, `box`}]                       | a page or figure, pushing in                               |
+| `pages`     | `outputs` (ids), `at`, `until`                                                                   | covers dropping into a grid                                |
+| `people`    | `people` (ids), `at` (one word, or one per person)                                               | the researchers; one is shown large                        |
+| `quote`     | `text` (verbatim), `highlight` (a phrase of it), `attribution`, `image`, `spoken`, `at`, `until` | a passage quoted from the source, or a speaker's own words |
+| `cards`     | `items`: [{`title`, `text`, `at`}] (two to four)                                                 | steps or points in turn                                    |
+| `close`     | `line` (the call to action's line), `cta`: true                                                  | where to find the University, then the lockup; always last |
+
+A sentence lifted from the source is a `quote`, never a `figure` crop of the
+typeset page: video can set it, build it and light it, and a crop of body text
+only shows that a page exists. Its `text` is the source's words exactly (take
+them from `pdftotext`); over an `image` (the output's or a speaker's hero) it
+sits under a scrim. With `spoken: true` the line's voice reads it and each word
+lights as it is said, with the attribution up from the start; otherwise it
+builds phrase by phrase until `until`. A `figure` is for what only a picture
+holds: a chart, a diagram, a photograph, a table.
 
 Fractions (`crop`, `box`) are of the whole page image. To find a figure, look at
 the page: `pdftoppm -png -r 60 -f n -l n` gives a quick view to measure from.

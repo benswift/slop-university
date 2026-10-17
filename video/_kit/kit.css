@@ -221,3 +221,44 @@
 #stage[data-aspect="portrait"] .card-title {
   font-size: 46px;
 }
+
+/* a quotation from the source (beats.js quote): the site's blockquote, a gold
+   rule down the side, over an image held dark by a flat scrim */
+.quote-scrim {
+  background: rgb(26 26 26 / 86%);
+}
+
+.quote {
+  padding-left: 48px;
+  border-left: 4px solid var(--video-accent);
+}
+
+.quote-mark {
+  position: absolute;
+  top: -96px;
+  left: 30px;
+  font-size: 160px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--video-accent);
+}
+
+.quote-text {
+  font-size: 54px;
+  font-weight: 300;
+  line-height: 1.32;
+  text-wrap: pretty;
+}
+
+#stage[data-aspect="portrait"] .quote-text {
+  font-size: 46px;
+}
+
+.quote-by {
+  margin-top: 36px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--video-accent-2);
+}

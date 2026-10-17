@@ -380,6 +380,76 @@ const BEATS = {
     });
   },
 
+  // a passage quoted from the source, set as a quotation over an image under a
+  // scrim. `text` is verbatim; a voice that reads it (`spoken`) lights each
+  // word as it is said, otherwise it builds phrase by phrase until `until`.
+  quote({ b, t0, t1, tl, T, P, W, H, scene, img, cue }) {
+    const els = [];
+    if (b.image) {
+      const bg = M.layer(scene, 0, 0);
+      const pic = img(b.image);
+      Object.assign(pic.style, { width: `${W}px`, height: `${H}px`, objectFit: "cover" });
+      bg.appendChild(pic);
+      M.el("div", { class: "layer quote-scrim" }, bg).style.cssText = `width:${W}px;height:${H}px`;
+      M.set(bg, { opacity: 0 });
+      tl.to(bg, { opacity: 1 }, t0, { dur: 0.7 });
+      els.push(bg);
+    }
+    const w = P ? W - 160 : Math.min(1380, W - 400);
+    const box = text(scene, "quote", "", { width: `${w}px` });
+    M.el("div", { class: "quote-mark", text: "\u201C" }, box);
+    const body = M.el("div", { class: "quote-text" }, box);
+    const split = b.text.split(/\s+/);
+    // the highlight is a run of the quote's own words, matched as a phrase
+    const hl = b.highlight ? b.highlight.split(/\s+/) : [];
+    const at = hl.length ? split.findIndex((_, i) => hl.every((h, j) => split[i + j] === h)) : -1;
+    const words = split.map((word, i) => {
+      const span = M.el("span", { class: "quote-word", text: `${word} ` }, body);
+      if (at >= 0 && i >= at && i < at + hl.length) span.classList.add("gold");
+      M.set(span, { opacity: 0.16 });
+      return span;
+    });
+    const by = b.attribution ? M.el("div", { class: "quote-by", text: b.attribution }, box) : null;
+    if (by) M.set(by, { opacity: 0 });
+    M.set(box, { x: (W - w) / 2, y: (H - box.offsetHeight) / 2, opacity: 0 });
+    M.appear(tl, box, cue(b.at, t0 + 0.2), { dur: 0.6 });
+
+    const norm = (x) => x.toLowerCase().replace(/[^a-z0-9']/g, "");
+    const start = cue(b.at, t0 + 0.2) + 0.5;
+    let times;
+    if (b.spoken) {
+      // each word on the spoken word it matches, in order
+      const said = T.line(b.line).words;
+      let k = 0;
+      let last = start;
+      times = b.text.split(/\s+/).map((word) => {
+        const j = said.findIndex((x, n) => n >= k && norm(x.w) === norm(word));
+        if (j >= 0) {
+          k = j + 1;
+          last = said[j].start;
+        }
+        return last;
+      });
+    } else {
+      // phrase by phrase, evenly, to `until` or a little before the beat ends
+      const end = cue(b.until, Math.max(start + 1, t1 - 1.6));
+      let phrase = 0;
+      const phrases = b.text.split(/\s+/).map((word) => {
+        const p = phrase;
+        if (/[,.;:!?]$/.test(word)) phrase++;
+        return p;
+      });
+      const n = Math.max(1, phrases.at(-1) + 1);
+      times = phrases.map((p) => start + ((end - start) * p) / n);
+    }
+    words.forEach((span, i) =>
+      tl.to(span, { opacity: 1 }, times[i], { dur: 0.45, ease: "out-cubic" }),
+    );
+    // a speaker's name comes with their words; a source's after its passage
+    if (by) tl.to(by, { opacity: 1 }, b.spoken ? start : Math.max(...times) + 0.5, { dur: 0.5 });
+    return [...els, box];
+  },
+
   // two to four points, one after another
   cards({ b, t0, tl, P, W, H, scene, cue }) {
     const w = P ? W - 140 : Math.min(1300, W - 300);
