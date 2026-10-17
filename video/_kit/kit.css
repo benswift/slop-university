@@ -9,12 +9,13 @@
 :root {
   --rule: rgb(26 26 26 / 85%); /* ink linework */
   --muted: rgb(26 26 26 / 50%);
+  --hairline: rgb(26 26 26 / 18%);
 }
 
 /* a page of an output, as printed: square, on the ground, with a hairline */
 .page {
   background: #fff;
-  box-shadow: 0 0 0 1px rgb(26 26 26 / 18%);
+  box-shadow: 0 0 0 1px var(--hairline);
 }
 
 .label {
@@ -51,7 +52,7 @@
   padding: 28px 0;
   text-align: center;
   background: var(--video-ground);
-  box-shadow: 0 0 0 1px rgb(26 26 26 / 18%);
+  box-shadow: 0 0 0 1px var(--hairline);
 }
 
 .count-num {

@@ -16,8 +16,9 @@ University.
   `<slug>.js` (the shared `build`), `timing.json` and `captions.vtt` (written by
   `video.py voice`), `assets/` (audio and the output's fetched images, not
   committed) and a `kit -> ../_kit` symlink.
-- `_kit/`: `kit.css` and two symlinks into `node_modules` (run `pnpm install`
-  here first): `motion ->` astromotion's `video/`, `brand ->` astro-theme-slop.
+- `_kit/`: `kit.css`, `kit-dark.css` (the ink cut) and two symlinks into
+  `node_modules` (run `pnpm install` here first): `motion ->` astromotion's
+  `video/`, `brand ->` astro-theme-slop.
 - `out/`: renders, stills and the TTS cache (gitignored).
 
 `sting/` is the smallest composition: one output's hero and title block, then
@@ -54,8 +55,14 @@ the lockup, with no voice. `output.json` names the output; its hero is
   usually muted.
 - **It closes on the lockup**: the rules grow from the frame's edges, then the
   crest and wordmark fade in.
-- **Formats.** Landscape 1920×1080 and, for signage, a portrait cut at 1080×1920
-  from the same `build`. Masters 4K at 50 fps, drafts 1080p25.
+- **Formats.** Landscape 1920×1080 and a portrait cut at 1080×1920 from the same
+  `build`. Masters 4K at 50 fps, drafts 1080p25.
+- **Signage cuts are dark.** The signage screens show the posters' dark renders,
+  so a video they play is the ink cut of the same `build`:
+  `compositions/dark.html` and `compositions/portrait-dark.html` link
+  `kit/kit-dark.css` and set `data-theme="dark"` on the stage, and a `build`
+  takes its logos and inks from the theme, never hard-coded. `video.py signage`
+  encodes them (`[signage]` in `video.toml`).
 
 ## Sound
 

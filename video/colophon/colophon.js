@@ -1,17 +1,19 @@
 // About this project: the colophon as a video. One build serves both aspects;
 // every cue lands on a word of the script (video/scripts/colophon.md) through
 // T.word. assets/ is filled by fetch-assets.py: the colophon hero, real output
-// covers and the roster's headshots.
+// covers and the roster's headshots. A stage with data-theme="dark" is the ink
+// cut for the signage screens (its composition links kit/kit-dark.css).
 
 import * as M from "./kit/motion/motion.js";
 import * as B from "./kit/motion/brand.js";
 import { lockups, logos } from "./kit/brand/video/brand.js";
 
+const THEME = document.getElementById("stage").dataset.theme === "dark" ? "dark" : "light";
 const DATA = await fetch("assets/outputs.json").then((r) => r.json());
 const HERO = await B.image("assets/hero.avif", "Slop University");
-const LOGO = await B.image(logos.light, "Slop University");
-const MARK = await B.svgText(lockups.light.src);
-const CREST = new URL("../assets/slop-crest.svg", new URL(logos.light)).href;
+const LOGO = await B.image(logos[THEME], "Slop University");
+const MARK = await B.svgText(lockups[THEME].src);
+const CREST = new URL("../assets/slop-crest.svg", new URL(logos[THEME])).href;
 const COVER_AR = 1.414;
 
 const cover = (parent, n, w, cls = "") => {
@@ -38,6 +40,12 @@ const centre = (el, x, y, w, h) => M.set(el, { x: x - w / 2, y: y - h / 2 });
 
 export function build(tl, S, T) {
   const P = S.portrait;
+  const token = (name) => getComputedStyle(S.root).getPropertyValue(name).trim();
+  const C = {
+    ground: token("--video-ground"),
+    ink: token("--video-text"),
+    gold: token("--video-accent"),
+  };
   const W = S.W;
   const H = S.H - S.captionH; // the scene
   const cx = W / 2;
@@ -93,7 +101,7 @@ export function build(tl, S, T) {
   });
   scene.appendChild(clock);
   centre(clock, cx, cy, 2 * R + 20, 2 * R + 20);
-  M.svg("circle", { r: R, fill: "#f8f0dc", stroke: "#1a1a1a", "stroke-width": 3 }, clock);
+  M.svg("circle", { r: R, fill: C.ground, stroke: C.ink, "stroke-width": 3 }, clock);
   for (let k = 0; k < 12; k++) {
     const a = (k * Math.PI) / 6;
     M.svg(
@@ -103,7 +111,7 @@ export function build(tl, S, T) {
         y1: -Math.cos(a) * (R - 18),
         x2: Math.sin(a) * (R - 6),
         y2: -Math.cos(a) * (R - 6),
-        stroke: "#1a1a1a",
+        stroke: C.ink,
         "stroke-width": 3,
       },
       clock,
@@ -116,14 +124,14 @@ export function build(tl, S, T) {
       y1: 12,
       x2: 0,
       y2: -R + 26,
-      stroke: "#b97d1c",
+      stroke: C.gold,
       "stroke-width": 6,
       "stroke-linecap": "square",
     },
     clock,
   );
   M.set(hand, { transformOrigin: "50% 89%" });
-  M.svg("circle", { r: 7, fill: "#b97d1c" }, clock);
+  M.svg("circle", { r: 7, fill: C.gold }, clock);
   M.set(clock, { opacity: 0 });
   M.appear(tl, clock, t0 - 0.4, { dur: 0.5, scale: 0.9 });
   tl.sample(hand, t0, t1 - t0, (p) => ({ rotation: 360 * 5 * p * p }), { ease: "linear" });
@@ -172,7 +180,7 @@ export function build(tl, S, T) {
     {
       d: `M ${box - 86} ${50 + 54} L 88 ${50 + 54} M 104 ${50 + 42} L 88 ${50 + 54} L 104 ${50 + 66}`,
       fill: "none",
-      stroke: "#b97d1c",
+      stroke: C.gold,
       "stroke-width": 4,
     },
     arrow,
@@ -221,12 +229,12 @@ export function build(tl, S, T) {
   proxies.insertBefore(loop, proxies.firstChild);
   const ring = M.svg(
     "ellipse",
-    { cx, cy, rx, ry: LR, fill: "none", stroke: "#b97d1c", "stroke-width": 3 },
+    { cx, cy, rx, ry: LR, fill: "none", stroke: C.gold, "stroke-width": 3 },
     loop,
   );
   M.prepDraw([ring]);
   M.drawOn(tl, [ring], tLoop + 0.6, 1.0, 0, "in-out-cubic");
-  const bead = M.svg("circle", { cx: 0, cy: 0, r: 11, fill: "#b97d1c" }, loop);
+  const bead = M.svg("circle", { cx: 0, cy: 0, r: 11, fill: C.gold }, loop);
   M.set(bead, { opacity: 0 });
   const tRun = tLoop + 1.6;
   const tEnd = T.end(3) + 0.6;
@@ -250,7 +258,7 @@ export function build(tl, S, T) {
     {
       d: "M 25 10 L 25 85 L 95 85 M 25 85 L 25 140 M 95 85 L 95 140 M 25 58 L 95 58",
       fill: "none",
-      stroke: "#1a1a1a",
+      stroke: C.ink,
       "stroke-width": 5,
       "stroke-linecap": "square",
     },
@@ -258,7 +266,7 @@ export function build(tl, S, T) {
   );
   M.prepDraw([seat]);
   M.drawOn(tl, [seat], w(3, "nobody"), 0.8);
-  const name = M.el("img", { src: logos.light, alt: "Slop University", class: "layer" }, proxies);
+  const name = M.el("img", { src: logos[THEME], alt: "Slop University", class: "layer" }, proxies);
   name.style.height = "52px";
   M.set(name, { x: cx - (52 * 278.24) / 43.09 / 2, y: cy + 80, opacity: 0 });
   M.appear(tl, name, w(3, "own"), { dur: 0.5 });
@@ -270,7 +278,7 @@ export function build(tl, S, T) {
   M.el("span", { text: "/slop.7vh3fg" }, doiBig);
   M.set(doiBig, { x: 0, y: cy - (P ? 160 : 150), opacity: 0 });
   M.appear(tl, doiBig, w(4, "DOIs"), { dur: 0.5 });
-  tl.to(prefix, { color: "#b97d1c" }, w(4, "reserved"), { dur: 0.4 });
+  tl.to(prefix, { color: C.gold }, w(4, "reserved"), { dur: 0.4 });
   const reserved = text(scene, "kicker", "reserved for testing", {
     width: `${W}px`,
     textAlign: P ? "center" : "left",
@@ -290,7 +298,7 @@ export function build(tl, S, T) {
     {
       d: "M 20 5 L 20 80 M 8 66 L 20 80 L 32 66",
       fill: "none",
-      stroke: "#b97d1c",
+      stroke: C.gold,
       "stroke-width": 4,
     },
     down,
@@ -329,10 +337,10 @@ export function build(tl, S, T) {
       },
       d,
     );
-    M.svg("circle", { cx: 20, cy: 20, r: 18, fill: "#b97d1c" }, s);
+    M.svg("circle", { cx: 20, cy: 20, r: 18, fill: C.gold }, s);
     M.svg(
       "path",
-      { d: "M 11 21 L 18 28 L 30 13", fill: "none", stroke: "#f8f0dc", "stroke-width": 4 },
+      { d: "M 11 21 L 18 28 L 30 13", fill: "none", stroke: C.ground, "stroke-width": 4 },
       s,
     );
     M.set(s, { opacity: 0 });
@@ -372,7 +380,7 @@ export function build(tl, S, T) {
     {
       d: `M ${cx} 210 L ${cx} ${by - 24} M ${bx} ${by - 24} L ${W - bx} ${by - 24}`,
       fill: "none",
-      stroke: "#1a1a1a",
+      stroke: C.ink,
       "stroke-width": 2,
     },
     wire,
@@ -420,6 +428,6 @@ export function build(tl, S, T) {
 
   // ---- the lockup ----
   const tLock = T.end(7) + 1.9;
-  const end = B.lockup(tl, S.root, S, { mark: MARK, ...lockups.light, at: tLock }).el;
+  const end = B.lockup(tl, S.root, S, { mark: MARK, ...lockups[THEME], at: tLock }).el;
   tl.to(end, { opacity: 0 }, Number(S.root.dataset.duration) - 1.0, { dur: 0.8 });
 }
