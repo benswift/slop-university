@@ -2,6 +2,7 @@
 title: About this project
 description: What Slop University is, and how it is made.
 heroImage: ./_heroes/colophon.avif
+video: colophon
 ---
 
 Slop University is an experiment, made as an artwork. It is a fictional

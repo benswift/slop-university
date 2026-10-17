@@ -1,7 +1,8 @@
 import { getCollection } from "astro:content";
 import { newestFirst } from "./chronology";
 import { fullTitle } from "./outputs";
-import { PDF_BASE, signagePdfUrl } from "./pdfs";
+import { signagePdfUrl } from "./pdfs";
+import { videoUrl } from "./videos";
 import { thumbLargestUrl } from "./images";
 
 // What an e-signage screen plays: the recent posters in its orientation and
@@ -50,7 +51,7 @@ export async function signagePlaylist(orientation: Orientation): Promise<Playlis
   const videos = (await getCollection("videos"))
     .toSorted((a, b) => a.id.localeCompare(b.id))
     .map((entry) => ({
-      src: `${PDF_BASE}/${entry.data.signage[orientation]}`,
+      src: videoUrl(entry.data.signage[orientation]),
       title: entry.data.title,
     }));
 

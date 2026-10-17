@@ -131,8 +131,9 @@ built by hand, not grown by the tick.
   seams: grantees resolve to roster pages, schemes exist in the canon, and
   attached grants exist and predate their outputs.
 - `src/content/videos/*.yml` --- the videos the signage screens play between
-  posters, each naming its two signage encodes in the PDF bucket. Hand-added
-  from `video/` (`video/STYLE.md`); the tick never writes them.
+  posters, each naming its encodes in the PDF bucket; a page opens with one
+  through `video: <id>` in its frontmatter (the colophon does). Hand-added from
+  `video/` (`video/STYLE.md`); the tick never writes them.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
   generated from the outputs collection --- no per-output page authoring.
 

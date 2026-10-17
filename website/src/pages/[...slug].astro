@@ -1,6 +1,7 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import PageVideo from "../components/PageVideo.astro";
 import { siteConfig } from "../site-config";
 
 export async function getStaticPaths() {
@@ -13,6 +14,9 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+// A page can open with a video from the videos collection: `video: <id>`.
+const video = entry.data.video ? await getEntry("videos", entry.data.video) : undefined;
+if (entry.data.video && !video) throw new Error(`${entry.id}: no video "${entry.data.video}"`);
 ---
 
 <ContentLayout
@@ -22,5 +26,6 @@ const { Content } = await render(entry);
   {...siteConfig}
   socialImage={entry.data.heroImage}
 >
+  {video && <PageVideo video={video.data} />}
   <Content />
 </ContentLayout>

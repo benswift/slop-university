@@ -1,7 +1,7 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { definePageCollection } from "astro-theme-university/schemas";
+import { pageSchema } from "astro-theme-university/schemas";
 import { parse as parseYaml } from "yaml";
 
 // The fiction's source of truth lives OUTSIDE this Astro project, in the repo's
@@ -111,7 +111,12 @@ const grants = defineCollection({
 });
 
 // Free-form pages (colophon, about, agent-grown pages).
-const pages = definePageCollection({ passthrough: true });
+// The theme's page schema, plus `video`: the id of a videos entry the page
+// opens with.
+const pages = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/pages" }),
+  schema: (ctx) => pageSchema(ctx).extend({ video: z.string().optional() }).loose(),
+});
 
 // Intrinsic dimensions of a pre-encoded image served from img.slop.university.
 // Only dims are stored --- URLs derive from the entry id (see src/lib/images.ts,
@@ -195,17 +200,20 @@ const news = defineCollection({
   }),
 });
 
-// Videos the e-signage screens play between posters. Hand-added, never grown by
-// the tick. Each names its signage encodes (the dark cuts, from the video
-// project's `video.py signage`) by file in the PDF bucket: the file name
+// Videos, from the video project (video/). Hand-added, never grown by the tick.
+// Each names its encodes by file in the PDF bucket: `signage` the 4K encodes
+// the e-signage screens play between posters (`video.py signage`), `web` the
+// 1080p encodes a page shows with their covers (`video.py web`). A file name
 // carries a hash of its bytes, which is what lets the bucket serve it
-// immutable.
-const signageFile = z.string().regex(/^[a-z0-9-]+-[0-9a-f]{10}\.mp4$/);
+// immutable. A page shows one by naming it in its frontmatter (`video: <id>`).
+const hashed = (ext: string) => z.string().regex(new RegExp(`^[a-z0-9-]+-[0-9a-f]{10}\\.${ext}$`));
+const webCut = z.object({ video: hashed("mp4"), cover: hashed("jpg") });
 const videos = defineCollection({
   loader: glob({ pattern: "**/*.yml", base: "src/content/videos" }),
   schema: z.object({
     title: z.string(),
-    signage: z.object({ landscape: signageFile, portrait: signageFile }),
+    signage: z.object({ landscape: hashed("mp4"), portrait: hashed("mp4") }),
+    web: z.object({ landscape: webCut, portrait: webCut }).optional(),
   }),
 });
 

@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { videoUrl } from "../lib/videos";
+
+// A video at the top of a page: the portrait cut on a narrow screen, the
+// landscape cut otherwise. Two players, one shown by a media query; neither
+// preloads, so the hidden one never downloads anything.
+interface Props {
+  video: CollectionEntry<"videos">["data"];
+}
+
+const { video } = Astro.props;
+const web = video.web;
+---
+
+{
+  web && (
+    <figure class="page-video">
+      {(["landscape", "portrait"] as const).map((cut) => (
+        <video
+          class={cut}
+          src={videoUrl(web[cut].video)}
+          poster={videoUrl(web[cut].cover)}
+          controls
+          playsinline
+          preload="none"
+          width={cut === "landscape" ? 1920 : 1080}
+          height={cut === "landscape" ? 1080 : 1920}
+          aria-label={video.title}
+        />
+      ))}
+    </figure>
+  )
+}
+
+<style>
+  .page-video {
+    margin: 0 0 2rem;
+  }
+
+  .page-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #1a1a1a;
+  }
+
+  .page-video .portrait {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .page-video .landscape {
+      display: none;
+    }
+
+    .page-video .portrait {
+      display: block;
+      max-height: 85vh;
+      width: auto;
+      max-width: 100%;
+      margin-inline: auto;
+    }
+  }
+</style>
