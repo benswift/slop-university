@@ -3,13 +3,17 @@ name: video
 description: >-
   Make one Slop University video, a research explainer of an output or a promo,
   as a script and a beat spec on the template engine, voiced, scored, reviewed,
-  encoded and staged for `bin/slopu land-video`. Invoked by `bin/slopu video`.
+  encoded and staged as a research output for `bin/slopu land`. Invoked by
+  `bin/slopu video`.
 ---
 
 # A Slop University video
 
-You make one video and stage it. You never commit, upload or push: a human
-watches the drafts and lands it with `bin/slopu land-video <slug>`.
+You make one video and stage it. A video is a research output like any other: it
+has an id, a DOI, an outputs entry and a landing page, counts in the
+University's numbers, cites the outputs it explains or shows, and is announced
+by a news post. You never commit, upload or push: a human watches the drafts and
+lands it with `bin/slopu land <id>`.
 
 The arguments are the kind (`explainer` or `promo`), then for an explainer the
 output id, and for a promo a researcher id or `university`, then any steering.
@@ -56,34 +60,44 @@ University promo is the narrator. The register is the comms one
    (`https://pdf.slop.university/<id>.pdf`; `pdftotext -layout`), and its news
    post if any. Promo: `facts.json`, the roster entry, the researcher's recent
    and top-cited outputs. Write down the key idea in one sentence.
-2. **Scaffold.** The slug is `explain-<seed>` (the output id's last part) or
-   `promo-<researcher id>` / `promo-university-<a short topic>`. Then
-   `video/_kit/templated.py new <slug> --kind <kind> --title "<title>"`, and in
-   `video/<slug>/spec.json` set `output` (an explainer's id) or `person` (a
-   researcher promo's id): the site opens that page with the video.
-3. **Script**, `video/scripts/<slug>.md`: `## Key idea`, then `## Script` with
-   one `**VO:**` (or `**VO (id):**`) paragraph per line, `[beat n]` pauses, and
-   a `_Visual:_` line under each saying which beat shows it. The last line is
-   the call to action when there is one ("Find out more at the website ...").
-   Say exact strings (addresses, DOIs) by name, never letter by letter; the
-   screen shows them.
-4. **Spec**, `video/<slug>/spec.json`: one beat per line or two (below). Every
+2. **Scaffold.** `video/_kit/templated.py new --kind <kind> --title "<title>"`
+   prints the video's id (`slop-explainer-<slug>-<seed>` or `slop-promo-...`);
+   every later step takes it. In `video/<id>/spec.json` fill the output's
+   metadata as an outputs entry has it (`skills/publish/SKILL.md` §2A):
+   `subtitle` (optional), `summary` (two to four sentences in the comms
+   register, what the video shows), `topic`, `authors` (roster names: an
+   explainer's are its output's; a researcher's promo is theirs; a University
+   promo has none) and `school`. Set `output` (an explainer's output id) or
+   `person` (a researcher promo's id): that page then opens with the video. The
+   outputs a spec explains or shows are what the video cites, harvested at
+   landing; never write `cites:` yourself.
+3. **Script**, `video/scripts/<id>.md`: `## Key idea`, then `## Script` with one
+   `**VO:**` (or `**VO (id):**`) paragraph per line, `[beat n]` pauses, and a
+   `_Visual:_` line under each saying which beat shows it. The last line is the
+   call to action when there is one ("Find out more at the website ..."). Say
+   exact strings (addresses, DOIs) by name, never letter by letter; the screen
+   shows them.
+4. **Spec**, `video/<id>/spec.json`: one beat per line or two (below). Every
    `at` is a word that line really says.
-5. **Make it**, from `video/`: `_kit/templated.py fetch <slug>`, then
-   `./video.sh` (the styled-video skill's `video.py`) `voice`, `music`, `mix`
-   (it must log the master on target), `check`, `render`, `stills`, each with
-   the slug.
-6. **Review**, the gate. Open every contact sheet in `video/out/<slug>/stills/`
+5. **Make it**, from `video/`: `_kit/templated.py fetch <id>`, then `./video.sh`
+   (the styled-video skill's `video.py`) `voice`, `music`, `mix` (it must log
+   the master on target), `check`, `render`, `stills`, each with the id.
+6. **Review**, the gate. Open every contact sheet in `video/out/<id>/stills/`
    and look: nothing overlaps or runs off the frame, each beat shows what its
    line says while it says it, the numbers on screen match the source, no frame
    is empty while a line plays. Listen to `assets/mix.wav` segments where the
    stills look wrong. Fix the spec or the script and go again; at most three
    rounds, then stop and report what is still wrong.
-7. **Encode and stage**: `./video.sh signage <slug>`, `./video.sh web <slug>`,
-   then `_kit/templated.py stage <slug>`.
-8. **Report**: the slug, the key idea, the drafts' paths
-   (`video/out/<slug>/<slug>-draft.mp4` and the portrait), and anything the
-   review could not fix. Then stop.
+7. **Encode and stage**: `./video.sh signage <id>`, `./video.sh web <id>`, then
+   `_kit/templated.py stage <id>`, which writes the outputs and videos entries
+   and stages the encodes and images under `data/pending-uploads/<id>/`.
+8. **News post**, `website/src/content/news/<date>-<slug>.md`, announcing the
+   video with `output: <id>`, per `skills/publish/comms.md` (its
+   read-the-recent- eight check included). It links the output it explains, or
+   the researcher's profile, wherever it names them.
+9. **Report**: the id, the key idea, the drafts' paths
+   (`video/out/<id>/<id>-draft.mp4` and the portrait), and anything the review
+   could not fix. Then stop.
 
 ## Beats
 

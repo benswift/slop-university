@@ -63,12 +63,12 @@ the lockup, with no voice. `output.json` names the output; its hero is
   crest and wordmark fade in.
 - **Formats.** Landscape 1920×1080 and a portrait cut at 1080×1920 from the same
   `build`. Masters 4K at 50 fps, drafts 1080p25.
-- **Publishing.** `video.py signage` encodes both cuts, with sound, for the
-  screens, and `video.py web` the 1080p cuts and their covers for a page. The
-  files go in the PDF bucket (`ops/bucket-sync.py upload`) and are named in
-  `website/src/content/videos/<slug>.yml`, which puts the video between the
-  posters; a page opens with it by naming it in its frontmatter
-  (`video: <slug>`).
+- **Publishing.** A templated video is a research output
+  (`skills/video/SKILL.md`): `_kit/templated.py stage` writes its outputs and
+  videos entries and stages its encodes, and `bin/slopu land` publishes it. A
+  hand-made video like the colophon's is named in
+  `website/src/content/videos/<slug>.yml` directly, and a page opens with it by
+  naming it in its frontmatter (`video: <slug>`).
 
 ## Sound
 

@@ -96,9 +96,12 @@ export function build(tl, S, T, A) {
   const close = A.spec.beats.find((b) => b.type === "close") ?? { type: "close" };
   const lastLine = T.lines.length - 1;
 
-  // when beat k starts and must be gone by
+  // when beat k starts and must be gone by; a close on its line ends the last,
+  // or its call to action lands on top of it
   const starts = beats.map((b) => Math.max(0, T.start(b.line) - LEAD));
-  const ends = beats.map((_, k) => (k + 1 < beats.length ? starts[k + 1] : T.end(lastLine) + 0.6));
+  const closing =
+    close.line != null ? Math.max(0, T.start(close.line) - LEAD) : T.end(lastLine) + 0.6;
+  const ends = beats.map((_, k) => (k + 1 < beats.length ? starts[k + 1] : closing));
   const cueOf = (b, at, fallback) => {
     if (at == null) return fallback;
     if (typeof at === "number") return at;

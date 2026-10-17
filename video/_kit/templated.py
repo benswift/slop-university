@@ -7,24 +7,30 @@
 engine (_kit/beats.js) driven by its spec.json, so a run writes a script and a
 spec and no animation code. skills/video/SKILL.md is the method.
 
-    templated.py new <slug> --kind explainer|promo --title "..."
-    templated.py fetch <slug>     # assets/ from the spec's image references
-    templated.py stage <slug>     # encodes -> data/pending-uploads/, the site's video entry
+    templated.py new --kind explainer|promo --title "..."   # prints the id
+    templated.py fetch <id>     # assets/ from the spec's image references
+    templated.py stage <id>     # the outputs entry, images and encodes, for landing
 
-`new` writes <slug>/ (both cuts' HTML, the HyperFrames files, the kit link and
-a spec skeleton) and scripts/<slug>.md. `fetch` resolves every image reference
-in the spec the way beats.js does (an output's hero and first page from the
-image bucket, a PDF page rendered from the PDF bucket, a person's hero and
-headshot from canon/) and writes assets/people.json, the name, title and school
-of everyone the spec shows. `stage` copies the signage and web encodes
-(`video.py signage` and `web`) into data/pending-uploads/video-<slug>/ and
-writes website/src/content/videos/<slug>.yml, which `bin/slopu land-video`
-commits, uploads and pushes.
+A video is a research output like any other: its id is
+`slop-explainer-<slug>-<seed>` or `slop-promo-<slug>-<seed>` (the slug and seed
+as skills/_shared/output-naming.md makes them), its DOI is 10.5555/slop.<seed>,
+and video/<id>/ is its project. `new` writes video/<id>/ (both cuts' HTML, the
+HyperFrames files, the kit link and a spec skeleton) and scripts/<id>.md.
+`fetch` resolves every image reference in the spec's beats the way beats.js
+does and writes assets/people.json. `stage`, once `video.py signage` and `web`
+have run, writes the outputs entry from the spec (its title, subtitle, summary,
+topic, authors and school) and the videos entry, encodes the hero, thumbnail
+and og card from the landscape cut, and copies the encodes into
+data/pending-uploads/<id>/, where `bin/slopu land <id>` finds them.
 """
 
 import json
+import re
+import secrets
 import shutil
+import string
 import subprocess
+from datetime import datetime
 from pathlib import Path
 from typing import Annotated
 
@@ -80,38 +86,59 @@ def refs(x) -> list[dict]:
     return []
 
 
+def slugify(title: str) -> str:
+    """The slug output-naming.md derives: the first three words, kebab-cased,
+    the last dropped while over 30 characters."""
+    words = title.split()[:3]
+    while True:
+        slug = re.sub(
+            r"-+", "-", re.sub(r"[^a-z0-9]", "-", " ".join(words).lower())
+        ).strip("-")
+        if len(slug) <= 30 or len(words) == 1:
+            return slug
+        words = words[:-1]
+
+
 @app.command()
 def new(
-    slug: str,
     kind: Annotated[str, typer.Option(help="explainer or promo")],
     title: Annotated[str, typer.Option(help="the video's title")],
 ) -> None:
-    """Scaffold <slug>/ and scripts/<slug>.md."""
+    """Scaffold video/<id>/ and scripts/<id>.md, and print the id."""
     if kind not in ("explainer", "promo"):
         raise SystemExit("--kind is explainer or promo")
-    proj = project(slug)
-    if proj.exists():
-        raise SystemExit(f"{proj} exists")
+    seed = "".join(
+        secrets.choice(string.ascii_lowercase + string.digits) for _ in range(6)
+    )
+    vid = f"slop-{kind}-{slugify(title)}-{seed}"
+    proj = project(vid)
     (proj / "compositions").mkdir(parents=True)
     (proj / "kit").symlink_to("../_kit")
     for name in ("index.html", "compositions/portrait.html"):
         html = (
             (TEMPLATE / name)
             .read_text()
-            .replace("{{slug}}", slug)
+            .replace("{{slug}}", vid)
             .replace("{{title}}", title)
         )
         (proj / name).write_text(html)
     for name in ("package.json", "hyperframes.json"):
-        (proj / name).write_text(
-            (TEMPLATE / name).read_text().replace("{{slug}}", slug)
-        )
-    spec = {"kind": kind, "title": title, "beats": []}
+        (proj / name).write_text((TEMPLATE / name).read_text().replace("{{slug}}", vid))
+    spec = {
+        "kind": kind,
+        "title": title,
+        "subtitle": "",
+        "summary": "",
+        "topic": "",
+        "authors": [],
+        "school": "",
+        "beats": [],
+    }
     (proj / "spec.json").write_text(json.dumps(spec, indent=2) + "\n")
-    script = VIDEO / "scripts" / f"{slug}.md"
-    if not script.exists():
-        script.write_text(f"# {title}\n\n## Key idea\n\n## Script\n")
-    print(proj)
+    (VIDEO / "scripts" / f"{vid}.md").write_text(
+        f"# {title}\n\n## Key idea\n\n## Script\n"
+    )
+    print(vid)
 
 
 @app.command()
@@ -172,16 +199,19 @@ def fetch(slug: str) -> None:
         for pid in sorted(people)
     }
     (assets / "people.json").write_text(json.dumps(who, indent=1) + "\n")
-    print(f"{slug}: {len(refs(spec["beats"]))} images, {len(people)} people")
+    print(f"{slug}: {len(refs(spec['beats']))} images, {len(people)} people")
 
 
 @app.command()
-def stage(slug: str) -> None:
-    """Stage the encodes for landing, and write the site's video entry."""
-    proj = project(slug)
+def stage(vid: str) -> None:
+    """Write the outputs and videos entries, encode the images, and stage it all."""
+    proj = project(vid)
     spec = json.loads((proj / "spec.json").read_text())
-    out = VIDEO / "out" / slug
-    pending = ROOT / "data" / "pending-uploads" / f"video-{slug}"
+    for key in ("title", "summary", "topic"):
+        if not spec.get(key):
+            raise SystemExit(f"spec.json has no {key}")
+    out = VIDEO / "out" / vid
+    pending = ROOT / "data" / "pending-uploads" / vid
     pending.mkdir(parents=True, exist_ok=True)
 
     def newest(pattern: str) -> Path:
@@ -193,27 +223,92 @@ def stage(slug: str) -> None:
         shutil.copy(found[-1], pending)
         return found[-1]
 
+    signage = {
+        "landscape": newest(f"signage/{vid}-[0-9a-f]*.mp4"),
+        "portrait": newest(f"signage/{vid}-portrait-[0-9a-f]*.mp4"),
+    }
+    web = {
+        cut: {
+            "video": newest(f"web/{name}-web-*.mp4").name,
+            "cover": newest(f"web/{name}-cover-*.jpg").name,
+        }
+        for cut, name in (("landscape", vid), ("portrait", f"{vid}-portrait"))
+    }
+
+    # the hero, thumbnail and og card: the landscape cut's cover frame, at 4K
+    first = json.loads((proj / "timing.json").read_text())["lines"][0]["start"]
+    frame = out / "cover-4k.png"
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0.0, first - 0.1)}"]
+        + ["-i", str(signage["landscape"]), "-frames:v", "1", str(frame)],
+        check=True,
+    )
+    for kind in ("hero", "thumb"):
+        subprocess.run(
+            [
+                str(ROOT / "ops" / "encode-images.py"),
+                "encode",
+                kind,
+                "--source",
+                str(frame),
+            ]
+            + ["--id", vid, "--pending-dir", str(pending / "img")],
+            check=True,
+            capture_output=True,
+        )
+    w, h = (
+        int(x)
+        for x in subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "v",
+                "-show_entries",
+                "stream=width,height",
+            ]
+            + ["-of", "csv=p=0", str(frame)],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        .stdout.strip()
+        .split(",")
+    )
+
+    now = datetime.now().astimezone()
     entry = {
+        "title": spec["title"],
+        **({"subtitle": spec["subtitle"]} if spec.get("subtitle") else {}),
+        "authors": spec.get("authors", []),
+        "preset": f"video-{spec['kind']}",
+        **({"school": spec["school"]} if spec.get("school") else {}),
+        "date": now.date(),
+        "publishedAt": now.isoformat(timespec="seconds"),
+        "doi": f"10.5555/slop.{vid.rsplit('-', 1)[-1]}",
+        "summary": spec["summary"],
+        "topic": spec["topic"],
+        "version": "1.0",
+        "hero": {"width": w, "height": h},
+        "thumb": {"width": w, "height": h},
+    }
+    outputs = ROOT / "website" / "src" / "content" / "outputs" / f"{vid}.yml"
+    outputs.write_text(
+        yaml.safe_dump(entry, sort_keys=False, allow_unicode=True, width=80)
+    )
+    videos = {
         "title": spec["title"],
         **({"output": spec["output"]} if spec.get("output") else {}),
         **({"person": spec["person"]} if spec.get("person") else {}),
-        "signage": {
-            "landscape": newest(f"signage/{slug}-[0-9a-f]*.mp4").name,
-            "portrait": newest(f"signage/{slug}-portrait-[0-9a-f]*.mp4").name,
-        },
-        "web": {
-            cut: {
-                "video": newest(f"web/{name}-web-*.mp4").name,
-                "cover": newest(f"web/{name}-cover-*.jpg").name,
-            }
-            for cut, name in (("landscape", slug), ("portrait", f"{slug}-portrait"))
-        },
+        "signage": {cut: f.name for cut, f in signage.items()},
+        "web": web,
     }
-    dest = ROOT / "website" / "src" / "content" / "videos" / f"{slug}.yml"
+    dest = ROOT / "website" / "src" / "content" / "videos" / f"{vid}.yml"
     dest.write_text(
-        yaml.safe_dump(entry, sort_keys=False, allow_unicode=True, width=100)
+        yaml.safe_dump(videos, sort_keys=False, allow_unicode=True, width=100)
     )
-    print(f"{dest}\n{pending}")
+    print(f"{outputs}\n{dest}\n{pending}")
 
 
 if __name__ == "__main__":
