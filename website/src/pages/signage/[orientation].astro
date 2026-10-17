@@ -171,7 +171,7 @@ const posterAspect = initial ? initial.width / initial.height : 1;
           />
         )
       }
-      <video id="video" muted playsinline preload="auto"></video>
+      <video id="video" playsinline preload="auto"></video>
     </main>
 
     <script>
@@ -334,7 +334,15 @@ const posterAspect = initial ? initial.width / initial.height : 1;
       // fade it out at its end onto the new one.
       async function play(url: string, next: Shown | undefined) {
         video.currentTime = 0;
-        await video.play();
+        // Videos play with their sound (a screen that should be quiet is
+        // muted at the display). A browser that won't start sound without a
+        // gesture --- a kiosk launched without
+        // --autoplay-policy=no-user-gesture-required --- plays it muted.
+        await video.play().catch(async (err: unknown) => {
+          if ((err as Error)?.name !== "NotAllowedError") throw err;
+          video.muted = true;
+          await video.play();
+        });
         video.classList.add("shown");
         await sleep(FADE_MS);
         if (next) show(next);
