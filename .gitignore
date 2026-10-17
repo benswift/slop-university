@@ -56,3 +56,8 @@ docs/
 # scripts/refetch_corpus.py restores the lot, so the corpus is reproducible
 # rather than merely documented.
 analysis/discrimination-pilot/corpus/raw/
+
+# videos: dependencies, renders, and per-video audio and fetched images
+/video/node_modules/
+/video/out/
+/video/*/assets/

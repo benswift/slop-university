@@ -1,0 +1,47 @@
+/* The look of the Slop University videos: the house two-ink register, ink and
+   lockup gold on warm cream, on astromotion's video stage (motion/stage.css:
+   the stage, the caption band, Public Sans) in the Slop University brand
+   (brand/video/slop.css). STYLE.md next to this directory is the guide. */
+
+@import url("motion/stage.css");
+@import url("brand/video/slop.css");
+
+:root {
+  --rule: rgb(26 26 26 / 85%); /* ink linework */
+  --muted: rgb(26 26 26 / 50%);
+}
+
+/* a page of an output, as printed: square, on the ground, with a hairline */
+.page {
+  background: #fff;
+  box-shadow: 0 0 0 1px rgb(26 26 26 / 18%);
+}
+
+.label {
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.kicker {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--video-accent-2);
+  white-space: nowrap;
+}
+
+/* the hero's scrim holds the cream solid behind the title block and lifts the
+   top edge under the logo: the house imagery is two-ink line and fill all the
+   way out to the frame */
+:root {
+  --video-scrim: linear-gradient(
+    to top,
+    rgb(248 240 220 / 94%) 18%,
+    rgb(248 240 220 / 70%) 55%,
+    rgb(248 240 220 / 20%) 76%,
+    rgb(248 240 220 / 85%) 100%
+  );
+}

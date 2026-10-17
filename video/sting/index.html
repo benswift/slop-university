@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Output sting (landscape)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1920px; height: 1080px; }
+    </style>
+  </head>
+  <body>
+    <!-- build() is in sting.js; output.json is the output it shows. -->
+    <div id="stage" class="stage" data-aspect="landscape" data-composition-id="sting"
+         data-start="0" data-duration="12.5" data-width="1920" data-height="1080" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="12.5" data-track-index="0"></div>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { build } from "./sting.js";
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        window.__timelines["sting"] = tl;
+      });
+    </script>
+  </body>
+</html>
