@@ -205,13 +205,18 @@ const news = defineCollection({
 // the e-signage screens play between posters (`video.py signage`), `web` the
 // 1080p encodes a page shows with their covers (`video.py web`). A file name
 // carries a hash of its bytes, which is what lets the bucket serve it
-// immutable. A page shows one by naming it in its frontmatter (`video: <id>`).
+// immutable. A page shows one by naming it in its frontmatter (`video: <id>`),
+// and an output's or a person's page shows the one about them.
 const hashed = (ext: string) => z.string().regex(new RegExp(`^[a-z0-9-]+-[0-9a-f]{10}\\.${ext}$`));
 const webCut = z.object({ video: hashed("mp4"), cover: hashed("jpg") });
 const videos = defineCollection({
   loader: glob({ pattern: "**/*.yml", base: "src/content/videos" }),
   schema: z.object({
     title: z.string(),
+    // what it is about: an explainer's output, a profile promo's researcher;
+    // the page for that output or person opens with it
+    output: z.string().optional(),
+    person: z.string().optional(),
     signage: z.object({ landscape: hashed("mp4"), portrait: hashed("mp4") }),
     web: z.object({ landscape: webCut, portrait: webCut }).optional(),
   }),

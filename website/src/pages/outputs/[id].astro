@@ -3,6 +3,8 @@ import { getCollection } from "astro:content";
 import BaseLayout from "astro-theme-university/layouts/BaseLayout.astro";
 import Hero from "astro-theme-university/components/Hero.astro";
 import OutputCallout from "../../components/OutputCallout.astro";
+import PageVideo from "../../components/PageVideo.astro";
+import { videoAbout } from "../../lib/videos";
 import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
@@ -61,6 +63,7 @@ const cited = await references(entry);
 // Hero h1 carries only the punchy title; the subtitle rides underneath as a
 // deck. The full title stays in the document <title> for the citable record.
 const full = fullTitle(data);
+const video = await videoAbout("output", entry.id);
 const transitionName = `card-title-${Astro.url.pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-")}`;
 
 const dateFormat = new Intl.DateTimeFormat("en-AU", {
@@ -94,6 +97,8 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 
   {data.subtitle && <p class="deck">{data.subtitle}</p>}
   <p class="lead">{data.summary}</p>
+
+  {video && <PageVideo video={video} />}
 
   <OutputCallout id={entry.id} data={data} />
 

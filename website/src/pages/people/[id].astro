@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
+import PageVideo from "../../components/PageVideo.astro";
+import { videoAbout } from "../../lib/videos";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
 import { bibliometrics } from "../../lib/citations";
 import { formatAud, getSchemes, grantsByGrantee, schemeById } from "../../lib/grants";
@@ -15,6 +17,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const person = entry.data;
+const video = await videoAbout("person", entry.id);
 const hero = personHero(entry.id);
 const portrait = headshot(entry.id);
 // The landscape hero already shows the researcher; fall back to the square
@@ -69,6 +72,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
   socialImage={hero ?? portrait}
   socialImageAlt={hero || portrait ? `Portrait of ${person.name}` : undefined}
 >
+  {video && <PageVideo video={video} />}
   <div class:list={["profile", { framed: showPortrait }]}>
     {
       showPortrait && (

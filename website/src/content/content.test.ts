@@ -459,3 +459,27 @@ describe("leadership", () => {
     }
   });
 });
+
+describe("videos entries", () => {
+  const videosDir = join(contentDir, "videos");
+  const videos = readdirSync(videosDir)
+    .filter((f) => f.endsWith(".yml"))
+    .map(
+      (f) =>
+        parseYaml(readFileSync(join(videosDir, f), "utf8")) as { output?: string; person?: string },
+    );
+  const rosterIds = new Set(
+    (
+      parseYaml(readFileSync(join(canonDir, "roster.yml"), "utf8")) as {
+        researchers: { id: string }[];
+      }
+    ).researchers.map((p) => p.id),
+  );
+
+  it("are about an output or a researcher that exists", () => {
+    for (const v of videos) {
+      if (v.output) expect(outputIds).toContain(v.output);
+      if (v.person) expect(rosterIds.has(v.person)).toBe(true);
+    }
+  });
+});
