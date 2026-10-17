@@ -1,4 +1,4 @@
-// About this project: the colophon as a video. One build serves both aspects;
+// Welcome to Slop University: the colophon as a video. One build serves both aspects;
 // every cue lands on a word of the script (video/scripts/colophon.md) through
 // T.word. assets/ is filled by fetch-assets.py: the colophon hero, real output
 // covers and the roster's headshots. A stage with data-theme="light" is the
@@ -57,8 +57,8 @@ export function build(tl, S, T) {
   B.backdrop(tl, S, { photos: [HERO], at: [0.1], out: T.start(1) - 1.2 });
   const hero = B.titleBlock(scene, S, {
     logo: LOGO,
-    title: "About this project",
-    tagline: "An artwork by Ben Swift",
+    title: "Welcome to Slop University",
+    tagline: "By Ben Swift",
     byline: "slop.university",
   });
   M.appear(tl, hero.el, 0.4, { dur: 0.8 });
@@ -265,11 +265,11 @@ export function build(tl, S, T) {
     chair,
   );
   M.prepDraw([seat]);
-  M.drawOn(tl, [seat], w(3, "nobody"), 0.8);
+  M.drawOn(tl, [seat], w(3, "no"), 0.8);
   const name = M.el("img", { src: logos[THEME], alt: "Slop University", class: "layer" }, proxies);
   name.style.height = "52px";
   M.set(name, { x: cx - (52 * 278.24) / 43.09 / 2, y: cy + 80, opacity: 0 });
-  M.appear(tl, name, w(3, "own"), { dur: 0.5 });
+  M.appear(tl, name, w(3, "open."), { dur: 0.5 });
   M.vanish(tl, proxies, T.start(4) - 0.6, { dur: 0.5 });
 
   // ---- 4: the reserved prefix ----
@@ -413,7 +413,25 @@ export function build(tl, S, T) {
     stagger: 1.4 / covers.length,
     ease: "out-quad",
   });
-  tl.to(covers, { opacity: 0 }, T.end(7) + 0.8, { dur: 0.8, ease: "in-cubic" });
+  tl.to(covers, { opacity: 0 }, T.end(7) + 0.2, { dur: 0.8, ease: "in-cubic" });
+
+  // ---- 8: where to find the University, one line on each ----
+  const ways = [
+    ["Website", "slop.university", "website,"],
+    ["Bluesky", "@slop.university", "Bluesky,"],
+    ["Email", "outputs@slop.university", "email."],
+  ];
+  const step = P ? 230 : 200;
+  const found = ways.map(([kind, where, word], k) => {
+    const y = cy - step + k * step;
+    const label = text(scene, "kicker", kind, { width: `${W}px`, textAlign: "center" });
+    const value = text(scene, "resolver", where, { width: `${W}px`, textAlign: "center" });
+    M.set(label, { x: 0, y: y - 50, opacity: 0 });
+    M.set(value, { x: 0, y: y, opacity: 0 });
+    M.appear(tl, [label, value], w(8, word) - 0.2, { dur: 0.45 });
+    return [label, value];
+  });
+  M.vanish(tl, found.flat(), T.end(8) + 2.0, { dur: 0.5 });
 
   // ---- captions: one segment at a time, held across a short pause ----
   const band = M.el("div", { class: "captions" }, S.root);
@@ -427,7 +445,7 @@ export function build(tl, S, T) {
   });
 
   // ---- the lockup ----
-  const tLock = T.end(7) + 1.9;
+  const tLock = T.end(8) + 2.8;
   const end = B.lockup(tl, S.root, S, { mark: MARK, ...lockups[THEME], at: tLock }).el;
   tl.to(end, { opacity: 0 }, Number(S.root.dataset.duration) - 1.0, { dur: 0.8 });
 }
