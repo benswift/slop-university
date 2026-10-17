@@ -180,14 +180,20 @@ const CTA = [
 const BEATS = {
   // the opening: a full-frame image under the scrim, with the title block
   hero({ b, t0, t1, tl, S, A, scene, img, cue }) {
-    const bg = B.backdrop(tl, S, { photos: [img(b.image)], at: [Math.max(0.1, t0)], out: t1 });
+    // the opening title card comes up from the first moment, ahead of the voice
+    const first = b.line === 0;
+    const bg = B.backdrop(tl, S, {
+      photos: [img(b.image)],
+      at: [first ? 0.1 : Math.max(0.1, t0)],
+      out: t1,
+    });
     const block = B.titleBlock(scene, S, {
       logo: A.logo.cloneNode(),
       title: b.title,
       tagline: b.tagline,
       byline: b.byline,
     });
-    M.appear(tl, block.el, Math.max(0.4, t0 + 0.3), { dur: 0.8 });
+    M.appear(tl, block.el, first ? 0.4 : t0 + 0.3, { dur: 0.8 });
     M.vanish(tl, block.el, cue(b.clear, t1 - 0.6), { dur: 0.6 });
     return [];
   },
