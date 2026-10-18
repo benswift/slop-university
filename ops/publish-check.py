@@ -45,9 +45,9 @@ from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 
-# The live path. Slot 2 and the superseded serial `slop-publish.timer` are
-# deliberately not here: watching a timer that is meant to be off reports an
-# outage every run, which is how a health check trains you to ignore it.
+# The live path. Slot 2 is deliberately not here: watching a timer that is
+# meant to be off reports an outage every run, which is how a health check
+# trains you to ignore it.
 TIMERS = ("slop-publish-gen@1.timer", "slop-publish-land.timer")
 
 MAX_AGE = 6 * 3600.0

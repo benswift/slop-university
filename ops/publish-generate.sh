@@ -10,21 +10,11 @@
 # directory, writes one marker file, and exits. ops/publish-land.sh does
 # everything after that, serially, one candidate at a time.
 #
-# Why the split. Ticks were serialised by a non-blocking flock, the timer was
-# hourly and a run took ~20 minutes, so the timer could not buy throughput ---
-# below ~30 minutes the extra ticks simply skipped. Concurrency was the only
-# lever, and the blocker was semantic rather than mechanical: /publish is
-# gap-driven, so two agents assessing the same base state identify the SAME gap
-# and produce two files that merge perfectly and are semantically duplicates.
-# Only 2A parallelises (distinct output ids, news slugs, thumbnails, heroes), so
-# extra slots run 2A only and exactly one slot keeps the full gap ladder.
-#
-# The safety-critical section --- rebase, validate, upload, push --- is NOT made
-# concurrent. That was the alternative design (N symmetric slots each pushing
-# under a short lock) and it would have made the one part of the pipeline with
-# real shared state N-way contended, and forced it to handle rebase conflicts
-# the code has never had to. Here concurrency is confined to the part with no
-# shared state at all.
+# Concurrency is confined to generation, the part with no shared state; the
+# safety-critical section --- rebase, validate, upload, push --- stays serial
+# in the lander. /publish is gap-driven, so two agents assessing the same state
+# identify the SAME gap and produce semantic duplicates that merge perfectly.
+# Only 2A parallelises (distinct output ids, news slugs, thumbnails, heroes).
 #
 # Slot 1 is the gardening slot: it runs the whole ladder (2B-2I), so bios,
 # blurbs, pages, news, grants and the social post keep flowing. Slots 2+ are
@@ -80,12 +70,9 @@ log "=== generator slot ${SLOT} started at $(date -Iseconds) (run ${RUN_ID}) ===
 # Serialise a slot against ITSELF only. Slots do not contend with each other ---
 # that is the whole point --- but a slot whose previous run is still going must
 # skip rather than start a second agent in the same worktree.
-exec 9> "${PROJECT_DIR}/data/publish-gen-${SLOT}.lock"
-if ! flock -n 9; then
-  log "slot ${SLOT} is still busy with an earlier run; skipping"
-  result "skipped-locked" "generator slot ${SLOT} is still running an earlier candidate"
-  exit 0
-fi
+take_lock "${PROJECT_DIR}/data/publish-gen-${SLOT}.lock" \
+  "slot ${SLOT} is still busy with an earlier run; skipping" \
+  "generator slot ${SLOT} is still running an earlier candidate" || exit 0
 
 activate_mise
 cd "$PROJECT_DIR"
@@ -136,15 +123,7 @@ if [ "$THESIS" = 1 ] && [ -n "$(git -C "$WORKTREE_DIR" status --porcelain)" ]; t
   exit 1
 fi
 
-# Fresh branch per run, off the chosen base. -B rather than a new worktree each
-# time: the worktree is persistent so node_modules, the typst cache and the
-# pnpm store survive between runs, which is most of why a generator can be
-# cheap. clean is deliberately not -x --- gitignored state survives; only a
-# crashed run's untracked residue goes.
-git -C "$WORKTREE_DIR" checkout -B "$CAND_BRANCH" "$BASE_REF" >> "$LOG_FILE" 2>&1
-git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
-link_data_dir "$WORKTREE_DIR"
+reset_worktree "$WORKTREE_DIR" "$CAND_BRANCH" "$BASE_REF"
 
 if ! worktree_install "$WORKTREE_DIR"; then
   log "pnpm install failed in ${WORKTREE_DIR}; aborting"
@@ -230,16 +209,10 @@ if credits_exhausted; then
   fi
 fi
 # Re-read, because a retry overwrote $AGENT_OUT: this asks whether the FALLBACK
-# also refused. Both models out is a real stop --- the account has nothing left
-# to generate with and every later run dies identically, so the failed unit is
-# what puts it in front of a human. Like the auth check it does not write
-# data/publish-blocked: a limit window un-breaks itself, and blocking would turn
-# a wait into a two-step fix.
-#
-# This is also the signal that says whether N slots have overrun the plan. It
-# has never fired at one run an hour; if it starts firing after a slot is added,
-# that is the ceiling talking, and data/stop-failures-gen-*.jsonl carries xAI's
-# own classification plus errorDetails verbatim.
+# also refused. Both out is a real stop --- every later run dies identically, so
+# the failed unit is what puts it in front of a human. Like the auth check it
+# does not write data/publish-blocked: a limit window un-breaks itself. If this
+# starts firing after a slot is added, the subscription is the ceiling.
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS --- the retry on ${AGENT_PROFILE}/${AGENT_MODEL} refused too."
   log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_PROFILE / SLOPU_AGENT_MODEL"
@@ -290,10 +263,9 @@ if [ "$HEAD_SHA" = "$BASE_REF" ]; then
     result "failed-generation" "agent exited ${AGENT_STATUS} and committed nothing in slot ${SLOT}; action=${ACTION} preset=${PRESET}"
     exit 4
   fi
-  # Non-zero for the same reason as the serial pipeline's no-op: a generator
-  # that exits clean having produced no candidate has lost its slot, and a zero
-  # exit would fire OnSuccess= and clear the standing on-call todo on its way
-  # out. See ops/cron-publish.sh for the long version.
+  # Non-zero: a generator that exits clean having produced no candidate has
+  # lost its slot (an agent that stopped to ask a question looks like this), and
+  # a zero exit would fire OnSuccess= and clear the standing on-call todo.
   result "no-op" "agent exited cleanly but committed nothing in slot ${SLOT} (a lost slot); action=${ACTION} preset=${PRESET}"
   exit 6
 fi
@@ -302,18 +274,10 @@ fi
 # the signal that this candidate is whole: branch created, commits made, assets
 # staged. A generator killed at any earlier point leaves a branch and a staging
 # dir with no marker, which the lander's sweeper expires rather than lands.
-cat > "${CANDIDATE_DIR}/${RUN_ID}.json.tmp" <<JSON
-{
-  "run_id": "${RUN_ID}",
-  "slot": ${SLOT},
-  "branch": "${CAND_BRANCH}",
-  "base": "${BASE_REF}",
-  "head": "${HEAD_SHA}",
-  "preset": "${PRESET}",
-  "pending_dir": "${PENDING_DIR}",
-  "created_at": "$(date -Iseconds)"
-}
-JSON
+jq -n --arg run_id "$RUN_ID" --arg slot "$SLOT" --arg branch "$CAND_BRANCH" \
+  --arg base "$BASE_REF" --arg head "$HEAD_SHA" --arg preset "$PRESET" \
+  --arg pending_dir "$PENDING_DIR" --arg created_at "$(date -Iseconds)" \
+  '$ARGS.named' > "${CANDIDATE_DIR}/${RUN_ID}.json.tmp"
 mv "${CANDIDATE_DIR}/${RUN_ID}.json.tmp" "${CANDIDATE_DIR}/${RUN_ID}.json"
 
 # Let go of the branch. The commits stay --- a branch ref is independent of any

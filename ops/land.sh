@@ -112,12 +112,9 @@ fi
 # --- The lock the autonomous lander takes, held across the whole critical
 # section. Without it a hand landing races ops/publish-land.sh at exactly the
 # two steps that matter: the bucket upload and the push to main.
-exec 9> "${PROJECT_DIR}/data/publish.lock"
-if ! flock -n 9; then
-  log "another publish run holds the lock; try again once it finishes"
-  result "skipped-locked" "the autonomous lander holds data/publish.lock"
-  exit 0
-fi
+take_lock "${PROJECT_DIR}/data/publish.lock" \
+  "another publish run holds the lock; try again once it finishes" \
+  "the autonomous lander holds data/publish.lock" || exit 0
 
 # --- The news posts this landing carries.
 #
@@ -155,29 +152,15 @@ unwind_commit() {
   git reset --soft HEAD~1 >> "$LOG_FILE" 2>&1 || log "WARNING: could not unwind the landing commit"
 }
 
-TITLE="$(python3 - "$ENTRY" <<'PY'
-import re, sys
-
-text = open(sys.argv[1]).read()
-value = re.search(r"^title:[ \t]*(.*)$", text, re.M).group(1).strip()
-if value in (">", ">-", "|", "|-", ""):
-    # A folded scalar: the value is the indented block that follows.
-    lines, started = [], False
-    for line in text.splitlines():
-        if re.match(r"^title:", line):
-            started = True
-            continue
-        if started:
-            if re.match(r"^\s+\S", line):
-                lines.append(line.strip())
-            else:
-                break
-    value = " ".join(lines)
-print(value)
-PY
-)"
-PRESET="$(sed -n 's/^preset:[[:space:]]*//p' "$ENTRY" | head -1)"
-DOI="$(sed -n 's/^doi:[[:space:]]*//p' "$ENTRY" | head -1)"
+# The commit subject's fields, read as YAML (a title may be folded or quoted),
+# with the title's whitespace collapsed onto one line.
+FIELDS="$(uv run --quiet --no-project --with pyyaml python3 -c '
+import sys, yaml
+entry = yaml.safe_load(open(sys.argv[1]))
+for key in ("preset", "doi", "title"):
+    print(" ".join(str(entry.get(key, "")).split()))
+' "$ENTRY")"
+{ read -r PRESET; read -r DOI; read -r TITLE; } <<< "$FIELDS"
 
 # A video output carries its sources and its videos entry with it.
 VIDEO_FILES=()
@@ -212,59 +195,25 @@ if ! "${PROJECT_DIR}/ops/verify-site.sh" >> "$LOG_FILE" 2>&1; then
   exit 1
 fi
 
-# --- Upload before push, and only once a fresh fetch proves the remote tip is
-# still contained in HEAD. An entry that shipped before its bytes did is a live
-# 404, and the id is what derives the URL, so the order is not negotiable.
-if ! git fetch origin >> "$LOG_FILE" 2>&1; then
-  log "REMOTE RACE GUARD: fetch failed; refusing to upload or push"
+# --- Upload before push (guard_remote_race in publish-lib.sh says why).
+if ! guard_remote_race HEAD; then
   unwind_commit
-  result "failed-fetch" "pre-upload fetch of origin failed"
-  exit 1
-fi
-if ! git merge-base --is-ancestor origin/main HEAD; then
-  log "REMOTE RACE GUARD: origin/main advanced during landing; refusing to upload or push"
-  unwind_commit
-  result "remote-race" "origin/main advanced during landing; pull and retry"
   exit 1
 fi
 
-# The PDFs, or a video output's encodes and covers: all go to the PDF bucket.
-shopt -s nullglob
-PENDING_PDFS=("$PENDING_DIR"/*.pdf "$PENDING_DIR"/*.mp4 "$PENDING_DIR"/*.jpg)
-shopt -u nullglob
+collect_staged_files "$PENDING_DIR"
 
 if [ "$DRY_RUN" = 1 ]; then
-  log "=== DRY RUN: would upload ${#PENDING_PDFS[@]} PDF(s)$([ -d "${PENDING_DIR}/img" ] && echo ' plus the image tree') and push HEAD to main ==="
+  log "=== DRY RUN: would upload ${#STAGED_FILES[@]} file(s)$([ -d "${PENDING_DIR}/img" ] && echo ' plus the image tree') and push HEAD to main ==="
   log "unwinding the landing commit; the entry and news post are staged as the human left them"
   unwind_commit
   result "dry-run-ok" "${RUN_ID} passed pairing, quality and verify; not uploaded or pushed"
   exit 0
 fi
 
-if [ ${#PENDING_PDFS[@]} -gt 0 ] && bucket_upload_allowed; then
-  if "${PROJECT_DIR}/ops/bucket-sync.py" upload "${PENDING_PDFS[@]}" >> "$LOG_FILE" 2>&1; then
-    log "uploaded ${#PENDING_PDFS[@]} PDF(s); retaining local copies until the push succeeds"
-  else
-    log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
-    unwind_commit
-    result "failed-upload" "bucket upload failed; the entry's PDF would not be served"
-    exit 1
-  fi
-else
-  log "no PDFs staged for ${RUN_ID}"
-fi
-
-if [ -d "${PENDING_DIR}/img" ] && bucket_upload_allowed; then
-  if "${PROJECT_DIR}/ops/bucket-sync.py" upload --target img "${PENDING_DIR}/img" >> "$LOG_FILE" 2>&1; then
-    log "uploaded images; retaining local copies until the push succeeds"
-  else
-    log "IMG BUCKET UPLOAD FAILED --- refusing to push an entry whose images are not served"
-    unwind_commit
-    result "failed-upload" "img bucket upload failed; the entry's images would not be served"
-    exit 1
-  fi
-else
-  log "no images staged for ${RUN_ID}"
+if ! upload_staged_assets "$PENDING_DIR"; then
+  unwind_commit
+  exit 1
 fi
 
 log "=== push at $(date -Iseconds) ==="

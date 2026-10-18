@@ -31,58 +31,46 @@ Two slash commands:
 
 ### The publish pipeline
 
-`/publish` runs unattended on a timer. Two orchestrations share one set of
-safety-critical steps in `ops/publish-lib.sh` (base selection, commit validation
-against the allowlist/denylist/private-brand firewall, the entry-to-asset
-pairing check, the agent-failure classifiers):
+`/publish` runs unattended as a concurrent split; the safety-critical steps
+(base selection, commit validation against the allowlist/denylist/private-brand
+firewall, the entry-to-asset pairing check, the agent-failure classifiers, the
+upload-then-push) live once in `ops/publish-lib.sh`:
 
-- `ops/cron-publish.sh` --- the serial pipeline: one process generates one
-  action and lands it, holding the lock throughout. The fallback path
-  (`slop-publish.timer`, kept stopped while the split is live). Before
-  validating it replays the agent's commits onto the current base, so a human
-  push mid-run costs a build, not the tick.
-- `ops/publish-generate.sh <slot>` + `ops/publish-land.sh` --- the concurrent
-  split. Generators run in their own worktrees, never touch origin, never upload
-  and never push; each leaves a `press-gen-<run-id>` branch plus assets in
-  `data/pending-uploads/<run-id>/` and one marker file in `data/candidates/`.
-  One serial lander claims the oldest candidate, rebases it onto current
-  `origin/main`, runs the one authoritative build, validates, uploads and
-  pushes. Slot 1 gets the full ladder assessment; slots 2+ are pinned to 2A,
-  because the gardening rungs are gated on shared state and two slots reading it
-  pick the same gap. The live path: `slop-publish-gen@1.timer` and
-  `slop-publish-land.timer`; slot 2 is disabled, and slot 1 ticks hourly (the
-  timer period is the throughput lever). `bin/slopu thesis [steering]` runs the
-  one rung with no timer (2T, a doctoral thesis) as a generator slot named
-  `thesis`; nothing assesses or schedules it, and the optional steering prompt
-  fixes the topic while the fiction is still drawn.
+- `ops/publish-generate.sh <slot>` --- a generator. It runs in its own worktree,
+  never touches origin, never uploads and never pushes; it leaves a
+  `press-gen-<run-id>` branch, assets in `data/pending-uploads/<run-id>/` and
+  one marker file in `data/candidates/`. Slot 1 gets the full ladder assessment;
+  slots 2+ are pinned to 2A, because the gardening rungs are gated on shared
+  state and two slots reading it pick the same gap.
+  `bin/slopu thesis [steering]` runs the one rung with no timer (2T, a doctoral
+  thesis) as a slot named `thesis`; the optional steering prompt fixes the topic
+  while the fiction is still drawn.
+- `ops/publish-land.sh` --- the one serial lander. It claims the oldest
+  candidate, rebases it onto current `origin/main`, validates, runs the one
+  authoritative build, uploads and pushes.
 
-`ops/publish-check.py` is the dead-man check on all of that, run hourly by
-`slop-publish-watchdog.timer`: are both live timers armed (a stop is given an
-hour's grace, since stopping them is also how an edit lands), and has anything
-reached `main` inside six hours. Every other alert on this pipeline is a failure
-alert, and a pipeline that simply stops never fails --- which matters more with
-one generator slot carrying it.
+The live units are `slop-publish-gen@1.timer` (hourly; the period is the
+throughput lever) and `slop-publish-land.timer`; slot 2 is disabled. A serial
+tick by hand is `ops/publish-generate.sh 1 && ops/publish-land.sh`.
+`ops/publish-check.py` (`slop-publish-watchdog.timer`) is the dead-man check:
+both timers armed, and something reached `main` inside six hours.
 
 The wrapper decides what a run does and meters what it cost; the model only
-composes. Everything a run used to work out by reading the corpus is a script
-(each one's docstring says why it exists): `ops/assess-ladder.py` names the rung
-and its parameters on the invocation line, `ops/draw-axes.py` draws a 2A run's
-subject, tradition and lead author, `ops/subject-primer.py` prints real recent
-titles on that subject, `ops/topic-neighbours.py` prints the dedup shortlist,
-`ops/check-output-quality.py` catches a collapsed final page,
-`ops/check-table-fit.py` catches a table whose columns cannot fit the measure,
-`ops/verify-site.sh` runs the site chain quietly, and `ops/run-usage.py` logs
-each tick's tokens to `data/usage-ledger.jsonl` (`--weekly` for the trailing
-week --- the number the tick rate is tuned against). Route, model and effort are
+composes. The decisions are scripts, each with a docstring saying why:
+`ops/assess-ladder.py` (the rung), `ops/draw-axes.py` (a 2A run's subject,
+tradition and lead author), `ops/subject-primer.py`, `ops/topic-neighbours.py`
+(the dedup shortlist), `ops/check-output-quality.py` and
+`ops/check-table-fit.py` (layout gates), `ops/verify-site.sh` (the site chain)
+and `ops/run-usage.py` (per-tick tokens in `data/usage-ledger.jsonl`; `--weekly`
+is the number the tick rate is tuned against). Route, model and effort are
 pinned in `ops/publish-lib.sh` and overridable with `SLOPU_AGENT_PROFILE`,
 `SLOPU_AGENT_MODEL` and `SLOPU_AGENT_EFFORT`.
 
-`ops/publish-selftest.sh` drives both against a throwaway clone with a fake
-agent standing in for the model --- run it after touching any of them. The
-pipeline has no deploy step: the wrappers are invoked from this checkout, so an
-edit is live at the next tick --- stop the timers while a multi-file edit is in
-flight (`systemctl --user stop 'slop-publish-*.timer'`, then `start` each; never
-`restart`, see the footgun note in ops/systemd/).
+`ops/publish-selftest.sh` drives the generator and lander against a throwaway
+clone with a fake agent standing in for the model --- run it after touching
+either. The wrappers are invoked from this checkout with no deploy step, so an
+edit is live at the next tick: stop the timers while an edit is in flight
+(`systemctl --user stop 'slop-publish-*.timer'`, then `start` each).
 
 `bin/slopu` is the common headless entry point for the generation commands and
 `/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the

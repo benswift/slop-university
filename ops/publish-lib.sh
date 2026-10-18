@@ -3,18 +3,16 @@
 # shellcheck disable=SC2034  # this is a library: callers consume these globals
 # Shared machinery for the publish pipeline. Sourced, never executed.
 #
-# Three entry points use this: ops/cron-publish.sh (the serial pipeline, one
-# process doing generate-then-land), ops/publish-generate.sh (a concurrent
-# generator slot) and ops/publish-land.sh (the single serial lander). They
-# differ in what they orchestrate, not in what the safety-critical steps mean
-# --- so base selection, commit validation, the entry-to-asset pairing check
-# and the agent-failure classifiers live here, in one copy, and every caller
-# gets the same answer.
+# Three entry points use this: ops/publish-generate.sh (a concurrent generator
+# slot), ops/publish-land.sh (the single serial lander) and ops/land.sh (the
+# hand lander). They differ in what they orchestrate, not in what the
+# safety-critical steps mean --- so base selection, commit validation, the
+# entry-to-asset pairing check, the upload-then-push guard and the
+# agent-failure classifiers live here, in one copy, and every caller gets the
+# same answer.
 #
-# Style note: these functions read and write the caller's globals rather than
-# taking every input as a parameter. That is how the original single script was
-# written and it keeps the call sites readable; each function documents the
-# globals it expects and the ones it sets.
+# These functions read and write the caller's globals rather than taking every
+# input as a parameter; each documents the globals it expects and sets.
 
 PROJECT_DIR="${PROJECT_DIR:-/home/ben/projects/slop-university}"
 LOG_DIR="${PROJECT_DIR}/logs"
@@ -27,11 +25,9 @@ export GIT_CONFIG_KEY_0="merge.roster.driver"
 export GIT_CONFIG_VALUE_0="${PROJECT_DIR}/ops/merge-roster.py %O %A %B"
 LOG_FILE="${LOG_FILE:-${LOG_DIR}/publish-$(date +%Y-%m-%d).log}"
 
-# Where generated PDFs and images wait for the lander to upload them. Under the
-# split each generation run owns a SUBDIRECTORY of this (data/pending-uploads/
-# <run-id>/), so two slots staging at once cannot see each other's files. The
-# serial pipeline still stages at the root, which is why the pairing check
-# takes the directory as an argument rather than assuming one.
+# Where generated PDFs and images wait to be uploaded. Each run owns a
+# subdirectory (data/pending-uploads/<run-id>/), so two slots staging at once
+# cannot see each other's files.
 PENDING_ROOT="${PROJECT_DIR}/data/pending-uploads"
 
 # The generate/land handoff: one marker file per completed candidate, written
@@ -46,11 +42,8 @@ log() { echo "$*" >> "$LOG_FILE"; }
 # SLOPU_PROJECT_DIR. Git is safe under that: a clone has its own origin, so a
 # push can only reach the fixture's own bare repo. The BUCKETS are not --- the
 # credentials come from the mise env block and address one global bucket, so an
-# upload from a fixture writes junk objects into the live image tree. That
-# happened once, on 2026-08-26, during the very refactor that added this guard.
-#
-# So: a fixture run does everything except touch shared external
-# infrastructure.
+# upload from a fixture would write junk objects into the live image tree. A
+# fixture run does everything except touch shared external infrastructure.
 IS_FIXTURE=0
 [ -n "${SLOPU_PROJECT_DIR:-}" ] && [ "${SLOPU_PROJECT_DIR}" != "/home/ben/projects/slop-university" ] && IS_FIXTURE=1
 
@@ -141,21 +134,13 @@ flush_staged_posts() {
 
 # --- The run's outcome, reported to the JOURNAL and not only to logs/.
 #
-# Everything here says what it is doing in $LOG_FILE and nothing on stdout, so
-# `systemctl status` and `journalctl` could only ever show systemd's own
-# "Finished" --- which is precisely what they showed for sixteen consecutive
-# ticks over 2026-08-03/04 while the agent died one second in on an expired
-# OAuth token and published nothing. A tolerated agent failure and a real
-# publish were the same green unit, and the only tell was a run lasting seven
-# seconds instead of twenty minutes.
-#
-# So every exit path names an outcome and the EXIT trap prints one greppable
-# line to stdout. The trap is what makes that total: a `set -e` abort, a
-# TimeoutStartSec kill, or a later code path that forgets to call result() all
-# still land a line, and it reads "crashed" rather than nothing at all. That
-# line is also what the alert carries --- unit-oncall (wired via OnFailure=)
-# quotes the journal tail into the todo, so the todo says which failure this
-# was without anyone opening the log.
+# Everything here logs to $LOG_FILE and nothing to stdout, so without this
+# `systemctl status` would show only systemd's own "Finished", and a tolerated
+# agent failure would look exactly like a real publish. Every exit path names an
+# outcome, and the EXIT trap prints one greppable line to stdout. The trap is
+# what makes that total: a `set -e` abort, a TimeoutStartSec kill, or a code
+# path that forgets to call result() still lands a line, reading "crashed".
+# unit-oncall (wired via OnFailure=) quotes that line into the todo.
 RUN_RESULT="crashed"
 RUN_DETAIL="wrapper exited without recording an outcome"
 result() {
@@ -188,6 +173,17 @@ publish_on_exit() {
 }
 
 install_exit_trap() { trap publish_on_exit EXIT; }
+
+# Take <lockfile> non-blocking on fd 9, held for the rest of the process.
+# Returns 1, having logged <message> and recorded a skipped-locked outcome with
+# <detail>, when another run holds it.
+take_lock() {
+  exec 9> "$1"
+  flock -n 9 && return 0
+  log "$2"
+  result "skipped-locked" "$3"
+  return 1
+}
 
 # mise activates tool shims into PATH (node, pnpm, typst, etc.) and exports the
 # untracked env block (REPLICATE_API_TOKEN and friends).
@@ -234,6 +230,19 @@ ensure_worktree() {
     log "created publish worktree at ${dir} on ${branch}"
   fi
   trust_mise_configs "$dir"
+}
+
+# Put <worktree-dir> on a fresh <branch> at <base>, discarding whatever a
+# crashed run left. Persistent rather than recreated, so node_modules, the typst
+# cache and the pnpm store survive between runs. -f so neither local changes
+# nor untracked files in the way can make the checkout refuse. clean is
+# deliberately not -x --- gitignored state survives; only untracked residue
+# goes.
+reset_worktree() {
+  local dir="$1" branch="$2" base="$3"
+  git -C "$dir" checkout -f -B "$branch" "$base" >> "$LOG_FILE" 2>&1
+  git -C "$dir" clean -fd >> "$LOG_FILE" 2>&1
+  link_data_dir "$dir"
 }
 
 # The data/ handoff symlink. data/ is canonical in the MAIN checkout --- every
@@ -305,15 +314,15 @@ DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avi
 # references/*.avif photos. (references/slop-style/ is fine and unmatched ---
 # the pattern has no slash.) Belt to SLOPU_PUBLIC_ONLY's braces.
 FIREWALL_RE='anu-typst-template|@local/anu|private/anu|lockup: *"anu|references/[a-z0-9_-]+\.avif'
+AGENT_NAME="Slop University Press"
 AGENT_EMAIL="press@slop.university"
 
 # Validate every commit in <base>..<branch>. Sets AGENT_SHAS (the agent's own
 # commits, for the caller's outcome line) and VALIDATION_ERROR (empty when
 # clean). Returns 1 when anything failed, so a caller can `if ! validate...`.
 #
-# Nothing but the agent ever commits on a publish branch --- a foreign-authored
-# commit there is itself a violation (unlike the old shared-checkout design,
-# where human commits landing mid-run were expected and passed through).
+# Nothing but the agent ever commits on a publish branch, so a foreign-authored
+# commit there is itself a violation.
 validate_commits() {
   local base="$1" branch="$2" sha files denied outside leaked detail foreign
   VALIDATION_ERROR=""
@@ -439,60 +448,107 @@ check_output_quality() {
   return 0
 }
 
-# Did THIS run stage any assets? Root-level PDFs plus the root img tree.
-#
-# Deliberately NOT "is the directory non-empty". While the concurrent split runs
-# alongside the serial pipeline, data/pending-uploads/ also holds one
-# subdirectory per generator candidate --- so `ls -A` on the serial pipeline's
-# staging root answers yes even when the serial run staged nothing, and the
-# out-of-credits fallback retry (which is gated on "the run produced nothing")
-# would be skipped every time a sibling had work in flight.
+# Did the run stage any assets into <pending-dir>?
 staged_anything() {
   local dir="$1"
-  local -a pdfs
-  shopt -s nullglob
-  pdfs=("$dir"/*.pdf)
-  shopt -u nullglob
-  [ ${#pdfs[@]} -gt 0 ] || [ -d "${dir}/img" ]
+  [ -n "$(ls -A "$dir" 2>/dev/null)" ]
 }
 
 # --- Rescue a mislanded staging dir before looking for its contents.
 #
 # The agent resolves the staging path against whatever its cwd is, and it runs
-# the site checks from website/ --- which put three ticks' PDFs in
-# website/data/pending-uploads/ and threw away three complete generation runs.
-# The skill says to cd to the root, but a discarded run costs a full generation
-# (typst, imagery, a Replicate spend) and an hour, whereas moving a file costs
-# nothing. So: accept it, move it, and shout --- being strict here buys nothing
-# and loses real work. The WARNING is the point; if it appears in the log the
-# instruction has drifted again.
+# the site checks from website/, so a relative path lands its PDFs in
+# website/data/pending-uploads/. A discarded run costs a full generation and an
+# hour, whereas moving a file costs nothing, so accept it, move it, and shout:
+# if the WARNING appears in the log, the skill's instruction has drifted.
 #
-# Args: <destination-pending-dir> <search-root>...
+# Args: <destination-pending-dir> <worktree-dir>.
 rescue_stray_staging() {
-  local dest="$1"; shift
-  local root stray_dir strays
+  local dest="$1" root="$2"
+  local stray_dir strays
   mkdir -p "$dest"
   shopt -s nullglob
-  for root in "$@"; do
-    for stray_dir in "${root}"/*/data/pending-uploads "${root}"/*/data/pending-uploads/*/; do
-      [ -d "$stray_dir" ] || continue
-      [ "${stray_dir%/}" = "${dest%/}" ] && continue
-      strays=("$stray_dir"/*.pdf)
-      if [ ${#strays[@]} -gt 0 ]; then
-        log "WARNING: ${#strays[@]} PDF(s) staged in the WRONG dir (${stray_dir}); moving to ${dest}"
-        mv -n "${strays[@]}" "$dest"/ >> "$LOG_FILE" 2>&1 || log "WARNING: could not move strays out of ${stray_dir}"
+  for stray_dir in "${root}"/*/data/pending-uploads "${root}"/*/data/pending-uploads/*/; do
+    [ -d "$stray_dir" ] || continue
+    [ "${stray_dir%/}" = "${dest%/}" ] && continue
+    strays=("$stray_dir"/*.pdf)
+    if [ ${#strays[@]} -gt 0 ]; then
+      log "WARNING: ${#strays[@]} PDF(s) staged in the WRONG dir (${stray_dir}); moving to ${dest}"
+      mv -n "${strays[@]}" "$dest"/ >> "$LOG_FILE" 2>&1 || log "WARNING: could not move strays out of ${stray_dir}"
+    fi
+    if [ -d "${stray_dir}/img" ]; then
+      log "WARNING: staged image tree in the WRONG dir (${stray_dir}/img); merging into ${dest}/img"
+      mkdir -p "${dest}/img"
+      if cp -an "${stray_dir}/img/." "${dest}/img/" >> "$LOG_FILE" 2>&1; then
+        rm -rf "${stray_dir}/img"
+      else
+        log "WARNING: could not merge strays out of ${stray_dir}/img"
       fi
-      if [ -d "${stray_dir}/img" ]; then
-        log "WARNING: staged image tree in the WRONG dir (${stray_dir}/img); merging into ${dest}/img"
-        mkdir -p "${dest}/img"
-        cp -an "${stray_dir}/img/." "${dest}/img/" >> "$LOG_FILE" 2>&1 \
-          && rm -rf "${stray_dir}/img" \
-          || log "WARNING: could not merge strays out of ${stray_dir}/img"
-      fi
-      rmdir -p --ignore-fail-on-non-empty "$stray_dir" 2>/dev/null || true
-    done
+    fi
+    rmdir -p --ignore-fail-on-non-empty "$stray_dir" 2>/dev/null || true
   done
   shopt -u nullglob
+}
+
+# --- Upload before push, and only once a fresh fetch proves the remote tip is
+# still contained in what is about to be pushed.
+#
+# The push is what makes an entry live, and the entry's asset URLs derive from
+# its id, so an entry that shipped before its bytes would be a live 404. Each
+# caller keeps its local copies until the push succeeds.
+#
+# Args: <ref>. On failure records the outcome with result() and returns 1; the
+# caller unwinds and exits 1.
+guard_remote_race() {
+  log "=== pre-upload remote race check at $(date -Iseconds) ==="
+  if ! git fetch origin >> "$LOG_FILE" 2>&1; then
+    log "REMOTE RACE GUARD: fetch failed; refusing to upload or push"
+    result "failed-fetch" "pre-upload fetch of origin failed; refused to upload or push"
+    return 1
+  fi
+  if ! git merge-base --is-ancestor origin/main "$1"; then
+    log "REMOTE RACE GUARD: origin/main advanced during landing; refusing to upload or push"
+    result "remote-race" "origin/main advanced during landing; pull and retry"
+    return 1
+  fi
+}
+
+# The files in <pending-dir> bound for the PDF bucket: the PDFs, or a video
+# output's encodes and covers. Sets STAGED_FILES.
+collect_staged_files() {
+  shopt -s nullglob
+  STAGED_FILES=("$1"/*.pdf "$1"/*.mp4 "$1"/*.jpg)
+  shopt -u nullglob
+}
+
+# Upload STAGED_FILES to the PDF bucket and <pending-dir>/img to the img
+# bucket. On failure records the outcome with result() and returns 1; the
+# caller unwinds and exits 1.
+upload_staged_assets() {
+  local pending="$1"
+  if [ ${#STAGED_FILES[@]} -gt 0 ] && bucket_upload_allowed; then
+    log "=== uploading ${#STAGED_FILES[@]} file(s) to the bucket at $(date -Iseconds) ==="
+    if ! "${PROJECT_DIR}/ops/bucket-sync.py" upload "${STAGED_FILES[@]}" >> "$LOG_FILE" 2>&1; then
+      log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
+      result "failed-upload" "bucket upload failed; the entry's PDF would not be served"
+      return 1
+    fi
+    log "uploaded ${#STAGED_FILES[@]} file(s); retaining local copies until the push succeeds"
+  else
+    log "no PDFs staged"
+  fi
+
+  if [ -d "${pending}/img" ] && bucket_upload_allowed; then
+    log "=== uploading the staged image tree to the img bucket at $(date -Iseconds) ==="
+    if ! "${PROJECT_DIR}/ops/bucket-sync.py" upload --target img "${pending}/img" >> "$LOG_FILE" 2>&1; then
+      log "IMG BUCKET UPLOAD FAILED --- refusing to push an entry whose images are not served"
+      result "failed-upload" "img bucket upload failed; the entry's images would not be served"
+      return 1
+    fi
+    log "uploaded images; retaining local copies until the push succeeds"
+  else
+    log "no images staged"
+  fi
 }
 
 # --- The publish agent.
@@ -509,18 +565,12 @@ rescue_stray_staging() {
 AGENT_PROFILE="${SLOPU_AGENT_PROFILE:-claude-sub}"
 AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 
-# --- The model the unattended run generates on, pinned here rather than
-# inherited. With no --model the runner takes its own default --- for Claude
-# that is ~/.claude/settings.json, i.e. the INTERACTIVE default, whatever was
-# last chosen with /model. The press transcripts show the pipeline riding that
-# setting through four silent changes (sonnet to late July, opus to 7 Aug,
-# sonnet to the 12th, opus to the 17th, fable after), not one of them a
-# decision about this pipeline. On 2026-08-20 that bit: the global default had
-# moved to Fable, the account's Fable credits ran out at 01:24, and every tick
-# for the next seven hours died three seconds in on "You're out of usage
-# credits" while opus, sonnet and haiku all still answered. Pinning makes the
-# run's model a property of the pipeline; the env overrides ride out a bad
-# limit day without an edit.
+# --- The model, pinned here rather than inherited. With no --model the runner
+# takes its own default --- for Claude that is ~/.claude/settings.json, the
+# INTERACTIVE default, whatever was last chosen with /model --- so an
+# unrelated /model change (or that model's credits running out) would silently
+# move or stop the press. The env overrides ride out a bad limit day without
+# an edit.
 #
 # Model names are per-agent, so the pin has to be too: pointing a Grok profile
 # at "sonnet" would fail every tick identically. Functions rather than a bare
@@ -545,33 +595,21 @@ fallback_model_for_profile() {
 AGENT_MODEL="${SLOPU_AGENT_MODEL:-$(default_model_for_profile "$AGENT_PROFILE")}"
 AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$(fallback_model_for_profile "$AGENT_PROFILE")}"
 
-# --- Reasoning effort, pinned for the same reason the model is. Unset, the
-# Claude runner inherits ~/.claude/settings.json (the interactive default).
-# Effort is the cheapest lever on a run's token bill --- lower effort means
-# fewer, more consolidated tool calls --- so it has to be a property of the
-# pipeline, tunable per route without an edit. Only the Claude runner takes
-# the flag; agent-run ignores it on other profiles.
+# --- Reasoning effort, pinned for the same reason the model is. Effort is the
+# cheapest lever on a run's token bill, so it is a property of the pipeline,
+# tunable per route without an edit. Only the Claude runner takes the flag.
 AGENT_EFFORT="${SLOPU_AGENT_EFFORT:-high}"
 
 # --- The route to fall back to when the whole ACCOUNT is out, not one model.
 #
-# The model fallback above assumes what is true of Claude: a usage limit binds
-# one model, so another model on the same subscription still answers. Grok Build
-# bills a single account-wide balance, and on 2026-08-26 that difference cost
-# eleven ticks --- the balance ran dry mid-run at 11:17 and grok-4.5 was just as
-# dead as grok-4.6, so no model retry could have rescued a single one of them.
-#
-# When the failure is that hard exhaustion, the only move left is a different
-# account. Falling through also means the outage needs no human: the pipeline
-# stays pointed at its usual route, each tick spends three seconds proving that
-# account is still dry, and publishes on the other meanwhile. The tick the
-# balance returns, it is back on the usual route with nothing reverted.
-#
-# Symmetric, because the two accounts fail the same way and neither is the
-# reliable one. Grok Build ran its balance dry on 2026-08-26 and cost eleven
-# ticks; the Claude subscription hit its WEEKLY limit on 2026-08-24 and cost
-# twenty-four, a whole day, resetting only the next morning. Either alone is a
-# single point of failure; either as the other's understudy is not.
+# A Claude usage window binds one model, so another model on the same
+# subscription still answers. Grok Build bills one account-wide balance, and a
+# Claude weekly limit binds the whole subscription for days; against either, no
+# model retry helps and the only move left is the other account. Falling
+# through needs no human: each tick spends seconds proving the usual route is
+# still dry, publishes on the other, and is back on the usual route the tick it
+# recovers. Symmetric, because either account alone is a single point of
+# failure.
 case "$AGENT_PROFILE" in
   grok-*)   DEFAULT_FALLBACK_PROFILE="claude-sub" ;;
   claude-*) DEFAULT_FALLBACK_PROFILE="grok-sub" ;;
@@ -593,28 +631,23 @@ switch_to_fallback_profile() {
   AGENT_FALLBACK_MODEL="$(fallback_model_for_profile "$AGENT_PROFILE")"
 }
 
-# Draw this run's inputs. The preset and a 2A run's givens (subject, tradition,
-# lead author) are chosen with OS randomness OUTSIDE the model
-# (ops/select-preset.sh, ops/draw-axes.py) so a run receives one unambiguous
-# selection instead of choosing --- a model's choice converges on its
-# favourites, and it correlates concurrent slots, which is precisely what a
-# second generator must not do.
+# Draw this run's inputs. The rung (ops/assess-ladder.py), the preset
+# (ops/select-preset.sh) and a 2A run's givens (ops/draw-axes.py: subject,
+# tradition, lead author) are all chosen OUTSIDE the model, so a run receives
+# one unambiguous selection instead of choosing. A model anchors on whatever
+# the prompt names and converges on its favourites, and it correlates
+# concurrent slots, which is precisely what a second generator must not do.
 #
-# Args: <worktree-dir> (the corpus the attribution draw reads). Sets PRESET,
-# AXES and PUBLISHED_AT.
+# Args: <worktree-dir> (the corpus the draws read) [<mode>], where mode is
+# "2a-only" (slots 2+: the assessor returns 2A unread) or "thesis" (rung 2T,
+# never assessed). Sets ACTION, ACTION_REASON, ACTION_PARAMS, PRESET, AXES and
+# PUBLISHED_AT.
 draw_run_inputs() {
   local worktree="$1" mode="${2:-}"
-  # The ladder (which rung is due) is assessed here, by ops/assess-ladder.py,
-  # not by the model. The model used to assess it each tick, and once the
-  # prompt started naming a 2A preset it anchored on 2A: rung 2H fired for the
-  # last time on 2026-08-25 and the newsroom sat silent for sixteen days
-  # behind a green pipeline. A script cannot be anchored, reads the ledger for
-  # free, and gives two concurrent slots the same answer. A generator slot
-  # other than slot 1 passes "2a-only" and the assessor returns 2A unread.
   if [ "$mode" = "thesis" ]; then
-    # Never assessed: the rung is fixed by the human who ran
-    # ops/publish-generate.sh thesis, the preset is the thesis's own, and the
-    # only inputs drawn are the fiction (setting, school, supervisors).
+    # The rung is fixed by the human who started the run, the preset is the
+    # thesis's own, and the only inputs drawn are the fiction (setting, school,
+    # supervisors).
     ACTION="2T"
     ACTION_REASON="a doctoral thesis, run by hand; never assessed and never timed"
     ACTION_PARAMS="{}"
@@ -636,9 +669,7 @@ draw_run_inputs() {
   ACTION_PARAMS="$(printf '%s' "$ACTION_JSON" | jq -c .params)"
   PRESET="$("${PROJECT_DIR}/ops/select-preset.sh")"
   # Preset first, then the axes drawn FOR it: a preset that fixes its school
-  # (impact-report) must not be handed a lead author from another one. Two
-  # independent draws produced exactly that contradiction on 2026-08-26, and an
-  # unattended agent has nobody to ask about it.
+  # (impact-report) must not be handed a lead author from another one.
   AXES="$("${PROJECT_DIR}/ops/draw-axes.py" --root "$worktree" --preset "$PRESET")"
   PUBLISHED_AT="$(date -Iseconds)"
   log "=== assessed action: ${ACTION} --- ${ACTION_REASON} ==="
@@ -687,19 +718,14 @@ ${extra}"
 # unattended path can only ever run public slop presets (and in a worktree
 # private/ does not exist to begin with).
 #
-# `env -u` strips the credentials the agent must never hold. The compose/publish
-# split is structural for the ACTION --- only the wrapper calls the poster and
-# the uploader --- but it was never isolation of the CREDENTIAL: mise exports
-# the whole untracked [env] block into this shell and the agent runs as a child,
-# so it inherited SLOPU_TOKEN and the bucket keys and could have used them
-# directly, bypassing the split entirely. That gap matters because the agent
-# reads attacker-influenceable input every run: the RSS sources and the Bluesky
-# search in 2A are open channels, and a live installation taking topic
-# suggestions from the room widens them. Stripping the tokens turns "the agent
-# has no code path to post" into "the agent has no credential to post with",
-# which survives an injected agent that stops following the skill.
-# REPLICATE_API_TOKEN deliberately stays: image generation genuinely needs it,
-# so bound that one with a spend cap on the key instead.
+# `env -u` strips the credentials the agent must never hold. mise exports the
+# whole untracked [env] block into this shell and the agent runs as a child, so
+# without this it would inherit the posting and bucket keys and could bypass
+# the compose/publish split directly. That matters because the agent reads
+# attacker-influenceable input every run (the RSS sources and the Bluesky search
+# in 2A): stripping the tokens turns "the agent has no code path to post" into
+# "the agent has no credential to post with". REPLICATE_API_TOKEN deliberately
+# stays: image generation genuinely needs it, so that key carries a spend cap.
 run_agent() {
   local worktree="$1" model="$2"
   local started
@@ -717,8 +743,8 @@ run_agent() {
   log "=== publish agent starting at ${started} (profile ${AGENT_PROFILE}, model ${model}, effort ${effort_note}) ==="
   (
     cd "$worktree"
-    GIT_AUTHOR_NAME="Slop University Press" \
-    GIT_AUTHOR_EMAIL="press@slop.university" \
+    GIT_AUTHOR_NAME="$AGENT_NAME" \
+    GIT_AUTHOR_EMAIL="$AGENT_EMAIL" \
     SLOPU_PUBLIC_ONLY=1 \
     SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
     SLOPU_STOP_FAILURE_LOG="$STOP_FAILURE_LOG" \
@@ -743,33 +769,26 @@ run_agent() {
   ) > "$AGENT_OUT" 2>&1 || AGENT_STATUS=$?
   cat "$AGENT_OUT" >> "$LOG_FILE"
   log "=== publish agent finished at $(date -Iseconds) (status ${AGENT_STATUS}) ==="
-  # What the run cost, from the runner's own transcript. This is the meter
-  # the tick rate is tuned against: a subscription is a weekly token budget,
-  # and without a per-run number "saturate the plan" is a guess. Best effort
-  # --- a metering failure must never fail a tick.
+  # What the run cost, from the runner's own transcript: the meter the tick
+  # rate is tuned against. Best effort --- a metering failure must never fail a
+  # tick.
   "${PROJECT_DIR}/ops/run-usage.py" --profile "$AGENT_PROFILE" --since "$started" \
     --worktree "$worktree" --label "${ACTION:-?}/${PRESET:-?}" >> "$LOG_FILE" 2>&1 \
     || log "usage: metering failed (non-fatal)"
-  # Verbatim, so the first real rate-limit carries its own evidence into the
-  # log rather than only its classification.
+  # Verbatim, so a rate-limit carries its own evidence into the log rather than
+  # only its classification.
   if [ -s "$STOP_FAILURE_LOG" ]; then
     log "grok turn-end records:"
     cat "$STOP_FAILURE_LOG" >> "$LOG_FILE"
   fi
 }
 
-# A dead credential is not a failed generation, and the difference is the whole
-# reason this check exists. A failed generation is transient --- a typst error,
-# a flaky model call --- and the next run genuinely may succeed, so tolerating
-# it is right. An expired OAuth token is the opposite: the agent burned nothing
-# and did nothing, and every later run dies identically until a human runs
-# /login. Treating the two alike is what lost sixteen consecutive ticks behind a
-# green unit on 2026-08-03/04.
-#
-# Each agent says this its own way. Grok's two signatures were captured by
-# running it with no credential ("Not signed in.") and with a mangled auth.json
-# ("Unauthorized (401) ... Invalid or expired credentials"); the Claude patterns
-# are the originals, still live whenever the profile is a Claude one.
+# A dead credential is not a failed generation. A failed generation is
+# transient --- a typst error, a flaky model call --- and the next run may
+# succeed, so tolerating it is right. An expired OAuth token is the opposite:
+# every later run dies identically until a human logs in again, so it must
+# fail loudly. Grok's signatures are "Not signed in." (no credential) and
+# "Unauthorized (401) ... Invalid or expired credentials" (a mangled auth.json).
 agent_auth_failed() {
   grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in|not signed in|invalid or expired credentials|unauthorized \(401\)' "$AGENT_OUT"
 }
@@ -782,60 +801,39 @@ relogin_hint() {
 }
 
 # Out of usage credits is a third thing again --- not a dead credential (the
-# login is fine) and not a failed generation (nothing was attempted). It is the
-# account's limit for ONE model, which is exactly why the CLI's own advice is
-# "switch to another model", so the run's best move is to do that once rather
-# than forfeit the slot.
+# login is fine) and not a failed generation (nothing was attempted). For
+# Claude it is usually the limit for ONE model, so the run's best move is to
+# retry once on another model rather than forfeit the slot.
 #
-# Two detectors, and which one speaks depends on what the run actually had
-# available. The hook is authoritative when it ran: grok classified the failure
-# itself and said so in a field, so there is nothing to pattern-match. The regex
-# survives for the two cases the hook cannot serve --- a Claude profile
-# (claude-sub has no such hook) and a Grok run where the hook did not load.
-#
-# That second case is why the hook also records a SessionEnd heartbeat. An
-# absent StopFailure line means "no API error" if the hook was live and "I have
-# no detector" if it was not, and those must not read alike; the heartbeat is
-# what separates them. A silent fallback would be the same bug as the sixteen
-# green ticks that published nothing, one layer down, so it also shouts.
+# Two detectors. The Grok StopFailure hook classifies the failure itself and
+# records it in a field; the regex covers a Claude profile (which has no hook)
+# and a Grok run where the hook did not load. The hook also records a
+# SessionEnd heartbeat, so an absent StopFailure line can be told apart from a
+# hook that never ran --- and the latter shouts rather than falling back
+# silently.
 hook_was_live() { [ -s "$STOP_FAILURE_LOG" ]; }
 
 hook_saw_rate_limit() {
   # Matching a field this script's sibling writes, not prose xAI can reword ---
   # the contract is between ops/grok-stop-failure-hook.py and this line.
-  # Capacity errors (503/529) also classify as rate_limit, which is why the hook
-  # records errorDetails verbatim: the retry is the right response to both, and
-  # the log is what will eventually let the two be told apart.
+  # Capacity errors (503/529) also classify as rate_limit; the retry is the
+  # right response to both.
   grep -qE '"error": *"rate_limit"' "$STOP_FAILURE_LOG" 2>/dev/null
 }
 
 credits_exhausted_by_regex() {
-  # "usage limit reached" happens to be common to both agents; the rest of
-  # Grok's phrasings ("out of credits", "usage balance exhausted", "over your
-  # spending limit") come from the strings in the grok binary itself.
-  #
-  # "hit your <period> limit" is the Claude subscription's own wording and was
-  # missing until it cost a full day: on 2026-08-24 all twenty-four ticks died
-  # on "You've hit your weekly limit - resets Aug 25, 2am", which matched
-  # nothing here ("hit", not "exceeded") and so reported twenty-four times as a
-  # failed generation. The period is left open rather than enumerated, because
-  # the list of billing windows is theirs to change, not ours to guess.
+  # "usage limit reached" is common to both agents; Grok's other phrasings come
+  # from the strings in the grok binary. "hit your <period> limit" is the Claude
+  # subscription's wording, with the period left open because the list of
+  # billing windows is theirs to change.
   grep -qiE "out of usage credits|usage limit reached|(exceeded|hit) your [a-z ]*limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
 }
 
-# The account balance is gone, as opposed to one model's window being shut.
-#
-# This is the split the hook's errorDetails field was recorded verbatim for, and
-# 2026-08-26 supplied the first real occurrence: a 402 carrying "Grok Build usage
-# balance exhausted". It matters twice over --- a model retry is futile against
-# it (one balance, every model), and it is the one failure worth changing route
-# for. Read from the hook log as well as stdout, because the hook records the
-# message even when grok's own classification of it is uninformative.
-#
-# A Claude subscription's weekly limit belongs here for the same two reasons ---
-# it binds the account, not the model, and it resets in a WEEK, so a route that
-# waits it out loses a hundred ticks rather than one. 2026-08-24 lost twenty-four
-# to exactly that.
+# The account balance is gone, as opposed to one model's window being shut: a
+# Grok 402 ("usage balance exhausted") or a Claude weekly/daily/monthly limit.
+# A model retry is futile against it (it binds every model) and it is the one
+# failure worth changing route for. Read from the hook log as well as stdout,
+# because the hook records the message even when grok misclassifies it.
 HARD_EXHAUSTION_RE='usage balance exhausted|402 payment required|hit your [a-z ]*(weekly|daily|monthly) limit'
 
 credits_hard_exhausted() {
@@ -844,12 +842,9 @@ credits_hard_exhausted() {
 }
 
 credits_exhausted() {
-  # The hook's verdict is additive, not authoritative. It was authoritative
-  # until the 402 above, which grok classified as "invalid_request" --- so the
-  # hook said no, the regex that had "usage balance exhausted" right there in
-  # its pattern was never consulted, and eleven ticks reported the account
-  # running dry as a failed generation. A detector that can only ADD a verdict
-  # cannot take one away again.
+  # The hook's verdict is additive, not authoritative: grok classifies a dead
+  # balance as "invalid_request", so the regexes always get a say. A detector
+  # that can only ADD a verdict cannot take one away.
   case "$AGENT_PROFILE" in
     grok-*)
       if hook_was_live; then

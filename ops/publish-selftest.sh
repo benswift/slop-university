@@ -8,15 +8,9 @@
 # in for the model, and drives every path that decides whether work ships:
 # generate, claim, rebase, validate, pair, build, rescue, sweep, push.
 #
-# Why this exists. The pipeline is unattended, it pushes to a live site, and
-# ops/cron-publish.sh takes effect at the NEXT TICK with no deploy step --- so a
-# mistake here is live within the hour and nobody is watching. Testing it by
-# hand found three real bugs in one sitting (a sibling generator's staging dir
-# defeating the out-of-credits retry, the lander reporting a forbidden-path
-# violation as a red build because the expensive gate ran first, and a sweeper
-# that dated candidates from a commit timestamp that says nothing about when the
-# run started). Those are exactly the bugs that never show up until they eat a
-# night of ticks.
+# Why this exists. The pipeline is unattended, it pushes to a live site, and an
+# edit to ops/ takes effect at the NEXT TICK with no deploy step --- so a
+# mistake here is live within the hour and nobody is watching.
 #
 # The fixture is safe by construction: a clone has its own origin, so a push
 # reaches only the fixture's bare repo, and publish-lib.sh's fixture guard
@@ -73,7 +67,7 @@ git -C "$REPO" config user.name "Ben Swift"
 
 # Carry the working tree's current version of everything under test, so the
 # self-test checks what is about to be committed rather than what already was.
-for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh ops/cron-publish.sh \
+for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh \
          ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
          ops/check-table-fit.py \
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
@@ -203,7 +197,7 @@ AGENT
 
 # A human pushes to origin main while the agent is mid-generation. Their commit
 # touches a file no agent ever writes, so the only question is whether the
-# wrapper replays the agent's work onto it or throws the tick away.
+# lander replays the agent's work onto it or throws the candidate away.
 cat > "${FIXTURE}/human-push" <<'HUMAN'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -222,16 +216,6 @@ cat > "${FIXTURE}/agent-good-pushed" <<'AGENT'
 #!/usr/bin/env bash
 set -euo pipefail
 "$(dirname "$0")/human-push"
-exec "$(dirname "$0")/agent-good"
-AGENT
-
-# The same, but something has also fast-forwarded press onto the human commit
-# before the agent commits --- so the foreign commit sits INSIDE base..press.
-cat > "${FIXTURE}/agent-good-racing" <<'AGENT'
-#!/usr/bin/env bash
-set -euo pipefail
-"$(dirname "$0")/human-push"
-git fetch -q origin && git merge -q --ff-only origin/main
 exec "$(dirname "$0")/agent-good"
 AGENT
 
@@ -354,10 +338,6 @@ land() { # land [args...]
   ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
       ./ops/publish-land.sh "$@" 2>&1 ) | outcome
 }
-serial() {
-  ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
-      SLOPU_AGENT_RUN="${FIXTURE}/agent-$1" ./ops/cron-publish.sh 2>&1 ) | outcome
-}
 log_has() { grep -q "$1" "${REPO}"/logs/publish-*.log && echo yes || echo no; }
 
 echo
@@ -412,15 +392,9 @@ check "...and origin did not move" "$BEFORE" "$(git -C "$REPO" fetch -q origin &
 rm -f "${REPO}"/data/candidates/*.dryrun
 
 echo
-echo "the serial pipeline (ops/cron-publish.sh) still works"
-check "a full serial tick publishes"                published    "$(serial good)"
-check "a serial tick rejects an unstaged entry"     validation-failure "$(serial noassets)"
-check "a serial tick rejects a sparse final page"   quality-failure "$(serial sparse)"
-check "a tick that does nothing is a lost tick, not a success" no-op "$(serial nothing)"
+echo "a lost slot"
+check "a generator that does nothing is a lost slot, not a success" no-op "$(gen 1 nothing)"
 check "...and exits non-zero, so it cannot clear the on-call todo" 6 \
-  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
-        SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/cron-publish.sh >/dev/null 2>&1 ); echo $? )"
-check "a generator that produces no candidate exits non-zero too" 6 \
   "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" \
         SLOPU_AGENT_RUN="${FIXTURE}/agent-nothing" ./ops/publish-generate.sh 1 >/dev/null 2>&1 ); echo $? )"
 
@@ -456,17 +430,26 @@ check "...and is expired once the lock is released" "" \
   "$(git -C "$REPO" branch --list 'press-gen-20260101T000000Z-slot8' | tr -d ' +*')"
 
 echo
-echo "the serial pipeline replays onto a base that moved mid-run"
-check "a human push during generation no longer costs the tick" published "$(serial good-pushed)"
-check "...and the log says the base moved"          yes          "$(log_has 'base moved during generation')"
-check "...and the replayed tree got the authoritative build" yes "$(log_has 'authoritative build on the replayed tree')"
-check "press fast-forwarded over a human commit still lands" published "$(serial good-racing)"
+echo "candidate markers"
+gen thesis3 good > /dev/null
+check "a thesis marker is valid JSON" thesis3 \
+  "$(jq -r .slot "${REPO}"/data/candidates/*-slotthesis3.json 2>/dev/null || echo invalid)"
+land > /dev/null
+
+# Last of the landings: the conflict case leaves origin with a news file that
+# has no frontmatter, so no later candidate could pass the build.
+echo
+echo "the lander rebases onto a base that moved mid-run"
+gen 2 good-pushed > /dev/null
+check "a human push during generation does not cost the candidate" published "$(land)"
 RESCUES_BEFORE="$(git -C "$REPO" branch --list 'publish-rescue/*' | wc -l | tr -d ' ')"
-check "a real conflict is rescued, not guessed at"  rebase-conflict "$(serial good-conflict)"
+gen 2 good-conflict > /dev/null
+check "a real conflict is rescued, not guessed at"  rescued-conflict "$(land)"
 check "...onto a rescue branch"                     "$((RESCUES_BEFORE + 1))" \
   "$(git -C "$REPO" branch --list 'publish-rescue/*' | wc -l | tr -d ' ')"
 check "...and origin kept the human's version"      yes \
   "$(git -C "$REPO" fetch -q origin && git -C "$REPO" show origin/main:website/src/content/news/2026-08-26-collision.md | grep -q bumped && echo yes || echo no)"
+
 
 # --- The author draw against the preset it is drawing for. impact-report is
 # the School of Continuous Improvement's report about itself; a lead from
@@ -500,8 +483,7 @@ check "every preset in the registry draws" "" \
 # live account. This is the one part of the wrapper whose failure mode is
 # silent: a misclassified limit reports as a failed generation, the retry that
 # would have rescued the tick never fires, and the pipeline keeps ticking
-# green-ish while publishing nothing. That is exactly what happened on
-# 2026-08-26 --- the fixtures below are the real records off that outage.
+# green-ish while publishing nothing. The fixtures below are real records.
 echo
 echo "credit classifiers"
 
@@ -521,9 +503,9 @@ classify() { # <profile> <agent-out fixture> <stop-failure fixture> <predicate>
 CLS="${FIXTURE}/classifiers"
 mkdir -p "$CLS"
 
-# Verbatim from logs/publish-2026-08-26.log. Note the hook's own verdict:
-# "invalid_request", not "rate_limit" --- xAI classifies a dead balance as a
-# malformed request, which is why the hook cannot be the only detector.
+# Note the hook's own verdict: "invalid_request", not "rate_limit" --- xAI
+# classifies a dead balance as a malformed request, which is why the hook cannot
+# be the only detector.
 cat > "${CLS}/402.out" <<'EOF'
 Internal error: {
   "message": "API error (status 402 Payment Required): Grok Build usage balance exhausted",
@@ -559,8 +541,7 @@ check "a typst error is neither" no \
 check "a Claude exhaustion still reads off the regex" yes \
   "$(classify claude-sub "${CLS}/claude.out" "${CLS}/claude.jsonl" credits_exhausted)"
 
-# Verbatim off logs/publish-2026-08-24.log, where this sentence went unmatched
-# twenty-four times in a row and each tick reported a failed generation.
+# The Claude subscription's weekly-limit wording, verbatim.
 printf "You've hit your weekly limit \xc2\xb7 resets Aug 25, 2am (Australia/Melbourne)\n" > "${CLS}/weekly.out"
 : > "${CLS}/weekly.jsonl"
 check "a Claude WEEKLY limit is out of credits" yes \

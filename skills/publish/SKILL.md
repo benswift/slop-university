@@ -28,13 +28,13 @@ kills the run half-done (this has burnt a full tick before). Beware: the Agent
 tool runs subagents in the background --- when delegating, wait for each one's
 completion before the run's final message, so the run stays inside one turn.
 
-The trust boundary: **this skill commits; it never pushes.** The cron wrapper
-(`ops/cron-publish.sh`) validates the commit's diff against a path allowlist
+The trust boundary: **this skill commits; it never pushes.** The lander
+(`ops/publish-land.sh`) validates the commit's diff against a path allowlist
 (and a colophon denylist) before pushing. Doctrine floors live in
 `website/CLAUDE.md` and the repo `CLAUDE.md`; the wrapper enforces them
-mechanically. Unattended runs happen in a dedicated worktree
-(`../slop-university-press`, branch `press`) that the wrapper resets to the
-newest published state before each tick and pushes to `main` after
+mechanically. Unattended runs happen in a generator worktree
+(`../slop-university-gen-<slot>`) that the wrapper resets to a committed state
+before each tick; the lander replays the commits onto `main` after
 validation --- the human checkout is never touched.
 
 ## 0. Preconditions
@@ -303,9 +303,9 @@ verifiable numbers). Then:
 
   A concurrent generator slot sets `SLOPU_PENDING_DIR` to its own
   `data/pending-uploads/<run-id>/`, so two runs staging at the same moment
-  cannot see or clobber each other's files; unset, this is the serial pipeline's
-  single staging root. Either way it is ABSOLUTE, which is the point: a bare
-  `data/pending-uploads/…` resolved against `website/` silently creates
+  cannot see or clobber each other's files; unset, this is the single staging
+  root an interactive run uses. Either way it is ABSOLUTE, which is the point: a
+  bare `data/pending-uploads/…` resolved against `website/` silently creates
   `website/data/pending-uploads/`, the wrapper finds nothing to upload, and the
   whole tick is rescued and thrown away. That went wrong for a run of ticks, so
   use `$STAGING` and never a relative path.

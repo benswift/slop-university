@@ -12,10 +12,8 @@ charts, both themes --- before the agent noticed the topic duplicated an entry
 from 29 July, and the entire run was discarded. A claim taken BEFORE generation
 turns that from a wasted twenty minutes into a re-roll that costs nothing.
 
-Today the wrapper serialises ticks, so the only claims in flight are this run's
-own. The file earns its keep anyway (a claim survives the run that took it, so
-a re-roll after a discard cannot circle back to the discarded topic), and it is
-the prerequisite for running 2A slots concurrently --- at which point it becomes
+A claim also survives the run that took it, so a re-roll after a discard
+cannot circle back to the discarded topic, and with concurrent 2A slots it is
 the only thing standing between two slots and the same subject.
 
 Claims live in data/topic-claims.json, beside the other gitignored handoff
@@ -70,7 +68,7 @@ STOPWORDS = frozenset(
     who why will with about after before between during over under
     study studies research paper poster analysis approach method framework
     university school new using use used across within
-    """.split()
+    """.split()  # noqa: SIM905 --- a word block reads better than a list
 )
 
 

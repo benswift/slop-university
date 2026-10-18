@@ -8,8 +8,7 @@ OnSuccess=unit-oncall-clear@%n.service
 Type=oneshot
 ExecStartPre=/home/ben/.dotfiles/bin/wait-for-network
 WorkingDirectory=/home/ben/projects/slop-university
-# Add --dry-run here (or via a drop-in) to run the split alongside the live
-# serial pipeline: every step that could reject a candidate still runs, but
-# nothing is uploaded and nothing is pushed, so the two cannot race for origin.
+# Add --dry-run here (or via a drop-in) to rehearse: every step that could
+# reject a candidate still runs, but nothing is uploaded and nothing is pushed.
 ExecStart=/home/ben/projects/slop-university/ops/publish-land.sh
 TimeoutStartSec=30min

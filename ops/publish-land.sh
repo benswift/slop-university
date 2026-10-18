@@ -3,27 +3,21 @@
 #
 # Usage: ops/publish-land.sh [--dry-run] [--sweep-only]
 #
-#   --dry-run     do everything except the bucket upload and the push. For
-#                 running the split alongside the live serial pipeline: origin
-#                 is never touched, so the two cannot race, and every step that
-#                 could reject a candidate still runs.
+#   --dry-run     do everything except the bucket upload and the push: every
+#                 step that could reject a candidate still runs, and origin is
+#                 never touched.
 #   --sweep-only  expire abandoned candidates and report stale ones; land
 #                 nothing.
 #
-# This is ops/cron-publish.sh with the agent invocation replaced by "claim the
-# oldest unclaimed candidate". Base selection, the allowlist/denylist/firewall
-# validation, the entry-to-asset pairing checks, the remote-race guard, the
-# bucket uploads and the push all survive unchanged --- they are the same
-# functions, in ops/publish-lib.sh, that the serial pipeline calls.
+# Base selection, validation, the pairing checks, the remote-race guard and the
+# upload-then-push are the shared functions in ops/publish-lib.sh.
 #
-# Exactly one of these runs at a time, under the same flock the serial pipeline
-# used. That is the design's whole point: concurrency lives in the generators,
-# which have no shared state, and the part with real shared state stays
-# single-threaded. In particular the remote-race guard needs no replacement ---
-# it exists to catch a HUMAN pushing during a long generation window, and under
-# this split the lander is the only thing that pushes and it holds the lock
-# across fetch, rebase, verify, upload and push. If origin/main moves inside
-# that window it was a human, which is exactly the guard's premise.
+# Exactly one of these runs at a time, under data/publish.lock (which the hand
+# lander, ops/land.sh, also takes). Concurrency lives in the generators, which
+# have no shared state, and the part with real shared state stays
+# single-threaded: the lander is the only thing that pushes and it holds the
+# lock across fetch, rebase, verify, upload and push, so if origin/main moves
+# inside that window it was a human, which is the race guard's premise.
 set -euo pipefail
 
 # Overridable ONLY so the pipeline can be exercised end-to-end against a
@@ -62,15 +56,10 @@ install_exit_trap
 log "=== lander started at $(date -Iseconds)$([ "$DRY_RUN" = 1 ] && echo ' (DRY RUN)') ==="
 
 # One lander. Non-blocking --- a lander that finds the lock held simply skips;
-# the next timer tick retries. Deliberately the SAME lock file the serial
-# pipeline uses, so the two can never both be pushing during the parallel-run
-# window.
-exec 9> "${PROJECT_DIR}/data/publish.lock"
-if ! flock -n 9; then
-  log "another publish run holds the lock; skipping"
-  result "skipped-locked" "another publish run holds the lock; the next tick retries"
-  exit 0
-fi
+# the next timer tick retries.
+take_lock "${PROJECT_DIR}/data/publish.lock" \
+  "another publish run holds the lock; skipping" \
+  "another publish run holds the lock; the next tick retries" || exit 0
 
 activate_mise
 cd "$PROJECT_DIR"
@@ -247,9 +236,9 @@ MARKER="${MARKERS[0]}"
 RUN_ID="$(basename "$MARKER" .json)"
 CLAIM="${CANDIDATE_DIR}/${RUN_ID}.claimed"
 mv "$MARKER" "$CLAIM"
-CAND_BRANCH="$(sed -n 's/.*"branch": *"\([^"]*\)".*/\1/p' "$CLAIM")"
-CAND_BASE="$(sed -n 's/.*"base": *"\([^"]*\)".*/\1/p' "$CLAIM")"
-CAND_PRESET="$(sed -n 's/.*"preset": *"\([^"]*\)".*/\1/p' "$CLAIM")"
+CAND_BRANCH="$(jq -r .branch "$CLAIM")"
+CAND_BASE="$(jq -r .base "$CLAIM")"
+CAND_PRESET="$(jq -r .preset "$CLAIM")"
 PENDING_DIR="${PENDING_ROOT}/${RUN_ID}"
 log "=== claimed candidate ${RUN_ID} (branch ${CAND_BRANCH}, base ${CAND_BASE:0:12}, preset ${CAND_PRESET}) ==="
 
@@ -286,14 +275,13 @@ rescue_candidate() {
   git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1 || log "WARNING: reset press to ${BASE_REF} failed"
 }
 
-# --- Base: the newest published state. Same selection the serial pipeline used.
+# --- Base: the newest published state.
 if ! select_base; then
   log "Skipping this run; the claimed candidate goes back on the queue."
   mv "$CLAIM" "${CANDIDATE_DIR}/${RUN_ID}.json"
   flush_pending_post
   # Its own exit code, because this is the one failure a human fixes with a
-  # rebase rather than by looking at the pipeline. It ran for two days in
-  # August 2026 and every tick in that window was lost.
+  # rebase rather than by looking at the pipeline.
   result "skipped-diverged" "main and origin/main have diverged; a human must rebase"
   exit 2
 fi
@@ -313,10 +301,7 @@ fi
 # output ids, news slugs, thumbnails and heroes; no shared-file writes since the
 # finding-shape ledger became a static draw pool), so a conflict here means an
 # assumption has broken --- rescue it and take the next one rather than guess.
-git -C "$WORKTREE_DIR" checkout -B "$PRESS_BRANCH" "$BASE_REF" >> "$LOG_FILE" 2>&1
-git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
-git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
-link_data_dir "$WORKTREE_DIR"
+reset_worktree "$WORKTREE_DIR" "$PRESS_BRANCH" "$BASE_REF"
 
 if ! git -C "$WORKTREE_DIR" cherry-pick "${CAND_BASE}..${CAND_BRANCH}" >> "$LOG_FILE" 2>&1; then
   log "REBASE CONFLICT replaying ${CAND_BRANCH} onto ${BASE_REF}"
@@ -356,11 +341,8 @@ if ! check_pairing "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
   if [ -n "$MISSING_PDFS" ]; then
     log "VALIDATION FAILURE: new outputs entry with no PDF staged in ${PENDING_DIR}:"
     printf '%s' "$MISSING_PDFS" >> "$LOG_FILE"
-    # Say WHERE it went, not just that it is absent. The first version of this
-    # check reported only the missing name, and the PDFs turned out to be
-    # landing in website/data/pending-uploads/ --- the agent had resolved a
-    # relative path against website/. That cost a hunt through the worktree to
-    # work out; this turns the same failure into one line of log.
+    # Say WHERE it went, not just that it is absent: a mislanded staging path
+    # is the usual cause.
     STRAYS="$(find "$WORKTREE_DIR" -name '*.pdf' -newermt '-3 hours' \
       -not -path "${WORKTREE_DIR}/output/pdf/*" -not -path "${PENDING_ROOT}/*" 2>/dev/null | head -20)"
     if [ -n "$STRAYS" ]; then
@@ -396,10 +378,9 @@ fi
 # stay warm. They still run format:content, typecheck, lint, lint:css and test
 # (~9 seconds), so only a build failure with all of those green reaches here.
 #
-# The cost of moving it is real and worth naming: in the serial pipeline the
-# agent fixed its own red build inside the run, and the lander has no model to
-# do that. So a build failure is not a pipeline stop --- the candidate is
-# rescued for a human and the lander takes the next one.
+# The lander has no model to fix a red build, so a build failure is not a
+# pipeline stop --- the candidate is rescued for a human and the lander takes
+# the next one.
 log "=== authoritative build at $(date -Iseconds) ==="
 if ! (cd "${WORKTREE_DIR}/website" && pnpm build) >> "$LOG_FILE" 2>&1; then
   log "BUILD FAILED for candidate ${RUN_ID}; rescuing it and moving on"
@@ -409,37 +390,19 @@ if ! (cd "${WORKTREE_DIR}/website" && pnpm build) >> "$LOG_FILE" 2>&1; then
   exit 8
 fi
 
-# --- Upload BEFORE the push, and only after a fresh fetch proves the remote tip
-# is still contained in the candidate.
-#
-# Ordering is the whole point. The push is what makes the outputs entry live,
-# and the entry's PDF URL is derived from its id --- so an entry that shipped
-# before its bytes did would be a live 404. Keep the local copies until the push
-# succeeds. If the remote moves during the short upload window, preserve the
-# commit and the assets together for human recovery rather than throwing the
-# commit away and leaving untraceable bucket objects.
-log "=== pre-upload remote race check at $(date -Iseconds) ==="
-if ! git fetch origin >> "$LOG_FILE" 2>&1; then
-  log "REMOTE RACE GUARD: fetch failed; refusing to upload or push"
-  rescue_candidate "pre-upload fetch failed"
+# --- Upload BEFORE the push (guard_remote_race in publish-lib.sh says why). If
+# anything fails from here on, preserve the commit and the assets together for
+# human recovery rather than leave untraceable bucket objects.
+if ! guard_remote_race "$PRESS_BRANCH"; then
+  rescue_candidate "$RUN_DETAIL"
   flush_pending_post
-  result "failed-fetch" "pre-upload fetch of origin failed; refused to upload or push"
-  exit 1
-fi
-if ! git merge-base --is-ancestor origin/main "$PRESS_BRANCH"; then
-  log "REMOTE RACE GUARD: origin/main advanced outside press during landing; refusing to upload or push"
-  rescue_candidate "origin/main advanced during landing"
-  flush_pending_post
-  result "remote-race" "origin/main advanced outside press during landing"
   exit 1
 fi
 
-shopt -s nullglob
-PENDING_PDFS=("$PENDING_DIR"/*.pdf)
-shopt -u nullglob
+collect_staged_files "$PENDING_DIR"
 
 if [ "$DRY_RUN" = 1 ]; then
-  log "=== DRY RUN: would upload ${#PENDING_PDFS[@]} PDF(s)$([ -d "${PENDING_DIR}/img" ] && echo ' plus the image tree') and push ${PRESS_BRANCH}:main ==="
+  log "=== DRY RUN: would upload ${#STAGED_FILES[@]} file(s)$([ -d "${PENDING_DIR}/img" ] && echo ' plus the image tree') and push ${PRESS_BRANCH}:main ==="
   log "leaving candidate ${RUN_ID} intact for a human to inspect; nothing was sent"
   mv "$CLAIM" "${CANDIDATE_DIR}/${RUN_ID}.dryrun"
   git -C "$WORKTREE_DIR" reset --hard "$BASE_REF" >> "$LOG_FILE" 2>&1
@@ -448,34 +411,10 @@ if [ "$DRY_RUN" = 1 ]; then
   exit 0
 fi
 
-if [ ${#PENDING_PDFS[@]} -gt 0 ] && bucket_upload_allowed; then
-  log "=== uploading ${#PENDING_PDFS[@]} PDF(s) to the bucket at $(date -Iseconds) ==="
-  if "${PROJECT_DIR}/ops/bucket-sync.py" upload "${PENDING_PDFS[@]}" >> "$LOG_FILE" 2>&1; then
-    log "uploaded PDFs; retaining local copies until the git push succeeds"
-  else
-    log "BUCKET UPLOAD FAILED --- refusing to push an entry whose PDF is not served"
-    rescue_candidate "bucket upload failed"
-    flush_pending_post
-    result "failed-upload" "bucket upload failed; the entry's PDF would not be served"
-    exit 1
-  fi
-else
-  log "no PDFs staged for this candidate"
-fi
-
-if [ -d "${PENDING_DIR}/img" ] && bucket_upload_allowed; then
-  log "=== uploading the staged image tree to the img bucket at $(date -Iseconds) ==="
-  if "${PROJECT_DIR}/ops/bucket-sync.py" upload --target img "${PENDING_DIR}/img" >> "$LOG_FILE" 2>&1; then
-    log "uploaded images; retaining local copies until the git push succeeds"
-  else
-    log "IMG BUCKET UPLOAD FAILED --- refusing to push an entry whose images are not served"
-    rescue_candidate "img bucket upload failed"
-    flush_pending_post
-    result "failed-upload" "img bucket upload failed; the entry's images would not be served"
-    exit 1
-  fi
-else
-  log "no images staged for this candidate"
+if ! upload_staged_assets "$PENDING_DIR"; then
+  rescue_candidate "$RUN_DETAIL"
+  flush_pending_post
+  exit 1
 fi
 
 # Push press to main on origin (the documented per-repo exception to the global

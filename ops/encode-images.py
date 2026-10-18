@@ -81,8 +81,8 @@ AVIFENC_ARGS = [
 #
 # SLOPU_PENDING_DIR overrides it. A concurrent generator slot sets it to its own
 # data/pending-uploads/<run-id>/, so two slots encoding at the same moment
-# cannot see or clobber each other's rungs; unset, this is the serial
-# pipeline's single staging root, unchanged.
+# cannot see or clobber each other's rungs; unset, this is the single staging
+# root an interactive run uses.
 DEFAULT_PENDING = (
     Path(os.environ["SLOPU_PENDING_DIR"]) / "img"
     if os.environ.get("SLOPU_PENDING_DIR")

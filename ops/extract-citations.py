@@ -48,8 +48,8 @@ REPO = Path(__file__).resolve().parent.parent
 OUTPUTS_DIR = REPO / "website" / "src" / "content" / "outputs"
 
 # Compiled sources live in whichever checkouts exist side by side: the main
-# tree and the press worktree the unattended pipeline runs in (see
-# ops/cron-publish.sh). The script runs from either, so it names both rather
+# tree and the press worktree the lander runs in (see ops/publish-land.sh).
+# The script runs from either, so it names both rather
 # than assuming which one it is --- deduplicated, since from inside the press
 # worktree the sibling lookup resolves back onto itself.
 SOURCE_DIRS = list(
