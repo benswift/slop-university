@@ -24,14 +24,9 @@ jobs:
     # Generous because the Astro image cache only saves in actions/cache's
     # post-job step: a build killed by this timeout saves nothing, so a cold
     # build that can't finish once can never seed the cache that would make it
-    # fast. Any change to image format or srcset widths rehashes every
-    # transform and forces one fully cold build, so leave room for it.
-    #
-    # 60 wasn't enough: the AVIF switch's cold build ran past it and was
-    # killed with nothing saved, which is the unrecoverable case --- it would
-    # have repeated hourly. AVIF encodes ~8x slower than webp and this runner
-    # is ~2.5x slower than the box the 23-minute local measurement came from.
-    # The ceiling is free on the warm builds that are the steady state.
+    # fast. Any change to image format or srcset widths forces one fully cold
+    # AVIF build, which runs well past an hour on this runner. The ceiling is
+    # free on the warm builds that are the steady state.
     timeout-minutes: 120
     steps:
       - name: Checkout
@@ -68,14 +63,12 @@ jobs:
       # workspace-relative, so it needs the website/ prefix that
       # defaults.run.working-directory supplies for run steps but not for uses.
       #
-      # The v2 segment is a manual cache lineage. Astro keys transforms by
+      # The v<N> segment is a manual cache lineage. Astro keys transforms by
       # content hash and never prunes, so changing image format or srcset
-      # widths orphans every existing entry --- the cache then carries both
-      # generations forever (434 MB of dead webp beside 275 MB of live avif,
-      # measured at the v1 -> v2 switch), and a fatter entry means fewer of
-      # them fit the repo's 10 GB budget before LRU eviction forces another
-      # cold build. Bump this whenever an image-config change invalidates the
-      # old entries; it costs the one cold build that change forces anyway.
+      # widths orphans every existing entry and the cache carries both
+      # generations forever, fitting fewer entries in the repo's 10 GB budget.
+      # Bump it whenever an image-config change invalidates the old entries;
+      # it costs the one cold build that change forces anyway.
       - name: Cache Astro build cache
         uses: actions/cache@v6
         with:
@@ -120,16 +113,9 @@ jobs:
       # time. Waiting out the first attempt is the only thing that works.
       #
       # The cap needs to clear time spent in deployment_queued, which is
-      # GitHub's to set and can step-change without warning. It sat at ~20s for
-      # days, then jumped to ~5min at 07:22 UTC on 2026-08-06 and stayed there
-      # (195s, 285s, 305s, 311s, 312s on consecutive ticks) --- straddling the
-      # old 300000 cap, so each run became a coin flip and two landed red with
-      # a green build behind them.
-      #
-      # Don't read that as the artifact outgrowing something: it grows ~800 KB
-      # per publish tick and went 427 -> 446 MB over the preceding day with the
-      # deploy pinned at 20s throughout. Size is worth watching against the
-      # 1 GB Pages ceiling, but it did not cause this.
+      # GitHub's to set and can step-change without warning from seconds to
+      # several minutes; it is not a function of artifact size (worth watching
+      # against the 1 GB Pages ceiling all the same).
       #
       # 600000 is the ceiling, not a preference --- the action clamps anything
       # higher and says so only in a warning buried in the step log ("timeout
