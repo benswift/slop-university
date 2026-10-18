@@ -4,7 +4,6 @@ import { getSchools, outputsByAuthor, outputsBySchool } from "../lib/canon";
 import { newestFirst } from "../lib/chronology";
 import { bibliometrics, citationIndex } from "../lib/citations";
 import { fullTitle } from "../lib/outputs";
-import { academicFte } from "../lib/performance";
 
 // The University's numbers as the site itself counts them: the whole
 // institution, each school and each researcher, with their outputs, citations,
@@ -78,8 +77,8 @@ export const GET: APIRoute = async () => {
     byPreset,
     researchers: people.length,
     schools: schools.length,
-    academicFte: academicFte(),
-    outputsPerFte: outputs.length / academicFte(),
+    academicFte: people.length,
+    outputsPerFte: outputs.length / people.length,
     grants: grants.length,
     funding: total,
     first: outputs.at(-1)?.data.date.toISOString().slice(0, 10),

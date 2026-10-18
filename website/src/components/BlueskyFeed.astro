@@ -38,6 +38,8 @@ const LINKEDIN_PAGE = "https://www.linkedin.com/company/slop-university/";
 </section>
 
 <script>
+  import { dayMonthYear } from "../lib/dates";
+
   interface FeedItem {
     reason?: unknown;
     post: {
@@ -55,12 +57,6 @@ const LINKEDIN_PAGE = "https://www.linkedin.com/company/slop-university/";
     "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed" +
     "?actor=slop.university&filter=posts_no_replies&limit=8";
   const POST_COUNT = 3;
-
-  const dateFormat = new Intl.DateTimeFormat("en-AU", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
 
   function renderPost(item: FeedItem): HTMLLIElement {
     const { post } = item;
@@ -84,7 +80,7 @@ const LINKEDIN_PAGE = "https://www.linkedin.com/company/slop-university/";
     permalink.href = `https://bsky.app/profile/${post.author.handle}/post/${post.uri.split("/").pop()}`;
     const time = document.createElement("time");
     time.dateTime = when.toISOString();
-    time.textContent = dateFormat.format(when);
+    time.textContent = dayMonthYear.format(when);
     permalink.append(time);
 
     const body = document.createElement("p");

@@ -62,7 +62,7 @@ export const seriesSlugs: Record<OutputSeries, string> = {
 // filtered view paginates on the same rhythm as the one it was filtered from.
 export const PAGE_SIZE = 12;
 
-export interface SeriesFacet {
+interface SeriesFacet {
   series: OutputSeries;
   slug: string;
   count: number;
@@ -140,9 +140,9 @@ export function bibtex(id: string, entry: CollectionEntry<"outputs">["data"]): s
   ].join("\n");
 }
 
-export type BibtexTokenKind = "type" | "key" | "field" | "value" | "punct" | "plain";
+type BibtexTokenKind = "type" | "key" | "field" | "value" | "punct" | "plain";
 
-export interface BibtexToken {
+interface BibtexToken {
   kind: BibtexTokenKind;
   text: string;
 }

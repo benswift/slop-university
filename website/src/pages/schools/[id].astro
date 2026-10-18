@@ -2,6 +2,7 @@
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsBySchool, researchersOf } from "../../lib/canon";
+import { monthYear } from "../../lib/dates";
 import { schoolHero } from "../../lib/heroes";
 
 export async function getStaticPaths() {
@@ -29,7 +30,6 @@ const childKinds = [
   { kind: "history", heading: "History" },
 ].filter((k) => children.some((c) => c.data.kind === k.kind));
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
 
 <ContentLayout
@@ -88,7 +88,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
           {outputs.map((o) => (
             <li>
               <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
-              <span class="meta"> · {dateFormat.format(o.data.date)}</span>
+              <span class="meta"> · {monthYear.format(o.data.date)}</span>
             </li>
           ))}
         </ul>

@@ -6,6 +6,7 @@ import PageVideo from "../../components/PageVideo.astro";
 import { videoAbout } from "../../lib/videos";
 import { getPeople, getSchools, outputsByAuthor, schoolIdByName } from "../../lib/canon";
 import { bibliometrics } from "../../lib/citations";
+import { monthYear } from "../../lib/dates";
 import { formatAud, getSchemes, grantsByGrantee, schemeById } from "../../lib/grants";
 import { headshot } from "../../lib/headshots";
 import { personHero } from "../../lib/heroes";
@@ -59,7 +60,6 @@ const coAuthors = new Set(
 const activeSince = Math.min(...outputs.map((o) => o.data.date.getFullYear()));
 const income = grants.reduce((sum, g) => sum + g.data.value, 0);
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "numeric" });
 ---
 
 <ContentLayout
@@ -184,7 +184,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
           {outputs.map((o) => (
             <li>
               <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
-              <span class="meta"> · {dateFormat.format(o.data.date)}</span>
+              <span class="meta"> · {monthYear.format(o.data.date)}</span>
             </li>
           ))}
         </ul>
@@ -203,7 +203,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", { month: "long", year: "nume
               <span class="meta">
                 {" "}
                 · {schemeById(schemes, g.data.scheme)?.data.name} · {formatAud(g.data.value)} ·{" "}
-                {dateFormat.format(g.data.date)}
+                {monthYear.format(g.data.date)}
               </span>
             </li>
           ))}

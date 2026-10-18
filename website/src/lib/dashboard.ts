@@ -1,7 +1,7 @@
 import { getCollection } from "astro:content";
 import { formatAud, formatAudCompact } from "./grants";
 import { presetSeries, seriesOrder } from "./outputs";
-import { academicFte, chartSvg, performanceSpec, vlConfig } from "./performance";
+import { chartSvg, performanceSpec, vlConfig } from "./performance";
 
 export interface Dashboard {
   stats: { label: string; value: string | number }[];
@@ -13,7 +13,7 @@ async function build(): Promise<Dashboard> {
   const allGrants = await getCollection("grants");
   const totalFunding = allGrants.reduce((sum, g) => sum + g.data.value, 0);
 
-  const fte = academicFte();
+  const fte = (await getCollection("people")).length;
   const stats = [
     { label: "Research outputs", value: allOutputs.length },
     {

@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import OutputTypeBadge from "./OutputTypeBadge.astro";
+import { monthYear } from "../lib/dates";
 import { outputHero, thumbnail } from "../lib/images";
 
 interface Props {
@@ -12,10 +13,6 @@ interface Props {
 
 const { entries } = Astro.props;
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", {
-  month: "long",
-  year: "numeric",
-});
 ---
 
 <CardGrid columns={2}>
@@ -32,7 +29,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
           <p class="meta">
             {entry.data.authors.join(", ")}
             {entry.data.authors.length > 0 && " · "}
-            {dateFormat.format(entry.data.date)} · doi:{entry.data.doi}
+            {monthYear.format(entry.data.date)} · doi:{entry.data.doi}
           </p>
           <p>{entry.data.summary}</p>
         </Card>

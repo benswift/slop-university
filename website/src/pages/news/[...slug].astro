@@ -4,6 +4,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import OutputCallout from "../../components/OutputCallout.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, personIdByName } from "../../lib/canon";
+import { dayMonthYear } from "../../lib/dates";
 import { formatAud, getSchemes, schemeById } from "../../lib/grants";
 import { newsHero, ogImage, outputHero } from "../../lib/images";
 
@@ -39,11 +40,6 @@ const grantees = (grant?.data.grantees ?? []).map((name) => ({
   id: personIdByName(people, name),
 }));
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
 ---
 
 <ContentLayout
@@ -58,7 +54,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
 >
   {entry.data.subtitle && <p class="deck">{entry.data.subtitle}</p>}
   <p class="dateline">
-    <time datetime={entry.data.date.toISOString()}>{dateFormat.format(entry.data.date)}</time>
+    <time datetime={entry.data.date.toISOString()}>{dayMonthYear.format(entry.data.date)}</time>
   </p>
   {output && <OutputCallout id={output.id} data={output.data} showRecord />}
   <Content />

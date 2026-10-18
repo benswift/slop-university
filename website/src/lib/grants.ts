@@ -7,7 +7,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 // posts, and the outputs dashboard.
 
 export type Grant = CollectionEntry<"grants">;
-export type GrantScheme = CollectionEntry<"grantSchemes">;
+type GrantScheme = CollectionEntry<"grantSchemes">;
 
 /** Awarded grants and prizes, newest first. */
 export async function getGrants(): Promise<Grant[]> {

@@ -1,25 +1,7 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { parse, View } from "vega";
 import { compile, type TopLevelSpec } from "vega-lite";
-import { parse as parseYaml } from "yaml";
 
-// The outputs content collection is the canonical record of published
-// artefacts; the roster supplies the academic FTE denominator. Both are read
-// at build time --- the outputs page carries no hand-maintained data. The
-// roster is resolved from the working directory (builds run from website/),
-// because import.meta.url points into dist/.prerender at build time.
-const rosterPath = resolve(process.cwd(), "../canon/roster.yml");
-
-export function academicFte(): number {
-  // One FTE per roster researcher --- the same parse the people collection
-  // loader does (see content.config.ts), so the denominator can't drift on a
-  // formatting change the way a line-count regex could.
-  const roster = parseYaml(readFileSync(rosterPath, "utf8")) as { researchers: unknown[] };
-  return roster.researchers.length;
-}
-
-export interface SeriesPoint {
+interface SeriesPoint {
   date: string;
   series: string;
   total: number;

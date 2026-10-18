@@ -9,6 +9,7 @@ import { siteConfig } from "../../site-config";
 import { bibtex, bibtexTokens, fullTitle, presetLabels } from "../../lib/outputs";
 import { formatAud, getGrants, getSchemes, schemeById } from "../../lib/grants";
 import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib/canon";
+import { dayMonthYear } from "../../lib/dates";
 import { ogImage, outputHero } from "../../lib/images";
 import { citedBy, references } from "../../lib/citations";
 
@@ -66,11 +67,6 @@ const full = fullTitle(data);
 const video = await videoAbout("output", entry.id);
 const transitionName = `card-title-${Astro.url.pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-")}`;
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
 ---
 
 <BaseLayout
@@ -155,7 +151,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
       <tr>
         <th scope="row">Published</th>
         <td>
-          <time datetime={data.date.toISOString()}>{dateFormat.format(data.date)}</time>
+          <time datetime={data.date.toISOString()}>{dayMonthYear.format(data.date)}</time>
         </td>
       </tr>
       <tr>
@@ -203,7 +199,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
               <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
               <span class="meta">
                 {" "}
-                · {o.data.authors.join(", ")} · {dateFormat.format(o.data.date)}
+                · {o.data.authors.join(", ")} · {dayMonthYear.format(o.data.date)}
               </span>
             </li>
           ))}
@@ -222,7 +218,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
               <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
               <span class="meta">
                 {" "}
-                · {o.data.authors.join(", ")} · {dateFormat.format(o.data.date)}
+                · {o.data.authors.join(", ")} · {dayMonthYear.format(o.data.date)}
               </span>
             </li>
           ))}

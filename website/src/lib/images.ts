@@ -15,7 +15,7 @@ const IMG_BASE = "https://img.slop.university";
 const HERO_WIDTHS = [800, 1600, 2560];
 const THUMB_WIDTHS = [320, 640, 960];
 
-export interface ImageDims {
+interface ImageDims {
   width: number;
   height: number;
 }

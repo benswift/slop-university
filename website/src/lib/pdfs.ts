@@ -17,9 +17,7 @@ export const pdfUrl = (id: string): string => `${PDF_BASE}/${id}.pdf`;
 
 // Dark-theme sibling, produced only for the poster presets (the e-signage
 // screens show white-on-black). Entries flag its existence with `pdfDark: true`;
-// older outputs predate it and consumers fall back to `pdfUrl`.
-export const pdfDarkUrl = (id: string): string => `${PDF_BASE}/${id}-dark.pdf`;
-
-// The URL the signage kiosk should fetch: the dark render when one exists.
+// older outputs predate it and consumers fall back to `pdfUrl`. The URL the
+// signage kiosk should fetch is the dark render when one exists.
 export const signagePdfUrl = (id: string, hasDark: boolean | undefined): string =>
-  hasDark ? pdfDarkUrl(id) : pdfUrl(id);
+  hasDark ? `${PDF_BASE}/${id}-dark.pdf` : pdfUrl(id);

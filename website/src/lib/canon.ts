@@ -46,6 +46,11 @@ export function researchersOf(people: Person[], schoolName: string): Person[] {
   return people.filter((p) => p.data.school === schoolName);
 }
 
+/** Every output keyed by id, for joining news posts to the output they announce. */
+export async function getOutputsById(): Promise<Map<string, Output>> {
+  return new Map((await getCollection("outputs")).map((o) => [o.id, o]));
+}
+
 /** Published outputs credited to a researcher (matched on name), newest first. */
 export async function outputsByAuthor(name: string): Promise<Output[]> {
   return (await getCollection("outputs"))

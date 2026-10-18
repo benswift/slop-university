@@ -12,11 +12,12 @@ import OutputTypeBadge from "../components/OutputTypeBadge.astro";
 import { siteConfig } from "../site-config";
 import { newsHero, outputHero } from "../lib/images";
 import { sortNews } from "../lib/chronology";
+import { dayMonthYear } from "../lib/dates";
+import { getOutputsById } from "../lib/canon";
 
 // Rest-param pagination: page 1 renders at /, later pages at /2, /3, ...
 export const getStaticPaths = (async ({ paginate }) => {
-  const outputs = new Map((await getCollection("outputs")).map((o) => [o.id, o]));
-  const news = sortNews(await getCollection("news"), outputs);
+  const news = sortNews(await getCollection("news"), await getOutputsById());
   return paginate(news, { pageSize: 12 });
 }) satisfies GetStaticPaths;
 
@@ -40,11 +41,6 @@ function newsCardImage(entry: (typeof page.data)[number]) {
   return newsHero(entry.id, entry.data.hero);
 }
 
-const dateFormat = new Intl.DateTimeFormat("en-AU", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
 ---
 
 <BaseLayout
@@ -106,7 +102,7 @@ const dateFormat = new Intl.DateTimeFormat("en-AU", {
             >
               <p class="news-date">
                 <time datetime={entry.data.date.toISOString()}>
-                  {dateFormat.format(entry.data.date)}
+                  {dayMonthYear.format(entry.data.date)}
                 </time>
               </p>
               {entry.data.description && <p>{entry.data.description}</p>}

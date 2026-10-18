@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { academicFte, chartSvg, cumulativeByDay, performanceSpec } from "./performance";
+import { chartSvg, cumulativeByDay, performanceSpec } from "./performance";
 
 const item = (date: string, series: string) => ({ date: new Date(date), series });
 
@@ -77,12 +77,6 @@ describe("performanceSpec", () => {
     const [outputsPanel, funding] = panels(performanceSpec(outputs, grants, ["papers"]));
     expect(outputsPanel).toMatchObject({ encoding: { x: { title: null } } });
     expect(funding).toMatchObject({ encoding: { x: { title: "Date" } } });
-  });
-});
-
-describe("academicFte", () => {
-  it("counts the roster entries", () => {
-    expect(academicFte()).toBeGreaterThan(0);
   });
 });
 

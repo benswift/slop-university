@@ -55,7 +55,7 @@ export async function citedBy(output: Output): Promise<Output[]> {
 /** DOI → the output it resolves to. */
 let byDoi: Promise<Map<string, Output>> | undefined;
 
-export function outputsByDoi(): Promise<Map<string, Output>> {
+function outputsByDoi(): Promise<Map<string, Output>> {
   byDoi ??= (async () => new Map((await getCollection("outputs")).map((o) => [o.data.doi, o])))();
   return byDoi;
 }
@@ -84,7 +84,7 @@ export function hIndex(counts: number[]): number {
   return h;
 }
 
-export type Bibliometrics = {
+type Bibliometrics = {
   outputs: number;
   citations: number;
   hIndex: number;

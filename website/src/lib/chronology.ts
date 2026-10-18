@@ -10,7 +10,7 @@ import type { CollectionEntry } from "astro:content";
 type Dated = { id: string; data: { date: Date; publishedAt?: Date } };
 
 /** The instant an entry was published, falling back to its day. */
-export function publishedTime(entry: Dated): number {
+function publishedTime(entry: Dated): number {
   return (entry.data.publishedAt ?? entry.data.date).getTime();
 }
 
