@@ -87,8 +87,9 @@ difference" the stream of covers flows past the chart, untouched by the top box.
 _Reads (draft):_ 1. one real person sits at the top; 2. the output never passes
 through him.
 
-**VO:** It is a comment about systems, [beat 0.3] and about the things those
-systems incentivise. [beat 1.6]
+**VO:** This is not a comment on any particular institution. [beat 0.4] It is a
+comment about systems, [beat 0.3] and about the things those systems
+incentivise. [beat 1.6]
 
 _Visual:_ the covers return and fill the frame, then clear to the ground.
 
