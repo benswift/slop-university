@@ -62,8 +62,7 @@ accountable, and makes no difference to the output whatsoever. He authors
 nothing here, holds none of its grants, and is named nowhere in the documents
 themselves --- those invoke the office and never its occupant.
 
-The artist would also like to be clear that this project is not in any way a
-specific commentary on his current or previous employers. It is a comment about
+This is not a comment on any particular institution. It is a comment about
 systems, and about the things those systems incentivise.
 
 The outputs are published under CC BY 4.0, like the open-access research they
