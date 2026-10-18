@@ -172,7 +172,7 @@ def upload_blob(session: dict, data: bytes, mime: str) -> dict | None:
         if resp.status_code != 200:
             return None
         return resp.json().get("blob")
-    except Exception:
+    except Exception:  # noqa: BLE001 --- fail-open by design
         return None
 
 
@@ -188,7 +188,7 @@ def external_embed(session: dict, url: str) -> dict | None:
         if resp.status_code != 200:
             return None
         og = _parse_og(resp.text)
-    except Exception:
+    except Exception:  # noqa: BLE001 --- fail-open by design
         return None
 
     title = og.get("og:title") or og.get("twitter:title")
@@ -204,7 +204,7 @@ def external_embed(session: dict, url: str) -> dict | None:
     if img_url:
         try:
             img = httpx.get(img_url, follow_redirects=True, timeout=TIMEOUT)
-        except Exception:
+        except Exception:  # noqa: BLE001 --- fail-open by design
             img = None
         if img is not None and img.status_code == 200:
             data = img.content
@@ -237,16 +237,14 @@ def recent_duplicate(session: dict, text: str) -> str | None:
         for item in resp.json().get("records", []):
             value = item.get("value") or {}
             try:
-                when = dt.datetime.fromisoformat(
-                    value.get("createdAt", "").replace("Z", "+00:00")
-                )
+                when = dt.datetime.fromisoformat(value.get("createdAt", ""))
             except (ValueError, TypeError):
                 continue
             if when < cutoff:
                 continue
             if re.sub(r"\s+", " ", (value.get("text") or "").strip()) == norm:
                 return item.get("uri")
-    except Exception:
+    except Exception:  # noqa: BLE001 --- fail-open by design
         return None
     return None
 

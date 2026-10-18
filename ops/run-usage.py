@@ -40,7 +40,7 @@ import sys
 import urllib.parse
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
@@ -78,7 +78,7 @@ def encode_grok_worktree(worktree: Path) -> str:
 
 
 def in_window(mtime: float, since: datetime, until: datetime) -> bool:
-    ts = datetime.fromtimestamp(mtime, tz=timezone.utc)
+    ts = datetime.fromtimestamp(mtime, tz=UTC)
     return since <= ts <= until
 
 
@@ -313,7 +313,7 @@ def print_weekly(ledger_path: Path) -> int:
         print(f"usage: no ledger at {ledger_path}")
         return 0
 
-    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+    cutoff = datetime.now(UTC) - timedelta(days=7)
     totals: dict[str, Counter] = {}
     runs: Counter = Counter()
 
@@ -379,8 +379,8 @@ def main() -> int:
     since = args.since
     if since.tzinfo is None:
         since = since.astimezone()
-    since = since.astimezone(timezone.utc)
-    until = until.astimezone(timezone.utc)
+    since = since.astimezone(UTC)
+    until = until.astimezone(UTC)
 
     if args.profile == "claude-sub":
         usage = collect_claude_usage(args.worktree, since, until)
@@ -396,7 +396,7 @@ def main() -> int:
         line, record = report_grok(usage, args.label)
 
     print(line)
-    record["timestamp"] = datetime.now(timezone.utc).isoformat()
+    record["timestamp"] = datetime.now(UTC).isoformat()
     record["worktree"] = str(args.worktree)
     append_ledger(ledger_path, record)
     return 0

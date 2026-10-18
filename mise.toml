@@ -17,4 +17,4 @@ run = [
 
 [tasks.typecheck]
 description = "ty over the ops scripts and tests, with the union of their inline deps"
-run = "uvx --with pyyaml --with types-PyYAML --with httpx --with pillow --with boto3 ty check ops tests"
+run = "uvx --with pyyaml --with types-PyYAML --with httpx --with pillow --with boto3 --with typer --with replicate ty check ops tests"

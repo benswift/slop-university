@@ -301,8 +301,9 @@ def find_understaffed_school(schools: dict, roster: list[dict]) -> dict | None:
     """
     staff: dict[str, int] = {}
     for person in roster:
-        if person.get("title") != "Doctoral Candidate":
-            staff[person.get("school")] = staff.get(person.get("school"), 0) + 1
+        school = person.get("school")
+        if school and person.get("title") != "Doctoral Candidate":
+            staff[school] = staff.get(school, 0) + 1
     for school in schools.get("schools") or []:
         if staff.get(school.get("name"), 0) < SCHOOL_MIN_RESEARCHERS:
             return school

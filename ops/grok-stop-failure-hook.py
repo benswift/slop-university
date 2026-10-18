@@ -58,7 +58,7 @@ def main() -> int:
     event = os.environ.get("GROK_HOOK_EVENT", "unknown")
     try:
         payload = json.load(sys.stdin)
-    except Exception:
+    except json.JSONDecodeError:
         payload = {}
 
     record = {
@@ -88,6 +88,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except Exception as exc:  # never fail the run we are only observing
+    except Exception as exc:  # noqa: BLE001 --- never fail the run we are only observing
         print(f"slopu stop-failure hook: {exc}", file=sys.stderr)
         sys.exit(0)

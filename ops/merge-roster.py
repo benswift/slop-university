@@ -77,7 +77,7 @@ def main() -> int:
             current.write_text(ours.rstrip("\n") + "\n" + "".join(new))
             return 0
     return subprocess.run(
-        ["git", "merge-file", str(current), str(base), str(incoming)]
+        ["git", "merge-file", str(current), str(base), str(incoming)], check=False
     ).returncode
 
 
