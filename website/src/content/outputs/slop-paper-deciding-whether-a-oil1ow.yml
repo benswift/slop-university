@@ -1,0 +1,37 @@
+title: Other (Please Specify) Is PSPACE-Complete
+subtitle: Deciding Whether a Conditional Question on an Online Form Can Ever Be Shown
+authors:
+  - Halvard Nnamani
+preset: paper
+school: School of Emergent Priorities
+date: 2026-10-20
+publishedAt: "2026-10-20T10:01:47+11:00"
+doi: 10.5555/slop.oil1ow
+summary: >-
+  A paper from the School of Emergent Priorities classifies the complexity of
+  deciding whether a conditional question on an online form can ever be
+  displayed, from linear time for forms whose conditions are pure conjunctions
+  or disjunctions, through NP-completeness once they mix, to PSPACE-completeness
+  once a free-text box carries a pattern condition and undecidability once
+  calculated items multiply answers or count across a repeat group. Applied to
+  296 forms from thirty-eight community organisations, it places three in four
+  in the linear-time fragments and finds 24 questions no respondent can be
+  shown, eleven of them behind an "Other (please specify)" box whose own
+  validation rule forbids what the follow-up requires.
+topic: >-
+  deciding whether a conditional question on an online form can ever be shown:
+  the complexity of skip logic, from linear time to undecidable, and the
+  free-text Other (please specify) box whose pattern rule makes it
+  PSPACE-complete
+pages: 7
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.fr8eys
+  - 10.5555/slop.no6bix
+  - 10.5555/slop.q7mzab
