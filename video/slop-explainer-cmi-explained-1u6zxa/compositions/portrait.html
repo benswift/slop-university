@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>CMI, Explained (portrait)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; }
+      /* a statement's gold phrase on a line of its own, so a wrap can't strand it */
+      .statement-text .gold::before { content: "\A"; white-space: pre; }
+      /* Beng's quote in four phrases: the second sentence runs over two lines and would strand its last words */
+      .quote-word:nth-child(8)::after, .quote-word:nth-child(13)::after, .quote-word:nth-child(20)::after { content: "\A"; white-space: pre; }
+      /* the finding's last words after its gold phrase: balance can't even out the lines after the forced break,
+         so "tracked." would sit alone (the first statement's gold ends before its "?", so only the second) */
+      .statement ~ .statement .gold::after { content: "\A"; white-space: pre; }
+      /* at 46 px the first sentence (983 px) overruns the 868 px column */
+      #stage[data-aspect="portrait"] .quote-text { font-size: 40px; }
+      /* Beng sits in the left fifth of his hero: the quote's centre crop would keep only the panel */
+      .layer:has(> .quote-scrim) > img[src$="people/casimir-beng.avif"] { object-position: 9% 50%; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-cmi-explained-1u6zxa.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="portrait" data-composition-id="slop-explainer-cmi-explained-1u6zxa"
+         data-start="0" data-duration="97.64" data-width="1080" data-height="1920" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="97.64" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="97.64" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "fifty-six" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-⁠$2")));
+        window.__timelines["slop-explainer-cmi-explained-1u6zxa"] = tl;
+      });
+    </script>
+  </body>
+</html>
