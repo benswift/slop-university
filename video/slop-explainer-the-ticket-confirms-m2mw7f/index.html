@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>The Ticket Confirms What the Marshal Already Called, Explained (landscape)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1920px; height: 1080px; }
+      /* the paper's title is 2453 px at 104 px, over the 1700 px title block: one line at 70 px (~1650 px) */
+      .video-hero-title { font-size: 70px; }
+      /* her closing words in gold start their own line instead of splitting across two */
+      .layer:has(> img[src$="people/ronja-oyelaran.avif"]) + .quote .quote-word:not(.gold) + .quote-word.gold::before { content: "\A"; white-space: pre; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-the-ticket-confirms-m2mw7f.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="landscape" data-composition-id="slop-explainer-the-ticket-confirms-m2mw7f"
+         data-start="0" data-duration="90.80" data-width="1920" data-height="1080" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="90.80" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="90.80" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "twenty-two" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        // and keeps a quote's "re-entry" and "boarding-order" whole
+        document.querySelectorAll(".quote-word").forEach((w) => (w.textContent = w.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        // the seven categories break only between categories, three lines at 49 px
+        const cats = [...document.querySelectorAll(".quote-text")].find((q) => q.textContent.startsWith("arrival order"));
+        cats.style.fontSize = "49px";
+        cats.querySelectorAll(".quote-word:not(:last-child)").forEach((w) => {
+          if (!/,\s$/.test(w.textContent)) w.textContent = w.textContent.replace(/\s$/, "\u00a0");
+        });
+        window.__timelines["slop-explainer-the-ticket-confirms-m2mw7f"] = tl;
+      });
+    </script>
+  </body>
+</html>
