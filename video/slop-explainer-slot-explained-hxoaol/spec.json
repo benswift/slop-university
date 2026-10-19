@@ -1,0 +1,173 @@
+{
+ "kind": "explainer",
+ "title": "SLOT, Explained",
+ "subtitle": "Casimir Beng and Osei Vandermeer on a car-park bonus that pays on how fast a disputed vacancy call is closed",
+ "summary": "A research explainer from the School of Continuous Improvement on Casimir Beng and Osei Vandermeer's SLOT poster, an eighteen-week sensor deployment across ten car parks. It follows one disputed vacancy call from the bay's sensor to the duty officer's queue, then sets the fall in closure time once a bonus began paying on speed beside the accuracy of the calls themselves. Both authors describe the work in their own words.",
+ "topic": "A research explainer of the SLOT poster, on how fast a car park's disputed vacancy calls were closed once the operator's bonus paid on closure speed rather than on whether the bay was actually free",
+ "authors": [
+  "Casimir Beng",
+  "Osei Vandermeer"
+ ],
+ "school": "School of Continuous Improvement",
+ "beats": [
+  {
+   "type": "hero",
+   "line": 0,
+   "image": {
+    "output": "slop-poster-the-car-park-q5teg3"
+   },
+   "title": "SLOT",
+   "tagline": "A Sensor-Logged Occupancy Tracker for a Bonus-Linked Car-Park Vacancy Feed",
+   "byline": "Casimir Beng and Osei Vandermeer, School of Continuous Improvement"
+  },
+  {
+   "type": "statement",
+   "line": 1,
+   "at": "poster",
+   "kicker": "The question",
+   "text": "What happens when the bonus is tied to how fast disputes are closed?",
+   "highlight": "how fast disputes are closed"
+  },
+  {
+   "type": "people",
+   "line": 2,
+   "people": [
+    "casimir-beng"
+   ]
+  },
+  {
+   "type": "figure",
+   "line": 2,
+   "from": "Each",
+   "image": {
+    "file": "assets/car-park.jpg"
+   },
+   "focus": [
+    {
+     "at": "puck",
+     "box": [
+      0.4,
+      0.22,
+      0.44,
+      0.46
+     ]
+    }
+   ]
+  },
+  {
+   "type": "cards",
+   "line": 3,
+   "items": [
+    {
+     "title": "The call is disputed"
+    },
+    {
+     "title": "A flag goes into a queue",
+     "at": "flag"
+    },
+    {
+     "title": "A duty officer confirms or denies",
+     "at": "duty"
+    },
+    {
+     "title": "The flag is closed, to the second",
+     "at": [
+      3,
+      "flag",
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "line": 4,
+   "image": {
+    "headshot": "osei-vandermeer"
+   },
+   "label": "Dr Osei Vandermeer, Research Fellow"
+  },
+  {
+   "type": "statement",
+   "line": 4,
+   "from": "Nothing",
+   "kicker": "The contract",
+   "text": "Paid on how fast a flag closes. Nothing on whether the bay was free.",
+   "highlight": "Nothing on whether the bay was free."
+  },
+  {
+   "type": "stats",
+   "line": 5,
+   "items": [
+    {
+     "value": 40,
+     "label": "median minutes to close, before the bonus"
+    },
+    {
+     "value": 7.5,
+     "format": "decimal",
+     "label": "minutes, once the bonus was paying",
+     "at": "Seven"
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "line": 6,
+   "image": {
+    "page": [
+     "slop-poster-the-car-park-q5teg3",
+     1
+    ]
+   },
+   "crop": [
+    0.364,
+    0.336,
+    0.288,
+    0.162
+   ],
+   "label": "Median closure time by car park, before and after the bonus"
+  },
+  {
+   "type": "statement",
+   "line": 6,
+   "from": "But",
+   "kicker": "The finding",
+   "text": "The accuracy of the calls didn't change.",
+   "highlight": "didn't change."
+  },
+  {
+   "type": "quote",
+   "line": 7,
+   "spoken": true,
+   "image": {
+    "person": "osei-vandermeer"
+   },
+   "text": "The dashboard doesn't need to know why the number moved, only that it did.",
+   "highlight": "only that it did.",
+   "attribution": "Dr Osei Vandermeer"
+  },
+  {
+   "type": "statement",
+   "line": 8,
+   "kicker": "Next",
+   "text": "A follow-on trial ties part of the bonus to a blinded spot-check of closed calls.",
+   "highlight": "a blinded spot-check of closed calls"
+  },
+  {
+   "type": "quote",
+   "line": 9,
+   "spoken": true,
+   "image": {
+    "person": "casimir-beng"
+   },
+   "text": "A bonus finds whatever it's pointed at. Ours was pointed at the clock.",
+   "highlight": "pointed at the clock.",
+   "attribution": "Associate Professor Casimir Beng"
+  },
+  {
+   "type": "close"
+  }
+ ],
+ "output": "slop-poster-the-car-park-q5teg3"
+}
