@@ -1,0 +1,161 @@
+{
+  "kind": "explainer",
+  "title": "Agreed Until It Mattered, Explained",
+  "subtitle": "Casimir Beng, Osei Vandermeer and Renke Sabel on a cheap sensor rig, a bowling alley's own scoring system, and whose calls the league's rules committee believes",
+  "summary": "A research explainer from the School of Continuous Improvement on Casimir Beng, Osei Vandermeer and Renke Sabel's season-long audit of a cheap sensor rig against a ten-pin bowling alley's own scoring and foul-detection system. It follows the season's disputed frames from the two systems' calls to an independent slow-motion video review, and on to the league's rules committee. Beng, Sabel and Vandermeer describe the work in their own words.",
+  "topic": "A research explainer of the paper auditing a cheap sensor comparator rig against a ten-pin bowling alley's proprietary lane-scoring and foul-detection system across a league season, and whose calls on disputed frames the league's rules committee upholds",
+  "authors": [
+    "Casimir Beng",
+    "Osei Vandermeer",
+    "Renke Sabel"
+  ],
+  "school": "School of Continuous Improvement",
+  "output": "slop-paper-building-a-cheap-m0pulh",
+  "beats": [
+    {
+      "type": "hero",
+      "line": 0,
+      "image": {
+        "output": "slop-paper-building-a-cheap-m0pulh"
+      },
+      "title": "Agreed Until It Mattered",
+      "tagline": "A Season-Long Comparator Audit of a Cheap Sensor Rig at a Ten-Pin Bowling Alley",
+      "byline": "Casimir Beng, Osei Vandermeer and Renke Sabel, School of Continuous Improvement"
+    },
+    {
+      "type": "statement",
+      "line": 1,
+      "kicker": "The question",
+      "text": "When the two disagree, whose call does the evidence favour?",
+      "highlight": "whose call"
+    },
+    {
+      "type": "people",
+      "line": 2,
+      "people": [
+        "casimir-beng"
+      ]
+    },
+    {
+      "type": "stat",
+      "line": 2,
+      "from": "Its",
+      "value": 46,
+      "format": "money",
+      "label": "in parts, per lane"
+    },
+    {
+      "type": "stats",
+      "line": 3,
+      "items": [
+        {
+          "value": 6,
+          "label": "lanes"
+        },
+        {
+          "value": 32,
+          "label": "weeks of league play",
+          "at": "thirty-two-week"
+        },
+        {
+          "value": 38502,
+          "label": "frames, each called by both systems",
+          "at": "thirty-eight"
+        }
+      ]
+    },
+    {
+      "type": "figure",
+      "line": 4,
+      "image": {
+        "page": [
+          "slop-paper-building-a-cheap-m0pulh",
+          3
+        ]
+      },
+      "crop": [
+        0.5272,
+        0.6558,
+        0.3411,
+        0.1078
+      ],
+      "label": "Figure 1: Agreement between the rig and the alley’s system"
+    },
+    {
+      "type": "people",
+      "line": 5,
+      "people": [
+        "renke-sabel"
+      ]
+    },
+    {
+      "type": "figure",
+      "line": 6,
+      "image": {
+        "page": [
+          "slop-paper-building-a-cheap-m0pulh",
+          4
+        ]
+      },
+      "crop": [
+        0.1512,
+        0.2929,
+        0.359,
+        0.146
+      ],
+      "label": "Figure 3: Disputed frames, by video review and committee ruling",
+      "focus": [
+        {
+          "at": "matched",
+          "box": [
+            0.191,
+            0.3541,
+            0.1616,
+            0.0657
+          ]
+        },
+        {
+          "at": [
+            6,
+            "flip"
+          ],
+          "box": [
+            0.1645,
+            0.2983,
+            0.3324,
+            0.1352
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "line": 7,
+      "from": "Ninety-one",
+      "value": 91,
+      "suffix": "%",
+      "label": "of the committee’s rulings upheld the alley’s original call"
+    },
+    {
+      "type": "statement",
+      "line": 8,
+      "kicker": "The finding",
+      "text": "The process tracks which system was already installed, not which was more often right.",
+      "highlight": "already installed"
+    },
+    {
+      "type": "quote",
+      "line": 9,
+      "spoken": true,
+      "image": {
+        "person": "osei-vandermeer"
+      },
+      "text": "A comparator only tells you two systems disagree. It doesn’t tell a committee which one to believe, and ours evidently didn’t change that.",
+      "highlight": "which one to believe,",
+      "attribution": "Dr Osei Vandermeer"
+    },
+    {
+      "type": "close"
+    }
+  ]
+}
