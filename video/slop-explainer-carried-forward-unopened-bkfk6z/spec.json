@@ -1,0 +1,128 @@
+{
+  "kind": "explainer",
+  "title": "Carried Forward, Unopened, Explained",
+  "subtitle": "Hedvig Anyanwu on what an office fits into its crates when it moves, and what the crates nobody opens carry to the next move",
+  "summary": "A research explainer from the School of Emergent Priorities on Hedvig Anyanwu's doctoral thesis about the crates an office packs when it moves. It follows a public-sector agency's move to a new building, where fifty-seven crates packed for its previous relocation went across with the rest, still unopened, and most of them on through its next move fourteen months later. Anyanwu describes the packing-day inventory and the carried-forward crates she opened at the end of fieldwork herself, the film sets out the packing-day protocol her School has adopted for its own priority-setting, and a sentence from her thesis, in her own voice, closes it.",
+  "topic": "A research explainer of the doctoral thesis following crates through four office restacks at three organisations, from a packing-day inventory of 21,946 items to a public-sector agency's second restack, at which 118 crates moved unopened, 55 of them packed for its relocation in 2017, finding that workers gave up items in current use to close a lid while keeping material from ended programs, and that discontinued material made up 36.2% of the carried-forward crates opened at the end of fieldwork, nearly three times its share at packing, and closing on the packing-day protocol the School of Emergent Priorities has adopted from 2027",
+  "authors": ["Hedvig Anyanwu"],
+  "school": "School of Emergent Priorities",
+  "output": "slop-thesis-crates-carried-forward-gekpe7",
+  "beats": [
+    {
+      "type": "hero",
+      "line": 0,
+      "image": { "output": "slop-thesis-crates-carried-forward-gekpe7" },
+      "title": "Carried Forward, Unopened",
+      "tagline": "Crate-bounded priority formation in the open-plan office restack",
+      "byline": "Hedvig Anyanwu, School of Emergent Priorities"
+    },
+    {
+      "type": "quote",
+      "line": 1,
+      "spoken": true,
+      "image": { "output": "slop-thesis-crates-carried-forward-gekpe7" },
+      "text": "57 crates had been packed for the 2017 relocation and not opened since, and they went to the new building with the rest.",
+      "highlight": "not opened since,",
+      "attribution": "Carried Forward, Unopened, Chapter 1"
+    },
+    {
+      "type": "statement",
+      "line": 2,
+      "kicker": "The question",
+      "text": "Where does a workplace form its priorities? In its plans, or in its crates?",
+      "highlight": "In its plans, or in its crates?"
+    },
+    {
+      "type": "people",
+      "line": 3,
+      "people": ["hedvig-anyanwu"]
+    },
+    {
+      "type": "stat",
+      "line": 3,
+      "from": "logged",
+      "value": 21946,
+      "label": "items, logged as they went into 603 crates"
+    },
+    {
+      "type": "cards",
+      "line": 4,
+      "items": [
+        { "title": "Taken out to close the lid", "text": "What people were using" },
+        {
+          "title": "Held on to",
+          "text": "Material from programs that had already ended",
+          "at": "held"
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "line": 5,
+      "items": [
+        { "value": 14, "label": "months later, the agency moved again" },
+        {
+          "value": 118,
+          "label": "crates went across unopened, 55 of them from 2017",
+          "at": "A"
+        }
+      ]
+    },
+    {
+      "type": "figure",
+      "line": 6,
+      "image": { "output": "slop-thesis-crates-carried-forward-gekpe7" },
+      "focus": [{ "at": "open", "box": [0.2, 0.47, 0.34, 0.48] }]
+    },
+    {
+      "type": "stat",
+      "line": 7,
+      "value": 36.2,
+      "format": "decimal",
+      "suffix": "%",
+      "label": "came from programs and projects formally ended"
+    },
+    {
+      "type": "figure",
+      "line": 7,
+      "from": "Nearly",
+      "image": { "page": ["slop-thesis-crates-carried-forward-gekpe7", 74] },
+      "crop": [0.105, 0.5125, 0.765, 0.2225],
+      "label": "Table 6.4: What the carried-forward crates held",
+      "focus": [{ "at": "Work", "box": [0.1377, 0.527, 0.5247, 0.14] }]
+    },
+    {
+      "type": "statement",
+      "line": 8,
+      "kicker": "From 2027",
+      "text": "The School of Emergent Priorities sets its own priorities by the crate.",
+      "highlight": "sets its own priorities by the crate."
+    },
+    {
+      "type": "cards",
+      "line": 8,
+      "from": "Each",
+      "items": [
+        {
+          "title": "Two crates for each unit",
+          "text": "Packed with its priorities on a fixed packing day"
+        },
+        {
+          "title": "Not opened by the next packing day",
+          "text": "Carried forward as a standing priority",
+          "at": "A"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "line": 9,
+      "spoken": true,
+      "image": { "person": "hedvig-anyanwu" },
+      "text": "What fits under the lid is what the organisation goes on doing, whatever its register of priorities records.",
+      "highlight": "whatever its register of priorities records.",
+      "attribution": "Hedvig Anyanwu"
+    },
+    { "type": "close" }
+  ]
+}
