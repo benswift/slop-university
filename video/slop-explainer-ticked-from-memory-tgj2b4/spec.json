@@ -1,0 +1,103 @@
+{
+  "kind": "explainer",
+  "title": "Ticked From Memory, Explained",
+  "subtitle": "Runa Adegoke, Iben Chikere and Casimir Beng on which car-share checklist items renters check, and which they tick from memory",
+  "summary": "A research explainer from the School of Emergent Priorities on Runa Adegoke, Iben Chikere and Casimir Beng's taxonomy of how closely car-share renters verify a return checklist. It follows the toll-transponder field from the checklist app's own log into the last five minutes before the late-return fee, where answers given from memory peak while the scheme's completion rate holds steady. Each of the three authors carries part of the account in their own voice.",
+  "topic": "A research explainer of the paper cataloguing which items on a car-share return checklist renters check against the vehicle and which they tick from memory, as the late-return fee's deadline approaches and a compulsory photo step is added to the toll-transponder field",
+  "authors": ["Runa Adegoke", "Iben Chikere", "Casimir Beng"],
+  "school": "School of Emergent Priorities",
+  "output": "slop-paper-cataloguing-which-items-qyze4p",
+  "beats": [
+    {
+      "type": "hero",
+      "line": 0,
+      "image": { "output": "slop-paper-cataloguing-which-items-qyze4p" },
+      "title": "Ticked From Memory",
+      "tagline": "A Taxonomy of Verification Depth on a Car-Share Return Checklist",
+      "byline": "Runa Adegoke, Iben Chikere and Casimir Beng, Schools of Emergent Priorities and Continuous Improvement"
+    },
+    {
+      "type": "statement",
+      "line": 0,
+      "from": "paper",
+      "at": "asks",
+      "kicker": "The question",
+      "text": "Which items get a real check, and which are ticked from memory?",
+      "highlight": "ticked from memory"
+    },
+    {
+      "type": "people",
+      "line": 1,
+      "people": ["runa-adegoke"]
+    },
+    {
+      "type": "stat",
+      "line": 2,
+      "value": 1842,
+      "label": "returns, logged over nine weeks"
+    },
+    {
+      "type": "cards",
+      "line": 2,
+      "from": "measured",
+      "items": [
+        { "title": "Measured check", "text": "against a visible gauge or a photo" },
+        { "title": "Visual check", "text": "a glance, with no instrument", "at": "visual" },
+        { "title": "Memory tick", "text": "no fresh look at the car", "at": "memory" },
+        { "title": "Skip", "text": "left at its pre-filled default", "at": "skip" }
+      ]
+    },
+    {
+      "type": "stats",
+      "line": 3,
+      "items": [
+        { "value": 61, "suffix": "%", "label": "fuel, checked against the gauge" },
+        { "value": 71, "suffix": "%", "label": "toll transponder, ticked from memory", "at": "Seventy-one" }
+      ]
+    },
+    {
+      "type": "people",
+      "line": 4,
+      "people": ["iben-chikere"]
+    },
+    {
+      "type": "figure",
+      "line": 5,
+      "image": { "page": ["slop-paper-cataloguing-which-items-qyze4p", 3] },
+      "crop": [0.53, 0.662, 0.322, 0.119],
+      "label": "Figure 2: Memory-tick rate by time to the late-return fee"
+    },
+    {
+      "type": "statement",
+      "line": 5,
+      "from": "Through",
+      "kicker": "The scheme's own record",
+      "text": "The completion rate held above 97% throughout.",
+      "highlight": "above 97%"
+    },
+    {
+      "type": "people",
+      "line": 6,
+      "people": ["casimir-beng"]
+    },
+    {
+      "type": "figure",
+      "line": 7,
+      "image": { "page": ["slop-paper-cataloguing-which-items-qyze4p", 4] },
+      "crop": [0.155, 0.19, 0.343, 0.198],
+      "label": "Figure 3: The transponder field, before and after the photo step"
+    },
+    {
+      "type": "quote",
+      "line": 8,
+      "spoken": true,
+      "image": { "person": "casimir-beng" },
+      "text": "The step still gets performed. What changes is whether anyone’s looking at what the photo shows.",
+      "highlight": "what the photo shows.",
+      "attribution": "Associate Professor Casimir Beng"
+    },
+    {
+      "type": "close"
+    }
+  ]
+}

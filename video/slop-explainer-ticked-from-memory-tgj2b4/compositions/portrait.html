@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Ticked From Memory, Explained (portrait)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; }
+      /* Beng sits in the left fifth of his hero: the quote's centre crop would keep only the panel */
+      .layer:has(> .quote-scrim) > img { object-position: 9% 50%; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-ticked-from-memory-tgj2b4.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="portrait" data-composition-id="slop-explainer-ticked-from-memory-tgj2b4"
+         data-start="0" data-duration="94.35" data-width="1080" data-height="1920" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="94.35" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="94.35" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "seventy-four" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-⁠$2")));
+        window.__timelines["slop-explainer-ticked-from-memory-tgj2b4"] = tl;
+      });
+    </script>
+  </body>
+</html>
