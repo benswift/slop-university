@@ -1,0 +1,146 @@
+{
+ "kind": "explainer",
+ "title": "The Queue as Leading Indicator, Explained",
+ "subtitle": "Casimir Beng, Osei Vandermeer and Anneke Tolan on the coffee-cart queue that ran two quarters ahead of the University's ranking",
+ "summary": "A research explainer from the School of Continuous Improvement on Casimir Beng, Osei Vandermeer and Anneke Tolan's two-year study of campus coffee-cart queues and the University's international ranking. It follows the depth-sensor readings from nine carts to the March 2024 queue peak that preceded the September 2024 ranking rise, then sets out the closed-loop pilot the team proposes. Vandermeer, Tolan and Beng describe the work in their own words.",
+ "topic": "A research explainer of the poster pairing de-identified coffee-cart queue-length telemetry with the University's international ranking position, in which the queue-length index led ranking movements by two quarters (peak cross-correlation r = 0.78), and of the closed-loop pilot it proposes to steer a fixed share of discretionary grant strategy from the live index",
+ "authors": [
+  "Casimir Beng",
+  "Osei Vandermeer",
+  "Anneke Tolan"
+ ],
+ "school": "School of Continuous Improvement",
+ "output": "slop-poster-coffee-cart-queue-lengths-sn9kzr",
+ "beats": [
+  {
+   "type": "hero",
+   "line": 0,
+   "image": {
+    "output": "slop-poster-coffee-cart-queue-lengths-sn9kzr"
+   },
+   "title": "The Queue as Leading Indicator",
+   "tagline": "Coffee-Cart Waiting Times and Global-Ranking Trajectory",
+   "byline": "Casimir Beng, Osei Vandermeer and Anneke Tolan, Schools of Continuous Improvement and Emergent Priorities"
+  },
+  {
+   "type": "figure",
+   "line": 1,
+   "at": "research",
+   "image": {
+    "page": [
+     "slop-poster-coffee-cart-queue-lengths-sn9kzr",
+     1
+    ]
+   }
+  },
+  {
+   "type": "statement",
+   "line": 1,
+   "from": "Does",
+   "kicker": "The question",
+   "text": "Does the coffee queue know first?",
+   "highlight": "know first"
+  },
+  {
+   "type": "stats",
+   "line": 2,
+   "items": [
+    {
+     "value": 9,
+     "label": "coffee carts"
+    },
+    {
+     "value": 5,
+     "label": "minutes between readings",
+     "at": "five"
+    },
+    {
+     "value": 24,
+     "label": "months, 2023 to 2025",
+     "at": "twenty-four"
+    }
+   ]
+  },
+  {
+   "type": "people",
+   "line": 3,
+   "people": [
+    "osei-vandermeer"
+   ]
+  },
+  {
+   "type": "figure",
+   "line": 4,
+   "image": {
+    "file": "assets/chart.png"
+   },
+   "label": "Queue-length index (gold) and ranking index (ink)",
+   "focus": [
+    {
+     "at": "peaked",
+     "box": [
+      0.2636,
+      0.3463,
+      0.463,
+      0.463
+     ]
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "line": 5,
+   "value": 78,
+   "prefix": "0.",
+   "count": false,
+   "label": "peak cross-correlation, at a two-quarter lag"
+  },
+  {
+   "type": "quote",
+   "line": 5,
+   "from": "lead",
+   "spoken": true,
+   "image": {
+    "output": "slop-poster-coffee-cart-queue-lengths-sn9kzr"
+   },
+   "text": "The lead held for both morning and afternoon queues, strongest at the carts nearest the senior common room.",
+   "highlight": "senior common room.",
+   "attribution": "Beng, Vandermeer and Tolan, The Queue as Leading Indicator"
+  },
+  {
+   "type": "people",
+   "line": 6,
+   "people": [
+    "anneke-tolan"
+   ]
+  },
+  {
+   "type": "statement",
+   "line": 6,
+   "from": "It's",
+   "text": "Correlational, not causal, but stable across the trial.",
+   "highlight": "stable across the trial"
+  },
+  {
+   "type": "statement",
+   "line": 7,
+   "kicker": "Next: a closed-loop pilot",
+   "text": "A fixed share of discretionary grant strategy, steered from the live queue index, with no manual override.",
+   "highlight": "with no manual override"
+  },
+  {
+   "type": "quote",
+   "line": 8,
+   "spoken": true,
+   "image": {
+    "person": "casimir-beng"
+   },
+   "text": "Queue length led every ranking movement we observed, by a stable two quarters.",
+   "highlight": "by a stable two quarters.",
+   "attribution": "Associate Professor Casimir Beng"
+  },
+  {
+   "type": "close"
+  }
+ ]
+}
