@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Credited, Not Flexible, Explained (portrait)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; }
+      /* a statement's gold phrase on a line of its own, so a wrap can't strand it */
+      .statement-text .gold::before { content: "\A"; white-space: pre; }
+      /* the attribution wraps; balanced, it doesn't leave "Priorities" alone */
+      .quote-by { text-wrap: balance; }
+      /* the quote's gold clause on a line of its own, at a size that holds it to one line
+         (873 px at the kit's 46 px, over the 868 px column; 835 px at 44 px) */
+      #stage[data-aspect="portrait"] .quote-text { font-size: 44px; }
+      .quote-word:not(.gold) + .quote-word.gold::before { content: "\A"; white-space: pre; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-credited-not-flexible-hanzym.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="portrait" data-composition-id="slop-explainer-credited-not-flexible-hanzym"
+         data-start="0" data-duration="98.52" data-width="1080" data-height="1920" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="98.52" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="98.52" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "thirty-six" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        window.__timelines["slop-explainer-credited-not-flexible-hanzym"] = tl;
+      });
+    </script>
+  </body>
+</html>
