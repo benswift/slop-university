@@ -1,0 +1,147 @@
+{
+ "kind": "explainer",
+ "title": "The Schedule Waters Regardless, Explained",
+ "subtitle": "Casimir Beng, Mirela Hanke and Joost Nwosu on testing the central quad’s occupancy-aware sprinklers against a term of pedestrian counts",
+ "summary": "A research explainer from the School of Continuous Improvement on Casimir Beng, Mirela Hanke and Joost Nwosu’s validation study of the central quad’s occupancy-aware irrigation controller. It follows the lawn’s busiest zone through seven weeks of independent pedestrian counts and a fortnight with the sensor unplugged, and sets the controller’s watering beside the crowd it was installed to notice. The three authors describe the work in their own words.",
+ "topic": "A research explainer of the validation study testing whether the central quad’s occupancy-aware irrigation controller responds to independently counted foot traffic or repeats its fixed timetable, from seven weeks of pedestrian counts across four irrigation zones and a two-week sensor-disconnection ablation, which found no measurable relationship between occupancy and suppression and no change in watering with the sensor removed",
+ "authors": [
+  "Casimir Beng",
+  "Mirela Hanke",
+  "Joost Nwosu"
+ ],
+ "school": "School of Continuous Improvement",
+ "output": "slop-paper-validating-whether-the-wg3zm4",
+ "beats": [
+  {
+   "type": "hero",
+   "line": 0,
+   "image": {
+    "output": "slop-paper-validating-whether-the-wg3zm4"
+   },
+   "title": "The Schedule Waters Regardless",
+   "tagline": "A Validation Study of an Occupancy-Aware Quad Irrigation Controller",
+   "byline": "Casimir Beng, Mirela Hanke and Joost Nwosu, School of Continuous Improvement"
+  },
+  {
+   "type": "statement",
+   "line": 1,
+   "kicker": "The question",
+   "text": "Does it respond to the crowd, or just repeat its timetable?",
+   "highlight": "just repeat its timetable"
+  },
+  {
+   "type": "people",
+   "line": 2,
+   "people": [
+    "joost-nwosu"
+   ]
+  },
+  {
+   "type": "cards",
+   "line": 3,
+   "items": [
+    {
+     "title": "Count the crowd",
+     "text": "The mean pedestrian count over the thirty minutes before each watering"
+    },
+    {
+     "title": "Measure what’s held back",
+     "text": "The share of each scheduled watering the controller withheld",
+     "at": "measured"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "line": 4,
+   "value": 4,
+   "prefix": "0.0",
+   "label": "correlation with the crowd, across 84 sessions"
+  },
+  {
+   "type": "figure",
+   "line": 4,
+   "from": "Turf",
+   "image": {
+    "page": [
+     "slop-paper-validating-whether-the-wg3zm4",
+     3
+    ]
+   },
+   "crop": [
+    0.528,
+    0.193,
+    0.358,
+    0.165
+   ],
+   "label": "Figure 1: Occupancy against watering held back"
+  },
+  {
+   "type": "quote",
+   "line": 5,
+   "image": {
+    "output": "slop-paper-validating-whether-the-wg3zm4"
+   },
+   "text": "In week eight, facilities staff physically disconnected the occupancy sensor input under a documented maintenance ticket, running the controller on its underlying fixed timetable for two weeks",
+   "highlight": "physically disconnected",
+   "attribution": "Beng, Hanke and Nwosu, The Schedule Waters Regardless"
+  },
+  {
+   "type": "figure",
+   "line": 6,
+   "image": {
+    "page": [
+     "slop-paper-validating-whether-the-wg3zm4",
+     3
+    ]
+   },
+   "crop": [
+    0.5416,
+    0.674,
+    0.3104,
+    0.113
+   ],
+   "label": "Figure 2: Litres per session, gold with the sensor, black without"
+  },
+  {
+   "type": "people",
+   "line": 7,
+   "people": [
+    "mirela-hanke"
+   ]
+  },
+  {
+   "type": "quote",
+   "line": 8,
+   "spoken": true,
+   "image": {
+    "output": "slop-paper-validating-whether-the-wg3zm4"
+   },
+   "text": "The system is, on this evidence, running its original fixed timetable under an occupancy-aware label.",
+   "highlight": "an occupancy-aware label.",
+   "attribution": "Beng, Hanke and Nwosu, The Schedule Waters Regardless"
+  },
+  {
+   "type": "statement",
+   "line": 8,
+   "from": "A",
+   "kicker": "Why it matters",
+   "text": "A smart label is often a promise, not a demonstrated property.",
+   "highlight": "not a demonstrated property"
+  },
+  {
+   "type": "quote",
+   "line": 9,
+   "spoken": true,
+   "image": {
+    "person": "casimir-beng"
+   },
+   "text": "Every occupancy-aware system we operate is going to need this check eventually. We’d rather run it ourselves, on our own lawn, than wait for someone else to ask.",
+   "highlight": "on our own lawn,",
+   "attribution": "Associate Professor Casimir Beng"
+  },
+  {
+   "type": "close"
+  }
+ ]
+}
