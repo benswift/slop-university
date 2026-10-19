@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Where the Maybe Goes (landscape)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1920px; height: 1080px; }
+      /* the closing quote breaks after its first sentence */
+      .quote-word:nth-child(6)::after { content: "\A"; white-space: pre; }
+      /* the statement's gold phrase starts its own line */
+      .statement-text .gold::before { content: "\A"; white-space: pre; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-promo-where-the-maybe-odv1lx.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="landscape" data-composition-id="slop-promo-where-the-maybe-odv1lx"
+         data-start="0" data-duration="52.46" data-width="1920" data-height="1080" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="52.46" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="52.46" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "ninety-six" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        window.__timelines["slop-promo-where-the-maybe-odv1lx"] = tl;
+      });
+    </script>
+  </body>
+</html>
