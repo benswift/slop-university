@@ -1,0 +1,118 @@
+{
+  "kind": "explainer",
+  "title": "Towards Full Assurance, Explained",
+  "subtitle": "Marek Solheim, Torun Ezeigwe and Casimir Beng on what a sporting club's working-with-children-check tier really tracks",
+  "summary": "A research explainer from the School of Emergent Priorities on Marek Solheim, Torun Ezeigwe and Casimir Beng's study of 48 community sporting clubs scored against a five-level working-with-children-check administration maturity model. It follows four clubs' tiers across three audit rounds, sets the tier beside the audit calendar, and shows what a finals-eligibility rule anchored to the top tier does to marginal volunteers. Each of the three authors carries part of the account in their own voice.",
+  "topic": "A research explainer of the poster scoring community sporting clubs' working-with-children-check administration against a five-level maturity model across three audit rounds, which finds the assessed tier tracks the days to the next audit more closely than any record of onboarding practice",
+  "authors": ["Marek Solheim", "Torun Ezeigwe", "Casimir Beng"],
+  "school": "School of Emergent Priorities",
+  "output": "slop-poster-community-sporting-clubs-y8f9jx",
+  "beats": [
+    {
+      "type": "hero",
+      "line": 0,
+      "image": { "output": "slop-poster-community-sporting-clubs-y8f9jx" },
+      "title": "Towards Full Assurance",
+      "tagline": "A Five-Level Maturity Model for Club Working-with-Children-Check Administration",
+      "byline": "Marek Solheim, Torun Ezeigwe and Casimir Beng, Schools of Emergent Priorities and Continuous Improvement"
+    },
+    {
+      "type": "statement",
+      "line": 1,
+      "at": "new",
+      "kicker": "The question",
+      "text": "What is a club’s score really tracking?",
+      "highlight": "really tracking"
+    },
+    {
+      "type": "stats",
+      "line": 2,
+      "items": [
+        { "value": 48, "label": "community sporting clubs" },
+        { "value": 3, "label": "sporting codes", "at": "three" },
+        { "value": 3, "label": "audit rounds in one season", "at": [2, "three", 2] }
+      ]
+    },
+    {
+      "type": "people",
+      "line": 3,
+      "people": ["marek-solheim"]
+    },
+    {
+      "type": "statement",
+      "line": 3,
+      "from": "maturity",
+      "kicker": "Five levels",
+      "text": "Ad Hoc, Logged, Verified, Monitored, Assured",
+      "highlight": "Assured"
+    },
+    {
+      "type": "figure",
+      "line": 4,
+      "image": { "file": "assets/chart.png" },
+      "label": "Four sampled clubs’ assessed tier across three audit rounds"
+    },
+    {
+      "type": "figure",
+      "line": 5,
+      "image": { "file": "assets/inline-1.jpg" },
+      "crop": [0.11, 0, 0.78, 1],
+      "focus": [{ "at": "days", "box": [0.4, 0.081, 0.35, 0.617] }]
+    },
+    {
+      "type": "stat",
+      "line": 5,
+      "from": "point",
+      "value": 71,
+      "prefix": "r = 0.",
+      "count": false,
+      "label": "between a club’s tier and the days left to its next audit"
+    },
+    {
+      "type": "people",
+      "line": 6,
+      "people": ["torun-ezeigwe"]
+    },
+    {
+      "type": "statement",
+      "line": 7,
+      "kicker": "The rule",
+      "text": "Finals eligibility is tied to Level 5.",
+      "highlight": "Level 5"
+    },
+    {
+      "type": "stat",
+      "line": 7,
+      "from": "two",
+      "value": 2.6,
+      "format": "decimal",
+      "suffix": "×",
+      "label": "more likely to drop a marginal volunteer, for clubs below Level 4"
+    },
+    {
+      "type": "people",
+      "line": 8,
+      "people": ["casimir-beng"]
+    },
+    {
+      "type": "statement",
+      "line": 8,
+      "from": "tier",
+      "kicker": "The 12-club holdout",
+      "text": "The tier is set by something about the assessment window itself.",
+      "highlight": "the assessment window itself"
+    },
+    {
+      "type": "quote",
+      "line": 9,
+      "spoken": true,
+      "image": { "person": "marek-solheim" },
+      "text": "A tier that rises before an audit and settles after it is not measuring the club. It is measuring the audit.",
+      "highlight": "measuring the audit.",
+      "attribution": "Dr Marek Solheim"
+    },
+    {
+      "type": "close"
+    }
+  ]
+}

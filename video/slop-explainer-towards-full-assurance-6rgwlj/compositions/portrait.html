@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Towards Full Assurance, Explained (portrait)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1080px; height: 1920px; }
+      /* the closing quote's second sentence starts its own line: break after "club.", its 16th word */
+      .quote-word:nth-child(16)::after { content: "\A"; white-space: pre; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-towards-full-assurance-6rgwlj.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="portrait" data-composition-id="slop-explainer-towards-full-assurance-6rgwlj"
+         data-start="0" data-duration="92.36" data-width="1080" data-height="1920" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="92.36" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="92.36" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a word joiner after each hyphen keeps "working-with-children" on one caption line
+        // (Public Sans has no non-breaking hyphen)
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        window.__timelines["slop-explainer-towards-full-assurance-6rgwlj"] = tl;
+      });
+    </script>
+  </body>
+</html>
