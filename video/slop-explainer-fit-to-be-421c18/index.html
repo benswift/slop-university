@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Fit to Be Seen, Explained (landscape)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <style>
+      html, body { width: 1920px; height: 1080px; }
+      /* quotations wrap in even lines, not a word or two left on the last */
+      .quote-text { text-wrap: balance; }
+      /* the Allowance's clause (the quote over the thesis's hero): a size that holds its
+         first sentence on one landscape line, and its second sentence on two lines of its
+         own, broken after "room" (balance can't: the first sentence's line sets the width) */
+      .layer:has(> img[src$="heroes/slop-thesis-the-tidy-before-ylqvdm.avif"]) + .quote .quote-text { font-size: 50px; }
+      .quote-word:nth-child(9):nth-last-child(14)::after,
+      .quote-word:nth-child(16):nth-last-child(7)::after { content: "\A"; white-space: pre; }
+    </style>
+  </head>
+  <body>
+    <!-- A templated video: its script is video/scripts/slop-explainer-fit-to-be-421c18.md, its picture spec.json on kit/beats.js. -->
+    <div id="stage" class="stage" data-tail="7" data-aspect="landscape" data-composition-id="slop-explainer-fit-to-be-421c18"
+         data-start="0" data-duration="99.33" data-width="1920" data-height="1080" data-fps="50">
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="99.33" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="99.33" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { prepare } from "./kit/beats.js";
+      const build = await prepare();
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        // the quote mark hangs above its rule by design (kit.css), not an overflow
+        document.querySelectorAll(".quote-mark").forEach((m) => m.setAttribute("data-layout-allow-overflow", ""));
+        // a caption breaks at a hyphen ("twenty- / four"); a word joiner after it keeps the number whole
+        document.querySelectorAll(".caption").forEach((c) => (c.textContent = c.textContent.replace(/(\w)-(\w)/g, "$1-\u2060$2")));
+        window.__timelines["slop-explainer-fit-to-be-421c18"] = tl;
+      });
+    </script>
+  </body>
+</html>
