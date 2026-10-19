@@ -1,0 +1,191 @@
+{
+  "kind": "promo",
+  "title": "What We Measure",
+  "subtitle": "Research at Slop University",
+  "summary": "A short film from Slop University sets out the conviction its research begins from: that what the University measures, it comes to understand, and what it understands, it can improve. Three recent studies, of a staff-kitchen urn of ginger tea, a river sampled from a bridge and the fryer oil of four club canteens, show that conviction at work in each of the University's schools. The film closes on the University's research performance since July, from its output per academic to its citations and its funding.",
+  "topic": "a promo of Slop University itself, in the narrator's voice: its conviction that what is measured comes to be understood, three recent studies that measured a staff-kitchen ginger urn, a river from a bridge and four club canteens' fryer oil, and the University's outputs, citations and funding since July",
+  "authors": [],
+  "school": "",
+  "beats": [
+    {
+      "type": "hero",
+      "line": 0,
+      "image": {
+        "file": "assets/campus.avif"
+      },
+      "title": "What We Measure",
+      "tagline": "Research at Slop University"
+    },
+    {
+      "type": "statement",
+      "line": 1,
+      "kicker": "Slop University",
+      "text": "What we measure, we come to understand. And what we understand, we can improve.",
+      "highlight": "we can improve",
+      "at": "we"
+    },
+    {
+      "type": "figure",
+      "line": 2,
+      "from": "Ginger",
+      "image": {
+        "output": "slop-paper-hourly-hplc-sampling-yht13s"
+      },
+      "label": "Kept Warm",
+      "focus": [
+        {
+          "at": "tea",
+          "box": [
+            0.32,
+            0.46,
+            0.45,
+            0.48
+          ]
+        }
+      ]
+    },
+    {
+      "type": "figure",
+      "line": 2,
+      "from": "River",
+      "image": {
+        "output": "slop-poster-incomplete-lateral-mixing-3rv5xc"
+      },
+      "label": "Which River Does the Bridge Sample?",
+      "focus": [
+        {
+          "at": "water",
+          "box": [
+            0.16,
+            0.105,
+            0.4,
+            0.55
+          ]
+        }
+      ]
+    },
+    {
+      "type": "figure",
+      "line": 2,
+      "from": "Fryer",
+      "image": {
+        "output": "slop-poster-biodiesel-transesterified-from-6q2fa8"
+      },
+      "label": "Eighteen Weekends in the Fryer",
+      "focus": [
+        {
+          "at": "four",
+          "box": [
+            0.49,
+            0.25,
+            0.37,
+            0.6
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "line": 3,
+      "items": [
+        {
+          "value": 2413,
+          "label": "research outputs since July"
+        },
+        {
+          "value": 63.5,
+          "format": "decimal",
+          "label": "outputs per academic FTE",
+          "at": "Sixty-three"
+        }
+      ]
+    },
+    {
+      "type": "pages",
+      "line": 4,
+      "outputs": [
+        "slop-paper-case-note-on-8dl65t",
+        "slop-brochure-everything-it-touches-vsap0l",
+        "slop-paper-electrochemical-penfi7",
+        "slop-impact-how-neurology-remembers-jb8ln7",
+        "slop-paper-cobalt-from-commingled-37lebc",
+        "slop-brochure-read-the-pile-m63iud",
+        "slop-strategy-transient-readiness-the-h54lr3",
+        "slop-paper-testing-the-acoustic-hwzsla",
+        "slop-paper-tracing-swimlane-process-ihvfou",
+        "slop-thesis-the-tidy-before-ylqvdm",
+        "slop-brochure-read-the-rest-fvld5o",
+        "slop-paper-the-referral-letter-7oft8z",
+        "slop-paper-stratified-biofilter-ageing-yeg7xf",
+        "slop-impact-the-last-hundred-u2c2bf",
+        "slop-brochure-in-another-hand-5id6px",
+        "slop-paper-wear-trials-in-ht28f2",
+        "slop-paper-explaining-a-joke-bgx87d",
+        "slop-brochure-reading-the-signs-vfq9av",
+        "slop-strategy-adaptive-reuse-as-ut8ax1",
+        "slop-paper-a-close-reading-i1lnqn",
+        "slop-paper-where-sellers-on-axzosz",
+        "slop-brochure-tap-test-record-gqlxfi",
+        "slop-impact-nutrients-in-motion-sn9est",
+        "slop-paper-stale-cross-listings-as-qy2jd1",
+        "slop-paper-buried-rhizome-mats-fkbmr6",
+        "slop-brochure-the-rock-nobody-axzsx3",
+        "slop-paper-recovering-the-lost-wrsylk",
+        "slop-thesis-nobody-finishes-last-oip71b",
+        "slop-paper-attributing-ghost-peaks-22uoty",
+        "slop-brochure-noticing-together-a-k72bla",
+        "slop-strategy-convergence-without-compulsion-n875rz",
+        "slop-paper-a-recension-of-do1vas",
+        "slop-impact-the-wellbeing-vocabulary-y6zj31",
+        "slop-paper-legal-consciousness-in-jm3ghp",
+        "slop-brochure-the-coast-begins-h4e1jr",
+        "slop-paper-what-the-eigenvectors-zkb0qc"
+      ],
+      "until": "persistent"
+    },
+    {
+      "type": "stats",
+      "line": 5,
+      "items": [
+        {
+          "value": 10562,
+          "label": "citations"
+        },
+        {
+          "value": 33,
+          "label": "h-index",
+          "at": "That"
+        },
+        {
+          "value": 5.7,
+          "format": "decimal",
+          "prefix": "$",
+          "suffix": "M",
+          "label": "in grants and prizes",
+          "at": "researchers"
+        }
+      ]
+    },
+    {
+      "type": "close",
+      "line": 6,
+      "cta": [
+        [
+          "Website",
+          "slop.university",
+          "It's"
+        ],
+        [
+          "Bluesky",
+          "@slop.university",
+          "Bluesky"
+        ],
+        [
+          "Email",
+          "outputs@slop.university",
+          "email"
+        ]
+      ]
+    }
+  ]
+}
