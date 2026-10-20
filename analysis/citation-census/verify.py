@@ -119,7 +119,9 @@ def extract_arxiv_id(entry: dict) -> str | None:
 # Crossref 301s some DOIs (case-normalised suffixes); without following them
 # a live, correct record reads as an HTTP failure rather than a resolution.
 client = httpx.Client(
-    timeout=15, follow_redirects=True, headers={"User-Agent": "slop-census/1.0 (mailto:ben@benswift.me)"}
+    timeout=15,
+    follow_redirects=True,
+    headers={"User-Agent": "slop-census/1.0 (mailto:ben@benswift.me)"},
 )
 
 results = []

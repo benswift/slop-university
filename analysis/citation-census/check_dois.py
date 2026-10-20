@@ -21,20 +21,26 @@ for doi in dois:
     # Crossref
     try:
         r = client.get(f"https://api.crossref.org/works/{doi}")
-        row["crossref"] = "FOUND" if r.status_code == 200 else f"not found ({r.status_code})"
+        row["crossref"] = (
+            "FOUND" if r.status_code == 200 else f"not found ({r.status_code})"
+        )
     except Exception as e:
         row["crossref"] = f"error: {e}"
     # OpenAlex
     try:
         r = client.get(f"https://api.openalex.org/works?filter=doi:{doi}")
         d = r.json()
-        row["openalex"] = "FOUND" if d.get("meta", {}).get("count", 0) > 0 else "not found"
+        row["openalex"] = (
+            "FOUND" if d.get("meta", {}).get("count", 0) > 0 else "not found"
+        )
     except Exception as e:
         row["openalex"] = f"error: {e}"
     # DataCite
     try:
         r = client.get(f"https://api.datacite.org/dois/{doi}")
-        row["datacite"] = "FOUND" if r.status_code == 200 else f"not found ({r.status_code})"
+        row["datacite"] = (
+            "FOUND" if r.status_code == 200 else f"not found ({r.status_code})"
+        )
     except Exception as e:
         row["datacite"] = f"error: {e}"
     # Semantic Scholar direct DOI lookup

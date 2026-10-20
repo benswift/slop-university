@@ -25,12 +25,18 @@ IMG = "https://img.slop.university/thumbs"
 def main() -> None:
     (ASSETS / "thumbs").mkdir(parents=True, exist_ok=True)
     (ASSETS / "headshots").mkdir(exist_ok=True)
-    shutil.copy(REPO / "website/src/content/pages/_heroes/colophon.avif", ASSETS / "hero.avif")
+    shutil.copy(
+        REPO / "website/src/content/pages/_heroes/colophon.avif", ASSETS / "hero.avif"
+    )
     roster = yaml.safe_load((REPO / "canon/roster.yml").read_text())
     people = roster["researchers"]
-    heads = sorted(p["id"] for p in people if (REPO / f"canon/headshots/{p['id']}.jpg").is_file())
+    heads = sorted(
+        p["id"] for p in people if (REPO / f"canon/headshots/{p['id']}.jpg").is_file()
+    )
     for pid in heads:
-        shutil.copy(REPO / f"canon/headshots/{pid}.jpg", ASSETS / "headshots" / f"{pid}.jpg")
+        shutil.copy(
+            REPO / f"canon/headshots/{pid}.jpg", ASSETS / "headshots" / f"{pid}.jpg"
+        )
     entries = []
     for f in (REPO / "website/src/content/outputs").glob("*.yml"):
         e = yaml.safe_load(f.read_text())
@@ -51,7 +57,9 @@ def main() -> None:
             if len(picked) == THUMBS:
                 break
     (ASSETS / "outputs.json").write_text(
-        json.dumps({"total": len(entries), "headshots": heads, "outputs": picked}, indent=1)
+        json.dumps(
+            {"total": len(entries), "headshots": heads, "outputs": picked}, indent=1
+        )
     )
     print(f"{len(picked)} thumbnails, {len(heads)} headshots, {len(entries)} outputs")
 
