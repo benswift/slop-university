@@ -112,6 +112,7 @@ export function performanceSpec(
             [1, 0],
             [6, 3],
             [2, 2],
+            [8, 3, 2, 3],
           ],
         },
       },
@@ -160,11 +161,12 @@ const gold = "#b97d1c";
 
 // Categorical series, in the same two-ink register as the brand package's
 // `slop-categorical`: gold leads, then the ink (inverted to cream on the dark
-// surface, where near-black would vanish), then the warm grey. Series also
-// carry a stroke dash, so the lines stay separable without a third hue.
+// surface, where near-black would vanish), then the warm grey, then gold again.
+// Series also carry a stroke dash, so the lines stay separable without a third
+// hue --- the two gold lines differ by dash alone.
 const categorical = {
-  light: [gold, "#1a1a1a", "#6b6154"],
-  dark: [gold, "#e4ddd0", "#a39887"],
+  light: [gold, "#1a1a1a", "#6b6154", gold],
+  dark: [gold, "#e4ddd0", "#a39887", gold],
 };
 
 export function vlConfig(mode: "light" | "dark") {

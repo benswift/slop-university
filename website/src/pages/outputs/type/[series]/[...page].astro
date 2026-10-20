@@ -14,7 +14,7 @@ import OutputsDashboard from "../../../../components/OutputsDashboard.astro";
 // One paginated route family per output type: /outputs/type/papers/,
 // /outputs/type/papers/2/, ... The index is built statically, so filtering has
 // to happen here rather than in the browser --- a client-side toggle could only
-// reach the twelve cards on the page you're standing on. Facets are the three
+// reach the twelve cards on the page you're standing on. Facets are the
 // series the trend chart plots, and only non-empty ones are built, so the
 // filter never offers a pill that leads nowhere.
 export const getStaticPaths = (async ({ paginate }) => {

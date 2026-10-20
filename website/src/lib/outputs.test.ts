@@ -122,10 +122,19 @@ const outputs = (...presets: Preset[]) => presets.map((preset) => ({ preset }));
 
 describe("seriesFacets", () => {
   it("counts each series and keeps them in seriesOrder", () => {
-    expect(seriesFacets(outputs("brochure", "paper", "research-poster", "paper"))).toEqual([
+    expect(
+      seriesFacets(outputs("brochure", "video-promo", "paper", "research-poster", "paper")),
+    ).toEqual([
       { series: "Research papers", slug: "papers", count: 2 },
       { series: "Research posters", slug: "posters", count: 1 },
+      { series: "Videos", slug: "videos", count: 1 },
       { series: "Other outputs", slug: "other", count: 1 },
+    ]);
+  });
+
+  it("pools both video presets into one facet", () => {
+    expect(seriesFacets(outputs("video-explainer", "video-promo"))).toEqual([
+      { series: "Videos", slug: "videos", count: 2 },
     ]);
   });
 

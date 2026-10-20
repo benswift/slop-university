@@ -28,11 +28,17 @@ export const presetBadgeLabels: Record<Preset, string> = {
 };
 
 // The trend chart on the outputs index plots one line per series, and the type
-// filter facets on those same three series --- a pill and a legend entry always
-// name the same set. Papers and posters carry the repository, so they each get
-// a line; the institutional genres are pooled, and any preset added later joins
-// the pool rather than stranding a one-point line on the chart.
-export const seriesOrder = ["Research papers", "Research posters", "Other outputs"] as const;
+// filter facets on those same series --- a pill and a legend entry always name
+// the same set. Papers, posters and videos each get a line, since each is a
+// different kind of thing to browse; the institutional genres are pooled, and
+// any preset added later joins the pool rather than stranding a one-point line
+// on the chart.
+export const seriesOrder = [
+  "Research papers",
+  "Research posters",
+  "Videos",
+  "Other outputs",
+] as const;
 
 export type OutputSeries = (typeof seriesOrder)[number];
 
@@ -44,8 +50,8 @@ export const presetSeries: Record<Preset, OutputSeries> = {
   strategy: "Other outputs",
   "impact-report": "Other outputs",
   thesis: "Other outputs",
-  "video-explainer": "Other outputs",
-  "video-promo": "Other outputs",
+  "video-explainer": "Videos",
+  "video-promo": "Videos",
 };
 
 // The URL segment each series filters under: /outputs/type/<slug>/. Slugs are
@@ -55,6 +61,7 @@ export const presetSeries: Record<Preset, OutputSeries> = {
 export const seriesSlugs: Record<OutputSeries, string> = {
   "Research papers": "papers",
   "Research posters": "posters",
+  Videos: "videos",
   "Other outputs": "other",
 };
 
