@@ -12,8 +12,8 @@ importers:
         specifier: github:benswift/astro-theme-slop#v0.3.0
         version: https://codeload.github.com/benswift/astro-theme-slop/tar.gz/68c683912dfc9e2d7de6be817a8b58d546f5908a(astro@7.4.0(yaml@2.9.1))
       astromotion:
-        specifier: github:ANUcybernetics/astromotion#v0.35.1
-        version: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/15c8a7e558ddc0793a153a1fd1743bf5c38f726d(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1))
+        specifier: github:ANUcybernetics/astromotion#v0.37.0
+        version: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1))
 
 packages:
 
@@ -595,9 +595,9 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
-  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/15c8a7e558ddc0793a153a1fd1743bf5c38f726d:
-    resolution: {gitHosted: true, integrity: sha512-XTrotxUhNDEiHRQEdocVzXIndT9plHlzZaqbwQSCtseS+2FtR4l2R/Sk0o1rQpXwe5uwRsxgI3wBmfLcUdNHag==, tarball: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/15c8a7e558ddc0793a153a1fd1743bf5c38f726d}
-    version: 0.35.1
+  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0:
+    resolution: {gitHosted: true, integrity: sha512-QcVl2EqMSS1bP26ugQuSdF+qMtWCgSwuM8XlCu0aY8PTwrIgvHOhWk/3DGA8BpiH304QfKed4gm1/8fxi0rnVQ==, tarball: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0}
+    version: 0.37.0
     engines: {node: '>=24', pnpm: '>=11'}
     hasBin: true
     peerDependencies:
@@ -2139,7 +2139,7 @@ snapshots:
       - uploadthing
       - yaml
 
-  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/15c8a7e558ddc0793a153a1fd1743bf5c38f726d(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1)):
+  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1)):
     dependencies:
       '@astrojs/mdx': 8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1))
       '@qrgrid/core': 0.2.4
