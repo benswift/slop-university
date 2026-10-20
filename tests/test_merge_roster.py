@@ -1,16 +1,16 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["pytest"]
 # ///
 """Integration checks for the roster merge driver, through git itself."""
 
 from __future__ import annotations
 
 import subprocess
-import tempfile
-import unittest
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).parent.parent
 DRIVER = ROOT / "ops" / "merge-roster.py"
@@ -47,15 +47,13 @@ def candidate(name: str) -> str:
 """
 
 
-class RosterMergeTest(unittest.TestCase):
-    def setUp(self) -> None:
-        self.directory = tempfile.TemporaryDirectory()
-        self.addCleanup(self.directory.cleanup)
-        self.repo = Path(self.directory.name)
-        self.roster = self.repo / "canon" / "roster.yml"
+class Repo:
+    def __init__(self, path: Path) -> None:
+        self.path = path
+        self.roster = path / "canon" / "roster.yml"
         self.roster.parent.mkdir()
         self.roster.write_text(ROSTER)
-        (self.repo / ".gitattributes").write_text("canon/roster.yml merge=roster\n")
+        (path / ".gitattributes").write_text("canon/roster.yml merge=roster\n")
         self.git("init", "-q", "-b", "main")
         self.git("config", "merge.roster.driver", f"{DRIVER} %O %A %B")
         self.commit("base")
@@ -63,7 +61,7 @@ class RosterMergeTest(unittest.TestCase):
     def git(self, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
         identity = ["-c", "user.name=t", "-c", "user.email=t@example.invalid"]
         return subprocess.run(
-            ["git", "-C", str(self.repo), *identity, *args],
+            ["git", "-C", str(self.path), *identity, *args],
             capture_output=True,
             text=True,
             check=check,
@@ -79,39 +77,42 @@ class RosterMergeTest(unittest.TestCase):
         self.commit(name)
         self.git("checkout", "-q", "main")
 
-    def test_concurrent_admissions_all_land_whole(self) -> None:
-        names = ["cand-a", "cand-b", "cand-c"]
-        for name in names:
-            self.branch(name, ROSTER + candidate(name))
-        self.git("cherry-pick", *names)
-        self.assertEqual(
-            self.roster.read_text(), ROSTER + "".join(map(candidate, names))
-        )
 
-    def test_the_same_candidate_twice_conflicts(self) -> None:
-        self.branch("first", ROSTER + candidate("cand-a"))
-        self.branch(
-            "second", ROSTER + candidate("cand-a").replace("Doctoral", "Second")
-        )
-        self.git("cherry-pick", "first")
-        self.assertNotEqual(
-            self.git("cherry-pick", "second", check=False).returncode, 0
-        )
+@pytest.fixture
+def repo(tmp_path: Path) -> Repo:
+    return Repo(tmp_path)
 
-    def test_an_edit_still_merges_as_text(self) -> None:
-        self.branch("edit", ROSTER.replace("A founding professor.", "A revised bio."))
-        self.branch("admit", ROSTER + candidate("cand-a"))
-        self.git("cherry-pick", "admit", "edit")
-        merged = self.roster.read_text()
-        self.assertIn("A revised bio.", merged)
-        self.assertTrue(merged.endswith(candidate("cand-a")))
 
-    def test_two_edits_to_one_bio_conflict(self) -> None:
-        self.branch("one", ROSTER.replace("A founding professor.", "One."))
-        self.branch("two", ROSTER.replace("A founding professor.", "Two."))
-        self.git("cherry-pick", "one")
-        self.assertNotEqual(self.git("cherry-pick", "two", check=False).returncode, 0)
+def test_concurrent_admissions_all_land_whole(repo: Repo) -> None:
+    names = ["cand-a", "cand-b", "cand-c"]
+    for name in names:
+        repo.branch(name, ROSTER + candidate(name))
+    repo.git("cherry-pick", *names)
+    assert repo.roster.read_text() == ROSTER + "".join(map(candidate, names))
+
+
+def test_the_same_candidate_twice_conflicts(repo: Repo) -> None:
+    repo.branch("first", ROSTER + candidate("cand-a"))
+    repo.branch("second", ROSTER + candidate("cand-a").replace("Doctoral", "Second"))
+    repo.git("cherry-pick", "first")
+    assert repo.git("cherry-pick", "second", check=False).returncode != 0
+
+
+def test_an_edit_still_merges_as_text(repo: Repo) -> None:
+    repo.branch("edit", ROSTER.replace("A founding professor.", "A revised bio."))
+    repo.branch("admit", ROSTER + candidate("cand-a"))
+    repo.git("cherry-pick", "admit", "edit")
+    merged = repo.roster.read_text()
+    assert "A revised bio." in merged
+    assert merged.endswith(candidate("cand-a"))
+
+
+def test_two_edits_to_one_bio_conflict(repo: Repo) -> None:
+    repo.branch("one", ROSTER.replace("A founding professor.", "One."))
+    repo.branch("two", ROSTER.replace("A founding professor.", "Two."))
+    repo.git("cherry-pick", "one")
+    assert repo.git("cherry-pick", "two", check=False).returncode != 0
 
 
 if __name__ == "__main__":
-    unittest.main()
+    raise SystemExit(pytest.main([__file__, "-q"]))
