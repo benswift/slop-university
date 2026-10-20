@@ -12,4 +12,4 @@ run = "uvx --with pytest-xdist --with pyyaml --with typer pytest -n auto tests"
 
 [tasks.typecheck]
 description = "ty over all the repo's Python, with the union of the scripts' inline deps"
-run = "uvx --with pytest --with pyyaml --with types-PyYAML --with httpx --with pillow --with boto3 --with typer --with replicate --with bibtexparser==1.4.4 ty check ops tests analysis video/_kit video/colophon"
+run = "uvx --with pytest --with pyyaml --with types-PyYAML --with httpx --with pillow --with boto3 --with typer --with replicate --with bibtexparser ty check ops tests analysis video/_kit video/colophon"

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml", "bibtexparser==1.4.4"]
+# dependencies = ["pyyaml", "bibtexparser>=2.1"]
 # ///
 """
 Extraction pass for the Slop University citation-borrowing census.
@@ -23,6 +23,7 @@ from pathlib import Path
 
 import bibtexparser
 import yaml
+from bibtexparser.middlewares import NormalizeFieldKeys
 
 PRESS = Path.home() / "projects/slop-university-press/output"
 MAIN = Path.home() / "projects/slop-university/output"
@@ -30,6 +31,7 @@ LEDGER = Path.home() / "projects/slop-university/website/src/content/outputs"
 OUT = Path(__file__).parent
 
 SLUG_RE = re.compile(r"-([a-z0-9]{6})$")
+CONTINUATION_RE = re.compile(r"\n[ \t]+")
 
 
 def slug_from_stem(stem: str) -> str | None:
@@ -61,9 +63,17 @@ def find_bib_files() -> list[Path]:
 
 
 def parse_bib(path: Path) -> list[dict]:
-    bib_db = bibtexparser.load(path.open())
+    lib = bibtexparser.parse_file(str(path), append_middleware=[NormalizeFieldKeys()])
+    if lib.failed_blocks:
+        raise ValueError(f"{len(lib.failed_blocks)} unparseable block(s)")
     rows = []
-    for e in bib_db.entries:
+    for entry in lib.entries:
+        # 1.x dropped the indentation of a value's continuation lines; keep
+        # that so entries.json stays comparable with the committed results.
+        e = {f.key: CONTINUATION_RE.sub("\n", f.value) for f in entry.fields} | {
+            "ID": entry.key,
+            "ENTRYTYPE": entry.entry_type,
+        }
         rows.append(
             {
                 "key": e.get("ID"),
