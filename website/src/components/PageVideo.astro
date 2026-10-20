@@ -2,25 +2,29 @@
 import type { CollectionEntry } from "astro:content";
 import { videoUrl } from "../lib/videos";
 
-// A video at the top of a page: the portrait cut on a narrow screen, the
-// landscape cut otherwise. Two players, one shown by a media query; neither
-// preloads, so the hidden one never downloads anything.
+// A video at the top of a page. With both cuts, the portrait one plays on a
+// narrow screen and the landscape one otherwise: two players, one shown by a
+// media query; neither preloads, so the hidden one never downloads anything.
+// A video made in one orientation plays that cut at every width.
 interface Props {
   video: CollectionEntry<"videos">["data"];
 }
 
 const { video } = Astro.props;
-const web = video.web;
+const cuts = (["landscape", "portrait"] as const).flatMap((cut) => {
+  const encode = video.web?.[cut];
+  return encode ? [{ cut, ...encode }] : [];
+});
 ---
 
 {
-  web && (
-    <figure class="page-video">
-      {(["landscape", "portrait"] as const).map((cut) => (
+  cuts.length > 0 && (
+    <figure class:list={["page-video", { both: cuts.length > 1 }]}>
+      {cuts.map(({ cut, video: file, cover }) => (
         <video
           class={cut}
-          src={videoUrl(web[cut].video)}
-          poster={videoUrl(web[cut].cover)}
+          src={videoUrl(file)}
+          poster={videoUrl(cover)}
           controls
           playsinline
           preload="none"
@@ -46,20 +50,23 @@ const web = video.web;
   }
 
   .page-video .portrait {
+    max-height: 85vh;
+    width: auto;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .page-video.both .portrait {
     display: none;
   }
 
   @media (max-width: 40rem) {
-    .page-video .landscape {
+    .page-video.both .landscape {
       display: none;
     }
 
-    .page-video .portrait {
+    .page-video.both .portrait {
       display: block;
-      max-height: 85vh;
-      width: auto;
-      max-width: 100%;
-      margin-inline: auto;
     }
   }
 </style>

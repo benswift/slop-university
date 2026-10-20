@@ -5,8 +5,8 @@ import { signagePdfUrl } from "./pdfs";
 import { videoUrl } from "./videos";
 import { thumbLargestUrl } from "./images";
 
-// What an e-signage screen plays: the recent posters in its orientation and
-// the videos it shows between them. Built once per deploy; the signage page
+// What an e-signage screen plays: the recent posters and the videos in its
+// orientation, the videos shown between the posters. Built once per deploy; the signage page
 // embeds it for its first poster and fetches it again from
 // /signage/<orientation>.json before every change, so a long-running screen
 // picks up a deploy without reloading.
@@ -50,10 +50,10 @@ export async function signagePlaylist(orientation: Orientation): Promise<Playlis
 
   const videos = (await getCollection("videos"))
     .toSorted((a, b) => a.id.localeCompare(b.id))
-    .map((entry) => ({
-      src: videoUrl(entry.data.signage[orientation]),
-      title: entry.data.title,
-    }));
+    .flatMap(({ data: { signage, title } }) => {
+      const file = signage[orientation];
+      return file ? [{ src: videoUrl(file), title }] : [];
+    });
 
   return { research: research.map(poster), marketing: marketing.map(poster), videos };
 }

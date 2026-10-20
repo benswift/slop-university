@@ -11,8 +11,8 @@ University.
   from anywhere under `video/`.
 - `scripts/<slug>.md`: each video's key idea and its script, with a `_Visual:_`
   direction and a `_Reads:_` list per stretch of picture.
-- `<slug>/`: the HyperFrames project: `index.html` (landscape),
-  `compositions/portrait.html` (the portrait cut, when there is one),
+- `<slug>/`: the HyperFrames project: `index.html` (the main cut),
+  `compositions/portrait.html` (a second, portrait cut, when there is one),
   `<slug>.js` (the shared `build`), `timing.json` and `captions.vtt` (written by
   `video.py voice`), `assets/` (audio and the output's fetched images, not
   committed) and a `kit -> ../_kit` symlink.
@@ -61,8 +61,10 @@ the lockup, with no voice. `output.json` names the output; its hero is
   usually muted.
 - **It closes on the lockup**: the rules grow from the frame's edges, then the
   crest and wordmark fade in.
-- **Formats.** Landscape 1920×1080 and a portrait cut at 1080×1920 from the same
-  `build`. Masters 4K at 50 fps, drafts 1080p25.
+- **Formats.** Landscape 1920×1080 or portrait 1080×1920. A templated video is
+  made in one, drawn at even odds by `_kit/templated.py new`, and plays on the
+  signage screen of its orientation; a hand-made one like the colophon's can
+  carry both cuts from the same `build`. Masters 4K at 50 fps, drafts 1080p25.
 - **Publishing.** A templated video is a research output
   (`skills/video/SKILL.md`): `_kit/templated.py stage` writes its outputs and
   videos entries and stages its encodes, and `bin/slopu land` publishes it. A

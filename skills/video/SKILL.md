@@ -62,15 +62,17 @@ University promo is the narrator. The register is the comms one
    and top-cited outputs. Write down the key idea in one sentence.
 2. **Scaffold.** `video/_kit/templated.py new --kind <kind> --title "<title>"`
    prints the video's id (`slop-explainer-<slug>-<seed>` or `slop-promo-...`);
-   every later step takes it. In `video/<id>/spec.json` fill the output's
-   metadata as an outputs entry has it (`skills/publish/SKILL.md` §2A):
-   `subtitle` (optional), `summary` (two to four sentences in the comms
-   register, what the video shows), `topic`, `authors` (roster names: an
-   explainer's are its output's; a researcher's promo is theirs; a University
-   promo has none) and `school`. Set `output` (an explainer's output id) or
-   `person` (a researcher promo's id): that page then opens with the video. The
-   outputs a spec explains or shows are what the video cites, harvested at
-   landing; never write `cites:` yourself.
+   every later step takes it. It also draws the video's one orientation,
+   landscape or portrait, and says which; pass `--orientation` only when the
+   steering names one. In `video/<id>/spec.json` fill the output's metadata as
+   an outputs entry has it (`skills/publish/SKILL.md` §2A): `subtitle`
+   (optional), `summary` (two to four sentences in the comms register, what the
+   video shows), `topic`, `authors` (roster names: an explainer's are its
+   output's; a researcher's promo is theirs; a University promo has none) and
+   `school`. Set `output` (an explainer's output id) or `person` (a researcher
+   promo's id): that page then opens with the video. The outputs a spec explains
+   or shows are what the video cites, harvested at landing; never write `cites:`
+   yourself.
 3. **Script**, `video/scripts/<id>.md`: `## Key idea`, then `## Script` with one
    `**VO:**` (or `**VO (id):**`) paragraph per line, `[beat n]` pauses, and a
    `_Visual:_` line under each saying which beat shows it. The last line is the
@@ -95,9 +97,9 @@ University promo is the narrator. The register is the comms one
    video with `output: <id>`, per `skills/publish/comms.md` (its
    read-the-recent- eight check included). It links the output it explains, or
    the researcher's profile, wherever it names them.
-9. **Report**: the id, the key idea, the drafts' paths
-   (`video/out/<id>/<id>-draft.mp4` and the portrait), and anything the review
-   could not fix. Then stop.
+9. **Report**: the id, the key idea, the orientation, the draft's path
+   (`video/out/<id>/<id>-draft.mp4`), and anything the review could not fix.
+   Then stop.
 
 ## Beats
 

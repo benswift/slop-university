@@ -14,13 +14,17 @@ spec and no animation code. skills/video/SKILL.md is the method.
 A video is a research output like any other: its id is
 `slop-explainer-<slug>-<seed>` or `slop-promo-<slug>-<seed>` (the slug and seed
 as skills/_shared/output-naming.md makes them), its DOI is 10.5555/slop.<seed>,
-and video/<id>/ is its project. `new` writes video/<id>/ (both cuts' HTML, the
-HyperFrames files, the kit link and a spec skeleton) and scripts/<id>.md.
+and video/<id>/ is its project. `new` draws the video's one orientation, landscape
+or portrait at even odds as the research posters' layout roll does, and writes
+video/<id>/ (that cut's HTML, the HyperFrames files, the kit link and a spec
+skeleton) and scripts/<id>.md. Each signage screen plays the videos in its own
+orientation, so the draw splits them evenly between the screens.
 `fetch` resolves every image reference in the spec's beats the way beats.js
 does and writes assets/people.json. `stage`, once `video.py signage` and `web`
 have run, writes the outputs entry from the spec (its title, subtitle, summary,
-topic, authors and school) and the videos entry, encodes the hero, thumbnail
-and og card from the landscape cut, and copies the encodes into
+topic, authors and school) and the videos entry, encodes the thumbnail from
+the cut's cover frame and the hero and og card from the landscape cover frame or,
+for a portrait video, from the opening hero beat's landscape image, and copies the encodes into
 data/pending-uploads/<id>/, where `bin/slopu land <id>` finds them.
 """
 
@@ -100,6 +104,48 @@ def refs(x) -> list[dict]:
     return []
 
 
+def src(ref: dict) -> str:
+    """An image reference's file under the project, as beats.js resolves it."""
+    if "file" in ref:
+        return ref["file"]
+    if "output" in ref:
+        return f"assets/heroes/{ref['output']}.avif"
+    if "person" in ref:
+        return f"assets/people/{ref['person']}.avif"
+    raise SystemExit(f"the hero beat's image is not a landscape hero: {ref}")
+
+
+def dims(image: Path) -> tuple[int, int]:
+    w, h = (
+        subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v"]
+            + ["-show_entries", "stream=width,height", "-of", "csv=p=0", str(image)],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        .stdout.strip()
+        .split(",")
+    )
+    return int(w), int(h)
+
+
+def cuts(slug: str) -> dict[str, str]:
+    """Each cut's orientation and the file name video.py gives its encodes:
+    index.html as <slug>, a compositions/<cut>.html as <slug>-<cut>. The
+    colophon and the earliest templated videos have both; a video made since
+    has one."""
+    proj = project(slug)
+    htmls = [(proj / "index.html", slug)] + [
+        (html, f"{slug}-{html.stem}")
+        for html in sorted((proj / "compositions").glob("*.html"))
+    ]
+    return {
+        re.search(r'data-aspect="(\w+)"', html.read_text())[1]: name
+        for html, name in htmls
+    }
+
+
 def slugify(title: str) -> str:
     """The slug output-naming.md derives: the first three words, kebab-cased,
     the last dropped while over 30 characters."""
@@ -117,25 +163,33 @@ def slugify(title: str) -> str:
 def new(
     kind: Annotated[str, typer.Option(help="explainer or promo")],
     title: Annotated[str, typer.Option(help="the video's title")],
+    orientation: Annotated[
+        str | None, typer.Option(help="landscape or portrait; drawn when omitted")
+    ] = None,
 ) -> None:
     """Scaffold video/<id>/ and scripts/<id>.md, and print the id."""
     if kind not in ("explainer", "promo"):
         raise SystemExit("--kind is explainer or promo")
+    orientation = orientation or secrets.choice(["landscape", "portrait"])
+    if orientation not in ("landscape", "portrait"):
+        raise SystemExit("--orientation is landscape or portrait")
     seed = "".join(
         secrets.choice(string.ascii_lowercase + string.digits) for _ in range(6)
     )
     vid = f"slop-{kind}-{slugify(title)}-{seed}"
     proj = project(vid)
-    (proj / "compositions").mkdir(parents=True)
+    proj.mkdir(parents=True)
     (proj / "kit").symlink_to("../_kit")
-    for name in ("index.html", "compositions/portrait.html"):
-        html = (
-            (TEMPLATE / name)
-            .read_text()
-            .replace("{{slug}}", vid)
-            .replace("{{title}}", title)
-        )
-        (proj / name).write_text(html)
+    template = (
+        "index.html" if orientation == "landscape" else "compositions/portrait.html"
+    )
+    html = (
+        (TEMPLATE / template)
+        .read_text()
+        .replace("{{slug}}", vid)
+        .replace("{{title}}", title)
+    )
+    (proj / "index.html").write_text(html)
     for name in ("package.json", "hyperframes.json"):
         (proj / name).write_text((TEMPLATE / name).read_text().replace("{{slug}}", vid))
     spec = {
@@ -152,6 +206,7 @@ def new(
     (VIDEO / "scripts" / f"{vid}.md").write_text(
         f"# {title}\n\n## Key idea\n\n## Script\n"
     )
+    typer.echo(f"{vid}: {orientation}", err=True)
     print(vid)
 
 
@@ -237,59 +292,50 @@ def stage(vid: str) -> None:
         shutil.copy(found[-1], pending)
         return found[-1]
 
+    names = cuts(vid)
     signage = {
-        "landscape": newest(f"signage/{vid}-[0-9a-f]*.mp4"),
-        "portrait": newest(f"signage/{vid}-portrait-[0-9a-f]*.mp4"),
+        cut: newest(f"signage/{name}-[0-9a-f]*.mp4") for cut, name in names.items()
     }
     web = {
         cut: {
             "video": newest(f"web/{name}-web-*.mp4").name,
             "cover": newest(f"web/{name}-cover-*.jpg").name,
         }
-        for cut, name in (("landscape", vid), ("portrait", f"{vid}-portrait"))
+        for cut, name in names.items()
     }
 
-    # the hero, thumbnail and og card: the landscape cut's cover frame, at 4K
+    # The thumbnail is the cover frame at 4K, of the landscape cut when there
+    # is one. The hero and og card are landscape wherever they show, so a
+    # portrait video's come from its opening hero beat's image instead.
     first = json.loads((proj / "timing.json").read_text())["lines"][0]["start"]
     frame = out / "cover-4k.png"
     subprocess.run(
         ["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0.0, first - 0.1)}"]
-        + ["-i", str(signage["landscape"]), "-frames:v", "1", str(frame)],
+        + [
+            "-i",
+            str(signage.get("landscape", signage.get("portrait"))),
+            "-frames:v",
+            "1",
+            str(frame),
+        ],
         check=True,
     )
-    for kind in ("hero", "thumb"):
+    hero = frame if "landscape" in signage else proj / src(spec["beats"][0]["image"])
+    for kind, source in (("hero", hero), ("thumb", frame)):
         subprocess.run(
             [
                 str(ROOT / "ops" / "encode-images.py"),
                 "encode",
                 kind,
                 "--source",
-                str(frame),
+                str(source),
             ]
             + ["--id", vid, "--pending-dir", str(pending / "img")],
             check=True,
             capture_output=True,
         )
-    w, h = (
-        int(x)
-        for x in subprocess.run(
-            [
-                "ffprobe",
-                "-v",
-                "error",
-                "-select_streams",
-                "v",
-                "-show_entries",
-                "stream=width,height",
-            ]
-            + ["-of", "csv=p=0", str(frame)],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        .stdout.strip()
-        .split(",")
-    )
+    hero_w, hero_h = dims(hero)
+    thumb_w, thumb_h = dims(frame)
 
     now = datetime.now().astimezone()
     entry = {
@@ -304,8 +350,8 @@ def stage(vid: str) -> None:
         "summary": spec["summary"],
         "topic": spec["topic"],
         "version": "1.0",
-        "hero": {"width": w, "height": h},
-        "thumb": {"width": w, "height": h},
+        "hero": {"width": hero_w, "height": hero_h},
+        "thumb": {"width": thumb_w, "height": thumb_h},
     }
     outputs = ROOT / "website" / "src" / "content" / "outputs" / f"{vid}.yml"
     outputs.write_text(dump(entry))
