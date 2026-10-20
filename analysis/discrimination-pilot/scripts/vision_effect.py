@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = []
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Does a long-horizon vision document draw more FABRICATED calls than an
 ordinary strategic plan?
@@ -104,7 +106,7 @@ def fmt(hits: int, n: int) -> str:
 
 
 def permutation_diff(
-    pairs: list[tuple[str, int]], observed: float, rng: random.Random
+    pairs: list[tuple[str | None, int]], observed: float, rng: random.Random
 ) -> float:
     """Two-sided p for the difference in error rate between two labels."""
     labels = [x for x, _ in pairs]
@@ -133,7 +135,7 @@ def contrast(title: str, rows: list[dict], pool: dict[str, dict]) -> None:
 
     print(f"\n=== {title} ===\n")
     print(f"{'judge':<22}{'vision':>16}{'plan':>16}{'difference':>13}")
-    by_judge: dict[str, list[tuple[str, dict]]] = defaultdict(list)
+    by_judge: dict[str, list[tuple[str | None, dict]]] = defaultdict(list)
     for lab, r in tagged:
         by_judge[r["judge"]].append((lab, r))
 

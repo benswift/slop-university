@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["typer"]
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """If not vagueness, then what? Candidate predictors of real-side error.
 
@@ -59,7 +61,6 @@ assumption and copes with the small cells that a 25-country corpus produces.
 
 from __future__ import annotations
 
-import argparse
 import json
 import math
 import random
@@ -67,6 +68,9 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from merged_tokens import rate as merged_rate  # noqa: E402
@@ -389,22 +393,28 @@ def report_categorical(axis: str, by_judge: dict[str, list[tuple[str, int]]]) ->
         print(f"{judge:<22}{row}")
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--axis", help="one axis only (default: all)")
-    p.add_argument("--judge", help="restrict to one judge")
-    p.add_argument("--condition", default="strategy")
-    args = p.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    rows = load_judgements(args.condition)
-    if args.judge:
-        rows = [r for r in rows if r["judge"] == args.judge]
+
+@app.command()
+def main(
+    only_axis: Annotated[
+        str | None, typer.Option("--axis", help="one axis only (default: all)")
+    ] = None,
+    judge: Annotated[
+        str | None, typer.Option("--judge", help="restrict to one judge")
+    ] = None,
+    condition: Annotated[str, typer.Option("--condition")] = "strategy",
+) -> None:
+    rows = load_judgements(condition)
+    if judge:
+        rows = [r for r in rows if r["judge"] == judge]
     numeric, labels = load_axes()
     labels["recognised"] = {}  # per-judge; filled below
     recognition = load_recognition()
 
     print(
-        f"{len(rows)} real-side judgements in the {args.condition} condition, "
+        f"{len(rows)} real-side judgements in the {condition} condition, "
         f"{len({r['judge'] for r in rows})} judges, "
         f"{len({r['item'] for r in rows})} distinct excerpts"
     )
@@ -422,7 +432,7 @@ def main() -> None:
             "memorisation_probe.py to complete it"
         )
 
-    wanted = [args.axis] if args.axis else [*CONTINUOUS, *CATEGORICAL]
+    wanted = [only_axis] if only_axis else [*CONTINUOUS, *CATEGORICAL]
     for axis in wanted:
         if axis in CONTINUOUS:
             by_judge: dict[str, list[tuple[float, int]]] = defaultdict(list)
@@ -460,4 +470,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    app()

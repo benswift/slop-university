@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = ["httpx"]
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Run the discrimination pilot.
 

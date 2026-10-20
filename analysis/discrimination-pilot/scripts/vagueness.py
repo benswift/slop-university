@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["httpx"]
+# dependencies = ["httpx", "typer"]
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Score documents on the concrete/vague axis the pilot's judges appear to use.
 
@@ -49,7 +51,6 @@ also computed per excerpt.
 
 from __future__ import annotations
 
-import argparse
 import json
 import math
 import os
@@ -58,6 +59,9 @@ import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Annotated, Any
+
+import typer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ids import doc_key, item_id, text_sha  # noqa: E402
@@ -388,7 +392,7 @@ def report() -> None:
     for r in rows:
         by_doc.setdefault(r["source_doc"], []).append(r)
 
-    docs = []
+    docs: list[dict[str, Any]] = []
     for doc, items in by_doc.items():
         meta = pool.get(items[0]["id"], {})
         docs.append(
@@ -450,34 +454,43 @@ def report() -> None:
         )
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument(
-        "--proxies", action="store_true", help="deterministic lexical proxies, no API"
-    )
-    p.add_argument(
-        "--model", help="backend for the model rating, e.g. openai:gpt-5.6-terra"
-    )
-    p.add_argument("--workers", type=int, default=8)
-    p.add_argument(
-        "--report",
-        action="store_true",
-        help="breakdown of the proxy scores already computed",
-    )
-    args = p.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    if args.report:
+
+@app.command()
+def main(
+    proxies: Annotated[
+        bool,
+        typer.Option("--proxies", help="deterministic lexical proxies, no API"),
+    ] = False,
+    model: Annotated[
+        str | None,
+        typer.Option(
+            "--model", help="backend for the model rating, e.g. openai:gpt-5.6-terra"
+        ),
+    ] = None,
+    workers: Annotated[int, typer.Option("--workers")] = 8,
+    report_only: Annotated[
+        bool,
+        typer.Option("--report", help="breakdown of the proxy scores already computed"),
+    ] = False,
+) -> None:
+    if report_only:
         report()
         return
 
-    if not args.proxies and not args.model:
-        p.error("give --proxies, --model, or both")
+    if not proxies and not model:
+        typer.echo(
+            f"{Path(sys.argv[0]).name}: error: give --proxies, --model, or both",
+            err=True,
+        )
+        raise typer.Exit(2)
 
     rows = load_pool()
     OUT.mkdir(exist_ok=True)
 
-    if args.proxies:
-        scored = [
+    if proxies:
+        scored: list[dict[str, Any]] = [
             {
                 "id": r.get("id"),
                 # Derived, not read: the pool is scored BEFORE sampling, so these
@@ -508,7 +521,7 @@ def main() -> None:
             )
         print(f"wrote {path.relative_to(ROOT)}")
 
-    if args.model:
+    if model:
         texts = [(i, scored_text(r)) for i, r in enumerate(rows)]
 
         def one(pair: tuple[int, str]) -> dict:
@@ -516,7 +529,7 @@ def main() -> None:
             res = {"concreteness": None, "reason": ""}
             for _ in range(3):
                 try:
-                    res = ask(args.model, text)
+                    res = ask(model, text)
                     if res.get("concreteness") is not None:
                         break
                 except Exception as e:  # noqa: BLE001 - retry then record
@@ -527,23 +540,23 @@ def main() -> None:
                 # sampling and carries no "item" of its own.
                 "item": item_id(rows[i]["id"]) if rows[i].get("id") else None,
                 "truth": rows[i].get("truth"),
-                "rater": args.model,
+                "rater": model,
                 "text_sha": text_sha(text),
                 **res,
             }
 
-        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        with ThreadPoolExecutor(max_workers=workers) as pool:
             scored = list(pool.map(one, texts))
 
-        model_name = args.model.split(":", 1)[1]
+        model_name = model.split(":", 1)[1]
         path = OUT / f"vagueness-model-{model_name}.json"
         path.write_text(json.dumps(scored, indent=1) + "\n")
         ok = [s for s in scored if s["concreteness"] is not None]
         print(
-            f"{args.model}: {len(ok)}/{len(scored)} rated, mean concreteness {sum(s['concreteness'] for s in ok) / max(len(ok), 1):.1f}"
+            f"{model}: {len(ok)}/{len(scored)} rated, mean concreteness {sum(s['concreteness'] for s in ok) / max(len(ok), 1):.1f}"
         )
         print(f"wrote {path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
-    main()
+    app()

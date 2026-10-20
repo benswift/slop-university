@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = []
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Build the redacted stimulus set for the Slop University discrimination pilot.
 

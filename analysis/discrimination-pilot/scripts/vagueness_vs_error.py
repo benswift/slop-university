@@ -1,7 +1,9 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["typer"]
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Does a real document's vagueness predict its being called fabricated?
 
@@ -37,13 +39,15 @@ the normal approximation is worth checking against something assumption-free.
 
 from __future__ import annotations
 
-import argparse
 import json
 import math
 import random
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ids import text_sha  # noqa: E402
@@ -207,20 +211,27 @@ def deciles(pairs: list[tuple[float, int]], k: int = 10) -> None:
         )
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--judge", help="restrict to one judge")
-    p.add_argument(
-        "--axis",
-        default="proxy",
-        help="'proxy' for the lexical index, or a rater model id for its own concreteness rating",
-    )
-    p.add_argument(
-        "--condition", default="strategy", help="condition to test (default: strategy)"
-    )
-    args = p.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    index, rows = load(args.axis)
+
+@app.command()
+def main(
+    only_judge: Annotated[
+        str | None, typer.Option("--judge", help="restrict to one judge")
+    ] = None,
+    axis: Annotated[
+        str,
+        typer.Option(
+            "--axis",
+            help="'proxy' for the lexical index, or a rater model id for its own concreteness rating",
+        ),
+    ] = "proxy",
+    condition: Annotated[
+        str,
+        typer.Option("--condition", help="condition to test (default: strategy)"),
+    ] = "strategy",
+) -> None:
+    index, rows = load(axis)
 
     # Real excerpts only. The question is whether vagueness predicts a real
     # document being mistaken for a fabrication, not whether the two corpora
@@ -230,17 +241,17 @@ def main() -> None:
         for r in rows
         if r.get("truth") == "real"
         and r.get("judgement")
-        and r.get("condition") == args.condition
+        and r.get("condition") == condition
         and r["item"] in index
     ]
-    if args.judge:
-        rows = [r for r in rows if r["judge"] == args.judge]
+    if only_judge:
+        rows = [r for r in rows if r["judge"] == only_judge]
     if not rows:
         raise SystemExit("no matching real-side judgements")
 
-    print(f"axis: {args.axis}")
+    print(f"axis: {axis}")
     print(
-        f"{len(rows)} real-side judgements in the {args.condition} condition, "
+        f"{len(rows)} real-side judgements in the {condition} condition, "
         f"{len({r['judge'] for r in rows})} judges, "
         f"{len({r['item'] for r in rows})} distinct excerpts\n"
     )
@@ -289,4 +300,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    app()

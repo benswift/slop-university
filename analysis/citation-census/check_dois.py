@@ -1,4 +1,12 @@
-import urllib.request, urllib.error, json, time
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["httpx"]
+# ///
+import json
+import time
+
+import httpx
 
 dois = [
     "10.5555/slop.zxua1o",
@@ -14,7 +22,7 @@ dois = [
 ]
 
 results = {}
-client = httpx.Client(timeout=15)
+client = httpx.Client(timeout=15, follow_redirects=True)
 
 for doi in dois:
     row = {}

@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = []
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Scan a redacted excerpt pool for residual one-sided identity leakage.
 

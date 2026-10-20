@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = []
+# [tool.ty.environment]
+# extra-paths = ["."]
 # ///
 """Sample the balanced, order-randomised, tag-density-matched stimulus set.
 

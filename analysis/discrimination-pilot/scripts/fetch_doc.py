@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["typer"]
 # ///
 """Fetch one real-side corpus document, verify it, and record its provenance.
 
@@ -24,13 +24,15 @@ Exit status is 0 on acceptance, 1 on rejection, so a caller can branch on it.
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
 import subprocess
 import sys
 from datetime import date
 from pathlib import Path
+from typing import Annotated, Literal
+
+import typer
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "corpus" / "raw"
@@ -105,22 +107,24 @@ def record(shard: str, entry: dict) -> None:
     path.write_text(json.dumps(rows, indent=1, ensure_ascii=False) + "\n")
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--url", required=True)
-    p.add_argument("--file", required=True, help="target filename under corpus/raw/")
-    p.add_argument("--title", required=True)
-    p.add_argument("--institution", required=True)
-    p.add_argument("--country", required=True)
-    p.add_argument(
-        "--tier",
-        required=True,
-        choices=["elite", "research", "mid", "regional", "specialist"],
-    )
-    p.add_argument(
-        "--doc-type",
-        required=True,
-        choices=[
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
+
+
+@app.command()
+def main(
+    url: Annotated[str, typer.Option("--url")],
+    file: Annotated[
+        str, typer.Option("--file", help="target filename under corpus/raw/")
+    ],
+    title: Annotated[str, typer.Option("--title")],
+    institution: Annotated[str, typer.Option("--institution")],
+    country: Annotated[str, typer.Option("--country")],
+    tier: Annotated[
+        Literal["elite", "research", "mid", "regional", "specialist"],
+        typer.Option("--tier"),
+    ],
+    doc_type: Annotated[
+        Literal[
             "strategic-plan",
             "corporate-plan",
             "vision",
@@ -128,60 +132,71 @@ def main() -> None:
             "research-strategy",
             "annual-plan",
         ],
-    )
-    p.add_argument("--year", required=True, type=int)
-    p.add_argument("--shard", required=True)
-    p.add_argument(
-        "--cookies", help="Cookie header from a real browser visit, e.g. 'a=1; b=2'"
-    )
-    p.add_argument(
-        "--referer", help="Referer header, usually the strategy landing page"
-    )
-    p.add_argument(
-        "--retrieved",
-        default=date.today().isoformat(),
-        help="retrieval date; defaults to today rather than the first gathering pass",
-    )
-    p.add_argument(
-        "--local",
-        help="Register a PDF already downloaded by hand instead of fetching it. "
-        "For documents behind a bot challenge, which a person can pass and a "
-        "script should not try to.",
-    )
-    args = p.parse_args()
-
-    if not args.file.endswith(".pdf"):
+        typer.Option("--doc-type"),
+    ],
+    year: Annotated[int, typer.Option("--year")],
+    shard: Annotated[str, typer.Option("--shard")],
+    cookies: Annotated[
+        str | None,
+        typer.Option(
+            "--cookies", help="Cookie header from a real browser visit, e.g. 'a=1; b=2'"
+        ),
+    ] = None,
+    referer: Annotated[
+        str | None,
+        typer.Option(
+            "--referer", help="Referer header, usually the strategy landing page"
+        ),
+    ] = None,
+    retrieved: Annotated[
+        str,
+        typer.Option(
+            "--retrieved",
+            help="retrieval date; defaults to today rather than the first gathering pass",
+        ),
+    ] = date.today().isoformat(),
+    local: Annotated[
+        str | None,
+        typer.Option(
+            "--local",
+            help="Register a PDF already downloaded by hand instead of fetching it. "
+            "For documents behind a bot challenge, which a person can pass and a "
+            "script should not try to.",
+        ),
+    ] = None,
+) -> None:
+    if not file.endswith(".pdf"):
         fail("--file must end in .pdf")
 
-    dest = RAW / args.file
-    if args.local:
-        src = Path(args.local).expanduser()
+    dest = RAW / file
+    if local:
+        src = Path(local).expanduser()
         if not src.exists():
             fail(f"no file at {src}")
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(src.read_bytes())
     else:
-        download(args.url, dest, cookies=args.cookies, referer=args.referer)
+        download(url, dest, cookies=cookies, referer=referer)
     pages, words, _ = verify(dest)
 
     record(
-        args.shard,
+        shard,
         {
-            "file": args.file,
-            "title": args.title,
-            "institution": args.institution,
-            "country": args.country,
-            "tier": args.tier,
-            "doc_type": args.doc_type,
-            "year": args.year,
+            "file": file,
+            "title": title,
+            "institution": institution,
+            "country": country,
+            "tier": tier,
+            "doc_type": doc_type,
+            "year": year,
             "pages": pages,
             "words": words,
-            "url": args.url,
-            "retrieved": args.retrieved,
+            "url": url,
+            "retrieved": retrieved,
         },
     )
-    print(f"ACCEPT {args.file} ({pages}pp, {words}w)")
+    print(f"ACCEPT {file} ({pages}pp, {words}w)")
 
 
 if __name__ == "__main__":
-    main()
+    app()

@@ -59,7 +59,7 @@ def correct(r: dict) -> bool | None:
 def report(rows: list[dict], label: str) -> dict:
     rows = [r for r in rows if r.get("judgement")]
     n = len(rows)
-    k = sum(correct(r) for r in rows)
+    k = sum(bool(correct(r)) for r in rows)
     lo, hi = wilson(k, n)
     p = binom_p_two_sided(k, n)
     print(f"\n{'=' * 72}\n{label}   n={n}")
@@ -94,7 +94,7 @@ def report(rows: list[dict], label: str) -> dict:
             g[r[key]].append(r)
         for kk in sorted(g):
             v = g[kk]
-            c = sum(correct(x) for x in v)
+            c = sum(bool(correct(x)) for x in v)
             l, h = wilson(c, len(v))
             print(
                 f"  {kk:18} {c:3d}/{len(v):<3d} = {c / len(v):6.1%}  CI [{l:.0%},{h:.0%}]"
@@ -107,7 +107,7 @@ def report(rows: list[dict], label: str) -> dict:
         g[(r["condition"], r["truth"])].append(r)
     for kk in sorted(g):
         v = g[kk]
-        c = sum(correct(x) for x in v)
+        c = sum(bool(correct(x)) for x in v)
         print(f"  {kk[0]:10} {kk[1]:11} {c:3d}/{len(v):<3d} = {c / len(v):6.1%}")
 
     # calibration
@@ -117,7 +117,7 @@ def report(rows: list[dict], label: str) -> dict:
         v = [r for r in rows if r.get("confidence") and lo_b <= r["confidence"] <= hi_b]
         if not v:
             continue
-        c = sum(correct(x) for x in v)
+        c = sum(bool(correct(x)) for x in v)
         mc = sum(x["confidence"] for x in v) / len(v)
         print(
             f"  conf {lo_b:3d}-{hi_b:3d}  n={len(v):3d}  stated {mc:5.1f}%  actual {c / len(v):6.1%}"

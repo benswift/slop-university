@@ -24,6 +24,7 @@ import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Any
 
 import httpx
 
@@ -156,9 +157,9 @@ def detect() -> None:
             for r in pool.map(lambda s: detect_one(client, s), todo):
                 fresh[r["item"]] = r
 
-    results = []
+    results: list[dict[str, Any]] = []
     for s in stims:
-        row = {"item": s["id"], "text_sha1": key(s)}
+        row: dict[str, Any] = {"item": s["id"], "text_sha1": key(s)}
         got = fresh.get(s["id"])
         if got is None:
             row["leaks"] = cached[key(s)]
