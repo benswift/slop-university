@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
+# dependencies = ["typer"]
 # ///
 """Reject a generated PDF whose last content page has collapsed.
 
@@ -38,13 +39,15 @@ defect. Both bars sit inside a wide gap in the published corpus.
 
 from __future__ import annotations
 
-import argparse
 import statistics
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 # preset -> (page under test, minimum fill of that page). Booklet back covers
 # are deliberately sparse, so their penultimate page is the one that matters.
@@ -151,26 +154,37 @@ def measure_page(pdf: Path, page: int, pages: int) -> PageMeasure:
     )
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("pdf", type=Path)
-    parser.add_argument("--preset", required=True)
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
+
+
+@app.command(help=__doc__)
+def main(
+    pdf: Path,
+    preset: Annotated[str, typer.Option("--preset")],
     # Overrides the per-format default above.
-    parser.add_argument("--min-fill", type=float)
+    min_fill: Annotated[float | None, typer.Option("--min-fill")] = None,
     # A page this wordy is carrying a section, however far down it reaches.
-    parser.add_argument("--full-words", type=int, default=230)
+    full_words: Annotated[int, typer.Option("--full-words")] = 230,
     # A heading or a figure earns the page its place, but not if it is bare.
-    parser.add_argument("--min-fill-with-content", type=float, default=0.2)
-    return parser.parse_args()
+    min_fill_with_content: Annotated[
+        float, typer.Option("--min-fill-with-content")
+    ] = 0.2,
+) -> None:
+    raise typer.Exit(check(pdf, preset, min_fill, full_words, min_fill_with_content))
 
 
-def main() -> int:
-    args = parse_args()
-    if not args.pdf.is_file():
-        raise FileNotFoundError(args.pdf)
+def check(
+    pdf: Path,
+    preset: str,
+    min_fill: float | None,
+    full_words: int,
+    min_fill_with_content: float,
+) -> int:
+    if not pdf.is_file():
+        raise FileNotFoundError(pdf)
 
-    pages = page_count(args.pdf)
-    if args.preset in THESES:
+    pages = page_count(pdf)
+    if preset in THESES:
         if pages < THESIS_MIN_PAGES:
             print(
                 f"quality failure: thesis has {pages} pages; "
@@ -190,14 +204,14 @@ def main() -> int:
             f"(floor {THESIS_MIN_PAGES}, ceiling {THESIS_MAX_PAGES})"
         )
         return 0
-    chosen = target(args.preset, pages)
+    chosen = target(preset, pages)
     if chosen is None:
-        print(f"quality: {args.preset} uses its preset-specific one-page fit check")
+        print(f"quality: {preset} uses its preset-specific one-page fit check")
         return 0
     page, default_fill = chosen
-    min_fill = args.min_fill if args.min_fill is not None else default_fill
+    min_fill = min_fill if min_fill is not None else default_fill
 
-    measure = measure_page(args.pdf, page, pages)
+    measure = measure_page(pdf, page, pages)
     carries = []
     if measure.heading:
         carries.append(f"heading {measure.heading[:40]!r}")
@@ -209,10 +223,10 @@ def main() -> int:
         + (f"; carries {', '.join(carries)}" if carries else "")
     )
 
-    filled = measure.endpoint >= min_fill or measure.words >= args.full_words
+    filled = measure.endpoint >= min_fill or measure.words >= full_words
     if carries:
         # A section opening here, or a figure, is content in its own right.
-        floor = args.min_fill_with_content
+        floor = min_fill_with_content
         if filled or measure.endpoint >= floor:
             return 0
         reason = (
@@ -223,7 +237,7 @@ def main() -> int:
     else:
         reason = (
             f"{measure.words} words ending at {measure.endpoint:.1%} of page height "
-            f"(needs {min_fill:.0%} fill, {args.full_words} words, "
+            f"(needs {min_fill:.0%} fill, {full_words} words, "
             f"a section heading, or a figure)"
         )
 
@@ -236,4 +250,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    app()

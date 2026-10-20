@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml>=6", "httpx>=0.27"]
+# dependencies = ["pyyaml>=6", "httpx>=0.27", "typer"]
 # ///
 """Assess the /publish gap ladder deterministically, outside the model.
 
@@ -56,7 +56,6 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
 import datetime as dt
 import json
 import math
@@ -64,8 +63,10 @@ import re
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Annotated
 
 import httpx
+import typer
 import yaml
 
 # Sections of canon/schools.yml that name an org unit with a blurb. `history`
@@ -695,48 +696,49 @@ def assess(root: Path, now: dt.datetime, no_network: bool, as_json: bool) -> int
     )
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path.cwd(),
-        help="checkout to assess (default: cwd)",
-    )
-    parser.add_argument(
-        "--json", action="store_true", help="emit JSON instead of prose"
-    )
-    parser.add_argument(
-        "--only-2a",
-        action="store_true",
-        help="concurrent generator slot: always return 2A",
-    )
-    parser.add_argument(
-        "--no-network",
-        action="store_true",
-        help="skip the socials check (2G reads as not due)",
-    )
-    parser.add_argument("--now", help="override the clock (ISO datetime), for tests")
-    args = parser.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    if args.only_2a:
-        return emit(
+
+@app.command(help=__doc__)
+def main(
+    root: Annotated[
+        Path | None,
+        typer.Option("--root", help="checkout to assess (default: cwd)"),
+    ] = None,
+    as_json: Annotated[
+        bool, typer.Option("--json", help="emit JSON instead of prose")
+    ] = False,
+    only_2a: Annotated[
+        bool,
+        typer.Option("--only-2a", help="concurrent generator slot: always return 2A"),
+    ] = False,
+    no_network: Annotated[
+        bool,
+        typer.Option(
+            "--no-network", help="skip the socials check (2G reads as not due)"
+        ),
+    ] = False,
+    now: Annotated[
+        str | None,
+        typer.Option("--now", help="override the clock (ISO datetime), for tests"),
+    ] = None,
+) -> None:
+    if only_2a:
+        code = emit(
             "2A",
             "generator slot pinned to 2A; concurrent slots never garden",
             {},
             {},
-            args.json,
+            as_json,
         )
-
-    now = resolve_now(args.now)
-    return assess(args.root, now, args.no_network, args.json)
+    else:
+        code = assess(root or Path.cwd(), resolve_now(now), no_network, as_json)
+    raise typer.Exit(code)
 
 
 if __name__ == "__main__":
     try:
-        sys.exit(main())
+        app()
     except MalformedInput as exc:
         print(f"malformed input: {exc}", file=sys.stderr)
         sys.exit(2)

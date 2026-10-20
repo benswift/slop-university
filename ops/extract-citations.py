@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml>=6"]
+# dependencies = ["pyyaml>=6", "typer"]
 # ///
 """Harvest the canon's internal citation graph from published source files.
 
@@ -34,14 +34,15 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
 import sys
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
+from typing import Annotated
 
+import typer
 import yaml
 
 REPO = Path(__file__).resolve().parent.parent
@@ -246,39 +247,50 @@ def suggest(entries: dict[str, dict], count: int) -> list[str]:
     return lines
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    target = parser.add_mutually_exclusive_group(required=True)
-    target.add_argument(
-        "--all", action="store_true", help="re-harvest the whole ledger"
-    )
-    target.add_argument("--id", help="harvest one entry (the just-published tick)")
-    target.add_argument(
-        "--suggest",
-        nargs="?",
-        type=int,
-        const=30,
-        metavar="N",
-        help="list prior outputs a citation would lift onto the next h-index rung",
-    )
-    parser.add_argument(
-        "--write", action="store_true", help="write cites: into the ledger"
-    )
-    args = parser.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
+
+SUGGEST_DEFAULT = 30
+
+
+@app.command(help=__doc__)
+def main(
+    all_: Annotated[
+        bool, typer.Option("--all", help="re-harvest the whole ledger")
+    ] = False,
+    id_: Annotated[
+        str | None,
+        typer.Option("--id", help="harvest one entry (the just-published tick)"),
+    ] = None,
+    suggest_n: Annotated[
+        int | None,
+        typer.Option(
+            "--suggest",
+            metavar="[N]",
+            help="list prior outputs a citation would lift onto the next h-index rung"
+            f" (N defaults to {SUGGEST_DEFAULT})",
+        ),
+    ] = None,
+    write: Annotated[
+        bool, typer.Option("--write", help="write cites: into the ledger")
+    ] = False,
+) -> None:
+    if [all_, id_ is not None, suggest_n is not None].count(True) != 1:
+        print("exactly one of --all, --id, --suggest is required", file=sys.stderr)
+        raise typer.Exit(2)
 
     entries = ledger()
 
-    if args.suggest:
-        for line in suggest(entries, args.suggest):
+    if suggest_n:
+        for line in suggest(entries, suggest_n):
             print(line)
-        return 0
+        return
 
-    if args.id and args.id not in entries:
-        print(f"no ledger entry: {args.id}", file=sys.stderr)
-        return 1
+    if id_ and id_ not in entries:
+        print(f"no ledger entry: {id_}", file=sys.stderr)
+        raise typer.Exit(1)
 
     edges, notes = harvest(entries)
-    scope = [args.id] if args.id else sorted(entries)
+    scope = [id_] if id_ else sorted(entries)
 
     written = 0
     total = 0
@@ -290,20 +302,32 @@ def main() -> int:
         )
         total += len(merged)
         if merged != (entries[entry_id].get("cites") or []):
-            if args.write:
+            if write:
                 write_cites(OUTPUTS_DIR / f"{entry_id}.yml", merged)
             written += 1
 
     for note in notes:
         print(f"  note: {note}")
-    verb = "wrote" if args.write else "would write"
+    verb = "wrote" if write else "would write"
     print(
         f"{verb} cites: on {written} entr{'y' if written == 1 else 'ies'} ({total} edges in scope)"
     )
-    if not args.write:
+    if not write:
         print("dry run --- pass --write to record")
-    return 0
+
+
+def bare_suggest_default(argv: list[str]) -> list[str]:
+    """Give a bare `--suggest` (no N) its default, as the optional value it was."""
+    out: list[str] = []
+    for i, arg in enumerate(argv):
+        out.append(arg)
+        nxt = argv[i + 1] if i + 1 < len(argv) else None
+        if arg == "--suggest" and (
+            nxt is None or (nxt.startswith("-") and not re.fullmatch(r"-\d+", nxt))
+        ):
+            out.append(str(SUGGEST_DEFAULT))
+    return out
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app(args=bare_suggest_default(sys.argv[1:]))

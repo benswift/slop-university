@@ -3,6 +3,7 @@
 # requires-python = ">=3.12"
 # dependencies = [
 #     "httpx",
+#     "typer",
 # ]
 # ///
 """Compare a draft PDF with recent same-preset outputs for stock language.
@@ -31,15 +32,16 @@ subject is the drift this check flags.
 
 from __future__ import annotations
 
-import argparse
 import re
 import subprocess
 import tempfile
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Annotated
 
 import httpx
+import typer
 
 # A label in at least this share of the recent outputs is the preset's standing
 # furniture rather than a scaffold that has stopped rotating.
@@ -313,51 +315,82 @@ def compare(
     return len(repeated_labels) + len(repeated_frames) + self_reference_extra
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("pdf", type=Path)
-    parser.add_argument("--preset", required=True)
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--limit", type=int, default=8)
-    parser.add_argument("--reference", action="append", type=Path, default=[])
-    parser.add_argument("--base-url", default="https://pdf.slop.university")
-    parser.add_argument("--self-reference-threshold", type=int, default=3)
-    parser.add_argument("--prior-title-threshold", type=int, default=2)
-    parser.add_argument(
-        "--self-reference-only",
-        action="store_true",
-        help=(
-            "Skip the reference-PDF download/comparison and only report "
-            "self-reference for the current PDF. Cheap to run mid-draft "
-            "without network."
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
+
+
+@app.command(help=__doc__)
+def main(
+    pdf: Path,
+    preset: Annotated[str, typer.Option("--preset")],
+    root: Annotated[Path | None, typer.Option("--root")] = None,
+    limit: Annotated[int, typer.Option("--limit")] = 8,
+    reference: Annotated[list[Path] | None, typer.Option("--reference")] = None,
+    base_url: Annotated[
+        str, typer.Option("--base-url")
+    ] = "https://pdf.slop.university",
+    self_reference_threshold: Annotated[
+        int, typer.Option("--self-reference-threshold")
+    ] = 3,
+    prior_title_threshold: Annotated[int, typer.Option("--prior-title-threshold")] = 2,
+    self_reference_only: Annotated[
+        bool,
+        typer.Option(
+            "--self-reference-only",
+            help=(
+                "Skip the reference-PDF download/comparison and only report "
+                "self-reference for the current PDF. Cheap to run mid-draft "
+                "without network."
+            ),
         ),
+    ] = False,
+) -> None:
+    raise typer.Exit(
+        check(
+            pdf,
+            preset,
+            root or Path.cwd(),
+            limit,
+            reference or [],
+            base_url,
+            self_reference_threshold,
+            prior_title_threshold,
+            self_reference_only,
+        )
     )
-    return parser.parse_args()
 
 
-def main() -> int:
-    args = parse_args()
-    current = pdf_text(args.pdf)
-    if args.self_reference_only:
+def check(
+    pdf: Path,
+    preset: str,
+    root: Path,
+    limit: int,
+    reference: list[Path],
+    base_url: str,
+    self_reference_threshold: int,
+    prior_title_threshold: int,
+    self_reference_only: bool,
+) -> int:
+    current = pdf_text(pdf)
+    if self_reference_only:
         self_reference_report(
             current,
-            args.self_reference_threshold,
-            args.prior_title_threshold,
-            args.root,
-            args.pdf.stem,
+            self_reference_threshold,
+            prior_title_threshold,
+            root,
+            pdf.stem,
         )
         return 0
     references: list[tuple[str, str]] = []
-    if args.reference:
-        references = [(path.stem, pdf_text(path)) for path in args.reference]
+    if reference:
+        references = [(path.stem, pdf_text(path)) for path in reference]
     else:
-        entries = recent_entries(args.root, args.preset, args.pdf.stem, args.limit)
+        entries = recent_entries(root, preset, pdf.stem, limit)
         with tempfile.TemporaryDirectory(prefix="slopu-language-") as directory:
             for entry in entries:
                 target = Path(directory) / f"{entry.id}.pdf"
                 try:
                     response = httpx.get(
-                        f"{args.base_url.rstrip('/')}/{entry.id}.pdf",
+                        f"{base_url.rstrip('/')}/{entry.id}.pdf",
                         timeout=30,
                         follow_redirects=True,
                     )
@@ -376,13 +409,13 @@ def main() -> int:
     compare(
         current,
         references,
-        args.self_reference_threshold,
-        args.prior_title_threshold,
-        args.root,
-        args.pdf.stem,
+        self_reference_threshold,
+        prior_title_threshold,
+        root,
+        pdf.stem,
     )
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    app()

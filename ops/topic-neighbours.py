@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml>=6"]
+# dependencies = ["pyyaml>=6", "typer"]
 # ///
 """Retrieval side of the 2A dedup check, so the agent reads a shortlist, not the ledger.
 
@@ -18,7 +18,6 @@ short output and applies judgement, same as before.
 
 from __future__ import annotations
 
-import argparse
 import math
 import os
 import random
@@ -27,7 +26,9 @@ import sys
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Annotated
 
+import typer
 import yaml
 
 OUTPUTS_GLOB = "website/src/content/outputs/*.yml"
@@ -252,38 +253,40 @@ def apparatus_share(entries: list[Entry]) -> None:
     print(f"{all_pct:.0f}% of all entries; {recent_pct:.0f}% of the last 30")
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "topic", help="the candidate topic to check for prior neighbours"
-    )
-    parser.add_argument(
-        "--root", type=Path, default=Path("."), help="checkout to read the ledger from"
-    )
-    parser.add_argument(
-        "--top", type=int, default=10, help="nearest-topics shortlist size"
-    )
-    parser.add_argument(
-        "--sample", type=int, default=12, help="random object-sample size"
-    )
-    parser.add_argument(
-        "--seed", type=int, help="seed the random sample (default: OS randomness)"
-    )
-    args = parser.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    entries = load_entries(args.root)
+
+@app.command(help=__doc__)
+def main(
+    topic: Annotated[
+        str, typer.Argument(help="the candidate topic to check for prior neighbours")
+    ],
+    root: Annotated[
+        Path, typer.Option("--root", help="checkout to read the ledger from")
+    ] = Path("."),
+    top: Annotated[
+        int, typer.Option("--top", help="nearest-topics shortlist size")
+    ] = 10,
+    sample: Annotated[
+        int, typer.Option("--sample", help="random object-sample size")
+    ] = 12,
+    seed: Annotated[
+        int | None,
+        typer.Option("--seed", help="seed the random sample (default: OS randomness)"),
+    ] = None,
+) -> None:
+    entries = load_entries(root)
     token_lists = [tokenise(entry.text) for entry in entries]
     idf = idf_weights(token_lists)
     vectors = {
         entry.id: vectorise(tokens, idf) for entry, tokens in zip(entries, token_lists)
     }
-    candidate_vec = vectorise(tokenise(args.topic), idf)
+    candidate_vec = vectorise(tokenise(topic), idf)
 
-    nearest_topics(candidate_vec, vectors, entries, args.top)
-    random_sample(entries, args.sample, args.seed)
+    nearest_topics(candidate_vec, vectors, entries, top)
+    random_sample(entries, sample, seed)
     apparatus_share(entries)
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()

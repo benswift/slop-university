@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["typer"]
 # ///
 """Measure what one publish tick cost in tokens, for whichever agent ran it.
 
@@ -33,7 +33,6 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
 import json
 import subprocess
 import sys
@@ -41,7 +40,11 @@ import urllib.parse
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
+from enum import StrEnum
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
 GROK_SESSIONS_DIR = Path.home() / ".grok" / "sessions"
@@ -352,55 +355,66 @@ def print_weekly(ledger_path: Path) -> int:
     return 0
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--profile", choices=["claude-sub", "grok-sub"])
-    parser.add_argument("--since", type=parse_time)
-    parser.add_argument("--until", type=parse_time)
-    parser.add_argument(
-        "--worktree",
-        type=Path,
-        default=Path("/home/ben/projects/slop-university-press"),
-    )
-    parser.add_argument("--ledger", type=Path)
-    parser.add_argument("--label")
-    parser.add_argument("--weekly", action="store_true")
-    args = parser.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
-    ledger_path = args.ledger or (repo_root() / "data" / "usage-ledger.jsonl")
 
-    if args.weekly:
-        return print_weekly(ledger_path)
+class Profile(StrEnum):
+    claude_sub = "claude-sub"
+    grok_sub = "grok-sub"
 
-    if not args.profile or not args.since:
-        parser.error("--profile and --since are required unless --weekly is given")
 
-    until = args.until or datetime.now().astimezone()
-    since = args.since
+@app.command(help=__doc__)
+def main(
+    profile: Annotated[Profile | None, typer.Option("--profile")] = None,
+    since: Annotated[
+        datetime | None, typer.Option("--since", parser=parse_time)
+    ] = None,
+    until: Annotated[
+        datetime | None, typer.Option("--until", parser=parse_time)
+    ] = None,
+    worktree: Annotated[Path, typer.Option("--worktree")] = Path(
+        "/home/ben/projects/slop-university-press"
+    ),
+    ledger: Annotated[Path | None, typer.Option("--ledger")] = None,
+    label: Annotated[str | None, typer.Option("--label")] = None,
+    weekly: Annotated[bool, typer.Option("--weekly")] = False,
+) -> None:
+    ledger_path = ledger or (repo_root() / "data" / "usage-ledger.jsonl")
+
+    if weekly:
+        raise typer.Exit(print_weekly(ledger_path))
+
+    if not profile or not since:
+        print(
+            "error: --profile and --since are required unless --weekly is given",
+            file=sys.stderr,
+        )
+        raise typer.Exit(2)
+
+    until = until or datetime.now().astimezone()
     if since.tzinfo is None:
         since = since.astimezone()
     since = since.astimezone(UTC)
     until = until.astimezone(UTC)
 
-    if args.profile == "claude-sub":
-        usage = collect_claude_usage(args.worktree, since, until)
+    if profile == "claude-sub":
+        usage = collect_claude_usage(worktree, since, until)
         if usage.calls == 0:
-            print(f"usage: {args.profile} no transcripts found in window")
-            return 0
-        line, record = report_claude(usage, args.label)
+            print(f"usage: {profile} no transcripts found in window")
+            return
+        line, record = report_claude(usage, label)
     else:
-        usage = collect_grok_usage(args.worktree, since, until)
+        usage = collect_grok_usage(worktree, since, until)
         if usage.sessions == 0:
-            print(f"usage: {args.profile} no transcripts found in window")
-            return 0
-        line, record = report_grok(usage, args.label)
+            print(f"usage: {profile} no transcripts found in window")
+            return
+        line, record = report_grok(usage, label)
 
     print(line)
     record["timestamp"] = datetime.now(UTC).isoformat()
-    record["worktree"] = str(args.worktree)
+    record["worktree"] = str(worktree)
     append_ledger(ledger_path, record)
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()

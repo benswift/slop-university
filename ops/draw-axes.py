@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pyyaml>=6"]
+# dependencies = ["pyyaml>=6", "typer"]
 # ///
 """Draw a publish run's givens outside the model, like select-preset.sh.
 
@@ -59,7 +59,6 @@ is. `canon/burnt-shapes.yml` retires values from the thesis pools.
 
 from __future__ import annotations
 
-import argparse
 import functools
 import json
 import os
@@ -67,7 +66,9 @@ import random
 import sys
 from collections import Counter
 from pathlib import Path
+from typing import Annotated
 
+import typer
 import yaml
 
 # The pools are doctrine, so they come from the checkout this SCRIPT lives in
@@ -324,35 +325,46 @@ def thesis_slot() -> dict:
     return {"school": school["name"], "primary": primary, "associate": associate}
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--json", action="store_true", help="emit JSON instead of prose"
-    )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path("."),
-        help="checkout to draw against (default: the working directory)",
-    )
-    parser.add_argument(
-        "--preset",
-        help="the preset this run rolled, so a fixed school constrains the draw",
-    )
-    parser.add_argument(
-        "--thesis",
-        action="store_true",
-        help="draw a thesis run's fiction (setting, school, supervisors) and nothing else",
-    )
-    args = parser.parse_args()
-    os.chdir(args.root)
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
+
+@app.command(help=__doc__)
+def main(
+    as_json: Annotated[
+        bool, typer.Option("--json", help="emit JSON instead of prose")
+    ] = False,
+    root: Annotated[
+        Path,
+        typer.Option(
+            "--root", help="checkout to draw against (default: the working directory)"
+        ),
+    ] = Path("."),
+    preset: Annotated[
+        str | None,
+        typer.Option(
+            "--preset",
+            help="the preset this run rolled, so a fixed school constrains the draw",
+        ),
+    ] = None,
+    thesis: Annotated[
+        bool,
+        typer.Option(
+            "--thesis",
+            help="draw a thesis run's fiction (setting, school, supervisors) and nothing else",
+        ),
+    ] = False,
+) -> None:
+    os.chdir(root)
+    raise typer.Exit(draw_givens(preset, thesis, as_json))
+
+
+def draw_givens(preset: str | None, thesis: bool, as_json: bool) -> int:
     retired = [collapse(entry["shape"]) for entry in burnt_entries()]
 
-    if args.thesis:
+    if thesis:
         setting = draw(load_axes()["setting"])
         fiction = thesis_slot()
-        if args.json:
+        if as_json:
             print(
                 json.dumps(
                     {
@@ -382,9 +394,9 @@ def main() -> int:
             "id": "native",
             "value": f"the subject's own field ({subject['field']})",
         }
-    author = author_slot(args.preset)
+    author = author_slot(preset)
 
-    if args.json:
+    if as_json:
         print(
             json.dumps(
                 {
@@ -407,4 +419,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()

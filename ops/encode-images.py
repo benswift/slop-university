@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pillow>=11.2", "pyyaml>=6"]
+# dependencies = ["pillow>=11.2", "pyyaml>=6", "typer"]
 # ///
 """Encode per-publish images into the ladders the img bucket serves.
 
@@ -38,15 +38,17 @@ smaller display rungs), reports orphans in both directions, and with
 --write-frontmatter inserts the dims into each yml/md.
 """
 
-import argparse
 import os
 import re
 import subprocess
 import sys
 import tempfile
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from enum import StrEnum
 from pathlib import Path
+from typing import Annotated
 
+import typer
 import yaml
 from PIL import Image
 
@@ -266,28 +268,34 @@ def backfill(write_frontmatter: bool, pending: Path) -> None:
         sys.exit(1)
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__)
-    sub = ap.add_subparsers(dest="cmd", required=True)
+class Kind(StrEnum):
+    hero = "hero"
+    news_hero = "news-hero"
+    thumb = "thumb"
 
-    enc = sub.add_parser("encode", help="encode one image for a publish tick")
-    enc.add_argument("kind", choices=["hero", "news-hero", "thumb"])
-    enc.add_argument("--source", required=True, type=Path)
-    enc.add_argument("--id", required=True, dest="entry_id")
-    enc.add_argument("--pending-dir", type=Path, default=DEFAULT_PENDING)
 
-    bf = sub.add_parser("backfill", help="encode every existing entry's images")
-    bf.add_argument("--write-frontmatter", action="store_true")
-    bf.add_argument("--pending-dir", type=Path, default=DEFAULT_PENDING)
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False, help=__doc__)
 
-    args = ap.parse_args()
-    if args.cmd == "encode":
-        if not args.source.is_file():
-            sys.exit(f"source not found: {args.source}")
-        encode_one(args.kind, args.source, args.entry_id, args.pending_dir)
-    else:
-        backfill(args.write_frontmatter, args.pending_dir)
+
+@app.command("encode", help="encode one image for a publish tick")
+def encode(
+    kind: Kind,
+    source: Annotated[Path, typer.Option("--source")],
+    entry_id: Annotated[str, typer.Option("--id")],
+    pending_dir: Annotated[Path, typer.Option("--pending-dir")] = DEFAULT_PENDING,
+) -> None:
+    if not source.is_file():
+        sys.exit(f"source not found: {source}")
+    encode_one(str(kind), source, entry_id, pending_dir)
+
+
+@app.command("backfill", help="encode every existing entry's images")
+def backfill_cmd(
+    write_frontmatter: Annotated[bool, typer.Option("--write-frontmatter")] = False,
+    pending_dir: Annotated[Path, typer.Option("--pending-dir")] = DEFAULT_PENDING,
+) -> None:
+    backfill(write_frontmatter, pending_dir)
 
 
 if __name__ == "__main__":
-    main()
+    app()

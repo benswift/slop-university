@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["httpx>=0.27"]
+# dependencies = ["httpx>=0.27", "typer"]
 # ///
 """Print real, recent paper titles on a drawn subject, to prime a 2A run.
 
@@ -25,12 +25,13 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
 import datetime as dt
 import re
 import sys
+from typing import Annotated
 
 import httpx
+import typer
 
 USER_AGENT = "slop-university-subject-primer/1.0 (+https://slop.university)"
 WORKS_URL = "https://api.openalex.org/works"
@@ -44,18 +45,21 @@ def clean(title: str) -> str:
     return " ".join(text.split())[:MAX_TITLE]
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("topic", help="an OpenAlex topic id, e.g. T10346")
-    parser.add_argument("--count", type=int, default=10)
-    args = parser.parse_args()
-    if not re.fullmatch(r"T\d+", args.topic):
-        sys.exit(f"not an OpenAlex topic id: {args.topic!r}")
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
+
+
+@app.command(help=__doc__)
+def main(
+    topic: Annotated[str, typer.Argument(help="an OpenAlex topic id, e.g. T10346")],
+    count: Annotated[int, typer.Option("--count")] = 10,
+) -> None:
+    if not re.fullmatch(r"T\d+", topic):
+        sys.exit(f"not an OpenAlex topic id: {topic!r}")
 
     since = dt.date.today().replace(month=1, day=1) - dt.timedelta(days=365)
     params = {
-        "filter": f"primary_topic.id:{args.topic},from_publication_date:{since},type:article",
-        "sample": str(args.count),
+        "filter": f"primary_topic.id:{topic},from_publication_date:{since},type:article",
+        "sample": str(count),
         "select": "title",
     }
     try:
@@ -66,13 +70,12 @@ def main() -> int:
         results = response.json()["results"]
     except (httpx.HTTPError, KeyError, ValueError) as exc:
         print(f"subject-primer: no primer ({type(exc).__name__})", file=sys.stderr)
-        return 0
+        return
 
     for work in results:
         if title := clean(work.get("title") or ""):
             print(f"- {title}")
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()

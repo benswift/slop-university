@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
+# dependencies = ["typer"]
 # ///
 """Reject a generated `.typ` whose tables cannot fit the measure they sit in.
 
@@ -40,10 +41,11 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
 import re
-import sys
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 # preset -> (columns that fit the measure the body sets tables in, measure).
 # Posters are absent deliberately: an A0 column is wide enough that no table a
@@ -156,27 +158,30 @@ def findings(path: Path, cap: int) -> list[str]:
     return out
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("sources", type=Path, nargs="+")
-    parser.add_argument("--preset", required=True)
-    return parser.parse_args()
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
 
-def main() -> int:
-    args = parse_args()
-    cap = CAPS.get(args.preset)
+@app.command(help=__doc__)
+def main(
+    sources: list[Path],
+    preset: Annotated[str, typer.Option("--preset")],
+) -> None:
+    raise typer.Exit(check(sources, preset))
+
+
+def check(sources: list[Path], preset: str) -> int:
+    cap = CAPS.get(preset)
     if cap is None:
-        print(f"tables: {args.preset} sets no table in a narrow measure; skipped")
+        print(f"tables: {preset} sets no table in a narrow measure; skipped")
         return 0
 
-    problems = [f for source in args.sources for f in findings(source, cap)]
+    problems = [f for source in sources for f in findings(source, cap)]
     if problems:
         print("\n".join(problems))
         return 1
-    print(f"tables: {len(args.sources)} source(s) clean at a {cap}-column limit")
+    print(f"tables: {len(sources)} source(s) clean at a {cap}-column limit")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()

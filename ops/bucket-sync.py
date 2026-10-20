@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["boto3>=1.35"]
+# dependencies = ["boto3>=1.35", "httpx"]
 # ///
 """Manage the Tigris buckets that serve slop.university's output PDFs and images.
 
@@ -59,13 +59,12 @@ Usage:
 import os
 import sys
 import time
-import urllib.error
-import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
 import boto3
+import httpx
 
 # Every origin that reads a PDF cross-origin: the live site (output landing
 # pages and the signage route) and a local `astro dev` while working on them.
@@ -391,20 +390,21 @@ def verify(target: Target, sample: str | None) -> None:
     ok = True
 
     def fetch(url: str, headers: dict[str, str] | None = None):
-        req = urllib.request.Request(url, headers=headers or {})
-        return urllib.request.urlopen(req, timeout=30)
+        r = httpx.get(url, headers=headers, timeout=30, follow_redirects=True)
+        r.raise_for_status()
+        return r
 
     disallowed = "Disallow: /" in target.robots_txt
     try:
         r = fetch(f"{target.public_base}/robots.txt")
-        body = r.read().decode()
+        body = r.content.decode()
         if ("Disallow: /" in body) == disallowed:
             policy = "Disallow: /" if disallowed else "permissive"
             print(f"robots.txt: OK ({target.public_base}/robots.txt is {policy})")
         else:
             print(f"robots.txt: WRONG BODY\n{body}")
             ok = False
-    except urllib.error.URLError as e:
+    except httpx.HTTPError as e:
         print(f"robots.txt: FAILED --- {e}")
         ok = False
 
@@ -420,7 +420,7 @@ def verify(target: Target, sample: str | None) -> None:
             acao = r.headers.get("Access-Control-Allow-Origin")
             ctype = r.headers.get("Content-Type")
             cache = r.headers.get("Cache-Control") or ""
-            print(f"{key}: HTTP {r.status}, Content-Type: {ctype}, ACAO: {acao}")
+            print(f"{key}: HTTP {r.status_code}, Content-Type: {ctype}, ACAO: {acao}")
             if target.cors and acao not in (ALLOWED_ORIGINS[0], "*"):
                 print(
                     "  CORS: FAILED --- the signage kiosk will fall back to thumbnails"
@@ -432,7 +432,7 @@ def verify(target: Target, sample: str | None) -> None:
             if "immutable" not in cache:
                 print(f"  Cache-Control: FAILED (wanted immutable, got {cache!r})")
                 ok = False
-        except urllib.error.URLError as e:
+        except httpx.HTTPError as e:
             print(f"{key}: FAILED --- {e}")
             ok = False
 

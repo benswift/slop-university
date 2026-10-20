@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = ["typer"]
 # ///
 """Dead-man check: is the publish pipeline still landing anything?
 
@@ -36,12 +36,14 @@ pattern does the alerting.
 
 from __future__ import annotations
 
-import argparse
 import datetime as dt
 import subprocess
 import sys
 import time
 from pathlib import Path
+from typing import Annotated
+
+import typer
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 
@@ -154,45 +156,51 @@ def newest_publish(ref: str = "main") -> dt.datetime | None:
     return dt.datetime.fromisoformat(stamp) if stamp else None
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--max-age",
-        type=float,
-        default=MAX_AGE / 3600,
-        metavar="HOURS",
-        help="how long without a landing counts as a stall (default: %(default)s)",
-    )
-    parser.add_argument(
-        "--grace",
-        type=float,
-        default=GRACE / 3600,
-        metavar="HOURS",
-        help="how long a stopped timer reads as a pause (default: %(default)s)",
-    )
-    args = parser.parse_args(argv)
+app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
+
+@app.command(help=__doc__)
+def main(
+    max_age: Annotated[
+        float,
+        typer.Option(
+            "--max-age",
+            metavar="HOURS",
+            show_default=False,
+            help="how long without a landing counts as a stall"
+            f" (default: {MAX_AGE / 3600})",
+        ),
+    ] = MAX_AGE / 3600,
+    grace: Annotated[
+        float,
+        typer.Option(
+            "--grace",
+            metavar="HOURS",
+            show_default=False,
+            help=f"how long a stopped timer reads as a pause (default: {GRACE / 3600})",
+        ),
+    ] = GRACE / 3600,
+) -> None:
     now = dt.datetime.now().astimezone()
     newest = newest_publish()
     found = problems(
         now=now,
         newest_publish=newest,
         stopped_for={timer: timer_stopped_for(timer) for timer in TIMERS},
-        max_age=args.max_age * 3600,
-        grace=args.grace * 3600,
+        max_age=max_age * 3600,
+        grace=grace * 3600,
     )
     if found:
         for problem in found:
             print(f"PUBLISH-CHECK: {problem}", file=sys.stderr)
-        return 1
+        raise typer.Exit(1)
 
     # `problems()` reports a corpus with no landing at all, so reaching here
     # means there is one to date the healthy line from.
     assert newest is not None
     age = format_age((now - newest).total_seconds())
     print(f"ok: {', '.join(TIMERS)} armed, newest landing {age} old")
-    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    app()
