@@ -4,3 +4,9 @@
 allowBuilds:
   esbuild: true
   sharp: false
+
+# Name patterns, not name@version: the supply-chain verify gate matches by
+# package-name glob, so versioned entries are silently ignored.
+minimumReleaseAgeExclude:
+  - astro
+  - "@astrojs/*"
