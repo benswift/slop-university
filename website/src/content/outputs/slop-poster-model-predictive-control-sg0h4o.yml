@@ -1,0 +1,37 @@
+title: Humid Before the Door Opens
+subtitle: Calendar-preview model predictive control of a soil-core archive
+authors:
+  - Brynjar Obiora
+  - Ragnhild Uzoma
+  - Marit Osayande
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-20
+publishedAt: "2026-10-20T17:00:57+11:00"
+doi: 10.5555/slop.sg0h4o
+summary: >-
+  A research poster from the School of Underlying Conditions rotates three
+  humidity controllers through a 4 °C soil-core archive over twelve weeks and
+  61 booked inspections, feeding one of them the booking calendar as a
+  previewed disturbance. With the preview, a model predictive controller held
+  the store in its 88–94% band for 93% of inspection minutes against 58% for
+  the incumbent PI loop, and sentinel cores lost 0.17 rather than 0.41 g/kg of
+  water a week; nearly a quarter of door openings were never booked, and there
+  the preview added nothing.
+topic: >-
+  Model predictive control of humidity in a soil-core archive, using the
+  inspection booking calendar as a previewed disturbance so the store
+  pre-humidifies before cores are consulted
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.aziqhm
+  - 10.5555/slop.penfi7
+  - 10.5555/slop.qaheze
