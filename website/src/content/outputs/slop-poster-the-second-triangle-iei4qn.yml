@@ -1,0 +1,36 @@
+title: The Second Triangle
+subtitle: How Triangle Solvers in Teaching Code Handle the Ambiguous Case of the Law of Sines
+authors:
+  - Eskil Nwabueze
+  - Mirela Hanke
+  - Casimir Beng
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-10-21
+publishedAt: "2026-10-21T13:01:56+11:00"
+doi: 10.5555/slop.iei4qn
+summary: >-
+  A research poster from the School of Continuous Improvement mines 417
+  triangle-solving functions from public repositories of course notes and
+  worked solutions and tests each against an exact oracle on 20,000
+  side-side-angle inputs. Most take a single arcsine and stop, 96 of them after
+  naming the ambiguous case in a comment; every solution strategy fails at the
+  right-angle boundary, and the poster releases a five-input test fixture that
+  would have caught each failure class observed.
+topic: >-
+  the second triangle: a mining study and differential test of how
+  triangle-solving functions in open educational code handle the ambiguous SSA
+  case of the law of sines
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 4096
+  height: 2286
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.b97b9c
+  - 10.5555/slop.k0snlx
+  - 10.5555/slop.orwhn3
