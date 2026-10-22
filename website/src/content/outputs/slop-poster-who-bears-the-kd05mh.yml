@@ -1,0 +1,34 @@
+title: The Price of Going First
+subtitle: Exploration regret as a problem of just savings in adaptive allocation
+authors:
+  - Signy Okpara
+  - Mirela Hanke
+  - Kwame Lindqvist
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-10-23
+publishedAt: "2026-10-23T07:00:56+11:00"
+doi: 10.5555/slop.kd05mh
+summary: >-
+  A research poster from the School of Continuous Improvement reads the
+  multi-armed bandit problem as a question of justice between cohorts,
+  arguing that cumulative regret, a total, is silent on who bears the cost of
+  learning and that the rules minimising it charge most of that cost to the
+  earliest arrivals. In a stylised simulation Thompson sampling places 52% of
+  its regret on the first tenth of the arrival stream, while a capped-savings
+  rule holds every tenth to at most 15% at 1.7 times the total.
+topic: >-
+  who bears the cost of exploration: bandit regret read as a just-savings
+  burden that adaptive allocation places on its earliest claimants
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.ji65cu
+  - 10.5555/slop.wq7k3d
