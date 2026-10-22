@@ -1,0 +1,34 @@
+title: One Seek, One Trial
+subtitle: What a Spot-Checking Storage Audit Can Certify about Contiguous Loss
+authors:
+  - Ragnhild Uzoma
+  - Mirela Hanke
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-22
+publishedAt: "2026-10-22T20:00:56+11:00"
+doi: 10.5555/slop.iqyzl0
+summary: >-
+  A paper from the School of Underlying Conditions shows that a remote data
+  possession audit's chance of detecting a contiguous run of lost blocks is
+  bounded by its number of physically separate reads rather than its number of
+  blocks, so that a single contiguous-range challenge is nearly blind to
+  run-shaped loss. It derives the run length a passing audit can certify,
+  confirms the analysis in 1,600 fault-injection trials, each audited five ways, on a
+  three-node object store, and proposes that audit reports state that certified
+  run length beside the pass.
+topic: >-
+  Contiguous-range challenges in remote data possession audits miss
+  extent-shaped loss: what a spot-checking storage audit is entitled to certify
+  about the blocks it never challenged
+pages: 5
+version: "1.0"
+cites:
+  - 10.5555/slop.97ogru
+  - 10.5555/slop.et3oig
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
