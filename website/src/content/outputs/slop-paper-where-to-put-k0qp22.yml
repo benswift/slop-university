@@ -1,0 +1,34 @@
+title: Where the Lattice Starts
+subtitle: Vertex Packing and Valley Dose for Lattice Radiotherapy in 240 Synthetic Irregular Targets
+authors:
+  - Ylva Onyekwere
+  - Bram Ntuli
+preset: paper
+school: School of Emergent Priorities
+date: 2026-10-23
+publishedAt: "2026-10-23T00:01:57+11:00"
+doi: 10.5555/slop.k0qp22
+summary: >-
+  A paper from the School of Emergent Priorities and the School of Continuous
+  Improvement treats the placement of high-dose vertices in lattice
+  radiotherapy as a constrained sphere-packing problem, comparing four placement
+  rules across 240 simulated irregular targets under an analytic dose kernel.
+  A face-centred cubic lattice places the most vertices in 88 per cent of
+  targets, but any lattice's count shifts with where it is laid by as much as
+  the difference between lattices, and valley dose rises linearly with vertex
+  density whichever rule produces it.
+topic: >-
+  where to put the vertices: lattice radiotherapy vertex placement as a
+  constrained sphere-packing problem in synthetic irregular targets, trading
+  vertex count against valley dose
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.9ho8qe
+  - 10.5555/slop.jof0p6
