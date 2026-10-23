@@ -1,0 +1,58 @@
+{
+  "lexicon": 1,
+  "id": "university.slop.defs",
+  "description": "Shared definitions for the research outputs of Slop University.",
+  "defs": {
+    "outputClass": {
+      "type": "string",
+      "description": "The University's classification of a research output.",
+      "knownValues": [
+        "university.slop.defs#researchPoster",
+        "university.slop.defs#marketingPoster",
+        "university.slop.defs#paper",
+        "university.slop.defs#brochure",
+        "university.slop.defs#strategy",
+        "university.slop.defs#impactReport",
+        "university.slop.defs#thesis",
+        "university.slop.defs#videoExplainer",
+        "university.slop.defs#videoPromo"
+      ]
+    },
+    "researchPoster": {
+      "type": "token",
+      "description": "A research poster: a single-sheet presentation of a study's question, method and principal findings, prepared for display at a conference, a symposium or the University's own corridors."
+    },
+    "marketingPoster": {
+      "type": "token",
+      "description": "A promotional poster issued by a school or unit of the University, directing the attention of prospective students and partners to a program of study or research."
+    },
+    "paper": {
+      "type": "token",
+      "description": "A research paper: a written account of an original study, its methods, results and discussion, issued by the University under its own identifier."
+    },
+    "brochure": {
+      "type": "token",
+      "description": "A brochure describing a school, program or initiative of the University to prospective students, partners and the wider community."
+    },
+    "strategy": {
+      "type": "token",
+      "description": "An institutional strategic plan, setting out the University's priorities, commitments and measures of success over a plan period."
+    },
+    "impactReport": {
+      "type": "token",
+      "description": "An impact report, recording what a school or unit of the University has delivered against its stated priorities and the difference that work is understood to have made."
+    },
+    "thesis": {
+      "type": "token",
+      "description": "A doctoral thesis: an extended original contribution to knowledge, submitted by a candidate of the University and examined under its delegated authority."
+    },
+    "videoExplainer": {
+      "type": "token",
+      "description": "A research explainer video, in which a researcher of the University presents the question, approach and findings of one of its outputs."
+    },
+    "videoPromo": {
+      "type": "token",
+      "description": "A promotional video presenting a researcher, a school or the University itself to prospective students, partners and the public."
+    }
+  }
+}

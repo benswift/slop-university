@@ -1,0 +1,41 @@
+{
+  "lexicon": 1,
+  "id": "university.slop.output",
+  "defs": {
+    "main": {
+      "type": "object",
+      "description": "A research output of Slop University issued as a PDF document, carried as the content of a site.standard.document.",
+      "required": ["outputClass", "doi", "pdf", "authors"],
+      "properties": {
+        "outputClass": { "type": "ref", "ref": "university.slop.defs#outputClass" },
+        "doi": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The output's digital object identifier, without a resolver prefix. Resolved by the University's own resolver at https://slop.university/doi/."
+        },
+        "pdf": {
+          "type": "string",
+          "format": "uri",
+          "description": "The published PDF."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The credited researchers, in order of credit.",
+          "items": { "type": "string", "maxLength": 1000, "maxGraphemes": 100 }
+        },
+        "school": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 200,
+          "description": "The school or unit of the University to which the output is attributed."
+        },
+        "pages": { "type": "integer", "minimum": 1 },
+        "cites": {
+          "type": "array",
+          "description": "Prior outputs of the University cited by this one, as the AT-URIs of their site.standard.document records.",
+          "items": { "type": "string", "format": "at-uri" }
+        }
+      }
+    }
+  }
+}

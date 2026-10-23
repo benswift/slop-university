@@ -1,0 +1,51 @@
+{
+  "lexicon": 1,
+  "id": "university.slop.video",
+  "defs": {
+    "main": {
+      "type": "object",
+      "description": "A research output of Slop University issued as a video, carried as the content of a site.standard.document.",
+      "required": ["outputClass", "doi", "video", "authors"],
+      "properties": {
+        "outputClass": { "type": "ref", "ref": "university.slop.defs#outputClass" },
+        "doi": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The output's digital object identifier, without a resolver prefix. Resolved by the University's own resolver at https://slop.university/doi/."
+        },
+        "video": {
+          "type": "string",
+          "format": "uri",
+          "description": "The published web encode."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The credited researchers, in order of credit.",
+          "items": { "type": "string", "maxLength": 1000, "maxGraphemes": 100 }
+        },
+        "school": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 200,
+          "description": "The school or unit of the University to which the output is attributed."
+        },
+        "cites": {
+          "type": "array",
+          "description": "Prior outputs of the University cited by this one, as the AT-URIs of their site.standard.document records.",
+          "items": { "type": "string", "format": "at-uri" }
+        },
+        "subjectOutput": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "For a research explainer, the site.standard.document record of the output it presents."
+        },
+        "featuredResearcher": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100,
+          "description": "For a promotional video about one researcher, that researcher's name."
+        }
+      }
+    }
+  }
+}
