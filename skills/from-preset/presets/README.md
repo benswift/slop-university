@@ -51,3 +51,9 @@ real bibliography). A non-booklet preset overrides the booklet-shaped workflow
 steps (4, 6, 7) and checklist items in its own blueprint --- see how
 `research-poster.md` handles the single-page layout, the omitted back cover, and
 the one-page fit check.
+
+A preset whose outputs publish to slop.university also needs its id in the
+outputs `preset` enum (`website/src/content.config.ts`), a label in
+`website/src/lib/preset-labels.json`, and an `outputClass` token, in the
+institutional register, in `lexicons/university/slop/defs.json`. The site's
+typecheck and tests fail until all three agree.

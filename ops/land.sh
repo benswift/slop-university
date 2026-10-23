@@ -229,6 +229,7 @@ fi
 rm -rf "$PENDING_DIR"
 log "push succeeded; cleared ${RUN_ID}'s staging dir"
 flush_staged_posts
+sync_atproto "$PROJECT_DIR"
 prune_logs
 result "landed" "${RUN_ID} (${DOI}) is live"
 exit 0

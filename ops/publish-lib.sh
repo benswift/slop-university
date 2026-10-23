@@ -132,6 +132,22 @@ flush_staged_posts() {
   done
 }
 
+# --- The ATproto records (ops/sync-atproto.py says what they are and why the
+# run is capped). Called after the push and the posts, so the post it refers to
+# usually exists already. Fail-open: a failed sync never fails a landing, and
+# the next landing's reconcile repairs it. $1 is the checkout that was pushed,
+# which is the truth the records follow --- never a human checkout that may be
+# behind or on another branch. A fixture never syncs: the account is live.
+sync_atproto() {
+  if [ "$IS_FIXTURE" = 1 ]; then
+    log "FIXTURE RUN: refusing to sync ATproto records to the live account"
+    return 0
+  fi
+  log "=== ATproto sync at $(date -Iseconds) ==="
+  timeout 600 uv run "${PROJECT_DIR}/ops/sync-atproto.py" --root "$1" --limit 100 >> "$LOG_FILE" 2>&1 \
+    || log "ATproto sync failed; the next landing repairs it"
+}
+
 # --- The run's outcome, reported to the JOURNAL and not only to logs/.
 #
 # Everything here logs to $LOG_FILE and nothing to stdout, so without this

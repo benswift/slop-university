@@ -75,6 +75,7 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh \
          ops/subject-primer.py canon/subjects.tsv \
          ops/topic-neighbours.py ops/verify-site.sh \
          ops/post-to-bluesky.py ops/post-to-linkedin.py \
+         ops/sync-atproto.py website/src/lib/atproto.json \
          canon/axes.yml canon/burnt-shapes.yml skills/publish/SKILL.md \
          skills/from-preset/presets/*.md; do
   mkdir -p "$(dirname "${REPO}/${f}")"
@@ -344,6 +345,9 @@ echo
 echo "generate + land"
 check "a generator produces a candidate"            candidate    "$(gen 2 good)"
 check "the lander lands it"                         published    "$(land)"
+check "...and refuses to sync the live ATproto account" yes "$(log_has 'refusing to sync ATproto')"
+check "the ATproto rkey vectors agree, offline" "rkey vectors agree" \
+  "$(cd "$REPO" && uv run ops/sync-atproto.py --root "$REPO" --check-vectors 2>/dev/null)"
 check "an empty queue is idle, not an error"        idle         "$(land)"
 
 echo

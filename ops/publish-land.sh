@@ -446,6 +446,7 @@ else
 fi
 
 flush_pending_post
+sync_atproto "$WORKTREE_DIR"
 
 log "=== lander finished at $(date -Iseconds) ==="
 result "published" "landed candidate ${RUN_ID}: $(git log --format='%s' -1 "$PRESS_BRANCH")"

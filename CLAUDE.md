@@ -53,7 +53,11 @@ The live units are `slop-publish-gen@1.timer` (hourly; the period is the
 throughput lever) and `slop-publish-land.timer`; slot 2 is disabled. A serial
 tick by hand is `ops/publish-generate.sh 1 && ops/publish-land.sh`.
 `ops/publish-check.py` (`slop-publish-watchdog.timer`) is the dead-man check:
-both timers armed, and something reached `main` inside six hours.
+both timers armed, and something reached `main` inside six hours. After each
+push both landers run `ops/sync-atproto.py`, which reconciles the University's
+standard.site records on ATproto (and its lexicons in `lexicons/`) with the
+committed outputs; it is fail-open and its docstring says what the records carry
+and leave out.
 
 The wrapper decides what a run does and meters what it cost; the model only
 composes. The decisions are scripts, each with a docstring saying why:
@@ -120,7 +124,11 @@ Slop University is a persistent fiction: its people, schools, and units live in
   with fabricated scholarship. He is never an author, grantee, quoted
   researcher, or named contact. Generated documents may invoke the **office**
   ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
-  institutional register; never the name. The file takes no further entries.
+  institutional register; never the name. The one exception is mechanical, not a
+  run's: every ATproto document `ops/sync-atproto.py` writes lists his real
+  account as a contributor, with the role "Vice-Chancellor" and the display name
+  "Office of the Vice-Chancellor" --- the account is linked, the name never
+  shown. The file takes no further entries.
 - `canon/schools.yml` --- the org chart: school, unit, lab, program, and
   initiative names, with their blurbs. `canon/schools.md` is the sibling
   authoring doctrine (naming register, collision check). Never invent an org

@@ -20,7 +20,12 @@
 #   contact on any generated artefact. Generated documents may invoke the
 #   OFFICE ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
 #   institutional register --- a foreword, a delegated authority, a signature
-#   block --- but never the name.
+#   block --- but never the name. One exception, made by a script and never by
+#   a run: every standard.site document ops/sync-atproto.py writes to ATproto
+#   lists his real account as a contributor, with the role "Vice-Chancellor"
+#   and the display name "Office of the Vice-Chancellor". The account is
+#   linked; the name is never shown, so the rule holds for every visible
+#   string.
 # - the schema is the roster's, so the site's people collection unions the two
 #   without a second shape to maintain (see website/src/content.config.ts).
 # - the bio stays in institutional register and is factually true. The only
