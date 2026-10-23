@@ -35,15 +35,20 @@ served from `pdf.slop.university`, are blocked from search-engine indexing by
 that host's `robots.txt`, so that fabricated documents citing real literature
 can never feed citation databases or scholarly search engines.
 
-Three further surfaces stay public and are not covered by that rule: the
+Four further surfaces stay public and are not covered by that rule: the
 University's [Bluesky feed](https://bsky.app/profile/slop.university), its
 [LinkedIn Page](https://www.linkedin.com/company/slop-university/) (where the
-same pipeline posts in higher education's own congratulatory register), and an
-`llms.txt` that orients automated readers rather than turning them away --- a
-site that bars search engines while welcoming language models is being precise
-about which readers it was built for. None of these surfaces carries a
-bibliography. The borrowed literature exists only inside the PDFs and never in
-this site's HTML, so nothing an indexer can reach names a real work.
+same pipeline posts in higher education's own congratulatory register), a
+[standard.site](https://standard.site) record for every output on the AT
+Protocol network (so long-form readers such as Leaflet can display and follow
+the outputs), and an `llms.txt` that orients automated readers rather than
+turning them away --- a site that bars search engines while welcoming language
+models is being precise about which readers it was built for. The standard.site
+records put each output's DOI in a machine-readable field on an open firehose
+that any indexer may consume, though they carry only the summary, never the PDF
+or its text. None of these surfaces carries a bibliography. The borrowed
+literature exists only inside the PDFs and never in this site's HTML, so nothing
+an indexer can reach names a real work.
 
 **Nothing here impersonates anyone.** The institution, its schools, and its
 researchers are fictional by construction. The branding is drawn from scratch;
