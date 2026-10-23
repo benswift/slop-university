@@ -560,8 +560,7 @@ upload_staged_assets() {
 # Which agent publishes. The run goes through the dotfiles dispatcher rather
 # than a hardcoded CLI, so switching the press from one agent to another is a
 # profile name, not an edit to the invocation. claude-sub is the Claude
-# subscription; grok-sub runs Grok Build on the SuperGrok subscription and is
-# the understudy (see the fallback route below).
+# subscription.
 AGENT_PROFILE="${SLOPU_AGENT_PROFILE:-claude-sub}"
 AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 
@@ -572,64 +571,15 @@ AGENT_RUN="${SLOPU_AGENT_RUN:-/home/ben/.dotfiles/bin/agent-run}"
 # move or stop the press. The env overrides ride out a bad limit day without
 # an edit.
 #
-# Model names are per-agent, so the pin has to be too: pointing a Grok profile
-# at "sonnet" would fail every tick identically. Functions rather than a bare
-# case, because a fallback to another PROFILE (below) has to re-derive both
-# names for the profile it lands on.
-default_model_for_profile() {
-  case "$1" in
-    grok-*) echo "grok-4.6" ;;
-    # The brief (skills/from-preset/genre.md) leaves the piece to the model's
-    # judgement, so the model is where the quality comes from.
-    *)      echo "opus" ;;
-  esac
-}
-
-fallback_model_for_profile() {
-  case "$1" in
-    grok-*) echo "grok-4.5" ;;
-    *)      echo "sonnet" ;;
-  esac
-}
-
-AGENT_MODEL="${SLOPU_AGENT_MODEL:-$(default_model_for_profile "$AGENT_PROFILE")}"
-AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-$(fallback_model_for_profile "$AGENT_PROFILE")}"
+# The brief (skills/from-preset/genre.md) leaves the piece to the model's
+# judgement, so the model is where the quality comes from.
+AGENT_MODEL="${SLOPU_AGENT_MODEL:-opus}"
+AGENT_FALLBACK_MODEL="${SLOPU_AGENT_FALLBACK_MODEL:-sonnet}"
 
 # --- Reasoning effort, pinned for the same reason the model is. Effort is the
 # cheapest lever on a run's token bill, so it is a property of the pipeline,
 # tunable per route without an edit. Only the Claude runner takes the flag.
 AGENT_EFFORT="${SLOPU_AGENT_EFFORT:-high}"
-
-# --- The route to fall back to when the whole ACCOUNT is out, not one model.
-#
-# A Claude usage window binds one model, so another model on the same
-# subscription still answers. Grok Build bills one account-wide balance, and a
-# Claude weekly limit binds the whole subscription for days; against either, no
-# model retry helps and the only move left is the other account. Falling
-# through needs no human: each tick spends seconds proving the usual route is
-# still dry, publishes on the other, and is back on the usual route the tick it
-# recovers. Symmetric, because either account alone is a single point of
-# failure.
-case "$AGENT_PROFILE" in
-  grok-*)   DEFAULT_FALLBACK_PROFILE="claude-sub" ;;
-  claude-*) DEFAULT_FALLBACK_PROFILE="grok-sub" ;;
-  *)        DEFAULT_FALLBACK_PROFILE="" ;;
-esac
-AGENT_FALLBACK_PROFILE="${SLOPU_AGENT_FALLBACK_PROFILE:-$DEFAULT_FALLBACK_PROFILE}"
-
-# Repoint the run at the fallback route, re-deriving both model names for it (a
-# grok model pin means nothing to Claude). Clears the fallback afterwards, so a
-# route can be tried once per run and the second credits check reads as "the
-# fallback refused too" rather than looping. Non-zero when there is nowhere to
-# go, which is what makes it safe to write as `... && switch_to_fallback_profile`.
-switch_to_fallback_profile() {
-  [ -n "$AGENT_FALLBACK_PROFILE" ] || return 1
-  [ "$AGENT_FALLBACK_PROFILE" != "$AGENT_PROFILE" ] || return 1
-  AGENT_PROFILE="$AGENT_FALLBACK_PROFILE"
-  AGENT_FALLBACK_PROFILE=""
-  AGENT_MODEL="$(default_model_for_profile "$AGENT_PROFILE")"
-  AGENT_FALLBACK_MODEL="$(fallback_model_for_profile "$AGENT_PROFILE")"
-}
 
 # Draw this run's inputs. The rung (ops/assess-ladder.py), the preset
 # (ops/select-preset.sh) and a 2A run's givens (ops/draw-axes.py: subject,
@@ -708,7 +658,7 @@ ${extra}"
 # Run the agent in <worktree> on <model>. Sets AGENT_STATUS; the transcript
 # lands in $AGENT_OUT and is appended to the log.
 #
-# Expects the caller to have set AGENT_OUT, STOP_FAILURE_LOG, AGENT_PROMPT,
+# Expects the caller to have set AGENT_OUT, AGENT_PROMPT,
 # PUBLISHED_AT, and any of SLOPU_PENDING_DIR / SLOPU_SKIP_BUILD it wants passed
 # through.
 #
@@ -731,15 +681,14 @@ run_agent() {
   local started
   started="$(date -Iseconds)"
   # The effort pin is a Claude option and agent-run REJECTS it on any other
-  # runner (exit 2, nothing attempted) rather than ignoring it; Grok runs on
-  # its own default.
+  # runner (exit 2, nothing attempted) rather than ignoring it; any other
+  # runner takes its own default.
   local -a effort_args=()
   local effort_note="runner default"
   case "$AGENT_PROFILE" in
     claude-*) effort_args=(--claude-effort "$AGENT_EFFORT"); effort_note="$AGENT_EFFORT" ;;
   esac
   AGENT_STATUS=0
-  rm -f "$STOP_FAILURE_LOG"
   log "=== publish agent starting at ${started} (profile ${AGENT_PROFILE}, model ${model}, effort ${effort_note}) ==="
   (
     cd "$worktree"
@@ -747,7 +696,6 @@ run_agent() {
     GIT_AUTHOR_EMAIL="$AGENT_EMAIL" \
     SLOPU_PUBLIC_ONLY=1 \
     SLOPU_PUBLISHED_AT="$PUBLISHED_AT" \
-    SLOPU_STOP_FAILURE_LOG="$STOP_FAILURE_LOG" \
     env -u SLOPU_TOKEN \
         -u SLOPU_LINKEDIN_WEBHOOK \
         -u SLOPU_LINKEDIN_WEBHOOK_KEY \
@@ -775,86 +723,29 @@ run_agent() {
   "${PROJECT_DIR}/ops/run-usage.py" --profile "$AGENT_PROFILE" --since "$started" \
     --worktree "$worktree" --label "${ACTION:-?}/${PRESET:-?}" >> "$LOG_FILE" 2>&1 \
     || log "usage: metering failed (non-fatal)"
-  # Verbatim, so a rate-limit carries its own evidence into the log rather than
-  # only its classification.
-  if [ -s "$STOP_FAILURE_LOG" ]; then
-    log "grok turn-end records:"
-    cat "$STOP_FAILURE_LOG" >> "$LOG_FILE"
-  fi
 }
 
 # A dead credential is not a failed generation. A failed generation is
 # transient --- a typst error, a flaky model call --- and the next run may
 # succeed, so tolerating it is right. An expired OAuth token is the opposite:
 # every later run dies identically until a human logs in again, so it must
-# fail loudly. Grok's signatures are "Not signed in." (no credential) and
-# "Unauthorized (401) ... Invalid or expired credentials" (a mangled auth.json).
+# fail loudly.
 agent_auth_failed() {
-  grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in|not signed in|invalid or expired credentials|unauthorized \(401\)' "$AGENT_OUT"
-}
-
-relogin_hint() {
-  case "$AGENT_PROFILE" in
-    grok-*) echo "grok login --device-auth (on weddle, redeeming the code in a browser elsewhere)" ;;
-    *)      echo "claude /login" ;;
-  esac
+  grep -qiE 'failed to authenticate|oauth.*(expired|refresh)|invalid api key|please run /login|not logged in' "$AGENT_OUT"
 }
 
 # Out of usage credits is a third thing again --- not a dead credential (the
-# login is fine) and not a failed generation (nothing was attempted). For
-# Claude it is usually the limit for ONE model, so the run's best move is to
-# retry once on another model rather than forfeit the slot.
-#
-# Two detectors. The Grok StopFailure hook classifies the failure itself and
-# records it in a field; the regex covers a Claude profile (which has no hook)
-# and a Grok run where the hook did not load. The hook also records a
-# SessionEnd heartbeat, so an absent StopFailure line can be told apart from a
-# hook that never ran --- and the latter shouts rather than falling back
-# silently.
-hook_was_live() { [ -s "$STOP_FAILURE_LOG" ]; }
-
-hook_saw_rate_limit() {
-  # Matching a field this script's sibling writes, not prose xAI can reword ---
-  # the contract is between ops/grok-stop-failure-hook.py and this line.
-  # Capacity errors (503/529) also classify as rate_limit; the retry is the
-  # right response to both.
-  grep -qE '"error": *"rate_limit"' "$STOP_FAILURE_LOG" 2>/dev/null
-}
-
-credits_exhausted_by_regex() {
-  # "usage limit reached" is common to both agents; Grok's other phrasings come
-  # from the strings in the grok binary. "hit your <period> limit" is the Claude
-  # subscription's wording, with the period left open because the list of
-  # billing windows is theirs to change.
-  grep -qiE "out of usage credits|usage limit reached|(exceeded|hit) your [a-z ]*limit|out of credits|usage balance exhausted|spending limit" "$AGENT_OUT"
-}
-
-# The account balance is gone, as opposed to one model's window being shut: a
-# Grok 402 ("usage balance exhausted") or a Claude weekly/daily/monthly limit.
-# A model retry is futile against it (it binds every model) and it is the one
-# failure worth changing route for. Read from the hook log as well as stdout,
-# because the hook records the message even when grok misclassifies it.
-HARD_EXHAUSTION_RE='usage balance exhausted|402 payment required|hit your [a-z ]*(weekly|daily|monthly) limit'
-
-credits_hard_exhausted() {
-  grep -qiE "$HARD_EXHAUSTION_RE" "$AGENT_OUT" 2>/dev/null && return 0
-  grep -qiE "$HARD_EXHAUSTION_RE" "$STOP_FAILURE_LOG" 2>/dev/null
-}
-
+# login is fine) and not a failed generation (nothing was attempted). It is
+# usually the limit for ONE model, so the run's best move is to retry once on
+# another model rather than forfeit the slot. "hit your <period> limit" is the
+# subscription's wording, with the period left open because the list of
+# billing windows is theirs to change.
 credits_exhausted() {
-  # The hook's verdict is additive, not authoritative: grok classifies a dead
-  # balance as "invalid_request", so the regexes always get a say. A detector
-  # that can only ADD a verdict cannot take one away.
-  case "$AGENT_PROFILE" in
-    grok-*)
-      if hook_was_live; then
-        hook_saw_rate_limit && return 0
-      else
-        log "WARNING: the Grok StopFailure hook left no record (not even a SessionEnd heartbeat)."
-        log "  Falling back to stdout matching. Check that ~/.grok/hooks/slopu-stop-failure.json"
-        log "  resolves to ops/grok-hooks/slopu-stop-failure.json and that the script is executable."
-      fi
-      ;;
-  esac
-  credits_hard_exhausted || credits_exhausted_by_regex
+  grep -qiE "out of usage credits|usage limit reached|(exceeded|hit) your [a-z ]*limit" "$AGENT_OUT"
+}
+
+# The whole subscription is out, as opposed to one model's window being shut: a
+# weekly/daily/monthly limit binds every model, so a model retry is futile.
+credits_hard_exhausted() {
+  grep -qiE 'hit your [a-z ]*(weekly|daily|monthly) limit' "$AGENT_OUT" 2>/dev/null
 }

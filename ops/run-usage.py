@@ -10,24 +10,16 @@ Nothing logs this today: the pipeline picks its agent profile
 actually spent, so the tick rate can't be tuned against a subscription's weekly
 allowance and a run-shrinking change can't be measured before/after.
 
-Two profiles, two transcript formats, because the two subscriptions log
-differently:
-
-- `claude-sub`: `~/.claude/projects/<encoded worktree>/*.jsonl`, one line per
-  CONTENT BLOCK, not one per message: an assistant turn of thinking plus two
-  tool calls is three lines, each repeating that turn's whole `message.usage`.
-  So sum usage once per `message.id` and count tool_use blocks per line.
-  Subagent transcripts live under a subdirectory of the same project dir
-  (`<session>/subagents/*.jsonl`), so the glob is recursive.
-- `grok-sub`: `~/.grok/sessions/<url-encoded worktree>/<session-id>/
-  updates.jsonl`. Only the LAST `"usage":{...}` object in the file matters ---
-  each `turn_completed` update carries the session's running total, so the
-  last one IS the session total, not one turn's slice.
+The `claude-sub` transcripts are `~/.claude/projects/<encoded worktree>/*.jsonl`,
+one line per CONTENT BLOCK, not one per message: an assistant turn of thinking
+plus two tool calls is three lines, each repeating that turn's whole
+`message.usage`. So sum usage once per `message.id` and count tool_use blocks
+per line. Subagent transcripts live under a subdirectory of the same project
+dir (`<session>/subagents/*.jsonl`), so the glob is recursive.
 
 Usage:
   ops/run-usage.py --profile claude-sub --since 2026-09-10T07:30:00+10:00 \\
       --worktree /home/ben/projects/slop-university-press
-  ops/run-usage.py --profile grok-sub --since ... --until ...
   ops/run-usage.py --weekly
 """
 
@@ -36,7 +28,6 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
-import urllib.parse
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
@@ -47,7 +38,6 @@ from typing import Annotated
 import typer
 
 CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
-GROK_SESSIONS_DIR = Path.home() / ".grok" / "sessions"
 
 
 def repo_root() -> Path:
@@ -73,11 +63,6 @@ def parse_time(text: str) -> datetime:
 def encode_claude_worktree(worktree: Path) -> str:
     """`/a/b/c` -> `-a-b-c`, the scheme `~/.claude/projects/` uses."""
     return str(worktree).replace("/", "-")
-
-
-def encode_grok_worktree(worktree: Path) -> str:
-    """Percent-encoded, e.g. /home/ben/x -> %2Fhome%2Fben%2Fx."""
-    return urllib.parse.quote(str(worktree), safe="")
 
 
 def in_window(mtime: float, since: datetime, until: datetime) -> bool:
@@ -189,64 +174,6 @@ def collect_claude_usage(
     return usage
 
 
-@dataclass
-class GrokUsage:
-    calls: int = 0
-    input_tokens: int = 0
-    cached_tokens: int = 0
-    output_tokens: int = 0
-    cost_usd: float = 0.0
-    sessions: int = 0
-
-
-def last_usage_object(text: str) -> dict | None:
-    """The final `"usage":{...}` in the file --- each `turn_completed` update
-    carries the session's running total, so the last one supersedes every
-    earlier one rather than adding to it."""
-    marker = '"usage":{'
-    idx = text.rfind(marker)
-    if idx == -1:
-        return None
-    start = idx + len('"usage":')
-    decoder = json.JSONDecoder()
-    obj, _ = decoder.raw_decode(text, start)
-    return obj
-
-
-def collect_grok_usage(worktree: Path, since: datetime, until: datetime) -> GrokUsage:
-    sessions_dir = GROK_SESSIONS_DIR / encode_grok_worktree(worktree)
-    usage = GrokUsage()
-    if not sessions_dir.is_dir():
-        return usage
-
-    for session_dir in sessions_dir.iterdir():
-        if not session_dir.is_dir():
-            continue
-        try:
-            mtime = session_dir.stat().st_mtime
-        except OSError:
-            continue
-        if not in_window(mtime, since, until):
-            continue
-
-        updates_path = session_dir / "updates.jsonl"
-        if not updates_path.is_file():
-            continue
-
-        last = last_usage_object(updates_path.read_text())
-        if last is None:
-            continue
-
-        usage.sessions += 1
-        usage.calls += last.get("modelCalls", 0) or 0
-        usage.input_tokens += last.get("inputTokens", 0) or 0
-        usage.cached_tokens += last.get("cachedReadTokens", 0) or 0
-        usage.output_tokens += last.get("outputTokens", 0) or 0
-        usage.cost_usd += (last.get("costUsdTicks", 0) or 0) / 1e10
-
-    return usage
-
-
 def human(n: int) -> str:
     """Compact magnitude suffix: 358214 -> 358k, 52123456 -> 52.1M."""
     n_abs = abs(n)
@@ -290,27 +217,6 @@ def report_claude(usage: ClaudeUsage, label: str | None) -> tuple[str, dict]:
     return line, record
 
 
-def report_grok(usage: GrokUsage, label: str | None) -> tuple[str, dict]:
-    line = (
-        f"usage: grok-sub calls={usage.calls} "
-        f"input={human(usage.input_tokens)} "
-        f"cached={human(usage.cached_tokens)} "
-        f"output={human(usage.output_tokens)} "
-        f"cost=${usage.cost_usd:.2f}"
-    )
-    record = {
-        "profile": "grok-sub",
-        "label": label,
-        "calls": usage.calls,
-        "input_tokens": usage.input_tokens,
-        "cached_tokens": usage.cached_tokens,
-        "output_tokens": usage.output_tokens,
-        "cost_usd": usage.cost_usd,
-        "sessions": usage.sessions,
-    }
-    return line, record
-
-
 def print_weekly(ledger_path: Path) -> int:
     if not ledger_path.is_file():
         print(f"usage: no ledger at {ledger_path}")
@@ -337,20 +243,17 @@ def print_weekly(ledger_path: Path) -> int:
                 "context_sent", record.get("input_tokens", 0)
             )
             totals[profile]["output_tokens"] += record.get("output_tokens", 0)
-            totals[profile]["cost_usd_ticks"] += int(record.get("cost_usd", 0) * 1e10)
 
     if not totals:
         print("usage: weekly totals: no ledger entries in the trailing 7 days")
         return 0
 
     for profile, counter in totals.items():
-        cost_usd = counter["cost_usd_ticks"] / 1e10
         print(
             f"usage: weekly {profile} runs={runs[profile]} "
             f"calls={counter['calls']} "
             f"context_sent={human(counter['context_sent'])} "
-            f"output={human(counter['output_tokens'])} "
-            f"cost=${cost_usd:.2f}"
+            f"output={human(counter['output_tokens'])}"
         )
     return 0
 
@@ -360,7 +263,6 @@ app = typer.Typer(add_completion=False, pretty_exceptions_enable=False)
 
 class Profile(StrEnum):
     claude_sub = "claude-sub"
-    grok_sub = "grok-sub"
 
 
 @app.command(help=__doc__)
@@ -397,18 +299,11 @@ def main(
     since = since.astimezone(UTC)
     until = until.astimezone(UTC)
 
-    if profile == "claude-sub":
-        usage = collect_claude_usage(worktree, since, until)
-        if usage.calls == 0:
-            print(f"usage: {profile} no transcripts found in window")
-            return
-        line, record = report_claude(usage, label)
-    else:
-        usage = collect_grok_usage(worktree, since, until)
-        if usage.sessions == 0:
-            print(f"usage: {profile} no transcripts found in window")
-            return
-        line, record = report_grok(usage, label)
+    usage = collect_claude_usage(worktree, since, until)
+    if usage.calls == 0:
+        print(f"usage: {profile} no transcripts found in window")
+        return
+    line, record = report_claude(usage, label)
 
     print(line)
     record["timestamp"] = datetime.now(UTC).isoformat()

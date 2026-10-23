@@ -157,10 +157,6 @@ compose_agent_prompt "$STEER"
 
 # shellcheck disable=SC2034  # consumed by run_agent/publish_on_exit in publish-lib.sh
 AGENT_OUT="$(mktemp)"
-# Per-slot, so a slot's credit verdict is read from its OWN turn records rather
-# than a sibling's. The EXIT trap clears AGENT_OUT.
-# shellcheck disable=SC2034  # consumed by run_agent/hook_was_live in publish-lib.sh
-STOP_FAILURE_LOG="${PROJECT_DIR}/data/stop-failures-gen-${SLOT}.jsonl"
 
 # What the agent must do differently in a generator slot:
 #   SLOPU_PENDING_DIR --- stage into this run's own directory, so two slots
@@ -177,11 +173,10 @@ export SLOPU_SKIP_BUILD=1
 run_agent "$WORKTREE_DIR" "$AGENT_MODEL"
 
 if agent_auth_failed; then
-  RELOGIN="$(relogin_hint)"
   log "AGENT AUTH FAILURE --- the unattended agent could not authenticate. No work was attempted."
-  log "  Fix: run: ${RELOGIN}, then let the next run go."
+  log "  Fix: run: claude /login, then let the next run go."
   discard_candidate
-  result "failed-auth" "agent could not authenticate; a human must run: ${RELOGIN}"
+  result "failed-auth" "agent could not authenticate; a human must run: claude /login"
   exit 3
 fi
 
@@ -194,12 +189,8 @@ if credits_exhausted; then
     log "  a thesis run has no fallback: it spends the budget it was given or stops"
   elif [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
-    # Order matters: the hard-exhaustion test reads the attempt's output, and
-    # the switch it guards overwrites the profile that test would classify by.
-    if credits_hard_exhausted && switch_to_fallback_profile; then
-      log "  the whole account balance is gone, so another model billed to it would refuse too;"
-      log "  retrying on the fallback profile ${AGENT_PROFILE} (model ${AGENT_MODEL})"
-      run_agent "$WORKTREE_DIR" "$AGENT_MODEL"
+    if credits_hard_exhausted; then
+      log "  the whole subscription is out, so another model billed to it would refuse too; not retrying"
     else
       log "  nothing was generated; retrying on the fallback model ${AGENT_FALLBACK_MODEL}"
       run_agent "$WORKTREE_DIR" "$AGENT_FALLBACK_MODEL"
@@ -209,12 +200,12 @@ if credits_exhausted; then
   fi
 fi
 # Re-read, because a retry overwrote $AGENT_OUT: this asks whether the FALLBACK
-# also refused. Both out is a real stop --- every later run dies identically, so
+# also refused (or there was no retry worth making). Both out is a real stop --- every later run dies identically, so
 # the failed unit is what puts it in front of a human. Like the auth check it
 # does not write data/publish-blocked: a limit window un-breaks itself. If this
 # starts firing after a slot is added, the subscription is the ceiling.
 if credits_exhausted; then
-  log "AGENT OUT OF CREDITS --- the retry on ${AGENT_PROFILE}/${AGENT_MODEL} refused too."
+  log "AGENT OUT OF CREDITS --- nothing left to try on ${AGENT_PROFILE}."
   log "  Fix: wait for the usage window to reset, or point SLOPU_AGENT_PROFILE / SLOPU_AGENT_MODEL"
   log "  at a route that still has credits."
   log "  If this began after adding a slot, the subscription is the ceiling: reduce slots."
@@ -226,7 +217,7 @@ if credits_exhausted; then
     log "  the run had already committed; keeping the candidate for the lander"
   else
     discard_candidate
-    result "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback in slot ${SLOT}"
+    result "out-of-credits" "no usage credits on ${AGENT_PROFILE}/${AGENT_MODEL} or its fallback model in slot ${SLOT}"
     exit 5
   fi
 fi
