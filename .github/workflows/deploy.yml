@@ -96,6 +96,9 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: website/dist
+          # dist/.well-known/ (standard.site's domain verification) is
+          # otherwise dropped: the action excludes dot-directories by default.
+          include-hidden-files: true
 
   deploy:
     environment:

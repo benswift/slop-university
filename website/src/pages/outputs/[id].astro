@@ -12,6 +12,7 @@ import { getPeople, getSchools, personIdByName, schoolIdByName } from "../../lib
 import { dayMonthYear } from "../../lib/dates";
 import { ogImage, outputHero } from "../../lib/images";
 import { citedBy, references } from "../../lib/citations";
+import { documentUri } from "../../lib/atproto";
 
 export async function getStaticPaths() {
   const outputs = await getCollection("outputs");
@@ -27,8 +28,11 @@ const hero = outputHero(entry.id, data.hero);
 // og from the hero when one exists, else the first page — same preference as
 // the visible page. Deliberately no citation_* (Highwire) meta alongside it:
 // robots.txt disallows /outputs/pdf/ to keep fabricated citations out of
-// scholarly indexers, and scholarly head meta would work against that.
+// scholarly indexers, and scholarly head meta would work against that. The
+// site.standard.document link is not scholarly: it names this output's
+// standard.site record, which carries no references (ops/sync-atproto.py).
 const og = ogImage("outputs", entry.id, data.hero ?? data.thumb);
+const atUri = data.publishedAt ? documentUri(entry.id, data.publishedAt) : undefined;
 const citation = bibtex(entry.id, data);
 const citationTokens = bibtexTokens(citation);
 const doiUrl = `https://slop.university/doi/${data.doi}`;
@@ -77,6 +81,7 @@ const transitionName = `card-title-${Astro.url.pathname.replace(/^\/|\/$/g, "").
   socialImage={og}
   socialImageAlt={hero ? `Illustration for ${full}` : `First page of ${full}`}
 >
+  {atUri && <link slot="head" rel="site.standard.document" href={atUri} />}
   {
     hero ? (
       <Hero

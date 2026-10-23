@@ -1,18 +1,10 @@
 import type { CollectionEntry } from "astro:content";
+import labels from "./preset-labels.json";
 
 export type Preset = CollectionEntry<"outputs">["data"]["preset"];
 
-export const presetLabels: Record<Preset, string> = {
-  "research-poster": "Research poster",
-  "marketing-poster": "Marketing poster",
-  paper: "Research paper",
-  brochure: "Brochure",
-  strategy: "Strategic plan",
-  "impact-report": "Impact report",
-  thesis: "PhD thesis",
-  "video-explainer": "Research explainer video",
-  "video-promo": "Promotional video",
-};
+// JSON so ops/sync-atproto.py tags each ATproto document with the same label.
+export const presetLabels: Record<Preset, string> = labels;
 
 // Short forms for the type badge on output cards, where the icon already
 // carries the "research artefact" sense and the pill has to stay narrow. The
