@@ -1633,10 +1633,7 @@ Beyond a checkout of this repo at `~/projects/slop-university`:
   `/usr/share/dict/{british,american}-english`)
 - `uv` (every script is a `uv run --script` with inline metadata), and an
   authenticated `claude` CLI for the Anthropic judges
-- API keys in the environment: `OPENAI_API_KEY` and `DEEPSEEK_API_TOKEN`. (An
-  earlier note here pointed at the fnox config in
-  `~/projects/vlm-perception-experiments`; that repo's `mise.toml` only
-  _describes_ such a config in a comment, so set the two variables directly.)
+- API keys in the environment: `OPENAI_API_KEY` and `DEEPSEEK_API_TOKEN`
 - the `claude:opus` / `claude:sonnet` / `claude:haiku` backends resolve through
   the CLI's current aliases at run time, unlike the OpenAI and DeepSeek ids,
   which are exact. Run 4's aliases resolved to Claude Opus 5, Claude Sonnet 5
@@ -1680,6 +1677,4 @@ presentation order cannot influence a judgement.
 
 API keys are read from the environment: `OPENAI_API_KEY` and
 `DEEPSEEK_API_TOKEN`, plus an authenticated `claude` CLI --- see Prerequisites
-above. (An earlier version of this note pointed at the fnox config in
-`~/projects/vlm-perception-experiments`; that repo's `mise.toml` only describes
-such a config in a comment, so set the variables directly.)
+above.
