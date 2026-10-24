@@ -83,7 +83,7 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh \
 done
 chmod +x "${REPO}"/ops/*.sh "${REPO}"/ops/*.py
 git -C "$REPO" add -A
-git -C "$REPO" commit -qm "selftest: carry the working tree into the fixture"
+git -C "$REPO" commit -q --allow-empty -m "selftest: carry the working tree into the fixture"
 git -C "$REPO" push -q origin main
 
 # --- Stand-ins for the model. Each writes only its own new files, which is the
