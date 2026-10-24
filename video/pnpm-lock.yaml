@@ -12,10 +12,13 @@ importers:
         specifier: github:benswift/astro-theme-slop#v0.3.0
         version: https://codeload.github.com/benswift/astro-theme-slop/tar.gz/68c683912dfc9e2d7de6be817a8b58d546f5908a(astro@7.4.0(yaml@2.9.1))
       astromotion:
-        specifier: github:ANUcybernetics/astromotion#v0.37.0
-        version: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1))
+        specifier: github:ANUcybernetics/astromotion#v0.37.2
+        version: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/3fd5782c32d55d9655570b492defa394bf07105d(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1))
 
 packages:
+
+  '@acemir/cssom@0.9.32':
+    resolution: {integrity: sha512-OijrAUu7rrJhSIoHNg6LMPS5e344nwUHA+1EFYYjrh64D+GmytUsfBQjci45TjT+rd5Spsp8B5xsZDT+TgyXXQ==}
 
   '@astrojs/compiler-binding-android-arm64@0.5.2':
     resolution: {integrity: sha512-kckIxon6Rm/Bxzh9mGPYpRRqUbToUQoHptCmpMmE+Yt0Xumq8CqrKUidyYhrBsrHVO7bxuRzzWUUqvpf+iYceQ==}
@@ -595,9 +598,9 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
-  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0:
-    resolution: {gitHosted: true, integrity: sha512-QcVl2EqMSS1bP26ugQuSdF+qMtWCgSwuM8XlCu0aY8PTwrIgvHOhWk/3DGA8BpiH304QfKed4gm1/8fxi0rnVQ==, tarball: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0}
-    version: 0.37.0
+  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/3fd5782c32d55d9655570b492defa394bf07105d:
+    resolution: {gitHosted: true, integrity: sha512-Cvu4bGbJs8bCg492LvwVa6LHP/JC/uLU/i/28g2nqBj77JOwjkPtsECFzEdQbh/zDgucg+7wDF3QEl/+cZ+VRA==, tarball: https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/3fd5782c32d55d9655570b492defa394bf07105d}
+    version: 0.37.2
     engines: {node: '>=24', pnpm: '>=11'}
     hasBin: true
     peerDependencies:
@@ -696,9 +699,6 @@ packages:
   csso@5.0.5:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
-
-  cssom@0.5.0:
-    resolution: {integrity: sha512-iKuQcq+NdHqlAcwUY0o/HL69XQrUaQdMjmStJ8JFmUaiiQErlhrmuigkg/CU4E2J0IyUKUrMAgl36TvN67MqTw==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -974,8 +974,8 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  linkedom@0.18.13:
-    resolution: {integrity: sha512-ES/o9qotMpzpN2MHs+Iq/JcVoOj8Fa5wiQYrTdFpvAnwXL0g66XHHUc9WUMk6nAlBtGsFQ24ne+SYnvnaQ2FSw==}
+  linkedom@0.18.14:
+    resolution: {integrity: sha512-BRUnkOm4YR5vo+qI3j0EbungB0vZPSCue5AdnTQRaxAGSbsOZiBFRO0rh4zlo8qXUhli8pxvnpEXDklMnlq2Rg==}
     engines: {node: '>=16'}
     peerDependencies:
       canvas: '>= 2'
@@ -1597,6 +1597,8 @@ packages:
 
 snapshots:
 
+  '@acemir/cssom@0.9.32': {}
+
   '@astrojs/compiler-binding-android-arm64@0.5.2':
     optional: true
 
@@ -2139,12 +2141,12 @@ snapshots:
       - uploadthing
       - yaml
 
-  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/c1e856aea0bc9474f46598b089eb10ec114385d0(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1)):
+  astromotion@https://codeload.github.com/ANUcybernetics/astromotion/tar.gz/3fd5782c32d55d9655570b492defa394bf07105d(@astrojs/mdx@8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1)))(astro@7.4.0(yaml@2.9.1)):
     dependencies:
       '@astrojs/mdx': 8.1.0(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(yaml@2.9.1))
       '@qrgrid/core': 0.2.4
       astro: 7.4.0(yaml@2.9.1)
-      linkedom: 0.18.13
+      linkedom: 0.18.14
       perfect-freehand: 1.2.3
       remark-frontmatter: 5.0.0
       remark-gfm: 4.0.1
@@ -2232,8 +2234,6 @@ snapshots:
   csso@5.0.5:
     dependencies:
       css-tree: 2.2.1
-
-  cssom@0.5.0: {}
 
   debug@4.4.3:
     dependencies:
@@ -2470,10 +2470,10 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
 
-  linkedom@0.18.13:
+  linkedom@0.18.14:
     dependencies:
+      '@acemir/cssom': 0.9.32
       css-select: 7.0.0
-      cssom: 0.5.0
       html-escaper: 3.0.3
       htmlparser2: 10.1.0
       uhyphen: 0.2.0
