@@ -49,7 +49,7 @@ upload-then-push) live once in `ops/publish-lib.sh`:
   candidate, rebases it onto current `origin/main`, validates, runs the one
   authoritative build, uploads and pushes.
 
-The live units are `slop-publish-gen@1.timer` (hourly; the period is the
+The live units are `slop-publish-gen@1.timer` (half-hourly; the period is the
 throughput lever) and `slop-publish-land.timer`; slot 2 is disabled. A serial
 tick by hand is `ops/publish-generate.sh 1 && ops/publish-land.sh`.
 `ops/publish-check.py` (`slop-publish-watchdog.timer`) is the dead-man check:
