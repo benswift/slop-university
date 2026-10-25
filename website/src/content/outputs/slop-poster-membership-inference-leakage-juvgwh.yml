@@ -1,0 +1,37 @@
+title: The Names That Were Signed
+subtitle: Membership Inference in a Handwriting Recogniser Trained on a Community Archive
+authors:
+  - Brynjar Obiora
+  - Mirela Hanke
+  - Iben Chikere
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-25
+publishedAt: "2026-10-25T22:31:15+11:00"
+doi: 10.5555/slop.juvgwh
+summary: >-
+  A research poster from the School of Underlying Conditions trains a
+  handwriting recogniser on seventeen years of a queer support collective's
+  letters and newsletters and tests which of its 1,388 name strings a
+  membership-inference attack can recover. Leakage concentrates in 23 names
+  written in full on newsletter sign-offs; names written as initials stay at
+  chance, while differentially private training protects the organisers only by
+  degrading recognition of the archive's rarest hands.
+topic: >-
+  Membership-inference leakage in a handwriting recogniser trained on a queer
+  support collective's letters archive in an unnamed East African city: the
+  model memorised only the organisers who signed their names in full, while the
+  collective's own habit of writing in initials protected everyone else better
+  than differentially private training did
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 3690
+  height: 2076
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.nabfej
+  - 10.5555/slop.t6jjw1
