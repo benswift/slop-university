@@ -35,7 +35,11 @@ vectors in website/src/lib/atproto.json, checked at every start.
 Writes spend the account's PDS rate budget, which the Bluesky poster shares.
 The landers run this after their post with --no-wait and a write cap, so a
 large reconcile (a lexicon change touching every document) proceeds across
-landings without ever holding one up; a hand backfill passes --wait.
+landings without ever holding one up; a hand backfill passes --wait. Cover
+uploads draw on a separate, smaller budget (uploadBlob, 1000 a day), which the
+poster's link-card thumbnails share too, so a run stops uploading covers while
+BLOB_RESERVE uploads are left. A run learns that budget from its first upload,
+so each run past the reserve spends one more.
 
 The lexicons resolve through the DNS TXT record _lexicon.slop.university,
 value "did=<the University's DID>"; it is set once at the DNS host, by hand.
@@ -128,6 +132,9 @@ BATCH = 25
 # Over this many deletes in one run is a wrong checkout, not retractions.
 MAX_DELETES = 10
 MAX_BLOB_BYTES = 1_000_000
+# uploadBlob calls left to the Bluesky poster's thumbnails; the margin covers the
+# one upload each run spends learning the budget.
+BLOB_RESERVE = 100
 
 # --- Record keys --------------------------------------------------------------
 
@@ -312,6 +319,8 @@ class Pds:
         self.wait = wait
         self.remaining: int | None = None
         self.reset_at = 0.0
+        self.blobs_left: int | None = None
+        self.blobs_reset_at = 0.0
         self.http = httpx.Client(
             base_url=f"{pds}/xrpc/",
             headers={"Authorization": f"Bearer {session['accessJwt']}"},
@@ -321,24 +330,42 @@ class Pds:
     def _send(self, method: str, nsid: str, **kwargs: Any) -> httpx.Response:
         while True:
             resp = self.http.request(method, nsid, **kwargs)
+            blob = nsid == "com.atproto.repo.uploadBlob"
             if method == "POST" and "ratelimit-remaining" in resp.headers:
-                self.remaining = int(resp.headers["ratelimit-remaining"])
-                self.reset_at = float(resp.headers.get("ratelimit-reset", 0))
+                left = int(resp.headers["ratelimit-remaining"])
+                reset_at = float(resp.headers.get("ratelimit-reset", 0))
+                if blob:
+                    self.blobs_left, self.blobs_reset_at = left, reset_at
+                else:
+                    self.remaining, self.reset_at = left, reset_at
             if resp.status_code != 429:
                 return resp
-            self.pause()
+            self.pause(blob)
 
-    def pause(self) -> None:
+    def pause(self, blob: bool = False) -> None:
         if not self.wait:
             raise RateBudgetSpent
-        delay = max(self.reset_at - time.time(), 0) + 5
+        reset_at = self.blobs_reset_at if blob else self.reset_at
+        delay = max(reset_at - time.time(), 0) + 5
         print(f"rate budget spent; waiting {delay:.0f}s", flush=True)
         time.sleep(delay)
-        self.remaining = None
+        if blob:
+            self.blobs_left = None
+        else:
+            self.remaining = None
 
     def afford(self, cost: int) -> None:
         if self.remaining is not None and self.remaining < cost:
             self.pause()
+
+    def can_upload(self) -> bool:
+        """Whether a cover upload leaves the poster its reserve (waits if --wait)."""
+        if self.blobs_left is None or self.blobs_left > BLOB_RESERVE:
+            return True
+        if not self.wait:
+            return False
+        self.pause(blob=True)
+        return True
 
     def get(self, nsid: str, **params: Any) -> httpx.Response:
         return self._send("GET", nsid, params=params)
@@ -483,11 +510,19 @@ def sync_documents(
     done = 0
     for start in range(0, len(ops), BATCH):
         batch = ops[start : start + BATCH]
-        for action, _, eid, record in batch:
+        # A document goes out with its cover or waits for the next run: the
+        # reconcile never adds a cover to a record that was written without one.
+        covers_spent = False
+        for i, (action, _, eid, record) in enumerate(batch):
             if action != "delete" and "coverImage" not in record:
+                if not pds.can_upload():
+                    batch, covers_spent = batch[:i], True
+                    break
                 cover = pds.upload_cover(eid)
                 if cover:
                     record["coverImage"] = cover
+        if not batch:
+            raise RateBudgetSpent
         pds.afford(sum(COST[op[0]] for op in batch))
         pds.post(
             "com.atproto.repo.applyWrites",
@@ -506,6 +541,8 @@ def sync_documents(
         )
         done += len(batch)
         print(f"  wrote {done}/{len(ops)}", flush=True)
+        if covers_spent:
+            raise RateBudgetSpent
     return done
 
 
