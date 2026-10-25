@@ -1,0 +1,35 @@
+title: How Many Runs to the Best Blend?
+subtitle: Query bounds for co-pyrolysis feedstock selection under bounded synergy
+authors:
+  - Edda Nwafor
+  - Bram Ntuli
+  - Casimir Beng
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-10-26
+publishedAt: "2026-10-26T10:31:15+11:00"
+doi: 10.5555/slop.wcg4z0
+summary: >-
+  A research poster from the School of Continuous Improvement treats the choice
+  of a two-feedstock co-pyrolysis blend as a query problem in which each reactor
+  run reveals one yield, proving that unrestricted synergy forces a run for
+  nearly every blend, while a known bound on synergy reduces the work to the
+  pure runs plus the blends whose additive yield lies within twice that bound of
+  the best. On a twelve-feedstock bench library, a screen-and-duel algorithm
+  certified the best of 66 blends in 17 runs.
+topic: >-
+  query complexity of finding the best co-pyrolysis feedstock blend when
+  pairwise synergies are only observable by running the reactor: lower bounds
+  on reactor runs and an adaptive tournament algorithm
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.ffzczm
+  - 10.5555/slop.m2aqc3
