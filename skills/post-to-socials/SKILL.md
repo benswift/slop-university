@@ -67,8 +67,9 @@ run's fresh work (there is none on a 2G run). Read `canon/roster.yml`,
 - a **research output** worth resurfacing --- `outputs/<id>`, link
   `https://slop.university/outputs/<id>`
 - a **researcher** --- `people/<id>`, link `https://slop.university/people/<id>`
-- a **school, unit, or lab** --- `schools/<id>`, link
-  `https://slop.university/schools/<id>`
+- a **school, unit, or lab** --- only schools have pages: link a school at
+  `https://slop.university/schools/<id>`, a lab, program or initiative at its
+  parent's (`school:`) page, and a unit at `https://slop.university/schools`
 - a **grant or prize** (`website/src/content/grants/*.yml`) --- link its
   announcing news post, `https://slop.university/news/<news id>` (grants have no
   landing page of their own). The internal-award-value carve-out in
