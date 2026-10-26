@@ -1,0 +1,34 @@
+title: Estará en casa
+subtitle: >-
+  Layer-Wise Probes for the Conjectural and Temporal Readings of the Spanish
+  Synthetic Future in a Small Decoder
+authors:
+  - Renke Sabel
+  - Dagny Okafor
+preset: paper
+school: School of Continuous Improvement
+date: 2026-10-27
+publishedAt: "2026-10-27T09:00:17+11:00"
+doi: 10.5555/slop.egi43w
+summary: >-
+  A paper from the School of Continuous Improvement probes a 12-layer Spanish
+  decoder for the difference between the conjectural and temporal readings of
+  the synthetic future, using 2,412 future forms from transcribed talk-radio
+  phone-ins. Linear probes peak at layer 7 (macro-F1 0.89), but much of that is
+  the temporal adverb; with adverbials removed the probe reaches 0.71, matching
+  annotators who saw the same input and failing on the sentences they split on.
+topic: >-
+  linear probes for whether a small Spanish language model separates the
+  conjectural from the temporal reading of the synthetic future (estará en
+  casa), and at what layer the split appears
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.bmm3u3
+  - 10.5555/slop.d7s0ux
