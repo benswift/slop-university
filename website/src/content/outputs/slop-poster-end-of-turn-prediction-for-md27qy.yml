@@ -1,0 +1,37 @@
+title: Cut Off Mid-Address
+subtitle: End-of-Turn Prediction for a Voice Agent Taking Fault Reports on a Utility Phone Line
+authors:
+  - Brynjar Obiora
+  - Vigdis Emenike
+  - Fenna Okoro
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-29
+publishedAt: "2026-10-29T03:31:15+11:00"
+doi: 10.5555/slop.md27qy
+summary: >-
+  A research poster from the School of Underlying Conditions segments 11,820
+  caller turns from 2,964 calls to one water utility's after-hours fault line
+  and finds that the longest silences fall inside spoken meter numbers and
+  street addresses rather than at the ends of turns. Replayed on held-out
+  weeks, a slot-aware endpointer that conditions on the agent's own question
+  and on digit-group completeness cuts off 6 per cent of meter-number readings
+  against 31 per cent for a fixed 700 ms silence threshold, at little net cost
+  in response latency.
+topic: >-
+  end-of-turn prediction for a voice agent taking fault reports on a utility
+  phone line, in which the longest silences fall inside spoken addresses and
+  meter numbers rather than between turns, and a slot-aware endpointer cuts off
+  fewer callers than a fixed silence threshold
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.ziron3
+  - 10.5555/slop.zreb2r
