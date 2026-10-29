@@ -23,6 +23,9 @@ export default defineConfig({
       // which only re-encodes what actually changed.
       imageFormat: "avif",
       llmsTxt: true,
+      // Every page names the artwork's one real DOI as what to cite, so a
+      // fabricated output copied out of context still points at the work.
+      citation: "../CITATION.cff",
     }),
     sitemap({
       // The DOI resolver emits one noindex redirect stub per minted identifier
