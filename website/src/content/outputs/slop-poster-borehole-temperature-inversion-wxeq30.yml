@@ -1,0 +1,36 @@
+title: The Kink at 118 Metres
+subtitle: A reduced-order neural surrogate for borehole palaeotemperature inversion
+authors:
+  - Ragnhild Uzoma
+  - Vigdis Emenike
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-10-29
+publishedAt: "2026-10-29T23:31:17+11:00"
+doi: 10.5555/slop.wxeq30
+summary: >-
+  A research poster from the School of Underlying Conditions inverts the
+  temperature log of a 600 m basement borehole for past ground-surface
+  temperature, using a proper-orthogonal-decomposition neural surrogate of
+  heat conduction that runs 2,600 times faster than the full model. Carried as
+  a free unknown, the conductivity of a 19 m interval of unrecovered core
+  absorbs a gradient kink that a neighbour-filled inversion had read as a
+  cooling episode, and widens the last century's posterior by 38%.
+topic: >-
+  Borehole temperature inversion with a reduced-order neural surrogate of heat
+  conduction through a basement drillhole, with thermal conductivity taken from
+  its recovered core
+pdfDark: true
+pages: 1
+version: "1.0"
+grants:
+  - 2026-10-19-core-loss-blocks-cut-ahead-of-the-drill
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.97ogru
+  - 10.5555/slop.m20atm
+hero:
+  width: 2752
+  height: 1536
