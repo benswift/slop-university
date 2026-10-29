@@ -239,7 +239,7 @@ Read these before generating:
   --- highlight-card grid, feature-page, and inline-figure usage (under the
   core's neutral names). Copy the structural moves --- NOT the import block or
   content; this preset imports the slop brand package (`slop-*` names).
-- **Genre PDF**: `~/.nb/home/anu-corporate-plan-2026-v5.pdf` --- a real
+- **Genre PDF**: `~/vaults/wiz-ben/anu-corporate-plan-2026-v5.pdf` --- a real
   institutional publication for glossy visual conventions (tone only; imagery
   follows the two-ink house style).
 - **Layout core source**:

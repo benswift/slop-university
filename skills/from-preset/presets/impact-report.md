@@ -535,7 +535,7 @@ Read these before generating:
   usage (under the core's neutral names). Copy the structural moves --- NOT the
   import block or content; this preset imports the slop brand package and uses
   its `slop-*` names.
-- **Genre PDF**: `~/.nb/home/anu-corporate-plan-2026-v5.pdf` --- a real
+- **Genre PDF**: `~/vaults/wiz-ben/anu-corporate-plan-2026-v5.pdf` --- a real
   university corporate plan, for the glossy-report visual conventions;
   impact-report-specific genre PDFs aren't available, so it doubles as a tonal
   reference (tone only --- imagery follows the two-ink house style).
