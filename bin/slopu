@@ -26,7 +26,7 @@ Commands:
                                    "university", or anything the steering names
 
 Profiles come from ~/.config/agent-run/profiles.toml. The default is
-claude-sub; use --profile codex-sub, deepseek, or openrouter to switch routes.
+claude-sub; use --profile codex-sub or openrouter to switch routes.
 --deadline (thesis only) is a local time the run must have committed by, e.g.
 "01:40 tomorrow"; the run paces itself against it. A thesis takes an optional
 steering prompt naming its topic; the setting, school and supervisors are drawn

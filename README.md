@@ -109,7 +109,6 @@ Switch the provider and model without changing the workflow:
 
 ```sh
 bin/slopu --profile codex-sub from-preset strategy <steering prompt>
-bin/slopu --profile deepseek from-source <URL or path>
 bin/slopu --profile openrouter --model "provider/model:free" publish
 ```
 

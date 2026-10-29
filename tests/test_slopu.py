@@ -85,12 +85,5 @@ def test_profile_and_model_can_be_switched_together(run_slopu) -> None:
     assert args[-1].endswith("Source: brief.md")
 
 
-def test_alternative_publish_profile_keeps_its_model_default(run_slopu) -> None:
-    args = run_slopu("--profile", "deepseek", "publish")
-
-    assert "skills/publish/SKILL.md" in args[-1]
-    assert "--model" not in args
-
-
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
