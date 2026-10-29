@@ -1,0 +1,39 @@
+title: Eight Tokens for One Group
+subtitle: >-
+  Motif-Merged SMILES Vocabularies Shift Which Fluorinated Structures a
+  Generative Model Proposes
+authors:
+  - Sunniva Balogun
+  - Ylva Onyekwere
+  - Eskil Nwabueze
+preset: research-poster
+school: School of Emergent Priorities
+date: 2026-10-30
+publishedAt: "2026-10-30T04:31:15+11:00"
+doi: 10.5555/slop.gz6viw
+summary: >-
+  A research poster from the School of Emergent Priorities trains two
+  otherwise identical molecular generators on 1.4 million structures,
+  differing only in whether six fluorinated motifs hold their own token or
+  are spelled out character by character. Merging shortens fluorine-bearing
+  strings by 13% and lifts validity from 94.1% to 95.3%, but the sampled
+  distribution follows the vocabulary rather than the corpus: trifluoromethyl
+  appears in 31.6% of samples against 24.1% of training molecules, while aryl
+  monofluorine, left spelled out, falls from 37.2% to 29.8%.
+topic: >-
+  a chemical language model's SMILES tokeniser spends eight tokens on a
+  trifluoromethyl group; merging fluorinated motifs into single vocabulary
+  entries shortens the strings, and shifts which organofluorine structures
+  the model prefers to generate
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.0v7sxc
+  - 10.5555/slop.egi43w
