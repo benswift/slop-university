@@ -1,0 +1,36 @@
+title: Linkable Until Laundered
+subtitle: Wash-Cycle Pseudonyms for Garment Tags in Rented Workwear
+authors:
+  - Edda Nwafor
+  - Eivind Onwuka
+  - Thandiwe Solberg
+preset: paper
+school: School of Continuous Improvement
+date: 2026-10-31
+publishedAt: "2026-10-31T08:01:16+11:00"
+doi: 10.5555/slop.qnt2z4
+summary: >-
+  A paper from the School of Continuous Improvement has an industrial
+  launderer rewrite each rented garment's tag identifier with a keyed
+  pseudorandom value at every wash, proves identifiers from different wash
+  epochs unlinkable, and replays fourteen months of one fleet (1,318 wearers,
+  16,904 garments) against readers at client-site entrances. Garments are
+  linkable only for a wash cycle, but an adversary joining identifiers seen
+  together re-links each outfit through its least-washed garment, raising the
+  median span for blazer holders above 160 days; rewriting a wearer's garments
+  together at weekly collection restores seven days for all but the 31% who
+  keep their blazer at home.
+topic: >-
+  wash-cycle pseudonyms for UHF RFID laundry tags in rented corporate workwear:
+  unlinkability bounded by the wash interval, and why the blazer stays linkable
+pages: 6
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.7xrmf5
+  - 10.5555/slop.ht28f2
