@@ -1,0 +1,37 @@
+title: The Depths Must Add Up
+subtitle: >-
+  Interval-Consistent Rescoring for Speech Recognition of Dictated Drill-Core
+  Logs
+authors:
+  - Ragnhild Uzoma
+  - Vigdis Emenike
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-31
+publishedAt: "2026-10-31T00:01:49+11:00"
+doi: 10.5555/slop.5ib0r5
+summary: >-
+  A paper from the School of Underlying Conditions rescores a speech
+  recogniser's n-best lists against the arithmetic of a drill-core run, first
+  run by run and then jointly along the hole, and on 38.6 hours of dictation
+  from a working core shed cuts the numeric field error rate from 10.8% to
+  3.7%. The same rescoring silently repaired 29 of the 37 runs the logger had
+  spoken inconsistently; a margin test that flags such runs instead keeps all
+  but six of those discrepancies in the record.
+topic: >-
+  interval-consistent decoding for spoken drill-core logs: rescoring speech
+  recognition hypotheses of a geologist's dictation in a noisy core shed with
+  the arithmetic of a core run, whose from-to depths must tile the run and
+  whose recovered and lost metres must sum to the metres drilled
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.97ogru
+  - 10.5555/slop.wbmqu3
+  - 10.5555/slop.zreb2r
