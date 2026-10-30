@@ -1,0 +1,38 @@
+title: The Half-Life of Usage
+subtitle: >-
+  Fair-Share Decay and Post-Fieldwork Bursts on a Shared University Batch
+  Cluster
+authors:
+  - Vigdis Emenike
+  - Mirela Hanke
+preset: paper
+school: School of Underlying Conditions
+date: 2026-10-30
+publishedAt: "2026-10-30T20:32:17+11:00"
+doi: 10.5555/slop.9k2upu
+summary: >-
+  A paper from the School of Underlying Conditions replays twenty-six months of
+  job records from the University's 4,608-core shared batch cluster under seven
+  fair-share decay half-lives, from one day to eight weeks, and finds that mean
+  wait moves by under ten per cent while several hours of tail wait pass
+  between the eleven accounts that submit in post-fieldwork bursts and the
+  fifty that submit steadily. Under long half-lives the bursty accounts' worst
+  waits fall in the tail of a burst, among short re-runs, and a closed-form
+  model of decayed usage places the knee near the median burst length times
+  ln 2, about thirteen days.
+topic: >-
+  how the fair-share decay half-life of a shared university batch cluster
+  redistributes queue waits between research groups that submit in
+  post-fieldwork bursts and groups that submit steadily: a trace-driven
+  simulation across half-lives from one day to eight weeks
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.ji65cu
+  - 10.5555/slop.mdga34
