@@ -1,0 +1,36 @@
+title: The Lift Car Belongs to No Floor
+subtitle: Operational Design Domain Boundaries for an Indoor Delivery Robot in Shared Vertical Circulation
+authors:
+  - Edda Nwafor
+  - Thandiwe Solberg
+  - Renke Sabel
+preset: paper
+school: School of Continuous Improvement
+date: 2026-10-31
+publishedAt: "2026-10-31T17:31:16+11:00"
+doi: 10.5555/slop.80hp01
+summary: >-
+  A paper from the School of Continuous Improvement codes 1,412 fallback
+  events from a 61-week deployment of four indoor delivery robots in a
+  nine-storey office building, finding that the lift approach, sill and car
+  produced two-thirds of them in under a tenth of operating time, mostly
+  because a domain specification written floor by floor placed the moving car
+  in no element at all. Respecifying each car as an element of its own nearly
+  eliminated those events over a twelve-week rerun, while fallbacks for
+  crowded cars roughly doubled now that the car carried a capacity condition
+  to exceed.
+topic: >-
+  The lift car belongs to no floor: operational design domain boundaries for
+  an indoor delivery robot in shared vertical circulation, and where its
+  fallback events gathered
+pages: 7
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.003yjf
+  - 10.5555/slop.jaiykp
