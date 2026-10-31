@@ -1,0 +1,34 @@
+title: An Accidental Sparse Array
+subtitle: Direction-of-Arrival Estimation on a Downhole Geophone String with Dead Levels
+authors:
+  - Ragnhild Uzoma
+  - Brynjar Obiora
+preset: paper
+school: School of Underlying Conditions
+date: 2026-11-01
+publishedAt: "2026-11-01T02:01:15+11:00"
+doi: 10.5555/slop.l6bmzg
+summary: >-
+  A paper from the School of Underlying Conditions reads a sixteen-level
+  downhole geophone string with dead levels as a sparse array, and enumerates
+  every failure pattern to find that its difference coarray stays full in most
+  cases so long as both end levels survive, with seven well-placed levels the
+  fewest that can keep it. In simulation, coarray MUSIC on such a seven-level
+  survivor set resolves thirteen uncorrelated sources at 10 dB, against six for
+  a string severed to its top seven levels.
+topic: >-
+  a downhole geophone string with dead levels read as an accidental sparse
+  array: when its difference coarray survives sensor failure, and how many
+  sources subspace direction-of-arrival estimation can still resolve
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.t0mnsu
+  - 10.5555/slop.vweh68
+  - 10.5555/slop.yslmbd
