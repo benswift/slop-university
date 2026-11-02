@@ -163,6 +163,7 @@ sweep_candidates() {
     # Marker-less leftovers: a generator that died between creating its branch
     # and writing its marker. Old enough that no in-flight run is caught by this.
     [ -f "${CANDIDATE_DIR}/${run_id}.json" ] && continue
+    [ -f "${CANDIDATE_DIR}/${run_id}.held" ] && continue
     [ -f "${CANDIDATE_DIR}/${run_id}.claimed" ] && continue
     slot_in_flight "$run_id" && continue
     age_min="$(candidate_age_minutes "$run_id")"
@@ -176,6 +177,7 @@ sweep_candidates() {
   for dir in "${PENDING_ROOT}"/*/; do
     run_id="$(basename "$dir")"
     [ -f "${CANDIDATE_DIR}/${run_id}.json" ] && continue
+    [ -f "${CANDIDATE_DIR}/${run_id}.held" ] && continue
     [ -f "${CANDIDATE_DIR}/${run_id}.claimed" ] && continue
     git show-ref --verify --quiet "refs/heads/press-gen-${run_id}" && continue
     slot_in_flight "$run_id" && continue
@@ -215,8 +217,9 @@ if [ "$SWEEP_ONLY" = 1 ]; then
   exit 0
 fi
 
-# --- Claim the oldest unclaimed candidate. Run ids are sortable timestamps, so
-# oldest-first is a filename sort. The claim is a rename, which is atomic ---
+# --- Claim the oldest unclaimed candidate. A held one (<run-id>.held, a video
+# a human has yet to approve) is not on the queue. Run ids are sortable
+# timestamps, so oldest-first is a filename sort. The claim is a rename, which is atomic ---
 # though only one lander runs at a time, so this is belt to the flock's braces.
 shopt -s nullglob
 MARKERS=("${CANDIDATE_DIR}"/*.json)
@@ -321,7 +324,11 @@ log "replayed $(git -C "$WORKTREE_DIR" rev-list --count "${BASE_REF}..HEAD") com
 # as a red build. The two abort identically but call for completely different
 # human responses, and the outcome line is what reaches the todo.
 
-if ! validate_commits "$BASE_REF" "$PRESS_BRANCH"; then
+# A video candidate also commits its sources under video/ (VIDEO_ALLOWLIST_RE).
+EXTRA_ALLOW=""
+[[ "$CAND_PRESET" == video-* ]] && EXTRA_ALLOW="$VIDEO_ALLOWLIST_RE"
+
+if ! validate_commits "$BASE_REF" "$PRESS_BRANCH" "$EXTRA_ALLOW"; then
   rescue_candidate "$VALIDATION_ERROR"
   flush_pending_post
   result "validation-failure" "candidate ${RUN_ID}: ${VALIDATION_ERROR}"
@@ -361,6 +368,13 @@ if ! check_output_quality "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
   flush_pending_post
   result "rescued-quality" "candidate ${RUN_ID}: ${QUALITY_ERROR}; rescued, queue continues"
   exit 10
+fi
+
+if ! check_video_review "$BASE_REF" "$PRESS_BRANCH" "$PENDING_DIR"; then
+  rescue_candidate "$QUALITY_ERROR"
+  flush_pending_post
+  result "rescued-review" "candidate ${RUN_ID}: ${QUALITY_ERROR}; rescued, queue continues"
+  exit 11
 fi
 
 if ! worktree_install "$WORKTREE_DIR"; then

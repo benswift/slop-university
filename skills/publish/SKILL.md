@@ -91,9 +91,9 @@ and do not fall through to another rung if the named one looks thin --- log why
 it cannot proceed, leave the tree clean, and exit non-zero. A manual run without
 the wrapper runs the assessor itself (`ops/assess-ladder.py` from the worktree
 root) and follows its answer. The commit message names the action taken (2G
-makes no commit; see below). One rung is never on the line unless a human put it
-there: `2T`, the doctoral thesis (§2T), which the assessor never returns and no
-timer runs.
+makes no commit; see below). Two rungs are never on the line unless a human put
+them there: `2T`, the doctoral thesis (§2T), and `2V`, a research explainer
+video (§2V). The assessor never returns them and no timer runs them.
 
 **Attribution (applies when 2A is chosen).** The wrapper draws the lead author
 and, with them, the output's school, weighted against the live attribution
@@ -667,6 +667,27 @@ In order:
 `canon/heroes/people/<id>.avif`, `website/src/content/news/<date>-<slug>.md`,
 `website/src/content/outputs/<run-id>.yml`.
 
+## 2V. Research explainer video (manual only --- never assessed)
+
+A human runs `bin/slopu explainer` and the `video` slot starts. The invocation
+line names the action `2V` and the output to explain, in `output`. The output
+was drawn by `ops/pick-explainer.py` or named by the human, and its authors
+already have voices. Make the video with `skills/video/SKILL.md` as an explainer
+of that output. Nobody watches the run, so four things differ:
+
+- `templated.py stage` stages into `$SLOPU_PENDING_DIR`, as every generator
+  slot's assets do.
+- Step 6 ends only on `video/_kit/review.py <id>` passing. Fix what it reports
+  and run it again, at most three rounds. A video whose review still fails is
+  not published: revert, leave the tree clean, and exit non-zero.
+- Never run `ops/assign-voices.py`. A voice is canon, and canon is outside a
+  video run's commit.
+- Step 9 is the commit (§4), not a report. The candidate is held until a human
+  has watched the staged drafts and approved it.
+
+The run is exempt from §0.5's call count, because a video takes about 130 calls.
+It is not exempt from the peak: delegate the render-and-review loop's reads.
+
 ## 3. Verify the site
 
 ```sh
@@ -703,6 +724,10 @@ the action:
 - **2I:** `website/src/content/grants/<date>-<slug>.yml`,
   `website/src/content/news/<date>-<slug>.md` (with `hero:` dims).
 - **2T:** the 2E set and the 2A set together, in one commit.
+- **2V:** `website/src/content/outputs/<id>.yml`,
+  `website/src/content/videos/<id>.yml`, `video/<id>/` (its tracked files;
+  `assets/` and `.hyperframes/` are gitignored), `video/scripts/<id>.md` and the
+  news post.
 
 Note what is **absent** from every set: the PDFs and the images. They stay in
 the gitignored staging dir (`$STAGING`: PDFs at its root, image rungs under
@@ -717,7 +742,8 @@ Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: news — Improvement Grand Rounds returns for spring`,
 `publish: grant — Indicator Stewardship Seed Fund to Okoro ($214,687)`,
 `publish: roster — add <name>`,
-`publish: thesis — <short title> (10.5555/slop.xxxxxx)`. One commit, on the
+`publish: thesis — <short title> (10.5555/slop.xxxxxx)`,
+`publish: video-explainer — <title> (10.5555/slop.xxxxxx)`. One commit, on the
 current branch. **Do not push** --- the wrapper validates and pushes. Do not
 touch `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
 `site-config.ts`, `colophon.md`, or any doctrine file; the wrapper resets

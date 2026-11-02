@@ -24,6 +24,11 @@ Commands:
                                    Make a research explainer video of an output
   video promo [subject] [steering] Make a promo video: a researcher's id,
                                    "university", or anything the steering names
+  explainer [output-id]            Make an explainer as a held publish candidate
+                                   (rung 2V; the output is drawn when not named)
+  held                             List held candidates and their drafts
+  approve <run-id>                 Release a held candidate to the lander
+  reject <run-id>                  Discard a held candidate, branch and staging
 
 Profiles come from ~/.config/agent-run/profiles.toml. The default is
 claude-sub; use --profile codex-sub or openrouter to switch routes.
@@ -39,6 +44,11 @@ then `slopu land <run-id>` gates, uploads and pushes it. `slopu land --list`
 shows what is staged, and --dry-run rehearses without sending anything. A video
 is the same: `slopu video ...` makes it and stages it; watch the drafts in
 video/out/<run-id>/, then `slopu land <run-id>`.
+
+`slopu explainer` runs the same video unattended, in a generator slot of the
+publish pipeline: the run reviews itself (video/_kit/review.py) and commits, and
+its candidate is held until you watch the drafts `slopu held` lists and run
+`slopu approve <run-id>`; the lander then lands it on its next tick.
 EOF
 }
 
@@ -123,6 +133,48 @@ case "$command" in
     [[ "$1" == explainer || "$1" == promo ]] || { print -u2 "slopu: video kind is explainer or promo"; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/video/SKILL.md and execute its workflow end-to-end. Arguments: $* (the first word is the kind; for an explainer the second is the output id; for a promo the second is a researcher id or \"university\" when it is one, and the rest is the steering prompt)."
+    ;;
+  explainer)
+    # Rung 2V, by hand: a generator slot like the thesis's, whose candidate is
+    # held for a human to watch (ops/publish-generate.sh says why). opus at max
+    # effort by default, with no fallback model.
+    if (( $# > 1 )); then print -u2 "slopu: explainer takes at most an output id"; exit 2; fi
+    if (( $# == 1 )); then
+      [[ -f "$REPO_ROOT/website/src/content/outputs/$1.yml" ]] || { print -u2 "slopu: no output $1"; exit 2; }
+      export SLOPU_EXPLAIN="$1"
+    fi
+    if [[ -z "$model" && "$profile" == claude-* ]]; then
+      model="opus"
+    fi
+    export SLOPU_AGENT_PROFILE="$profile" SLOPU_AGENT_EFFORT=max CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
+    [[ -z "$model" ]] || export SLOPU_AGENT_MODEL="$model"
+    exec "$REPO_ROOT/ops/publish-generate.sh" video
+    ;;
+  held)
+    setopt local_options null_glob
+    for marker in "$REPO_ROOT"/data/candidates/*.held; do
+      run_id="${marker:t:r}"
+      print "${run_id}  $(git -C "$REPO_ROOT" log -1 --format=%s "press-gen-${run_id}" 2>/dev/null)"
+      for draft in "$REPO_ROOT/data/pending-uploads/${run_id}"/review/*-draft.mp4; do print "  ${draft}"; done
+      [[ -f "$REPO_ROOT/data/pending-uploads/${run_id}/review/review.json" ]] \
+        && print "  review: $(jq -r 'if .pass then "pass" else "FAIL: " + (.failed | join(", ")) end' "$REPO_ROOT/data/pending-uploads/${run_id}/review/review.json")"
+    done
+    exit 0
+    ;;
+  approve|reject)
+    (( $# == 1 )) || { print -u2 "slopu: $command takes a run id"; exit 2; }
+    marker="$REPO_ROOT/data/candidates/$1.held"
+    [[ -f "$marker" ]] || { print -u2 "slopu: no held candidate $1 (slopu held lists them)"; exit 2; }
+    if [[ "$command" == approve ]]; then
+      mv "$marker" "${marker:r}.json"
+      print "released $1; the lander lands it on its next tick"
+    else
+      git -C "$REPO_ROOT" branch -D "press-gen-$1"
+      rm -rf "$REPO_ROOT/data/pending-uploads/$1"
+      rm -f "$marker"
+      print "discarded $1"
+    fi
+    exit 0
     ;;
   land)
     # Mechanical: no model, no agent-run. ops/land.sh takes the publish lock,

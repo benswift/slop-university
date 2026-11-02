@@ -2,7 +2,7 @@
 # A concurrent generator slot: produce ONE publish candidate and stop.
 #
 # Usage: ops/publish-generate.sh <slot>       (slot is a small integer, 1..N,
-#                                              or `thesis`, or `thesis<N>`)
+#                                              `thesis`, `thesis<N>` or `video`)
 #
 # The generator never touches origin, never uploads and never pushes. It runs
 # the agent in its own worktree, keeps whatever the agent committed on a branch
@@ -36,6 +36,14 @@
 # canon/roster.yml, so concurrent ones conflict in the lander: the first lands
 # and the rest are rescued, to be rebased by hand and re-queued with a candidate
 # marker.
+#
+# The `video` slot is rung 2V, a research explainer video, and like 2T it has
+# no timer: a human runs it (bin/slopu explainer). The output it explains is
+# drawn by ops/pick-explainer.py, or named by the human. It has no fallback
+# model, and its candidate is HELD: the marker is <run-id>.held, which the
+# lander never claims, until a human has watched the staged draft and run
+# `bin/slopu approve <run-id>`. SLOPU_VIDEO_HOLD=0 hands it straight to the
+# lander, which still gates it on the run's passing review.
 set -euo pipefail
 
 # Overridable ONLY so the pipeline can be exercised end-to-end against a
@@ -46,11 +54,13 @@ source "${PROJECT_DIR}/ops/publish-lib.sh"
 
 SLOT="${1:?usage: publish-generate.sh <slot>}"
 THESIS=0
+VIDEO=0
 case "$SLOT" in
   thesis) THESIS=1 ;;
   thesis*[!0-9]*) echo "a thesis slot is 'thesis' or 'thesis<N>'" >&2; exit 2 ;;
   thesis*) THESIS=1 ;;
-  ''|*[!0-9]*) echo "slot must be a positive integer, 'thesis' or 'thesis<N>'" >&2; exit 2 ;;
+  video) VIDEO=1 ;;
+  ''|*[!0-9]*) echo "slot must be a positive integer, 'thesis', 'thesis<N>' or 'video'" >&2; exit 2 ;;
 esac
 
 WORKTREE_DIR="${PROJECT_DIR}/../slop-university-gen-${SLOT}"
@@ -88,7 +98,7 @@ fi
 # a different matter and does get rescued --- it contains a finished output.)
 discard_candidate() {
   rm -rf "$PENDING_DIR"
-  rm -f "${CANDIDATE_DIR}/${RUN_ID}.json" "${CANDIDATE_DIR}/${RUN_ID}.json.tmp"
+  rm -f "${CANDIDATE_DIR}/${RUN_ID}.json" "${CANDIDATE_DIR}/${RUN_ID}.held" "${CANDIDATE_DIR}/${RUN_ID}.json.tmp"
   if git show-ref --verify --quiet "refs/heads/${CAND_BRANCH}"; then
     git -C "$WORKTREE_DIR" checkout --detach --quiet 2>/dev/null || true
     git branch -D "$CAND_BRANCH" >> "$LOG_FILE" 2>&1 || log "WARNING: could not delete ${CAND_BRANCH}"
@@ -123,9 +133,10 @@ if [ "$THESIS" = 1 ] && [ -n "$(git -C "$WORKTREE_DIR" status --porcelain)" ]; t
   exit 1
 fi
 
+prune_video_residue "$WORKTREE_DIR"
 reset_worktree "$WORKTREE_DIR" "$CAND_BRANCH" "$BASE_REF"
 
-if ! worktree_install "$WORKTREE_DIR"; then
+if ! worktree_install "$WORKTREE_DIR" || { [ "$VIDEO" = 1 ] && ! worktree_install_video "$WORKTREE_DIR"; }; then
   log "pnpm install failed in ${WORKTREE_DIR}; aborting"
   discard_candidate
   result "failed-setup" "pnpm install failed in generator slot ${SLOT}"
@@ -136,6 +147,12 @@ if [ "$SLOT" = "1" ]; then
   draw_run_inputs "$WORKTREE_DIR"
 elif [ "$THESIS" = 1 ]; then
   draw_run_inputs "$WORKTREE_DIR" thesis
+elif [ "$VIDEO" = 1 ]; then
+  if ! draw_run_inputs "$WORKTREE_DIR" video; then
+    discard_candidate
+    result "nothing-to-explain" "no output is eligible for an explainer (ops/pick-explainer.py --list)"
+    exit 0
+  fi
 else
   draw_run_inputs "$WORKTREE_DIR" 2a-only
 fi
@@ -185,8 +202,8 @@ fi
 # top of that is how two outputs end up claiming one DOI.
 if credits_exhausted; then
   log "AGENT OUT OF CREDITS on model ${AGENT_MODEL}."
-  if [ "$THESIS" = 1 ]; then
-    log "  a thesis run has no fallback: it spends the budget it was given or stops"
+  if [ "$THESIS" = 1 ] || [ "$VIDEO" = 1 ]; then
+    log "  a ${SLOT} run has no fallback: the work needs the model it was given"
   elif [ "$(git -C "$WORKTREE_DIR" rev-parse HEAD)" = "$BASE_REF" ] && ! staged_anything "$PENDING_DIR"; then
     git -C "$WORKTREE_DIR" clean -fd >> "$LOG_FILE" 2>&1
     if credits_hard_exhausted; then
@@ -269,7 +286,11 @@ jq -n --arg run_id "$RUN_ID" --arg slot "$SLOT" --arg branch "$CAND_BRANCH" \
   --arg base "$BASE_REF" --arg head "$HEAD_SHA" --arg preset "$PRESET" \
   --arg pending_dir "$PENDING_DIR" --arg created_at "$(date -Iseconds)" \
   '$ARGS.named' > "${CANDIDATE_DIR}/${RUN_ID}.json.tmp"
-mv "${CANDIDATE_DIR}/${RUN_ID}.json.tmp" "${CANDIDATE_DIR}/${RUN_ID}.json"
+MARKER_EXT="json"
+if [ "$VIDEO" = 1 ] && [ "${SLOPU_VIDEO_HOLD:-1}" != 0 ]; then
+  MARKER_EXT="held"
+fi
+mv "${CANDIDATE_DIR}/${RUN_ID}.json.tmp" "${CANDIDATE_DIR}/${RUN_ID}.${MARKER_EXT}"
 
 # Let go of the branch. The commits stay --- a branch ref is independent of any
 # worktree's HEAD --- but git refuses to delete a branch that some worktree has
@@ -280,5 +301,10 @@ mv "${CANDIDATE_DIR}/${RUN_ID}.json.tmp" "${CANDIDATE_DIR}/${RUN_ID}.json"
 git -C "$WORKTREE_DIR" checkout --detach --quiet 2>/dev/null \
   || log "NOTE: could not detach ${WORKTREE_DIR} from ${CAND_BRANCH}; the sweeper will collect the ref"
 
+if [ "$MARKER_EXT" = held ]; then
+  log "=== candidate ${RUN_ID} held for approval at $(date -Iseconds); drafts in ${PENDING_DIR}/review/ ==="
+  result "held" "slot ${SLOT} produced candidate ${RUN_ID}, held until bin/slopu approve ${RUN_ID}: $(git -C "$WORKTREE_DIR" log --format='%s' -1)"
+  exit 0
+fi
 log "=== candidate ${RUN_ID} ready at $(date -Iseconds) ==="
 result "candidate" "slot ${SLOT} produced candidate ${RUN_ID}: $(git -C "$WORKTREE_DIR" log --format='%s' -1)"

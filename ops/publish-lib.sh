@@ -279,6 +279,21 @@ worktree_install() {
   (cd "${dir}/website" && pnpm install --frozen-lockfile) >> "$LOG_FILE" 2>&1
 }
 
+# A video run renders with HyperFrames, which video/'s own node_modules holds.
+worktree_install_video() {
+  local dir="$1"
+  (cd "${dir}/video" && pnpm install --frozen-lockfile) >> "$LOG_FILE" 2>&1
+}
+
+# A video run leaves gigabytes of gitignored renders, audio and fetched images
+# in its worktree (video/out/, video/<id>/assets/ and .hyperframes/), which
+# reset_worktree keeps by design. By the next run its candidate has staged its
+# encodes, review and drafts, so they go.
+prune_video_residue() {
+  local dir="$1"
+  rm -rf "${dir}/video/out" "${dir}"/video/slop-*/assets "${dir}"/video/slop-*/.hyperframes
+}
+
 # --- Base selection: build on the newest published state. Normally one of
 # main / origin/main contains the other (a prior run pushed but couldn't
 # fast-forward a dirty local checkout, or the human committed locally and the
@@ -324,6 +339,12 @@ select_base() {
 # trees, and they are the one likeness in the project worked from a real
 # person's photographs. The tick never regenerates them.
 ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
+# A video candidate (preset video-*, rung 2V) also commits its sources: its
+# videos entry, its script and its project directory under video/, each named
+# for a templated video's id. The lander passes this for a video candidate
+# alone, so no other rung can write under video/, and no run can reach the
+# kit, the style guide or the voices.
+VIDEO_ALLOWLIST_RE='^(website/src/content/videos/slop-(explainer|promo)-[a-z0-9-]+\.yml$|video/scripts/slop-(explainer|promo)-[a-z0-9-]+\.md$|video/slop-(explainer|promo)-[a-z0-9-]+/)'
 DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
@@ -336,11 +357,12 @@ AGENT_EMAIL="press@slop.university"
 # Validate every commit in <base>..<branch>. Sets AGENT_SHAS (the agent's own
 # commits, for the caller's outcome line) and VALIDATION_ERROR (empty when
 # clean). Returns 1 when anything failed, so a caller can `if ! validate...`.
+# An optional third argument is a further allowlist (VIDEO_ALLOWLIST_RE).
 #
 # Nothing but the agent ever commits on a publish branch, so a foreign-authored
 # commit there is itself a violation.
 validate_commits() {
-  local base="$1" branch="$2" sha files denied outside leaked detail foreign
+  local base="$1" branch="$2" extra="${3:-}" sha files denied outside leaked detail foreign
   VALIDATION_ERROR=""
   AGENT_SHAS="$(git log --format='%H' --author="$AGENT_EMAIL" "${base}..${branch}")"
   if [ -n "$AGENT_SHAS" ]; then
@@ -362,6 +384,9 @@ validate_commits() {
     files="$(git show --name-only --format= "$sha")"
     denied="$(echo "$files" | grep -E "$DENYLIST_RE" || true)"
     outside="$(echo "$files" | grep -Ev "$ALLOWLIST_RE" | grep -v '^$' || true)"
+    if [ -n "$extra" ] && [ -n "$outside" ]; then
+      outside="$(echo "$outside" | grep -Ev "$extra" || true)"
+    fi
     leaked="$(git show "$sha" | grep -E "$FIREWALL_RE" || true)"
     if [ -n "$denied" ] || [ -n "$outside" ] || [ -n "$leaked" ]; then
       detail="$(printf '%s\n' "$denied" "$outside" "$leaked" | grep -v '^$')"
@@ -460,6 +485,43 @@ check_output_quality() {
       return 1
     fi
     log "${detail}"
+  done
+  return 0
+}
+
+# A video has no pages to measure; its gate is video/_kit/review.py, which the
+# run executes and templated.py stages as <pending-dir>/review/review.json. An
+# unattended video lands only on a passing review of exactly the sources it
+# commits: the review records the hashes of the spec and timing it read, and a
+# review of an earlier draft does not match them. The hand lander does not
+# call this --- a human watched that video.
+#
+# Args: <base> <branch> <pending-dir>. Sets QUALITY_ERROR.
+check_video_review() {
+  local base="$1" branch="$2" pending="$3" f id review name want got
+  QUALITY_ERROR=""
+  for f in $(git diff --name-only --diff-filter=A "$base" "$branch" -- 'website/src/content/outputs/*.yml'); do
+    git show "${branch}:${f}" | grep -qE '^preset: *video-' || continue
+    id="$(basename "$f" .yml)"
+    review="${pending}/review/review.json"
+    if [ ! -f "$review" ] || [ "$(jq -r .id "$review")" != "$id" ]; then
+      QUALITY_ERROR="${id} has no staged review (video/_kit/review.py)"
+      return 1
+    fi
+    if [ "$(jq -r .pass "$review")" != "true" ]; then
+      log "VIDEO REVIEW FAILED for ${id}: $(jq -c .failed "$review")"
+      QUALITY_ERROR="${id}'s review failed: $(jq -r '.failed | join(", ")' "$review")"
+      return 1
+    fi
+    for name in spec.json timing.json; do
+      want="$(jq -r --arg n "$name" '.inputs[$n]' "$review")"
+      got="$(git show "${branch}:video/${id}/${name}" 2>/dev/null | sha256sum | cut -d' ' -f1)"
+      if [ "$want" != "$got" ]; then
+        QUALITY_ERROR="${id}'s review was of another ${name} than the one committed"
+        return 1
+      fi
+    done
+    log "video review passed for ${id}"
   done
   return 0
 }
@@ -605,11 +667,32 @@ AGENT_EFFORT="${SLOPU_AGENT_EFFORT:-high}"
 # concurrent slots, which is precisely what a second generator must not do.
 #
 # Args: <worktree-dir> (the corpus the draws read) [<mode>], where mode is
-# "2a-only" (slots 2+: the assessor returns 2A unread) or "thesis" (rung 2T,
-# never assessed). Sets ACTION, ACTION_REASON, ACTION_PARAMS, PRESET, AXES and
-# PUBLISHED_AT.
+# "2a-only" (slots 2+: the assessor returns 2A unread), "thesis" (rung 2T,
+# never assessed) or "video" (rung 2V, never assessed: a research explainer of
+# the output ops/pick-explainer.py draws, or of SLOPU_EXPLAIN when the human
+# named one). Sets ACTION, ACTION_REASON, ACTION_PARAMS, PRESET, AXES and
+# PUBLISHED_AT. Returns 3 when a video run has nothing to explain.
 draw_run_inputs() {
   local worktree="$1" mode="${2:-}"
+  if [ "$mode" = "video" ]; then
+    ACTION="2V"
+    PRESET="video-explainer"
+    AXES=""
+    PUBLISHED_AT="$(date -Iseconds)"
+    if [ -n "${SLOPU_EXPLAIN:-}" ]; then
+      ACTION_REASON="a research explainer of an output a human named, run by hand"
+      ACTION_PARAMS="$(jq -cn --arg o "$SLOPU_EXPLAIN" '{output: $o}')"
+    else
+      local pick
+      pick="$("${PROJECT_DIR}/ops/pick-explainer.py" --root "$worktree")" || return 3
+      ACTION_REASON="a research explainer, run by hand; the output $(printf '%s' "$pick" | jq -r .reason)"
+      ACTION_PARAMS="$(printf '%s' "$pick" | jq -c '{output, authors}')"
+    fi
+    log "=== assessed action: ${ACTION} --- ${ACTION_REASON} ==="
+    log "action params: ${ACTION_PARAMS}"
+    log "=== selected preset: ${PRESET}; publishedAt: ${PUBLISHED_AT} ==="
+    return 0
+  fi
   if [ "$mode" = "thesis" ]; then
     # The rung is fixed by the human who started the run, the preset is the
     # thesis's own, and the only inputs drawn are the fiction (setting, school,

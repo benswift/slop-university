@@ -71,7 +71,7 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh \
          ops/check-output-quality.py ops/check-recent-language.py ops/draw-axes.py \
          ops/check-table-fit.py \
          ops/encode-images.py ops/select-preset.sh ops/topic-claim.py \
-         ops/assess-ladder.py ops/run-usage.py \
+         ops/assess-ladder.py ops/run-usage.py ops/pick-explainer.py bin/slopu \
          ops/subject-primer.py canon/subjects.tsv \
          ops/topic-neighbours.py ops/verify-site.sh \
          ops/post-to-bluesky.py ops/post-to-linkedin.py \
@@ -81,7 +81,7 @@ for f in ops/publish-lib.sh ops/publish-generate.sh ops/publish-land.sh \
   mkdir -p "$(dirname "${REPO}/${f}")"
   cp "${REPO_ROOT}/${f}" "${REPO}/${f}"
 done
-chmod +x "${REPO}"/ops/*.sh "${REPO}"/ops/*.py
+chmod +x "${REPO}"/ops/*.sh "${REPO}"/ops/*.py "${REPO}"/bin/slopu
 git -C "$REPO" add -A
 git -C "$REPO" commit -q --allow-empty -m "selftest: carry the working tree into the fixture"
 git -C "$REPO" push -q origin main
@@ -184,6 +184,60 @@ version: "1.0"
 YML
 git add "website/src/content/outputs/${ID}.yml"
 git commit -qm "publish: sparse output fixture"
+AGENT
+
+# A 2V run: an explainer's outputs and videos entries, its sources under
+# video/, the encodes its videos entry names, and the review templated.py
+# stages. FAKE_REVIEW=fail stages a failed review, FAKE_REVIEW=stale a passing
+# review of another spec. Records whether the ElevenLabs key reached it, since
+# voicing and the transcript check both need it.
+cat > "${FIXTURE}/agent-video" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+SEED="$(printf '%06d' $$ | tail -c 6)"
+ID="slop-explainer-probe-${SEED}"
+STAGING="${SLOPU_PENDING_DIR:?}"
+[ -n "${ELEVENLABS_API_KEY:-}" ] && echo 1 > data/agent-saw-elevenlabs || echo 0 > data/agent-saw-elevenlabs
+SRC=slop-explainer-a-good-drying-8wnbxm
+sed -e "s/^title: .*/title: Probe ${SEED}, Explained/" -e "s|^doi: .*|doi: 10.5555/slop.${SEED}|" \
+  "website/src/content/outputs/${SRC}.yml" > "website/src/content/outputs/${ID}.yml"
+cat > "website/src/content/videos/${ID}.yml" <<YML
+title: Probe ${SEED}, Explained
+signage:
+  landscape: ${ID}-0123456789.mp4
+web:
+  landscape:
+    video: ${ID}-web-0123456789.mp4
+    cover: ${ID}-cover-0123456789.jpg
+YML
+mkdir -p "video/${ID}"
+cp "video/${SRC}/spec.json" "video/${SRC}/timing.json" "video/${ID}/"
+cp "video/scripts/${SRC}.md" "video/scripts/${ID}.md"
+git add "website/src/content/outputs/${ID}.yml" "website/src/content/videos/${ID}.yml" \
+  "video/${ID}" "video/scripts/${ID}.md"
+git commit -qm "publish: video-explainer — Probe ${SEED}, Explained (10.5555/slop.${SEED})"
+mkdir -p "${STAGING}/review" "${STAGING}/img/thumbs" "${STAGING}/img/heroes/outputs" "${STAGING}/img/og/outputs"
+for f in "${ID}-0123456789.mp4" "${ID}-web-0123456789.mp4" "${ID}-cover-0123456789.jpg"; do : > "${STAGING}/${f}"; done
+: > "${STAGING}/img/thumbs/${ID}-320.avif"
+: > "${STAGING}/img/heroes/outputs/${ID}-800.avif"
+: > "${STAGING}/img/og/outputs/${ID}.jpg"
+: > "${STAGING}/review/${ID}-draft.mp4"
+spec_sha="$(sha256sum < "video/${ID}/spec.json" | cut -d' ' -f1)"
+[ "${FAKE_REVIEW:-}" = stale ] && spec_sha="$(echo stale | sha256sum | cut -d' ' -f1)"
+jq -n --arg id "$ID" --argjson pass "$([ "${FAKE_REVIEW:-}" = fail ] && echo false || echo true)" \
+  --arg spec "$spec_sha" --arg timing "$(sha256sum < "video/${ID}/timing.json" | cut -d' ' -f1)" \
+  '{id: $id, pass: $pass, failed: (if $pass then [] else ["tails"] end), inputs: {"spec.json": $spec, "timing.json": $timing}}' \
+  > "${STAGING}/review/review.json"
+AGENT
+
+# A run on another rung that writes under video/: the video allowlist is a
+# video candidate's alone.
+cat > "${FIXTURE}/agent-strays-into-video" <<'AGENT'
+#!/usr/bin/env bash
+set -euo pipefail
+cp video/scripts/slop-explainer-a-good-drying-8wnbxm.md video/scripts/slop-explainer-stray-000000.md
+git add video/scripts/slop-explainer-stray-000000.md
+git commit -qm "publish: news — a run that wandered into video/"
 AGENT
 
 # Stages a LinkedIn post and commits nothing (a 2G tick), and records whether
@@ -418,6 +472,41 @@ check "...and leaves the work where it was"         yes \
 git -C "${REPO}/../slop-university-gen-thesis2" checkout -q -- canon/roster.yml
 check "a malformed thesis slot is refused"          2 \
   "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" ./ops/publish-generate.sh thesis-2 >/dev/null 2>&1 ); echo $? )"
+
+echo
+echo "the video slot"
+held() { ls "${REPO}"/data/candidates/*-slotvideo.held 2>/dev/null | head -1 | xargs -r basename | sed 's/\.held$//'; }
+check "a video run is a held candidate"             held         "$(gen video video)"
+check "...composed as rung 2V"                      yes          "$(log_has 'assessed action: 2V')"
+check "...of an output the picker drew"             yes          "$(log_has 'action params: {"output":"slop-')"
+check "...and the agent had the ElevenLabs key"     1            "$(cat "${REPO}/data/agent-saw-elevenlabs")"
+check "the lander leaves a held candidate alone"    idle         "$(land)"
+( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_PRESS_WORKTREE="${FIXTURE}/press" \
+    SLOPU_CANDIDATE_ABANDON_MINUTES=0 SLOPU_CANDIDATE_STALE_MINUTES=0 ./ops/publish-land.sh --sweep-only >/dev/null 2>&1 ) || true
+check "...and so does the sweeper"                  yes \
+  "$(git -C "$REPO" show-ref --verify --quiet "refs/heads/press-gen-$(held)" && echo yes || echo no)"
+( cd "$REPO" && bin/slopu held ) > "${FIXTURE}/held.out" 2>&1 || true
+check "slopu held lists its draft"                  yes \
+  "$(grep -q 'review/slop-explainer-probe-.*-draft.mp4' "${FIXTURE}/held.out" && echo yes || echo no)"
+( cd "$REPO" && bin/slopu approve "$(held)" >/dev/null )
+check "an approved video lands"                     published    "$(land)"
+check "...past the video review gate"               yes          "$(log_has 'video review passed for slop-explainer-probe-')"
+check "...with its sources under video/"            yes \
+  "$(git -C "$REPO" fetch -q origin && git -C "$REPO" ls-tree -r --name-only origin/main video/scripts | grep -q 'slop-explainer-probe-' && echo yes || echo no)"
+mkdir -p "${FIXTURE}/staged/review"
+: > "${FIXTURE}/staged/encode-0123456789.mp4"
+: > "${FIXTURE}/staged/review/x-draft.mp4"
+check "a draft under review/ is never bound for the bucket" "${FIXTURE}/staged/encode-0123456789.mp4" \
+  "$( ( PROJECT_DIR="$REPO_ROOT" LOG_FILE=/dev/null; source "${REPO_ROOT}/ops/publish-lib.sh"
+        collect_staged_files "${FIXTURE}/staged"; echo "${STAGED_FILES[*]}" ) )"
+check "a failed review is rescued, not landed"      rescued-review \
+  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_AGENT_RUN="${FIXTURE}/agent-video" SLOPU_VIDEO_HOLD=0 \
+        FAKE_REVIEW=fail ./ops/publish-generate.sh video >/dev/null 2>&1 ); land )"
+check "a review of another spec is rescued too"     rescued-review \
+  "$( ( cd "$REPO" && SLOPU_PROJECT_DIR="$REPO" SLOPU_AGENT_RUN="${FIXTURE}/agent-video" SLOPU_VIDEO_HOLD=0 \
+        FAKE_REVIEW=stale ./ops/publish-generate.sh video >/dev/null 2>&1 ); land )"
+gen 2 strays-into-video > /dev/null
+check "another rung may not write under video/"     validation-failure "$(land)"
 
 echo
 echo "the sweeper leaves a slot that still holds its lock"

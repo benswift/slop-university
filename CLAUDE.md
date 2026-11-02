@@ -42,9 +42,11 @@ upload-then-push) live once in `ops/publish-lib.sh`:
   one marker file in `data/candidates/`. Slot 1 gets the full ladder assessment;
   slots 2+ are pinned to 2A, because the gardening rungs are gated on shared
   state and two slots reading it pick the same gap.
-  `bin/slopu thesis [steering]` runs the one rung with no timer (2T, a doctoral
-  thesis) as a slot named `thesis`; the optional steering prompt fixes the topic
-  while the fiction is still drawn.
+  `bin/slopu thesis [steering]` runs one of the two rungs with no timer (2T, a
+  doctoral thesis) as a slot named `thesis`; the optional steering prompt fixes
+  the topic while the fiction is still drawn. `bin/slopu explainer [output-id]`
+  runs the other (2V, a research explainer video) as a slot named `video`; its
+  candidate is held until `bin/slopu approve <run-id>`.
 - `ops/publish-land.sh` --- the one serial lander. It claims the oldest
   candidate, rebases it onto current `origin/main`, validates, runs the one
   authoritative build, uploads and pushes.
@@ -229,6 +231,9 @@ own DOIs (presets `video-explainer` and `video-promo`): `bin/slopu video` runs
 `skills/video/SKILL.md`, which writes a script and a beat spec for the engine in
 `video/_kit/` and stages the output, its news post and its encodes;
 `bin/slopu land` publishes it like any hand-steered output.
+`video/_kit/review.py` is the mechanical review a video must pass before an
+unattended landing; its docstring lists the checks and what each was calibrated
+against.
 
 ## Don't
 
