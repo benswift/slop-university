@@ -4,7 +4,7 @@ description: >-
   Make one Slop University video, a research explainer of an output or a promo,
   as a script and a beat spec on the template engine, voiced, scored, reviewed,
   encoded and staged as a research output for `bin/slopu land`. Invoked by
-  `bin/slopu video`.
+  `bin/slopu video`, and by /publish's rung 2V.
 ---
 
 # A Slop University video
@@ -87,8 +87,12 @@ University promo is the narrator. The register is the comms one
 6. **Review**, the gate. Open every contact sheet in `video/out/<id>/stills/`
    and look: nothing overlaps or runs off the frame, each beat shows what its
    line says while it says it, the numbers on screen match the source, no frame
-   is empty while a line plays. Listen to `assets/mix.wav` segments where the
-   stills look wrong. Fix the spec or the script and go again; at most three
+   is empty while a line plays. Then run `_kit/review.py <id>`. It measures what
+   stills cannot show, and each finding names its line and time: speaker levels,
+   dead air and clicks at a take's end, a transcript of the voice against the
+   script, burnt phrases, every number and source quote against the source, beat
+   hold times and blank frames. Fix the spec or the script (or level-match or
+   zero a gap in `assets/voice.wav` before `mix`) and go again; at most three
    rounds, then stop and report what is still wrong.
 7. **Encode and stage**: `./video.sh signage <id>`, `./video.sh web <id>`, then
    `_kit/templated.py stage <id>`, which writes the outputs and videos entries
@@ -98,8 +102,8 @@ University promo is the narrator. The register is the comms one
    read-the-recent- eight check included). It links the output it explains, or
    the researcher's profile, wherever it names them.
 9. **Report**: the id, the key idea, the orientation, the draft's path
-   (`video/out/<id>/<id>-draft.mp4`), and anything the review could not fix.
-   Then stop.
+   (`video/out/<id>/<id>-draft.mp4`), the review's verdict, and anything the
+   review could not fix. Then stop.
 
 ## Beats
 
@@ -129,8 +133,10 @@ only shows that a page exists. Its `text` is the source's words exactly (take
 them from `pdftotext`); over an `image` (the output's or a speaker's hero) it
 sits under a scrim. With `spoken: true` the line's voice reads it and each word
 lights as it is said, with the attribution up from the start; otherwise it
-builds phrase by phrase until `until`. A `figure` is for what only a picture
-holds: a chart, a diagram, a photograph, a table.
+builds phrase by phrase until `until`. A `quote` over a researcher's `person`
+hero is that researcher speaking, in their own words; every other quote is the
+source's, word for word, and the review checks it. A `figure` is for what only a
+picture holds: a chart, a diagram, a photograph, a table.
 
 Fractions (`crop`, `box`) are of the whole page image. To find a figure, look at
 the page: `pdftoppm -png -r 60 -f n -l n` gives a quick view to measure from.
