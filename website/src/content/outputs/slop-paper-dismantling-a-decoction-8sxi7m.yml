@@ -1,0 +1,38 @@
+title: Dismantling a Decoction
+subtitle: >-
+  Query Bounds for Finding the Minimal Effective Sub-formulas of a
+  Many-Ingredient Preparation
+authors:
+  - Vigdis Emenike
+  - Ragnhild Uzoma
+preset: paper
+school: School of Underlying Conditions
+date: 2026-11-03
+publishedAt: "2026-11-03T10:01:16+11:00"
+doi: 10.5555/slop.8sxi7m
+summary: >-
+  A paper from the School of Underlying Conditions treats the dismantling of a
+  many-ingredient herbal formula as a query problem in which each assay of a
+  sub-formula reveals only whether the effect survives. It proves that one
+  minimal effective sub-formula can be found in close to the
+  information-theoretic number of assays when no ingredient antagonises
+  another, that listing all of them forces 135 assays on a fifteen-ingredient
+  formula of seven paired ingredients, and that under antagonism the full
+  formula can survive every single-ingredient ablation while a smaller
+  effective sub-formula goes unseen.
+topic: >-
+  Dismantling a decoction: the query complexity of identifying the minimal
+  effective sub-formulas of a many-herb preparation from ablation assays, under
+  monotone, antagonistic and noisy response models
+pages: 7
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.ffzczm
+  - 10.5555/slop.q1b6tg
+  - 10.5555/slop.wcg4z0
