@@ -263,11 +263,11 @@ Everything in "Per-run variation rolls" varies per run. These don't, ever:
 Read these before generating:
 
 - **Primary structural reference**:
-  `~/vaults/wiz-ben/studio-business-plan-2026.typ` --- same layout core,
+  `~/vaults/wiz-anu/studio-business-plan-2026.typ` --- same layout core,
   ANU-branded. Copy the section break / image patterns and the shape of the
   show-rule call; do NOT copy its import block or content (this preset imports
   the slop brand package, not the ANU one).
-- **Genre PDF**: `~/vaults/wiz-ben/anu-corporate-plan-2026-v5.pdf` --- a real
+- **Genre PDF**: `~/vaults/wiz-anu/anu-corporate-plan-2026-v5.pdf` --- a real
   university corporate plan, for tone, layout conventions, sentence rhythm (tone
   reference only --- imagery follows the two-ink house style, not its
   photography).

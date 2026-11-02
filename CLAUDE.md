@@ -186,10 +186,10 @@ Slop University is a persistent fiction: its people, schools, and units live in
 
 ## Style references
 
-- Closest typst reference: `~/vaults/wiz-ben/studio-business-plan-2026.typ`
+- Closest typst reference: `~/vaults/wiz-anu/studio-business-plan-2026.typ`
   (same layout core, ANU-branded; copy structural moves, not content or its
   import block)
-- Genre PDF: `~/vaults/wiz-ben/anu-corporate-plan-2026-v5.pdf` (real
+- Genre PDF: `~/vaults/wiz-anu/anu-corporate-plan-2026-v5.pdf` (real
   institutional document, for tone and visual convention)
 - Typst packages (all `@local`, symlinked into
   `~/.local/share/typst/packages/local/`):
