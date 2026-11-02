@@ -1,0 +1,37 @@
+title: Three Readings a Decade
+subtitle: A resolution limit for Laplace inversion of slug-test recovery curves
+authors:
+  - Vigdis Emenike
+  - Ragnhild Uzoma
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-11-02
+publishedAt: "2026-11-02T22:00:16+11:00"
+doi: 10.5555/slop.xuwi1c
+summary: >-
+  A research poster from the School of Underlying Conditions treats a slug
+  test's recovery curve as the Laplace transform of a spectrum of relaxation
+  rates and works in logarithmic time, where the inversion's kernel decays
+  exponentially with frequency, to derive the reading density beyond which
+  further readings resolve nothing more: about 0.47 ln(1/ε) readings per decade
+  of elapsed time, or 3.2 at a relative noise of one part in a thousand.
+  Inversions of 4,000 synthetic recoveries reach their error floor at that
+  density, and 38 logger records from the School's piezometer nest, thinned
+  from one reading a second to four a decade, give back the same recovered
+  modes.
+topic: >-
+  the resolution limit of Laplace inversion for slug-test recovery curves
+  sampled at logarithmic intervals, and the reading density per decade beyond
+  which further readings add nothing
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.04ycnj
+  - 10.5555/slop.wxeq30
