@@ -4,8 +4,8 @@ import { orientations, signagePlaylist, type Orientation } from "../../lib/signa
 // Chromeless, fullscreen e-signage player. Built for kiosk browsers: any number
 // of panels, each pointed at the route matching its mounting
 // (/signage/landscape or /signage/portrait), with no site chrome and no theme
-// layout. It shows one poster an hour, letterboxed on black, and plays a video
-// between posters, crossfading in over the old poster and out onto the new
+// layout. It shows one poster each half hour, letterboxed on black, and plays a
+// video between posters, crossfading in over the old poster and out onto the new
 // one. Posters are generated at the panels' native 16:9 / 9:16 aspect, so
 // current ones fill the screen edge-to-edge; older A3-era posters keep their
 // letterbox. The actual PDF page is rendered to a canvas at device resolution
@@ -198,9 +198,12 @@ const posterAspect = initial ? initial.width / initial.height : 1;
       const video = document.getElementById("video") as HTMLVideoElement;
       const params = new URLSearchParams(location.search);
 
-      // One slot per hour (or per `?every=` seconds); each change is prepared
-      // this far ahead of it.
-      const SLOT_MS = (Number(params.get("every")) || 3600) * 1000;
+      // One slot per half hour (or per `?every=` seconds); each change is
+      // prepared this far ahead of it. Landscape runs half a slot behind
+      // portrait (portrait on :00 and :30, landscape on :15 and :45), so two
+      // screens in one room never start a video together.
+      const SLOT_MS = (Number(params.get("every")) || 1800) * 1000;
+      const PHASE_MS = orientation === "landscape" ? SLOT_MS / 2 : 0;
       const PREPARE_MS = Math.min(5 * 60 * 1000, SLOT_MS / 2);
       // The first poster that wouldn't load retries on this much shorter
       // cycle. A cold boot on wifi can drop a large asset mid-flight --- the
@@ -224,7 +227,8 @@ const posterAspect = initial ? initial.width / initial.height : 1;
       }
 
       const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-      const slotAt = (t: number) => Math.floor(t / SLOT_MS);
+      const slotAt = (t: number) => Math.floor((t - PHASE_MS) / SLOT_MS);
+      const slotStart = (slot: number) => slot * SLOT_MS + PHASE_MS;
 
       // Exponential backoff, capped: a boot-time blip clears in seconds, but a
       // genuinely unreachable origin shouldn't be hammered.
@@ -372,7 +376,7 @@ const posterAspect = initial ? initial.width / initial.height : 1;
 
       // Prepare the change at the start of `slot`, wait for it, then make it.
       async function change(slot: number) {
-        const at = slot * SLOT_MS;
+        const at = slotStart(slot);
         await sleep(Math.max(0, at - PREPARE_MS - Date.now()));
 
         // The once-a-day reload happens in place of a change, early in the

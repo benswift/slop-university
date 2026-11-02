@@ -45,8 +45,8 @@ export async function signagePlaylist(orientation: Orientation): Promise<Playlis
   // Signage is research-led: four research slots followed by one ad slot. Keep
   // a bounded recent pool so a screen changes regularly without resurrecting
   // old material from deep in the archive.
-  const research = posters.filter((e) => e.data.preset === "research-poster").slice(0, 12);
-  const marketing = posters.filter((e) => e.data.preset === "marketing-poster").slice(0, 6);
+  const research = posters.filter((e) => e.data.preset === "research-poster").slice(0, 24);
+  const marketing = posters.filter((e) => e.data.preset === "marketing-poster").slice(0, 12);
 
   const videos = (await getCollection("videos"))
     .toSorted((a, b) => a.id.localeCompare(b.id))
