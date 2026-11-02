@@ -25,10 +25,13 @@ have run, writes the outputs entry from the spec (its title, subtitle, summary,
 topic, authors and school) and the videos entry, encodes the thumbnail from
 the cut's cover frame and the hero and og card from the landscape cover frame or,
 for a portrait video, from the opening hero beat's landscape image, and copies the encodes into
-data/pending-uploads/<id>/, where `bin/slopu land <id>` finds them.
+data/pending-uploads/<id>/ (or $SLOPU_PENDING_DIR, a generator slot's own
+directory), where `bin/slopu land <id>` finds them, with _kit/review.py's
+review.json and the drafts under its review/.
 """
 
 import json
+import os
 import re
 import secrets
 import shutil
@@ -280,7 +283,10 @@ def stage(vid: str) -> None:
         if not spec.get(key):
             raise SystemExit(f"spec.json has no {key}")
     out = VIDEO / "out" / vid
-    pending = ROOT / "data" / "pending-uploads" / vid
+    # a generator slot stages into its run's own directory
+    pending = Path(
+        os.environ.get("SLOPU_PENDING_DIR") or ROOT / "data" / "pending-uploads" / vid
+    )
     pending.mkdir(parents=True, exist_ok=True)
 
     def newest(pattern: str) -> Path:
@@ -364,6 +370,18 @@ def stage(vid: str) -> None:
     }
     dest = ROOT / "website" / "src" / "content" / "videos" / f"{vid}.yml"
     dest.write_text(dump(videos))
+
+    # The review and the drafts, beside the encodes but under review/, which no
+    # upload reads: the lander gates on the one, a human approving a held
+    # candidate watches the others.
+    review_dir = pending / "review"
+    review_dir.mkdir(exist_ok=True)
+    for f in [out / "review.json", *out.glob(f"{vid}*-draft.mp4")]:
+        if f.is_file():
+            shutil.copy(f, review_dir)
+    review = out / "review.json"
+    if not review.is_file() or not json.loads(review.read_text()).get("pass"):
+        print(f"WARNING: {vid} has no passing review (_kit/review.py {vid})")
     print(f"{outputs}\n{dest}\n{pending}")
 
 
