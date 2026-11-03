@@ -1,0 +1,37 @@
+title: Which Schools Share a Timetable
+subtitle: >-
+  Contiguous Partitioning of a Rural School Network into Shared-Curriculum
+  Clusters
+authors:
+  - Brynjar Obiora
+  - Torun Ezeigwe
+preset: paper
+school: School of Underlying Conditions
+date: 2026-11-03
+publishedAt: "2026-11-03T20:31:16+11:00"
+doi: 10.5555/slop.4u80zh
+summary: >-
+  A paper from the School of Underlying Conditions and the School of Continuous
+  Improvement formalises the grouping of a credit system's schools into
+  elective-sharing clusters as contiguous graph partitioning under coverage,
+  size and travel-diameter constraints, proves its feasibility question
+  NP-complete, and solves a 64-school rural network exactly by integer
+  programming. The smallest workable travel cap, 34 minutes, matches a
+  per-school bottleneck bound attained at a single remote campus, while the
+  regional authority's greedy procedure first succeeds at 45 minutes and then
+  costs 32% more student travel than the optimum.
+topic: >-
+  which schools share a timetable: constrained graph partitioning of a
+  fictional rural network of 64 high schools into shared-curriculum clusters
+  under a credit-system elective-coverage rule and an inter-campus travel cap
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.9xmvu7
+  - 10.5555/slop.wgzh5g
