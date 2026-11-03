@@ -1,0 +1,35 @@
+title: The Tumour Is Optional
+subtitle: Lesion-Blind Baselines and a Retirement Criterion for a Saturated Slice-Level Brain Tumour Classification Split
+authors:
+  - Renke Sabel
+  - Torun Ezeigwe
+  - Casimir Beng
+preset: paper
+school: School of Continuous Improvement
+date: 2026-11-04
+publishedAt: "2026-11-04T01:31:16+11:00"
+doi: 10.5555/slop.the4tt
+summary: >-
+  On an institutional MRI teaching archive's fixed slice-level split, a
+  classifier retrained with the tumour and a 10 mm margin masked out still
+  names tumour type 83.7% of the time, and a model given no pixels at all,
+  only six acquisition descriptors, reaches 66.2%. The School of Continuous
+  Improvement proposes retiring any split whose headroom falls below its own
+  re-read label disagreement or whose provenance-only baseline earns a quarter
+  of its above-chance accuracy, and retires the archive's split on both counts
+  in favour of a patient-level successor.
+topic: >-
+  lesion-blind baselines: brain MRI slices with the tumour masked out still
+  classify tumour type on a saturated institutional benchmark split, proposed
+  as a formal criterion for retiring that split
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.c1shzy
+  - 10.5555/slop.zfe8au
