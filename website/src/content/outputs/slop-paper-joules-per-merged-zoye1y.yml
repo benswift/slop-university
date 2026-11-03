@@ -1,0 +1,33 @@
+title: Joules per Merged Change
+subtitle: Where a Research Software Group's Continuous-Integration Energy Goes
+authors:
+  - Thandiwe Solberg
+  - Marit Osayande
+preset: paper
+school: School of Continuous Improvement
+date: 2026-11-03
+publishedAt: "2026-11-03T17:31:16+11:00"
+doi: 10.5555/slop.zoye1y
+summary: >-
+  A paper from the School of Continuous Improvement meters every node of a
+  research software group's 14-machine continuous-integration pool at the outlet
+  for 26 weeks and finds that, of the 2.87 kWh drawn per merged change, 22.6%
+  went to work that was both new and used, with idle machines and exact rebuilds
+  of unchanged inputs taking most of the rest. Caching, test selection,
+  cancellation of superseded pipelines and powering down idle nodes cut energy
+  per merged change by 49.1%, while a 23.0% rise in pipeline runs took back about
+  15% of the saving.
+topic: >-
+  Joules per merged change: where the energy of a research group's continuous-integration runner pool goes, and how much of it rebuilds what has not changed
+pages: 7
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.ajeiwq
+  - 10.5555/slop.np9tl0
+  - 10.5555/slop.vsdro4
