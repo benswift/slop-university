@@ -1,0 +1,34 @@
+title: Survivors at the Asymptotes
+subtitle: >-
+  Mutation Analysis of One Core Facility's Multiplex Cytokine-Panel Pipeline
+authors:
+  - Mirela Hanke
+  - Dagny Okafor
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-04
+publishedAt: "2026-11-04T16:00:21+11:00"
+doi: 10.5555/slop.4xny8v
+summary: >-
+  A research poster from the School of Continuous Improvement seeds 2,904
+  mutants into an immunology core facility's in-house cytokine-panel pipeline
+  and finds its 318 tests kill 74.6% of the non-equivalent ones, with most
+  survivors in the range-flagging and back-calculation code at the standard
+  curve's quantification limits, which no fixture reached. Fourteen boundary
+  fixtures raise the score to 0.870.
+topic: >-
+  mutation analysis of one immunology core facility's multiplex cytokine-panel
+  flagging code, finding that the surviving mutants sit at the edges of the
+  standard curve its test fixtures never reach
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 4096
+  height: 2286
+cites:
+  - 10.5555/slop.dnzngn
+  - 10.5555/slop.zoye1y
