@@ -1,7 +1,8 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -euo pipefail
 
-readonly REPO_ROOT="${0:A:h:h}"
+REPO_ROOT="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
+readonly REPO_ROOT
 readonly AGENT_RUN="${AGENT_RUN_BIN:-agent-run}"
 
 profile="${AGENT_PROFILE:-claude-sub}"
@@ -55,12 +56,12 @@ EOF
 while (( $# > 0 )); do
   case "$1" in
     --profile)
-      (( $# >= 2 )) || { print -u2 "slopu: --profile needs a value"; exit 2; }
+      (( $# >= 2 )) || { echo "slopu: --profile needs a value" >&2; exit 2; }
       profile="$2"
       shift 2
       ;;
     --model)
-      (( $# >= 2 )) || { print -u2 "slopu: --model needs a value"; exit 2; }
+      (( $# >= 2 )) || { echo "slopu: --model needs a value" >&2; exit 2; }
       model="$2"
       shift 2
       ;;
@@ -69,12 +70,12 @@ while (( $# > 0 )); do
       shift
       ;;
     --slot)
-      (( $# >= 2 )) || { print -u2 "slopu: --slot needs a value"; exit 2; }
+      (( $# >= 2 )) || { echo "slopu: --slot needs a value" >&2; exit 2; }
       slot="$2"
       shift 2
       ;;
     --deadline)
-      (( $# >= 2 )) || { print -u2 "slopu: --deadline needs a value"; exit 2; }
+      (( $# >= 2 )) || { echo "slopu: --deadline needs a value" >&2; exit 2; }
       deadline="$2"
       shift 2
       ;;
@@ -87,7 +88,7 @@ while (( $# > 0 )); do
       break
       ;;
     -*)
-      print -u2 "slopu: unknown option: $1"
+      echo "slopu: unknown option: $1" >&2
       usage >&2
       exit 2
       ;;
@@ -102,7 +103,7 @@ command="$1"
 shift
 
 if (( land )) && [[ "$command" != from-preset ]]; then
-  print -u2 "slopu: --land applies to from-preset only"
+  echo "slopu: --land applies to from-preset only" >&2
   exit 2
 fi
 
@@ -116,7 +117,7 @@ agent_args=(
 
 case "$command" in
   from-preset)
-    (( $# > 0 )) || { print -u2 "slopu: from-preset needs a preset"; exit 2; }
+    (( $# > 0 )) || { echo "slopu: from-preset needs a preset" >&2; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     # Step 9 of the skill --- write the site entry, any news post and the
     # staged assets --- runs only for a run that is meant to be published.
@@ -124,13 +125,13 @@ case "$command" in
     prompt="Read skills/from-preset/SKILL.md and execute its workflow end-to-end. Argument: $* (first whitespace-separated word is the preset name; the rest is the steering prompt)."
     ;;
   from-source)
-    (( $# > 0 )) || { print -u2 "slopu: from-source needs a source"; exit 2; }
+    (( $# > 0 )) || { echo "slopu: from-source needs a source" >&2; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/from-source/SKILL.md and execute its workflow end-to-end. Source: $*"
     ;;
   video)
-    (( $# > 0 )) || { print -u2 "slopu: video needs a kind: explainer or promo"; exit 2; }
-    [[ "$1" == explainer || "$1" == promo ]] || { print -u2 "slopu: video kind is explainer or promo"; exit 2; }
+    (( $# > 0 )) || { echo "slopu: video needs a kind: explainer or promo" >&2; exit 2; }
+    [[ "$1" == explainer || "$1" == promo ]] || { echo "slopu: video kind is explainer or promo" >&2; exit 2; }
     if [[ "$profile" == claude-* ]]; then agent_args+=(--claude-effort max); fi
     prompt="Read skills/video/SKILL.md and execute its workflow end-to-end. Arguments: $* (the first word is the kind; for an explainer the second is the output id; for a promo the second is a researcher id or \"university\" when it is one, and the rest is the steering prompt)."
     ;;
@@ -138,9 +139,9 @@ case "$command" in
     # Rung 2V, by hand: a generator slot like the thesis's, whose candidate is
     # held for a human to watch (ops/publish-generate.sh says why). opus at max
     # effort by default, with no fallback model.
-    if (( $# > 1 )); then print -u2 "slopu: explainer takes at most an output id"; exit 2; fi
+    if (( $# > 1 )); then echo "slopu: explainer takes at most an output id" >&2; exit 2; fi
     if (( $# == 1 )); then
-      [[ -f "$REPO_ROOT/website/src/content/outputs/$1.yml" ]] || { print -u2 "slopu: no output $1"; exit 2; }
+      [[ -f "$REPO_ROOT/website/src/content/outputs/$1.yml" ]] || { echo "slopu: no output $1" >&2; exit 2; }
       export SLOPU_EXPLAIN="$1"
     fi
     if [[ -z "$model" && "$profile" == claude-* ]]; then
@@ -151,28 +152,28 @@ case "$command" in
     exec "$REPO_ROOT/ops/publish-generate.sh" video
     ;;
   held)
-    setopt local_options null_glob
+    shopt -s nullglob
     for marker in "$REPO_ROOT"/data/candidates/*.held; do
-      run_id="${marker:t:r}"
-      print "${run_id}  $(git -C "$REPO_ROOT" log -1 --format=%s "press-gen-${run_id}" 2>/dev/null)"
-      for draft in "$REPO_ROOT/data/pending-uploads/${run_id}"/review/*-draft.mp4; do print "  ${draft}"; done
+      run_id="$(basename "$marker" .held)"
+      echo "${run_id}  $(git -C "$REPO_ROOT" log -1 --format=%s "press-gen-${run_id}" 2>/dev/null)"
+      for draft in "$REPO_ROOT/data/pending-uploads/${run_id}"/review/*-draft.mp4; do echo "  ${draft}"; done
       [[ -f "$REPO_ROOT/data/pending-uploads/${run_id}/review/review.json" ]] \
-        && print "  review: $(jq -r 'if .pass then "pass" else "FAIL: " + (.failed | join(", ")) end' "$REPO_ROOT/data/pending-uploads/${run_id}/review/review.json")"
+        && echo "  review: $(jq -r 'if .pass then "pass" else "FAIL: " + (.failed | join(", ")) end' "$REPO_ROOT/data/pending-uploads/${run_id}/review/review.json")"
     done
     exit 0
     ;;
   approve|reject)
-    (( $# == 1 )) || { print -u2 "slopu: $command takes a run id"; exit 2; }
+    (( $# == 1 )) || { echo "slopu: $command takes a run id" >&2; exit 2; }
     marker="$REPO_ROOT/data/candidates/$1.held"
-    [[ -f "$marker" ]] || { print -u2 "slopu: no held candidate $1 (slopu held lists them)"; exit 2; }
+    [[ -f "$marker" ]] || { echo "slopu: no held candidate $1 (slopu held lists them)" >&2; exit 2; }
     if [[ "$command" == approve ]]; then
-      mv "$marker" "${marker:r}.json"
-      print "released $1; the lander lands it on its next tick"
+      mv "$marker" "${marker%.held}.json"
+      echo "released $1; the lander lands it on its next tick"
     else
       git -C "$REPO_ROOT" branch -D "press-gen-$1"
       rm -rf "$REPO_ROOT/data/pending-uploads/$1"
       rm -f "$marker"
-      print "discarded $1"
+      echo "discarded $1"
     fi
     exit 0
     ;;
@@ -182,7 +183,7 @@ case "$command" in
     exec "$REPO_ROOT/ops/land.sh" "$@"
     ;;
   publish)
-    (( $# == 0 )) || { print -u2 "slopu: publish takes no arguments"; exit 2; }
+    (( $# == 0 )) || { echo "slopu: publish takes no arguments" >&2; exit 2; }
     # Preserve the slash command's Sonnet default on its existing Claude
     # subscription route. Alternative profiles keep their own model default.
     if [[ -z "$model" && "$profile" == "claude-sub" ]]; then
@@ -196,7 +197,7 @@ case "$command" in
     # fit the drawn fiction; with it, the topic is fixed and the fiction is
     # still drawn. ops/publish-generate.sh says what the wrapper does with it.
     if [[ "${1:-}" == -* ]]; then
-      print -u2 "slopu: options go before the command: slopu $1 ... thesis"
+      echo "slopu: options go before the command: slopu $1 ... thesis" >&2
       exit 2
     fi
     if (( $# > 0 )); then export SLOPU_STEER="$*"; fi
@@ -211,7 +212,7 @@ case "$command" in
     export SLOPU_AGENT_PROFILE="$profile" SLOPU_AGENT_EFFORT=max
     [[ -z "$model" ]] || export SLOPU_AGENT_MODEL="$model"
     if [[ -n "$deadline" ]]; then
-      SLOPU_DEADLINE="$(date -d "$deadline" '+%H:%M on %A %-d %B %Y (%Z)')" || { print -u2 "slopu: cannot parse deadline: $deadline"; exit 2; }
+      SLOPU_DEADLINE="$(date -d "$deadline" '+%H:%M on %A %-d %B %Y (%Z)')" || { echo "slopu: cannot parse deadline: $deadline" >&2; exit 2; }
       export SLOPU_DEADLINE
     fi
     export CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
@@ -225,15 +226,18 @@ case "$command" in
     # A further thesis slot (--slot N) is started beside the first, which
     # already holds that lock, so it takes none.
     if [[ -n "$slot" ]]; then
-      [[ "$slot" == <2-> ]] || { print -u2 "slopu: --slot takes an integer >= 2"; exit 2; }
+      if ! [[ "$slot" =~ ^[0-9]+$ ]] || (( 10#$slot < 2 )); then
+        echo "slopu: --slot takes an integer >= 2" >&2
+        exit 2
+      fi
       exec "$REPO_ROOT/ops/publish-generate.sh" "thesis${slot}"
     fi
     lock="$REPO_ROOT/data/publish-gen-1.lock"
-    flock -n "$lock" true || print -u2 "slopu: waiting for slot 1's current run to finish"
+    flock -n "$lock" true || echo "slopu: waiting for slot 1's current run to finish" >&2
     exec flock -o "$lock" "$REPO_ROOT/ops/publish-generate.sh" thesis
     ;;
   *)
-    print -u2 "slopu: unknown command: $command"
+    echo "slopu: unknown command: $command" >&2
     usage >&2
     exit 2
     ;;

@@ -24,8 +24,8 @@ def run_slopu(tmp_path: Path) -> Callable[..., list[str]]:
         capture = tmp_path / "argv"
         stub = tmp_path / "agent-run"
         stub.write_text(
-            "#!/usr/bin/env zsh\n"
-            'for arg in "$@"; do print -r -- "$arg"; done > "$CAPTURE"\n'
+            "#!/usr/bin/env bash\n"
+            'printf "%s\\n" "$@" > "$CAPTURE"\n'
         )
         stub.chmod(0o755)
         env: dict[str, str] = {
