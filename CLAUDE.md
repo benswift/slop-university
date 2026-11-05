@@ -31,10 +31,11 @@ Two slash commands:
 
 ### The publish pipeline
 
-`/publish` runs unattended as a concurrent split; the safety-critical steps
-(base selection, commit validation against the allowlist/denylist/private-brand
-firewall, the entry-to-asset pairing check, the agent-failure classifiers, the
-upload-then-push) live once in `ops/publish-lib.sh`:
+`/publish` runs unattended as a concurrent split. The safety-critical steps
+(base selection, commit validation, the entry-to-asset pairing check, the
+agent-failure classifiers, upload-then-push) live once in `ops/publish-lib.sh`;
+route, model and effort are pinned there and overridable with
+`SLOPU_AGENT_PROFILE`, `SLOPU_AGENT_MODEL` and `SLOPU_AGENT_EFFORT`.
 
 - `ops/publish-generate.sh <slot>` --- a generator. It runs in its own worktree,
   never touches origin, never uploads and never pushes; it leaves a
@@ -42,35 +43,22 @@ upload-then-push) live once in `ops/publish-lib.sh`:
   one marker file in `data/candidates/`. Slot 1 gets the full ladder assessment;
   slots 2+ are pinned to 2A, because the gardening rungs are gated on shared
   state and two slots reading it pick the same gap.
-  `bin/slopu thesis [steering]` runs one of the two rungs with no timer (2T, a
+  `bin/slopu thesis [steering]` runs one of the two timerless rungs (2T, a
   doctoral thesis) as a slot named `thesis`; the optional steering prompt fixes
   the topic while the fiction is still drawn. `bin/slopu explainer [output-id]`
   runs the other (2V, a research explainer video) as a slot named `video`; its
   candidate is held until `bin/slopu approve <run-id>`.
 - `ops/publish-land.sh` --- the one serial lander. It claims the oldest
   candidate, rebases it onto current `origin/main`, validates, runs the one
-  authoritative build, uploads and pushes.
-
-The live units are `slop-publish-gen@1.timer` (half-hourly; the period is the
-throughput lever) and `slop-publish-land.timer`; slot 2 is disabled. A serial
-tick by hand is `ops/publish-generate.sh 1 && ops/publish-land.sh`.
-`ops/publish-check.py` (`slop-publish-watchdog.timer`) is the dead-man check:
-both timers armed, and something reached `main` inside six hours. After each
-push both landers run `ops/sync-atproto.py`, which reconciles the University's
-standard.site records on ATproto (and its lexicons in `lexicons/`) with the
-committed outputs; it is fail-open and its docstring says what the records carry
-and leave out.
+  authoritative build, uploads and pushes, then runs `ops/sync-atproto.py`.
 
 The wrapper decides what a run does and meters what it cost; the model only
-composes. The decisions are scripts, each with a docstring saying why:
-`ops/assess-ladder.py` (the rung), `ops/draw-axes.py` (a 2A run's subject,
-tradition and lead author), `ops/subject-primer.py`, `ops/topic-neighbours.py`
-(the dedup shortlist), `ops/check-output-quality.py` and
-`ops/check-table-fit.py` (layout gates), `ops/verify-site.sh` (the site chain)
-and `ops/run-usage.py` (per-tick tokens in `data/usage-ledger.jsonl`; `--weekly`
-is the number the tick rate is tuned against). Route, model and effort are
-pinned in `ops/publish-lib.sh` and overridable with `SLOPU_AGENT_PROFILE`,
-`SLOPU_AGENT_MODEL` and `SLOPU_AGENT_EFFORT`.
+composes. The decisions are scripts (`ops/assess-ladder.py`, `ops/draw-axes.py`,
+`ops/check-output-quality.py`, `ops/run-usage.py` and the rest), each with a
+docstring saying why: read it before changing one. The live units are
+`slop-publish-gen@1.timer`, `slop-publish-land.timer` and the dead-man check
+`slop-publish-watchdog.timer`; slot 2 is disabled. A serial tick by hand is
+`ops/publish-generate.sh 1 && ops/publish-land.sh`.
 
 `ops/publish-selftest.sh` drives the generator and lander against a throwaway
 clone with a fake agent standing in for the model --- run it after touching
@@ -79,32 +67,23 @@ edit is live at the next tick: stop the timers while an edit is in flight
 (`systemctl --user stop 'slop-publish-*.timer'`, then `start` each).
 
 `bin/slopu` is the common headless entry point for the generation commands and
-`/publish`. It uses the dotfiles `agent-run` dispatcher, defaulting to the
-native Claude Code subscription. The generation commands retain `--effort max`,
-while publish retains its `sonnet` model default on that route; an alternative
-profile keeps its own model unless `--model` overrides it. This makes another
-route possible without changing the workflow prompts.
+`/publish`, over the dotfiles `agent-run` dispatcher (default: the Claude Code
+subscription; `--profile` switches route). Its `--help` lists the commands.
 
 Hand-steered publishing is two steps, mirroring the pipeline's own split between
 the agent that writes and the wrapper that ships. `bin/slopu from-preset --land`
-sets `SLOPU_LAND=1`, so the run also writes the outputs entry, any news post and
-the staged assets under `data/pending-uploads/<run-id>/` and leaves them
-uncommitted (step 9 of `skills/from-preset/SKILL.md`). `bin/slopu land <run-id>`
-then runs `ops/land.sh`: it takes `data/publish.lock` so it cannot race the
-autonomous lander, harvests citations, commits, gates on pairing/quality/verify,
-uploads and pushes. `--list` shows what is staged; `--dry-run` rehearses.
+sets `SLOPU_LAND=1`, so the run also stages the outputs entry, any news post and
+the assets under `data/pending-uploads/<run-id>/`, uncommitted (step 9 of
+`skills/from-preset/SKILL.md`). `bin/slopu land <run-id>` then runs
+`ops/land.sh`, which gates, uploads and pushes (its header says how).
 
-Both paths cross-ref shared visual doctrine in `skills/_shared/` (parallel image
-workflow, the two-ink house visual style, typst layout discipline, output
-naming). The preset path additionally loads `skills/from-preset/genre.md` for
-the satirical institutional-voice doctrine --- the faithful path does not load
-this file (the source's own voice is preserved).
+Both paths cross-ref shared visual doctrine in `skills/_shared/`. The preset
+path additionally loads `skills/from-preset/genre.md` for the satirical
+institutional-voice doctrine; the faithful path does not (the source's own voice
+is preserved).
 
-Generated outputs (`output/<prefix>-<slug>-<seed>.typ`, the matching
-`output/<prefix>-<slug>-<seed>-images/` folder, charts where applicable in
-`output/<prefix>-<slug>-<seed>-charts/`, and the final PDF in
-`output/pdf/<preset>/` --- e.g. `output/pdf/research-poster/`) are kept locally
-only --- they're gitignored. Don't commit them or tag the run.
+Generated outputs (`output/`, including the PDFs in `output/pdf/<preset>/`) are
+kept locally only --- they're gitignored. Don't commit them or tag the run.
 
 ## The institutional canon (`canon/`)
 
@@ -120,17 +99,14 @@ Slop University is a persistent fiction: its people, schools, and units live in
   eyeballed for accidental real-person likeness.
 - `canon/leadership.yml` --- the University's leadership, and the **one place a
   real person appears anywhere in the project**: Ben Swift, the artist behind
-  Slop University, is its Vice-Chancellor. It is a separate file from the roster
-  by design --- every preset draws authors "from `canon/roster.yml`", so keeping
-  him out of that file makes it impossible for a run to credit a real academic
-  with fabricated scholarship. He is never an author, grantee, quoted
-  researcher, or named contact. Generated documents may invoke the **office**
-  ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
-  institutional register; never the name. The one exception is mechanical, not a
-  run's: every ATproto document `ops/sync-atproto.py` writes lists his real
-  account as a contributor, with the role "Vice-Chancellor" and the display name
-  "Office of the Vice-Chancellor" --- the account is linked, the name never
-  shown. The file takes no further entries.
+  Slop University, is its Vice-Chancellor. It is separate from the roster so
+  that no run can credit a real academic with fabricated scholarship. He is
+  never an author, grantee, quoted researcher, or named contact. Generated
+  documents may invoke the **office** ("the Vice-Chancellor", "the Office of the
+  Vice-Chancellor"); never the name. The one mechanical exception:
+  `ops/sync-atproto.py` lists his real account as a contributor under the
+  display name "Office of the Vice-Chancellor". The file takes no further
+  entries.
 - `canon/schools.yml` --- the org chart: school, unit, lab, program, and
   initiative names, with their blurbs. `canon/schools.md` is the sibling
   authoring doctrine (naming register, collision check). Never invent an org
@@ -138,11 +114,9 @@ Slop University is a persistent fiction: its people, schools, and units live in
 - `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
   sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
   run.
-- `canon/axes.yml` + `canon/subjects.tsv` --- the draw pools for a publish run:
-  the scholarly traditions, and the subjects (a snapshot of OpenAlex's research
-  topics). `ops/draw-axes.py` draws from them outside the model and the cron
-  wrapper passes the result on the `/publish` invocation line, alongside the
-  preset `ops/select-preset.sh` draws. `axes.yml` also holds the two pools the
+- `canon/axes.yml` + `canon/subjects.tsv` --- the draw pools for a publish run
+  (scholarly traditions; a snapshot of OpenAlex's research topics), drawn by
+  `ops/draw-axes.py` outside the model. `axes.yml` also holds the two pools the
   thesis reads, which `canon/burnt-shapes.yml` retires values from. All three
   are static doctrine: a run commits none of them.
 - `canon/grants.yml` --- the internal funding schemes and prizes (all funders
@@ -163,26 +137,18 @@ Slop University is a persistent fiction: its people, schools, and units live in
   choice, cover-image theme) are allowed and surfaced in the run's text output.
   See `skills/from-source/SKILL.md`.
 - Titles: each preset's blueprint ("Doc identity" table) declares its title
-  policy --- the `strategy` and `impact-report` booklets fix their cover titles;
-  `research-poster`, `marketing-poster`, `banner`, `paper`, and the `brochure`
-  booklet derive the visible title from the steering prompt (a poster's,
-  paper's, ad's, or brochure campaign's title _is_ its content). The satirical
-  formula lives only in the PDF metadata title, for every preset.
+  policy. The satirical formula lives only in the PDF metadata title, for every
+  preset.
 - Output filenames (prefix, slug, seed, and the per-preset `output/pdf/<group>/`
   folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
   declare their own prefix and group.
 - **Citation graph.** Where a document prints a prior output's DOI, that is a
-  citation. `ops/extract-citations.py` harvests those edges out of the compiled
-  `.typ`/`.bib` into the citing entry's `cites:` (the compiled source is the
-  evidence --- never hand-write the field), and the site counts citations,
-  "cited by" lists, and the roster's h-indices off them. `--suggest` ranks prior
-  outputs by how much a citation would lift a researcher's h-index; topical fit
-  still decides which get cited. The counting rules are the University's own and
-  generous by design --- they are stated in `website/src/lib/citations.ts`.
+  citation. `ops/extract-citations.py` harvests those edges from the compiled
+  `.typ`/`.bib` into the citing entry's `cites:` --- never hand-write the field.
+  The counting rules are in `website/src/lib/citations.ts`.
 - Never include footers, watermarks, or other "this is satire" signals on the
   rendered pages of a preset run. The PDF metadata title is the deliberate
-  exception (per each preset's "Doc identity"). The booklets and posters must
-  read straight; the joke is the genre.
+  exception (per each preset's "Doc identity").
 - The faithful path uses the source's actual title as the PDF metadata title ---
   no satirical formula. The source's content is real, not satire.
 
@@ -204,51 +170,34 @@ Slop University is a persistent fiction: its people, schools, and units live in
   - `anu-typst-template:0.3.0` --- the genuine ANU brand layer (private repo;
     `anu-*` exports). The **faithful from-source path** imports this
 - **Generated imagery** follows the two-ink house style in
-  `skills/_shared/visual-style.md` (risograph register, lockup gold + ink black
-  on warm cream), steered by the curated seed set in `references/slop-style/`
-  (fully generated; no real photos). The real-ANU campus photos
-  (`references/*.avif`, local-only, not redistributed) serve only the faithful
-  path --- see `skills/_shared/image-workflow.md` for the two regimes and the
-  style-canon promotion mechanism.
-- Chart workflow (any preset whose blueprint declares charts): native
-  [gribouille](https://m.canouil.dev/gribouille) charts. Theme + palettes +
-  scale helpers come from the brand package (`slop-theme`, `slop-categorical`,
-  `slop-colour` / `slop-fill` --- no theme file to copy); worked `*.typ`
-  examples per chart type live in the core package's `examples/charts/`. Each
-  chart is a `#plot` authored as a `.typ` file, imported into the document and
-  rendered inline (no SVG, no Python / `uv` / `vl-convert`). Pipeline, chart
-  types, and brand styling are in `skills/_shared/chart-workflow.md`.
+  `skills/_shared/visual-style.md`, steered by the seed set in
+  `references/slop-style/` (fully generated; no real photos). The real-ANU
+  campus photos (`references/*.avif`, local-only, not redistributed) serve only
+  the faithful path --- see `skills/_shared/image-workflow.md`.
+- Charts (any preset whose blueprint declares them) are native gribouille
+  `#plot`s authored as `.typ` files, styled by the brand package; see
+  `skills/_shared/chart-workflow.md`.
 - Closest typst reference for chart / card layout (impact-report and
   research-poster):
   `~/.local/share/typst/packages/local/university-typst-template/0.1.0/examples/design.typ`
 
 ## Video style
 
-Videos (`video/`) use the `styled-video` skill. `video/STYLE.md` is the style
-guide: read it before planning a video. The recurring kinds, a research
-explainer of an output and a promo, are templated research outputs with their
-own DOIs (presets `video-explainer` and `video-promo`): `bin/slopu video` runs
-`skills/video/SKILL.md`, which writes a script and a beat spec for the engine in
-`video/_kit/` and stages the output, its news post and its encodes;
-`bin/slopu land` publishes it like any hand-steered output.
+Videos (`video/`) use the `styled-video` skill; read `video/STYLE.md` before
+planning one. `bin/slopu video` runs `skills/video/SKILL.md` for the recurring
+kinds (presets `video-explainer` and `video-promo`), which are templated
+research outputs with their own DOIs; `bin/slopu land` publishes the result.
 `video/_kit/review.py` is the mechanical review a video must pass before an
-unattended landing; its docstring lists the checks and what each was calibrated
-against.
+unattended landing (its docstring lists the checks).
 
 ## Don't
 
-- Don't add a footer like "Generated by Claude" or "Satirical artwork". The
-  booklets and posters have to read straight to land the point.
 - (Preset path) Don't insert verifiable factual claims that could be checked and
   falsified ("$200M committed by 30 June 2026" → no; "significant investment in
   research infrastructure over the plan period" → fine).
 - (Preset path) Don't reuse content verbatim across runs --- vary phrasing,
   section names, initiative or vignette wording, and KPI/metric targets even
   when the steering prompt is similar.
-- (Preset path) Don't name anyone outside `canon/roster.yml`, and don't invent
-  schools or units outside `canon/schools.yml`. The Vice-Chancellor
-  (`canon/leadership.yml`) is a real person: name the office, never the
-  occupant, and never credit him with an output, a grant, or a quote.
 - (Faithful path) Don't paraphrase, summarise, or "improve" the source. Don't
   invent new sections, filler paragraphs, inline images, or fabricated charts.
   Editorial latitude is limited to heading hierarchy when the source is
