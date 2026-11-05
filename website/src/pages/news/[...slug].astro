@@ -21,9 +21,7 @@ const { Content } = await render(entry);
 const output = entry.data.output ? await getEntry("outputs", entry.data.output) : undefined;
 // A press release shares the hero of the output it announces; a grant award or
 // an institutional notice carries its own.
-const hero = output
-  ? outputHero(output.id, output.data.hero)
-  : newsHero(entry.id, entry.data.hero);
+const hero = output ? outputHero(output.id, output.data.hero) : newsHero(entry.id, entry.data.hero);
 const og = output
   ? ogImage("outputs", output.id, output.data.hero ?? output.data.thumb)
   : entry.data.hero
@@ -39,7 +37,6 @@ const grantees = (grant?.data.grantees ?? []).map((name) => ({
   name,
   id: personIdByName(people, name),
 }));
-
 ---
 
 <ContentLayout
@@ -58,20 +55,16 @@ const grantees = (grant?.data.grantees ?? []).map((name) => ({
   </p>
   {output && <OutputCallout id={output.id} data={output.data} showRecord />}
   <Content />
-  {
-    grant && (
-      <p class="output-link">
-        {scheme?.data.name ?? grant.data.scheme}: <cite>{grant.data.name}</cite> ·{" "}
-        {formatAud(grant.data.value)} · awarded to{" "}
-        {grantees.map((grantee, i) => (
-          <>
-            {i > 0 && ", "}
-            {grantee.id ? <a href={`/people/${grantee.id}/`}>{grantee.name}</a> : grantee.name}
-          </>
-        ))}
-      </p>
-    )
-  }
+  {grant && <p class="output-link">
+    {scheme?.data.name ?? grant.data.scheme}: <cite>{grant.data.name}</cite> ·{" "}
+    {formatAud(grant.data.value)} · awarded to{" "}
+    {grantees.map((grantee, i) => (
+      <>
+        {i > 0 && ", "}
+        {grantee.id ? <a href={`/people/${grantee.id}/`}>{grantee.name}</a> : grantee.name}
+      </>
+    ))}
+  </p>}
 </ContentLayout>
 
 <style>

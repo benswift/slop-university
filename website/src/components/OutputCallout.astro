@@ -31,50 +31,42 @@ const full = fullTitle(data);
 const video = data.preset.startsWith("video-") ? (await getEntry("videos", id))?.data : undefined;
 ---
 
-{
-  video ? (
-    <>
-      <PageVideo video={video} />
-      {showRecord && (
-        <p class="callout-meta">
-          <a href={`/outputs/${id}/`}>Full record and citation</a>
-        </p>
-      )}
-    </>
-  ) : (
-<aside class="callout">
-  <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
-    {/* Pre-encoded in the bucket; at 9rem the browser picks the 320 rung. */}
-    <img
-      src={thumb.src}
-      srcset={thumb.srcset}
-      sizes="9rem"
-      width={thumb.width}
-      height={thumb.height}
-      alt=""
-      loading="lazy"
-    />
-  </a>
-  <div class="callout-body">
-    <p class="callout-kicker">{presetLabels[data.preset]}</p>
-    {showRecord && <p class="callout-title">{full}</p>}
-    <p class="callout-meta">
-      <a class="callout-pdf" href={pdf}>
-        PDF{data.pages && <> · {data.pages} pages</>}
-      </a>
-      {
-        showRecord && (
+{video ? (
+  <>
+    <PageVideo video={video} />
+    {showRecord && <p class="callout-meta">
+      <a href={`/outputs/${id}/`}>Full record and citation</a>
+    </p>}
+  </>
+) : (
+  <aside class="callout">
+    <a class="callout-thumb" href={pdf} tabindex="-1" aria-hidden="true">
+      {/* Pre-encoded in the bucket; at 9rem the browser picks the 320 rung. */}
+      <img
+        src={thumb.src}
+        srcset={thumb.srcset}
+        sizes="9rem"
+        width={thumb.width}
+        height={thumb.height}
+        alt=""
+        loading="lazy"
+      />
+    </a>
+    <div class="callout-body">
+      <p class="callout-kicker">{presetLabels[data.preset]}</p>
+      {showRecord && <p class="callout-title">{full}</p>}
+      <p class="callout-meta">
+        <a class="callout-pdf" href={pdf}> PDF{data.pages && <> · {data.pages} pages</>} </a>
+        {showRecord && (
           <>
             {" · "}
             <a href={`/outputs/${id}/`}>Full record and citation</a>
           </>
-        )
-      }
-    </p>
-  </div>
-</aside>
-  )
-}
+        )}
+      </p>
+    </div>
+  </aside>
+)}
 
 <style>
   /* Reads as a printed compliments slip laid on the page: the two inks, a
@@ -92,7 +84,9 @@ const video = data.preset.startsWith("video-") ? (await getEntry("videos", id))?
     padding: var(--at-spacing-lg);
     border: 1px solid var(--at-divider);
     background: var(--at-bg-alt);
-    transition: box-shadow 150ms ease, transform 150ms ease;
+    transition:
+      box-shadow 150ms ease,
+      transform 150ms ease;
   }
 
   .callout:has(.callout-pdf:hover, .callout-thumb:hover) {

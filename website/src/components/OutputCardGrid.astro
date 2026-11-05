@@ -12,30 +12,25 @@ interface Props {
 }
 
 const { entries } = Astro.props;
-
 ---
 
 <CardGrid columns={2}>
-  {
-    entries.map((entry) => (
-      <div class="output-card">
-        <OutputTypeBadge preset={entry.data.preset} />
-        <Card
-          title={entry.data.title}
-          href={`/outputs/${entry.id}/`}
-          image={outputHero(entry.id, entry.data.hero) ?? thumbnail(entry.id, entry.data.thumb)}
-          imageAlt=""
-        >
-          <p class="meta">
-            {entry.data.authors.join(", ")}
-            {entry.data.authors.length > 0 && " · "}
-            {monthYear.format(entry.data.date)} · doi:{entry.data.doi}
-          </p>
-          <p>{entry.data.summary}</p>
-        </Card>
-      </div>
-    ))
-  }
+  {entries.map((entry) => <div class="output-card">
+    <OutputTypeBadge preset={entry.data.preset} />
+    <Card
+      title={entry.data.title}
+      href={`/outputs/${entry.id}/`}
+      image={outputHero(entry.id, entry.data.hero) ?? thumbnail(entry.id, entry.data.thumb)}
+      imageAlt=""
+    >
+      <p class="meta">
+        {entry.data.authors.join(", ")}
+        {entry.data.authors.length > 0 && " · "}
+        {monthYear.format(entry.data.date)} · doi:{entry.data.doi}
+      </p>
+      <p>{entry.data.summary}</p>
+    </Card>
+  </div>)}
 </CardGrid>
 
 <style>

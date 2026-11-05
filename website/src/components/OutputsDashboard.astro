@@ -8,25 +8,19 @@ const { stats, chart } = await dashboard();
 ---
 
 <dl class="stat-row">
-  {
-    stats.map((stat) => (
-      <div class="stat">
-        <dd>{stat.value}</dd>
-        <dt>{stat.label}</dt>
-      </div>
-    ))
-  }
+  {stats.map((stat) => <div class="stat">
+    <dd>{stat.value}</dd>
+    <dt>{stat.label}</dt>
+  </div>)}
 </dl>
 
-{
-  chart && (
-    <>
-      <h2>Outputs and funding over time</h2>
-      <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
-      <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
-    </>
-  )
-}
+{chart && (
+  <>
+    <h2>Outputs and funding over time</h2>
+    <div class="chart chart-light" role="img" aria-label={chart.label} set:html={chart.light} />
+    <div class="chart chart-dark" role="img" aria-label={chart.label} set:html={chart.dark} />
+  </>
+)}
 
 <style>
   .stat-row {

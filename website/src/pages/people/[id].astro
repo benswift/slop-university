@@ -59,7 +59,6 @@ const coAuthors = new Set(
 );
 const activeSince = Math.min(...outputs.map((o) => o.data.date.getFullYear()));
 const income = grants.reduce((sum, g) => sum + g.data.value, 0);
-
 ---
 
 <ContentLayout
@@ -74,143 +73,110 @@ const income = grants.reduce((sum, g) => sum + g.data.value, 0);
 >
   {video && <PageVideo video={video} />}
   <div class:list={["profile", { framed: showPortrait }]}>
-    {
-      showPortrait && (
-        <Image
-          class="portrait"
-          src={portrait}
-          alt={`Portrait of ${person.name}`}
-          width={480}
-          height={480}
-          format="avif"
-        />
-      )
-    }
+    {showPortrait && (
+      <Image
+        class="portrait"
+        src={portrait}
+        alt={`Portrait of ${person.name}`}
+        width={480}
+        height={480}
+        format="avif"
+      />
+    )}
     <div class="profile-body">
       <p class="title">{person.title}</p>
-      {supervisors.length > 0 && (
-        <p class="supervisors">
-          Supervised by{" "}
-          {supervisors.map((s, i) => (
-            <>
-              {joinSeparator(i, supervisors.length)}
-              <a href={`/people/${s.id}/`}>{s.data.name}</a>
-            </>
-          ))}
-        </p>
-      )}
-      {candidates.length > 0 && (
-        <p class="candidates">
-          Doctoral candidates:{" "}
-          {candidates.map((c, i) => (
-            <>
-              {joinSeparator(i, candidates.length)}
-              <a href={`/people/${c.id}/`}>{c.data.name}</a>
-            </>
-          ))}
-        </p>
-      )}
+      {supervisors.length > 0 && <p class="supervisors">
+        Supervised by{" "}
+        {supervisors.map((s, i) => (
+          <>
+            {joinSeparator(i, supervisors.length)}
+            <a href={`/people/${s.id}/`}>{s.data.name}</a>
+          </>
+        ))}
+      </p>}
+      {candidates.length > 0 && <p class="candidates">
+        Doctoral candidates:{" "}
+        {candidates.map((c, i) => (
+          <>
+            {joinSeparator(i, candidates.length)}
+            <a href={`/people/${c.id}/`}>{c.data.name}</a>
+          </>
+        ))}
+      </p>}
       <p class="school">
-        {
-          schoolId ? (
-            <a href={`/schools/${schoolId}/`}>{person.school}</a>
-          ) : (
-            person.school
-          )
-        }
+        {schoolId ? <a href={`/schools/${schoolId}/`}>{person.school}</a> : person.school}
       </p>
-      {person.web && (
-        <p class="web"><a href={person.web}>{person.web}</a></p>
-      )}
+      {person.web && <p class="web"><a href={person.web}>{person.web}</a></p>}
       <p>{person.bio}</p>
     </div>
   </div>
 
-  {
-    (outputs.length > 0 || income > 0) && (
-      <section class="indicators" aria-labelledby="indicators-heading">
-        <h2 id="indicators-heading">Research indicators</h2>
-        <table class="metadata">
-          <tbody>
-            {outputs.length > 0 && (
-              <>
-                <tr>
-                  <th scope="row">Research outputs</th>
-                  <td>{outputs.length}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Citations</th>
-                  <td>{metrics.citations}</td>
-                </tr>
-                <tr>
-                  <th scope="row">h-index</th>
-                  <td>{metrics.hIndex}</td>
-                </tr>
-                {metrics.i10Index > 0 && (
-                  <tr>
-                    <th scope="row">i10-index</th>
-                    <td>{metrics.i10Index}</td>
-                  </tr>
-                )}
-                <tr>
-                  <th scope="row">Collaboration breadth</th>
-                  <td>
-                    {coAuthors.size} co-author{coAuthors.size === 1 ? "" : "s"}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">Active since</th>
-                  <td>{activeSince}</td>
-                </tr>
-              </>
-            )}
-            {income > 0 && (
-              <tr>
-                <th scope="row">Research income</th>
-                <td>{formatAud(income)}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </section>
-    )
-  }
+  {(outputs.length > 0 || income > 0) && <section
+    class="indicators"
+    aria-labelledby="indicators-heading"
+  >
+    <h2 id="indicators-heading">Research indicators</h2>
+    <table class="metadata">
+      <tbody>
+        {outputs.length > 0 && (
+          <>
+            <tr>
+              <th scope="row">Research outputs</th>
+              <td>{outputs.length}</td>
+            </tr>
+            <tr>
+              <th scope="row">Citations</th>
+              <td>{metrics.citations}</td>
+            </tr>
+            <tr>
+              <th scope="row">h-index</th>
+              <td>{metrics.hIndex}</td>
+            </tr>
+            {metrics.i10Index > 0 && <tr>
+              <th scope="row">i10-index</th>
+              <td>{metrics.i10Index}</td>
+            </tr>}
+            <tr>
+              <th scope="row">Collaboration breadth</th>
+              <td>{coAuthors.size} co-author{coAuthors.size === 1 ? "" : "s"}</td>
+            </tr>
+            <tr>
+              <th scope="row">Active since</th>
+              <td>{activeSince}</td>
+            </tr>
+          </>
+        )}
+        {income > 0 && <tr>
+          <th scope="row">Research income</th>
+          <td>{formatAud(income)}</td>
+        </tr>}
+      </tbody>
+    </table>
+  </section>}
 
-  {
-    outputs.length > 0 && (
-      <section class="outputs" aria-labelledby="outputs-heading">
-        <h2 id="outputs-heading">Research outputs</h2>
-        <ul role="list">
-          {outputs.map((o) => (
-            <li>
-              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
-              <span class="meta"> · {monthYear.format(o.data.date)}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  {outputs.length > 0 && <section class="outputs" aria-labelledby="outputs-heading">
+    <h2 id="outputs-heading">Research outputs</h2>
+    <ul role="list">
+      {outputs.map((o) => <li>
+        <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+        <span class="meta"> · {monthYear.format(o.data.date)}</span>
+      </li>)}
+    </ul>
+  </section>}
 
-  {
-    grants.length > 0 && (
-      <section class="grants" aria-labelledby="grants-heading">
-        <h2 id="grants-heading">Grants and awards</h2>
-        <ul role="list">
-          {grants.map((g) => (
-            <li>
-              {g.data.name}
-              <span class="meta">
-                {" "}
-                · {schemeById(schemes, g.data.scheme)?.data.name} · {formatAud(g.data.value)} ·{" "}
-                {monthYear.format(g.data.date)}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  {grants.length > 0 && <section class="grants" aria-labelledby="grants-heading">
+    <h2 id="grants-heading">Grants and awards</h2>
+    <ul role="list">
+      {grants.map((g) => <li>
+        {g.data.name}
+        <span class="meta">
+          {" "}
+          · {schemeById(schemes, g.data.scheme)?.data.name} · {formatAud(g.data.value)} ·{" "}
+          {monthYear.format(g.data.date)}
+        </span>
+      </li>)}
+    </ul>
+  </section>}
 </ContentLayout>
 
 <style>

@@ -160,17 +160,15 @@ const posterAspect = initial ? initial.width / initial.height : 1;
     >
       <canvas class="poster"></canvas>
       <canvas class="poster"></canvas>
-      {
-        initial && (
-          <img
-            id="fallback"
-            src={initial.thumb}
-            alt={`Poster: ${title}`}
-            width={initial.width}
-            height={initial.height}
-          />
-        )
-      }
+      {initial && (
+        <img
+          id="fallback"
+          src={initial.thumb}
+          alt={`Poster: ${title}`}
+          width={initial.width}
+          height={initial.height}
+        />
+      )}
       <video id="video" playsinline preload="auto"></video>
     </main>
 
@@ -371,7 +369,9 @@ const posterAspect = initial ? initial.width / initial.height : 1;
         return fallbackList;
       }
 
-      let playlist = JSON.parse(stage.dataset.playlist ?? '{"research":[],"marketing":[],"videos":[]}') as Playlist;
+      let playlist = JSON.parse(
+        stage.dataset.playlist ?? '{"research":[],"marketing":[],"videos":[]}',
+      ) as Playlist;
       const startedOn = new Date().toDateString();
 
       // Prepare the change at the start of `slot`, wait for it, then make it.
@@ -392,12 +392,19 @@ const posterAspect = initial ? initial.width / initial.height : 1;
         const poster = posterFor(playlist, slot);
         const clip = videoFor(playlist, slot);
         const [next, url] = await Promise.all([
-          poster ? prepare(poster).catch((err) => console.error("signage: poster not ready", err)) : undefined,
-          clip ? load(clip).catch((err) => console.error("signage: video not ready", err)) : undefined,
+          poster
+            ? prepare(poster).catch((err) => console.error("signage: poster not ready", err))
+            : undefined,
+          clip
+            ? load(clip).catch((err) => console.error("signage: video not ready", err))
+            : undefined,
         ]);
 
         await sleep(Math.max(0, at - Date.now()));
-        if (url) await play(url, next ?? undefined).catch((err) => console.error("signage: video failed", err));
+        if (url)
+          await play(url, next ?? undefined).catch((err) =>
+            console.error("signage: video failed", err),
+          );
         else if (next) show(next);
       }
 
@@ -426,10 +433,17 @@ const posterAspect = initial ? initial.width / initial.height : 1;
         let debounce: ReturnType<typeof setTimeout>;
         window.addEventListener("resize", () => {
           clearTimeout(debounce);
-          debounce = setTimeout(() => current && void draw(current.canvas, current.page).catch(() => {}), 250);
+          debounce = setTimeout(
+            () => current && void draw(current.canvas, current.page).catch(() => {}),
+            250,
+          );
         });
 
-        for (let slot = slotAt(Date.now()) + 1; ; slot = Math.max(slot + 1, slotAt(Date.now()) + 1)) {
+        for (
+          let slot = slotAt(Date.now()) + 1;
+          ;
+          slot = Math.max(slot + 1, slotAt(Date.now()) + 1)
+        ) {
           await change(slot);
         }
       }

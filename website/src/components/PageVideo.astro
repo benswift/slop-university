@@ -17,25 +17,21 @@ const cuts = (["landscape", "portrait"] as const).flatMap((cut) => {
 });
 ---
 
-{
-  cuts.length > 0 && (
-    <figure class:list={["page-video", { both: cuts.length > 1 }]}>
-      {cuts.map(({ cut, video: file, cover }) => (
-        <video
-          class={cut}
-          src={videoUrl(file)}
-          poster={videoUrl(cover)}
-          controls
-          playsinline
-          preload="none"
-          width={cut === "landscape" ? 1920 : 1080}
-          height={cut === "landscape" ? 1080 : 1920}
-          aria-label={video.title}
-        />
-      ))}
-    </figure>
-  )
-}
+{cuts.length > 0 && <figure class:list={["page-video", { both: cuts.length > 1 }]}>
+  {cuts.map(({ cut, video: file, cover }) => (
+    <video
+      class={cut}
+      src={videoUrl(file)}
+      poster={videoUrl(cover)}
+      controls
+      playsinline
+      preload="none"
+      width={cut === "landscape" ? 1920 : 1080}
+      height={cut === "landscape" ? 1080 : 1920}
+      aria-label={video.title}
+    />
+  ))}
+</figure>}
 
 <style>
   .page-video {

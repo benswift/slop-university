@@ -29,7 +29,6 @@ const childKinds = [
   { kind: "initiative", heading: "Initiatives" },
   { kind: "history", heading: "History" },
 ].filter((k) => children.some((c) => c.data.kind === k.kind));
-
 ---
 
 <ContentLayout
@@ -43,58 +42,40 @@ const childKinds = [
 >
   {school.blurb && <p class="lead">{school.blurb}</p>}
 
-  {
-    researchers.length > 0 && (
-      <section aria-labelledby="people-heading">
-        <h2 id="people-heading">People</h2>
-        <ul role="list">
-          {researchers.map((p) => (
-            <li>
-              <a href={`/people/${p.id}/`}>{p.data.name}</a>
-              <span class="meta"> — {p.data.title}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  {researchers.length > 0 && <section aria-labelledby="people-heading">
+    <h2 id="people-heading">People</h2>
+    <ul role="list">
+      {researchers.map((p) => <li>
+        <a href={`/people/${p.id}/`}>{p.data.name}</a>
+        <span class="meta"> — {p.data.title}</span>
+      </li>)}
+    </ul>
+  </section>}
 
-  {
-    childKinds.map((k) => (
-      <section>
-        <h2>{k.heading}</h2>
-        <ul role="list">
-          {children
-            .filter((c) => c.data.kind === k.kind)
-            .map((c) => (
-              <li>
-                <span class="org-name">
-                  {c.data.name}
-                  {c.data.acronym && ` (${c.data.acronym})`}
-                </span>
-                {c.data.blurb && <span class="meta"> — {c.data.blurb}</span>}
-              </li>
-            ))}
-        </ul>
-      </section>
-    ))
-  }
+  {childKinds.map((k) => <section>
+    <h2>{k.heading}</h2>
+    <ul role="list">
+      {children
+        .filter((c) => c.data.kind === k.kind)
+        .map((c) => <li>
+          <span class="org-name">
+            {c.data.name}
+            {c.data.acronym && ` (${c.data.acronym})`}
+          </span>
+          {c.data.blurb && <span class="meta"> — {c.data.blurb}</span>}
+        </li>)}
+    </ul>
+  </section>)}
 
-  {
-    outputs.length > 0 && (
-      <section aria-labelledby="outputs-heading">
-        <h2 id="outputs-heading">Research outputs</h2>
-        <ul role="list">
-          {outputs.map((o) => (
-            <li>
-              <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
-              <span class="meta"> · {monthYear.format(o.data.date)}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
+  {outputs.length > 0 && <section aria-labelledby="outputs-heading">
+    <h2 id="outputs-heading">Research outputs</h2>
+    <ul role="list">
+      {outputs.map((o) => <li>
+        <a href={`/outputs/${o.id}/`}>{o.data.title}</a>
+        <span class="meta"> · {monthYear.format(o.data.date)}</span>
+      </li>)}
+    </ul>
+  </section>}
 </ContentLayout>
 
 <style>

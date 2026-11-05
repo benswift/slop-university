@@ -31,7 +31,9 @@ const title =
 // same pill the outputs grid shows) and inherits its hero; posts announcing a
 // grant or an institutional notice reference no output, go unbadged, and
 // carry their own hero dims in frontmatter.
-const outputsById = new Map((await getCollection("outputs")).map((entry) => [entry.id, entry.data]));
+const outputsById = new Map(
+  (await getCollection("outputs")).map((entry) => [entry.id, entry.data]),
+);
 
 function newsCardImage(entry: (typeof page.data)[number]) {
   if (entry.data.output) {
@@ -40,7 +42,6 @@ function newsCardImage(entry: (typeof page.data)[number]) {
   }
   return newsHero(entry.id, entry.data.hero);
 }
-
 ---
 
 <BaseLayout
@@ -58,59 +59,43 @@ function newsCardImage(entry: (typeof page.data)[number]) {
   />
   <Hero slot="hero" title="Slop University" image={heroImage} imageAlt="" />
   <p class="lead">
-    Research-led, metrics-forward, and continuously improving. News from the
-    Office of Research Outputs.
+    Research-led, metrics-forward, and continuously improving. News from the Office of Research
+    Outputs.
   </p>
 
-  {
-    page.currentPage === 1 && (
-      <p class="ranking-line">
-        Ranked <strong>1st in the world</strong> for research throughput —{" "}
-        <a
-          href="https://worlduniversityindex.org/slop-university/"
-          rel="external"
-        >
-          The World University Index
-        </a>
-        , 2026.
-      </p>
-    )
-  }
+  {page.currentPage === 1 && <p class="ranking-line">
+    Ranked <strong>1st in the world</strong> for research throughput —{" "}
+    <a href="https://worlduniversityindex.org/slop-university/" rel="external">
+      The World University Index
+    </a>
+    , 2026.
+  </p>}
 
-  {
-    page.total === 0 && (
-      <p>
-        Announcements of new research outputs appear here as they are
-        published.
-      </p>
-    )
-  }
+  {page.total === 0 && <p>
+    Announcements of new research outputs appear here as they are published.
+  </p>}
 
   <CardGrid columns={2}>
-    {
-      page.data.map((entry) => {
-        const preset = entry.data.output ? outputsById.get(entry.data.output)?.preset : undefined;
-        return (
-          <div class="news-card">
-            {preset && <OutputTypeBadge preset={preset} />}
-            <Card
-              title={entry.data.title}
-              href={`/news/${entry.id}/`}
-              image={newsCardImage(entry)}
-              imageAlt=""
-              headingLevel="h2"
-            >
-              <p class="news-date">
-                <time datetime={entry.data.date.toISOString()}>
-                  {dayMonthYear.format(entry.data.date)}
-                </time>
-              </p>
-              {entry.data.description && <p>{entry.data.description}</p>}
-            </Card>
-          </div>
-        );
-      })
-    }
+    {page.data.map((entry) => {
+      const preset = entry.data.output ? outputsById.get(entry.data.output)?.preset : undefined;
+      return <div class="news-card">
+        {preset && <OutputTypeBadge preset={preset} />}
+        <Card
+          title={entry.data.title}
+          href={`/news/${entry.id}/`}
+          image={newsCardImage(entry)}
+          imageAlt=""
+          headingLevel="h2"
+        >
+          <p class="news-date">
+            <time datetime={entry.data.date.toISOString()}>
+              {dayMonthYear.format(entry.data.date)}
+            </time>
+          </p>
+          {entry.data.description && <p>{entry.data.description}</p>}
+        </Card>
+      </div>;
+    })}
   </CardGrid>
 
   {page.lastPage > 1 && <Pagination page={page} />}

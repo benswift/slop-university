@@ -32,50 +32,38 @@ const otherSections = [
   {...siteConfig}
 >
   <p class="lead">
-    Slop University's schools sit directly under the University. Each is home to
-    the research groups and programs listed below.
+    Slop University's schools sit directly under the University. Each is home to the research groups
+    and programs listed below.
   </p>
 
   <CardGrid columns={2}>
-    {
-      topLevel.map((school) => {
-        const count = researchersOf(people, school.data.name).length;
-        return (
-          <Card
-            title={school.data.name}
-            href={`/schools/${school.id}/`}
-            image={schoolHero(school.id)}
-            imageAlt=""
-            headingLevel="h2"
-          >
-            {school.data.blurb && <p>{school.data.blurb}</p>}
-            <p class="count">
-              {count} {count === 1 ? "researcher" : "researchers"}
-            </p>
-          </Card>
-        );
-      })
-    }
+    {topLevel.map((school) => {
+      const count = researchersOf(people, school.data.name).length;
+      return <Card
+        title={school.data.name}
+        href={`/schools/${school.id}/`}
+        image={schoolHero(school.id)}
+        imageAlt=""
+        headingLevel="h2"
+      >
+        {school.data.blurb && <p>{school.data.blurb}</p>}
+        <p class="count">{count} {count === 1 ? "researcher" : "researchers"}</p>
+      </Card>;
+    })}
   </CardGrid>
 
-  {
-    otherSections.map((section) => (
-      <section class="org-section">
-        <h2>{section.heading}</h2>
-        <ul role="list">
-          {byKind(section.kind).map((entry) => (
-            <li>
-              <span class="org-name">
-                {entry.data.name}
-                {entry.data.acronym && ` (${entry.data.acronym})`}
-              </span>
-              {entry.data.blurb && <span class="org-blurb"> — {entry.data.blurb}</span>}
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+  {otherSections.map((section) => <section class="org-section">
+    <h2>{section.heading}</h2>
+    <ul role="list">
+      {byKind(section.kind).map((entry) => <li>
+        <span class="org-name">
+          {entry.data.name}
+          {entry.data.acronym && ` (${entry.data.acronym})`}
+        </span>
+        {entry.data.blurb && <span class="org-blurb"> — {entry.data.blurb}</span>}
+      </li>)}
+    </ul>
+  </section>)}
 </ContentLayout>
 
 <style>

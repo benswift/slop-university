@@ -24,24 +24,18 @@ const facets = seriesFacets(outputs.map((o) => o.data));
 const show = facets.length > 1;
 ---
 
-{
-  show && (
-    <nav class="type-filter" aria-label="Filter outputs by type">
-      <a href="/outputs/" class="pill" aria-current={active ? undefined : "page"}>
-        All <span class="count">{outputs.length}</span>
-      </a>
-      {facets.map((facet) => (
-        <a
-          href={`/outputs/type/${facet.slug}/`}
-          class="pill"
-          aria-current={active === facet.series ? "page" : undefined}
-        >
-          {facet.series} <span class="count">{facet.count}</span>
-        </a>
-      ))}
-    </nav>
-  )
-}
+{show && <nav class="type-filter" aria-label="Filter outputs by type">
+  <a href="/outputs/" class="pill" aria-current={active ? undefined : "page"}>
+    All <span class="count">{outputs.length}</span>
+  </a>
+  {facets.map((facet) => <a
+    href={`/outputs/type/${facet.slug}/`}
+    class="pill"
+    aria-current={active === facet.series ? "page" : undefined}
+  >
+    {facet.series} <span class="count">{facet.count}</span>
+  </a>)}
+</nav>}
 
 <style>
   .type-filter {
