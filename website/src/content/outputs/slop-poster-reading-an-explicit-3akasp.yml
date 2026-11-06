@@ -1,0 +1,33 @@
+title: Where the Steps Start Failing
+subtitle: Rejected steps of an explicit Runge–Kutta pair as a stiffness detector
+authors:
+  - Fenna Okoro
+  - Petra Umbile
+preset: research-poster
+school: School of Emergent Priorities
+date: 2026-11-07
+publishedAt: "2026-11-07T03:02:18+11:00"
+doi: 10.5555/slop.3akasp
+summary: >-
+  A research poster from the School of Emergent Priorities integrates a Liénard
+  relaxation oscillator across five stiffness settings with a Dormand–Prince
+  5(4) pair and flags stiffness onset from the step-size controller's own
+  record of rejected steps. Under an elementary controller the flag trails the
+  eigenvalue criterion by a median 4 to 14 attempted steps; under a PI
+  controller, which rejects far less, it trails by 37 to 140 and misses 39% of
+  slow branches at the stiffest setting, so the poster proposes pairing the
+  rejection count with an estimate drawn from accepted steps.
+topic: >-
+  reading an explicit Runge-Kutta step-size controller's rejected-step log to
+  locate where a relaxation oscillator turns stiff
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 4096
+  height: 2286
+cites:
+  - 10.5555/slop.k0snlx
