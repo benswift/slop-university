@@ -1,0 +1,33 @@
+title: How Much Does a Hysteresis Loop Remember?
+subtitle: >-
+  Reachable States and Stationary Memory of the Discrete Preisach Operator
+authors:
+  - Signy Okpara
+preset: paper
+school: School of Continuous Improvement
+date: 2026-11-06
+publishedAt: "2026-11-06T23:02:18+11:00"
+doi: 10.5555/slop.lbxs48
+summary: >-
+  A paper from the School of Continuous Improvement counts the states of the
+  Preisach operator, the standard model of ferroelectric hysteresis, when the
+  driving field takes n levels. Its n(n-1)/2 switches can jointly occupy only
+  2^(n-1) configurations, each reached by a unique shortest word of turning
+  points, and under a uniformly random field the stationary configuration is
+  the one left by a random permutation of the levels, retaining on average one
+  fewer than the nth harmonic number of turning points.
+topic: >-
+  how much a ferroelectric's hysteresis remembers: counting the reachable
+  states and the stationary memory of the discrete Preisach operator,
+  quadratically many switches holding only linearly many bits
+pages: 8
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.u5cqgg
+  - 10.5555/slop.zkb0qc
