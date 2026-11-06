@@ -1,0 +1,37 @@
+title: The Key That Kept Its Name
+subtitle: >-
+  Physical-unit inconsistencies in eleven years of a gamma-spectroscopy teaching
+  lab's acquisition configurations
+authors:
+  - Signy Okpara
+  - Casimir Beng
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-06
+publishedAt: "2026-11-06T12:00:27+11:00"
+doi: 10.5555/slop.aa9m6h
+summary: >-
+  A research poster from the School of Continuous Improvement checks 3,118
+  acquisition configuration files from one gamma-spectroscopy teaching
+  laboratory against the units in force when each was written, finding 671
+  inconsistent values in 612 files. Most are a shaping time still given in
+  microseconds after a firmware update moved the key to nanoseconds; 87% of
+  those files descend by copy from seven pre-update templates, and the digitiser
+  clamps the stale values without warning.
+topic: >-
+  physical-unit inconsistencies in eleven years of acquisition configuration
+  files from a shared gamma-spectroscopy teaching lab, traced to a digitiser
+  firmware update that moved the shaping-time key from microseconds to
+  nanoseconds without renaming it
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.k1w0j3
+  - 10.5555/slop.wh134j
