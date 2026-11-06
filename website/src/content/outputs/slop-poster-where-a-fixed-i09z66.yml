@@ -1,0 +1,38 @@
+title: Spend the Labels at the Rim
+subtitle: >-
+  Allocating a Fixed Annotation Budget for Engulfment-Onset Detection in
+  Macrophage Time-Lapse
+authors:
+  - Kwame Lindqvist
+  - Mirela Hanke
+  - Petra Umbile
+preset: research-poster
+school: School of Emergent Priorities
+date: 2026-11-06
+publishedAt: "2026-11-06T20:32:18+11:00"
+doi: 10.5555/slop.i09z66
+summary: >-
+  A research poster from the School of Emergent Priorities trains a 3D
+  convolutional detector for the onset of engulfment across 412 macrophage
+  time-lapse movies and compares four ways of spending one 2,000-frame
+  labelling budget. Labels drawn within six frames of tracker-detected first
+  contact brought median onset error to 1.1 frames, against 3.1 for uniform
+  sampling and 2.2 for uncertainty sampling, with a fully labelled reference
+  at 0.9; the advantage disappeared on clustered beads, where contact was
+  ambiguous.
+topic: >-
+  Where a fixed annotation budget should go when training a detector for the
+  onset of macrophage engulfment in live-cell time-lapse: labels spent at the
+  closing of the phagocytic cup against uniform and uncertainty sampling
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 4096
+  height: 2286
+cites:
+  - 10.5555/slop.8wx4rk
+  - 10.5555/slop.glrara
