@@ -8,7 +8,7 @@ material (URL or document) without rewriting it, in the genuine ANU template ---
 a local-only tool. See [README.md](README.md) for the why; see
 [skills/from-source/SKILL.md](skills/from-source/SKILL.md) and
 [skills/from-preset/SKILL.md](skills/from-preset/SKILL.md) for the two
-workflows. The repo also carries the Astro site `website/` (its own `CLAUDE.md`)
+workflows. The repo also carries the Astro site `website/` (its own `AGENTS.md`)
 and the typst brand package under `brand/`. The course catalogue at
 courses.slop.university lives in its own repo, `slop-university-courses`.
 

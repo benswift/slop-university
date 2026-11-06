@@ -318,7 +318,7 @@ select_base() {
 
 # --- Who may commit, and what they may touch.
 #
-# This is the mechanical enforcement of website/CLAUDE.md's hard floors:
+# This is the mechanical enforcement of website/AGENTS.md's hard floors:
 # workflows, CNAME, robots.txt, site-config and doctrine files can never land
 # via the unattended path, no matter what the agent was talked into. The
 # allowlist covers the gap-driven tick's whole surface: research outputs (news +

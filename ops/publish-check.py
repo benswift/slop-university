@@ -16,7 +16,7 @@ timer ends publishing with nothing anywhere reporting a problem.
 Two questions, the same shape as `slop wake-check` in the salon:
 
 * has either live timer been stopped longer than a pause takes? Stopping them
-  is also how an edit is landed safely (CLAUDE.md says to, since the wrappers
+  is also how an edit is landed safely (AGENTS.md says to, since the wrappers
   take effect at the next tick with no deploy step), so the question is how
   long, not whether.
 * has anything actually landed recently? This is the end-to-end question, and
@@ -53,7 +53,7 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 TIMERS = ("slop-publish-gen@1.timer", "slop-publish-land.timer")
 
 MAX_AGE = 6 * 3600.0
-# Long enough for the stop-edit-start cycle CLAUDE.md prescribes, short enough
+# Long enough for the stop-edit-start cycle AGENTS.md prescribes, short enough
 # that a forgotten `start` is caught within a couple of the watchdog's hours.
 GRACE = 3600.0
 

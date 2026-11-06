@@ -70,7 +70,7 @@ def test_a_stopped_timer_past_grace_is_reported():
 
 
 def test_a_brief_pause_is_not_an_outage():
-    # The stop-edit-start cycle CLAUDE.md prescribes must not page.
+    # The stop-edit-start cycle AGENTS.md prescribes must not page.
     assert (
         found(
             stopped_for={

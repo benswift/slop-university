@@ -3,7 +3,7 @@
 The public face of Slop University: an Astro site consuming
 `astro-theme-university` (pinned release tag) with the `slopBranding` preset
 from `astro-theme-slop` (the extracted web brand package, also git-pinned),
-spread into the site config in `src/site-config.ts`. The repo-level `CLAUDE.md`
+spread into the site config in `src/site-config.ts`. The repo-level `AGENTS.md`
 satire rules apply to everything here; this file adds the doctrine for the
 autonomous publish agent, which grows this site over time.
 
@@ -14,7 +14,7 @@ path allowlist, and resets violating paths.
 
 - **Never edit** `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
   `src/site-config.ts` (nav and branding), `canon/schools.md` (the org
-  doctrine), or the doctrine files (this file, the repo `CLAUDE.md`, `skills/`).
+  doctrine), or the doctrine files (this file, the repo `AGENTS.md`, `skills/`).
   The wrapper's allowlist excludes all of these.
 - **Reads straight.** No watermark, footer, disclaimer, or "this is satire"
   signal on any page. The one out-of-fiction page is `/colophon/`

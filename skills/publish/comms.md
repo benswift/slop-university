@@ -104,7 +104,7 @@ unquantified.
 (One ranking exists on the record: the University's placement in the Global
 Index of Research Throughput, stated on the homepage, at `/girt/`, and in the
 human-authored recognition post of 2026-08-07 under the ranking-claim carve-out
-in `website/CLAUDE.md` --- checkable, and it checks out. That carve-out is not
+in `website/AGENTS.md` --- checkable, and it checks out. That carve-out is not
 available to this register: a release the tick writes never states a ranking,
 that one included. "Recognised across the sector" remains the ceiling.)
 

@@ -31,7 +31,7 @@ completion before the run's final message, so the run stays inside one turn.
 The trust boundary: **this skill commits; it never pushes.** The lander
 (`ops/publish-land.sh`) validates the commit's diff against a path allowlist
 (and a colophon denylist) before pushing. Doctrine floors live in
-`website/CLAUDE.md` and the repo `CLAUDE.md`; the wrapper enforces them
+`website/AGENTS.md` and the repo `AGENTS.md`; the wrapper enforces them
 mechanically. Unattended runs happen in a generator worktree
 (`../slop-university-gen-<slot>`) that the wrapper resets to a committed state
 before each tick; the lander replays the commits onto `main` after
@@ -43,7 +43,7 @@ validation --- the human checkout is never touched.
   publish commit must contain only this run's changes.
 - On branch `press` (the dedicated publish worktree the cron wrapper prepares)
   or `main` (a manual run in the main checkout).
-- Read `website/CLAUDE.md` (the hard floors) always. The rest only as the action
+- Read `website/AGENTS.md` (the hard floors) always. The rest only as the action
   needs them: `canon/roster.yml` and `canon/schools.yml` for anything that names
   an author or unit, `canon/schools.md` (the org doctrine) for 2C and 2F,
   `canon/grants.yml` for 2I and the grant-attachment step, and `comms.md`
@@ -404,14 +404,14 @@ no verifiable claims; link only to pages that exist. **Never touch
 `colophon.md`** --- it is the one out-of-fiction page and the wrapper resets any
 commit that edits it. **Never touch `girt.md`** either --- the ranking-index
 table is human-maintained (see the ranking-claim carve-out in
-`website/CLAUDE.md`).
+`website/AGENTS.md`).
 
 **Files:** a file under `website/src/content/pages/` (not `colophon.md`).
 
 ## 2E. Add a researcher (heavy --- rare)
 
 Follow the roster's own admission procedure (the header of `canon/roster.yml`
-and the repo `CLAUDE.md`), in order:
+and the repo `AGENTS.md`), in order:
 
 1. Invent a name that fits the roster's register.
 2. **Name-collision check (hard):** web search the full name, including the ANU
