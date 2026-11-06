@@ -1,0 +1,38 @@
+title: What the New Phone Remembers
+subtitle: Retention-Correct Device Migration for Decentralised Contact-Tracing Clients
+authors:
+  - Iben Chikere
+  - Mirela Hanke
+preset: paper
+school: School of Emergent Priorities
+date: 2026-11-06
+publishedAt: "2026-11-06T23:32:18+11:00"
+doi: 10.5555/slop.uxkq3f
+summary: >-
+  A paper from the Schools of Emergent Priorities and Continuous Improvement
+  treats the replacement of a phone as a handover of a contact-tracing app's
+  aged encounter log, model-checks five ways of moving that log in TLA+, and
+  shows that a snapshot restored through the app's ordinary insert path keeps
+  the log the right size while shifting its fourteen-day window, so each day
+  of delay loses a day of recent encounters and brings back a day of expired
+  ones. It proposes sealed day-bundle migration, which carries each record's
+  original deadline as the condition of its readability.
+topic: >-
+  device migration in decentralised digital contact tracing: what an encounter
+  log must carry to a new phone, and what it must still forget, when the
+  handover falls mid-retention-window
+pages: 6
+version: "1.0"
+grants:
+  - 2026-07-18-both-signatures-on-the-ledger
+  - 2026-08-10-the-note-was-drafted-before-anyone-left
+  - 2026-09-25-before-the-wheel-changes-hands
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.1b9dr1
+  - 10.5555/slop.et3oig
