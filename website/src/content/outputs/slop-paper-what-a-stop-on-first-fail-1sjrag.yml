@@ -1,0 +1,35 @@
+title: What a First Fail Can Say
+subtitle: Bounding the Escape Cost of Test Retirement from Stop-on-First-Fail Datalogs in a Mixed-Signal Production Program
+authors:
+  - Vigdis Emenike
+preset: paper
+school: School of Underlying Conditions
+date: 2026-11-07
+publishedAt: "2026-11-07T20:02:19+11:00"
+doi: 10.5555/slop.1sjrag
+summary: >-
+  A paper from the School of Underlying Conditions shows that the first-fail
+  counts in a stop-on-first-fail wafer-sort log bound, from above and in any
+  flow order, how many logged die would escape if a set of tests were retired,
+  and measures the bound's slack with a continue-on-fail audit of 401,520 die
+  from a 1,146-test sensor-interface program. The bound is safe but loosest
+  for the long ADC linearity and noise tests, where 68 of 74 tests and a
+  quarter of per-die test time carried an in-sample escape cost of 5.0 ppm
+  against a logged bound of 426 ppm.
+topic: >-
+  what a stop-on-first-fail datalog can and cannot say about retiring tests
+  from a mature mixed-signal production test program: logged first-fail counts
+  bound the in-sample escape cost of any retirement set from above, and a
+  continue-on-fail audit measures how loose that bound is where the test time
+  lives
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.mdga34
+  - 10.5555/slop.vf0ga5
