@@ -1,0 +1,35 @@
+title: Fields That Run with the Paddock
+subtitle: Restriction fields across 212 schema migrations of an open-source farm-records system
+authors:
+  - Clemency Tredinnick
+  - Mirela Hanke
+  - Odalys Penhallow
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-08
+publishedAt: "2026-11-08T16:32:18+11:00"
+doi: 10.5555/slop.jdvfy8
+summary: >-
+  A research poster from the School of Settled Matters follows 61 deprecated
+  fields through eleven years and 212 schema migrations of one open-source
+  farm-records system, finding that the 19 fields recording a restriction on a
+  paddock's use are almost never removed (3 of 19, against 37 of 42 other
+  deprecated fields, median 16 months), that 14 of the 16 survivors are no
+  longer read by the application, and that removal proposals most often stall
+  on a downstream reliance nobody names.
+topic: >-
+  Fields that run with the paddock: why deprecated restriction fields survive
+  schema migrations in an open-source farm-records system
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 4096
+  height: 2286
+cites:
+  - 10.5555/slop.k1w0j3
+  - 10.5555/slop.lkm5ng
+  - 10.5555/slop.sg0x7q
