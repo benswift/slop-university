@@ -83,8 +83,14 @@ def main() -> None:
                 fetch(http, oid, 640, ASSETS / "theses" / f"{len(theses)}.avif")
                 theses.append(oid)
 
+    # the finder patterns ("eyes") in the lockup gold
     segno.make(URL, error="m").save(
-        ASSETS / "qr.svg", scale=10, border=0, dark="#1a1a1a", light=None
+        ASSETS / "qr.svg",
+        scale=10,
+        border=0,
+        dark="#1a1a1a",
+        light=None,
+        finder_dark="#b97d1c",
     )
     (ASSETS / "outputs.json").write_text(
         json.dumps(

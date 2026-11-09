@@ -1,4 +1,4 @@
-# Lighter by Design
+# Greener by Design
 
 The Slop University Sustainability Initiative, as a three-minute sizzle reel:
 the University's research output and the real energy and carbon cost of making
@@ -27,8 +27,13 @@ are real, and so is the trade it makes for them.
 HORIZONS takes 3:00 to 5:00; target 3:15 to 3:30 so trimming holds can't push it
 under. Time the generated voice before animating, then lengthen the holds at the
 bar-chart pull-back, the fine-print fill and the final grid to reach the target.
-Hold the final website address for six seconds beyond its marked pause. Check
-the duration of the exported 1080p30 file, not the composition.
+Hold the closing addresses for six seconds beyond the last line's marked pause.
+Check the duration of the exported 1080p30 file, not the composition.
+
+Captions set figures as numerals with their units in words ("1.3 tonnes"), as
+the Australian Government Style Manual does, while the voice says them in full;
+`sustainability.js` holds the spoken and written pairs and fails the build if a
+pair no longer matches the voice.
 
 The narrator is a voice made with ElevenLabs Voice Design (from a description,
 no one's recordings), not the house Voice Library voice, which is a clone of a
@@ -57,12 +62,12 @@ seconds or so, held for about twelve, and fills the frame at the close.
 ## Script
 
 **VO (horizons-narrator):** At Slop University, we publish more research than
-ever. [beat 0.4] And we do it lighter than anyone. [beat 1.0]
+ever. [beat 0.4] And we do it greener than anyone. [beat 1.0]
 
 _Visual:_ the document press clip (the press running flat out, its operator's
-chair empty) under the scrim with the title block: the lockup, "Lighter by
+chair empty) under the scrim with the title block: the lockup, "Greener by
 Design", a gold rule, "The Slop University Sustainability Initiative". On
-"lighter" the title block clears.
+"greener" the title block clears.
 
 _Reads:_ 1. this is the University's sustainability initiative.
 
@@ -115,7 +120,7 @@ teaching".
 
 _Reads:_ 1. ours is tiny; 2. theirs is forty thousand times larger.
 
-**VO (horizons-narrator):** And we're getting lighter. [beat 0.3] Since July,
+**VO (horizons-narrator):** And we're getting greener. [beat 0.3] Since July,
 the energy behind each output has fallen by more than half. [beat 1.0]
 
 _Visual:_ the gold sliver splits into a row of monthly slivers, July to
@@ -143,11 +148,13 @@ hours; a gold "4.9 kg" lands under it. Footnote: "*unexamined".
 _Reads:_ 1. these are our theses; 2. two hours and five kilograms each.
 
 **VO (horizons-narrator):** One study of a human PhD put it at twenty-one
-tonnes, [beat 0.3] over four years. [beat 1.0]
+tonnes, [beat 0.3] over four years. [beat 2.0]
 
 _Visual:_ beside our thesis, a human one in ink; a stack of calendar pages piles
-up behind it, four years' worth, and its bar climbs past ours and out of frame.
-Footnote: "*one study, 2013".
+up behind it, four years' worth, and its bar climbs past ours and out of frame;
+the camera pulls back, logarithmically as at the first bar chart, until its top
+comes into view at "21.5 t" and our thesis is a speck. Footnote: "*one study,
+2013".
 
 _Reads:_ 1. a human PhD; 2. thousands of times more.
 
@@ -252,10 +259,19 @@ speed, and the counter keeps climbing past 3,221.
 _Reads:_ 1. it is still running.
 
 **VO (horizons-narrator):** Read our full sustainability report on the website.
-[beat 2.0]
+[beat 1.0]
 
 _Visual:_ `slop.university/sustainability` appears beside its QR code, full
-size; it clears to the closing lockup: the rules grow, then the crest and
-wordmark fade in.
+size.
 
 _Reads:_ 1. where to find the figures.
+
+**VO (horizons-narrator):** And follow us on Bluesky and LinkedIn, [beat 0.2] or
+send us an email. [beat 2.0]
+
+_Visual:_ under the address, beside the QR code, three more appear, one on each
+word: Bluesky `@slop.university`, LinkedIn `Slop University`, email
+`outputs@slop.university`. They clear with the QR code to the closing lockup:
+the rules grow, then the crest and wordmark fade in.
+
+_Reads:_ 1. where else to find the University.

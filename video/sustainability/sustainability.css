@@ -119,3 +119,45 @@
   font-weight: 300;
   white-space: nowrap;
 }
+
+/* captions to read from across the room: each LED screen is 2.9 m wide */
+#stage {
+  --video-caption-size: 64px;
+  --video-caption-inset: 100px;
+}
+
+/* captions sit on a common baseline, clear of the frame's foot, and stack upward */
+#stage .caption {
+  align-items: flex-end;
+  padding-bottom: 44px;
+  line-height: 1.15;
+}
+
+/* the band's ground is its own layer (index.html), so footage can run under the captions */
+#stage .captions {
+  background: none;
+}
+
+.caption-ground {
+  position: absolute;
+  left: 0;
+  top: 890px;
+  width: 1920px;
+  height: 190px;
+  background: var(--video-ground);
+}
+
+.footage.footage-full {
+  height: 1080px;
+}
+
+/* cream under the captions where footage runs full frame */
+.caption-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--video-ground) 88%, transparent) 0 210px,
+    transparent 400px
+  );
+}

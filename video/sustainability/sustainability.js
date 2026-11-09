@@ -1,4 +1,4 @@
-// Lighter by Design: the Slop University sustainability film (HORIZONS, Venice,
+// Greener by Design: the Slop University sustainability film (HORIZONS, Venice,
 // 2026). Landscape only. Every cue lands on a word of the script
 // (video/scripts/sustainability.md) through T.word. assets/ is filled by
 // fetch-assets.py; the four clips are Veo renders kept there, placed as media
@@ -99,11 +99,12 @@ export function build(tl, S, T) {
 
   // ---- the clips (index.html places them in time; here their opacity) ----
   const clip = (id) => document.getElementById(id);
-  const [press, quad, stillQuad, server, hall, stillHall, heroScrim] = [
+  const [press, quad, stillQuad, server, serverScrim, hall, stillHall, heroScrim] = [
     "clip-press",
     "clip-quad",
     "still-quad",
     "clip-server",
+    "server-scrim",
     "clip-hall",
     "still-hall",
     "hero-scrim",
@@ -117,7 +118,7 @@ export function build(tl, S, T) {
   for (const [el, t] of expect)
     if (Math.abs(Number(el.dataset.start) - t) > 0.25)
       throw new Error(`${el.id} starts at ${el.dataset.start}, the voice wants ${t.toFixed(2)}`);
-  M.set([quad, stillQuad, server, hall, stillHall], { opacity: 0 });
+  M.set([quad, stillQuad, server, serverScrim, hall, stillHall], { opacity: 0 });
 
   // ---- recurring: the source line, the fine print, the QR code ----
   const source = (s, t0, t1) => {
@@ -163,12 +164,12 @@ export function build(tl, S, T) {
   tl.to([press, heroScrim], { opacity: 0 }, T.start(1) - 0.9, { dur: 0.8, ease: "in-cubic" });
   const hero = B.titleBlock(scene, S, {
     logo: LOGO,
-    title: "Lighter by Design",
+    title: "Greener by Design",
     tagline: "The Slop University Sustainability Initiative",
     byline: "slop.university/sustainability",
   });
   M.appear(tl, hero.el, 0.4, { dur: 0.8 });
-  M.vanish(tl, hero.el, w(0, "lighter"), { dur: 0.6 });
+  M.vanish(tl, hero.el, w(0, "greener"), { dur: 0.6 });
 
   // ---- 1: the grid, the count, the kinds ----
   const cw = 104;
@@ -284,30 +285,24 @@ export function build(tl, S, T) {
   M.set(kwh, { x: 1000, y: 300, opacity: 0 });
   M.appear(tl, kwh, w(4, "kilowatt"), { dur: 0.5 });
   fine("*average of all outputs", w(4, "electricity."));
+  // an electric jug kettle on its base: Material Symbols "kettle", rounded (Apache 2.0)
   const kettlePath =
-    "M 22 86 L 78 86 L 72 44 Q 50 34 28 44 Z M 28 56 L 8 40 M 34 42 Q 50 8 66 42 M 46 34 L 54 34";
+    "M250-260v-473l-74-99q-11-15-2.81-31.5T200-880h453q27.85 0 47.43 19.57Q720-840.85 720-813v63h100q24.75 0 42.38 17.62Q880-714.75 880-690v220q0 24.75-17.62 42.37Q844.75-410 820-410H720v150q0 24.75-17.62 42.37Q684.75-200 660-200H310q-24.75 0-42.37-17.63Q250-235.25 250-260Zm60 0h350v-560H260l50 65v495Zm410-210h100v-220H720v220ZM549.88-760q-20.88 0-35.38 14.58Q500-730.83 500-710v340q0 20.83 14.62 35.42Q529.24-320 550.12-320q20.88 0 35.38-14.58Q600-349.17 600-370v-340q0-20.83-14.62-35.42Q570.76-760 549.88-760ZM150-80q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h660q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32Q822.75-80 810-80H150Z";
   const kettles = Array.from({ length: 5 }, (_, i) => {
-    const s = svgBox(scene, 450 + i * 175, 610, 140, 140, "0 0 100 100");
-    const p = M.svg(
-      "path",
-      {
-        d: kettlePath,
-        fill: "none",
-        stroke: ink,
-        "stroke-width": 4,
-        "stroke-linejoin": "round",
-        "stroke-linecap": "round",
-      },
-      s,
-    );
-    M.prepDraw([p]);
-    return p;
+    const s = svgBox(scene, 450 + i * 175, 600, 150, 150, "0 -960 960 960");
+    M.svg("path", { d: kettlePath, fill: ink }, s);
+    M.set(s, { opacity: 0 });
+    return s;
   });
-  M.drawOn(tl, kettles, w(4, "About"), 0.5, (w(4, "kettles.") - w(4, "About")) / 4);
+  const tK0 = w(4, "About");
+  const tK1 = w(4, "kettles.");
+  kettles.forEach((k, i) =>
+    M.appear(tl, k, tK0 + ((tK1 - tK0) * i) / 4, { dur: 0.35, scale: 0.85, y: 12 }),
+  );
   source(SOURCES.kwh, w(4, "one"), T.start(5) - 0.4);
   M.vanish(
     tl,
-    [one, meter, measured, kwh, ...kettles.map((p) => p.ownerSVGElement)],
+    [one, meter, measured, kwh, ...kettles],
     T.start(5) - 0.4,
     { dur: 0.4 },
   );
@@ -514,10 +509,56 @@ export function build(tl, S, T) {
   fine("*unexamined", w(8, "dioxide.") + 0.2);
   source(SOURCES.thesis, w(8, "Each"), T.start(9) - 0.3);
 
-  // a human PhD beside ours, and its bar out of the frame
+  // a human PhD beside ours: its bar climbs out of the frame, then the camera
+  // pulls back, logarithmically as at the first chart, until its top is in view
   const t9 = T.start(9);
   M.vanish(tl, [tc.el, pages], t9 - 0.3, { dur: 0.3 });
-  tl.to(thesisKg, { x: 1165, y: 625, scale: 0.4 }, t9, { dur: 0.6, ease: "in-out-cubic" });
+  const pBase = 700;
+  const pk0 = 250 / 4.9;
+  const pk1 = 600 / 21500;
+  const pA = w(9, "over");
+  const pB = pA + 2.2;
+  const pGrow = w(9, "twenty-one");
+  const pk = (z) => Math.exp(Math.log(pk0) + (Math.log(pk1) - Math.log(pk0)) * z);
+  const oursTop = (k) => pBase - Math.max(4.9 * k, 3);
+  const phd = C.canvas(
+    tl,
+    scene,
+    (ctx, t) => {
+      const k = pk(C.phase(t, pA, pB - pA, "in-out-quad"));
+      ctx.font = '400 26px "Public Sans"';
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "right";
+      for (const [v, lab] of ticks) {
+        const y = pBase - v * k;
+        if (y < 30 || y > pBase - 30) continue;
+        // a gridline fades as it nears the baseline, clear of our figure
+        ctx.globalAlpha = C.phase(t, pA, 0.4) * 0.8 * Math.min(1, (pBase - 30 - y) / 70);
+        ctx.fillStyle = ink;
+        ctx.fillRect(1180, y, 310, 1);
+        ctx.fillText(lab, 1165, y);
+      }
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = ink;
+      ctx.fillRect(1180, pBase, 310, 2);
+      ctx.fillStyle = gold;
+      const ho = pBase - oursTop(k);
+      ctx.fillRect(1200, pBase - ho * C.phase(t, t9, 0.6, "out-cubic"), 110, ho * C.phase(t, t9, 0.6, "out-cubic"));
+      const hs = 21500 * k * C.phase(t, pGrow, 1.0, "in-cubic");
+      ctx.fillStyle = ink;
+      if (hs > 0) ctx.fillRect(1360, Math.max(pBase - hs, -10), 110, Math.min(hs, pBase + 10));
+      ctx.textAlign = "left";
+    },
+    { x: 0, y: 0, w: W, h: H },
+  );
+  M.set(phd.el, { opacity: 0 });
+  tl.to(phd.el, { opacity: 1 }, t9, { dur: 0.3 });
+  // our thesis's figure rides down on top of its bar
+  tl.to(thesisKg, { x: 1165, y: oursTop(pk0) - 71, scale: 0.4 }, t9, {
+    dur: 0.6,
+    ease: "in-out-cubic",
+  });
+  tl.sample(thesisKg, pA, pB - pA, (z) => ({ y: oursTop(pk(z)) - 71 }), { ease: "in-out-quad" });
   const human = svgBox(scene, 760, ours.y, 300, 300 * AR);
   M.svg("rect", { x: 0, y: 0, width: 300, height: 300 * AR, fill: ink }, human);
   M.svg("rect", { x: 30, y: 60, width: 240, height: 8, fill: ground }, human);
@@ -527,23 +568,14 @@ export function build(tl, S, T) {
   const humanTag = text(scene, "tag", "a human PhD");
   M.set(humanTag, { x: 760, y: ours.y + 300 * AR + 16, opacity: 0 });
   M.appear(tl, humanTag, w(9, "PhD"), { dur: 0.4 });
-  const pb = svgBox(scene, 1200, 0, 300, 700);
-  M.svg("rect", { x: 0, y: 696, width: 110, height: 4, fill: gold }, pb);
-  const theirBar = M.svg("rect", { x: 160, y: -20, width: 110, height: 720, fill: ink }, pb);
-  M.svg("rect", { x: -20, y: 700, width: 320, height: 2, fill: ink }, pb);
-  M.set(theirBar, { transformOrigin: "50% 100%", scaleY: 0 });
-  M.set(pb, { opacity: 0 });
-  tl.to(pb, { opacity: 1 }, w(9, "human"), { dur: 0.3 });
-  tl.to(theirBar, { scaleY: 1 }, w(9, "twenty-one"), { dur: 1.0, ease: "in-cubic" });
   const phdT = text(scene, "mid-num", "21.5 t");
-  M.set(phdT, { x: 1500, y: 120, opacity: 0 });
-  M.appear(tl, phdT, w(9, "tonnes,"), { dur: 0.4 });
+  M.set(phdT, { x: 1500, y: 60, opacity: 0 });
   const years = text(scene, "tag", "over four years");
-  M.set(years, { x: 1500, y: 240, opacity: 0 });
-  M.appear(tl, years, w(9, "four"), { dur: 0.4 });
+  M.set(years, { x: 1505, y: 172, opacity: 0 });
+  M.appear(tl, [phdT, years], pB - 0.5, { dur: 0.4 });
   fine("*one study, 2013", w(9, "PhD") + 0.2);
   source(SOURCES.phd, w(9, "human"), T.start(10) - 0.4);
-  M.vanish(tl, [pick, thesisKg, human, humanTag, pb, phdT, years], T.start(10) - 0.4, { dur: 0.4 });
+  M.vanish(tl, [pick, thesisKg, human, humanTag, phd.el, phdT, years], T.start(10) - 0.4, { dur: 0.4 });
 
   // ---- 10: the researchers, lit as the hand passes ----
   const hs = 108;
@@ -659,9 +691,10 @@ export function build(tl, S, T) {
   });
   const tArt = Number(server.dataset.start);
   tl.set(fines, { opacity: 0 }, tArt);
-  tl.set(server, { opacity: 1 }, tArt);
+  // the server room runs full frame, a scrim under its captions
+  tl.set([server, serverScrim], { opacity: 1 }, tArt);
   const tTimer = w(12, "timer.");
-  tl.set(server, { opacity: 0 }, tTimer);
+  tl.set([server, serverScrim], { opacity: 0 }, tTimer);
   const big = clockAt(scene, cx, H / 2, 170);
   tl.set(big.el, { opacity: 1 }, tTimer);
   // a tick a second from "timer" until the clock leaves
@@ -910,25 +943,61 @@ export function build(tl, S, T) {
   );
   tl.to([...covers, plate2], { opacity: 0 }, T.start(20) - 0.5, { dur: 0.5 });
 
-  // ---- 20: the address and its QR code, then the lockup ----
+  // ---- 20, 21: the address and its QR code, where else to find us, then the lockup ----
   const t20 = T.start(20);
-  const qrBig = M.layer(scene, cx - 520, 140);
+  const qrBig = M.layer(scene, cx - 560, 220);
   const qrImg = M.el("img", { src: "assets/qr.svg", alt: "" }, qrBig);
   Object.assign(qrImg.style, { display: "block", width: "420px", height: "420px" });
-  const url = text(scene, "url", "slop.university/sustainability");
-  M.set(url, { x: cx - 40, y: 300, opacity: 0 });
-  const urlK = text(scene, "kicker", "the full sustainability report");
-  M.set(urlK, { x: cx - 36, y: 250, opacity: 0 });
   M.set(qrBig, { opacity: 0 });
-  M.appear(tl, [qrBig, urlK, url], t20, { dur: 0.5 });
-  const tLock = T.end(20) + 2.0 + 6.0;
-  M.vanish(tl, [qrBig, urlK, url], tLock - 0.6, { dur: 0.5 });
+  M.appear(tl, qrBig, t20, { dur: 0.5 });
+  const ways = [
+    ["the full sustainability report", "slop.university/sustainability", "url", t20],
+    ["Bluesky", "@slop.university", "resolver", w(21, "Bluesky") - 0.2],
+    ["LinkedIn", "Slop University", "resolver", w(21, "LinkedIn,") - 0.2],
+    ["Email", "outputs@slop.university", "resolver", w(21, "email.") - 0.2],
+  ].flatMap(([kind, where, cls, at], i) => {
+    const y = i === 0 ? 170 : 210 + i * 130;
+    const label = text(scene, "kicker", kind);
+    const value = text(scene, cls, where);
+    M.set(label, { x: cx - 56, y, opacity: 0 });
+    M.set(value, { x: cx - 60, y: y + 44, opacity: 0 });
+    M.appear(tl, [label, value], at, { dur: 0.45 });
+    return [label, value];
+  });
+  const tLock = T.end(21) + 2.0 + 6.0;
+  M.vanish(tl, [qrBig, ...ways], tLock - 0.6, { dur: 0.5 });
 
   // ---- captions: one segment at a time, held across a short pause ----
+  // figures as numerals, units in words, as the Style Manual sets them; the
+  // voice says them in full, and each pair must match the voice exactly once
+  const WRITTEN = [
+    ["three thousand, two hundred and twenty-one", "3,221"],
+    ["forty-one", "41"],
+    ["two hundred", "200"],
+    ["one and a half", "1.5"],
+    ["one kilowatt hour", "1 kilowatt hour"],
+    ["five full kettles", "5 full kettles"],
+    ["four hundred grams", "400 grams"],
+    ["sixteen tonnes", "16 tonnes"],
+    ["a hundred and forty pages", "140 pages"],
+    ["two hours", "2 hours"],
+    ["five kilograms", "5 kilograms"],
+    ["twenty-one tonnes", "21 tonnes"],
+    ["four years", "4 years"],
+    ["one point three tonnes", "1.3 tonnes"],
+    ["twenty kilowatt hours", "20 kilowatt hours"],
+    ["twenty of our outputs", "20 of our outputs"],
+  ];
   const band = M.el("div", { class: "captions" }, S.root);
   const cues = T.lines.flatMap((l) => l.segments);
+  const written = cues.map((c) => c.caption);
+  for (const [said, set] of WRITTEN) {
+    const hits = written.filter((c) => c.includes(said)).length;
+    if (hits !== 1) throw new Error(`caption "${said}" matches ${hits} segments, not 1`);
+    written.forEach((c, n) => (written[n] = c.replace(said, set)));
+  }
   cues.forEach((cue, n) => {
-    const c = M.el("div", { class: "caption", text: cue.caption }, band);
+    const c = M.el("div", { class: "caption", text: written[n] }, band);
     M.set(c, { opacity: 0 });
     const next = cues[n + 1]?.start ?? Infinity;
     tl.set(c, { opacity: 1 }, cue.start);
