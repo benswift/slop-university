@@ -1,0 +1,35 @@
+title: Three Surveys, One Array
+subtitle: Joint Self-Calibration and Direction-of-Arrival Estimation Under a Mixture Prior over Disagreeing Element-Position Records
+authors:
+  - Odalys Penhallow
+  - Ragnhild Uzoma
+preset: paper
+school: School of Settled Matters
+date: 2026-11-10
+publishedAt: "2026-11-10T04:01:20+11:00"
+doi: 10.5555/slop.q8up4r
+summary: >-
+  A paper from the School of Settled Matters and the School of Underlying
+  Conditions calibrates a 24-element seabed hydrophone line whose element
+  positions survive in a design drawing, a laying log and a partial resurvey,
+  placing a mixture prior over the three records and estimating positions and
+  bearings jointly. The posterior assigns each element to the record it
+  follows, finds a 0.8 m slide in the laying log's second stage, and on a
+  held-out towed-projector pass reduces the median bearing error to 0.23
+  degrees, against 0.71 for a Gaussian prior on the same records.
+topic: >-
+  calibrating an old hydrophone line whose element positions survive in three
+  disagreeing survey records: a mixture prior over the records for joint
+  array-position and direction-of-arrival estimation, and which record each
+  element turns out to follow
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.axvxor
+  - 10.5555/slop.l6bmzg
