@@ -1,5 +1,6 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import HIndexLeaderboard from "../../components/HIndexLeaderboard.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople, getSchools, outputsBySchool, researchersOf } from "../../lib/canon";
 import { monthYear } from "../../lib/dates";
@@ -40,7 +41,7 @@ const childKinds = [
   socialImage={hero}
   socialImageAlt={hero ? `Illustration for the ${school.name}` : undefined}
 >
-  {school.blurb && <p class="lead">{school.blurb}</p>}
+  <HIndexLeaderboard school={school.name} />
 
   {researchers.length > 0 && <section aria-labelledby="people-heading">
     <h2 id="people-heading">People</h2>

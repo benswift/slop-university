@@ -1,23 +1,38 @@
 ---
 import { hIndexLeaderboard } from "../lib/citations";
 
-// The roster's top researchers by h-index, from the canon's own citation
-// graph under the university's house counting rules (src/lib/citations.ts).
-// An HTML bar list rather than a Vega SVG: each row is one real link to the
-// profile, and the names stay legible at phone width instead of scaling down
-// with the chart. Collapsed by default, so the people grid stays near the top
-// of the page.
+// Researchers ranked by h-index, University-wide or for one school, from the
+// canon's own citation graph under the university's house counting rules
+// (src/lib/citations.ts). An HTML bar list rather than a Vega SVG: each row is
+// one real link to the profile, and the names stay legible at phone width
+// instead of scaling down with the chart. Collapsed by default, so it doesn't
+// push the page's own content down.
+interface Props {
+  /** Limit the ranking to one school's researchers (by full name). */
+  school?: string;
+}
+
+const { school } = Astro.props;
 const limit = 15;
-const rows = (await hIndexLeaderboard()).filter((r) => r.hIndex > 0).slice(0, limit);
+const ranked = (await hIndexLeaderboard()).filter(
+  (r) => r.hIndex > 0 && (school === undefined || r.school === school),
+);
+const rows = ranked.slice(0, limit);
 const max = rows[0]?.hIndex ?? 0;
+// School names can end in "s", so the school phrasing avoids a possessive.
+const truncated = ranked.length > limit;
+const description = school
+  ? truncated
+    ? `The top ${rows.length} researchers in the ${school} by h-index.`
+    : `Researchers in the ${school}, ranked by h-index.`
+  : truncated
+    ? `The University's top ${rows.length} researchers by h-index, counted across every output in the repository.`
+    : "The University's researchers, ranked by h-index, counted across every output in the repository.";
 ---
 
 {rows.length > 0 && <details class="most-cited">
   <summary><h2 id="most-cited">Most-cited researchers</h2></summary>
-  <p>
-    The University's top {rows.length} researchers by h-index, counted across every output in the
-    repository.
-  </p>
+  <p>{description}</p>
   <ol class="leaderboard" role="list" aria-labelledby="most-cited">
     {rows.map((row) => <li style={`--share: ${(row.hIndex / max) * 100}%`}>
       <a href={`/people/${row.id}/`}>{row.name}</a>

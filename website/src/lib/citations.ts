@@ -104,7 +104,7 @@ export async function bibliometrics(outputs: Output[]): Promise<Bibliometrics> {
   };
 }
 
-export type LeaderboardRow = { id: string; name: string } & Bibliometrics;
+export type LeaderboardRow = { id: string; name: string; school: string } & Bibliometrics;
 
 /**
  * Roster researchers ranked by h-index, ties broken by total citations, then
@@ -120,6 +120,7 @@ export function hIndexLeaderboard(): Promise<LeaderboardRow[]> {
       people.map(async (p) => ({
         id: p.id,
         name: p.data.name,
+        school: p.data.school,
         ...(await bibliometrics(outputs.filter((o) => o.data.authors.includes(p.data.name)))),
       })),
     );
