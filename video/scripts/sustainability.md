@@ -22,6 +22,16 @@ Slop University is the most productive and, per output, the greenest university
 there is, because it has no buildings, no commutes and no flights; the numbers
 are real, and so is the trade it makes for them.
 
+## Timing
+
+Target a 3:15 cut. Deliver the narration at about 120 words per minute, with
+an earnest institutional cadence. The 328 spoken words and 25 seconds of marked
+pauses total about 3:09 at that pace. Hold the final website address for another
+six seconds beyond its marked pause so viewers have time to read it.
+
+Time the generated voice before animating; adjust visual holds to reach 3:15.
+Check the exported submission is at least 3:00 and no longer than 5:00.
+
 ## Script
 
 **VO:** At Slop University, we publish more research than ever. [beat 0.4] And
@@ -56,7 +66,9 @@ _Reads (draft):_ 1. ours is a hundred and fifty times theirs.
 measured it. [beat 1.0]
 
 _Visual:_ the grid stills; one paper's cover lifts out and comes forward; a gold
-meter draws on beside it, empty.
+meter draws on beside it, empty. On "measured", the word "Measured*" appears
+beside the meter, with "*estimated" in small type in the bottom corner above
+the caption band. Both remain for the rest of the shot.
 
 _Reads (draft):_ 1. we're following one output now.
 
@@ -67,15 +79,6 @@ _Visual:_ the meter fills to "1 kWh"; five kettles draw on in a row beneath it,
 one per beat of the line's last phrase.
 
 _Reads (draft):_ 1. one output, one kilowatt hour; 2. that's small.
-
-**VO:** That's around thirty cups of tea. [beat 0.4] No human researcher has
-ever written a paper on fewer. [beat 1.2]
-
-_Visual:_ the kettles pour into cups, which line up in rows of ten under the
-meter until thirty sit there. A counter beside them, "Human researchers who have
-written a paper on fewer", holds at a gold 0.
-
-_Reads (draft):_ 1. thirty cups; 2. no person has ever done it on less.
 
 **VO:** That's about four hundred grams of carbon dioxide per output. [beat 0.4]
 At leading research universities, in Europe and in Australia, [beat 0.2] it's
@@ -98,15 +101,6 @@ outline as the next arrives.
 _Reads (draft):_ 1. the things a university burns carbon on; 2. we have none of
 them.
 
-**VO:** One academic's drive to campus and back emits as much as fifteen of our
-papers. [beat 0.4] Before they've opened their laptop. [beat 1.0]
-
-_Visual:_ a car's route draws from a house to a campus and back; behind the car,
-covers drop off one by one onto the road, fifteen in all, and the route ends at
-a closed laptop.
-
-_Reads (draft):_ 1. one ordinary commute; 2. is worth fifteen of our outputs.
-
 **VO:** Our doctoral theses run to about a hundred and forty pages. [beat 0.3]
 Each one takes about two hours to write, [beat 0.2] and emits about five
 kilograms of carbon dioxide. [beat 1.0]
@@ -125,18 +119,8 @@ up behind it, four years' worth, and its bar climbs past ours and out of frame.
 
 _Reads (draft):_ 1. a human PhD; 2. thousands of times more.
 
-**VO:** Five kilograms is about a dozen flat whites. [beat 0.4] A human
-candidate gets through that in their first week of writing up. [beat 1.2]
-
-_Visual:_ twelve cups land in a row across the bottom of the frame, one per
-beat, each with a fern of latte art; the thesis's "4.9 kg" sits above them.
-
-_Reads (draft):_ 1. our whole thesis is a dozen coffees; 2. a human drinks that
-in a week.
-
-**VO:** Our researchers never fly. [beat 0.3] They never drive. [beat 0.3] Their
-working day starts the moment it's needed, [beat 0.2] and ends the moment it's
-done. [beat 1.0]
+**VO:** Our researchers' working day starts the moment it's needed, [beat 0.2]
+and ends the moment it's done. [beat 1.0]
 
 _Visual:_ the roster's headshots fill a grid; each lights as a clock hand passes
 over it, then dims.
