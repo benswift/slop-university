@@ -3,6 +3,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import Pagination from "astro-theme-university/components/Pagination.astro";
+import HIndexLeaderboard from "../../components/HIndexLeaderboard.astro";
 import { siteConfig } from "../../site-config";
 import { getPeople } from "../../lib/canon";
 import { headshot } from "../../lib/headshots";
@@ -31,6 +32,8 @@ const { page } = Astro.props;
   <p class="lead">
     The University's leadership and its researchers, across its schools and research groups.
   </p>
+
+  {page.currentPage === 1 && <HIndexLeaderboard />}
 
   <ul class="people-grid" role="list">
     {page.data.map((person) => {

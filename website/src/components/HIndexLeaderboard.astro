@@ -1,0 +1,170 @@
+---
+import { hIndexLeaderboard } from "../lib/citations";
+
+// The roster's top researchers by h-index, from the canon's own citation
+// graph under the university's house counting rules (src/lib/citations.ts).
+// An HTML bar list rather than a Vega SVG: each row is one real link to the
+// profile, and the names stay legible at phone width instead of scaling down
+// with the chart. Collapsed by default, so the people grid stays near the top
+// of the page.
+const limit = 15;
+const rows = (await hIndexLeaderboard()).filter((r) => r.hIndex > 0).slice(0, limit);
+const max = rows[0]?.hIndex ?? 0;
+---
+
+{rows.length > 0 && <details class="most-cited">
+  <summary><h2 id="most-cited">Most-cited researchers</h2></summary>
+  <p>
+    The University's top {rows.length} researchers by h-index, counted across every output in the
+    repository.
+  </p>
+  <ol class="leaderboard" role="list" aria-labelledby="most-cited">
+    {rows.map((row) => <li style={`--share: ${(row.hIndex / max) * 100}%`}>
+      <a href={`/people/${row.id}/`}>{row.name}</a>
+      <span class="bar">
+        <span class="value"><span class="visually-hidden">h-index </span>{row.hIndex}</span>
+      </span>
+    </li>)}
+  </ol>
+</details>}
+
+<style>
+  .most-cited {
+    margin-block: var(--at-spacing-xl);
+  }
+
+  .most-cited summary + p {
+    margin-block-start: var(--at-spacing-md);
+  }
+
+  /* The heading is the toggle, with a chevron after it in place of the
+     browser's disclosure triangle, which would sit on a line of its own above
+     a block heading. */
+  .most-cited summary {
+    display: flex;
+    align-items: center;
+    gap: var(--at-spacing-sm);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .most-cited summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .most-cited summary h2 {
+    margin: 0;
+  }
+
+  .most-cited summary::after {
+    content: "";
+    inline-size: 0.6em;
+    block-size: 0.6em;
+    border-inline-end: 2px solid var(--at-primary);
+    border-block-end: 2px solid var(--at-primary);
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform 150ms ease;
+  }
+
+  .most-cited[open] summary::after {
+    transform: translateY(25%) rotate(-135deg);
+  }
+
+  .most-cited summary:focus-visible {
+    outline: 2px solid var(--at-primary);
+    outline-offset: 4px;
+  }
+
+  .leaderboard {
+    list-style: none;
+    padding: 0;
+    margin-block: var(--at-spacing-lg) 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--at-spacing-xs) var(--at-spacing-sm);
+    font-size: var(--at-font-size-sm);
+  }
+
+  /* Each row spans both columns on a subgrid, so every bar starts at the same
+     x however long the name; the link's ::after stretches over the whole row,
+     making the row one click target with one tab stop. */
+  .leaderboard li {
+    position: relative;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
+  }
+
+  .leaderboard a {
+    color: var(--at-text);
+    text-align: end;
+    text-decoration: none;
+  }
+
+  .leaderboard a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .leaderboard a:focus-visible {
+    outline: none;
+  }
+
+  .leaderboard li:has(a:focus-visible) {
+    outline: 2px solid var(--at-primary);
+    outline-offset: 2px;
+  }
+
+  /* The track reserves room for the value at its end, so a bar of --share is
+     that fraction of the same length on every row, and the value sits just
+     past the bar's end. */
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--at-spacing-xs);
+    padding-inline-end: 2.5em;
+  }
+
+  .bar::before {
+    content: "";
+    flex: none;
+    inline-size: var(--share);
+    block-size: 1.1em;
+    background: var(--at-primary);
+    transition: background-color 120ms ease;
+  }
+
+  .value {
+    color: var(--at-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .leaderboard li:hover a,
+  .leaderboard li:has(a:focus-visible) a {
+    text-decoration: underline;
+  }
+
+  .leaderboard li:hover .bar::before,
+  .leaderboard li:has(a:focus-visible) .bar::before {
+    background: var(--at-primary-hover);
+  }
+
+  /* Phones: the name sits above its bar, so the bar gets the full width. */
+  @media (width < 36rem) {
+    .leaderboard {
+      grid-template-columns: 1fr;
+      row-gap: var(--at-spacing-sm);
+    }
+
+    .leaderboard li {
+      grid-template-columns: 1fr;
+    }
+
+    .leaderboard a {
+      text-align: start;
+    }
+  }
+</style>

@@ -103,3 +103,29 @@ export async function bibliometrics(outputs: Output[]): Promise<Bibliometrics> {
     i10Index: counts.filter((c) => c >= 10).length,
   };
 }
+
+export type LeaderboardRow = { id: string; name: string } & Bibliometrics;
+
+/**
+ * Roster researchers ranked by h-index, ties broken by total citations, then
+ * by name. Leadership is excluded: it never authors outputs.
+ */
+let ranked: Promise<LeaderboardRow[]> | undefined;
+
+export function hIndexLeaderboard(): Promise<LeaderboardRow[]> {
+  ranked ??= (async () => {
+    const outputs = await getCollection("outputs");
+    const people = await getCollection("people");
+    const rows = await Promise.all(
+      people.map(async (p) => ({
+        id: p.id,
+        name: p.data.name,
+        ...(await bibliometrics(outputs.filter((o) => o.data.authors.includes(p.data.name)))),
+      })),
+    );
+    return rows.toSorted(
+      (a, b) => b.hIndex - a.hIndex || b.citations - a.citations || a.name.localeCompare(b.name),
+    );
+  })();
+  return ranked;
+}
