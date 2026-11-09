@@ -82,8 +82,10 @@ built by hand, not grown by the tick.
   markdown, reference it by a **relative** path (`![alt](./foo.avif)`) so it
   routes through the pipeline --- never an absolute `public/` path or a remote
   URL. `public/` holds only `CNAME` and `robots.txt`.
-- Any chart on a web page is Vega-Lite in the theme colours --- never
-  library-default palettes. Generated PDFs use gribouille instead.
+- Charts on web pages use the theme colours, never library-default palettes.
+  Plotted data is Vega-Lite; a ranked bar list whose rows link to pages is HTML
+  and CSS (`src/components/HIndexLeaderboard.astro`), so each row is one real
+  link and stays legible at phone width. Generated PDFs use gribouille instead.
 - Voice: pages stay in the institutional register (`skills/from-preset/`
   `genre.md`); news posts use the comms register (`skills/publish/comms.md`).
 
