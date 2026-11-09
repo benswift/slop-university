@@ -1,0 +1,121 @@
+/* The sustainability film's own objects, on kit.css. */
+
+/* the generated clips fill the scene above the caption band */
+.clips {
+  width: 1920px;
+  height: 890px;
+  overflow: hidden;
+}
+
+.footage {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 890px;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+.clips .video-scrim {
+  position: absolute;
+  inset: 0;
+}
+
+/* the working, the fine print and the QR code sit over everything in the scene */
+.source,
+.fine,
+.qr {
+  z-index: 5;
+}
+
+/* the working under every figure: bottom left, above the caption band */
+.source {
+  width: 1240px;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--video-text-2);
+}
+
+/* the fine print: asterisked footnotes stacking in the bottom right */
+.fine {
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--video-text-2);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.fine-big {
+  font-size: 50px;
+  font-weight: 300;
+  color: var(--video-text);
+  text-align: left;
+}
+
+/* the recurring QR code to the sustainability page */
+.qr {
+  padding: 16px 16px 12px;
+  background: var(--video-ground);
+  box-shadow: 0 0 0 1px var(--hairline);
+}
+
+.qr img {
+  display: block;
+  width: 190px;
+  height: 190px;
+}
+
+.qr-label {
+  margin-top: 10px;
+  width: 190px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--video-accent-2);
+  white-space: nowrap;
+}
+
+.big-num {
+  font-size: 150px;
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mid-num {
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.num-label {
+  margin-top: 14px;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--video-text-2);
+}
+
+.measured {
+  font-size: 88px;
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+.tag {
+  font-size: 30px;
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--video-text-2);
+}
+
+.url {
+  font-size: 64px;
+  font-weight: 300;
+  white-space: nowrap;
+}

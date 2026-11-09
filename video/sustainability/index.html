@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Lighter by Design (landscape)</title>
+    <link rel="stylesheet" href="kit/kit.css" />
+    <link rel="stylesheet" href="sustainability.css" />
+    <style>
+      html, body { width: 1920px; height: 1080px; }
+    </style>
+  </head>
+  <body>
+    <!-- Script: video/scripts/sustainability.md. build() is in sustainability.js; fetch-assets.py
+         fills assets/ (the clips are Veo renders kept there). Rendered natively at 30 fps for HORIZONS.
+         The clips' data-start follows timing.json (build() checks it); mix sets every data-duration. -->
+    <div id="stage" class="stage" data-tail="11" data-aspect="landscape" data-composition-id="sustainability"
+         data-start="0" data-duration="201.25" data-width="1920" data-height="1080" data-fps="30">
+      <div id="clips" class="layer clips">
+        <video id="clip-press" class="clip footage" src="assets/clips/press.mp4" muted playsinline
+               data-start="0" data-duration="8" data-track-index="2"></video>
+        <img id="still-quad" class="footage" src="assets/stills/campus-quad-empty.jpg" alt="" />
+        <video id="clip-quad" class="clip footage" src="assets/clips/quad.mp4" muted playsinline
+               data-start="64.3" data-duration="6" data-track-index="2"></video>
+        <video id="clip-server" class="clip footage" src="assets/clips/server.mp4" muted playsinline
+               data-start="113.6" data-duration="5.9" data-track-index="2"></video>
+        <img id="still-hall" class="footage" style="object-position: 50% 25%" src="assets/stills/lecture-hall-empty-dark.jpg" alt="" />
+        <video id="clip-hall" class="clip footage" style="object-position: 50% 25%" src="assets/clips/hall.mp4" muted playsinline
+               data-start="173.0" data-duration="5.5" data-media-start="2" data-track-index="2"></video>
+        <div id="hero-scrim" class="video-scrim"></div>
+      </div>
+      <div id="scene" class="clip layer scene" data-start="0" data-duration="201.25" data-track-index="0"></div>
+      <audio id="sound" class="clip" src="assets/mix.wav" data-start="0" data-duration="201.25" data-track-index="1"></audio>
+    </div>
+    <script type="module">
+      import * as M from "./kit/motion/motion.js";
+      import { fonts } from "./kit/motion/brand.js";
+      import { build } from "./sustainability.js";
+      M.ready(build, { fonts, captions: false }).then(({ tl }) => {
+        window.__timelines["sustainability"] = tl;
+      });
+    </script>
+  </body>
+</html>
