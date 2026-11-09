@@ -15,3 +15,6 @@ throughout, no vocals. 104 bpm."""
 
 [voices]
 file = "../canon/voices.yml"
+# The sustainability film's narrator: made with ElevenLabs Voice Design, not a
+# clone, as HORIZONS requires (scripts/sustainability.md).
+horizons-narrator = { id = "Rzvz2qSAdC4HpbVhtZ7Z", settings = { speed = 0.85 } }
