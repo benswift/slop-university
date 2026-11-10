@@ -21,6 +21,8 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact_id }}
     # Generous because the Astro image cache only saves in actions/cache's
     # post-job step: a build killed by this timeout saves nothing, so a cold
     # build that can't finish once can never seed the cache that would make it
@@ -93,6 +95,7 @@ jobs:
         run: pnpm run build
 
       - name: Upload artifact
+        id: upload
         uses: actions/upload-pages-artifact@v5
         with:
           path: website/dist
@@ -108,26 +111,48 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      # Don't cap this short and plan to retry --- a retry cannot work here.
-      # actions/deploy-pages derives the deployment id from github.sha
-      # (pages_build_version), and its abort path cancels that id. A second
-      # attempt in the same run therefore re-creates an already-cancelled
-      # deployment and reads back "Deployment cancelled" within 5s, every
-      # time. Waiting out the first attempt is the only thing that works.
+      # The same Pages API calls actions/deploy-pages makes, minus its hard
+      # 10-minute cap: GitHub sometimes holds a deployment in syncing_files
+      # for ~10 minutes (it is not a function of artifact size), and on
+      # timeout the action cancels the deployment, so it never goes live.
       #
-      # The cap needs to clear time spent in deployment_queued, which is
-      # GitHub's to set and can step-change without warning from seconds to
-      # several minutes; it is not a function of artifact size (worth watching
-      # against the 1 GB Pages ceiling all the same).
-      #
-      # 600000 is the ceiling, not a preference --- the action clamps anything
-      # higher and says so only in a warning buried in the step log ("timeout
-      # value is greater than the allowed maximum"). Don't raise it expecting
-      # an effect. If queue time ever exceeds 10 minutes there is no knob for
-      # it: the run goes red while Pages usually completes the deployment
-      # anyway, and the next publish tick redeploys the whole site regardless.
+      # Don't plan to retry instead. The deployment id is github.sha, so a
+      # second attempt in the same run re-creates an already-cancelled
+      # deployment and reads back deployment_cancelled within seconds. Waiting
+      # out the first attempt is the only thing that works; keep the job's
+      # timeout-minutes above WAIT_SECONDS so the cancel below still runs.
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
-        with:
-          timeout: 600000
+        working-directory: ${{ runner.temp }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+          WAIT_SECONDS: 1200
+        run: |
+          set -euo pipefail
+          oidc=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value)
+          echo "::add-mask::$oidc"
+          created=$(gh api -X POST "repos/$GITHUB_REPOSITORY/pages/deployments" \
+            -F artifact_id="$ARTIFACT_ID" -f pages_build_version="$GITHUB_SHA" -f oidc_token="$oidc")
+          id=$(jq -r '.id // (.status_url | select(.) | split("/") | last) // env.GITHUB_SHA' <<<"$created")
+          echo "page_url=$(jq -r .page_url <<<"$created")" >>"$GITHUB_OUTPUT"
+          echo "Created deployment $id"
+          deadline=$((SECONDS + WAIT_SECONDS))
+          while :; do
+            sleep 15
+            status=$(gh api "repos/$GITHUB_REPOSITORY/pages/deployments/$id" --jq .status) || status=unknown
+            echo "$(date -u +%T) $status"
+            case $status in
+              succeed) exit 0 ;;
+              deployment_failed | deployment_content_failed | deployment_cancelled | deployment_lost)
+                echo "::error::Pages deployment ended in $status"
+                exit 1
+                ;;
+            esac
+            if ((SECONDS >= deadline)); then
+              echo "::error::Pages deployment still $status after ${WAIT_SECONDS}s; cancelling"
+              gh api -X POST "repos/$GITHUB_REPOSITORY/pages/deployments/$id/cancel" || true
+              exit 1
+            fi
+          done
