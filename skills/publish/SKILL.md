@@ -404,7 +404,8 @@ no verifiable claims; link only to pages that exist. **Never touch
 `colophon.md`** --- it is the one out-of-fiction page and the wrapper resets any
 commit that edits it. **Never touch `girt.md`** either --- the ranking-index
 table is human-maintained (see the ranking-claim carve-out in
-`website/AGENTS.md`).
+`website/AGENTS.md`) --- nor `sustainability.md`, the out-of-fiction
+sustainability report, which the wrapper also resets.
 
 **Files:** a file under `website/src/content/pages/` (not `colophon.md`).
 

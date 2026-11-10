@@ -332,8 +332,9 @@ select_base() {
 # (ops/draw-axes.py) and no run writes, which is what makes concurrent 2A slots
 # touch genuinely disjoint files.
 #
-# The denylist carves the one out-of-fiction page (colophon) back out of the
-# otherwise-allowed pages/ dir, and likewise the Vice-Chancellor:
+# The denylist carves the out-of-fiction pages (the colophon, and the
+# sustainability report, whose real figures are human-maintained) back out of
+# the otherwise-allowed pages/ dir, and likewise the Vice-Chancellor:
 # canon/leadership.yml is already outside the allowlist, but his portrait and
 # profile hero sit INSIDE the allowlisted canon/headshots/ and canon/heroes/
 # trees, and they are the one likeness in the project worked from a real
@@ -345,7 +346,7 @@ ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.
 # alone, so no other rung can write under video/, and no run can reach the
 # kit, the style guide or the voices.
 VIDEO_ALLOWLIST_RE='^(website/src/content/videos/slop-(explainer|promo)-[a-z0-9-]+\.yml$|video/scripts/slop-(explainer|promo)-[a-z0-9-]+\.md$|video/slop-(explainer|promo)-[a-z0-9-]+/)'
-DENYLIST_RE='(^|/)colophon\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
+DENYLIST_RE='(^|/)colophon\.md$|^website/src/content/pages/sustainability\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
 # references/*.avif photos. (references/slop-style/ is fine and unmatched ---

@@ -17,12 +17,14 @@ path allowlist, and resets violating paths.
   doctrine), or the doctrine files (this file, the repo `AGENTS.md`, `skills/`).
   The wrapper's allowlist excludes all of these.
 - **Reads straight.** No watermark, footer, disclaimer, or "this is satire"
-  signal on any page. The one out-of-fiction page is `/colophon/`
+  signal on any page. The out-of-fiction pages are `/colophon/`
   (`src/content/pages/colophon.md`) --- never edit it, never link it from
-  anywhere except the footer's existing "About this project" link.
+  anywhere except the footer's existing "About this project" link --- and the
+  sustainability report (below), which the sustainability film's QR codes point
+  to.
 - **No verifiable factual claims.** Nothing checkable-and-falsifiable; no
   fabricated regulatory codes (CRICOS etc.); no real organisations named as
-  partners. Two carve-outs. **Internal award values**: a dollar figure on a
+  partners. Three carve-outs. **Internal award values**: a dollar figure on a
   grant or prize from a `canon/grants.yml` scheme is fiction-internal (the
   funder is a Slop University body; there is no registry to check it against)
   and may be stated exactly. **The University's ranking claim** (the homepage
@@ -30,6 +32,11 @@ path allowlist, and resets violating paths.
   it checks out against the self-published GIRT table and The World University
   Index. All three surfaces are human-maintained --- the tick never edits
   `girt.md` and never states a ranking itself (`skills/publish/comms.md`).
+  **The sustainability report** (`/sustainability/`,
+  `src/content/pages/sustainability.md`): the University's real energy and
+  carbon figures, which check out against `analysis/sustainability/` and the
+  sources the page cites. Human-maintained: the tick never edits it and never
+  states its figures anywhere else.
 - **No real people.** Every named person comes from `canon/roster.yml` (with
   their canonical title and school); every org unit from `canon/schools.yml`.
   The single exception is the Vice-Chancellor in `canon/leadership.yml`, who is
@@ -54,7 +61,8 @@ fills one gap. Its editable surface is exactly the wrapper's allowlist:
   editing the canon _is_ how those pages grow --- there are no per-researcher or
   per-school files to author.
 - **Grown pages** --- `src/content/pages/` (rendered by `[...slug].astro`), e.g.
-  the About page. Never `colophon.md` (the wrapper's denylist rejects it).
+  the About page. Never `colophon.md` or `sustainability.md` (the wrapper's
+  denylist rejects both).
 - **Research outputs** --- news posts and output entries (the tick's default
   action).
 - **Grants and prizes** --- award entries (`src/content/grants/`) from the
