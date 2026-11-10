@@ -151,10 +151,12 @@ never pad with one it cannot.
 
 ## Typst structure
 
-A4 portrait, two-column body. The `slop()` show rule doesn't do page columns
-(its `columns:` option is a header grid) --- set columns in the document, and
-span the title block + abstract across both with
-`place(top + center, scope: "parent", float: true)`:
+A4 portrait, two-column body. The template does the paper layout through
+`slop()`'s arguments: `style: "compact"` sets the short title block and
+paper-scale headings, `title-align: center` centres the title block and insets
+the abstract, `font-size` sets the body (headings scale with it), and
+`columns: 2` sets the page columns with the title block and abstract spanning
+both, clear of the masthead:
 
 ```typst
 #import "@local/slop-university-brand:0.1.0": slop, slop-colors, slop-inline-figure
@@ -166,50 +168,27 @@ span the title block + abstract across both with
 )
 
 #show: doc => slop(
-  title: "",                    // title block is manual --- it must span both columns
+  title: [<Paper title>],
+  author: [
+    <Author A>, <Author B>, <Author C> \
+    // roster emails, brace-grouped; a string, so the @ doesn't parse as a ref
+    #text(fill: slop-colors.grey-4)[<Lead school>, Slop University ·
+      #("{<lead>.<surname>, <coauthor>.<surname>}@slop.university")] \
+    #text(fill: slop-colors.grey-4)[doi:10.5555/slop.<seed>] // publish runs only
+  ],
+  abstract: [<150-220 words>],
   paper: "a4",
-  config: (theme: "light", hide: ("title-block",)),
+  config: (
+    theme: "light",
+    style: "compact",
+    title-align: center,
+    font-size: 9.5pt,
+    columns: 2,
+  ),
   doc,
 )
 
-#set page(columns: 2)
-#set text(size: 9.5pt)
 #set par(justify: true)
-
-// Level-1 headings at paper scale: the template's booklet-display rule (26pt
-// gold) is a function-style show rule, so a show-set won't override it ---
-// replace it outright.
-#show heading.where(level: 1): it => block(
-  above: 1.4em,
-  below: 0.7em,
-  text(size: 13pt, weight: "bold", fill: slop-colors.primary, it.body),
-)
-
-// ── Title block + abstract, spanning both columns ──
-#place(top + center, scope: "parent", float: true, clearance: 1.6em)[
-  // The template's first-page header spacer shifts flowed content but NOT
-  // top-placed parent-scope floats --- without this the title collides with
-  // the lockup.
-  #v(2.4cm)
-  #set align(center)
-  #text(size: 17pt, weight: "medium")[<Paper title>]
-  #v(0.5em)
-  #text(size: 10.5pt)[<Author A>, <Author B>, <Author C>]
-  #v(0.15em)
-  #text(size: 9pt, fill: slop-colors.grey-4)[<Lead school>, Slop University]
-  #v(0.15em)
-  // roster emails, brace-grouped; a string, so the @ doesn't parse as a ref
-  #text(size: 9pt, fill: slop-colors.grey-4)[#("{<lead>.<surname>, <coauthor>.<surname>}@slop.university")]
-  #v(0.15em)
-  #text(size: 9pt, fill: slop-colors.grey-4)[doi:10.5555/slop.<seed>]  // publish runs only
-  #v(0.9em)
-  #block(width: 82%)[
-    #set align(left)
-    #set text(size: 9pt)
-    #set par(justify: true)
-    *Abstract.* <150-220 words>
-  ]
-]
 
 = <First section, named as the field would>
 <...body flows in two columns; #cite entries as @key...>
@@ -233,17 +212,14 @@ Structural reference: the ANU layer's worked example at
 `~/projects/anu-typst-template/packages/anu-typst-template/0.3.0/examples/paper.typ`
 (single-column, but demonstrates `bibliography()` + `references.bib`, subpar
 grouped figures, display equations, code listings, and a gribouille chart
-import --- copy those moves, not its import block). If the two-column pattern
-stabilises after a few runs, consider promoting a `paper` mode into the template
-package --- not before.
+import --- copy those moves, not its import block).
 
 ### Gotchas
 
 - **Charts must fit a column.** `slop-inline-figure` keeps figures in-column;
   keep chart aspect wide-short (`height` ~0.55 of width at column scale) and
   text sizes legible at ~8.5cm column width. A chart that needs full page width
-  can be `place(scope: "parent", float: true, ...)`d like the title block --- at
-  most one.
+  can be `place(scope: "parent", float: true, ...)`d --- at most one.
 - **Two-column + floats**: give every float a caption and reference it in prose
   (@fig:...); typst places floats top/bottom of columns.
 - **Don't fight underfull final columns** --- papers end where they end; no
