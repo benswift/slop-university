@@ -1,0 +1,36 @@
+title: Nothing Is Safe to Forget
+subtitle: Fixed memory windows in an L1 solver for Caputo relaxation
+authors:
+  - Thandiwe Solberg
+  - Joost Nwosu
+  - Eskil Nwabueze
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-10
+publishedAt: "2026-11-10T22:01:19+11:00"
+doi: 10.5555/slop.9y1i65
+summary: >-
+  A research poster from the School of Continuous Improvement solves the
+  fractional relaxation equation D^α u = −u by the L1 scheme to t = 20 in
+  1,000 steps, keeping only a fixed window of the most recent history, and
+  measures the final value against the exact Mittag-Leffler solution. Across
+  orders 0.3 to 0.9, full memory errs by one to six parts in ten thousand,
+  while every shorter window undershoots: half the history leaves the answer
+  65 to 95 per cent too small, dropping only the ten oldest steps still costs
+  2.4 to 21 per cent, and no window short of the whole run, or all but one
+  step of it, matches the mesh error.
+topic: >-
+  how short a memory window an L1 solver for Caputo relaxation can keep before
+  the error from forgetting, not the mesh, sets its accuracy
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.d5naak
+  - 10.5555/slop.r4k4ki
