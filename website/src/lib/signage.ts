@@ -23,12 +23,14 @@ export async function signagePlaylist(orientation: Orientation): Promise<Playlis
 
   // Orientation isn't a schema field of its own, but the first-page thumbnail
   // is rendered from the PDF page, so the thumb dims every entry records carry
-  // the true orientation.
+  // the true orientation. Only posters with a dark render play: the screens
+  // are black, and the early light posters predate the screen-native format.
   const posters = (await getCollection("outputs"))
     .filter(
       (entry) =>
         entry.data.preset === "research-poster" || entry.data.preset === "marketing-poster",
     )
+    .filter((entry) => entry.data.pdfDark)
     .filter(({ data: { thumb } }) =>
       isLandscape ? thumb.width >= thumb.height : thumb.height > thumb.width,
     )
@@ -42,11 +44,11 @@ export async function signagePlaylist(orientation: Orientation): Promise<Playlis
     title: fullTitle(entry.data),
   });
 
-  // Signage is research-led: four research slots followed by one ad slot. Keep
-  // a bounded recent pool so a screen changes regularly without resurrecting
-  // old material from deep in the archive.
-  const research = posters.filter((e) => e.data.preset === "research-poster").slice(0, 24);
-  const marketing = posters.filter((e) => e.data.preset === "marketing-poster").slice(0, 12);
+  // Signage is research-led: four research slots followed by one ad slot. The
+  // pools are the whole archive, for variety; the player walks them by slot
+  // number, so each publish shifts which poster lands where.
+  const research = posters.filter((e) => e.data.preset === "research-poster");
+  const marketing = posters.filter((e) => e.data.preset === "marketing-poster");
 
   const videos = (await getCollection("videos"))
     .toSorted((a, b) => a.id.localeCompare(b.id))

@@ -250,12 +250,17 @@ const posterAspect = initial ? initial.width / initial.height : 1;
       // five-slot cadence. Research occupies four slots; an ad gets the fifth.
       // If an orientation has no candidate of the requested type, use the
       // other type rather than leaving a blank screen.
+      //
+      // Each pool is indexed by its own slot count, not the raw slot number:
+      // ads only fall on n % 5 === 4, so indexing the ad pool by n would show
+      // only every fifth ad whenever its length is a multiple of five.
       function posterFor(list: Playlist, slot: number): Poster | undefined {
-        const offset = orientation === "portrait" ? 2 : 0;
-        const wantsMarketing = (slot + offset) % 5 === 4;
+        const n = slot + (orientation === "portrait" ? 2 : 0);
+        const wantsMarketing = n % 5 === 4;
         const preferred = wantsMarketing ? list.marketing : list.research;
         const pool = preferred.length ? preferred : wantsMarketing ? list.research : list.marketing;
-        return pool.length ? pool[(slot + offset) % pool.length] : undefined;
+        const index = wantsMarketing ? Math.floor(n / 5) : n - Math.floor((n + 1) / 5);
+        return pool.length ? pool[index % pool.length] : undefined;
       }
 
       const videoFor = (list: Playlist, slot: number): Video | undefined =>
