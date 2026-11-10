@@ -37,9 +37,9 @@ const FIG = {
     ["Oct", 0.514, 1135, 584],
   ],
   filmKwh: 20, // provisional, as in the script
-  // TODO(source): one return economy flight Canberra–Venice, t CO2 (ICAO); drawn
-  // unlabelled until sourced, so only "more than the University" is shown
-  flightT: 2.0,
+  // one return economy flight Canberra–Venice (via Sydney and Dubai), t CO2e without
+  // radiative forcing: DESNZ 2025 long-haul economy 0.06926 kg/pkm × 33,421 km
+  flightT: 2.3,
 };
 
 const SOURCES = {
@@ -53,12 +53,12 @@ const SOURCES = {
     "Ten theses, 128–169 pages, 1–3 hours each · thesis runs' Claude tokens × Couch 2026 × PUE 1.2 × 384 g/kWh = 12.8 kWh, 4.9 kg",
   phd: "Achten, Almeida & Muys 2013, Ecological Indicators 34, 352–355: one PhD project, 21.5 t CO2e",
   total:
-    "3,299 kWh × 384 g/kWh = 1,267 kg CO2e, 4 July – 9 November 2026 · flight: ICAO carbon emissions calculator, return, economy",
+    "3,299 kWh × 384 g/kWh = 1,267 kg CO2e, 4 July – 9 November 2026 · flight: Canberra–Sydney–Dubai–Venice return, 33,400 km × DESNZ 2025 long-haul economy factor, no radiative forcing",
   counted:
     "40.5 B cache-read, 1.08 B cache-write, 230 M output and 7 M input tokens · 8,759 Replicate images · analysis/sustainability/estimate.py",
   reread: "Cache reads: 62% of Claude energy, at an assumed 39 Wh per million tokens",
   rebound: "Claude energy by month: July 570 kWh for 485 outputs; October 584 kWh for 1,135",
-  film: "85 s of generated video (every trial) × 3.4 MJ per 5 s (an open model; MIT Technology Review 2025) × PUE 1.2 ≈ 19 kWh · this film's tokens ≈ 3 kWh · renders and audio < 1 kWh",
+  film: "85 s of generated video (every trial) × 3.4 MJ per 5 s (CogVideoX, measured; MIT Technology Review 2025; closed models likely higher) × PUE 1.2 ≈ 19 kWh · this film's tokens ≈ 3 kWh · renders and audio < 1 kWh",
 };
 
 const text = (parent, cls, s, style = {}) => {
@@ -136,7 +136,8 @@ export function build(tl, S, T) {
     const x = W - 60 - widthOf(d);
     M.set(d, { x, y: fineBottom, opacity: 0 });
     for (const f of fines) tl.to(f, { y: `-=${fineLH}` }, at, { dur: 0.35, ease: "in-out-quad" });
-    M.appear(tl, d, at, { dur: 0.4, y: 12 });
+    // the new line arrives once the stack has made room for it
+    M.appear(tl, d, at + 0.25, { dur: 0.4, y: 12 });
     fines.push(d);
     return d;
   };
@@ -650,6 +651,9 @@ export function build(tl, S, T) {
   });
   M.appear(tl, fTags[0], w(11, "University"), { dur: 0.4 });
   M.appear(tl, fTags[1], w(11, "flight"), { dur: 0.4 });
+  const flightLabel = text(scene, "mid-num", `${FIG.flightT} t`);
+  M.set(flightLabel, { x: 440, y: fBase - FIG.flightT * fScale - 120, opacity: 0 });
+  M.appear(tl, flightLabel, w(11, "flight") + 0.6, { dur: 0.4 });
   const vce = { x: 820, y: 230 };
   const cbr = { x: 1320, y: 580 };
   const map = svgBox(scene, 0, 0, W, H);
@@ -679,7 +683,7 @@ export function build(tl, S, T) {
   M.drawOn(tl, arcs, w(11, "return"), 0.8, 0.8, "in-out-cubic");
   fine("*economy class, CO2 only", w(11, "flight") + 0.3);
   source(SOURCES.total, w(11, "one"), T.start(12) - 0.2);
-  M.vanish(tl, [fb, uniT, ...fTags, map, ...places], w(12, "real.") - 0.3, { dur: 0.3 });
+  M.vanish(tl, [fb, uniT, flightLabel, ...fTags, map, ...places], w(12, "real.") - 0.3, { dur: 0.3 });
 
   // ---- 12: the fine print fills the frame; the server room; the clock ----
   const tReal = w(12, "real.");
