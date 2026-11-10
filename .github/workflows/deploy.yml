@@ -23,13 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       artifact_id: ${{ steps.upload.outputs.artifact_id }}
-    # Generous because the Astro image cache only saves in actions/cache's
-    # post-job step: a build killed by this timeout saves nothing, so a cold
-    # build that can't finish once can never seed the cache that would make it
-    # fast. Any change to image format or srcset widths forces one fully cold
-    # AVIF build, which runs well past an hour on this runner. The ceiling is
-    # free on the warm builds that are the steady state.
-    timeout-minutes: 120
+    # Keep this well above a cold build (nothing to restore from the Astro
+    # cache below: ~8 minutes on this runner, against ~2 warm). The cache only
+    # saves in actions/cache's post-job step, so a cold build killed by the
+    # timeout never seeds the cache that makes the next one fast.
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -57,20 +55,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # node_modules/.astro holds the image service's transform cache --- ~5600
-      # encodes, which is essentially the whole build cost --- plus the content
-      # layer store. Without it every publish tick re-encodes every image from
-      # scratch, ~20 times a day. Keyed on sha so each run saves its updated
-      # cache; restore-keys picks up the most recent. Note the path is
-      # workspace-relative, so it needs the website/ prefix that
-      # defaults.run.working-directory supplies for run steps but not for uses.
+      # node_modules/.astro holds the image service's transform cache (~270
+      # encodes, most of a cold build's cost), astro-theme-university's
+      # accessibility-check results and the content layer store. Keyed on sha
+      # so each run saves its updated cache; restore-keys picks up the most
+      # recent. Note the path is workspace-relative, so it needs the website/
+      # prefix that defaults.run.working-directory supplies for run steps but
+      # not for uses.
       #
       # The v<N> segment is a manual cache lineage. Astro keys transforms by
       # content hash and never prunes, so changing image format or srcset
       # widths orphans every existing entry and the cache carries both
-      # generations forever, fitting fewer entries in the repo's 10 GB budget.
-      # Bump it whenever an image-config change invalidates the old entries;
-      # it costs the one cold build that change forces anyway.
+      # generations forever. Bump it whenever an image-config change
+      # invalidates the old entries; it costs the one cold build that change
+      # forces anyway.
       - name: Cache Astro build cache
         uses: actions/cache@v6
         with:
