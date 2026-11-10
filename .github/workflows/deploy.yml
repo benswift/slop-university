@@ -107,50 +107,57 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Above ATTEMPTS x ATTEMPT_SECONDS, so the last cancel still runs.
+    timeout-minutes: 40
     steps:
-      # The same Pages API calls actions/deploy-pages makes, minus its hard
-      # 10-minute cap: GitHub sometimes holds a deployment in syncing_files
-      # for ~10 minutes (it is not a function of artifact size), and on
-      # timeout the action cancels the deployment, so it never goes live.
-      #
-      # Don't plan to retry instead. The deployment id is github.sha, so a
-      # second attempt in the same run re-creates an already-cancelled
-      # deployment and reads back deployment_cancelled within seconds. Waiting
-      # out the first attempt is the only thing that works; keep the job's
-      # timeout-minutes above WAIT_SECONDS so the cancel below still runs.
+      # The Pages API calls actions/deploy-pages makes, plus retries. GitHub
+      # sometimes leaves a deployment in syncing_files until it abandons it
+      # ten minutes after creation (the status then reads back empty), so
+      # waiting longer never helps; a fresh deployment usually syncs in
+      # seconds. Each attempt needs its own pages_build_version: the
+      # deployment id is that string, and re-creating a cancelled id reads
+      # back deployment_cancelled at once.
       - name: Deploy to GitHub Pages
         id: deployment
         working-directory: ${{ runner.temp }}
         env:
           GH_TOKEN: ${{ github.token }}
           ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
-          WAIT_SECONDS: 1200
+          ATTEMPTS: 3
+          ATTEMPT_SECONDS: 660
         run: |
           set -euo pipefail
-          oidc=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value)
-          echo "::add-mask::$oidc"
-          created=$(gh api -X POST "repos/$GITHUB_REPOSITORY/pages/deployments" \
-            -F artifact_id="$ARTIFACT_ID" -f pages_build_version="$GITHUB_SHA" -f oidc_token="$oidc")
-          id=$(jq -r '.id // (.status_url | select(.) | split("/") | last) // env.GITHUB_SHA' <<<"$created")
-          echo "page_url=$(jq -r .page_url <<<"$created")" >>"$GITHUB_OUTPUT"
-          echo "Created deployment $id"
-          deadline=$((SECONDS + WAIT_SECONDS))
-          while :; do
-            sleep 15
-            status=$(gh api "repos/$GITHUB_REPOSITORY/pages/deployments/$id" --jq .status) || status=unknown
-            echo "$(date -u +%T) $status"
-            case $status in
-              succeed) exit 0 ;;
-              deployment_failed | deployment_content_failed | deployment_cancelled | deployment_lost)
-                echo "::error::Pages deployment ended in $status"
-                exit 1
-                ;;
-            esac
-            if ((SECONDS >= deadline)); then
-              echo "::error::Pages deployment still $status after ${WAIT_SECONDS}s; cancelling"
-              gh api -X POST "repos/$GITHUB_REPOSITORY/pages/deployments/$id/cancel" || true
-              exit 1
-            fi
+          api="repos/$GITHUB_REPOSITORY/pages/deployments"
+          for attempt in $(seq "$ATTEMPTS"); do
+            version=$GITHUB_SHA
+            ((attempt == 1)) || version="$GITHUB_SHA-$attempt"
+            oidc=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+              "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value)
+            echo "::add-mask::$oidc"
+            created=$(gh api -X POST "$api" \
+              -F artifact_id="$ARTIFACT_ID" -f pages_build_version="$version" -f oidc_token="$oidc")
+            id=$(jq -r '.id // (.status_url | select(.) | split("/") | last) // empty' <<<"$created")
+            id=${id:-$version}
+            echo "page_url=$(jq -r .page_url <<<"$created")" >>"$GITHUB_OUTPUT"
+            echo "Attempt $attempt: created deployment $id"
+            deadline=$((SECONDS + ATTEMPT_SECONDS))
+            while :; do
+              sleep 15
+              body=$(gh api "$api/$id") || body='{"status":"unknown"}'
+              status=$(jq -r '.status // ""' <<<"$body")
+              echo "$(date -u +%T) ${status:-<empty> $body}"
+              case $status in
+                succeed) exit 0 ;;
+                deployment_content_failed | deployment_cancelled)
+                  echo "::error::Pages deployment ended in $status"
+                  exit 1
+                  ;;
+                deployment_failed | deployment_lost | "") break ;;
+              esac
+              ((SECONDS < deadline)) || break
+            done
+            echo "::warning::Attempt $attempt gave up (${status:-empty status}); cancelling $id"
+            gh api -X POST "$api/$id/cancel" >/dev/null || true
           done
+          echo "::error::Pages deployment failed after $ATTEMPTS attempts"
+          exit 1
