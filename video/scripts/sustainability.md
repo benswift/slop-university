@@ -53,7 +53,8 @@ advert's small print, and at the turn it becomes the screen.
 Four shots are short Veo 3.1 clips animated from house-style stills (the only
 generated motion; everything else is the composition): the document press
 opening, the campus quad emptying, the server-room technician leaving, and the
-empty lecture theatre going dark. Each counts in the film's own footprint.
+empty lecture theatre going dark. Each counts in the film's own footprint. The
+last three run full frame, with a cream scrim under their captions.
 
 A viewer can arrive or leave at any point of a looping programme, so a QR code
 for `slop.university/sustainability` returns in the top right corner every forty
@@ -261,7 +262,7 @@ _Reads:_ 1. it is still running.
 **VO (horizons-narrator):** Read our full sustainability report on the website.
 [beat 1.0]
 
-_Visual:_ `slop.university/sustainability` appears beside its QR code, full
+_Visual:_ `https://slop.university/sustainability` appears beside its QR code, full
 size.
 
 _Reads:_ 1. where to find the figures.
@@ -271,7 +272,7 @@ send us an email. [beat 2.0]
 
 _Visual:_ under the address, beside the QR code, three more appear, one on each
 word: Bluesky `@slop.university`, LinkedIn `Slop University`, email
-`outputs@slop.university`. They clear with the QR code to the closing lockup:
-the rules grow, then the crest and wordmark fade in.
+`outputs@slop.university`. They hold with the QR code as the music fades, and
+the film ends on them: no closing lockup, since the title card opens the loop.
 
 _Reads:_ 1. where else to find the University.

@@ -133,6 +133,13 @@
   line-height: 1.15;
 }
 
+/* the scene stops at the caption band, which no longer covers it */
+#scene {
+  width: 1920px;
+  height: 890px;
+  overflow: hidden;
+}
+
 /* the band's ground is its own layer (index.html), so footage can run under the captions */
 #stage .captions {
   background: none;

@@ -9,12 +9,11 @@
 import * as M from "./kit/motion/motion.js";
 import * as B from "./kit/motion/brand.js";
 import * as C from "./kit/motion/canvas.js";
-import { lockups, logos } from "./kit/brand/video/brand.js";
+import { logos } from "./kit/brand/video/brand.js";
 
 const THEME = "light";
 const DATA = await fetch("assets/outputs.json").then((r) => r.json());
 const LOGO = await B.image(logos[THEME], "Slop University");
-const MARK = await B.svgText(lockups[THEME].src);
 const AR = 1.414;
 // the clips' playable lengths (video.py mix rewrites every data-duration to the video's)
 const CLIP_S = { quad: 6, hall: 6 };
@@ -44,7 +43,7 @@ const FIG = {
 };
 
 const SOURCES = {
-  outputs: "Outputs published 4 July – 9 November 2026 · slop.university/outputs",
+  outputs: "Outputs published 4 July – 9 November 2026 · https://slop.university/outputs",
   perStaff:
     "3,221 outputs ÷ 41 researchers ÷ 128 days × 365 · Go8 (ANU, Melbourne, Sydney, UNSW, Monash): 75,034 works ÷ 48,777 staff, 2025 (OpenAlex; annual reports)",
   kwh: "3,299 kWh ÷ 3,221 outputs · Claude tokens × Wh per token (Couch 2026) · images: Replicate GPU-seconds × 700 W · PUE 1.2 · a 1.7 L kettle from 20 °C ≈ 0.2 kWh",
@@ -99,12 +98,12 @@ export function build(tl, S, T) {
 
   // ---- the clips (index.html places them in time; here their opacity) ----
   const clip = (id) => document.getElementById(id);
-  const [press, quad, stillQuad, server, serverScrim, hall, stillHall, heroScrim] = [
+  const [press, quad, stillQuad, server, scrim, hall, stillHall, heroScrim] = [
     "clip-press",
     "clip-quad",
     "still-quad",
     "clip-server",
-    "server-scrim",
+    "footage-scrim",
     "clip-hall",
     "still-hall",
     "hero-scrim",
@@ -118,7 +117,7 @@ export function build(tl, S, T) {
   for (const [el, t] of expect)
     if (Math.abs(Number(el.dataset.start) - t) > 0.25)
       throw new Error(`${el.id} starts at ${el.dataset.start}, the voice wants ${t.toFixed(2)}`);
-  M.set([quad, stillQuad, server, serverScrim, hall, stillHall], { opacity: 0 });
+  M.set([quad, stillQuad, server, scrim, hall, stillHall], { opacity: 0 });
 
   // ---- recurring: the source line, the fine print, the QR code ----
   const source = (s, t0, t1) => {
@@ -166,7 +165,7 @@ export function build(tl, S, T) {
     logo: LOGO,
     title: "Greener by Design",
     tagline: "The Slop University Sustainability Initiative",
-    byline: "slop.university/sustainability",
+    byline: "https://slop.university/sustainability",
   });
   M.appear(tl, hero.el, 0.4, { dur: 0.8 });
   M.vanish(tl, hero.el, w(0, "greener"), { dur: 0.6 });
@@ -417,9 +416,10 @@ export function build(tl, S, T) {
 
   // ---- 7: the quad empties ----
   const tQ = Number(quad.dataset.start);
-  tl.to(quad, { opacity: 1 }, tQ, { dur: 0.4 });
+  // full frame, a scrim under its captions
+  tl.to([quad, scrim], { opacity: 1 }, tQ, { dur: 0.4 });
   tl.set(stillQuad, { opacity: 1 }, tQ + CLIP_S.quad - 0.1);
-  tl.to([quad, stillQuad], { opacity: 0 }, T.start(8) - 0.3, { dur: 0.4 });
+  tl.to([quad, stillQuad, scrim], { opacity: 0 }, T.start(8) - 0.3, { dur: 0.4 });
   // the fine print steps aside while the clip plays
   tl.to([...fines], { opacity: 0 }, tQ - 0.2, { dur: 0.3 });
   tl.to([...fines], { opacity: 1 }, T.start(8) - 0.2, { dur: 0.4 });
@@ -692,9 +692,9 @@ export function build(tl, S, T) {
   const tArt = Number(server.dataset.start);
   tl.set(fines, { opacity: 0 }, tArt);
   // the server room runs full frame, a scrim under its captions
-  tl.set([server, serverScrim], { opacity: 1 }, tArt);
+  tl.set([server, scrim], { opacity: 1 }, tArt);
   const tTimer = w(12, "timer.");
-  tl.set([server, serverScrim], { opacity: 0 }, tTimer);
+  tl.set([server, scrim], { opacity: 0 }, tTimer);
   const big = clockAt(scene, cx, H / 2, 170);
   tl.set(big.el, { opacity: 1 }, tTimer);
   // a tick a second from "timer" until the clock leaves
@@ -919,10 +919,11 @@ export function build(tl, S, T) {
   M.appear(tl, [sliver, sliverT], w(18, "greenest"), { dur: 0.6 });
   const tHall = Number(hall.dataset.start);
   tl.set([sliver, sliverT], { opacity: 0 }, tHall);
-  tl.set(hall, { opacity: 1 }, tHall);
+  // full frame, a scrim under its captions
+  tl.set([hall, scrim], { opacity: 1 }, tHall);
   const tHallOut = T.start(19) - 0.2;
   if (tHall + CLIP_S.hall - 0.1 < tHallOut) tl.set(stillHall, { opacity: 1 }, tHall + CLIP_S.hall - 0.1);
-  tl.to([hall, stillHall], { opacity: 0 }, T.start(19) - 0.2, { dur: 0.3 });
+  tl.to([hall, stillHall, scrim], { opacity: 0 }, T.start(19) - 0.2, { dur: 0.3 });
 
   // ---- 19: back into the sizzle, still running ----
   const t19 = T.start(19);
@@ -943,15 +944,16 @@ export function build(tl, S, T) {
   );
   tl.to([...covers, plate2], { opacity: 0 }, T.start(20) - 0.5, { dur: 0.5 });
 
-  // ---- 20, 21: the address and its QR code, where else to find us, then the lockup ----
+  // ---- 20, 21: the address and its QR code, and where else to find us, held to the end
+  // as the music fades (no lockup: the title card opens the loop) ----
   const t20 = T.start(20);
-  const qrBig = M.layer(scene, cx - 560, 220);
+  const qrBig = M.layer(scene, cx - 760, 220);
   const qrImg = M.el("img", { src: "assets/qr.svg", alt: "" }, qrBig);
   Object.assign(qrImg.style, { display: "block", width: "420px", height: "420px" });
   M.set(qrBig, { opacity: 0 });
   M.appear(tl, qrBig, t20, { dur: 0.5 });
   const ways = [
-    ["the full sustainability report", "slop.university/sustainability", "url", t20],
+    ["the full sustainability report", "https://slop.university/sustainability", "url", t20],
     ["Bluesky", "@slop.university", "resolver", w(21, "Bluesky") - 0.2],
     ["LinkedIn", "Slop University", "resolver", w(21, "LinkedIn,") - 0.2],
     ["Email", "outputs@slop.university", "resolver", w(21, "email.") - 0.2],
@@ -959,13 +961,12 @@ export function build(tl, S, T) {
     const y = i === 0 ? 170 : 210 + i * 130;
     const label = text(scene, "kicker", kind);
     const value = text(scene, cls, where);
-    M.set(label, { x: cx - 56, y, opacity: 0 });
-    M.set(value, { x: cx - 60, y: y + 44, opacity: 0 });
+    M.set(label, { x: cx - 256, y, opacity: 0 });
+    M.set(value, { x: cx - 260, y: y + 44, opacity: 0 });
     M.appear(tl, [label, value], at, { dur: 0.45 });
     return [label, value];
   });
-  const tLock = T.end(21) + 2.0 + 6.0;
-  M.vanish(tl, [qrBig, ...ways], tLock - 0.6, { dur: 0.5 });
+  M.vanish(tl, [qrBig, ...ways], Number(S.root.dataset.duration) - 0.8, { dur: 0.6 });
 
   // ---- captions: one segment at a time, held across a short pause ----
   // figures as numerals, units in words, as the Style Manual sets them; the
@@ -1003,8 +1004,4 @@ export function build(tl, S, T) {
     tl.set(c, { opacity: 1 }, cue.start);
     tl.set(c, { opacity: 0 }, next - cue.end < 1.2 ? next : cue.end + 0.5);
   });
-
-  // ---- the lockup ----
-  const end = B.lockup(tl, S.root, S, { mark: MARK, ...lockups[THEME], at: tLock }).el;
-  tl.to(end, { opacity: 0 }, Number(S.root.dataset.duration) - 1.0, { dur: 0.8 });
 }
