@@ -4,10 +4,13 @@ Turn a Raspberry Pi 5 (or any Wayland/labwc box) into a fullscreen, chromeless
 e-signage display that shows the research-led landscape poster playlist from
 [slop.university/signage/landscape](https://slop.university/signage/landscape/).
 
-The route renders the poster PDF to a canvas and self-reloads hourly, so a fresh
-publish appears on the display with no intervention. There is a matching
-`/signage/portrait` route for a portrait-oriented screen --- point the launcher
-at that instead.
+The route renders each poster PDF to a canvas and changes poster every half
+hour, playing a video between posters. It fetches the playlist again before each
+change, so a fresh publish appears on the display with no intervention, and
+reloads itself once a day to pick up changes to the player. To give a panel a
+different interval, append `?every=<seconds>` to its URL in the launcher. There
+is a matching `/signage/portrait` route for a portrait-oriented screen --- point
+the launcher at that instead.
 
 ## What's here
 

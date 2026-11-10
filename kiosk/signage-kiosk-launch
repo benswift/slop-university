@@ -2,8 +2,10 @@
 # Slop University e-signage kiosk: a single fullscreen Chromium window showing
 # the research-led landscape poster playlist. The page
 # (https://slop.university/signage/landscape) renders the poster PDF to a canvas
-# and self-reloads hourly to pick up new posters; systemd restarts this unit if
-# Chromium dies. Install at /usr/local/bin/signage-kiosk-launch.
+# and changes poster every half hour, picking up new posters without reloading;
+# append ?every=<seconds> to SIGNAGE_URL for a different interval. systemd
+# restarts this unit if Chromium dies. Install at
+# /usr/local/bin/signage-kiosk-launch.
 set -u
 
 SIGNAGE_URL="https://slop.university/signage/landscape/"
