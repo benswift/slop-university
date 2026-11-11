@@ -1,0 +1,37 @@
+title: The Smooth Modes Remember
+subtitle: >-
+  Start-up error in constant-step BDF integration of stiff linear systems
+authors:
+  - Odalys Penhallow
+  - Eskil Nwabueze
+  - Clemency Tredinnick
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-11
+publishedAt: 2026-11-11T11:31:18+11:00
+doi: 10.5555/slop.rih5k3
+summary: >-
+  A research poster from the School of Settled Matters follows the error in
+  the starting values of constant-step BDF3 and BDF4 integrations of the test
+  equation y′ = λy, for hλ from −10⁻² to −10⁴, under five starting
+  procedures. In the smooth modes the start-up error rides the principal root
+  and decays only as the solution does, while the stiff modes damp it within
+  ten steps; an implicit Euler start holds both methods to second order, and
+  an L-stable two-stage SDIRK start restores third order to BDF3.
+topic: >-
+  start-up error in BDF multistep integration: the starting values' error
+  persists along the principal root in the smooth components while the stiff
+  components forget it
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 4096
+  height: 2286
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.3akasp
+  - 10.5555/slop.9y1i65
+  - 10.5555/slop.k0snlx
