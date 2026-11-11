@@ -36,8 +36,7 @@ register**.
 
 ## Prompt formula
 
-Every `ben:styled-image-gen` call for project imagery runs with
-`--model banana-2.1` (why: `image-workflow.md`) and uses this shape:
+Every `ben:styled-image-gen` call for project imagery uses this shape:
 
 > Two-ink risograph illustration of \<scene --- activity, apparatus, mood\>.
 > Flat gold and black ink shapes on warm cream paper, visible print grain,

@@ -39,18 +39,12 @@ typst).
    `model: sonnet`. The subagent's job is mechanical --- it shouldn't make
    creative decisions. Sample prompt:
 
-   > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>',
-   > `--model banana-2.1`, `--jpg`, `--resolution <RES>`, `--aspect-ratio <AR>`,
-   > and `--input-image <ref1> ... <refN>`. Run it with an explicit Bash
-   > `timeout` of `600000`. Output to `output/{image-folder}/<name>.jpg` (use
-   > `cover.jpg` for the cover, `inline-N.jpg` for inlines, `feature.jpg` for a
-   > poster feature). Report the output path or any errors. Do nothing else.
-
-   **The model is `banana-2.1`, not the script's default Pro.** On this house
-   style it matches Pro's palette, grain and composition at every size
-   (side-by-side, including 100% crops of 4K covers) for about a third of the
-   price: $0.05 vs $0.15 at 2K, $0.11 vs $0.30 at 4K. Imagery is the bulk of the
-   project's Replicate spend.
+   > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>', `--jpg`,
+   > `--resolution <RES>`, `--aspect-ratio <AR>`, and
+   > `--input-image <ref1> ... <refN>`. Run it with an explicit Bash `timeout`
+   > of `600000`. Output to `output/{image-folder}/<name>.jpg` (use `cover.jpg`
+   > for the cover, `inline-N.jpg` for inlines, `feature.jpg` for a poster
+   > feature). Report the output path or any errors. Do nothing else.
 
    **The explicit timeout is load-bearing --- do not drop it.**
    `styled-image-gen` already survives the model's capacity errors on its own:
