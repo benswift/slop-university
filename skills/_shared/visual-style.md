@@ -36,7 +36,8 @@ register**.
 
 ## Prompt formula
 
-Every `ben:styled-image-gen` call for project imagery uses this shape:
+Every `ben:styled-image-gen` call for project imagery runs with
+`--model banana-2.1` (why: `image-workflow.md`) and uses this shape:
 
 > Two-ink risograph illustration of \<scene --- activity, apparatus, mood\>.
 > Flat gold and black ink shapes on warm cream paper, visible print grain,
@@ -70,10 +71,10 @@ and between runs.
 - **the Vice-Chancellor inverts the guard, by consent**: his portrait
   (`canon/headshots/ben-swift.jpg`) is worked from real reference photographs of
   the artist and is meant to resemble him, which is allowed for exactly this one
-  person and no other. It still obeys the two-ink style in every other respect
-  --- flat shapes, no photorealism --- so it sits in the same visual register as
-  the fictional roster. The same figure may appear incidentally in the
-  background of a scene (a lecture hall, a corridor, a quad); keep him
+  person and no other. It still obeys the two-ink style in every other
+  respect --- flat shapes, no photorealism --- so it sits in the same visual
+  register as the fictional roster. The same figure may appear incidentally in
+  the background of a scene (a lecture hall, a corridor, a quad); keep him
   incidental and unlabelled, and never let an image carry his name
 
 ## Person heroes (roster profile banners)

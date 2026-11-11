@@ -39,23 +39,29 @@ typst).
    `model: sonnet`. The subagent's job is mechanical --- it shouldn't make
    creative decisions. Sample prompt:
 
-   > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>', `--jpg`,
-   > `--resolution <RES>`, `--aspect-ratio <AR>`, and
-   > `--input-image <ref1> ... <refN>`. Run it with an explicit Bash `timeout`
-   > of `600000`. Output to `output/{image-folder}/<name>.jpg` (use `cover.jpg`
-   > for the cover, `inline-N.jpg` for inlines, `feature.jpg` for a poster
-   > feature). Report the output path or any errors. Do nothing else.
+   > Invoke the `ben:styled-image-gen` skill with prompt '\<p\>',
+   > `--model banana-2.1`, `--jpg`, `--resolution <RES>`, `--aspect-ratio <AR>`,
+   > and `--input-image <ref1> ... <refN>`. Run it with an explicit Bash
+   > `timeout` of `600000`. Output to `output/{image-folder}/<name>.jpg` (use
+   > `cover.jpg` for the cover, `inline-N.jpg` for inlines, `feature.jpg` for a
+   > poster feature). Report the output path or any errors. Do nothing else.
+
+   **The model is `banana-2.1`, not the script's default Pro.** On this house
+   style it matches Pro's palette, grain and composition at every size
+   (side-by-side, including 100% crops of 4K covers) for about a third of the
+   price: $0.05 vs $0.15 at 2K, $0.11 vs $0.30 at 4K. Imagery is the bulk of the
+   project's Replicate spend.
 
    **The explicit timeout is load-bearing --- do not drop it.**
-   `styled-image-gen` already survives Nano Banana Pro's capacity errors on its
-   own: it retries transient failures (`--retries`, 15s base backoff) and falls
-   back to `banana-2`. But that recovery legitimately takes minutes --- 15s +
-   30s of backoff plus two or three generations --- and Bash's DEFAULT timeout
-   is 120s, which kills the tool part-way through its own retry and hands the
-   subagent a bare failure. The agent then re-runs the whole slot from scratch.
-   Measured across three consecutive publish ticks, that turned an image phase
-   that should cost about one call (~40s, since the slots run in parallel) into
-   6--8 minutes for three or four images: three land inside a minute, then a ~6
+   `styled-image-gen` already survives the model's capacity errors on its own:
+   it retries transient failures (`--retries`, 15s base backoff) and falls back
+   to `banana-2`. But that recovery legitimately takes minutes --- 15s + 30s of
+   backoff plus two or three generations --- and Bash's DEFAULT timeout is 120s,
+   which kills the tool part-way through its own retry and hands the subagent a
+   bare failure. The agent then re-runs the whole slot from scratch. Measured
+   across three consecutive publish ticks, that turned an image phase that
+   should cost about one call (~40s, since the slots run in parallel) into 6--8
+   minutes for three or four images: three land inside a minute, then a ~6
    minute gap. Ten minutes is not a target, it is headroom; a healthy call still
    returns in well under a minute.
 
