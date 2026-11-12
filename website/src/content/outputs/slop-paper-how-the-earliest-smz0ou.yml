@@ -1,0 +1,37 @@
+title: Precedent at the Call Site
+subtitle: How Early Callers Fix the Meaning of Ambiguously Documented Functions
+authors:
+  - Anselm Threlkeld
+  - Odalys Penhallow
+  - Mirela Hanke
+preset: paper
+school: School of Settled Matters
+date: 2026-11-12
+publishedAt: "2026-11-12T17:32:18+11:00"
+doi: 10.5555/slop.smz0ou
+summary: >-
+  A paper from the School of Settled Matters and the School of Continuous
+  Improvement codes 287 ambiguously documented functions in a fourteen-year
+  proprietary monorepo and classifies the reading taken at each of their
+  3,418 exercising call sites, finding that later callers took the first
+  exercising caller's reading 82.6% of the time, against 54.0% agreement with
+  a panel reading the docstring cold. Of 152 later docstring revisions, 131
+  stated the prevailing reading and 12 the minority one, and none overturned
+  a reading after a test had pinned it.
+topic: >-
+  how the earliest call sites fix the working meaning of an ambiguously
+  documented function in a long-lived codebase, and how rarely a later
+  docstring revision overturns it
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.5dtg8k
+  - 10.5555/slop.7p50dp
+  - 10.5555/slop.lxi4nn
+  - 10.5555/slop.s2mj66
