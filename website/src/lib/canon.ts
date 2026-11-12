@@ -6,9 +6,9 @@ import { newestFirst } from "./chronology";
 // person → school, school → researchers, entity → outputs --- in one place so
 // the pages stay declarative.
 
-// A profile page's subject is either a fictional roster researcher or the real
-// Vice-Chancellor; the two collections share a schema, so the pages don't care
-// which. Everything that resolves an *author* or *grantee*, by contrast, reads
+// A profile page's subject is either a fictional roster researcher or a real
+// member of the leadership; the two collections share a schema, so the pages
+// don't care which. Everything that resolves an *author* or *grantee*, by contrast, reads
 // the roster alone --- see outputsByAuthor / grantsByGrantee.
 export type Person = CollectionEntry<"people"> | CollectionEntry<"leadership">;
 export type School = CollectionEntry<"schools">;

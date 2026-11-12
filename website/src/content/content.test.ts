@@ -72,8 +72,8 @@ const researchers = (
   }
 ).researchers;
 
-// University leadership --- the one real person in the canon, held in a file of
-// his own so no run drawing authors "from canon/roster.yml" can reach him.
+// University leadership --- the real people in the canon, held in a file of
+// their own so no run drawing authors "from canon/roster.yml" can reach them.
 const leadership = (
   parseYaml(readFileSync(join(canonDir, "leadership.yml"), "utf8")) as {
     leadership: { id: string; name: string; school: string; headshot: string }[];
@@ -420,13 +420,12 @@ describe("roster", () => {
   });
 });
 
-// The Vice-Chancellor is the one real person in the canon. These checks are the
-// mechanical half of the rule that keeps him out of the fiction's output: he
-// renders a profile page like anyone else, but the institution never credits
-// him with work it generated.
+// The leadership (Vice-Chancellor and Council) are the real people in the
+// canon. These checks are the mechanical half of the rule that keeps them out of
+// the fiction's output: each renders a profile page like anyone else, but the
+// institution never credits them with work it generated.
 describe("leadership", () => {
-  it("holds exactly one entry, kept out of the roster file", () => {
-    expect(leadership).toHaveLength(1);
+  it("is kept out of the roster file", () => {
     for (const l of leadership) {
       expect(
         researchers.map((r) => r.id),

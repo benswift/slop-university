@@ -97,16 +97,17 @@ Slop University is a persistent fiction: its people, schools, and units live in
   the nearest institution is the likeliest collision), a house-style headshot in
   `canon/headshots/`, and a landscape person hero in `canon/heroes/people/`, all
   eyeballed for accidental real-person likeness.
-- `canon/leadership.yml` --- the University's leadership, and the **one place a
-  real person appears anywhere in the project**: Ben Swift, the artist behind
-  Slop University, is its Vice-Chancellor. It is separate from the roster so
-  that no run can credit a real academic with fabricated scholarship. He is
-  never an author, grantee, quoted researcher, or named contact. Generated
-  documents may invoke the **office** ("the Vice-Chancellor", "the Office of the
-  Vice-Chancellor"); never the name. The one mechanical exception:
-  `ops/sync-atproto.py` lists his real account as a contributor under the
-  display name "Office of the Vice-Chancellor". The file takes no further
-  entries.
+- `canon/leadership.yml` --- the University's leadership, and the **one place
+  real people appear anywhere in the project**, each by consent: Ben Swift, the
+  artist behind Slop University, is its Vice-Chancellor, and the University
+  Council lists real supporters of the mission. It is separate from the roster
+  so that no run can credit a real academic with fabricated scholarship. No one
+  in it is ever an author, grantee, quoted researcher, or named contact.
+  Generated documents may invoke the **office** ("the Vice-Chancellor") or the
+  **body** ("the University Council"); never a name. The one mechanical
+  exception: `ops/sync-atproto.py` lists the Vice-Chancellor's real account as a
+  contributor under the display name "Office of the Vice-Chancellor". The file's
+  header says what a new Council member needs.
 - `canon/schools.yml` --- the org chart: school, unit, lab, program, and
   initiative names, with their blurbs. `canon/schools.md` is the sibling
   authoring doctrine (naming register, collision check). Never invent an org

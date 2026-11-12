@@ -1,9 +1,11 @@
 # The University's leadership --- deliberately NOT the researcher roster.
 #
-# This file holds one record, and it is the single place in the entire canon
-# where a REAL person appears. Ben Swift is the artist behind Slop University
+# This file is the single place in the entire canon where REAL people appear,
+# each by their own consent. Ben Swift is the artist behind Slop University
 # (see the colophon) and its Vice-Chancellor; the role is not a fiction, since
-# he does in fact direct what this institution publishes.
+# he does in fact direct what this institution publishes. The members of the
+# University Council are real people who support the mission and have agreed
+# to be listed as such.
 #
 # Why a separate file rather than a `leadership:` key in roster.yml: every
 # preset blueprint tells its run to draw authors from `canon/roster.yml`. Kept
@@ -14,24 +16,27 @@
 #
 # Rules for this file:
 #
-# - it takes no further entries. The University has exactly one real person and
-#   there is no reason for it to acquire a second.
-# - the Vice-Chancellor is NEVER an author, co-author, grantee, or named
-#   contact on any generated artefact. Generated documents may invoke the
-#   OFFICE ("the Vice-Chancellor", "the Office of the Vice-Chancellor") in the
+# - entries are the Vice-Chancellor and members of the University Council, and
+#   nobody is added without their consent. A new Council member needs a
+#   headshot and profile hero worked from their own photographs (see
+#   skills/_shared/visual-style.md), and their id added to the denylist in
+#   ops/publish-lib.sh so the publish tick never regenerates either image.
+# - no one listed here is EVER an author, co-author, grantee, quoted
+#   researcher, or named contact on any generated artefact. Generated documents
+#   may invoke the OFFICE ("the Vice-Chancellor", "the Office of the
+#   Vice-Chancellor") or the BODY ("the University Council") in the
 #   institutional register --- a foreword, a delegated authority, a signature
-#   block --- but never the name. One exception, made by a script and never by
-#   a run: every standard.site document ops/sync-atproto.py writes to ATproto
-#   lists his real account as a contributor, with the role "Vice-Chancellor"
-#   and the display name "Office of the Vice-Chancellor". The account is
-#   linked; the name is never shown, so the rule holds for every visible
-#   string.
+#   block --- but never a name. One exception, made by a script and never by a
+#   run: every standard.site document ops/sync-atproto.py writes to ATproto
+#   lists the Vice-Chancellor's real account as a contributor, with the role
+#   "Vice-Chancellor" and the display name "Office of the Vice-Chancellor".
+#   The account is linked; the name is never shown, so the rule holds for every
+#   visible string. Council members get no such link.
 # - the schema is the roster's, so the site's people collection unions the two
 #   without a second shape to maintain (see website/src/content.config.ts).
-# - the bio stays in institutional register and is factually true. The only
-#   tell is the `web` link out. That is the intended design: the site breaks
-#   frame twice, once on the colophon and once here, and here it does it
-#   quietly.
+# - bios stay in institutional register and are factually true. The only tell
+#   is the `web` link out. That is the intended design: the site breaks frame
+#   on the colophon and, quietly, here.
 
 leadership:
   - id: ben-swift
@@ -50,3 +55,21 @@ leadership:
       University regards as complementary to its own programme. He convenes no
       committee that meets, supervises no students, holds no grant, and has
       authored none of the research collected on this site.
+  - id: tony-hosking
+    name: Tony Hosking
+    title: Member of Council
+    school: University Council
+    email: tony.hosking@slop.university
+    web: https://comp.anu.edu.au/people/antony-hosking/
+    displayOrder: 1
+    headshot: canon/headshots/tony-hosking.jpg
+    bio: >-
+      Professor Hosking joined the University Council as its first member,
+      lending his name to the University's mission. He is a professor of
+      computing and directs a school of computing at another institution. His
+      scholarship concerns automatic memory management: how a running system
+      identifies what it has produced and no longer needs, and reclaims it. He
+      is a co-author of the standard reference on the subject, a field the
+      University regards as bearing directly on its own operations. He has
+      authored none of the research collected on this site and holds none of
+      its grants.

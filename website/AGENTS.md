@@ -31,19 +31,20 @@ path allowlist, and resets violating paths.
   line, `/girt/`, and the human-authored recognition news post): checkable, and
   it checks out against the self-published GIRT table and The World University
   Index. All three surfaces are human-maintained --- the tick never edits
-  `girt.md` and never states a ranking itself (`skills/publish/comms.md`).
-  **The sustainability report** (`/sustainability/`,
+  `girt.md` and never states a ranking itself (`skills/publish/comms.md`). **The
+  sustainability report** (`/sustainability/`,
   `src/content/pages/sustainability.md`): the University's real energy and
   carbon figures, which check out against `analysis/sustainability/` and the
   sources the page cites. Human-maintained: the tick never edits it and never
   states its figures anywhere else.
 - **No real people.** Every named person comes from `canon/roster.yml` (with
   their canonical title and school); every org unit from `canon/schools.yml`.
-  The single exception is the Vice-Chancellor in `canon/leadership.yml`, who is
-  a real person (the artist) and is therefore outside the roster and outside the
-  tick's reach: never credit him with an output, a grant, or a quote, never add
-  a second leadership entry, and in page prose name the office rather than the
-  occupant. His profile page already exists; the agent does not edit it.
+  The exceptions are the Vice-Chancellor and University Council members in
+  `canon/leadership.yml`, who are real people and are therefore outside the
+  roster and outside the tick's reach: never credit them with an output, a
+  grant, or a quote, never add a leadership entry, and in page prose name the
+  office or the Council rather than a person. Their profile pages already exist;
+  the agent does not edit them.
 - **DOIs only under `10.5555/slop.<seed>`**, resolving via the site's own
   `/doi/` route. No external registry, ever.
 - **No Acknowledgement of Country** anywhere on the site (real institutional
@@ -105,7 +106,7 @@ built by hand, not grown by the tick.
   `../canon/leadership.yml` on the same schema; `getPeople()` unions it with
   `people` for the `/people/` pages, while everything resolving an author or
   grantee reads the roster alone. That split is the mechanical guarantee that a
-  run drawing authors "from `canon/roster.yml`" can never reach the real person
+  run drawing authors "from `canon/roster.yml`" can never reach the real people
   in `leadership.yml`, and the content test asserts it. There are no
   people/school files under `src/` --- editing the canon is how those pages
   change. Headshots resolve from `canon/headshots/` via `src/lib/headshots.ts`.

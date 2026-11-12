@@ -58,14 +58,16 @@ is invented and collision-checked against real people; the headshots and every
 other image are generated illustrations. No real institution's marks appear
 anywhere.
 
-Exactly one real person appears on this site, and it is the artist. He is the
-University's [Vice-Chancellor](/people/ben-swift/) --- not as a joke, since he
-does in fact decide what this institution publishes. It is the only place the
-two layers touch: the researchers below him do not exist and the work they
-produce is generated, while the office at the top of the org chart is occupied,
-accountable, and makes no difference to the output whatsoever. He authors
-nothing here, holds none of its grants, and is named nowhere in the documents
-themselves --- those invoke the office and never its occupant.
+The real people on this site are at the top of the org chart, and each is there
+by consent. The artist is the University's
+[Vice-Chancellor](/people/ben-swift/) --- not as a joke, since he does in fact
+decide what this institution publishes. Beside him sits the University Council,
+real people who support the mission and have agreed to be listed as such. It is
+the only place the two layers touch: the researchers below them do not exist and
+the work they produce is generated, while the offices above are occupied,
+accountable, and make no difference to the output whatsoever. None of them
+authors anything here or holds any of its grants, and none is named in the
+documents themselves --- those invoke the office or the Council, never a name.
 
 This is not a comment on any particular institution. It is a comment about
 systems, and about the things those systems incentivise.

@@ -334,11 +334,12 @@ select_base() {
 #
 # The denylist carves the out-of-fiction pages (the colophon, and the
 # sustainability report, whose real figures are human-maintained) back out of
-# the otherwise-allowed pages/ dir, and likewise the Vice-Chancellor:
-# canon/leadership.yml is already outside the allowlist, but his portrait and
-# profile hero sit INSIDE the allowlisted canon/headshots/ and canon/heroes/
-# trees, and they are the one likeness in the project worked from a real
-# person's photographs. The tick never regenerates them.
+# the otherwise-allowed pages/ dir, and likewise the real people in
+# canon/leadership.yml: the file is already outside the allowlist, but their
+# portraits and profile heroes sit INSIDE the allowlisted canon/headshots/ and
+# canon/heroes/ trees, and they are the only likenesses in the project worked
+# from real people's photographs. The tick never regenerates them; a new
+# leadership id goes in the alternation below.
 ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.yml|schools\.yml|headshots/|heroes/))'
 # A video candidate (preset video-*, rung 2V) also commits its sources: its
 # videos entry, its script and its project directory under video/, each named
@@ -346,7 +347,7 @@ ALLOWLIST_RE='^(website/src/content/(news|outputs|pages|grants)/|canon/(roster\.
 # alone, so no other rung can write under video/, and no run can reach the
 # kit, the style guide or the voices.
 VIDEO_ALLOWLIST_RE='^(website/src/content/videos/slop-(explainer|promo)-[a-z0-9-]+\.yml$|video/scripts/slop-(explainer|promo)-[a-z0-9-]+\.md$|video/slop-(explainer|promo)-[a-z0-9-]+/)'
-DENYLIST_RE='(^|/)colophon\.md$|^website/src/content/pages/sustainability\.md$|^canon/leadership\.yml$|(^|/)ben-swift\.(jpg|avif)$'
+DENYLIST_RE='(^|/)colophon\.md$|^website/src/content/pages/sustainability\.md$|^canon/leadership\.yml$|(^|/)(ben-swift|tony-hosking)\.(jpg|avif)$'
 # The private-brand firewall: no agent commit may reference the ANU brand
 # layer, the private preset overlay, or the non-redistributable top-level
 # references/*.avif photos. (references/slop-style/ is fine and unmatched ---

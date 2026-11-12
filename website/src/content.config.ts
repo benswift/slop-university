@@ -35,11 +35,11 @@ const people = defineCollection({
   schema: personSchema.extend({ collisionChecked: z.iso.date() }),
 });
 
-// University leadership --- canon/leadership.yml, one entry: the real
-// Vice-Chancellor. A SEPARATE collection rather than another key in the roster
-// file, because every preset blueprint tells its run to draw authors from
-// canon/roster.yml: kept apart, a real name cannot be rolled into an author
-// line. getPeople() unions the two for the /people/ pages; nothing that
+// University leadership --- canon/leadership.yml: the real Vice-Chancellor and
+// University Council members. A SEPARATE collection rather than another key in
+// the roster file, because every preset blueprint tells its run to draw authors
+// from canon/roster.yml: kept apart, a real name cannot be rolled into an
+// author line. getPeople() unions the two for the /people/ pages; nothing that
 // resolves authors or grantees reads this collection.
 const leadership = defineCollection({
   loader: file("../canon/leadership.yml", {
