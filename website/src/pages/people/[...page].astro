@@ -38,7 +38,7 @@ const { page } = Astro.props;
   <ul class="people-grid" role="list">
     {page.data.map((person) => {
       const portrait = headshot(person.id);
-      return <li class="person-card">
+      return <li class="person-card" id={person.id}>
         <a href={`/people/${person.id}/`}>
           {portrait && (
             <Image
