@@ -11,11 +11,6 @@ description:
 
 # from-preset
 
-Orchestrate a satirical-document run from a named preset. The preset declares
-**what** the doc looks like (identity, skeleton, reservoirs, checklist); this
-skill drives **how** the run executes (planning, writing, imagery, charts,
-compile, parity).
-
 ## Inputs
 
 The slash command argument splits on the first whitespace:
@@ -35,9 +30,7 @@ how the name resolves.
 ## Available presets
 
 Run `ls skills/from-preset/presets/` (and `ls private/*/presets/` if present) to
-discover what's currently defined. As of this writing: `strategy.md`,
-`impact-report.md`, `research-poster.md`, `marketing-poster.md`, `paper.md`,
-`brochure.md`, `thesis.md`, and `banner.md` in `presets/`.
+discover what's currently defined.
 
 Each preset is a single self-contained markdown file. To add a new one, drop a
 `presets/<name>.md` file shaped like the existing ones --- the authoring guide
@@ -49,25 +42,25 @@ Each preset declares a **format** in its "Doc identity" --- `booklet` (the
 default), `poster`, `paper`, or `thesis`. The format determines which of the
 booklet-shaped workflow steps and checklist items apply.
 
-- **`booklet`** (`strategy`, `impact-report`, `brochure`) --- a multi-page
+- **`booklet`** --- a multi-page
   portrait booklet: cover image, auto-generated contents, body sections, and a
   full-page back cover; no manual page breaks (the template breaks after the
   contents); even page count, parity-fixed. The steps below assume this format
   unless a preset says otherwise.
-- **`poster`** (`research-poster`, `marketing-poster`, `banner`) --- a
+- **`poster`** --- a
   single-page poster: no cover, no contents, no back cover, no manual page
   breaks. It drives `slop(...)` directly for a light, single page (landscape or
   portrait per the layout roll). Steps 4, 6, and 7 and several generic checklist
   items have poster-specific behaviour, flagged inline below; the preset's
   blueprint carries the details.
-- **`paper`** (`paper`) --- an A4 two-column conference-style paper: no cover,
+- **`paper`** --- an A4 two-column conference-style paper: no cover,
   contents, or back cover; multi-page (4-8) with **no parity requirement**; a
   verified real bibliography step (the poster verifies its shorter references
   list the same way). Treat the poster-format workflow tags as applying (no
   booklet furniture), except the page-fit check: the paper's own blueprint
   replaces the one-page rule with its 4-8 page range and bibliography
   verification.
-- **`thesis`** (`thesis`) --- an A4 single-column doctoral thesis: no cover,
+- **`thesis`** --- an A4 single-column doctoral thesis: no cover,
   back cover, parity requirement or dark variant; 100-180 pages, its chapters
   written as separate files under `output/<prefix>-<slug>-<seed>/` and pulled
   into the master document with absolute-from-root `#include`s; a verified real
@@ -82,9 +75,6 @@ When a step or checklist item is format-specific, it's tagged "(booklet format)"
 or "(poster format)".
 
 ## Workflow
-
-Run these in order. The preset blueprint fills in the doc-specific details at
-each step.
 
 1. **Parse inputs.**
    - Split the slash-command argument on the first whitespace into
@@ -116,23 +106,11 @@ each step.
      `~/.local/share/typst/packages/local/university-typst-template/0.1.0/`)
 
 3. **Plan the document** (internal, not written to disk). Roll the preset's
-   variation upfront, in the order the preset's "Per-run variation rolls"
-   section lists them. Typical order:
-   1. Document persona (if the preset has one --- e.g. impact-report)
-   2. Section names from per-section reservoirs
-   3. Structural counts (e.g. pillar count, impact-area count, vignette count,
-      KPI count, persona-scoped where applicable)
-   4. Optional sections / persona-specific extras
-   5. Pillar- or area-internal scaffolding labels
-   6. Imagery prompt assignment (cover + inlines + parity-fix spare; preset
-      declares the count and shape)
-   7. Chart count / placement / types (only if the preset declares charts)
-   8. Partner / participant pre-rolls (only if the preset declares one)
-   9. Substance --- pillar/area names, KPIs/metrics, vignettes, foreword
-      opening, vision, image prompts. The steering prompt drives any element the
-      preset designates as steerable; the institutional voice (per `genre.md`)
-      is preserved throughout.
-   10. Word-budget apportionment across the resulting section list.
+   variation upfront, in the order its "Per-run variation rolls" section lists
+   them. Then settle the substance: the steering prompt drives any element the
+   preset designates as steerable, and the institutional voice (per `genre.md`)
+   is preserved throughout. Apportion the word budget across the resulting
+   section list.
 
 4. **Write `output/<prefix>-<slug>-<seed>.typ`** in one pass. Use the preset's
    "Typst structure" skeleton and include the `#set document(title: ...)` block
@@ -217,18 +195,12 @@ format.
       No other metadata fields populated --- no author, description, keywords,
       date, Claude attribution. Verify with `pdfinfo`
 - [ ] Holds every floor in `genre.md`, and its register without a break
-- [ ] _(booklet format)_ No `#pagebreak()` calls anywhere in the typst source
-      (the template breaks after the contents)
 - [ ] _(booklet format)_ Cover image set; inline figures placed within sections
       (between paragraphs), not at section boundaries with forced breaks
 - [ ] _(booklet format)_ Back cover (`#slop-back-cover()` with the preset's
       config) is the last call in the file
-- [ ] _(booklet format)_ **Page count is even** and within the preset's declared
-      range (`pdfinfo … | grep Pages`)
-- [ ] _(poster format)_ Single page (`pdfinfo` shows 1 page), in the orientation
-      the preset rolled; no cover, contents, back cover, or manual page breaks;
-      figures stay within their column (the research-poster preset uses its own
-      `chartfig` helper, not `slop-inline-figure`)
+- [ ] _(poster format)_ Figures stay within their column (the research-poster
+      preset uses its own `chartfig` helper, not `slop-inline-figure`)
 
 ## When something goes wrong
 
@@ -238,20 +210,5 @@ format.
   at `brand/slop-university-brand/0.1.0` in this repo;
   `@local/university-typst-template:0.1.0` at `0.1.0/` in the
   `university-typst-template` repo).
-- **Figures isolated on near-empty pages** _(booklet format)_: there are stray
-  `#pagebreak()` calls in the typst. Booklets carry none at all; remove any you
-  find.
-- **Odd page count after first compile** _(booklet format)_: expected --- this
-  is what the parity-fix step is for. Follow the preset's spare-inline path;
-  small content tweaks are an acceptable fallback if the figure gets absorbed by
-  existing slack. _(poster format)_ the target is a single page --- see the
-  preset's one-page fit step.
 
 Preset-specific failure modes live in each preset's blueprint.
-
-## What this skill is not
-
-- Not a content engine for arbitrary source material. For faithful typesetting
-  of an existing URL or document, use `../from-source/SKILL.md` instead.
-- Not the place to define a preset's content rules --- those belong in the
-  preset's blueprint file. This skill is workflow only.
