@@ -242,447 +242,73 @@ only if the layout already has room; booklets don't carry inline DOIs.
 
 ### Companion press release + news post
 
-Write the press release per `comms.md` (the media-release register: quotes from
-roster researchers, institutional pride, hedged-commitment discipline --- no
-verifiable numbers). Then:
-
-- **News post** → `website/src/content/news/<date>-<slug>.md` with frontmatter
-  `title` (headline, comms register), `date` (today, ISO), `description`
-  (one-sentence standfirst), `output` (the outputs entry id, which is the run
-  id). Body: the press release.
-- **Outputs entry** → `website/src/content/outputs/<run-id>.yml` with: `title`
-  (the artefact's main title --- the punchy part before the colon; it becomes
-  the hero heading and listing card), `subtitle` (optional; the explanatory part
-  after the colon, shown as a deck under the heading --- split an academic
-  "Main: Subtitle" title here rather than storing the whole string in `title`),
-  `authors` (the roster authors used), `preset`, `school` (the lead author's
-  school), `date`, `publishedAt` (the exact `SLOPU_PUBLISHED_AT` value supplied
-  by the unattended wrapper; omit only for a manual run without it), `doi`,
-  `summary` (1-2 sentence abstract of the fictional work, institutional
-  register --- not the press release's standfirst), `topic` (the steering line),
-  `pdfDark` (poster-format runs only --- `research-poster`, `marketing-poster`:
-  `true`, meaning a dark signage render exists --- see staging below), `pages`
-  (from pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
-  thumbnail and hero carry no yml field --- they resolve by matching a file
-  basename to the entry id (see below).
-- **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
-  `grantees` include one of this output's authors, its `date` precedes the
-  output's, and its remit plausibly covers the topic, list its entry id under
-  `grants:` in the outputs entry --- the landing page renders the funding
-  acknowledgement and the dashboard counts the income. Attach every grant that
-  qualifies (a mundane study propped up by several internal schemes is the genre
-  working); omit the field when none does. Never invent a grant here ---
-  awarding one is action 2I.
-- **Citation harvest.** Run `ops/extract-citations.py --id <run-id> --write`. It
-  reads the DOIs out of the compiled `.typ`/`.bib` you just produced and records
-  them as `cites:` on the entry --- the edges the site counts citations, "cited
-  by" lists, and h-indices from. Do not hand-write the field: the source is the
-  evidence, and a hand-written edge with nothing printed behind it is a
-  fabricated citation. If the run cited prior canon and the script writes
-  nothing, the DOIs never made it into the document --- fix the document, not
-  the ledger. The sources are gitignored and the press worktree is reset each
-  tick, so an edge not harvested now is lost.
-
-### Stage assets into website/
-
-- Stage the final PDF into the staging dir, downsampling it on the way in ---
-  never copy it verbatim. The compiled PDF embeds imagery at ~360 PPI and runs
-  1--5 MB; the served copy only needs screen resolution.
-
-  **Resolve the staging dir once, as an absolute path, and use it everywhere:**
-
-  ```sh
-  STAGING="${SLOPU_PENDING_DIR:-$(git rev-parse --show-toplevel)/data/pending-uploads}"
-  mkdir -p "$STAGING"
-  ```
-
-  A concurrent generator slot sets `SLOPU_PENDING_DIR` to its own
-  `data/pending-uploads/<run-id>/`, so two runs staging at the same moment
-  cannot see or clobber each other's files; unset, this is the single staging
-  root an interactive run uses. Either way it is ABSOLUTE, which is the point: a
-  bare `data/pending-uploads/…` resolved against `website/` silently creates
-  `website/data/pending-uploads/`, the wrapper finds nothing to upload, and the
-  whole tick is rescued and thrown away. That went wrong for a run of ticks, so
-  use `$STAGING` and never a relative path.
-
-  `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sColorConversionStrategy=RGB -sOutputFile="$STAGING/<run-id>.pdf" ./output/pdf/<group>/<run-id>.pdf`
-
-  (~80% smaller on the image-heavy formats, visually identical at reading size;
-  the PDF metadata title survives the round-trip). Keep the explicit RGB
-  strategy: without it `/ebook` falls back to a legacy one that paints
-  translucent fills opaque on the Ghostscript mise.toml pins. The
-  full-resolution original stays in gitignored `output/pdf/<group>/`. Confirm
-  the file landed before moving on --- `ls "$STAGING"`.
-
-  PDFs are **not committed** and do not live under `website/public/` --- they
-  are served from the bucket at `pdf.slop.university` (why:
-  `website/src/lib/pdfs.ts`). The staging dir is the gitignored handoff channel:
-  you stage the file there, and the wrapper uploads it and only then pushes.
-  Same trust split as the social post --- the agent composes, the wrapper
-  publishes --- and it is what makes a failed upload abort the tick rather than
-  publish an entry pointing at a missing object. Never write to
-  `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
-
-  The key is the run id, so nothing records a path: the entry carries no `pdf`
-  field at all.
-
-- **Dark sibling (poster-format runs: `research-poster`,
-  `marketing-poster`)** --- the from-preset step also compiled
-  `output/pdf/<group>/<run-id>-dark.pdf` (same source, `--input theme=dark`);
-  stage it through the identical gs downsample → `"$STAGING/<run-id>-dark.pdf"`
-  and set `pdfDark: true` in the outputs entry. The signage endpoints prefer it;
-  every other surface (landing page, DOI, downloads) keeps using the light PDF.
-  The thumbnail and hero are rendered from the light variant as before.
-- Thumbnail --- the PDF's first page, rasterised here at publish time (the image
-  pipeline resizes rasters but cannot render a PDF):
-  `typst compile --root . --pages 1 --format png --ppi 144 output/<run-id>.typ /tmp/<run-id>-thumb.png`,
-  then encode its rung ladder into the staging tree (the encoder resolves its
-  own destination --- the repo's staging dir, or `$SLOPU_PENDING_DIR` when a
-  generator slot set one --- so it is cwd-independent):
-  `ops/encode-images.py encode thumb --source /tmp/<run-id>-thumb.png --id <run-id>`.
-  The command prints a `thumb:` dims snippet --- copy it verbatim into the
-  outputs entry's frontmatter. Nothing is committed under `website/src/assets/`;
-  the wrapper's allowlist rejects it.
-- Hero --- a landscape 16:9 banner in the two-ink house style, reused on the
-  output landing page, its outputs-listing card, and the announcing news post (a
-  post that announces an output has no image of its own; it inherits that
-  output's hero. A post announcing no output --- a grant award or an
-  institutional notice --- carries its own; see 2H and 2I). Author the prompt
-  per `skills/_shared/visual-style.md` and pick refs per
-  `skills/_shared/image-workflow.md`; generate at `--aspect-ratio 16:9`
-  `--resolution 2K` (the largest encoded rung is 2560 px; 2K feeds it with room
-  to spare), then encode its ladder + og card from the repo root:
-  `ops/encode-images.py encode hero --source output/<image-folder>/<name>.jpg --id <run-id>`
-  and copy the printed `hero:` dims snippet into the outputs entry's
-  frontmatter.
-
-Like the PDF, the images are served from a bucket (img.slop.university) keyed by
-the run id --- the entry records only the intrinsic dims; the wrapper validates
-that every new entry has its rungs staged and uploads them. The site derives all
-URLs and srcsets from the dims (`src/lib/images.ts`).
-
-The outputs entry is the canonical record of the run: the dedup check reads the
-collection, the outputs page charts it, and the People/Schools pages join on its
-`authors` and `school`.
-
-**Files this action commits:** the news post and the outputs entry (with
-`hero:`/`thumb:` dims). The PDF and every image go to `$STAGING`, never into the
-commit (see §4).
+Read `outputs-entry.md` (sibling file), which covers this step and "Stage assets into website/", before writing the news post and outputs entry.
 
 ---
 
 ## 2B. Refine a researcher bio
 
-Rewrite the thin `bio` of the chosen `canon/roster.yml` researcher into a proper
-2-3 sentence profile in the institutional register (`skills/from-preset/`
-`genre.md`): what they research, the framing their school favours, the unit or
-agenda they anchor. No verifiable claims; no invented collaborators outside the
-canon; keep their `id`, `name`, `title`, `school`, and `headshot` untouched.
+Read the "2B. Refine a researcher bio" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-**Files:** `canon/roster.yml`.
 
 ## 2C. Flesh out a school / unit / lab blurb
 
-Add or rewrite the `blurb` of the chosen `canon/schools.yml` entry --- one or
-two sentences that read straight, in the naming register `canon/schools.md`
-describes (a vague noun in a load-bearing position; nothing that winks). Keep
-its `id`, `name`, `kind`, and any `school`/`acronym` fields untouched.
+Read the "2C. Flesh out a school / unit / lab blurb" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-**Files:** `canon/schools.yml`.
 
 ## 2D. Grow a page
 
-Deepen an existing site page whose content is thin --- typically
-`website/src/content/pages/about.md`, or a new institutional page under
-`website/src/content/pages/`. Institutional register; no visible satire signal;
-no verifiable claims; link only to pages that exist. **Never touch
-`colophon.md`** --- it is the one out-of-fiction page and the wrapper resets any
-commit that edits it. **Never touch `girt.md`** either --- the ranking-index
-table is human-maintained (see the ranking-claim carve-out in
-`website/AGENTS.md`) --- nor `sustainability.md`, the out-of-fiction
-sustainability report, which the wrapper also resets.
+Read the "2D. Grow a page" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-**Files:** a file under `website/src/content/pages/` (not `colophon.md`).
 
 ## 2E. Add a researcher (heavy --- rare)
 
-Follow the roster's own admission procedure (the header of `canon/roster.yml`
-and the repo `AGENTS.md`), in order:
+Read the "2E. Add a researcher (heavy --- rare)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-1. Invent a name that fits the roster's register.
-2. **Name-collision check (hard):** web search the full name, including the ANU
-   staff directory; no real staff member, notable researcher, or public figure
-   may share it. If it collides, pick another name.
-3. Generate a house-style headshot per `skills/_shared/visual-style.md` into
-   `canon/headshots/<id>.jpg` (the image workflow; steered by
-   `references/slop-style/`), and eyeball it for accidental real-person
-   likeness.
-4. Generate their landscape person hero per the "Person heroes" section of
-   `skills/_shared/visual-style.md` into `canon/heroes/people/<id>.avif` (16:9,
-   2K; the new headshot as the lead reference, scene themed to their research
-   focus), and eyeball it for style compliance (two inks, no baked-in text, no
-   recognisable real place).
-5. Append the entry to the end of `canon/roster.yml` (`id`, `name`, `title`,
-   `school` from `canon/schools.yml`, `email` --- the id with its hyphen(s)
-   replaced by dots at slop.university, per the roster header's rule --- a 2-3
-   sentence `bio`, `headshot`, `collisionChecked` --- today's date, quoted).
-   Touch nothing else in the file, its header included: another run may be
-   admitting someone at the same moment, and two appends merge where two edits
-   to a shared line do not.
-
-If the collision check is inconclusive, or the headshot or hero can't be
-generated, abort the run rather than admit a shaky entry.
-
-When the action names a `school`, the researcher is appointed to it: their field
-is the school's, and their bio is a career in that field.
-
-**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
-`canon/heroes/people/<id>.avif`.
 
 ## 2F. Add an org unit (rare)
 
-Follow `canon/schools.md`'s admission procedure: name-collision check (no real
-school/institute/lab/program may share the name), keep the naming register, then
-add the record to the right section of `canon/schools.yml` (`labs`, `programs`,
-`initiatives`, etc.) with a unique `id`, a `name`, a `blurb`, and the parent
-`school:` id.
+Read the "2F. Add an org unit (rare)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-**Files:** `canon/schools.yml`.
 
 ## 2S. Found a school (about monthly)
 
-The University grows by about one school a month, each in a field of scholarship
-no existing school covers, so that its people come to range across the academy.
-The action names the existing schools.
+Read the "2S. Found a school (about monthly)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
 
-1. Choose the field: a broad discipline or family of disciplines none of the
-   existing schools' blurbs covers --- somewhere in the humanities, law, the
-   natural sciences, mathematics, the arts or the professions.
-2. Name the school per `canon/schools.md` and run its **name-collision check
-   (hard)**. If it collides, pick another name.
-3. Generate its landscape hero into `canon/heroes/schools/<id>.avif` (16:9, 2K,
-   house style per `skills/_shared/visual-style.md`; a scene of the school's
-   work, no baked-in text, no recognisable real place).
-4. Append the record to the `schools:` section of `canon/schools.yml`: `id`,
-   `name`, a two-sentence `blurb` saying plainly what the school studies and
-   how, and `founded:` (today's date, ISO).
-
-The school arrives empty. Later ticks give it a lab (2F) and its first
-researchers (2E); do neither here.
-
-If the collision check is inconclusive or the hero can't be generated, abort the
-run rather than found a shaky school.
-
-**Files:** `canon/schools.yml`, `canon/heroes/schools/<id>.avif`.
 
 ## 2G. Post to socials (no commit)
 
-Pick one existing, already-live aspect of the department --- an older output
-worth resurfacing, a researcher, a school, or the institution --- and compose a
-post about it for each platform the `platforms` parameter names (Bluesky, the
-LinkedIn Page, or both), each in its own platform's conventions. The assessor
-has already applied the due-ness gates; follow `../post-to-socials/SKILL.md` for
-the subject choice, the per-platform compose rules, and the staged-file schema.
+Read the "2G. Post to socials (no commit)" section of `news-grants.md` (sibling file) when the wrapper names this action.
 
-This action **holds no live credentials and makes no commit**. The staged files
-are gitignored; the cron wrapper runs the posters after its validated push and
-is the only thing that posts. Verify (§3) and commit (§4) do not apply --- once
-the files are written and the choice logged, the run is done.
-
-**Files:** `data/pending-post.json` (Bluesky) and
-`data/pending-linkedin-post.json` (LinkedIn), gitignored working-tree only;
-never committed.
 
 ## 2H. Institutional news (no new output)
 
-A news post that announces something other than a research artefact --- the
-genre that makes a university newsroom read as a newsroom. One post per run,
-`website/src/content/news/<date>-<slug>.md`, same frontmatter as a 2A news post
-but with **no `output` field** (the page and homepage card render fine without
-one) and with `publishedAt` (the `SLOPU_PUBLISHED_AT` value), which a post with
-no output needs to sort among the day's posts. Comms register per `comms.md`;
-every name and unit from the canon; no verifiable claims; reads straight.
+Read the "2H. Institutional news (no new output)" section of `news-grants.md` (sibling file) when the wrapper names this action.
 
-Write the ONE kind the assessor named (it rotates the three):
-
-- **Event or seminar announcement** --- a session of an existing canon program
-  or initiative (`canon/schools.yml` already defines a seminar series and a
-  showcase, among others): a named roster speaker, a topic in the school's
-  register, a "details to follow" close. No dates more specific than a month or
-  a teaching period (a dated event is a verifiable claim; "later this semester"
-  is not).
-- **Appointment or recognition** --- a roster researcher named to lead an
-  existing canon unit, program, or initiative, or recognised with an internal
-  distinction. If the appointment changes their `title`, update
-  `canon/roster.yml` in the same commit (nothing else about the entry). Never a
-  new unit and never a new person --- those are 2F and 2E.
-- **Institutional milestone** --- a consultation launched, a program intake
-  opened, an annual theme announced, a review begun. The hedged-commitment
-  discipline binds hardest here: significance asserted, nothing checkable.
-
-The satire brief carries over from 2A: each of these genres is itself a
-pathology exhibit (the seminar about dashboards, the award for measurement
-excellence, the consultation about a decision already made) --- but the post
-reads straight, no winks.
-
-The post announces no output, so it has no output hero to inherit: generate its
-own, per **News heroes** below.
-
-**Files:** the one news post (with its `hero:` dims), its staged hero rungs in
-`$STAGING/img/heroes/news/`, plus `canon/roster.yml` only for a title-changing
-appointment.
 
 ## 2I. Award a grant or prize
 
-An award event: one grant or prize from a canon scheme to roster grantees, plus
-the news post announcing it. Grants are not outputs --- no DOI, no PDF, no
-generated artefact; the entry and its announcement are the whole deposit, and
-the news post is the award's public record (grants have no landing page). The
-announcement still carries a hero: it announces no output, so there is none to
-inherit, and it generates its own per **News heroes** below.
+Read the "2I. Award a grant or prize" section of `news-grants.md` (sibling file) when the wrapper names this action.
 
-- **Scheme**: the one the assessor named (the scheme awarded least recently),
-  from `canon/grants.yml` --- never invent one, and never edit that file (adding
-  a scheme is a human action; the wrapper's allowlist excludes it).
-- **Grantees**: roster names, led by the researcher the assessor named (their
-  output has run ahead of their funding), plus at most one co-grantee whose
-  school fits the scheme's funder.
-- **Name**: the funded project's title (for a grant) or the prize citation (for
-  a prize), in the funder's register, on a subject the grantee's own outputs
-  make plausible. Dedup against existing grant names and output titles.
-- **Value discipline (hard)**: whole australian dollars, oddly precise --- never
-  a round thousand, never an amount any earlier grant used. Grants land in
-  roughly $50,000-$1,000,000; prizes in $5,000-$50,000. A scale comically
-  mismatched to the work's triviality is encouraged. The amount is the one
-  sanctioned class of precise institutional numbers --- an internal scheme has
-  no external registry to falsify it (see the carve-out in `comms.md`).
-- **Grant entry** → `website/src/content/grants/<date>-<slug>.yml` with: `name`,
-  `scheme` (the canon scheme id), `date` (today, ISO --- it must match the
-  filename prefix), `grantees` (roster names), `value`, `summary` (1-2
-  sentences, institutional register: what the money is for).
-- **News post** → `website/src/content/news/<date>-<slug>.md`, comms register
-  per `comms.md`, frontmatter `grant: <grant entry id>`, `publishedAt` (the
-  `SLOPU_PUBLISHED_AT` value) and no `output` field. The release may state the
-  value exactly (the carve-out); the site appends the award's details box from
-  the entry, so the body needn't restate every field.
-
-**Files:** the grant entry, the news post (with its `hero:` dims), and the
-post's staged hero rungs in `$STAGING/img/heroes/news/`.
 
 ---
 
 ## News heroes (2H and 2I)
 
-A news post that announces an output inherits that output's hero. A post that
-announces none --- a grant award (2I) or an institutional notice (2H) ---
-carries its own, so that every page on the site has one.
+Read the "News heroes (2H and 2I)" section of `news-grants.md` (sibling file) when the wrapper names this action.
 
-Same recipe as the output hero in 2A, keyed by the **news entry id** rather than
-a run id: author the prompt per `skills/_shared/visual-style.md`, pick refs per
-`skills/_shared/image-workflow.md`, generate at `--aspect-ratio 16:9`
-`--resolution 2K`, then from the repo root
-`ops/encode-images.py encode news-hero --source <generated image> --id <date>-<slug>`
-(the id is the post's filename without `.md`) and copy the printed `hero:` dims
-snippet into the post's frontmatter. The site derives the URLs from the id +
-dims (`src/lib/images.ts`); nothing is committed under `website/src/assets/`.
-
-The scene is the post's own subject under the house style's flat two-ink
-treatment --- the apparatus the grant funds, the object the notice concerns ---
-never a portrait of the named researcher (headshots are the canon's job, and a
-hero that tries to depict a specific roster face invites the drift the portrait
-convention exists to prevent).
 
 ---
 
 ## 2T. Doctoral thesis (manual only --- never assessed)
 
-The one rung no assessor returns and no timer fires. A human runs
-`bin/slopu thesis` when there is a token budget to spend; it starts a generator
-slot named `thesis` on a stronger model with a long leash, holds slot 1 off
-until it finishes, and the lander lands the candidate like any other.
-`bin/slopu --slot N thesis` starts a further one beside it. Start at the
-beginning of a fresh session window, and no more than two at once: the
-subscription's five-hour session limit, not the weekly one, is what ends a
-thesis run early, and four concurrent runs spend a fresh window in under an
-hour.
+Read the "2T. Doctoral thesis (manual only --- never assessed)" section of `manual-rungs.md` (sibling file) when the wrapper names this action.
 
-A run that dies at that limit leaves its drafting under `output/` and its
-admission and site entries uncommitted in the slot's worktree, and the slot
-refuses to run again until that work is finished or cleared. Finish it by hand,
-in that worktree, once the window resets: branch
-`press-gen-<new-run-id>-slot<slot>` off `main` carrying the uncommitted work,
-whatever of steps 1-7 below is still owed (the blueprint's read-every-chapter
-pass always is), staged into `data/pending-uploads/<new-run-id>/`, one commit
-authored as the Press, then the candidate marker `ops/publish-generate.sh` would
-have written. The lander does the rest.
-
-The invocation line names the action `2T`, the preset `thesis`, the fiction the
-wrapper drew --- the setting, the school, and a primary and an associate
-supervisor from that school --- and, when the human steered the run, the topic.
-Everything else is yours --- this is the run with creative licence, bounded only
-by the blueprint's floors (`skills/from-preset/presets/thesis.md`): a thesis
-that would pass examination, that is also a Slop University output in the true
-sense.
-
-In order:
-
-1. **Admit the candidate** by the 2E procedure (name, collision check, headshot,
-   person hero) with `title: Doctoral Candidate`, the drawn school, and
-   `supervisors: [<primary id>, <associate id>]`. Their `bio` is a backstory in
-   the roster's register --- where the thesis sits in the school's programme,
-   what they did before --- and everything it says must agree with the thesis.
-   Read the other candidates' bios first and open this one differently; a stock
-   frame ("came to the University after nine years in...") shows by the second
-   use. Admit them before composing, so the title page names a roster member,
-   and write the roster entry in this step, beside the images: an interrupted
-   run is finished from what is on disk.
-2. **Compose the topic** to fit the drawn setting; dedup and claim it exactly as
-   2A does (§2A, dedup and claim). A steered run is handed its topic on the
-   invocation line instead --- take it as given, dedup and claim it the same
-   way, and compose only what the drawn fiction still decides.
-3. **Generate** with `skills/from-preset/SKILL.md` and the `thesis` blueprint.
-   Its working method --- plan file first, references first, chapters to
-   subagents, front matter last --- is the run's shape, and its floors are the
-   only fixed structure. This run may take hours: the loop budgets in the
-   operating rules apply per chapter, not per run, and the subagent rule applies
-   with the model the blueprint names for each kind of work.
-4. **Post-compile checks** as 2A, with the thesis substitutions the blueprint
-   names (`ops/check-recent-language.py --preset thesis --self-reference-only`,
-   since there are no prior theses to compare against; the page floor in
-   `ops/check-output-quality.py --preset thesis`).
-5. **Cite the canon.** The blueprint's floor (30-60 prior outputs, each
-   characterised truly) replaces the per-preset table; run
-   `ops/extract-citations.py --suggest` and take at least half from it.
-6. **Mint the DOI, write the news post and the outputs entry, stage the assets**
-   as 2A, with `preset: thesis`, `authors:` the candidate alone, `pages` from
-   `pdfinfo`, no dark PDF. The news post announces the submission of the thesis
-   for examination and names the supervisors. The thumbnail is the title page.
-7. **Verify and commit** as below.
-
-**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
-`canon/heroes/people/<id>.avif`, `website/src/content/news/<date>-<slug>.md`,
-`website/src/content/outputs/<run-id>.yml`.
 
 ## 2V. Research explainer video (manual only --- never assessed)
 
-A human runs `bin/slopu explainer` and the `video` slot starts. The invocation
-line names the action `2V` and the output to explain, in `output`. The output
-was drawn by `ops/pick-explainer.py` or named by the human, and its authors
-already have voices. Make the video with `skills/video/SKILL.md` as an explainer
-of that output. Nobody watches the run, so four things differ:
+Read the "2V. Research explainer video (manual only --- never assessed)" section of `manual-rungs.md` (sibling file) when the wrapper names this action.
 
-- `templated.py stage` stages into `$SLOPU_PENDING_DIR`, as every generator
-  slot's assets do.
-- Step 6 ends only on `video/_kit/review.py <id>` passing. Fix what it reports
-  and run it again, at most three rounds. A video whose review still fails is
-  not published: revert, leave the tree clean, and exit non-zero.
-- Never run `ops/assign-voices.py`. A voice is canon, and canon is outside a
-  video run's commit.
-- Step 9 is the commit (§4), not a report. The candidate is held until a human
-  has watched the staged drafts and approved it.
-
-The run is exempt from §0.5's call count, because a video takes about 130 calls.
-It is not exempt from the peak: delegate the render-and-review loop's reads.
 
 ## 3. Verify the site
 
