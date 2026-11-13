@@ -12,41 +12,18 @@ description:
 # from-source
 
 Take a piece of existing source material and typeset it through the ANU
-template, faithfully. The source's prose is reproduced verbatim; the template
-supplies the visual identity (cover, AoC, back cover, ANU lockup), and a
-generated cover image hints at the subject.
+template, faithfully. The template supplies the visual identity (cover, AoC,
+back cover, ANU lockup), and a generated cover image hints at the subject.
 
-## What this skill does --- and does not --- do
+## Fidelity
 
-(Booklet format. The poster format's deltas are in `poster.md` --- most
-importantly, it may **select** which of the source's sentences appear, because a
-poster cannot hold a paper. It still never rewrites and never invents.)
-
-**Does:**
-
-- Read or fetch the source material (URL, `.docx`, `.odt`, `.md`, `.html`,
-  `.typ`, `.txt`).
-- Lay the source's prose into the ANU typst template, preserving the original
-  structure (sections, subsections, paragraphs, lists, block quotes, code
-  blocks, tables).
-- Add the standard ANU furniture: contents page, Acknowledgement of Country,
-  back-cover lockup.
-- Generate one cover image themed to the source's subject (no inline imagery;
-  that would be invention).
-- Make small editorial calls when the source is ambiguous --- heading hierarchy
-  when levels aren't explicit, the lockup choice (`anu` vs `anu-socy`), the
-  cover-image theme.
-
-**Does not:**
-
-- Rewrite, paraphrase, summarise, or "improve" the source's prose.
-- Invent new content --- no new sections, no filler paragraphs, no generated
-  inline images, no fabricated charts.
-- Apply institutional voice. The satirical-voice doctrine in
-  `../from-preset/genre.md` is for the preset path; the source's voice is
-  whatever the source's voice is, and stays untouched.
-- Pad odd page counts with invented content. Parity is fixed with a blank page
-  before the back cover (see step 7).
+The source's prose is reproduced verbatim. Do not rewrite, paraphrase, summarise
+or "improve" it; invent sections, filler paragraphs, inline images or charts;
+pad odd page counts with invented content (a blank page fixes parity, step 7);
+or apply the institutional voice in `../from-preset/genre.md`. Small editorial
+calls are allowed (heading hierarchy when levels aren't explicit, the lockup
+choice, the cover-image theme). The poster format may also select which of the
+source's sentences appear (`poster.md`), and still never rewrites.
 
 ## Document format
 
@@ -104,7 +81,6 @@ Run these in order.
    - Take the source identifier.
    - Decide how to ingest: URL → WebFetch; `.docx`/`.odt` → pandoc;
      `.md`/`.html`/`.typ`/`.txt` → Read directly.
-   - If the identifier is ambiguous, stop and ask.
 
 2. **Ingest the source.**
    - **URL:** use the `WebFetch` tool with a prompt that asks for the full
@@ -204,11 +180,7 @@ Run these in order.
 ## Source-conversion hints
 
 - **WebFetch** is best for cleanly-structured articles. For pages heavy on
-  navigation, asides, or comments, ask WebFetch explicitly for the article body
-  and ignore chrome.
-- **pandoc** handles `.docx`, `.odt`, `.html`, `.epub`, `.rst`, `.org`, and
-  more. Run `pandoc --list-input-formats` if unsure whether a format is
-  supported.
+  navigation, asides, or comments, ask for the article body and ignore chrome.
 - **Embedded images in source documents** are dropped by default --- this skill
   doesn't reproduce the source's imagery, only the prose structure. If the
   source's imagery is load-bearing (figures in a paper, photos in a profile),
@@ -220,26 +192,18 @@ Run these in order.
 
 ## Pre-ship checklist
 
-- [ ] Source content is faithfully reproduced --- no paraphrasing, no
-      summarising, no invented sections, no filler paragraphs
-- [ ] Editorial calls (heading hierarchy adjustments, lockup choice, cover-image
-      theme, abstract/frontmatter handling) are reported in the run's text
-      output so the user can spot anything off
-- [ ] PDF metadata title is the source's actual title verbatim --- no "Does Not
-      Exist" satirical formula
 - [ ] PDF metadata has no author, description, keywords, or date populated (just
       the title); verify with `pdfinfo`
-- [ ] Cover image generated; no inline images invented
-- [ ] If the source has embedded imagery, the run's text output flags this so
-      the user knows the typeset version is text-only
+- [ ] If the source has embedded imagery, the run's text output flags that the
+      typeset version is text-only
 - [ ] Acknowledgement of Country page sits between contents and the first body
       section, verbatim, no image, no other content
 - [ ] Exactly one `#pagebreak()` (after the AoC), unless a blank-page parity fix
       has added a second one immediately before `#anu-back-cover()`
 - [ ] Back cover (`#anu-back-cover(...)` with the chosen lockup) is the last
       call in the file
-- [ ] Page count is even (`pdfinfo … | grep Pages`)
-- [ ] PDF compiles cleanly (no missing fonts, broken images, overflow)
+- [ ] Page count is even; PDF compiles cleanly (no missing fonts, broken images,
+      overflow)
 
 ## When something goes wrong
 
@@ -253,22 +217,3 @@ Run these in order.
   re-paragraph by hand, or `--to=html` then hand-extract). Some docx files with
   heavy formatting are pathological for pandoc; in those cases, stop and ask the
   user whether the conversion is acceptable.
-- **Source has no clear title**: stop and ask the user for one rather than
-  fabricating. The PDF metadata title and the cover title both depend on it.
-- **typst compile fails**: most failures are conversion artefacts
-  (pandoc-produced markdown that doesn't translate cleanly to typst). Identify
-  the offending construct (raw HTML, complex table, footnote syntax) and convert
-  it manually before recompiling.
-
-## What this skill is not
-
-- Not a satirical generator. For that, use `../from-preset/SKILL.md` with an
-  existing preset (`strategy`, `impact-report`, `research-poster`, or one of
-  your own).
-- Not a translator, paraphraser, or summariser. The source's prose goes through
-  verbatim.
-- Not a fact-checker. The skill doesn't verify the source's claims; it just
-  renders them in the ANU template.
-- Not a substitute for the user's judgement about whether the source's content
-  is appropriate to wrap in ANU branding. The skill applies the template the
-  user asks for; the appropriateness call is the user's.
