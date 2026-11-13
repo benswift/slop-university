@@ -14,6 +14,9 @@
         "university.slop.defs#strategy",
         "university.slop.defs#impactReport",
         "university.slop.defs#thesis",
+        "university.slop.defs#consultationPaper",
+        "university.slop.defs#submission",
+        "university.slop.defs#questionsOnNotice",
         "university.slop.defs#videoExplainer",
         "university.slop.defs#videoPromo"
       ]
@@ -45,6 +48,18 @@
     "thesis": {
       "type": "token",
       "description": "A doctoral thesis: an extended original contribution to knowledge, submitted by a candidate of the University and examined under its delegated authority."
+    },
+    "consultationPaper": {
+      "type": "token",
+      "description": "A consultation paper issued by the Department of Policy Settings, setting out options for a change to one of the settings under which the schools work and inviting submissions."
+    },
+    "submission": {
+      "type": "token",
+      "description": "A submission to a consultation of the Department of Policy Settings, made by a school of the University or by its researchers."
+    },
+    "questionsOnNotice": {
+      "type": "token",
+      "description": "The Department of Policy Settings' written answers to questions taken on notice at a hearing of the Committee on Settings Oversight."
     },
     "videoExplainer": {
       "type": "token",

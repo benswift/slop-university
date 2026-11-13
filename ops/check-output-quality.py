@@ -51,8 +51,8 @@ import typer
 
 # preset -> (page under test, minimum fill of that page). Booklet back covers
 # are deliberately sparse, so their penultimate page is the one that matters.
-BOOKLETS = {"brochure", "impact-report", "strategy"}
-PAPERS = {"paper"}
+BOOKLETS = {"brochure", "consultation-paper", "impact-report", "strategy"}
+PAPERS = {"paper", "questions-on-notice", "submission"}
 # A thesis ends on an appendix page, whose fill says nothing; what a collapsed
 # thesis run looks like is a short document. The blueprint's range starts at
 # 100 pages; the floor sits under it so a lean but complete thesis passes.

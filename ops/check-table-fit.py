@@ -58,6 +58,10 @@ CAPS = {
     "brochure": WIDE,
     "impact-report": WIDE,
     "strategy": WIDE,
+    "consultation-paper": WIDE,
+    # single-column papers: the booklet's text block, near enough
+    "submission": WIDE,
+    "questions-on-notice": WIDE,
 }
 # A paper table floated across both columns gets the wide measure.
 SPAN_CAP = 6

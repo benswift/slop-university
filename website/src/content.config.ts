@@ -144,6 +144,10 @@ const outputs = defineCollection({
       "strategy",
       "impact-report",
       "thesis",
+      // the Department of Policy Settings and the documents that answer it
+      "consultation-paper",
+      "submission",
+      "questions-on-notice",
       // a video output (video/): no PDF; its encodes are its videos entry,
       // under the same id
       "video-explainer",

@@ -112,6 +112,9 @@ describe("presetLabels", () => {
       "strategy",
       "impact-report",
       "thesis",
+      "consultation-paper",
+      "submission",
+      "questions-on-notice",
     ] as const) {
       expect(presetLabels[preset]).toBeTruthy();
     }

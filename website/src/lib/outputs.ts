@@ -15,6 +15,7 @@ export const presetBadgeLabels: Record<Preset, string> = {
   "marketing-poster": "Ad",
   paper: "Paper",
   thesis: "Thesis",
+  "questions-on-notice": "QoN",
   "video-explainer": "Explainer",
   "video-promo": "Video",
 };
@@ -42,6 +43,9 @@ export const presetSeries: Record<Preset, OutputSeries> = {
   strategy: "Other outputs",
   "impact-report": "Other outputs",
   thesis: "Other outputs",
+  "consultation-paper": "Other outputs",
+  submission: "Other outputs",
+  "questions-on-notice": "Other outputs",
   "video-explainer": "Videos",
   "video-promo": "Videos",
 };
@@ -90,6 +94,9 @@ export const presetIcons: Record<Preset, string> = {
   strategy: "strategy",
   "impact-report": "reports",
   thesis: "graduation-cap",
+  "consultation-paper": "chat-lines",
+  submission: "send-mail",
+  "questions-on-notice": "chat-bubble-question",
   "video-explainer": "video-camera",
   "video-promo": "media-video",
 };
