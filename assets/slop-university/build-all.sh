@@ -23,4 +23,12 @@ for v in black white; do
   cp "$LOGOS/$out" "$WEB_BRANDING/$out"
   echo "  built $out -> brand package + website"
 done
+
+# The Department of Policy Settings lockup is print-only: the site never shows
+# it, so it goes to the brand package and not to astro-theme-slop.
+for v in black white; do
+  out="slop-dept-gold-${v}.svg"
+  mise exec -- typst compile lockup-gen.typ "$LOGOS/$out" --input "variant=$v" --input lockup=dept --font-path "$FONT_PATH"
+  echo "  built $out -> brand package"
+done
 echo "done"

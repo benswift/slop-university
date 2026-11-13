@@ -8,10 +8,16 @@
 // paths, so the result is self-contained with no font dependency at use time.
 //
 //   typst compile lockup-gen.typ out.svg --input variant=black|white
+//     [--input lockup=dept]
+//
+// `lockup=dept` appends the Department of Policy Settings: a hairline rule and
+// the department name in two lines, no taller than the crest, so the art keeps
+// the University lockup's height and crest anchor (the same mast-dx applies).
 //
 // `build-all.sh` drives this for both variants and runs svgo. See NOTES.md.
 #set page(width: auto, height: auto, margin: 0pt, fill: none)
 #let variant = sys.inputs.at("variant", default: "black")
+#let lockup = sys.inputs.at("lockup", default: "slop")
 #let ink = if variant == "white" { white } else { rgb("#1a1a1a") }
 #let gold = rgb("#b97d1c")
 
@@ -53,11 +59,28 @@
 )))
 
 #set text(font: "Public Sans", fill: ink)
-#grid(
-  columns: 2,
-  align: horizon,
-  column-gutter: 0.30cm,
-  crest,
-  text(weight: "medium", size: 30pt)[Slop #h(1pt)#text(fill: gold)[\/]#h(1pt)
-    University],
-)
+#let wordmark = text(weight: "medium", size: 30pt)[Slop #h(1pt)#text(
+    fill: gold,
+  )[\/]#h(1pt) University]
+#if lockup == "dept" {
+  grid(
+    columns: 4,
+    align: horizon,
+    column-gutter: (0.30cm, 0.45cm, 0.45cm),
+    crest,
+    wordmark,
+    line(angle: 90deg, length: u(62), stroke: 0.6pt + ink),
+    text(weight: "regular", size: 15pt, top-edge: "cap-height")[
+      #set par(leading: 0.42em)
+      Department of \ Policy Settings
+    ],
+  )
+} else {
+  grid(
+    columns: 2,
+    align: horizon,
+    column-gutter: 0.30cm,
+    crest,
+    wordmark,
+  )
+}

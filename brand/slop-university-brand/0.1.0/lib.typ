@@ -80,6 +80,13 @@
   black: _logo("slop-horizontal-gold-black"),
   white: _logo("slop-horizontal-gold-white"),
 )
+// The Department of Policy Settings lockup: the University lockup plus a rule
+// and the department name, at the same height, so the crest anchor (mast-dx)
+// is shared. The art is ~12cm wide at masthead height.
+#let _dept-art = (
+  black: _logo("slop-dept-gold-black"),
+  white: _logo("slop-dept-gold-white"),
+)
 #let slop-brand = (
   name: "Slop University",
   fonts: (
@@ -93,6 +100,13 @@
       masthead: _art,
       primary: _art,
       mast-width: 8.7cm,
+      mast-dx: 1.2564cm,
+      mast-align: left,
+    ),
+    dept: (
+      masthead: _dept-art,
+      primary: _dept-art,
+      mast-width: 12.4cm,
       mast-dx: 1.2564cm,
       mast-align: left,
     ),
