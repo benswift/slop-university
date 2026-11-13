@@ -1,7 +1,7 @@
 ---
 description:
-  Autonomous publish run — scan, generate one output, press release, DOI, stage
-  into website/, verify, commit (never push)
+  Autonomous publish run --- take the one action the wrapper's ladder names,
+  stage into website/, verify, commit (never push)
 model: sonnet
 ---
 
