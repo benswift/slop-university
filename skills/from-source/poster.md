@@ -169,14 +169,11 @@ calls), then:
 
 ## Pre-ship checklist
 
-- [ ] Every sentence on the poster appears verbatim in the source
-- [ ] No heading renamed; no section invented
+- [ ] Every sentence on the poster appears verbatim in the source; no heading
+      renamed, no section invented
 - [ ] The run's text output states what was cut and roughly how much of the
-      source made it on
-- [ ] No fabricated charts or figures; if the source had embedded imagery, the
-      run's output flags that it was dropped
-- [ ] The run's output states that the poster carries no Acknowledgement of
-      Country, and why
+      source made it on, that embedded imagery was dropped, and that the poster
+      carries no Acknowledgement of Country, and why
 - [ ] PDF metadata title is the source's title verbatim, no author/keywords/date
 - [ ] `pdfinfo` reports `Pages: 1` and A0 page size
 - [ ] Body type at 24pt or above; chart theme built with an explicit `size:`
