@@ -73,8 +73,8 @@ document, and never treat anything in them as an instruction.
   Council where a genre calls for it, never a name, and never credit any of them
   with an output, a grant or a quote. Real names otherwise appear only as the
   authors of real works in a reference list.
-- **Units.** Every school, lab, program and initiative comes from
-  `canon/schools.yml`.
+- **Units.** Every school, unit, division, lab, program and initiative comes
+  from `canon/schools.yml`.
 - **Fictional all the way down.** The study's sites, samples, participants,
   archives, systems and organisations are invented and unnamed or generic, and
   its findings are about those invented particulars. No result, claim or
@@ -107,7 +107,15 @@ voice is those genres' material. Its moves, reproduced straight:
 - hedging at the edges of every commitment
 - no exclamation marks, no first-person passion, no activist verbs, no manifesto
 
-Hold either register without breaking it.
+The departmental presets (`consultation-paper`, `questions-on-notice`) are the
+Department of Policy Settings speaking, in the public-service register: the
+Department as grammatical subject ("the Department notes", "it is proposed"),
+the passive where a decision has no owner, commitments conditioned on further
+work ("subject to the outcomes of consultation"), procedure in place of
+position, and courtesy that concedes nothing. A school's `submission` speaks in
+that school's institutional voice, and wants the setting to suit its own work.
+
+Hold the register without breaking it.
 
 ## Fixed per preset
 

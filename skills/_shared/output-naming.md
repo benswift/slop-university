@@ -22,18 +22,21 @@ absent) so the booklets and posters are easy to browse by what produced them;
 the intermediate `.typ`, image folder, and chart folder stay flat in `output/`.
 The `<group>` subfolder and its `<prefix>` are fixed per calling path:
 
-| Path / preset          | `<group>` (pdf subfolder) | `<prefix>`      |
-| ---------------------- | ------------------------- | --------------- |
-| `strategy`             | `strategy`                | `slop-strategy` |
-| `impact-report`        | `impact-report`           | `slop-impact`   |
-| `research-poster`      | `research-poster`         | `slop-poster`   |
-| `marketing-poster`     | `marketing-poster`        | `slop-ad`       |
-| `paper`                | `paper`                   | `slop-paper`    |
-| `brochure`             | `brochure`                | `slop-brochure` |
-| `thesis`               | `thesis`                  | `slop-thesis`   |
-| `banner`               | `banner`                  | `slop-banner`   |
-| `from-source`          | `from-source`             | `source`        |
-| `from-source --poster` | `from-source`             | `source-poster` |
+| Path / preset          | `<group>` (pdf subfolder) | `<prefix>`        |
+| ---------------------- | ------------------------- | ----------------- |
+| `strategy`             | `strategy`                | `slop-strategy`   |
+| `impact-report`        | `impact-report`           | `slop-impact`     |
+| `research-poster`      | `research-poster`         | `slop-poster`     |
+| `marketing-poster`     | `marketing-poster`        | `slop-ad`         |
+| `paper`                | `paper`                   | `slop-paper`      |
+| `brochure`             | `brochure`                | `slop-brochure`   |
+| `thesis`               | `thesis`                  | `slop-thesis`     |
+| `banner`               | `banner`                  | `slop-banner`     |
+| `consultation-paper`   | `consultation-paper`      | `slop-consult`    |
+| `submission`           | `submission`              | `slop-submission` |
+| `questions-on-notice`  | `questions-on-notice`     | `slop-qon`        |
+| `from-source`          | `from-source`             | `source`          |
+| `from-source --poster` | `from-source`             | `source-poster`   |
 
 A preset blueprint may declare its own prefix and group inline; a
 blueprint-declared value overrides this table.
@@ -46,11 +49,11 @@ trailing `-`. If the result exceeds 30 characters, drop the trailing word.
 
 Examples:
 
-| Source string                                     | Slug                             |
-| ------------------------------------------------- | -------------------------------- |
-| `aversion to PowerPoint presentations`            | `aversion-to-powerpoint`         |
-| `rise to the AI moment`                           | `rise-to-the`                    |
-| `Annual Report of the School of Cybernetics 2024` | `annual-report-of`               |
+| Source string                                     | Slug                     |
+| ------------------------------------------------- | ------------------------ |
+| `aversion to PowerPoint presentations`            | `aversion-to-powerpoint` |
+| `rise to the AI moment`                           | `rise-to-the`            |
+| `Annual Report of the School of Cybernetics 2024` | `annual-report-of`       |
 
 ## Seed
 
