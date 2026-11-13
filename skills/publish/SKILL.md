@@ -304,8 +304,10 @@ Read the "2V. Research explainer video (manual only --- never assessed)" section
 ops/verify-site.sh
 ```
 
-One command, one turn. It runs `format:content` first, which WRITES; the script
-header says why, and why repo-wide `pnpm format` must never be substituted. A
+One command, one turn. It runs `format:content` first, which WRITES: the
+formatting is scoped to news, outputs, pages and grants (the wrapper's
+stage-by-name allowlist), and repo-wide `pnpm format` would touch files a run
+may not commit, so never substitute it. A
 concurrent generator slot sets `SLOPU_SKIP_BUILD`, since the lander runs the one
 authoritative build. If the content-layer cache serves a stale collection,
 `rm -rf node_modules/.astro .astro` and rerun. A red result = no publish: revert
