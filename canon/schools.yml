@@ -62,6 +62,52 @@ units:
       mission. Not a school; it convenes no research, and no roster researcher
       is affiliated to it. Generated artefacts may invoke the Council as a
       body, but never name its members.
+  - id: department-of-policy-settings
+    name: Department of Policy Settings
+    blurb: >-
+      The University's policy department. It advises the Office of the
+      Vice-Chancellor and the University Council on the settings under which
+      the schools work, consults the schools on proposed changes to them,
+      drafts the instruments that give those changes effect, and answers for
+      their administration to the Committee on Settings Oversight. Not a
+      school; it convenes no research, and no roster researcher is
+      affiliated to it. Generated artefacts may invoke the Department, its
+      divisions and its offices (the Secretary, a Deputy Secretary, a First
+      Assistant Secretary, a branch Director), but never name an official.
+  - id: committee-on-settings-oversight
+    name: Committee on Settings Oversight
+    blurb: >-
+      The standing committee, elected from the academic staff of the schools,
+      before which the Department of Policy Settings appears to answer for its
+      administration. Questions the Department cannot answer at a hearing are
+      taken on notice and answered in writing. Its members are roster
+      researchers (never doctoral candidates), and a question is recorded
+      against the member who asked it.
+
+divisions:
+  - id: settings-maintenance-division
+    name: Settings Maintenance Division
+    unit: department-of-policy-settings
+    blurb: >-
+      Keeps the University's settings under review once they are made: it
+      monitors how each operates across the schools, records where one has
+      drifted from its stated intent, recommends adjustment, and holds the
+      register of settings in force.
+  - id: consultation-and-uptake-division
+    name: Consultation and Uptake Division
+    unit: department-of-policy-settings
+    blurb: >-
+      Runs the Department's consultations with the schools: it prepares
+      consultation papers, receives and analyses submissions, and reports on
+      what was heard. Uptake is the Division's term for the passage of a
+      consulted position into a settled one.
+  - id: instruments-and-determinations-division
+    name: Instruments and Determinations Division
+    unit: department-of-policy-settings
+    blurb: >-
+      Drafts the determinations, guidelines and other instruments through
+      which the Office of the Vice-Chancellor gives a setting effect, and keeps
+      the register of instruments in force.
 
 labs:
   - id: trajectory-analytics-group

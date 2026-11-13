@@ -55,7 +55,8 @@ route, model and effort are pinned there and overridable with
 The wrapper decides what a run does and meters what it cost; the model only
 composes. The decisions are scripts (`ops/assess-ladder.py`, `ops/draw-axes.py`,
 `ops/check-output-quality.py`, `ops/run-usage.py` and the rest), each with a
-docstring saying why: read it before changing one. The units are in `ops/systemd/`. A serial tick by hand is
+docstring saying why: read it before changing one. The units are in
+`ops/systemd/`. A serial tick by hand is
 `ops/publish-generate.sh 1 && ops/publish-land.sh`.
 
 `ops/publish-selftest.sh` drives the generator and lander against a throwaway
@@ -103,10 +104,13 @@ Slop University is a persistent fiction: its people, schools, and units live in
   exception: `ops/sync-atproto.py` lists the Vice-Chancellor's real account as a
   contributor under the display name "Office of the Vice-Chancellor". The file's
   header says what a new Council member needs.
-- `canon/schools.yml` --- the org chart: school, unit, lab, program, and
-  initiative names, with their blurbs. `canon/schools.md` is the sibling
-  authoring doctrine (naming register, collision check). Never invent an org
-  unit inside a run; add it to `schools.yml` first.
+- `canon/schools.yml` --- the org chart: school, unit, division, lab, program,
+  and initiative names, with their blurbs. One unit, the Department of Policy
+  Settings, is the University's public service; its documents are the
+  `consultation-paper`, `submission` and `questions-on-notice` presets.
+  `canon/schools.md` is the sibling authoring doctrine (naming register,
+  collision check). Never invent an org unit inside a run; add it to
+  `schools.yml` first.
 - `canon/institution.md` --- university-level identity: the motto (_Edimus ergo
   sumus_) and its usage rules. Fixed facts; reuse exactly, never vary inside a
   run.

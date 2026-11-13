@@ -54,6 +54,7 @@ const leadership = defineCollection({
 const SCHOOL_SECTIONS = {
   schools: "school",
   units: "unit",
+  divisions: "division",
   labs: "lab",
   programs: "program",
   initiatives: "initiative",
@@ -71,9 +72,10 @@ const schools = defineCollection({
   }),
   schema: z.object({
     name: z.string(),
-    kind: z.enum(["school", "unit", "lab", "program", "initiative", "history"]),
+    kind: z.enum(["school", "unit", "division", "lab", "program", "initiative", "history"]),
     blurb: z.string().optional(),
     school: z.string().optional(), // parent school id (labs, programs, initiatives)
+    unit: z.string().optional(), // parent unit id (divisions)
     acronym: z.string().optional(),
     // schools only: the date the ladder founded it (ops/assess-ladder.py, 2S)
     founded: z.union([z.string(), z.date()]).optional(),

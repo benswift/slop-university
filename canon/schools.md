@@ -15,9 +15,9 @@ to the rules below.
 - Run a name-collision check first: no real university school, institute, lab,
   or program may share the name (web search the full name).
 - Add the record to the right section of `schools.yml` (`schools`, `units`,
-  `labs`, `programs`, `initiatives`, or `history`) with a unique `id` (the URL
-  slug), a `name`, and --- for labs, programs, and initiatives --- the parent
-  `school:` id.
+  `divisions`, `labs`, `programs`, `initiatives`, or `history`) with a unique
+  `id` (the URL slug), a `name`, and --- for labs, programs, and initiatives ---
+  the parent `school:` id, or for a division the parent `unit:` id.
 - Keep the naming register (below).
 
 ## Naming register
@@ -39,6 +39,12 @@ or colleges. Don't invent one.
 The **Office of Research Outputs** is a university-level unit, not a school:
 roster researchers are never affiliated to it. It is the producing unit credited
 on every research poster and paper.
+
+The **Department of Policy Settings** is the University's public service: a
+unit that consults the schools on their settings, drafts the instruments that
+change them, and answers for them to the Committee on Settings Oversight,
+whose members are roster researchers. Its divisions are the `divisions` section, the only place a unit has
+sub-units. Its documents name offices and bodies, never an official.
 
 The in-house terminology detail for the School of Continuous Improvement's
 programs and initiatives lives in the impact-report blueprint's Terminology
