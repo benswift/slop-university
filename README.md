@@ -118,6 +118,15 @@ override wins over the profile default. On the default `claude-sub` route,
 `publish` selects Sonnet; an alternative profile keeps its own default unless
 you override it.
 
+`bin/slopu thesis [steering]` starts a doctoral-thesis run when there is a token
+budget to spend. It runs in a generator slot named `thesis` on a stronger model
+with a long leash, and holds slot 1 off until it finishes; the lander then lands
+the candidate like any other. `bin/slopu --slot N thesis` starts a further one
+beside it. Start at the beginning of a fresh session window and run no more than
+two at once: the subscription's five-hour session limit, not the weekly one, is
+what ends a thesis run early, and four concurrent runs spend a fresh window in
+under an hour.
+
 Each command writes a typst file to `output/` and the final PDF to
 `output/pdf/<preset>/` (e.g. `output/pdf/research-poster/`). Outputs are
 gitignored.
