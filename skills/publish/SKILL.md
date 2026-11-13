@@ -1,17 +1,12 @@
 ---
 name: publish
-description:
-  The autonomous publish thread --- a gap-driven site-gardener. Each run
-  takes the ONE action the wrapper's ladder assessor names, filling the
-  department's most glaring gap:
-  refine a thin researcher bio or school blurb, grow a page, add a roster
-  researcher or org unit, post institutional news (an event, an appointment, a
-  milestone), award a grant or prize from a canon scheme, or (when the
-  department is coherent) generate one new Slop University research output
-  with its press release, DOI, and news post. Stages everything into website/, verifies the
-  site builds green, and makes ONE atomic commit (never push). Non-interactive;
-  designed for `claude -p "/publish"` under the cron wrapper. Use when invoked
-  with `/publish`.
+description: >
+  The autonomous publish thread, a gap-driven site-gardener. Each run takes the
+  one action the wrapper's ladder assessor names on the invocation line: refine
+  a bio or blurb, grow a page, add a researcher, org unit or school, post
+  news, award a grant or prize, or generate a new research output with its press
+  release and DOI. Stages into website/, verifies the build and makes one commit
+  (never pushes). Non-interactive. Use when invoked with `/publish`.
 ---
 
 # publish
