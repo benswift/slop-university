@@ -85,9 +85,10 @@ Zenodo with a permanent DOI.
 
 The DOI [`10.5281/zenodo.21199776`](https://doi.org/10.5281/zenodo.21199776) is
 a _concept_ DOI: it always resolves to the latest archived version, so a
-citation stays current as the living work gains new releases. Cite it as:
+citation stays current as new versions of the living work are archived. Cite it
+as:
 
-> Swift, B. (2026). _Slop University_ [Software].
+> Swift, B. (2026). _Slop University_.
 > https://doi.org/10.5281/zenodo.21199776
 
 A machine-readable
