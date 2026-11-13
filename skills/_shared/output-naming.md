@@ -48,9 +48,7 @@ Examples:
 
 | Source string                                     | Slug                             |
 | ------------------------------------------------- | -------------------------------- |
-| `french-australian partnerships`                  | `french-australian-partnerships` |
 | `aversion to PowerPoint presentations`            | `aversion-to-powerpoint`         |
-| `lean into sovereign capability`                  | `lean-into-sovereign-capability` |
 | `rise to the AI moment`                           | `rise-to-the`                    |
 | `Annual Report of the School of Cybernetics 2024` | `annual-report-of`               |
 

@@ -107,17 +107,4 @@ Curation bar for adding an image (seed or promoted from a run):
 - no resemblance to a real person, and no recognisable real building or place
 - carries print grain / texture (a too-clean vector look is off-style)
 
-The canon grows from real runs: promote the best generated images back into
-`references/slop-style/` over time (the promotion mechanism, including the
-resize + `avifenc` encode recipe, lives in `image-workflow.md`), so the
-institution accretes its own visual world.
-
-## Off-limits
-
-- real photographs as references or outputs (the real-ANU `references/*.avif`
-  photos are retired from preset/publish runs; they serve only the local-only
-  faithful path)
-- any third colour; full-colour "riso-ish" images are the drift this doctrine
-  exists to stop
-- photorealistic portraits (the resemblance guard is the style)
-- text, logos, or lockups inside generated artwork
+The canon grows from real runs: the promotion recipe is in `image-workflow.md`.

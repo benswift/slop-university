@@ -10,9 +10,8 @@ chart embeds in the typst source.
 
 Charts are drawn natively with [gribouille](https://m.canouil.dev/gribouille), a
 grammar-of-graphics package for typst. Each chart is a small `.typ` file holding
-one `#plot`; the document **imports it and renders it inline** --- there is no
-SVG, no separate render step, and no Python / `uv` / `vl-convert`. The only
-toolchain is typst itself. Brand typography and palette come straight from the
+one `#plot`; the document **imports it and renders it inline** --- typst is the
+only toolchain. Brand typography and palette come straight from the
 brand package (`@local/slop-university-brand:0.1.0` --- no theme file to copy);
 chart text is Public Sans because the theme sets it.
 
@@ -263,10 +262,8 @@ images are referenced elsewhere; the document is compiled with
   under the examples' neutral names instead of the brand package's `slop-*`
   names. Isolate a suspect chart with the scratch-compile in step 3.
 - **`unknown variable: labs` / `expected string, found dictionary` in scale
-  training**: an older API recalled from memory. `labs` is `labels`, and
-  `scales:` takes the keyed `scales(...)` binder --- a positional tuple (or a
-  limits list that accidentally bound whole records; see the `#let`-line-break
-  gotcha in step 1) produces exactly these errors.
+  training**: an older API recalled from memory; see the API notes and the
+  `#let`-line-break gotcha in step 1.
 - **`theme: unknown element "tick-length"`**: the chart imports a different
   gribouille version from the one the brand package built its theme against.
   Both must be 0.7.0.

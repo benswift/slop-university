@@ -52,12 +52,9 @@ typst).
    to `banana-2`. But that recovery legitimately takes minutes --- 15s + 30s of
    backoff plus two or three generations --- and Bash's DEFAULT timeout is 120s,
    which kills the tool part-way through its own retry and hands the subagent a
-   bare failure. The agent then re-runs the whole slot from scratch. Measured
-   across three consecutive publish ticks, that turned an image phase that
-   should cost about one call (~40s, since the slots run in parallel) into 6--8
-   minutes for three or four images: three land inside a minute, then a ~6
-   minute gap. Ten minutes is not a target, it is headroom; a healthy call still
-   returns in well under a minute.
+   bare failure. The agent then re-runs the whole slot from scratch. Ten minutes is
+   not a target, it is headroom; a healthy call still returns in well under a
+   minute.
 
    Pass the aspect ratio explicitly --- `16:9`, `9:16`, `1:1`, and `3:4` are
    available. The calling preset declares which ratio each image slot uses; the
@@ -91,16 +88,14 @@ typst).
 
 3. **Don't generate the spare inline yet** --- only generate it if the compile
    step's parity fix needs it (single call, no need to dispatch a subagent for
-   it).
+   it). Choose its prompt and references upfront so it can be generated on
+   demand; a faithful from-source run has no spare, since its parity fix is a
+   blank page (`typst-layout.md`).
 
 ## Prompt language (house style)
 
 Use the formula in `visual-style.md` verbatim --- only the \<scene\> slot
-varies. Describe activity, scale, and mood in the scene slot; the style clause
-carries palette, texture, and register. Never prompt for photographs, real
-places, real people, or text in the image. Eyeball every output against the
-visual-style curation bar before it ships (two inks only, no photoreal passages,
-no text artefacts, no real-person likeness).
+varies --- and eyeball every output against its curation bar before it ships.
 
 ## Style-canon promotion (house style)
 
@@ -126,12 +121,3 @@ _spires_, _stone facade_, _historic university_. ANU's campus is mid-century
 modernist with brutalist and contemporary additions (Kambri); it doesn't read as
 a heritage-stone institution, and prompts that reach for that register produce a
 generic "old university" image that obviously isn't ANU.
-
-## Parity-fix spare
-
-The compile step may produce an odd page count. For preset-driven runs, the
-calling preset specifies one extra inline figure prompt as a spare: don't
-generate it during the parallel dispatch, but have the prompt and reference set
-chosen so it can be generated on demand if the parity-fix step needs it. For
-faithful from-source runs, the parity-fix uses a blank page rather than an
-invented figure --- see `skills/_shared/typst-layout.md`.

@@ -115,8 +115,6 @@ follows the count:
 )
 ```
 
-**4 cards** --- 2×2 (same grid, `columns: (1fr, 1fr)`, four cards).
-
 **5 cards** --- 3 on top, 2 centred below. Render as two stacked grids
 (`#v(0.8em)` between): a 3-column grid then a 2-column grid --- the template
 doesn't ship a centred-row helper. Counts above 5 read messy and aren't used.
@@ -133,7 +131,6 @@ jq -r '.icons | keys[]' \
 ```
 
 Pick one match per card that fits its actual content, not a generic theme.
-Verifying against the JSON before writing is cheaper than a failed compile.
 
 ## Tables
 
@@ -215,10 +212,8 @@ The ANU community makes a commitment to always respect the land upon which we st
 #pagebreak()
 ```
 
-The faithful **poster** format carries no Acknowledgement of Country: it is a
-full page of fixed text that a single-page poster has nowhere to put, and the
-verbatim rule above forbids shortening it. See `../from-source/poster.md`, which
-also requires the run to say so in its output.
+The faithful **poster** format carries no Acknowledgement of Country; see
+`../from-source/poster.md`.
 
 The page must contain no image and no other content. The trailing `#pagebreak()`
 is the document's only manual pagebreak --- it pushes the following section to a
