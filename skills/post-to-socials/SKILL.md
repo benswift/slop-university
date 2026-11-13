@@ -217,19 +217,10 @@ Surface the choice in the run's text output: the subject, the link, and the
 exact `text` of each staged post. Make no commit --- the staged files are the
 whole deliverable, and the wrapper takes it from here. Then exit.
 
-## Credentials (wrapper only)
+## Credentials
 
-The posters read their credentials from the wrapper's untracked mise env block,
-never a tracked file:
-
-- `ops/post-to-bluesky.py` hard-codes the `slop.university` handle and reads a
-  Bluesky **app password** (Settings → App Passwords, never the account
-  password) as `SLOPU_TOKEN`.
-- `ops/post-to-linkedin.py` reads `SLOPU_LINKEDIN_WEBHOOK` and
-  `SLOPU_LINKEDIN_WEBHOOK_KEY`, the Make relay that posts as the Page. Its
-  docstring says why the relay exists and how the Make scenario is set up.
-
-The agent side of this skill needs no credentials, and doesn't have them: the
-wrapper strips all three (and the bucket keys) with `env -u` before invoking the
-agent, so an agent talked into posting by something it read in a feed has no
-credential to post with.
+The agent side needs no credentials and has none: the wrapper strips the posting
+tokens (and the bucket keys) with `env -u` before invoking the agent, so an agent
+talked into posting by something it read in a feed has nothing to post with. The
+posters' docstrings (`ops/post-to-bluesky.py`, `ops/post-to-linkedin.py`) name
+the variables they read.
