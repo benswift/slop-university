@@ -55,9 +55,7 @@ route, model and effort are pinned there and overridable with
 The wrapper decides what a run does and meters what it cost; the model only
 composes. The decisions are scripts (`ops/assess-ladder.py`, `ops/draw-axes.py`,
 `ops/check-output-quality.py`, `ops/run-usage.py` and the rest), each with a
-docstring saying why: read it before changing one. The live units are
-`slop-publish-gen@1.timer`, `slop-publish-land.timer` and the dead-man check
-`slop-publish-watchdog.timer`; slot 2 is disabled. A serial tick by hand is
+docstring saying why: read it before changing one. The units are in `ops/systemd/`. A serial tick by hand is
 `ops/publish-generate.sh 1 && ops/publish-land.sh`.
 
 `ops/publish-selftest.sh` drives the generator and lander against a throwaway
@@ -83,7 +81,7 @@ institutional-voice doctrine; the faithful path does not (the source's own voice
 is preserved).
 
 Generated outputs (`output/`, including the PDFs in `output/pdf/<preset>/`) are
-kept locally only --- they're gitignored. Don't commit them or tag the run.
+kept locally only --- they're gitignored.
 
 ## The institutional canon (`canon/`)
 
@@ -92,11 +90,8 @@ Slop University is a persistent fiction: its people, schools, and units live in
 
 - `canon/roster.yml` --- the fabricated researcher roster (name, title, school,
   bio, headshot). Any named person in any generated artefact comes from here;
-  never a real person, never a name invented inside a run. Roster additions
-  require a name-collision check (web search incl. the ANU staff directory ---
-  the nearest institution is the likeliest collision), a house-style headshot in
-  `canon/headshots/`, and a landscape person hero in `canon/heroes/people/`, all
-  eyeballed for accidental real-person likeness.
+  never a real person, never a name invented inside a run. The file's header
+  carries the admission procedure (name-collision check, headshot, person hero).
 - `canon/leadership.yml` --- the University's leadership, and the **one place
   real people appear anywhere in the project**, each by consent: Ben Swift, the
   artist behind Slop University, is its Vice-Chancellor, and the University
@@ -133,10 +128,8 @@ Slop University is a persistent fiction: its people, schools, and units live in
   the run. `skills/from-preset/genre.md` is the brief: a short list of hard
   floors, and everything else left to the model's judgement. Keep it that
   way --- a rule added to stop one repeated habit becomes the next one.
-- **Faithful path:** no rewriting. The source's prose, structure, and voice pass
-  through verbatim. Small editorial calls (heading levels when ambiguous, lockup
-  choice, cover-image theme) are allowed and surfaced in the run's text output.
-  See `skills/from-source/SKILL.md`.
+- **Faithful path:** no rewriting; see Don't below and
+  `skills/from-source/SKILL.md`.
 - Titles: each preset's blueprint ("Doc identity" table) declares its title
   policy. The satirical formula lives only in the PDF metadata title, for every
   preset.
@@ -144,14 +137,12 @@ Slop University is a persistent fiction: its people, schools, and units live in
   folders) are defined in `skills/_shared/output-naming.md`; preset blueprints
   declare their own prefix and group.
 - **Citation graph.** Where a document prints a prior output's DOI, that is a
-  citation. `ops/extract-citations.py` harvests those edges from the compiled
-  `.typ`/`.bib` into the citing entry's `cites:` --- never hand-write the field.
-  The counting rules are in `website/src/lib/citations.ts`.
+  citation. `ops/extract-citations.py` harvests those edges into the citing
+  entry's `cites:` (never hand-write it; `skills/publish/outputs-entry.md` says
+  how). The counting rules are in `website/src/lib/citations.ts`.
 - Never include footers, watermarks, or other "this is satire" signals on the
   rendered pages of a preset run. The PDF metadata title is the deliberate
   exception (per each preset's "Doc identity").
-- The faithful path uses the source's actual title as the PDF metadata title ---
-  no satirical formula. The source's content is real, not satire.
 
 ## Style references
 
