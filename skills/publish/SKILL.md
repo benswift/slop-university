@@ -3,8 +3,8 @@ name: publish
 description: >
   The autonomous publish thread, a gap-driven site-gardener. Each run takes the
   one action the wrapper's ladder assessor names on the invocation line: refine
-  a bio or blurb, grow a page, add a researcher, org unit or school, post
-  news, award a grant or prize, or generate a new research output with its press
+  a bio or blurb, grow a page, add a researcher, org unit or school, post news,
+  award a grant or prize, or generate a new research output with its press
   release and DOI. Stages into website/, verifies the build and makes one commit
   (never pushes). Non-interactive. Use when invoked with `/publish`.
 ---
@@ -19,9 +19,9 @@ gitignored `output/` residue is fine), and exit non-zero --- the next timer run
 picks a fresh action. Never ask the user anything; this skill runs unattended.
 Run every step in the foreground --- never launch a background task. Under
 `claude -p` the invocation returns while background work is still running, which
-kills the run half-done. Beware: the Agent
-tool runs subagents in the background --- when delegating, wait for each one's
-completion before the run's final message, so the run stays inside one turn.
+kills the run half-done. Beware: the Agent tool runs subagents in the
+background --- when delegating, wait for each one's completion before the run's
+final message, so the run stays inside one turn.
 
 The trust boundary: **this skill commits; it never pushes.** The lander
 (`ops/publish-land.sh`) validates the commit's diff against a path allowlist
@@ -41,8 +41,8 @@ validation --- the human checkout is never touched.
 - Read `website/AGENTS.md` (the hard floors) always. The rest only as the action
   needs them: `canon/roster.yml` and `canon/schools.yml` for anything that names
   an author or unit, `canon/schools.md` (the org doctrine) for 2C and 2F,
-  `canon/grants.yml` for 2I and the grant-attachment step, and `comms.md`
-  (sibling file --- the press-release register) for any news post.
+  `canon/grants.yml` for 2I and the grant-attachment step, and
+  `skills/publish/comms.md` (the press-release register) for any news post.
 
 ## 0.5 Token budget (hard)
 
@@ -230,73 +230,75 @@ only if the layout already has room; booklets don't carry inline DOIs.
 
 ### Companion press release + news post
 
-Read `outputs-entry.md` (sibling file), which covers this step and "Stage assets into website/", before writing the news post and outputs entry.
+Read `skills/publish/outputs-entry.md` and follow it: it covers the press
+release, the news post, the outputs entry and staging the assets into
+`website/`.
 
 ---
 
 ## 2B. Refine a researcher bio
 
-Read the "2B. Refine a researcher bio" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2B. Refine a researcher bio" section of
+`skills/publish/canon-rungs.md` and follow it.
 
 ## 2C. Flesh out a school / unit / lab blurb
 
-Read the "2C. Flesh out a school / unit / lab blurb" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2C. Flesh out a school / unit / lab blurb"
+section of `skills/publish/canon-rungs.md` and follow it.
 
 ## 2D. Grow a page
 
-Read the "2D. Grow a page" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2D. Grow a page" section of
+`skills/publish/canon-rungs.md` and follow it.
 
 ## 2E. Add a researcher (heavy --- rare)
 
-Read the "2E. Add a researcher (heavy --- rare)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2E. Add a researcher (heavy --- rare)"
+section of `skills/publish/canon-rungs.md` and follow it.
 
 ## 2F. Add an org unit (rare)
 
-Read the "2F. Add an org unit (rare)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2F. Add an org unit (rare)" section of
+`skills/publish/canon-rungs.md` and follow it.
 
 ## 2S. Found a school (about monthly)
 
-Read the "2S. Found a school (about monthly)" section of `canon-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2S. Found a school (about monthly)" section
+of `skills/publish/canon-rungs.md` and follow it.
 
 ## 2G. Post to socials (no commit)
 
-Read the "2G. Post to socials (no commit)" section of `news-grants.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2G. Post to socials (no commit)" section of
+`skills/publish/news-grants.md` and follow it.
 
 ## 2H. Institutional news (no new output)
 
-Read the "2H. Institutional news (no new output)" section of `news-grants.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2H. Institutional news (no new output)"
+section of `skills/publish/news-grants.md` and follow it.
 
 ## 2I. Award a grant or prize
 
-Read the "2I. Award a grant or prize" section of `news-grants.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2I. Award a grant or prize" section of
+`skills/publish/news-grants.md` and follow it.
 
 ---
 
 ## News heroes (2H and 2I)
 
-Read the "News heroes (2H and 2I)" section of `news-grants.md` (sibling file) when the wrapper names this action.
-
+Every 2H or 2I news post gets a hero: the "News heroes (2H and 2I)" section of
+`skills/publish/news-grants.md` says how.
 
 ---
 
 ## 2T. Doctoral thesis (manual only --- never assessed)
 
-Read the "2T. Doctoral thesis (manual only --- never assessed)" section of `manual-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2T. Doctoral thesis (manual only --- never
+assessed)" section of `skills/publish/manual-rungs.md` and follow it.
 
 ## 2V. Research explainer video (manual only --- never assessed)
 
-Read the "2V. Research explainer video (manual only --- never assessed)" section of `manual-rungs.md` (sibling file) when the wrapper names this action.
-
+When this is the action, read the "2V. Research explainer video (manual only ---
+never assessed)" section of `skills/publish/manual-rungs.md` and follow it.
 
 ## 3. Verify the site
 
@@ -307,9 +309,9 @@ ops/verify-site.sh
 One command, one turn. It runs `format:content` first, which WRITES: the
 formatting is scoped to news, outputs, pages and grants (the wrapper's
 stage-by-name allowlist), and repo-wide `pnpm format` would touch files a run
-may not commit, so never substitute it. A
-concurrent generator slot sets `SLOPU_SKIP_BUILD`, since the lander runs the one
-authoritative build. If the content-layer cache serves a stale collection,
+may not commit, so never substitute it. A concurrent generator slot sets
+`SLOPU_SKIP_BUILD`, since the lander runs the one authoritative build. If the
+content-layer cache serves a stale collection,
 `rm -rf node_modules/.astro .astro` and rerun. A red result = no publish: revert
 this run's changes (`git checkout -- .`, remove any new untracked files) and
 exit non-zero.
