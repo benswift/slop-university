@@ -8,8 +8,6 @@ Rewrite the thin `bio` of the chosen `canon/roster.yml` researcher into a proper
 agenda they anchor. No verifiable claims; no invented collaborators outside the
 canon; keep their `id`, `name`, `title`, `school`, and `headshot` untouched.
 
-**Files:** `canon/roster.yml`.
-
 ## 2C. Flesh out a school / unit / lab blurb
 
 Add or rewrite the `blurb` of the chosen `canon/schools.yml` entry --- one or
@@ -17,21 +15,14 @@ two sentences that read straight, in the naming register `canon/schools.md`
 describes (a vague noun in a load-bearing position; nothing that winks). Keep
 its `id`, `name`, `kind`, and any `school`/`acronym` fields untouched.
 
-**Files:** `canon/schools.yml`.
-
 ## 2D. Grow a page
 
 Deepen an existing site page whose content is thin --- typically
 `website/src/content/pages/about.md`, or a new institutional page under
-`website/src/content/pages/`. Institutional register; no visible satire signal;
-no verifiable claims; link only to pages that exist. **Never touch
-`colophon.md`** --- it is the one out-of-fiction page and the wrapper resets any
-commit that edits it. **Never touch `girt.md`** either --- the ranking-index
-table is human-maintained (see the ranking-claim carve-out in
-`website/AGENTS.md`) --- nor `sustainability.md`, the out-of-fiction
-sustainability report, which the wrapper also resets.
-
-**Files:** a file under `website/src/content/pages/` (not `colophon.md`).
+`website/src/content/pages/`. Institutional register; link only to pages that
+exist. Do not touch `colophon.md`, `girt.md` or `sustainability.md`: the first
+and last are out-of-fiction pages, `girt.md` is human-maintained, and the
+wrapper resets commits that edit any of them (`website/AGENTS.md` says why).
 
 ## 2E. Add a researcher (heavy --- rare)
 
@@ -65,9 +56,6 @@ generated, abort the run rather than admit a shaky entry.
 When the action names a `school`, the researcher is appointed to it: their field
 is the school's, and their bio is a career in that field.
 
-**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
-`canon/heroes/people/<id>.avif`.
-
 ## 2F. Add an org unit (rare)
 
 Follow `canon/schools.md`'s admission procedure: name-collision check (no real
@@ -75,8 +63,6 @@ school/institute/lab/program may share the name), keep the naming register, then
 add the record to the right section of `canon/schools.yml` (`labs`, `programs`,
 `initiatives`, etc.) with a unique `id`, a `name`, a `blurb`, and the parent
 `school:` id.
-
-**Files:** `canon/schools.yml`.
 
 ## 2S. Found a school (about monthly)
 
@@ -101,5 +87,3 @@ researchers (2E); do neither here.
 
 If the collision check is inconclusive or the hero can't be generated, abort the
 run rather than found a shaky school.
-
-**Files:** `canon/schools.yml`, `canon/heroes/schools/<id>.avif`.

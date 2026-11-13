@@ -63,8 +63,7 @@ verifiable numbers). Then:
   root an interactive run uses. Either way it is ABSOLUTE, which is the point: a
   bare `data/pending-uploads/…` resolved against `website/` silently creates
   `website/data/pending-uploads/`, the wrapper finds nothing to upload, and the
-  whole tick is rescued and thrown away. That went wrong for a run of ticks, so
-  use `$STAGING` and never a relative path.
+  whole tick is rescued and thrown away. Use `$STAGING`, never a relative path.
 
   `gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -sColorConversionStrategy=RGB -sOutputFile="$STAGING/<run-id>.pdf" ./output/pdf/<group>/<run-id>.pdf`
 
@@ -78,10 +77,9 @@ verifiable numbers). Then:
   PDFs are **not committed** and do not live under `website/public/` --- they
   are served from the bucket at `pdf.slop.university` (why:
   `website/src/lib/pdfs.ts`). The staging dir is the gitignored handoff channel:
-  you stage the file there, and the wrapper uploads it and only then pushes.
-  Same trust split as the social post --- the agent composes, the wrapper
-  publishes --- and it is what makes a failed upload abort the tick rather than
-  publish an entry pointing at a missing object. Never write to
+  you stage the file there, and the wrapper uploads it and only then pushes, so
+  a failed upload aborts the tick rather than publishing an entry that points at
+  a missing object. Never write to
   `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
 
   The key is the run id, so nothing records a path: the entry carries no `pdf`
@@ -125,7 +123,3 @@ URLs and srcsets from the dims (`src/lib/images.ts`).
 The outputs entry is the canonical record of the run: the dedup check reads the
 collection, the outputs page charts it, and the People/Schools pages join on its
 `authors` and `school`.
-
-**Files this action commits:** the news post and the outputs entry (with
-`hero:`/`thumb:` dims). The PDF and every image go to `$STAGING`, never into the
-commit (see §4).

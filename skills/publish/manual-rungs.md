@@ -2,15 +2,9 @@
 
 ## 2T. Doctoral thesis (manual only --- never assessed)
 
-The one rung no assessor returns and no timer fires. A human runs
-`bin/slopu thesis` when there is a token budget to spend; it starts a generator
-slot named `thesis` on a stronger model with a long leash, holds slot 1 off
-until it finishes, and the lander lands the candidate like any other.
-`bin/slopu --slot N thesis` starts a further one beside it. Start at the
-beginning of a fresh session window, and no more than two at once: the
-subscription's five-hour session limit, not the weekly one, is what ends a
-thesis run early, and four concurrent runs spend a fresh window in under an
-hour.
+The one rung no assessor returns and no timer fires: a human starts it with
+`bin/slopu thesis`, in a generator slot named `thesis`, and the lander lands the
+candidate like any other.
 
 A run that dies at that limit leaves its drafting under `output/` and its
 admission and site entries uncommitted in the slot's worktree, and the slot
@@ -64,10 +58,6 @@ In order:
    `pdfinfo`, no dark PDF. The news post announces the submission of the thesis
    for examination and names the supervisors. The thumbnail is the title page.
 7. **Verify and commit** as below.
-
-**Files:** `canon/roster.yml`, `canon/headshots/<id>.jpg`,
-`canon/heroes/people/<id>.avif`, `website/src/content/news/<date>-<slug>.md`,
-`website/src/content/outputs/<run-id>.yml`.
 
 ## 2V. Research explainer video (manual only --- never assessed)
 

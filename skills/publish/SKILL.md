@@ -19,7 +19,7 @@ gitignored `output/` residue is fine), and exit non-zero --- the next timer run
 picks a fresh action. Never ask the user anything; this skill runs unattended.
 Run every step in the foreground --- never launch a background task. Under
 `claude -p` the invocation returns while background work is still running, which
-kills the run half-done (this has burnt a full tick before). Beware: the Agent
+kills the run half-done. Beware: the Agent
 tool runs subagents in the background --- when delegating, wait for each one's
 completion before the run's final message, so the run stays inside one turn.
 
@@ -47,9 +47,7 @@ validation --- the human checkout is never touched.
 ## 0.5 Token budget (hard)
 
 A run is billed on the context it re-sends every turn, so its cost grows with
-the square of its turn count. Before these rules a September run averaged 220
-model calls and 52M tokens sent, with context peaking at 350--450k --- four
-times what the job needs. The budget is 80 calls and a peak under 150k. A 2T
+the square of its turn count. The budget is 80 calls and a peak under 150k. A 2T
 thesis run is exempt from the call count --- the clock budgets it instead ---
 but not from the peak: it delegates chapters precisely so the parent's context
 stays small.
@@ -148,19 +146,10 @@ enabled preset carries a target share of 2A output volume:
 | `impact-report`    | booklet | 3%           |
 | `strategy`         | booklet | 3%           |
 
-**The cron wrapper selects this with an OS-random draw, not the model.** For an
-unattended `/publish` run, its prompt names one preset selected by
-`ops/select-preset.sh`; use that exact preset for rung 2A. Do not count outputs,
-rebalance shares, or roll a different preset. The selector uses `/dev/urandom`
-and the table's shares directly, so the mix is stochastic rather than an LLM
-judgement. A failed run consumes no published output but does consume its draw;
-the next run simply draws again. Booklets total ~18% of 2A runs --- `brochure`
-around one run in eight, `impact-report` and `strategy` rare at ~3% each
-(they're the heaviest to generate, but they are where the genre voice bites
-hardest, and at their old ~1% the corpus's most distinctive satirical register
-barely appeared); `marketing-poster` at ~10% keeps the signage rotation seasoned
-with ads without the outputs ledger reading like a billboard; research posters
-and papers split the rest evenly.
+The cron wrapper selects the preset with an OS-random draw
+(`ops/select-preset.sh`), not the model; use the one its prompt names for rung
+2A. Do not count outputs, rebalance shares, or roll a different preset. A failed
+run consumes its draw; the next run draws again.
 
 **Fixed-title booklets need disambiguation.** `impact-report` and `strategy` fix
 their _cover_ titles (`Impact Report 2021–2026`, `Strategic Plan 2026–2031`), so
@@ -181,9 +170,8 @@ theme and the tradition does not apply. All its rules apply unchanged (canon
 roster/schools, house-style imagery, chart pipeline, one-page fit, pre-ship
 checklist). Record `<prefix>-<slug>-<seed>` --- the run id --- and the seed.
 
-If the generation or its checklist fails in a way a normal from-preset run would
-fix (parity, overflow, a failed image), fix it as that workflow directs. If it
-fails unrecoverably, abort (delete nothing from `output/`; it's gitignored).
+If the generation fails unrecoverably, abort (delete nothing from `output/`;
+it's gitignored).
 
 For papers and booklets, also run the final-content-page gate after the clean
 compile:
@@ -233,8 +221,8 @@ pad. Every prose claim about a cited output must be true of that output's
 ### Mint the DOI
 
 `doi = 10.5555/slop.<seed>` (the run's seed, lowercase). The reserved test
-prefix is deliberate --- doi.org will never resolve it; the site's `/doi/` route
-is the resolver. Never use any other prefix, never register anywhere.
+prefix is deliberate: doi.org will never resolve it, and the site's `/doi/`
+route is the resolver.
 
 Posters and papers may render the DOI on the artefact where the genre expects it
 (a small `doi:10.5555/slop.<seed>` in the footer furniture) --- optional, and
@@ -316,21 +304,17 @@ Read the "2V. Research explainer video (manual only --- never assessed)" section
 ops/verify-site.sh
 ```
 
-One command, one turn. It runs `format:content` first (it WRITES --- the script
-header says why formatting precedes the checks and why repo-wide `pnpm format`
-must never be substituted), then typecheck, lint, lint:css, test, and build ---
-the build is dropped when `SLOPU_SKIP_BUILD` is set, which a concurrent
-generator slot does because the lander runs the one authoritative build. It
-prints one line per green step and the tail of the first red one. If the
-content-layer cache serves a stale collection,
+One command, one turn. It runs `format:content` first, which WRITES; the script
+header says why, and why repo-wide `pnpm format` must never be substituted. A
+concurrent generator slot sets `SLOPU_SKIP_BUILD`, since the lander runs the one
+authoritative build. If the content-layer cache serves a stale collection,
 `rm -rf node_modules/.astro .astro` and rerun. A red result = no publish: revert
 this run's changes (`git checkout -- .`, remove any new untracked files) and
 exit non-zero.
 
 ## 4. Commit --- never push
 
-Stage exactly this run's files by name (never `git add -A`). The set depends on
-the action:
+Stage exactly this run's files by name. The set depends on the action:
 
 - **2A:** `website/src/content/news/<date>-<slug>.md`,
   `website/src/content/outputs/<run-id>.yml` (carrying the `hero:` and `thumb:`
@@ -360,20 +344,8 @@ validation failure, not a tidiness matter.
 Commit message: `publish: <action> — <short description>` --- e.g.
 `publish: research-poster — coffee-cart queue lengths (10.5555/slop.sn9kzr)`,
 `publish: bio — Petra Umbile`,
-`publish: school blurb — Trajectory Analytics Group`,
-`publish: news — Improvement Grand Rounds returns for spring`,
-`publish: grant — Indicator Stewardship Seed Fund to Okoro ($214,687)`,
-`publish: roster — add <name>`,
-`publish: thesis — <short title> (10.5555/slop.xxxxxx)`,
-`publish: video-explainer — <title> (10.5555/slop.xxxxxx)`. One commit, on the
-current branch. **Do not push** --- the wrapper validates and pushes. Do not
-touch `.github/workflows/`, `public/CNAME`, `public/robots.txt`,
-`site-config.ts`, `colophon.md`, or any doctrine file; the wrapper resets
-commits that do.
-
-## Post-MVP (not yet enabled)
-
-- Companion brag: a 2A run also stages a post announcing its _new_ output
-  (currently 2G only resurfaces existing aspects, as a standalone action).
-- Standalone pages for labs, programs, and initiatives (currently rendered
-  inline on their school's page).
+`publish: grant — Indicator Stewardship Seed Fund to Okoro ($214,687)`; the
+action word is `bio`, `school blurb`, `news`, `grant`, `roster`, `thesis`,
+`video-explainer` or the preset name. One commit, on the current branch. Do not
+push: the wrapper validates and pushes. Do not touch the paths
+`website/AGENTS.md` lists as off-limits; the wrapper resets commits that do.

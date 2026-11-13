@@ -9,10 +9,10 @@ LinkedIn Page, or both), each in its own platform's conventions. The assessor
 has already applied the due-ness gates; follow `../post-to-socials/SKILL.md` for
 the subject choice, the per-platform compose rules, and the staged-file schema.
 
-This action **holds no live credentials and makes no commit**. The staged files
-are gitignored; the cron wrapper runs the posters after its validated push and
-is the only thing that posts. Verify (§3) and commit (§4) do not apply --- once
-the files are written and the choice logged, the run is done.
+This action makes no commit. The staged files are gitignored; the cron wrapper
+runs the posters after its validated push and is the only thing that posts.
+Verify (§3) and commit (§4) do not apply --- once the files are written and the
+choice logged, the run is done.
 
 **Files:** `data/pending-post.json` (Bluesky) and
 `data/pending-linkedin-post.json` (LinkedIn), gitignored working-tree only;
@@ -47,15 +47,10 @@ Write the ONE kind the assessor named (it rotates the three):
 
 The satire brief carries over from 2A: each of these genres is itself a
 pathology exhibit (the seminar about dashboards, the award for measurement
-excellence, the consultation about a decision already made) --- but the post
-reads straight, no winks.
+excellence, the consultation about a decision already made).
 
 The post announces no output, so it has no output hero to inherit: generate its
 own, per **News heroes** below.
-
-**Files:** the one news post (with its `hero:` dims), its staged hero rungs in
-`$STAGING/img/heroes/news/`, plus `canon/roster.yml` only for a title-changing
-appointment.
 
 ## 2I. Award a grant or prize
 
@@ -91,9 +86,6 @@ inherit, and it generates its own per **News heroes** below.
   value exactly (the carve-out); the site appends the award's details box from
   the entry, so the body needn't restate every field.
 
-**Files:** the grant entry, the news post (with its `hero:` dims), and the
-post's staged hero rungs in `$STAGING/img/heroes/news/`.
-
 ## News heroes (2H and 2I)
 
 A news post that announces an output inherits that output's hero. A post that
@@ -107,7 +99,8 @@ a run id: author the prompt per `skills/_shared/visual-style.md`, pick refs per
 `ops/encode-images.py encode news-hero --source <generated image> --id <date>-<slug>`
 (the id is the post's filename without `.md`) and copy the printed `hero:` dims
 snippet into the post's frontmatter. The site derives the URLs from the id +
-dims (`src/lib/images.ts`); nothing is committed under `website/src/assets/`.
+dims (`src/lib/images.ts`); the rungs are staged under `$STAGING/img/heroes/news/`
+and nothing is committed under `website/src/assets/`.
 
 The scene is the post's own subject under the house style's flat two-ink
 treatment --- the apparatus the grant funds, the object the notice concerns ---
