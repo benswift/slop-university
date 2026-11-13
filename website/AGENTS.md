@@ -52,8 +52,8 @@ path allowlist, and resets violating paths.
 
 ## What the agent may grow
 
-The `/publish` tick is gap-driven (see `skills/publish/SKILL.md`): each run
-fills one gap. Its editable surface is exactly the wrapper's allowlist:
+The `/publish` tick (`skills/publish/SKILL.md`) may edit exactly the wrapper's
+allowlist:
 
 - **The canon it renders from** --- `canon/roster.yml` (refine a bio; add a
   collision-checked researcher with a house-style `canon/headshots/` portrait)
@@ -133,7 +133,7 @@ built by hand, not grown by the tick.
   announcing a grant, or announcing nothing (an institutional notice), records
   its own `hero:` dims.
 - `src/content/grants/*.yml` --- one entry per awarded grant or prize
-  (`<date>-<slug>.yml`: name, scheme, date, grantees, value, summary), each
+  (`<date>-<slug>.yml`; the schema is the field list), each
   referencing a scheme in `canon/grants.yml` (loaded in place as the
   `grantSchemes` collection). No per-grant pages: grants render on people
   profiles ("Grants and awards" + the research-income indicator), on the output
@@ -148,10 +148,9 @@ built by hand, not grown by the tick.
   `video: <id>` in its frontmatter (the colophon does). Hand-added from `video/`
   (`video/STYLE.md`, `bin/slopu video`); the tick never writes them.
 - Landing pages (`/outputs/<id>/`) and the DOI resolver (`/doi/10.5555/...`) are
-  generated from the outputs collection --- no per-output page authoring.
+  generated from the outputs collection.
 
 ## Checks
 
-Before any publish commit, from this directory:
-`pnpm lint && pnpm typecheck && pnpm test && pnpm build` all green (`lint` runs
-`lint:css`). A failed build means no publish --- never commit a red state.
+Before any publish commit, `ops/verify-site.sh` (from the repo root) must be
+green. A failed build means no publish --- never commit a red state.
