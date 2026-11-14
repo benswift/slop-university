@@ -1,0 +1,39 @@
+title: Called While Still Open
+subtitle: Runs of Falling Marker Readings as a Resolution Criterion in a Reduced Model of Acute Inflammation
+authors:
+  - Odalys Penhallow
+  - Casimir Beng
+  - Clemency Tredinnick
+preset: paper
+school: School of Settled Matters
+date: 2026-11-14
+publishedAt: "2026-11-14T18:31:19+11:00"
+doi: 10.5555/slop.n0diyp
+summary: >-
+  A paper from the School of Settled Matters and the School of Continuous
+  Improvement simulates 2,000 heterogeneous trajectories of a reduced
+  four-variable model of acute inflammation, reads each through a noisy
+  circulating marker every 6 h for 21 days, and scores rules that call a
+  response resolved after k consecutive falls. On the 30% of trajectories that
+  settle onto a non-resolving plateau, false calls follow the run statistics of
+  measurement noise alone (8.7% at five falls, 1.0% at six) and grow with the
+  length of observation, while a rule safe at six falls calls only 56% of
+  resolving trajectories; a level criterion relative to each trajectory's own
+  peak made three false calls in 951.
+topic: >-
+  When a simulated acute inflammatory response can be called resolved: in a
+  reduced ODE model, how many consecutive falls in a circulating marker it takes
+  before a trajectory is safe to treat as settled, and the fate of trajectories
+  called while still open
+pages: 5
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+version: "1.0"
+cites:
+  - 10.5555/slop.7ap69h
+  - 10.5555/slop.no33sj
+  - 10.5555/slop.q760tw
