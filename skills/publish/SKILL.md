@@ -137,14 +137,20 @@ subject and under the same rule: use what the wrapper sent.
 The enabled list is this section, so nothing joins the pool by accident. Each
 enabled preset carries a target share of 2A output volume:
 
-| Preset             | Format  | Target share |
-| ------------------ | ------- | ------------ |
-| `research-poster`  | poster  | 36%          |
-| `paper`            | paper   | 36%          |
-| `marketing-poster` | poster  | 10%          |
-| `brochure`         | booklet | 12%          |
-| `impact-report`    | booklet | 3%           |
-| `strategy`         | booklet | 3%           |
+| Preset                | Format  | Target share |
+| --------------------- | ------- | ------------ |
+| `research-poster`     | poster  | 32%          |
+| `paper`               | paper   | 32%          |
+| `marketing-poster`    | poster  | 9%           |
+| `brochure`            | booklet | 11%          |
+| `impact-report`       | booklet | 3%           |
+| `strategy`            | booklet | 3%           |
+| `consultation-paper`  | booklet | 3%           |
+| `submission`          | paper   | 4%           |
+| `questions-on-notice` | paper   | 3%           |
+
+A `submission` draw becomes a `consultation-paper` while the ledger holds no
+consultation paper to answer.
 
 The cron wrapper selects the preset with an OS-random draw
 (`ops/select-preset.sh`), not the model; use the one its prompt names for rung

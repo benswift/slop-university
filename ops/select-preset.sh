@@ -14,10 +14,22 @@ while :; do
 done
 
 # Shares mirror the target-share table in skills/publish/SKILL.md (rung 2A).
-if   (( roll < 36 )); then echo research-poster
-elif (( roll < 72 )); then echo paper
-elif (( roll < 82 )); then echo marketing-poster
-elif (( roll < 94 )); then echo brochure
-elif (( roll < 97 )); then echo impact-report
-else                       echo strategy
+if   (( roll < 32 )); then preset=research-poster
+elif (( roll < 64 )); then preset=paper
+elif (( roll < 73 )); then preset=marketing-poster
+elif (( roll < 84 )); then preset=brochure
+elif (( roll < 87 )); then preset=impact-report
+elif (( roll < 90 )); then preset=strategy
+elif (( roll < 93 )); then preset=consultation-paper
+elif (( roll < 97 )); then preset=submission
+else                       preset=questions-on-notice
 fi
+
+# A submission answers a published consultation paper; with none in the
+# ledger, draw the paper it would have answered instead.
+outputs="${SLOPU_OUTPUTS_DIR:-$(cd "$(dirname "$0")/.." && pwd)/website/src/content/outputs}"
+if [ "$preset" = submission ] \
+  && ! grep -qlx 'preset: consultation-paper' "$outputs"/*.yml 2>/dev/null; then
+  preset=consultation-paper
+fi
+echo "$preset"
