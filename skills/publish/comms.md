@@ -39,9 +39,9 @@ comms-speak, or with the school's agenda --- rotate against the recent eight.
   The trimmed specificity (the setting, the mechanism, the qualifier) goes in
   the deck, not a longer headline.
 - **Deck (`subtitle`)**: an optional one-line standfirst under the headline, set
-  in the `subtitle` frontmatter field. It carries what the punchy headline drops
-  --- the study's setting, the mechanism, or the qualifying clause --- in a
-  single line that reads as an elaboration of the head, not a summary of the
+  in the `subtitle` frontmatter field. It carries what the punchy headline
+  drops --- the study's setting, the mechanism, or the qualifying clause --- in
+  a single line that reads as an elaboration of the head, not a summary of the
   release (that's the `description`, which stays card- and meta-only). No em
   dashes in the frontmatter value. The site renders it as a deck beneath the
   hero, matching the output landing page.
@@ -113,6 +113,11 @@ that one included. "Recognised across the sector" remains the ceiling.)
 - Named people: roster only, canonical name + title, and only researchers
   credited on the output being announced (plus at most one other roster member
   in a "welcoming the work" role).
+- A Department of Policy Settings document is announced as the Department's own
+  media release. Its quote comes from an office ("a spokesperson for the
+  Department", "the First Assistant Secretary, Consultation and Uptake
+  Division"), never a named official; the one welcoming roster member may still
+  appear.
 - No exclamation marks; no "groundbreaking"/"world-first" superlatives
   (verifiable-shaped claims); "novel" and "significant" are the ceiling.
 - 150-300 words. A release that runs long starts explaining, and explaining

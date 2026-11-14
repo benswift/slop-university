@@ -157,8 +157,10 @@ a run of either must not use the cover title as its outputs-entry `title` --- it
 would collide with every prior booklet of that preset on the listing. Derive the
 entry's `title`/`subtitle` from the run's steering line and cover subtitle so
 each reads distinctly in the outputs collection (the cover itself stays fixed
-per the blueprint). `brochure` needs no such handling --- its cover title is
-already steering-derived (like the poster and paper), so it varies per run.
+per the blueprint). `submission` and `questions-on-notice` fix their visible
+titles too, and take the same handling. `brochure` needs no such handling ---
+its cover title is already steering-derived (like the poster and paper), so it
+varies per run.
 
 ### Generate
 
@@ -168,7 +170,21 @@ lead author and school. For an institutional preset (`strategy`,
 `impact-report`, `brochure`, `marketing-poster`) the drawn subject supplies the
 theme and the tradition does not apply. All its rules apply unchanged (canon
 roster/schools, house-style imagery, chart pipeline, one-page fit, pre-ship
-checklist). Record `<prefix>-<slug>-<seed>` --- the run id --- and the seed.
+checklist).
+
+The Department of Policy Settings' presets use the draw their own way. The
+subject is where the setting bites: compose a setting of the University's that
+matters to work in that subject; the tradition does not apply.
+
+- `consultation-paper` has no authors: the drawn lead goes unused, and the
+  outputs entry carries `authors: []` and no `school`.
+- `submission` takes the drawn lead as its first preparer and the lead's school
+  as the submitter, answering the most recent consultation paper the school has
+  not yet answered (the most recent of all if it has answered every one).
+- `questions-on-notice` takes the drawn lead as the first member asking, or, for
+  a doctoral candidate, the drawn school's first non-candidate. The members
+  asking are the entry's `authors`; it carries no `school`. Record
+  `<prefix>-<slug>-<seed>` --- the run id --- and the seed.
 
 If the generation fails unrecoverably, abort (delete nothing from `output/`;
 it's gitignored).

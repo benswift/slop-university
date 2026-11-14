@@ -2,7 +2,6 @@
 
 ### Companion press release + news post
 
-
 Write the press release per `comms.md` (the media-release register: quotes from
 roster researchers, institutional pride, hedged-commitment discipline --- no
 verifiable numbers). Then:
@@ -18,14 +17,15 @@ verifiable numbers). Then:
   "Main: Subtitle" title here rather than storing the whole string in `title`),
   `authors` (the roster authors used), `preset`, `school` (the lead author's
   school), `date`, `publishedAt` (the exact `SLOPU_PUBLISHED_AT` value supplied
-  by the unattended wrapper; omit only for a manual run without it), `doi`,
-  `summary` (1-2 sentence abstract of the fictional work, institutional
-  register --- not the press release's standfirst), `topic` (the steering line),
-  `pdfDark` (poster-format runs only --- `research-poster`, `marketing-poster`:
-  `true`, meaning a dark signage render exists --- see staging below), `pages`
-  (from pdfinfo), `version: "1.0"`, and `grants` (optional --- see below). The
-  thumbnail and hero carry no yml field --- they resolve by matching a file
-  basename to the entry id (see below).
+  by the unattended wrapper; a hand run stamps `date -Iseconds` when it writes
+  the entry, since every entry needs one), `doi`, `summary` (1-2 sentence
+  abstract of the fictional work, institutional register --- not the press
+  release's standfirst), `topic` (the steering line), `pdfDark` (poster-format
+  runs only --- `research-poster`, `marketing-poster`: `true`, meaning a dark
+  signage render exists --- see staging below), `pages` (from pdfinfo),
+  `version: "1.0"`, and `grants` (optional --- see below). The thumbnail and
+  hero carry no yml field --- they resolve by matching a file basename to the
+  entry id (see below).
 - **Grant attachment.** Read `website/src/content/grants/*.yml`: if a grant's
   `grantees` include one of this output's authors, its `date` precedes the
   output's, and its remit plausibly covers the topic, list its entry id under
@@ -79,8 +79,8 @@ verifiable numbers). Then:
   `website/src/lib/pdfs.ts`). The staging dir is the gitignored handoff channel:
   you stage the file there, and the wrapper uploads it and only then pushes, so
   a failed upload aborts the tick rather than publishing an entry that points at
-  a missing object. Never write to
-  `website/public/outputs/pdf/`; the wrapper's allowlist rejects it.
+  a missing object. Never write to `website/public/outputs/pdf/`; the wrapper's
+  allowlist rejects it.
 
   The key is the run id, so nothing records a path: the entry carries no `pdf`
   field at all.
