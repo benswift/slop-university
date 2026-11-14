@@ -1,0 +1,37 @@
+title: The Cohort Cannot Be Re-Asked
+subtitle: Scoring Learned Health-State Value Sets by Decision Survival Under Preference Drift
+authors:
+  - Anselm Threlkeld
+  - Mirela Hanke
+preset: paper
+school: School of Settled Matters
+date: 2026-11-14
+publishedAt: "2026-11-14T20:30:19+11:00"
+doi: 10.5555/slop.eymop7
+summary: >-
+  A machine-learning paper from the School of Settled Matters and the School
+  of Continuous Improvement treats a health-state value set as a model fitted
+  once to a valuation cohort that cannot later be re-asked, and scores it by
+  decision survival: the share of 400 simulated cost-utility comparisons whose
+  recommendation holds when the population's preferences drift. Across five
+  simulated valuation waves, the model with the lowest held-out error kept the
+  fewest decisions (75.2% at wave 4, against 86.1% for a twenty-parameter
+  additive model), and a decision-weighted, worst-segment training objective
+  kept 90.4%, an advantage that shrank to under a point when the later
+  preferences had no counterpart in the original cohort.
+topic: >-
+  value sets fitted once to a valuation cohort that can no longer be asked: a
+  machine-learning study of concept drift in health-state utility models,
+  scored by whether a cost-utility decision survives revaluation rather than
+  by fit
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.i09z66
+  - 10.5555/slop.rj1yyg
