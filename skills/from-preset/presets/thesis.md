@@ -16,8 +16,8 @@ Produce one Slop University PhD thesis from a single steering prompt. The output
 should pass for a real submitted thesis on an examiner's desk: a declaration, an
 abstract, a contents page, numbered chapters that argue something, figures the
 argument needs, appendices an examiner would ask for, and a reference list that
-resolves. The joke lives entirely in the fictional programme of work it reports
---- never in a wink on the page.
+resolves. The joke lives entirely in the fictional programme of work it
+reports --- never in a wink on the page.
 
 **This blueprint states floors and a working method, not a section-by-section
 skeleton.** The other presets are formulaic by design; this one is not. Within
@@ -39,8 +39,8 @@ Loaded by `skills/from-preset/SKILL.md`. Defers to:
   discipline (the template breaks the pages a thesis needs)
 - `canon/roster.yml`, `canon/schools.yml` and `canon/schools.md` for the
   candidate's school and supervisors
-- `paper.md` for the verification procedures this preset reuses at larger scale
-  --- restated here only where the thesis changes them
+- `paper.md` for the verification procedures this preset reuses at larger
+  scale --- restated here only where the thesis changes them
 
 ## Doc identity
 
@@ -308,8 +308,9 @@ entries. Never fabricate one; never pad with an unverified one.
 1. **Search** several real adjacent fields, not one: the methodological
    literature the studies borrow from, the substantive literature about the
    setting, and the critical literature the discussion argues with. Mixed
-   venues, mixed decades, a handful of books and chapters alongside the papers
-   --- a thesis bibliography that is all recent conference papers reads wrong.
+   venues, mixed decades, a handful of books and chapters alongside the
+   papers --- a thesis bibliography that is all recent conference papers reads
+   wrong.
 2. **Verify every entry** before it enters the bib, exactly as `paper.md`
    specifies: a DOI that returns 2xx/3xx from
    `curl -sI -o /dev/null -w '%{http_code}' https://doi.org/<doi>`, or an arXiv
