@@ -190,12 +190,18 @@ two chapters must agree on lives here and nowhere else:
   conditions names the difference here, and the chapter reporting it concedes
   it. So does a rate the instrument itself helped produce: where a procedure
   prompts the behaviour a study counts, the plan fixes the unprompted figure as
-  well, and the findings report both
+  well, and the findings report both. For every headline quantity, check that
+  the instrument records what its computation needs: who did it, on which day,
+  for how long, and, where one quantity is imputed from another, by what rule (a
+  tally that does not say who ticked it cannot count distinct readers)
 - the **fixed gloss** for each headline finding --- one sentence the abstract,
-  introduction, discussion and conclusion all reuse. Paraphrases ("mostly",
-  "roughly halved") are where findings drift from their chapter
+  introduction, discussion and conclusion all reuse, written exactly as prose
+  prints it ("69.0 per cent", never "69.0%"). Paraphrases ("mostly", "roughly
+  halved") are where findings drift from their chapter
 - the **names of anything referred to across chapters**: literature strands,
-  themes, the theory, each prior study's design lineage
+  themes, the theory, each prior study's design lineage. Give the names chapters
+  print; a numbering that only organises the plan ("strand (iv)") turns up in
+  the prose
 - the **reference list**: every bib key, with a one-line note on what each work
   is for and which chapter uses it. No chapter may cite a key that is not here
 
@@ -295,6 +301,9 @@ the approval covers.
 - `ops/check-output-quality.py <pdf> --preset thesis` --- the page floor.
 - `ops/check-table-fit.py --preset thesis <chapter-dir>/*.typ` --- table columns
   that cannot fit the text block. Run it before the final compile.
+- `grep -n '[^=[:space:]]==\+ ' <chapter-dir>/*.typ` --- a heading glued to the
+  end of the paragraph before it compiles without error and prints its `==` as
+  text.
 - Look at a render once, after the page count is right, rasterised at
   `--ppi 72`: the title page, one chapter opener, one page carrying a figure,
   and the first page of the references.
@@ -567,6 +576,13 @@ dark variant: the thesis is a submitted document, not signage.
   `counter(page)` by hand.
 - **Don't fight an underfull final page.** A thesis ends where its references
   end.
+- **`style: "apa"` brackets a citation itself**, so `(@key)` prints doubled
+  parentheses. Write `@key`, or `#cite(<key>, form: "prose")` for a name in the
+  sentence.
+- **`style: "apa"` title-cases the `journal` field and prints LaTeX escapes
+  literally.** Brace what must keep its case
+  (`journal = {{arXiv} preprint {arXiv}:<id>}`), and write quotation marks and
+  accented letters as Unicode, not as ` `` '' ` or `{\"e}`.
 
 ## Pre-ship checklist (preset-specific)
 
