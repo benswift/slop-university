@@ -119,7 +119,7 @@ invent an output or a DOI.
 )
 
 #let reference(..rows) = table(
-  columns: (3.2cm, 1fr),
+  columns: (auto, auto), // ops/check-table-fit.py rejects fr columns
   stroke: (x, y) => (bottom: 0.4pt + slop-colors.grey-2),
   inset: (x: 0pt, y: 5pt),
   ..rows.pos().map(((k, v)) => (text(weight: "semibold")[#k], v)).flatten(),

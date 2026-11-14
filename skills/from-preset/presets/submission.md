@@ -86,7 +86,11 @@ let the line follow from what that school does.
 ## Citations
 
 - The consultation paper is always the first reference, with its DOI where it
-  has one.
+  has one. Its ledger entry has no authors; give it the corporate author
+  `{Department of Policy Settings}` (its issuing body, so it sorts first), which
+  is the one field allowed to differ from the ledger.
+- Give every Slop University entry a `shorttitle` in the `.bib`, or each later
+  footnote repeats the full title.
 - Cite **at least two** published outputs from the submitter's school as the
   evidence the submission rests on, by the recipe in `paper.md` › "Citing the
   University's own outputs". Every claim about one must be true of its ledger
