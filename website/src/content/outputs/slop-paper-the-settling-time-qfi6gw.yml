@@ -1,0 +1,34 @@
+title: Settled in Retrospect
+subtitle: Exact Settling Times and Safe Dwell Windows for the Underdamped Step Response
+authors:
+  - Odalys Penhallow
+  - Casimir Beng
+preset: paper
+school: School of Settled Matters
+date: 2026-11-16
+publishedAt: "2026-11-16T08:32:46+11:00"
+doi: 10.5555/slop.qfi6gw
+summary: >-
+  A paper from the School of Settled Matters and the School of Continuous
+  Improvement gives the settling time of the underdamped second-order step
+  response in closed form, as the last exit of the error from its tolerance
+  band, and shows that every jump in it has the same length, set by the
+  damping ratio alone. The same constant is the shortest dwell window that
+  never declares the response settled too early; across all responses with a
+  given minimum damped frequency the sharp window is one damped half-period,
+  and under measurement noise the rule errs late rather than early.
+topic: >-
+  the settling time of an underdamped step response is a last-exit time, and
+  the shortest dwell window that never declares it settled too early
+pages: 8
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.g9xa2c
+  - 10.5555/slop.mqlzzd
+  - 10.5555/slop.x27jfz
+hero:
+  width: 2752
+  height: 1536
