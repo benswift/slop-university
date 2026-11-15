@@ -1,0 +1,33 @@
+title: Before Recombination
+subtitle: The Complexity of Relay Placement in Donor–Bridge–Acceptor Networks
+authors:
+  - Clemency Tredinnick
+preset: paper
+school: School of Settled Matters
+date: 2026-11-15
+publishedAt: "2026-11-15T18:01:46+11:00"
+doi: 10.5555/slop.mqnc4v
+summary: >-
+  A paper from the School of Settled Matters models photoinduced charge
+  separation across a molecular bridge as an absorbing Markov chain and asks
+  which k positions a designer should fit with relays to maximise the yield.
+  Where one relay can supply the coupling for several hops the problem is
+  strongly NP-complete and hard to approximate; where each relay serves only
+  its own site and the bridge is series-parallel, a dynamic program solves it
+  exactly, and greedy placement can fall arbitrarily short in either case.
+topic: >-
+  the computational complexity of placing relay sites in a donor–bridge–acceptor
+  network so that a photoinduced electron reaches the acceptor before
+  recombination: NP-hardness in general, a polynomial algorithm on
+  series-parallel bridges
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.010oz0
+  - 10.5555/slop.8o9ora
