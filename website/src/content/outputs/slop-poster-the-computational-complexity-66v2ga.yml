@@ -1,0 +1,35 @@
+title: Hard Only in the Middle
+subtitle: The Complexity of Enthalpy Minimisation on a Lattice as Pressure Rises
+authors:
+  - Odalys Penhallow
+  - Anselm Threlkeld
+  - Ragnhild Uzoma
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-16
+publishedAt: "2026-11-16T09:32:46+11:00"
+doi: 10.5555/slop.66v2ga
+summary: >-
+  A research poster from the School of Settled Matters studies a monatomic
+  lattice gas with a purely repulsive pair potential under pressure and proves
+  that finding its minimum-enthalpy arrangement takes linear time at and above
+  a threshold pressure p* and below 0.30 p*, but is NP-complete for every
+  rational pressure between 0.30 p* and 0.75 p*, leaving the band from 0.75 p*
+  to p* open. An exact solver run on 5,200 random instances peaks in effort at
+  half the threshold pressure at every cell size.
+topic: >-
+  the computational complexity of finding the minimum-enthalpy arrangement of a
+  lattice pair-potential model as pressure rises: NP-hard inside a bounded
+  pressure window, polynomial-time once close packing wins
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.8o9ora
+  - 10.5555/slop.v2u8xv
