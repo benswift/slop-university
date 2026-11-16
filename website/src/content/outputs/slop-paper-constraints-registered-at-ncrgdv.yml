@@ -1,0 +1,35 @@
+title: Burdens That Run with the Subtree
+subtitle: Registration and Discharge of Inherited Constraints in Cloud–Fog–Edge Hierarchies
+authors:
+  - Clemency Tredinnick
+preset: paper
+school: School of Settled Matters
+date: 2026-11-16
+publishedAt: "2026-11-16T16:01:46+11:00"
+doi: 10.5555/slop.ncrgdv
+summary: >-
+  A paper in pure mathematics from the School of Settled Matters models a
+  cloud–fog–edge hierarchy as a finite poset and a constraint registered at a
+  node as a burden on every device beneath it. It proves that on a tree the
+  smallest registration is unique and has a closed form, that on multi-homed
+  hierarchies finding it is NP-complete, and that discharging a constraint from
+  one device costs at least one write per sibling along the path to it, a cost
+  no maintenance policy amortises away, while imposing one never needs more
+  than a single write.
+topic: >-
+  Constraints registered at a node of a cloud-fog-edge hierarchy bind every
+  device beneath it: a lattice-theoretic proof that on trees the minimal
+  registration is unique, that on multi-homed hierarchies finding it is
+  NP-hard, and that discharging a constraint from one device costs far more
+  writes than imposing it
+pages: 7
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.8o9ora
+  - 10.5555/slop.et3oig
