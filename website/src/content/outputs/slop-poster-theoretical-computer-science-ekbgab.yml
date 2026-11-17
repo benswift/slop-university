@@ -1,0 +1,36 @@
+title: Fighting Fires You Cannot See
+subtitle: The Firefighter Problem with Latent Ignition on Dog-Contact Graphs
+authors:
+  - Thandiwe Solberg
+  - Gunnhild Ekwueme
+  - Eskil Nwabueze
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-18
+publishedAt: "2026-11-18T09:01:46+11:00"
+doi: 10.5555/slop.ekbgab
+summary: >-
+  A research poster from the School of Continuous Improvement extends the
+  firefighter game to a defender who sees each burning vertex only d rounds
+  after it ignites, as a ring-vaccination team sees a rabid dog only after
+  incubation. It proves a 1/(d+2) approximation for delayed greedy on trees
+  against a 1/(d+1) online lower bound from a spider construction, keeps the
+  problem NP-complete on trees of maximum degree three for every fixed delay,
+  and finds across 200 synthetic dog-contact graphs that each round of delay
+  is bought back with roughly one more defender per round.
+topic: >-
+  Theoretical computer science: the firefighter problem with latent ignition,
+  where a ring-vaccination team protects vertices of a free-roaming dog contact
+  graph but sees an infection only after a variable incubation delay;
+  approximation and online lower bounds
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.n8hgg8
