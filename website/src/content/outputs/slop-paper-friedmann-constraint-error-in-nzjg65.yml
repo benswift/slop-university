@@ -1,0 +1,38 @@
+title: The Error Has an Equation of State
+subtitle: Friedmann-Constraint Violation in Numerically Integrated Scalar-Field
+  Cosmologies
+authors:
+  - Gunnhild Ekwueme
+  - Kwame Lindqvist
+preset: paper
+school: School of Emergent Priorities
+date: 2026-11-18
+publishedAt: 2026-11-18T03:32:46+11:00
+doi: 10.5555/slop.nzjg65
+summary: >-
+  A paper from the School of Emergent Priorities shows that a homogeneous
+  cosmology integrated with the Hubble rate as a dynamical variable carries any
+  violation of the Friedmann constraint as an extra perfect fluid, whose
+  equation of state is fixed by one coefficient in the evolution equation:
+  the two textbook forms turn numerical error into a cosmological constant and
+  into spatial curvature. In a quadratic-potential inflaton model run through
+  reheating, a one-part-per-million error in the starting Hubble rate grows to
+  32% of the critical density under the first form and falls below one part in
+  a hundred million under the second, while for truncation error the better
+  form depends on whether the integrator conserves quadratic invariants.
+topic: >-
+  Friedmann-constraint error in a numerically integrated scalar-field cosmology
+  either redshifts away like spatial curvature or persists like a cosmological
+  constant, depending only on which second-order equation the code integrates
+  for the expansion rate
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.k0snlx
+  - 10.5555/slop.rih5k3
