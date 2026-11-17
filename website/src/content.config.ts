@@ -61,10 +61,12 @@ const SCHOOL_SECTIONS = {
   history: "history",
 } as const;
 
+const schoolsDoc = z.record(z.string(), z.array(z.record(z.string(), z.unknown())).optional());
+
 const schools = defineCollection({
   loader: file("../canon/schools.yml", {
     parser: (text) => {
-      const doc = parseYaml(text) as Record<string, Array<Record<string, unknown>>>;
+      const doc = schoolsDoc.parse(parseYaml(text));
       return Object.entries(SCHOOL_SECTIONS).flatMap(([section, kind]) =>
         (doc[section] ?? []).map((record) => ({ ...record, kind })),
       );

@@ -18,6 +18,10 @@ export type Playlist = { research: Poster[]; marketing: Poster[]; videos: Video[
 
 export const orientations: Orientation[] = ["landscape", "portrait"];
 
+export function isOrientation(value: unknown): value is Orientation {
+  return orientations.some((o) => o === value);
+}
+
 export async function signagePlaylist(orientation: Orientation): Promise<Playlist> {
   const isLandscape = orientation === "landscape";
 

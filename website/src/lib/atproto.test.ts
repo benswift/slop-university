@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { z } from "astro/zod";
 import { parse as parseYaml } from "yaml";
 import { documentRkey, documentUri, publicationUri } from "./atproto";
 import constants from "./atproto.json";
@@ -12,7 +13,9 @@ const outputs = readdirSync(outputsDir)
   .map((f) => ({
     id: f.replace(/\.yml$/, ""),
     publishedAt: new Date(
-      (parseYaml(readFileSync(join(outputsDir, f), "utf8")) as { publishedAt: string }).publishedAt,
+      z
+        .object({ publishedAt: z.string() })
+        .parse(parseYaml(readFileSync(join(outputsDir, f), "utf8"))).publishedAt,
     ),
   }));
 
@@ -46,9 +49,19 @@ describe("the university.slop.defs lexicon", () => {
   // Every published preset needs an outputClass token, or its documents carry
   // a class the University's own vocabulary does not list.
   it("has an outputClass token for every preset", () => {
-    const defs = JSON.parse(
-      readFileSync(join(process.cwd(), "..", "lexicons/university/slop/defs.json"), "utf8"),
-    ) as { defs: Record<string, { type: string }> & { outputClass: { knownValues: string[] } } };
+    const defs = z
+      .object({
+        defs: z.record(z.string(), z.object({ type: z.string() }).loose()).and(
+          z.object({
+            outputClass: z.object({ knownValues: z.array(z.string()) }).loose(),
+          }),
+        ),
+      })
+      .parse(
+        JSON.parse(
+          readFileSync(join(process.cwd(), "..", "lexicons/university/slop/defs.json"), "utf8"),
+        ),
+      );
     for (const preset of Object.keys(presetLabels)) {
       const token = preset.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
       expect(defs.defs[token]?.type, preset).toBe("token");

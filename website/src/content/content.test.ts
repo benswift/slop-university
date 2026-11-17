@@ -1,7 +1,8 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { parse as parseYaml } from "yaml";
+import { z } from "astro/zod";
+import { dimensions, readYaml } from "../lib/test-yaml";
 
 // Dataset integrity: the publish pipeline writes news, outputs, and public
 // artefacts as a unit, and grows the canon (people, schools) the site renders
@@ -15,36 +16,36 @@ const outputIds = readdirSync(join(contentDir, "outputs"))
   .filter((f) => f.endsWith(".yml"))
   .map((f) => f.replace(/\.yml$/, ""));
 
-const outputs = outputIds.map(
-  (id) =>
-    parseYaml(readFileSync(join(contentDir, "outputs", `${id}.yml`), "utf8")) as {
-      authors?: string[];
-      school?: string;
-      doi?: string;
-      date?: string;
-      publishedAt?: string;
-      grants?: string[];
-      cites?: string[];
-      preset?: string;
-      pdfDark?: boolean;
-      hero?: { width: number; height: number };
-      thumb?: { width: number; height: number };
-    },
+const outputSchema = z.object({
+  authors: z.array(z.string()).optional(),
+  school: z.string().optional(),
+  doi: z.string().optional(),
+  date: z.string().optional(),
+  publishedAt: z.string().optional(),
+  grants: z.array(z.string()).optional(),
+  cites: z.array(z.string()).optional(),
+  preset: z.string().optional(),
+  pdfDark: z.boolean().optional(),
+  hero: dimensions.optional(),
+  thumb: dimensions.optional(),
+});
+
+const outputs = outputIds.map((id) =>
+  readYaml(join(contentDir, "outputs", `${id}.yml`), outputSchema),
 );
 
 const grantIds = readdirSync(join(contentDir, "grants"))
   .filter((f) => f.endsWith(".yml"))
   .map((f) => f.replace(/\.yml$/, ""));
 
-const grants = grantIds.map(
-  (id) =>
-    parseYaml(readFileSync(join(contentDir, "grants", `${id}.yml`), "utf8")) as {
-      scheme?: string;
-      date?: string;
-      grantees?: string[];
-      value?: number;
-    },
-);
+const grantSchema = z.object({
+  scheme: z.string().optional(),
+  date: z.string().optional(),
+  grantees: z.array(z.string()).optional(),
+  value: z.number().optional(),
+});
+
+const grants = grantIds.map((id) => readYaml(join(contentDir, "grants", `${id}.yml`), grantSchema));
 
 const grantDateById = new Map(grantIds.map((id, i) => [id, grants[i].date]));
 
@@ -66,29 +67,34 @@ function isTimestamp(value: string | undefined): boolean {
 }
 
 const repoRoot = join(process.cwd(), "..");
-const researchers = (
-  parseYaml(readFileSync(join(canonDir, "roster.yml"), "utf8")) as {
-    researchers: { id: string; name: string; school: string; headshot: string }[];
-  }
+const person = z.object({
+  id: z.string(),
+  name: z.string(),
+  school: z.string(),
+  headshot: z.string(),
+});
+const researchers = readYaml(
+  join(canonDir, "roster.yml"),
+  z.object({ researchers: z.array(person) }),
 ).researchers;
 
 // University leadership --- the real people in the canon, held in a file of
 // their own so no run drawing authors "from canon/roster.yml" can reach them.
-const leadership = (
-  parseYaml(readFileSync(join(canonDir, "leadership.yml"), "utf8")) as {
-    leadership: { id: string; name: string; school: string; headshot: string }[];
-  }
+const leadership = readYaml(
+  join(canonDir, "leadership.yml"),
+  z.object({ leadership: z.array(person) }),
 ).leadership;
 
-const schoolDoc = parseYaml(readFileSync(join(canonDir, "schools.yml"), "utf8")) as Record<
-  string,
-  { id: string; name: string }[]
->;
+const schoolDoc = readYaml(
+  join(canonDir, "schools.yml"),
+  z.record(z.string(), z.array(z.object({ id: z.string(), name: z.string() }).loose())),
+);
 
-const schemes = (
-  parseYaml(readFileSync(join(canonDir, "grants.yml"), "utf8")) as {
-    schemes: { id: string; name: string; funder: string }[];
-  }
+const schemes = readYaml(
+  join(canonDir, "grants.yml"),
+  z.object({
+    schemes: z.array(z.object({ id: z.string(), name: z.string(), funder: z.string() })),
+  }),
 ).schemes;
 const schemeIds = new Set(schemes.map((s) => s.id));
 const schoolNames = new Set((schoolDoc.schools ?? []).map((s) => s.name));
@@ -463,15 +469,16 @@ describe("videos entries", () => {
   const videosDir = join(contentDir, "videos");
   const videos = readdirSync(videosDir)
     .filter((f) => f.endsWith(".yml"))
-    .map(
-      (f) =>
-        parseYaml(readFileSync(join(videosDir, f), "utf8")) as { output?: string; person?: string },
+    .map((f) =>
+      readYaml(
+        join(videosDir, f),
+        z.object({ output: z.string().optional(), person: z.string().optional() }),
+      ),
     );
   const rosterIds = new Set(
-    (
-      parseYaml(readFileSync(join(canonDir, "roster.yml"), "utf8")) as {
-        researchers: { id: string }[];
-      }
+    readYaml(
+      join(canonDir, "roster.yml"),
+      z.object({ researchers: z.array(z.object({ id: z.string() })) }),
     ).researchers.map((p) => p.id),
   );
 
