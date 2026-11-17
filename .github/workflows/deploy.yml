@@ -77,14 +77,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-astro-build-v3-
 
+      # Typecheck before lint: astro check generates the .astro/ types that
+      # oxlint's type-aware rules resolve CollectionEntry against.
+      - name: Typecheck
+        run: pnpm run typecheck
+
       - name: Lint
         run: pnpm run lint
 
       - name: Format check
         run: pnpm run format:check
-
-      - name: Typecheck
-        run: pnpm run typecheck
 
       - name: Test
         run: pnpm run test
