@@ -1,0 +1,35 @@
+title: Remembered Longer Than It Lasted
+subtitle: Firing Rate, Chain Depth and the Memory Horizon of a Kinetic Model of Slow Sodium-Channel Inactivation
+authors:
+  - Gunnhild Ekwueme
+  - Anouk Mensah
+preset: paper
+school: School of Emergent Priorities
+date: 2026-11-18
+publishedAt: "2026-11-18T18:00:46+11:00"
+doi: 10.5555/slop.i4d56z
+summary: >-
+  A modelling paper from the School of Emergent Priorities drives a linear
+  chain of slow-inactivated sodium-channel states with trains of 2 ms spikes at
+  10 and 40 Hz and finds that recovery outlasts every train shorter than a
+  break-even duration of between 2.4 minutes and 5.0 hours, and that past a
+  memory horizon a longer train no longer slows recovery at all. At 10 Hz the
+  firing rate sets that horizon and a chain longer than four states changes
+  nothing; at 40 Hz it moves from 76 seconds to 62 hours as the chain grows from
+  four states to twelve, while the power-law exponent of recovery follows from
+  the ratio of the chain's geometric rate factors to within 0.022.
+topic: >-
+  a chain model of slow sodium-channel inactivation in which a spike train's
+  recovery outlasts the train itself, and the train length past which the
+  channel stops remembering how long it fired
+pages: 5
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.v4kty6
+  - 10.5555/slop.zzu8h3
