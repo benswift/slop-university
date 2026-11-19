@@ -1,0 +1,35 @@
+title: Slow Because It Was Late
+subtitle: Time-Limit Verdicts in a Programming Autograder Under Deadline Load
+authors:
+  - Vigdis Emenike
+  - Marit Osayande
+  - Ingeborg Nwachukwu
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-11-20
+publishedAt: "2026-11-20T04:30:46+11:00"
+doi: 10.5555/slop.iwlc43
+summary: >-
+  A research poster from the School of Underlying Conditions re-runs every
+  time-limit verdict an introductory programming course's autograder issued in
+  the final hour before a deadline on an idle worker, and finds 247 of 611
+  (40.4%) pass, against 3.1% earlier in the week, with the flip rate tracking
+  grading-queue depth. A limit set at three times a reference solution timed on
+  the same worker in the same minute cuts final-hour flips to 2.4%.
+topic: >-
+  deadline load and time-limit verdicts in an introductory programming
+  autograder: re-running every final-hour submission on an idle worker to count
+  timeouts that flip to passes, and timing each test against a reference
+  solution run on the same worker in the same minute
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.4xny8v
+  - 10.5555/slop.ji65cu
+hero:
+  width: 2752
+  height: 1536
