@@ -1,0 +1,35 @@
+title: Five Junctions Down
+subtitle: Harmonic measure of the innermost floors in branching slit domains
+authors:
+  - Solveig Adeyemi
+  - Anselm Threlkeld
+  - Eivind Onwuka
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-20
+publishedAt: "2026-11-20T04:01:47+11:00"
+doi: 10.5555/slop.7s5deb
+summary: >-
+  A research poster from the School of Continuous Improvement computes the
+  harmonic measure of the innermost channel floors in 126 branching slit
+  domains, solving each junction cell with a lightning Laplace solver and
+  composing the cells level by level. Each junction lowers the floors' measure
+  by a fixed fraction of a decade beyond the straight-run extremal-length
+  estimate, from 0.14 to 0.45 decades depending on the fan's branching number
+  and width ratio, and composition carries the computation to measures near
+  10^-72, far below where whole-domain solves lose the floors to rounding.
+topic: >-
+  harmonic measure of the innermost channel floors in branching slit domains,
+  computed with lightning Laplace solvers and set against the Ahlfors
+  distortion bound
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.xuwi1c
+hero:
+  width: 2752
+  height: 1536
