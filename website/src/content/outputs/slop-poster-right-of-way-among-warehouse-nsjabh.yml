@@ -1,0 +1,34 @@
+title: Who Goes First
+subtitle: Stochastic Stability of Right-of-Way Conventions in Multi-Robot Path Planning
+authors:
+  - Odalys Penhallow
+  - Anselm Threlkeld
+  - Gunnhild Ekwueme
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-20
+publishedAt: "2026-11-20T16:31:46+11:00"
+doi: 10.5555/slop.nsjabh
+summary: >-
+  A research poster from the School of Settled Matters models a decentralised
+  multi-robot planner's choice between two right-of-way rules, loaded robot
+  first and yield to the right, as a convention learned through adaptive play.
+  It shows that the fleet settles on yield to the right, the risk-dominant rule,
+  whenever a misread loaded-first encounter costs more than that rule's
+  throughput premium, and in simulation on a 40 by 40 grid the settled rule
+  gives up 4 to 13 per cent of throughput as fleets grow from 20 to 120 robots.
+topic: >-
+  Right-of-way among warehouse robot fleets as an evolutionary convention:
+  which priority rule a multi-robot path planner settles on, read through
+  stochastic stability and equilibrium selection
+pdfDark: true
+pages: 1
+version: "1.0"
+thumb:
+  width: 1684
+  height: 2993
+hero:
+  width: 4096
+  height: 2286
+cites:
+  - 10.5555/slop.l94dfq
