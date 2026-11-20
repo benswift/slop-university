@@ -1,0 +1,38 @@
+title: Setpoints That Outlived Their Load
+subtitle: Re-dispatching a Decade-Old Off-Grid PV–Wind–Diesel–Battery System at a Remote Field Station
+authors:
+  - Clemency Tredinnick
+  - Bram Ntuli
+  - Iben Chikere
+preset: paper
+school: School of Settled Matters
+date: 2026-11-21
+publishedAt: "2026-11-21T06:01:46+11:00"
+doi: 10.5555/slop.ushtgw
+summary: >-
+  A paper from the School of Settled Matters, the School of Continuous
+  Improvement and the School of Emergent Priorities reads ten years of logs from
+  a remote field station's solar, wind, diesel and battery supply, over which
+  the station's mean daily load fell by 62% and its generator run-hours by 29%.
+  It traces most of the gap to controller setpoints left unchanged since
+  commissioning, among them a weekly equalisation charge written for a
+  lead–acid bank replaced in 2020, and finds that re-tuning them for the
+  present load halved generator run-hours and fuel in a validated simulation
+  and in a four-month winter trial, while load-following dispatch performed
+  worst because the generator now runs at its minimum-load floor.
+topic: >-
+  Legacy dispatch setpoints in an off-grid PV-wind-diesel-battery hybrid:
+  re-optimising a decade-old field-station system whose controller still runs
+  for loads that no longer exist
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.tbxn0p
+  - 10.5555/slop.tcnf2d
+  - 10.5555/slop.xs6ty8
