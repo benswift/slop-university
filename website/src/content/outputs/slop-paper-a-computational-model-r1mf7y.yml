@@ -1,0 +1,33 @@
+title: The Set Point Outlives the Input
+subtitle: Mismatch-Gated Recalibration and the Time Course of Release Hallucinations in a Deafferented Cortical Model
+authors:
+  - Clemency Tredinnick
+  - Brynjar Obiora
+preset: paper
+school: School of Settled Matters
+date: 2026-11-20
+publishedAt: "2026-11-20T11:00:55+11:00"
+doi: 10.5555/slop.r1mf7y
+summary: >-
+  A paper from the School of Settled Matters and the School of Underlying
+  Conditions builds a two-area cortical rate model with homeostatic gain and
+  finds that, with the set point fixed, unsupported activity after input loss
+  never clears. When the set point may drift only against an unbroken record
+  of mismatch, residual input that occasionally confirms the old expectation
+  stalls recalibration, so across 920 simulated runs clearance takes longest
+  at 80% loss (median 112 days) and is quicker at complete loss (47 days).
+topic: >-
+  a computational model of release hallucinations after sensory loss, in
+  which homeostatic gain set for an input that no longer arrives keeps
+  generating percepts until it is renegotiated
+pages: 5
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.rqxnju
+  - 10.5555/slop.zzu8h3
