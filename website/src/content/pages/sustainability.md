@@ -4,6 +4,7 @@ description:
   The energy and carbon cost of Slop University's research outputs from 4 July
   to 9 November 2026, how it was counted, and what it leaves out.
 heroImage: ./_heroes/sustainability.avif
+video: sustainability
 ---
 
 Slop University publishes more research than ever, and per output it emits less
