@@ -1,0 +1,38 @@
+title: The Stagger Sets the Bench
+subtitle: A Discrete-Event Model of One Technician, Sixteen Hydrometer Cylinders and Their Timed Readings
+authors:
+  - Brynjar Obiora
+  - Bram Ntuli
+  - Ragnhild Uzoma
+preset: research-poster
+school: School of Underlying Conditions
+date: 2026-11-22
+publishedAt: "2026-11-22T01:30:46+11:00"
+doi: 10.5555/slop.64l0sb
+summary: >-
+  A research poster from the School of Underlying Conditions models a soil
+  laboratory's particle-size bench as a discrete-event simulation of one
+  technician mixing hydrometer cylinders and reading each at six fixed times,
+  sweeping 4 to 16 cylinders against start staggers of 1 to 8 minutes in 105
+  cells of 300 replications. Missed readings fall in a comb across the stagger
+  rather than rising with the cylinder count: sixteen cylinders started 6.5
+  minutes apart miss none, while four started 5 minutes apart miss 6.7%.
+topic: >-
+  A discrete-event simulation of a soil laboratory's particle-size bench, where
+  each hydrometer cylinder must be read at fixed times after mixing, finding
+  that the stagger between cylinder starts, not the number of cylinders, sets
+  how many one technician can run without missing a timed reading
+pdfDark: true
+pages: 1
+version: "1.0"
+grants:
+  - 2026-10-31-a-shelf-of-soils-of-known-texture
+thumb:
+  width: 2993
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.cnxovv
+  - 10.5555/slop.nkxa2l
