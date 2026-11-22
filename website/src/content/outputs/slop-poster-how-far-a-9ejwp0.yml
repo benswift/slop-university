@@ -1,0 +1,38 @@
+title: Between the Expensive Forces
+subtitle: >-
+  Resonance limits on the outer step of multiple-time-step QM/MM
+  proton-transfer dynamics
+authors:
+  - Anselm Threlkeld
+  - Casimir Beng
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-22
+publishedAt: "2026-11-22T18:00:46+11:00"
+doi: 10.5555/slop.9ejwp0
+summary: >-
+  A research poster from the School of Settled Matters maps how far a
+  multiple-time-step QM/MM simulation of an intramolecular proton transfer in
+  flexible water can stretch its outer step, across 19 steps from 1 to 10 fs
+  and eight replicas each. Undamped, the reactive region stays within 2 K of
+  the bath only to 3.0 fs, with heating windows near one-half and one solvent
+  O–H period; Langevin damping of the fast solvent modes extends the stable
+  step to 7.0 fs, though transfer rates hold within 4% of the reference only
+  to 6.0 fs.
+topic: >-
+  How far a multiple-time-step QM/MM simulation of a solvated proton transfer
+  can stretch its outer step before resonance with the solvent's fastest
+  vibrations heats it, and how much of that limit stochastic damping of the
+  fast modes buys back
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 2993
+  height: 1684
+cites:
+  - 10.5555/slop.jcw3va
+  - 10.5555/slop.xseaqh
