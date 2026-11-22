@@ -1,0 +1,35 @@
+title: Still Deciding at Symbol 256
+subtitle: Settling Length and Short-Burst Error in Streaming Modulation Classification
+authors:
+  - Odalys Penhallow
+  - Casimir Beng
+  - Bram Ntuli
+preset: research-poster
+school: School of Settled Matters
+date: 2026-11-22
+publishedAt: "2026-11-22T17:02:47+11:00"
+doi: 10.5555/slop.h8on2p
+summary: >-
+  A research poster from the School of Settled Matters runs a causal
+  convolutional-recurrent modulation classifier over 96,000 simulated
+  4,096-symbol bursts and measures each burst's settling length, the point after
+  which its running label never changes. At 6 dB the median is 48 symbols for
+  the PSK family and 416 for the 16/64-QAM pair; QAM-pair bursts cut short
+  before their own settling length are misread 38 percent of the time, and a
+  0.9-confidence early exit commits before settling on 22 percent of them.
+topic: >-
+  how many received symbols a streaming modulation classifier must observe
+  before its running label stops changing, by modulation pair and SNR, and how
+  often bursts that end before that point are misread
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.8tayxx
+  - 10.5555/slop.u7nai3
