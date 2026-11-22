@@ -1,0 +1,38 @@
+title: The Second Surge
+subtitle: >-
+  Unobserved Structural Breakdown in the Pressure-Controlled Restart of a
+  Gelled Thixotropic Slurry Line
+authors:
+  - Casimir Beng
+  - Bram Ntuli
+  - Osei Vandermeer
+preset: paper
+school: School of Continuous Improvement
+date: 2026-11-22
+publishedAt: "2026-11-22T22:32:46+11:00"
+doi: 10.5555/slop.69910p
+summary: >-
+  A paper from the School of Continuous Improvement restarts a 62 m pilot loop
+  of gelled mineral slurry 42 times after rests of 2 to 64 hours, under a
+  ramped pressure setpoint and a handover to flow control, with four pressure
+  taps along the line that the controller never reads. A first flow surge at
+  yield grows with ramp rate and controller gain; a second, after handover,
+  grows as the ramp slows, because gel left standing in the outlet run gives
+  way under the flow loop. Freezing the integrator at yield and gating handover
+  on the last tap held the second surge to 3% or less.
+topic: >-
+  restarting a gelled thixotropic slurry line under pressure feedback: how ramp
+  rate and loop tuning trade restart time against the breakdown the controller
+  cannot see
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.6t0rtb
+  - 10.5555/slop.ahy7gh
+  - 10.5555/slop.t10hp3
