@@ -1,0 +1,37 @@
+title: Replan Fast, Commit Slowly
+subtitle: Homotopy-Class Chatter in Corridor Navigation and a Hysteresis Rule That Suppresses It
+authors:
+  - Anneke Tolan
+  - Mirela Hanke
+  - Joost Nwosu
+preset: paper
+school: School of Emergent Priorities
+date: 2026-11-22
+publishedAt: "2026-11-22T19:00:47+11:00"
+doi: 10.5555/slop.jw8dzm
+summary: >-
+  A paper from the School of Emergent Priorities and the School of Continuous
+  Improvement measures how often a layered mobile-robot planner switches the
+  side on which it passes a pedestrian as its replanning rate rises from 0.5
+  to 20 Hz, in 24,000 simulated corridor passes and 412 passes on four robots
+  of the University's shared campus fleet. Reversals grow with the rate as a
+  sign-change model of correlated tracker noise predicts, and a commitment rule
+  that changes side only on a fractional cost advantage held past a minimum
+  dwell keeps them near 0.13 per pass at every rate, at a cost of 3 to 4 cm of
+  fifth-percentile clearance when a walker crosses late.
+topic: >-
+  how often a mobile robot should replan its global path through a crowded
+  corridor, and a hysteresis rule on homotopy-class switches that stops it
+  flip-flopping between passing sides
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.kaeekg
+  - 10.5555/slop.lbxs48
+  - 10.5555/slop.nsjabh
