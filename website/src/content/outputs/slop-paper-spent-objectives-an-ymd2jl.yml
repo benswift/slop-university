@@ -1,0 +1,36 @@
+title: When an Objective Is Spent
+subtitle: Online Release of Non-Binding Objectives in Many-Objective Evolutionary Search
+authors:
+  - Clemency Tredinnick
+  - Bram Ntuli
+  - Mirela Hanke
+preset: paper
+school: School of Settled Matters
+date: 2026-11-23
+publishedAt: "2026-11-23T23:01:47+11:00"
+doi: 10.5555/slop.ymd2jl
+summary: >-
+  A paper from the School of Settled Matters and the School of Continuous
+  Improvement proposes the lapse test, which releases an objective from a
+  many-objective evolutionary search once a confidence bound on the error of
+  omitting it stays below tolerance, and readmits it if a 2% audit of offspring
+  shows it binding again. On synthetic problems with 5 to 12 objectives and a
+  seven-objective pump and valve schedule, it saved 22 to 42% of objective
+  evaluations at a median hypervolume ratio of at least 0.991, where one-shot
+  offline reduction dropped the wrong objectives in most runs.
+topic: >-
+  Spent objectives: an online test for when an objective in many-objective
+  evolutionary search has stopped shaping the Pareto front, and what releasing
+  it mid-run costs
+pages: 6
+version: "1.0"
+hero:
+  width: 2752
+  height: 1536
+thumb:
+  width: 1191
+  height: 1684
+cites:
+  - 10.5555/slop.8tayxx
+  - 10.5555/slop.9vq9y2
+  - 10.5555/slop.qpi1fa
