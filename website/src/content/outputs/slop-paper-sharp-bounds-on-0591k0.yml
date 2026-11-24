@@ -1,0 +1,33 @@
+title: On-Schedule Effects When Clusters May Defer
+subtitle: Sharp Bounds for Stepped-Wedge Rollouts under Deferral on Gains
+authors:
+  - Clemency Tredinnick
+preset: paper
+school: School of Settled Matters
+date: 2026-11-24
+publishedAt: "2026-11-24T12:31:46+11:00"
+doi: 10.5555/slop.0591k0
+summary: >-
+  A paper from the School of Settled Matters bounds the effect a stepped-wedge
+  rollout would have had on schedule when each cluster may defer its crossing by
+  one period and the clusters that defer are those that gain by waiting. It
+  shows that the usual as-crossed analysis estimates the upper end of the
+  identified set, overstating the on-schedule effect by the deferral share times
+  the deferrers' gain from waiting, and in a simulated rollout of 36 clusters
+  finds that overstatement at 8 to 21 per cent as the deferral share rises from
+  8 to 36 per cent.
+topic: >-
+  Sharp bounds on the treatment effect in a stepped-wedge rollout when clusters
+  may defer their scheduled crossing by one period, deferral chosen on
+  unobservables
+pages: 8
+version: "1.0"
+thumb:
+  width: 1191
+  height: 1684
+hero:
+  width: 2752
+  height: 1536
+cites:
+  - 10.5555/slop.1w3v3f
+  - 10.5555/slop.6nf3bh
