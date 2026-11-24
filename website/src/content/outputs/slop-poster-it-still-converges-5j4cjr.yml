@@ -1,0 +1,37 @@
+title: It Still Converges
+subtitle: Defects that pass agreement tests in lab-built consensus controllers
+authors:
+  - Sten Okwuosa
+  - Casimir Beng
+  - Mirela Hanke
+preset: research-poster
+school: School of Continuous Improvement
+date: 2026-11-25
+publishedAt: "2026-11-25T09:31:48+11:00"
+doi: 10.5555/slop.5j4cjr
+summary: >-
+  A research poster from the School of Continuous Improvement replays 312
+  repaired defects from 46 lab-maintained consensus and formation controllers
+  against each repository's own tests and against oracles taken from the
+  invariants their published proofs guarantee. The own tests detect 40% of
+  the defects and the invariant oracles 85%; 146 defects still bring every
+  agent to a common value the proof does not permit, and own tests flagged
+  nine of them.
+topic: >-
+  it still converges: a defect study of research-lab consensus and formation
+  controllers reimplemented from published control laws, where in-place
+  updates and stale neighbour reads pass agreement tests yet break the
+  invariants the proofs rely on
+pdfDark: true
+pages: 1
+version: "1.0"
+hero:
+  width: 4096
+  height: 2286
+thumb:
+  width: 1684
+  height: 2993
+cites:
+  - 10.5555/slop.2tmkul
+  - 10.5555/slop.vf0ga5
+  - 10.5555/slop.wh134j
