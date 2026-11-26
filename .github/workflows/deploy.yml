@@ -30,10 +30,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
 
       - name: Setup mise (node + pnpm)
-        uses: jdx/mise-action@v5
+        uses: jdx/mise-action@v5.3.0
         with:
           working_directory: website
 
@@ -42,7 +42,7 @@ jobs:
         run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
 
       - name: Cache pnpm store
-        uses: actions/cache@v6
+        uses: actions/cache@v6.1.0
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('website/pnpm-lock.yaml') }}
@@ -50,7 +50,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Setup Pages
-        uses: actions/configure-pages@v6
+        uses: actions/configure-pages@v6.0.0
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -70,7 +70,7 @@ jobs:
       # invalidates the old entries; it costs the one cold build that change
       # forces anyway.
       - name: Cache Astro build cache
-        uses: actions/cache@v6
+        uses: actions/cache@v6.1.0
         with:
           path: website/node_modules/.astro
           key: ${{ runner.os }}-astro-build-v3-${{ github.sha }}
@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload artifact
         id: upload
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: website/dist
           # dist/.well-known/ (standard.site's domain verification) is
