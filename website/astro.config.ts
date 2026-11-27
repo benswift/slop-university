@@ -1,6 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import universityTheme from "astro-theme-university";
+import plausible from "./src/plausible";
 
 export default defineConfig({
   // Astro 7's default ("jsx") drops the line break between wrapped prose and
@@ -27,6 +28,7 @@ export default defineConfig({
       // fabricated output copied out of context still points at the work.
       citation: "../CITATION.cff",
     }),
+    plausible("slop.university"),
     sitemap({
       // The DOI resolver emits one noindex redirect stub per minted identifier
       // (src/pages/doi/[...doi].astro) --- several hundred of them, and one
